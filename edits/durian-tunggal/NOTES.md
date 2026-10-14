@@ -27,3 +27,15 @@ captions/graphics. Waiting on raw footage to re-edit from scratch in HyperFrames
 - Repeats: "Durian Tunggal" at 0s and 4s; "kalau korang tengah cari" at 0s and 32s.
 - Awkward pauses: 24–31s listing (~0.5–0.8s gaps x3).
 - Outro logo runs 8s (43–51s); ~2s is enough.
+
+## Demo edit v1 (HyperFrames, on the already-edited video)
+Project: `hf/` (`index.html` holds the edit decision list in a comment). Staged source
+`hf/assets/source.mp4` is git-ignored; recreate with:
+`ffmpeg -i source.mov -c:v libx264 -crf 18 -g 30 -keyint_min 30 -pix_fmt yuv420p -movflags +faststart -c:a aac hf/assets/source.mp4`
+
+- 51.4s -> 40.7s
+- Hook (0-1.6s): cafe b-roll slow push + "3 TINGKAT + TANAH TEPI" + RM4,200/bulan chip, whoosh + bass impact
+- Removed: opening line repeating "Durian Tunggal", 3 pauses in kafe/dobi/bengkel list, cat meme tail, 8s logo -> 2.2s
+- Overlays: location chips (Pekan Durian Tunggal, Plaza Tol Ayer Keroh), use chips (Kafe/Dobi/Bengkel kereta), CTA card (price + phone)
+- SFX: bundled Pixabay library (see hf/assets/sfx/CREDITS.md)
+- Status: draft preview only; final render pending approval. Loudness -20.8 LUFS (normalise to ~-14 for social on final).

@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Palette (from the MCORP flyer): orange accent, yellow price, warm off-white cards */
+      :root {
+        --ink: #1f0f0c;
+        --paper: #fff6ec;
+        --accent: #e5501c;
+        --price: #ffd21f;
+        --shade: rgba(20, 8, 6, 0.72);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #120807;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: Montserrat, sans-serif;
+        color: var(--paper);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      video.clip {
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      #hook-frame {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 40%;
+      }
+
+      /* Overlays live in the top band (y 150-760) so the burned-in captions
+         at ~y 1500-1600 and the speaker's face stay clear. */
+      .top-shade {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 900px;
+        background: linear-gradient(180deg, var(--shade) 0%, rgba(20, 8, 6, 0.45) 55%, rgba(20, 8, 6, 0) 100%);
+      }
+
+      /* Hook */
+      .hook-kicker {
+        position: absolute;
+        left: 80px;
+        top: 220px;
+        font-weight: 700;
+        font-size: 40px;
+        letter-spacing: 0.08em;
+        color: var(--price);
+      }
+      .hook-line {
+        position: absolute;
+        left: 80px;
+        font-weight: 900;
+        font-size: 112px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        color: var(--paper);
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      #hook-l1 {
+        top: 280px;
+        font-size: 150px;
+      }
+      #hook-l2 {
+        top: 448px;
+        font-size: 84px;
+        color: var(--price);
+      }
+      .price-chip {
+        position: absolute;
+        left: 80px;
+        top: 580px;
+        padding: 18px 34px 20px;
+        background: var(--price);
+        color: var(--ink);
+        border-radius: 18px;
+        font-weight: 900;
+        font-size: 92px;
+        line-height: 1;
+        transform-origin: 0% 50%;
+      }
+      .price-chip small {
+        font-size: 44px;
+        font-weight: 700;
+      }
+
+      /* Chips (location + business uses) */
+      .chip {
+        position: absolute;
+        left: 80px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 22px 36px 22px 26px;
+        background: var(--paper);
+        color: var(--ink);
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 50px;
+        line-height: 1;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      }
+      .chip .dot {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .chip svg {
+        width: 36px;
+        height: 36px;
+      }
+      .chip-label {
+        position: absolute;
+        left: 84px;
+        font-weight: 700;
+        font-size: 36px;
+        letter-spacing: 0.1em;
+        color: var(--price);
+      }
+
+      /* CTA panel */
+      .cta {
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        top: 200px;
+        padding: 44px 50px 50px;
+        background: var(--paper);
+        color: var(--ink);
+        border-radius: 36px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+      }
+      .cta-kicker {
+        font-weight: 700;
+        font-size: 36px;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+      }
+      .cta-price {
+        margin-top: 10px;
+        font-weight: 900;
+        font-size: 104px;
+        line-height: 1;
+      }
+      .cta-price small {
+        font-size: 46px;
+        font-weight: 700;
+      }
+      .cta-rule {
+        height: 4px;
+        margin: 30px 0 28px;
+        background: var(--accent);
+        transform-origin: 0 50%;
+      }
+      .cta-row {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-weight: 900;
+        font-size: 64px;
+        line-height: 1.15;
+      }
+      .cta-row .dot {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .cta-row svg {
+        width: 38px;
+        height: 38px;
+      }
+      .cta-sub {
+        margin-top: 12px;
+        font-weight: 700;
+        font-size: 40px;
+        color: #5a3a30;
+      }
+
+      #fade-black {
+        position: absolute;
+        inset: 0;
+        background: #120807;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="40.7" data-width="1080" data-height="1920">
+      <!-- ===================== PICTURE + DIALOGUE (track 0) =====================
+           Edit decision list (source.mp4 seconds -> timeline seconds):
+           hook   26.65-27.61 @0.6x (muted cafe b-roll)  -> 0.00-1.60
+           s1      2.66- 4.06  "korang kena tengok video ni"          -> 1.60-3.00
+           s2      4.30-24.90  "Dekat pekan ... tanah di bahagian tepi. Nak" -> 3.00-23.60
+           g2     25.42-26.66  "buat kafe"                              -> 23.60-24.84
+           g3     27.62-28.52  "dobi"                                   -> 24.84-25.74
+           g4     29.12-30.36  "bengkel kereta"                         -> 25.74-26.98
+           s5     30.88-40.60  "semua sesuai ... maklumat lanjut."      -> 26.98-36.70
+           flyer  41.80-43.60                                           -> 36.70-38.50
+           logo   46.40-48.60                                           -> 38.50-40.70
+           Cut: opening "Ok, kalau korang tengah cari rumah kedai area Durian Tunggal" (repeats line 2),
+           pauses inside the kafe/dobi/bengkel list, 8s logo tail -> 2.2s. -->
+      <div id="hook-frame">
+        <video id="v-hook" class="clip" src="assets/source.mp4" data-start="0" data-duration="1.6" data-media-start="26.65" data-playback-rate="0.6" data-track-index="0" muted playsinline></video>
+      </div>
+      <video id="v-s1" class="clip" src="assets/source.mp4" data-start="1.6" data-duration="1.4" data-media-start="2.66" data-track-index="0" data-fade-in="0.03" data-fade-out="0.03" playsinline data-has-audio="true"></video>
+      <video id="v-s2" class="clip" src="assets/source.mp4" data-start="3" data-duration="20.6" data-media-start="4.3" data-track-index="0" data-fade-in="0.03" data-fade-out="0.03" playsinline data-has-audio="true"></video>
+      <video id="v-g2" class="clip" src="assets/source.mp4" data-start="23.6" data-duration="1.24" data-media-start="25.42" data-track-index="0" data-fade-in="0.03" data-fade-out="0.03" playsinline data-has-audio="true"></video>
+      <video id="v-g3" class="clip" src="assets/source.mp4" data-start="24.84" data-duration="0.9" data-media-start="27.62" data-track-index="0" data-fade-in="0.03" data-fade-out="0.03" playsinline data-has-audio="true"></video>
+      <video id="v-g4" class="clip" src="assets/source.mp4" data-start="25.74" data-duration="1.24" data-media-start="29.12" data-track-index="0" data-fade-in="0.03" data-fade-out="0.03" playsinline data-has-audio="true"></video>
+      <video id="v-s5" class="clip" src="assets/source.mp4" data-start="26.98" data-duration="9.72" data-media-start="30.88" data-track-index="0" data-fade-in="0.03" data-fade-out="0.05" playsinline data-has-audio="true"></video>
+      <video id="v-flyer" class="clip" src="assets/source.mp4" data-start="36.7" data-duration="1.8" data-media-start="41.8" data-track-index="0" data-volume="0.5" data-fade-in="0.05" playsinline data-has-audio="true"></video>
+      <video id="v-logo" class="clip" src="assets/source.mp4" data-start="38.5" data-duration="2.2" data-media-start="46.4" data-track-index="0" data-volume="0.5" data-fade-out="0.5" playsinline data-has-audio="true"></video>
+
+      <!-- ===================== GRAPHICS (track 1) ===================== -->
+      <!-- Hook: lead with the numbers the original never said out loud -->
+      <div id="g-hook" class="clip" data-start="0" data-duration="1.6" data-track-index="1">
+        <div class="top-shade"></div>
+        <div id="hook-kicker" class="hook-kicker">RUMAH KEDAI · DURIAN TUNGGAL</div>
+        <div id="hook-l1" class="hook-line">3 Tingkat</div>
+        <div id="hook-l2" class="hook-line">+ Tanah tepi</div>
+        <div id="hook-price" class="price-chip">RM4,200<small> / bulan</small></div>
+      </div>
+
+      <!-- Location: synced to "pekan" (10.66) and "Ayer Keroh" (12.22) -->
+      <div id="g-loc" class="clip" data-start="10.5" data-duration="3.3" data-track-index="1">
+        <div id="loc-label" class="chip-label" data-layout-allow-overflow style="top: 236px">DEKAT DENGAN</div>
+        <div id="loc-1" class="chip" data-layout-allow-overflow style="top: 290px">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" /></svg></span>Pekan Durian Tunggal
+        </div>
+        <div id="loc-2" class="chip" data-layout-allow-overflow style="top: 420px">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M4 21 9 3h2l-1.2 4h4.4L13 3h2l5 18h-2.1l-1.4-5H7.5l-1.4 5H4zm4.1-7h7.8l-1.7-6H9.8l-1.7 6z" /></svg></span>Plaza Tol Ayer Keroh
+        </div>
+      </div>
+
+      <!-- Business uses: synced to "kafe" (23.88), "dobi" (24.92), "bengkel" (25.82) -->
+      <div id="g-uses" class="clip" data-start="23.7" data-duration="4.2" data-track-index="1">
+        <div id="uses-label" class="chip-label" style="top: 236px">SESUAI UNTUK</div>
+        <div id="use-1" class="chip" style="top: 290px">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M3 5h14v2h2a3 3 0 0 1 0 6h-2.3A7 7 0 0 1 10 19H9a6 6 0 0 1-6-6V5zm14 4v2h2a1 1 0 0 0 0-2h-2zM3 21h15v-1H3v1z" /></svg></span>Kafe
+        </div>
+        <div id="use-2" class="chip" style="top: 420px">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M5 2h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1 2v2h2V4H6zm4 0v2h2V4h-2zm2 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" /></svg></span>Dobi
+        </div>
+        <div id="use-3" class="chip" style="top: 550px">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M5 11 6.6 6.5A2 2 0 0 1 8.5 5h7a2 2 0 0 1 1.9 1.5L19 11a2 2 0 0 1 2 2v5h-2v2h-2v-2H7v2H5v-2H3v-5a2 2 0 0 1 2-2zm2.2 0h9.6l-1.1-3.5a.6.6 0 0 0-.6-.5h-6a.6.6 0 0 0-.6.5L7.2 11zM6.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" /></svg></span>Bengkel kereta
+        </div>
+      </div>
+
+      <!-- CTA: price lands on "peluang" (32.06), phone on "Scan QR" (32.96), pulses on "hubungi" (34.36) -->
+      <div id="g-cta" class="clip" data-start="31.9" data-duration="4.8" data-track-index="1">
+        <div id="cta" class="cta">
+          <div class="cta-kicker">SEWA BERMULA</div>
+          <div class="cta-price">RM4,200<small> / bulan</small></div>
+          <div id="cta-rule" class="cta-rule"></div>
+          <div id="cta-phone" class="cta-row">
+            <span class="dot"><svg viewBox="0 0 24 24" fill="#fff6ec"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z" /></svg></span>019-678 7966
+          </div>
+          <div id="cta-sub" class="cta-sub">06-232 6713 · mcorp.gov.my</div>
+        </div>
+      </div>
+
+      <!-- Final fade to black over the logo tail -->
+      <div id="g-end" class="clip" data-start="40.2" data-duration="0.5" data-track-index="2">
+        <div id="fade-black"></div>
+      </div>
+
+      <!-- ===================== SFX (tracks 10+), ~0.35-0.5 under dialogue =====================
+           data-start = visual moment - file onset (whoosh 0.08, pop 0.11, impact 0.05, chime 0.41) -->
+      <audio id="sfx-hook-whoosh" src="assets/sfx/whoosh.mp3" data-start="0" data-duration="0.57" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-hook-impact" src="assets/sfx/impact-bass-1.mp3" data-start="0.65" data-duration="1.5" data-track-index="11" data-volume="0.55" data-fade-out="0.4"></audio>
+      <audio id="sfx-cut-whoosh" src="assets/sfx/whoosh-short.mp3" data-start="1.48" data-duration="0.57" data-track-index="10" data-volume="0.35"></audio>
+      <audio id="sfx-loc-1" src="assets/sfx/pop.mp3" data-start="10.55" data-duration="0.6" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-loc-2" src="assets/sfx/pop.mp3" data-start="12.11" data-duration="0.6" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-size-impact" src="assets/sfx/impact-bass-1.mp3" data-start="16.3" data-duration="1.4" data-track-index="11" data-volume="0.45" data-fade-out="0.4"></audio>
+      <audio id="sfx-use-1" src="assets/sfx/pop.mp3" data-start="23.77" data-duration="0.6" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-use-2" src="assets/sfx/pop.mp3" data-start="24.81" data-duration="0.6" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-use-3" src="assets/sfx/pop.mp3" data-start="25.71" data-duration="0.6" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-uses-sparkle" src="assets/sfx/sparkle.mp3" data-start="27.1" data-duration="1.2" data-track-index="13" data-volume="0.3" data-fade-out="0.3"></audio>
+      <audio id="sfx-cta-whoosh" src="assets/sfx/whoosh-short.mp3" data-start="31.84" data-duration="0.57" data-track-index="10" data-volume="0.4"></audio>
+      <audio id="sfx-cta-phone" src="assets/sfx/click-soft.mp3" data-start="32.91" data-duration="0.36" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx-flyer-whoosh" src="assets/sfx/whoosh.mp3" data-start="36.62" data-duration="0.57" data-track-index="10" data-volume="0.4"></audio>
+      <audio id="sfx-logo-chime" src="assets/sfx/chime.mp3" data-start="38.2" data-duration="2.5" data-track-index="13" data-volume="0.4" data-fade-out="0.6"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Hook: slow push on the cafe b-roll, text slams in, price chip lands at 0.7s
+      tl.fromTo("#hook-frame", { scale: 1.12 }, { scale: 1.0, duration: 1.6, ease: "power2.out" }, 0);
+      tl.from("#hook-kicker", { x: -60, opacity: 0, duration: 0.3, ease: "power3.out" }, 0.05);
+      tl.from("#hook-l1", { y: 70, opacity: 0, duration: 0.35, ease: "back.out(1.6)" }, 0.12);
+      tl.from("#hook-l2", { y: 70, opacity: 0, duration: 0.35, ease: "back.out(1.6)" }, 0.3);
+      tl.from("#hook-price", { scale: 0.4, rotation: -6, opacity: 0, duration: 0.32, ease: "back.out(2.4)" }, 0.68);
+      tl.to("#g-hook", { opacity: 0, duration: 0.15, ease: "power1.in" }, 1.45);
+
+      // Location chips
+      tl.from("#loc-label", { opacity: 0, x: -40, duration: 0.3, ease: "power3.out" }, 10.5);
+      tl.from("#loc-1", { x: -1100, duration: 0.45, ease: "expo.out" }, 10.62);
+      tl.from("#loc-2", { x: -1100, duration: 0.45, ease: "expo.out" }, 12.18);
+      tl.to(["#loc-label", "#loc-1", "#loc-2"], { x: -1100, duration: 0.35, ease: "power3.in", stagger: 0.05 }, 13.4);
+
+      // Business-use chips, one per spoken word
+      tl.from("#uses-label", { opacity: 0, x: -40, duration: 0.3, ease: "power3.out" }, 23.7);
+      tl.from("#use-1", { scale: 0.3, opacity: 0, duration: 0.3, ease: "back.out(2.2)", transformOrigin: "0% 50%" }, 23.86);
+      tl.from("#use-2", { scale: 0.3, opacity: 0, duration: 0.3, ease: "back.out(2.2)", transformOrigin: "0% 50%" }, 24.9);
+      tl.from("#use-3", { scale: 0.3, opacity: 0, duration: 0.3, ease: "back.out(2.2)", transformOrigin: "0% 50%" }, 25.8);
+      tl.to(["#use-1", "#use-2", "#use-3"], { scale: 1.06, duration: 0.15, yoyo: true, repeat: 1, ease: "power1.inOut", stagger: 0.06 }, 27.1);
+      tl.to(["#uses-label", "#use-1", "#use-2", "#use-3"], { y: -500, opacity: 0, duration: 0.35, ease: "power3.in", stagger: 0.04 }, 27.5);
+
+      // CTA panel
+      tl.from("#cta", { y: -260, opacity: 0, duration: 0.45, ease: "expo.out" }, 31.9);
+      tl.from("#cta-rule", { scaleX: 0, duration: 0.4, ease: "power2.out" }, 32.2);
+      tl.from("#cta-phone", { x: -60, opacity: 0, duration: 0.35, ease: "power3.out" }, 32.95);
+      tl.from("#cta-sub", { opacity: 0, duration: 0.3, ease: "power1.out" }, 33.2);
+      tl.to("#cta-phone", { scale: 1.06, duration: 0.15, yoyo: true, repeat: 1, ease: "power1.inOut", transformOrigin: "0% 50%" }, 34.35);
+      tl.to("#cta", { y: -320, opacity: 0, duration: 0.3, ease: "power3.in" }, 36.4);
+
+      // End
+      tl.to("#fade-black", { opacity: 1, duration: 0.5, ease: "power1.in" }, 40.2);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,1 +1,6 @@
 media/
+edits/**/assets/source.mp4
+edits/**/preview/*.mp4
+edits/**/.hyperframes/
+edits/**/node_modules/
+edits/**/preview/
