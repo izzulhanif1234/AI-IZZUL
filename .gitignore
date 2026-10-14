@@ -1,6 +1,7 @@
 media/
 edits/**/assets/source.mp4
-edits/**/preview/*.mp4
+edits/**/assets/video/
+edits/**/preview/
 edits/**/.hyperframes/
 edits/**/node_modules/
-edits/**/preview/
+__pycache__/

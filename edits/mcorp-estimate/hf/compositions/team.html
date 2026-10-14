@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #ffffff;
+        }
+        #tm-ghost {
+          position: absolute;
+          left: 0;
+          top: 60px;
+          white-space: nowrap;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 300px;
+          color: rgba(11, 42, 100, 0.05);
+        }
+        #tm-photo-wrap {
+          position: absolute;
+          left: 300px;
+          top: 270px;
+          width: 1320px;
+          height: 882px;
+          transform-origin: 50% 30%;
+        }
+        #tm-photo {
+          width: 1320px;
+          height: 882px;
+          display: block;
+        }
+        #tm-head {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 70px;
+          text-align: center;
+        }
+        #tm-kicker {
+          font-family: Montserrat, sans-serif;
+          font-weight: 800;
+          font-size: 30px;
+          letter-spacing: 0.3em;
+          color: #e3262b;
+        }
+        #tm-title {
+          margin-top: 10px;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 84px;
+          line-height: 1;
+          color: #0b2a64;
+        }
+        #tm-rule {
+          width: 220px;
+          height: 6px;
+          margin: 22px auto 0;
+          border-radius: 3px;
+          background: linear-gradient(90deg, #3b5bfd, #e3262b);
+          transform-origin: 50% 50%;
+        }
+      </style>
+      <div id="root" data-composition-id="team" data-width="1920" data-height="1080">
+        <div id="tm-ghost" aria-hidden="true" data-layout-ignore>INOVASI · INOVASI · INOVASI</div>
+        <div id="tm-photo-wrap" data-layout-allow-overflow><img id="tm-photo" src="assets/img/team.png" alt="Pasukan M-Corp Estimate" /></div>
+        <div id="tm-head">
+          <div id="tm-kicker">PASUKAN INOVASI</div>
+          <div id="tm-title">M-Corp Estimate</div>
+          <div id="tm-rule"></div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#tm-ghost", { x: 0 }, { x: -700, duration: 5.4, ease: "none" }, 0);
+          tl.fromTo("#tm-photo-wrap", { y: 420, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: "expo.out" }, 0.1);
+          tl.to("#tm-photo-wrap", { scale: 1.06, duration: 4.4, ease: "sine.inOut" }, 0.9);
+          tl.from("#tm-kicker", { y: -30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 0.35);
+          tl.from("#tm-title", { y: 40, autoAlpha: 0, duration: 0.5, ease: "back.out(1.6)" }, 0.5);
+          tl.from("#tm-rule", { scaleX: 0, duration: 0.5, ease: "power2.out" }, 0.8);
+          tl.to(["#tm-head", "#tm-photo-wrap"], { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 5.15);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["team"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

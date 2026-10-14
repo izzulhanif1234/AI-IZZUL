@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #06112b;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #06112b;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="116.5" data-width="1920" data-height="1080">
+      <!-- scenes (see edits/mcorp-estimate/NOTES.md for the storyboard) -->
+      <div id="m-hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0.0" data-duration="12.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-title" data-composition-id="title" data-composition-src="compositions/title.html" data-start="12.4" data-duration="3.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-team" data-composition-id="team" data-composition-src="compositions/team.html" data-start="16.2" data-duration="5.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-actor" data-composition-id="actor" data-composition-src="compositions/actor.html" data-start="21.6" data-duration="6.25" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-solution" data-composition-id="solution" data-composition-src="compositions/solution.html" data-start="27.85" data-duration="8.05" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-how" data-composition-id="how" data-composition-src="compositions/how.html" data-start="35.9" data-duration="11.7" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-demo" data-composition-id="demo" data-composition-src="compositions/demo.html" data-start="47.6" data-duration="18.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-impact" data-composition-id="impact" data-composition-src="compositions/impact.html" data-start="66.4" data-duration="14.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-testi" data-composition-id="testi" data-composition-src="compositions/testi.html" data-start="81.0" data-duration="24.64" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="m-closing" data-composition-id="closing" data-composition-src="compositions/closing.html" data-start="105.64" data-duration="10.86" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <!-- subtitles over everything -->
+      <div id="m-captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="116.5" data-track-index="5" data-track-kind="captions" data-width="1920" data-height="1080"></div>
+
+      <!-- voiceover: ms-MY Osman, script from MCORP EstiMATE 13.10.pdf -->
+      <audio id="vo-v01" src="assets/vo/v01.mp3" data-start="0.3" data-duration="5.783" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v02" src="assets/vo/v02.mp3" data-start="5.9" data-duration="6.386" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v03" src="assets/vo/v03.mp3" data-start="12.55" data-duration="2.770" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v03b" src="assets/vo/v03b.mp3" data-start="16.55" data-duration="2.900" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v04" src="assets/vo/v04.mp3" data-start="27.95" data-duration="8.032" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v05" src="assets/vo/v05.mp3" data-start="36.05" data-duration="11.532" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v06" src="assets/vo/v06.mp3" data-start="47.85" data-duration="4.366" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v07" src="assets/vo/v07.mp3" data-start="53.55" data-duration="12.029" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v08" src="assets/vo/v08.mp3" data-start="66.55" data-duration="5.556" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v09" src="assets/vo/v09.mp3" data-start="72.05" data-duration="8.900" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v10" src="assets/vo/v10.mp3" data-start="81.05" data-duration="1.562" data-track-index="20" data-volume="1" data-fade-out="0.15"></audio>
+      <audio id="vo-v11" src="assets/vo/v11.mp3" data-start="105.95" data-duration="8.387" data-track-index="21" data-volume="1" data-fade-out="0.15"></audio>
+      <!-- music bed, ducked under every VO line and dialogue cut -->
+      <audio id="bgm" data-timeline-role="music" src="assets/bgm/bed.wav" data-start="0" data-duration="116.5" data-track-index="10" data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0.0,"v":0.0},{"t":0.098,"v":0.6},{"t":0.398,"v":0.2},{"t":0.5,"v":0.6},{"t":5.698,"v":0.6},{"t":5.733,"v":0.2},{"t":5.998,"v":0.2},{"t":6.233,"v":0.6},{"t":11.936,"v":0.2},{"t":12.352,"v":0.6},{"t":12.436,"v":0.6},{"t":12.652,"v":0.2},{"t":14.97,"v":0.2},{"t":15.47,"v":0.6},{"t":16.35,"v":0.6},{"t":16.65,"v":0.2},{"t":19.1,"v":0.2},{"t":19.6,"v":0.6},{"t":21.3,"v":0.6},{"t":21.6,"v":0.1},{"t":27.748,"v":0.6},{"t":27.85,"v":0.1},{"t":28.048,"v":0.2},{"t":28.35,"v":0.6},{"t":35.632,"v":0.2},{"t":35.847,"v":0.6},{"t":36.132,"v":0.6},{"t":36.147,"v":0.2},{"t":47.232,"v":0.2},{"t":47.648,"v":0.6},{"t":47.732,"v":0.6},{"t":47.948,"v":0.2},{"t":51.866,"v":0.2},{"t":52.366,"v":0.6},{"t":53.348,"v":0.6},{"t":53.648,"v":0.2},{"t":65.229,"v":0.2},{"t":65.729,"v":0.6},{"t":66.349,"v":0.6},{"t":66.649,"v":0.2},{"t":71.756,"v":0.2},{"t":71.848,"v":0.6},{"t":72.148,"v":0.2},{"t":72.256,"v":0.6},{"t":80.6,"v":0.2},{"t":80.85,"v":0.6},{"t":81.1,"v":0.6},{"t":81.15,"v":0.2},{"t":82.262,"v":0.2},{"t":82.3,"v":0.6},{"t":82.6,"v":0.1},{"t":82.762,"v":0.6},{"t":92.3,"v":0.6},{"t":92.52,"v":0.1},{"t":92.6,"v":0.1},{"t":93.02,"v":0.6},{"t":98.64,"v":0.6},{"t":98.94,"v":0.1},{"t":99.44,"v":0.6},{"t":105.64,"v":0.1},{"t":105.75,"v":0.6},{"t":106.05,"v":0.2},{"t":106.14,"v":0.6},{"t":113.987,"v":0.2},{"t":114.0,"v":0.6},{"t":114.487,"v":0.6},{"t":116.5,"v":0.0}]}]}'></audio>
+      <!-- sfx -->
+      <audio id="s-tag1" src="assets/sfx/pop.mp3" data-start="0.24" data-duration="0.600" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-tag2" src="assets/sfx/pop.mp3" data-start="3.09" data-duration="0.600" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-tag3" src="assets/sfx/pop.mp3" data-start="5.84" data-duration="0.600" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-days" src="assets/sfx/impact-bass-1.mp3" data-start="8.85" data-duration="1.600" data-track-index="30" data-volume="0.55"></audio>
+      <audio id="s-rise" src="assets/sfx/riser.mp3" data-start="8.98" data-duration="3.600" data-track-index="31" data-volume="0.28"></audio>
+      <audio id="s-err" src="assets/sfx/glitch-1.mp3" data-start="10.45" data-duration="1.300" data-track-index="30" data-volume="0.3"></audio>
+      <audio id="s-flash" src="assets/sfx/whoosh.mp3" data-start="12.12" data-duration="0.570" data-track-index="30" data-volume="0.45"></audio>
+      <audio id="s-title" src="assets/sfx/impact-bass-2.mp3" data-start="12.43" data-duration="2.500" data-track-index="32" data-volume="0.6"></audio>
+      <audio id="s-shine" src="assets/sfx/sparkle.mp3" data-start="13.68" data-duration="1.400" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-team" src="assets/sfx/whoosh-short.mp3" data-start="16.22" data-duration="0.570" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-actor" src="assets/sfx/whoosh.mp3" data-start="21.5" data-duration="0.570" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-sol" src="assets/sfx/whoosh-short.mp3" data-start="27.8" data-duration="0.570" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-strike" src="assets/sfx/whoosh-short.mp3" data-start="32.08" data-duration="0.570" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-10min" src="assets/sfx/impact-bass-1.mp3" data-start="34.15" data-duration="1.600" data-track-index="30" data-volume="0.55"></audio>
+      <audio id="s-how" src="assets/sfx/whoosh.mp3" data-start="35.82" data-duration="0.570" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-c1" src="assets/sfx/pop.mp3" data-start="36.69" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-c2" src="assets/sfx/pop.mp3" data-start="38.59" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-c3" src="assets/sfx/pop.mp3" data-start="40.24" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-c4" src="assets/sfx/pop.mp3" data-start="43.22" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-demo" src="assets/sfx/whoosh.mp3" data-start="47.52" data-duration="0.570" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-type1" src="assets/sfx/typing.mp3" data-start="49.25" data-duration="1.000" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-click1" src="assets/sfx/click.mp3" data-start="49.56" data-duration="0.366" data-track-index="31" data-volume="0.6"></audio>
+      <audio id="s-reply1" src="assets/sfx/ping.mp3" data-start="51.33" data-duration="1.100" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-click2" src="assets/sfx/click.mp3" data-start="51.48" data-duration="0.366" data-track-index="31" data-volume="0.6"></audio>
+      <audio id="s-type2a" src="assets/sfx/typing.mp3" data-start="53.2" data-duration="1.500" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-type2b" src="assets/sfx/typing.mp3" data-start="54.7" data-duration="1.500" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-type2c" src="assets/sfx/typing.mp3" data-start="56.2" data-duration="1.541" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-reply2" src="assets/sfx/ping.mp3" data-start="58.1" data-duration="1.100" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-click3" src="assets/sfx/click.mp3" data-start="58.16" data-duration="0.366" data-track-index="31" data-volume="0.6"></audio>
+      <audio id="s-qty" src="assets/sfx/pop.mp3" data-start="62.29" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-rate" src="assets/sfx/pop.mp3" data-start="63.09" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-kont" src="assets/sfx/pop.mp3" data-start="64.29" data-duration="0.600" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-total" src="assets/sfx/chime.mp3" data-start="64.49" data-duration="2.000" data-track-index="31" data-volume="0.4"></audio>
+      <audio id="s-impact" src="assets/sfx/whoosh.mp3" data-start="66.32" data-duration="0.570" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-n1" src="assets/sfx/chime.mp3" data-start="70.0" data-duration="2.000" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-swap" src="assets/sfx/whoosh-short.mp3" data-start="71.9" data-duration="0.570" data-track-index="31" data-volume="0.35"></audio>
+      <audio id="s-n2" src="assets/sfx/chime.mp3" data-start="76.3" data-duration="2.000" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-n3" src="assets/sfx/chime.mp3" data-start="78.9" data-duration="2.000" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="s-testi" src="assets/sfx/whoosh.mp3" data-start="80.92" data-duration="0.570" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-close" src="assets/sfx/whoosh.mp3" data-start="105.56" data-duration="0.570" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-w1" src="assets/sfx/impact-bass-1.mp3" data-start="108.07" data-duration="1.200" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="s-w2" src="assets/sfx/impact-bass-1.mp3" data-start="108.69" data-duration="1.200" data-track-index="31" data-volume="0.4"></audio>
+      <audio id="s-w3" src="assets/sfx/impact-bass-1.mp3" data-start="109.46" data-duration="1.400" data-track-index="30" data-volume="0.45"></audio>
+      <audio id="s-end" src="assets/sfx/impact-bass-2.mp3" data-start="111.52" data-duration="2.500" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="s-endsp" src="assets/sfx/sparkle.mp3" data-start="111.9" data-duration="1.600" data-track-index="31" data-volume="0.35"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

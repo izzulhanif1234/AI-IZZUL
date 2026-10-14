@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #06112b;
+          font-family: Inter, sans-serif;
+        }
+        #dm-grid {
+          position: absolute;
+          inset: -80px;
+          background-image:
+            linear-gradient(rgba(120, 150, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(120, 150, 255, 0.1) 1px, transparent 1px);
+          background-size: 80px 80px;
+        }
+        #dm-cam {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1920px;
+          height: 1080px;
+          transform-origin: 0 0;
+        }
+        #dm-persp {
+          position: absolute;
+          inset: 0;
+          perspective: 2200px;
+        }
+        #dm-browser {
+          position: absolute;
+          left: 160px;
+          top: 81px;
+          width: 1600px;
+          height: 918px;
+          border-radius: 22px;
+          overflow: hidden;
+          background: #000;
+          box-shadow:
+            0 0 0 1px rgba(160, 190, 255, 0.25),
+            0 40px 120px rgba(0, 0, 0, 0.6),
+            0 0 120px rgba(59, 91, 253, 0.25);
+          transform-origin: 50% 60%;
+        }
+        #dm-chrome {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1600px;
+          height: 72px;
+          background: #16181d;
+          border-bottom: 1px solid #262a33;
+        }
+        #dm-dots {
+          position: absolute;
+          left: 26px;
+          top: 27px;
+          display: flex;
+          gap: 12px;
+        }
+        #dm-dots i {
+          display: block;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+        }
+        #dm-url {
+          position: absolute;
+          left: 150px;
+          top: 15px;
+          width: 1300px;
+          height: 42px;
+          border-radius: 21px;
+          background: #22252c;
+          padding-left: 24px;
+          display: flex;
+          align-items: center;
+          font-size: 22px;
+          color: #e8ebf2;
+        }
+        #dm-view {
+          position: absolute;
+          left: 0;
+          top: 72px;
+          width: 1600px;
+          height: 846px;
+          overflow: hidden;
+          background: #000;
+        }
+        #dm-sc1,
+        #dm-sc3,
+        #dm-bq {
+          position: absolute;
+          left: 0;
+          top: 0;
+          transform-origin: 0 0;
+        }
+        #dm-sc1 {
+          width: 1695px;
+          height: 896px;
+          transform: scale(0.944);
+        }
+        #dm-sc3 {
+          left: 39px;
+          width: 1621px;
+          height: 901px;
+          transform: scale(0.939);
+        }
+        #dm-bq {
+          width: 1606px;
+          height: 791px;
+          transform: scale(0.9963);
+        }
+        #dm-root img {
+          display: block;
+        }
+        .dm-img {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        .dm-mask {
+          position: absolute;
+          background: #1b1b1b;
+          transform-origin: 100% 50%;
+        }
+        .dm-caret {
+          position: absolute;
+          width: 2px;
+          height: 28px;
+          background: #f0f0f0;
+        }
+        .dm-stream {
+          position: absolute;
+          left: 0;
+          background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0px, #000 70px, #000 100%);
+        }
+        .dm-ring {
+          position: absolute;
+          border-radius: 14px;
+          border: 3px solid #ffd23f;
+          box-shadow:
+            0 0 0 6px rgba(255, 210, 63, 0.18),
+            0 0 40px rgba(255, 210, 63, 0.5);
+          opacity: 0;
+        }
+        #dm-cursor {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 46px;
+          height: 46px;
+          filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+          opacity: 0;
+        }
+        #dm-cursor path {
+          fill: #fff;
+          stroke: #111;
+          stroke-width: 1.4;
+          stroke-linejoin: round;
+        }
+        #dm-ripple {
+          position: absolute;
+          left: 0;
+          top: 0;
+          border-radius: 50%;
+          border: 4px solid #ffd23f;
+          opacity: 0;
+        }
+        .dm-step {
+          position: absolute;
+          left: 50%;
+          top: 26px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          padding: 12px 30px 12px 12px;
+          border-radius: 999px;
+          background: rgba(10, 18, 40, 0.9);
+          box-shadow: 0 0 0 1px rgba(160, 190, 255, 0.3);
+          white-space: nowrap;
+          transform: translateX(-50%);
+        }
+        .dm-step b {
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 22px;
+          letter-spacing: 0.1em;
+          color: #fff;
+          background: #3b5bfd;
+          padding: 8px 18px;
+          border-radius: 999px;
+        }
+        .dm-step span {
+          font-family: Montserrat, sans-serif;
+          font-weight: 800;
+          font-size: 30px;
+          color: #fff;
+        }
+      </style>
+      <div id="root" data-composition-id="demo" data-width="1920" data-height="1080">
+        <div id="dm-grid" data-layout-ignore></div>
+        <div id="dm-cam" data-layout-allow-overflow>
+          <div id="dm-persp">
+            <div id="dm-browser">
+              <div id="dm-chrome">
+                <div id="dm-dots"><i style="background: #ff5f57"></i><i style="background: #febc2e"></i><i style="background: #28c840"></i></div>
+                <div id="dm-url">chatgpt.com</div>
+              </div>
+              <div id="dm-view">
+                <div id="dm-sc1">
+                  <img class="dm-img" src="assets/img/sor1-mcorp.png" width="1695" height="896" alt="" />
+                  <img id="dm-s2" class="dm-img" src="assets/img/sor2-mcorp.png" width="1498" height="907" alt="" style="left: 204px; top: -1px" />
+                  <div id="dm-m1" class="dm-mask" style="left: 497px; top: 438px; width: 330px; height: 38px"></div>
+                  <div id="dm-c1" class="dm-caret" style="left: 497px; top: 443px"></div>
+                  <div id="dm-r-chip" class="dm-ring" style="left: 578px; top: 346px; width: 374px; height: 56px; border-radius: 30px"></div>
+                </div>
+                <div id="dm-sc3">
+                  <img class="dm-img" src="assets/img/sor3.png" width="1621" height="901" alt="" />
+                  <div id="dm-st3" class="dm-stream" style="top: 190px; width: 1621px; height: 640px"></div>
+                  <div id="dm-r-sortable" class="dm-ring" style="left: 318px; top: 388px; width: 996px; height: 140px"></div>
+                </div>
+                <div id="dm-bq">
+                  <img id="dm-bq2" class="dm-img" src="assets/img/bq2-mcorp.png" width="1606" height="765" alt="" />
+                  <div id="dm-m2" class="dm-mask" style="left: 366px; top: 334px; width: 652px; height: 36px"></div>
+                  <div id="dm-c2" class="dm-caret" style="left: 368px; top: 338px"></div>
+                  <img id="dm-bq1" class="dm-img" src="assets/img/bq1.png" width="1606" height="791" alt="" />
+                  <div id="dm-stbq" class="dm-stream" style="top: 0; width: 1606px; height: 800px"></div>
+                  <div id="dm-r-qty" class="dm-ring" style="left: 982px; top: 146px; width: 80px; height: 206px"></div>
+                  <div id="dm-r-rate" class="dm-ring" style="left: 1062px; top: 146px; width: 104px; height: 206px"></div>
+                  <div id="dm-r-kont" class="dm-ring" style="left: 380px; top: 410px; width: 904px; height: 36px"></div>
+                  <div id="dm-r-total" class="dm-ring" style="left: 348px; top: 508px; width: 926px; height: 124px; border-radius: 18px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="dm-ripple"></div>
+          <svg id="dm-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3 L5 19 L9 15 L12 22 L15 20.5 L11.5 14 L18 14 Z" /></svg>
+        </div>
+        <div id="dm-step1" class="dm-step"><b>DEMO 1</b><span>Semakan harga berdasarkan SOR</span></div>
+        <div id="dm-step2" class="dm-step"><b>DEMO 2</b><span>Kira anggaran kos BQ</span></div>
+      </div>
+      <script>
+        (function () {
+          // local 0 = root 47.6
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#dm-grid", { y: 0 }, { y: 80, duration: 18.8, ease: "none" }, 0);
+          tl.fromTo("#dm-browser", { y: 600, rotationX: 24, scale: 0.88, autoAlpha: 0 }, { y: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.7, ease: "expo.out" }, 0);
+          tl.set(["#dm-s2", "#dm-m1", "#dm-c1", "#dm-sc3", "#dm-bq", "#dm-bq1", "#dm-stbq"], { autoAlpha: 0 }, 0);
+          // DEMO 1: SOR
+          tl.fromTo("#dm-step1", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.5);
+          tl.to("#dm-step1", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 5.55);
+          tl.fromTo("#dm-r-chip", { autoAlpha: 0, scale: 1.1 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.3);
+          tl.to("#dm-r-chip", { autoAlpha: 0, duration: 0.2 }, 2.1);
+          tl.set(["#dm-s2", "#dm-m1", "#dm-c1"], { autoAlpha: 1 }, 2.05);
+          tl.set("#dm-sc1", { autoAlpha: 0 }, 4.1);
+          tl.fromTo("#dm-sc3", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.0);
+          tl.fromTo("#dm-st3", { y: 0 }, { y: 700, duration: 1.5, ease: "power1.in" }, 4.2);
+          tl.fromTo("#dm-r-sortable", { autoAlpha: 0, scale: 1.04 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 4.9);
+          // DEMO 2: BQ
+          tl.to("#dm-sc3", { autoAlpha: 0, duration: 0.25 }, 5.75);
+          tl.fromTo("#dm-bq", { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power3.out" }, 5.8);
+          tl.fromTo("#dm-step2", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.6)" }, 5.9);
+          tl.to("#dm-step2", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 18.4);
+          tl.set(["#dm-bq2", "#dm-m2", "#dm-c2"], { autoAlpha: 0 }, 10.8);
+          tl.set(["#dm-bq1", "#dm-stbq"], { autoAlpha: 1 }, 10.8);
+          tl.fromTo("#dm-stbq", { y: 0 }, { y: 820, duration: 1.8, ease: "power1.in" }, 11.0);
+          const ring = (sel, inAt, outAt) => {
+            tl.fromTo(sel, { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, inAt);
+            if (outAt) tl.to(sel, { autoAlpha: 0, duration: 0.2 }, outAt);
+          };
+          ring("#dm-r-qty", 14.8, 15.55);
+          ring("#dm-r-rate", 15.6, 16.4);
+          ring("#dm-r-kont", 16.8, 17.3);
+          ring("#dm-r-total", 17.3, null);
+          tl.to("#dm-r-total", { scale: 1.02, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 17.6);
+
+          // camera / cursor / typing, one deterministic render(t) in stage px
+          const cam = document.getElementById("dm-cam");
+          const cursor = document.getElementById("dm-cursor");
+          const ripple = document.getElementById("dm-ripple");
+          const m1 = document.getElementById("dm-m1"), c1 = document.getElementById("dm-c1");
+          const m2 = document.getElementById("dm-m2"), c2 = document.getElementById("dm-c2");
+          const ease = gsap.parseEase("power2.inOut"), arrive = gsap.parseEase("power3.out");
+          const clamp = (u) => (u < 0 ? 0 : u > 1 ? 1 : u), mix = (a, b, u) => a + (b - a) * u;
+          const CAM = [
+            [0, 960, 540, 1], [0.9, 960, 540, 1], [1.6, 1040, 560, 1.3], [3.95, 1040, 560, 1.3], [4.5, 960, 540, 1],
+            [5.8, 960, 540, 1], [6.4, 920, 520, 1.55], [10.6, 920, 520, 1.55], [11.1, 960, 540, 1],
+            [12.8, 960, 540, 1], [13.5, 968, 470, 1.45], [16.3, 968, 470, 1.45], [16.9, 900, 650, 1.65], [18.8, 900, 650, 1.65],
+          ];
+          const CUR = [
+            [0.9, 1560, 960], [1.85, 882, 505], [2.95, 882, 505], [3.75, 1484, 637], [4.1, 1484, 637], [4.6, 1760, 1010],
+            [9.8, 1640, 900], [10.45, 1392, 560], [10.9, 1392, 560], [11.4, 1700, 980],
+          ];
+          const CLICKS = [[2.0, 882, 505], [3.92, 1484, 637], [10.6, 1392, 560]];
+          function camAt(t) {
+            if (t <= CAM[0][0]) return CAM[0];
+            for (let i = 1; i < CAM.length; i++) {
+              const a = CAM[i - 1], b = CAM[i];
+              if (t <= b[0]) { const u = ease(clamp((t - a[0]) / (b[0] - a[0]))); return [t, mix(a[1], b[1], u), mix(a[2], b[2], u), mix(a[3], b[3], u)]; }
+            }
+            return CAM[CAM.length - 1];
+          }
+          function curAt(t) {
+            if (t <= CUR[0][0]) return { x: CUR[0][1], y: CUR[0][2] };
+            for (let i = 1; i < CUR.length; i++) {
+              const a = CUR[i - 1], b = CUR[i];
+              if (t <= b[0]) {
+                const u = arrive(clamp((t - a[0]) / (b[0] - a[0])));
+                const cx = (a[1] + b[1]) / 2 - (b[2] - a[2]) * 0.12, cy = (a[2] + b[2]) / 2 + (b[1] - a[1]) * 0.12, w = 1 - u;
+                return { x: w * w * a[1] + 2 * w * u * cx + u * u * b[1], y: w * w * a[2] + 2 * w * u * cy + u * u * b[2] };
+              }
+            }
+            const l = CUR[CUR.length - 1];
+            return { x: l[1], y: l[2] };
+          }
+          const blink = (t) => Math.floor(t * 2) % 2 === 0;
+          function render(t) {
+            const c = camAt(t), z = c[3];
+            cam.style.transform = `translate(${(960 - c[1] * z).toFixed(2)}px, ${(540 - c[2] * z).toFixed(2)}px) scale(${z.toFixed(4)})`;
+            // SOR prompt typing 2.1 - 2.8
+            const p1 = clamp((t - 2.1) / 0.7);
+            m1.style.transform = `scaleX(${(1 - p1).toFixed(4)})`;
+            c1.style.left = (497 + 318 * p1).toFixed(1) + "px";
+            c1.style.opacity = t < 4.0 && (t < 2.8 || blink(t)) ? "1" : "0";
+            // BQ prompt typing 6.05 - 10.2, in step with "Masukkan skop kerja ... seratus meter"
+            const p2 = clamp((t - 6.05) / 4.15);
+            m2.style.transform = `scaleX(${(1 - p2).toFixed(4)})`;
+            c2.style.left = (368 + 646 * p2).toFixed(1) + "px";
+            c2.style.opacity = t < 10.8 && (t < 10.2 || blink(t)) ? "1" : "0";
+            // cursor + click ripple
+            const pos = curAt(t);
+            let press = 0, hit = null;
+            CLICKS.forEach((k) => {
+              const s = t - k[0];
+              if (s >= 0) hit = { s, x: k[1], y: k[2] };
+              if (s >= 0 && s < 0.28) press = s < 0.08 ? s / 0.08 : 1 - (s - 0.08) / 0.2;
+            });
+            cursor.style.transform = `translate(${(pos.x - 10).toFixed(1)}px, ${(pos.y - 6).toFixed(1)}px) scale(${(1 - 0.18 * press).toFixed(3)})`;
+            cursor.style.opacity = (t >= 0.9 && t < 4.6) || (t >= 9.8 && t < 11.4) ? "1" : "0";
+            const r01 = hit ? hit.s / 0.45 : 9;
+            if (r01 < 1) {
+              const r = 14 + 46 * arrive(r01);
+              ripple.style.opacity = (1 - r01).toFixed(3);
+              ripple.style.width = ripple.style.height = (2 * r).toFixed(1) + "px";
+              ripple.style.transform = `translate(${(hit.x - r).toFixed(1)}px, ${(hit.y - r).toFixed(1)}px)`;
+            } else ripple.style.opacity = "0";
+          }
+          const clock = { t: 0 };
+          tl.to(clock, { t: 18.8, duration: 18.8, ease: "none", onUpdate: () => render(clock.t) }, 0);
+          render(0);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["demo"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #f6f8ff;
+        }
+        .tt-glow {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(30px);
+        }
+        #tt-g1 {
+          width: 1100px;
+          height: 1100px;
+          right: -380px;
+          top: -460px;
+          background: radial-gradient(circle, rgba(59, 91, 253, 0.45), rgba(59, 91, 253, 0) 65%);
+        }
+        #tt-g2 {
+          width: 900px;
+          height: 900px;
+          left: -360px;
+          bottom: -420px;
+          background: radial-gradient(circle, rgba(227, 38, 43, 0.18), rgba(227, 38, 43, 0) 65%);
+        }
+        #tt-logo-box {
+          position: absolute;
+          left: 360px;
+          top: 300px;
+          width: 1200px;
+          height: 479px;
+          overflow: hidden;
+        }
+        #tt-logo {
+          width: 1200px;
+          height: 479px;
+          display: block;
+        }
+        #tt-shine {
+          position: absolute;
+          top: 0;
+          left: -300px;
+          width: 220px;
+          height: 479px;
+          background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+          transform: skewX(-18deg);
+        }
+        #tt-tag {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 770px;
+          text-align: center;
+          font-family: Montserrat, sans-serif;
+          font-weight: 800;
+          font-size: 38px;
+          letter-spacing: 0.08em;
+          color: #0b2a64;
+        }
+        #tt-tag em {
+          font-style: normal;
+          color: #e3262b;
+        }
+      </style>
+      <div id="root" data-composition-id="title" data-width="1920" data-height="1080">
+        <div id="tt-g1" class="tt-glow"></div>
+        <div id="tt-g2" class="tt-glow"></div>
+        <div id="tt-logo-box">
+          <img id="tt-logo" src="assets/img/logo.png" alt="MCORP EstiMATE" />
+          <div id="tt-shine"></div>
+        </div>
+        <div id="tt-tag">DARIPADA <em>3 HARI</em> KEPADA <em>KURANG 10 MINIT</em></div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          tl.to(["#tt-g1", "#tt-g2"], { scale: 1.15, duration: 3.8, ease: "sine.inOut" }, 0);
+          // impact on "Memperkenalkan" (root 12.65 = local 0.25), wordmark on "M-Corp" (local 1.21)
+          tl.fromTo("#tt-logo-box", { scale: 1.6, autoAlpha: 0, filter: "blur(18px)", clipPath: "inset(0 100% 0 0)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "expo.out" }, 0.05);
+          tl.to("#tt-logo-box", { scale: 1.04, duration: 2.8, ease: "sine.out" }, 0.75);
+          tl.fromTo("#tt-shine", { x: 0 }, { x: 1700, duration: 0.9, ease: "power2.inOut" }, 1.3);
+          tl.fromTo("#tt-tag", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }, 1.75);
+          tl.to(["#tt-logo-box", "#tt-tag"], { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 3.55);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["title"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

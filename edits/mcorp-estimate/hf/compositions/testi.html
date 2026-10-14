@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #06112b;
+        }
+        .ts-wrap {
+          position: absolute;
+          inset: 0;
+        }
+        .ts-wrap video {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+          object-fit: cover;
+        }
+        #ts-bridge-shade {
+          position: absolute;
+          inset: 0;
+          background: rgba(6, 17, 43, 0.72);
+        }
+        #ts-bridge {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 330px;
+          text-align: center;
+          font-family: Montserrat, sans-serif;
+          color: #fff;
+        }
+        #ts-bridge svg {
+          width: 120px;
+          height: 120px;
+        }
+        #ts-bridge div {
+          margin-top: 10px;
+          font-weight: 900;
+          font-size: 96px;
+        }
+        .ts-name {
+          position: absolute;
+          left: 80px;
+          top: 80px;
+          display: flex;
+          align-items: stretch;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+        .ts-name i {
+          display: block;
+          width: 12px;
+          background: #e3262b;
+        }
+        .ts-name div {
+          padding: 18px 30px 20px 24px;
+          background: rgba(255, 255, 255, 0.96);
+        }
+        .ts-name b {
+          display: block;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 38px;
+          color: #0b2a64;
+          white-space: nowrap;
+        }
+        .ts-name span {
+          display: block;
+          margin-top: 6px;
+          font-family: Inter, sans-serif;
+          font-size: 24px;
+          color: #33456f;
+          white-space: nowrap;
+        }
+        #ts-hb-wrap {
+          transform-origin: 46% 40%;
+        }
+      </style>
+      <div id="root" data-composition-id="testi" data-width="1920" data-height="1080">
+        <!-- bridge: "Apa kata pengguna?" over the panel watching the demo -->
+        <div id="ts-bw" class="ts-wrap" data-layout-allow-overflow><video id="ts-v0" class="clip" data-hf-media-start-basis="local" src="assets/video/rahimah2.mp4" data-start="0" data-duration="1.6" data-media-start="1" data-track-index="0" muted playsinline></video></div>
+        <div id="ts-bridge-shade" class="clip" data-start="0" data-duration="1.6" data-track-index="1"></div>
+        <div id="ts-bridge" class="clip" data-start="0" data-duration="1.6" data-track-index="2">
+          <svg viewBox="0 0 24 24" fill="#ffd23f"><path d="M4 18h5l2-4V6H4v8h3zM13 18h5l2-4V6h-7v8h3z" /></svg>
+          <div>Suara pengguna</div>
+        </div>
+        <!-- Puan Rahimah -->
+        <div id="ts-rw" class="ts-wrap" data-layout-allow-overflow><video id="ts-v1" class="clip" data-hf-media-start-basis="local" src="assets/video/rahimah3.mp4" data-start="1.6" data-duration="9.92" data-media-start="16.98" data-track-index="4" data-fade-in="0.1" data-fade-out="0.15" playsinline data-has-audio="true"></video></div>
+        <div id="ts-n1" class="ts-name clip" data-start="1.6" data-duration="9.92" data-track-index="3"><i></i><div><b>Puan Rahimah binti Osman</b><span>Penolong Pegawai, Jabatan Perikanan Negeri Melaka</span></div></div>
+        <!-- YB Helmy: two answers, the second punched in to hide the jump cut -->
+        <div id="ts-ha" class="ts-wrap" data-layout-allow-overflow><video id="ts-v2" class="clip" data-hf-media-start-basis="local" src="assets/video/helmy3.mp4" data-start="11.6" data-duration="6.34" data-media-start="2.96" data-track-index="4" data-fade-in="0.1" data-fade-out="0.06" playsinline data-has-audio="true"></video></div>
+        <div id="ts-hb-wrap" class="ts-wrap" data-layout-allow-overflow><video id="ts-v3" class="clip" data-hf-media-start-basis="local" src="assets/video/helmy3.mp4" data-start="17.94" data-duration="6.7" data-media-start="19.25" data-track-index="4" data-fade-in="0.06" data-fade-out="0.2" playsinline data-has-audio="true"></video></div>
+        <div id="ts-n2" class="ts-name clip" data-start="11.6" data-duration="13.04" data-track-index="3"><i></i><div><b>YB Helmy Mohd Nor Helmy</b><span>Timbalan EXCO Sains, Teknologi, Inovasi &amp; Komunikasi Digital Melaka</span></div></div>
+      </div>
+      <script>
+        (function () {
+          // local 0 = root 81.0
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#ts-bw", { scale: 1.1 }, { scale: 1.0, duration: 1.6, ease: "power1.out" }, 0);
+          tl.from("#ts-bridge svg", { scale: 0.3, autoAlpha: 0, duration: 0.35, ease: "back.out(2)" }, 0.05);
+          tl.from("#ts-bridge div", { y: 40, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, 0.15);
+          tl.fromTo("#ts-rw", { scale: 1.0 }, { scale: 1.06, duration: 9.92, ease: "none" }, 1.6);
+          tl.fromTo("#ts-ha", { scale: 1.0 }, { scale: 1.05, duration: 6.34, ease: "none" }, 11.6);
+          tl.fromTo("#ts-hb-wrap", { scale: 1.2 }, { scale: 1.26, duration: 6.7, ease: "none" }, 17.94);
+          const name = (sel, at, out) => {
+            tl.fromTo(sel, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, at);
+            tl.to(sel, { x: -80, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, out);
+          };
+          name("#ts-n1", 1.9, 10.9);
+          name("#ts-n2", 11.9, 23.9);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["testi"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
