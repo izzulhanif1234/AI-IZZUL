@@ -2,7 +2,7 @@
 import json
 
 HF = "/home/user/AI-IZZUL/edits/mcorp-estimate/hf"
-DUR = 116.5
+DUR = 118.6
 cues = json.load(open(f"{HF}/assets/captions.json"))
 
 html = """<!doctype html>

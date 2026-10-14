@@ -76,13 +76,13 @@
       <script>
         (function () {
           const tl = gsap.timeline({ paused: true });
-          tl.fromTo("#tm-ghost", { x: 0 }, { x: -700, duration: 5.4, ease: "none" }, 0);
+          tl.fromTo("#tm-ghost", { x: 0 }, { x: -700, duration: 4.45, ease: "none" }, 0);
           tl.fromTo("#tm-photo-wrap", { y: 420, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: "expo.out" }, 0.1);
-          tl.to("#tm-photo-wrap", { scale: 1.06, duration: 4.4, ease: "sine.inOut" }, 0.9);
+          tl.to("#tm-photo-wrap", { scale: 1.06, duration: 3.3, ease: "sine.inOut" }, 0.9);
           tl.from("#tm-kicker", { y: -30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 0.35);
           tl.from("#tm-title", { y: 40, autoAlpha: 0, duration: 0.5, ease: "back.out(1.6)" }, 0.5);
           tl.from("#tm-rule", { scaleX: 0, duration: 0.5, ease: "power2.out" }, 0.8);
-          tl.to(["#tm-head", "#tm-photo-wrap"], { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 5.15);
+          tl.to(["#tm-head", "#tm-photo-wrap"], { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 4.2);
           window.__timelines = window.__timelines || {};
           window.__timelines["team"] = tl;
         })();

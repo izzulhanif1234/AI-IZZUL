@@ -44,3 +44,13 @@ Drive folder PROJEK RKB: INTRO LAKONAN (intro1-3), PUAN RAHIMAH (rahimah1-3), DA
 - To rebuild footage in a fresh container: gdown the Drive folder
   (1_diqAiqpfzLQOB1CS-ZMNV6oKfkUKNTj) into media/sistem-full, transcode to 1080p proxies
   (see the ffmpeg line in this file's history / session), loudnorm intro2, rahimah3, helmy3 to -16 LUFS.
+
+## Revision 3
+- VO regenerated with Google Gemini TTS (`gemini-2.5-flash-preview-tts`, voice "Charon") as one take,
+  split per line at measured silences by `scripts/split_vo.py` (each clip re-transcribed to confirm
+  no clipped words). Old Edge lines kept in `hf/assets/vo_edge/`.
+- Dialogue cuts re-measured so no word is clipped: actor 1.70-9.10 ("Kirakan kos" fully kept),
+  Rahimah 16.95-27.30, Datuk Helmy 2.95-10.95 (adds "Takkan RM20,000 dapat repair banyak ni?")
+  and 19.22-26.20.
+- Demo scene 18.8 s -> 21 s: SOR reply now zooms into the result table and holds; BQ total holds ~2.3 s.
+- Total 1:58.6.

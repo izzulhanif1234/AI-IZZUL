@@ -6,22 +6,22 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 HF = "/home/user/AI-IZZUL/edits/mcorp-estimate/hf"
 TR = "/home/user/AI-IZZUL/media/sistem-full/transcripts"
 
-VO = {  # line id -> audio data-start (root s)
-    "v01": 0.30, "v02": 5.90, "v03": 12.55, "v03b": 16.55, "v04": 27.95, "v05": 36.05,
-    "v06": 47.85, "v07": 53.55, "v08": 66.55, "v09": 72.05, "v10": 81.05, "v11": 105.95,
+VO = {  # line id -> audio data-start (root s); Gemini TTS voice "Charon"
+    "v01": 0.30, "v02": 5.40, "v03": 12.50, "v03b": 15.95, "v04": 27.70, "v05": 35.70,
+    "v06": 48.10, "v07": 55.80, "v08": 68.75, "v09": 73.95, "v10": 82.25, "v11": 109.35,
 }
 # dialogue cuts: (clip, root_start, src_start, duration)
-DIALOGUE = [
-    ("intro2", 21.60, 1.70, 6.25),
-    ("rahimah3", 82.60, 16.98, 9.92),
-    ("helmy3", 92.60, 2.96, 6.34),
-    ("helmy3", 98.94, 19.25, 6.70),
+DIALOGUE = [  # cut points sit in measured silence (see NOTES.md)
+    ("intro2", 20.20, 1.70, 7.40),
+    ("rahimah3", 83.85, 16.95, 10.35),
+    ("helmy3", 94.20, 2.95, 8.00),
+    ("helmy3", 102.20, 19.22, 6.98),
 ]
 # hand-punctuated captions for each dialogue cut (same words as spoken, token count must match)
 DIALOGUE_TEXT = [
     "Sekarang dah senang. Masukkan je BQ, skop kerja. Kirakan kos.",
     "Ia sangat membantulah bagi kerja-kerja yang di bawah projek RM500,000. So sangat membantu untuk jabatan kami yang tiada teknikal ni lah.",
-    "Dekat bila kita nak terangkan kepada orang awam, penduduk, rakyat. Sebab apa rakyat selalu pertikai, kan? Takkan RM50,000 dapat panjang ni?",
+    "Dekat bila kita nak terangkan kepada orang awam, penduduk, rakyat. Sebab apa rakyat selalu pertikai, kan? Takkan RM50,000 dapat panjang ni? Takkan RM20,000 dapat repair banyak ni?",
     "Dia bila ada ni, kita boleh tunjukkan kepada dekat mana isu itu sebenar. Jadi dia boleh tengok pecahan-pecahan ni, kat sini yang mahal, kat sini yang murah.",
 ]
 FIX = {"Bintik": "binti", "petikai": "pertikai", "Kos": "kos", "-s": "s", "membantulah": "membantulah"}

@@ -90,7 +90,7 @@
       </style>
       <div id="root" data-composition-id="solution" data-width="1920" data-height="1080">
         <div id="so-w1" class="so-wrap" data-layout-allow-overflow><video id="so-v1" class="clip" data-hf-media-start-basis="local" src="assets/video/intro3.mp4" data-start="0" data-duration="4.2" data-media-start="0" data-track-index="0" muted playsinline></video></div>
-        <div id="so-w2" class="so-wrap" data-layout-allow-overflow><video id="so-v2" class="clip" data-hf-media-start-basis="local" src="assets/video/intro2.mp4" data-start="4.2" data-duration="3.85" data-media-start="13.5" data-track-index="0" muted playsinline></video></div>
+        <div id="so-w2" class="so-wrap" data-layout-allow-overflow><video id="so-v2" class="clip" data-hf-media-start-basis="local" src="assets/video/intro2.mp4" data-start="4.2" data-duration="3.75" data-media-start="13.5" data-track-index="0" muted playsinline></video></div>
         <div id="so-shade"></div>
         <div id="so-ai">TEKNOLOGI AI</div>
         <div id="so-old">3 HARI<div id="so-strike"></div></div>
@@ -99,16 +99,16 @@
       </div>
       <script>
         (function () {
-          // local 0 = root 27.85. "teknologi" 28.37 (.52), "berhari-hari" 32.09 (4.24), "kurang" 34.19 (6.34)
+          // local 0 = root 27.6. "teknologi" 28.16 (.56), "berhari-hari" 31.60 (4.0), "kurang" 33.74 (6.14)
           const tl = gsap.timeline({ paused: true });
           tl.fromTo("#so-w1", { scale: 1.15 }, { scale: 1.0, duration: 4.2, ease: "power1.out" }, 0);
-          tl.fromTo("#so-w2", { scale: 1.0 }, { scale: 1.08, duration: 3.85, ease: "none" }, 4.2);
+          tl.fromTo("#so-w2", { scale: 1.0 }, { scale: 1.08, duration: 3.75, ease: "none" }, 4.2);
           tl.from("#so-ai", { x: -80, autoAlpha: 0, duration: 0.4, ease: "back.out(1.8)" }, 0.45);
           tl.from("#so-old", { y: 40, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 3.0);
-          tl.from("#so-strike", { scaleX: 0, duration: 0.35, ease: "power3.inOut" }, 4.3);
-          tl.from("#so-arrow", { y: -30, autoAlpha: 0, duration: 0.35, ease: "power2.out" }, 5.3);
-          tl.fromTo("#so-new", { scale: 1.8, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "expo.out" }, 6.3);
-          tl.to("#so-new", { scale: 1.05, duration: 1.3, ease: "sine.out", transformOrigin: "0% 50%" }, 6.6);
+          tl.from("#so-strike", { scaleX: 0, duration: 0.35, ease: "power3.inOut" }, 4.0);
+          tl.from("#so-arrow", { y: -30, autoAlpha: 0, duration: 0.35, ease: "power2.out" }, 5.1);
+          tl.fromTo("#so-new", { scale: 1.8, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "expo.out" }, 6.1);
+          tl.to("#so-new", { scale: 1.05, duration: 1.5, ease: "sine.out", transformOrigin: "0% 50%" }, 6.4);
           window.__timelines = window.__timelines || {};
           window.__timelines["solution"] = tl;
         })();

@@ -247,38 +247,40 @@
       </div>
       <script>
         (function () {
-          // local 0 = root 47.6
+          // local 0 = root 47.6. v06 "berdasarkan" 49.68 (2.08), "klik" 51.80 (4.2);
+          // v07 "Masukkan" 55.84 (8.24), "meter" 59.54 (11.94), "Dalam" 60.58 (12.98),
+          // "kuantiti" 63.86 (16.26), "kadar" 64.48 (16.88), "kontingensi" 65.86 (18.26), VO ends 66.56 (18.96)
           const tl = gsap.timeline({ paused: true });
-          tl.fromTo("#dm-grid", { y: 0 }, { y: 80, duration: 18.8, ease: "none" }, 0);
+          tl.fromTo("#dm-grid", { y: 0 }, { y: 80, duration: 21, ease: "none" }, 0);
           tl.fromTo("#dm-browser", { y: 600, rotationX: 24, scale: 0.88, autoAlpha: 0 }, { y: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.7, ease: "expo.out" }, 0);
           tl.set(["#dm-s2", "#dm-m1", "#dm-c1", "#dm-sc3", "#dm-bq", "#dm-bq1", "#dm-stbq"], { autoAlpha: 0 }, 0);
-          // DEMO 1: SOR
+          // DEMO 1: SOR, with time to read the reply
           tl.fromTo("#dm-step1", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.5);
-          tl.to("#dm-step1", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 5.55);
-          tl.fromTo("#dm-r-chip", { autoAlpha: 0, scale: 1.1 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.3);
-          tl.to("#dm-r-chip", { autoAlpha: 0, duration: 0.2 }, 2.1);
-          tl.set(["#dm-s2", "#dm-m1", "#dm-c1"], { autoAlpha: 1 }, 2.05);
-          tl.set("#dm-sc1", { autoAlpha: 0 }, 4.1);
-          tl.fromTo("#dm-sc3", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.0);
-          tl.fromTo("#dm-st3", { y: 0 }, { y: 700, duration: 1.5, ease: "power1.in" }, 4.2);
-          tl.fromTo("#dm-r-sortable", { autoAlpha: 0, scale: 1.04 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 4.9);
+          tl.to("#dm-step1", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 7.75);
+          tl.fromTo("#dm-r-chip", { autoAlpha: 0, scale: 1.1 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.4);
+          tl.to("#dm-r-chip", { autoAlpha: 0, duration: 0.2 }, 2.2);
+          tl.set(["#dm-s2", "#dm-m1", "#dm-c1"], { autoAlpha: 1 }, 2.15);
+          tl.set("#dm-sc1", { autoAlpha: 0 }, 4.45);
+          tl.fromTo("#dm-sc3", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.3);
+          tl.fromTo("#dm-st3", { y: 0 }, { y: 700, duration: 1.6, ease: "power1.in" }, 4.45);
+          tl.fromTo("#dm-r-sortable", { autoAlpha: 0, scale: 1.04 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 6.1);
           // DEMO 2: BQ
-          tl.to("#dm-sc3", { autoAlpha: 0, duration: 0.25 }, 5.75);
-          tl.fromTo("#dm-bq", { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power3.out" }, 5.8);
-          tl.fromTo("#dm-step2", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.6)" }, 5.9);
-          tl.to("#dm-step2", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 18.4);
-          tl.set(["#dm-bq2", "#dm-m2", "#dm-c2"], { autoAlpha: 0 }, 10.8);
-          tl.set(["#dm-bq1", "#dm-stbq"], { autoAlpha: 1 }, 10.8);
-          tl.fromTo("#dm-stbq", { y: 0 }, { y: 820, duration: 1.8, ease: "power1.in" }, 11.0);
+          tl.to("#dm-sc3", { autoAlpha: 0, duration: 0.25 }, 8.0);
+          tl.fromTo("#dm-bq", { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power3.out" }, 8.05);
+          tl.fromTo("#dm-step2", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.6)" }, 8.15);
+          tl.to("#dm-step2", { y: -80, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 20.6);
+          tl.set(["#dm-bq2", "#dm-m2", "#dm-c2"], { autoAlpha: 0 }, 13.05);
+          tl.set(["#dm-bq1", "#dm-stbq"], { autoAlpha: 1 }, 13.05);
+          tl.fromTo("#dm-stbq", { y: 0 }, { y: 820, duration: 1.8, ease: "power1.in" }, 13.2);
           const ring = (sel, inAt, outAt) => {
             tl.fromTo(sel, { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, inAt);
             if (outAt) tl.to(sel, { autoAlpha: 0, duration: 0.2 }, outAt);
           };
-          ring("#dm-r-qty", 14.8, 15.55);
-          ring("#dm-r-rate", 15.6, 16.4);
-          ring("#dm-r-kont", 16.8, 17.3);
-          ring("#dm-r-total", 17.3, null);
-          tl.to("#dm-r-total", { scale: 1.02, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 17.6);
+          ring("#dm-r-qty", 16.2, 16.85);
+          ring("#dm-r-rate", 16.85, 17.6);
+          ring("#dm-r-kont", 18.2, 18.7);
+          ring("#dm-r-total", 18.7, null);
+          tl.to("#dm-r-total", { scale: 1.02, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 19.0);
 
           // camera / cursor / typing, one deterministic render(t) in stage px
           const cam = document.getElementById("dm-cam");
@@ -289,15 +291,16 @@
           const ease = gsap.parseEase("power2.inOut"), arrive = gsap.parseEase("power3.out");
           const clamp = (u) => (u < 0 ? 0 : u > 1 ? 1 : u), mix = (a, b, u) => a + (b - a) * u;
           const CAM = [
-            [0, 960, 540, 1], [0.9, 960, 540, 1], [1.6, 1040, 560, 1.3], [3.95, 1040, 560, 1.3], [4.5, 960, 540, 1],
-            [5.8, 960, 540, 1], [6.4, 920, 520, 1.55], [10.6, 920, 520, 1.55], [11.1, 960, 540, 1],
-            [12.8, 960, 540, 1], [13.5, 968, 470, 1.45], [16.3, 968, 470, 1.45], [16.9, 900, 650, 1.65], [18.8, 900, 650, 1.65],
+            [0, 960, 540, 1], [0.9, 960, 540, 1], [1.6, 1040, 560, 1.3], [4.25, 1040, 560, 1.3], [4.8, 960, 540, 1],
+            [6.0, 960, 540, 1], [6.6, 965, 583, 1.5], [7.5, 965, 583, 1.5], [8.0, 960, 540, 1],
+            [8.1, 960, 540, 1], [8.7, 920, 520, 1.55], [12.9, 920, 520, 1.55], [13.4, 960, 540, 1],
+            [15.0, 960, 540, 1], [15.7, 968, 470, 1.45], [17.9, 968, 470, 1.45], [18.5, 900, 650, 1.65], [21, 900, 650, 1.65],
           ];
           const CUR = [
-            [0.9, 1560, 960], [1.85, 882, 505], [2.95, 882, 505], [3.75, 1484, 637], [4.1, 1484, 637], [4.6, 1760, 1010],
-            [9.8, 1640, 900], [10.45, 1392, 560], [10.9, 1392, 560], [11.4, 1700, 980],
+            [0.9, 1560, 960], [1.95, 882, 505], [3.3, 882, 505], [4.05, 1484, 637], [4.4, 1484, 637], [4.9, 1760, 1010],
+            [12.0, 1640, 900], [12.65, 1392, 560], [13.1, 1392, 560], [13.6, 1700, 980],
           ];
-          const CLICKS = [[2.0, 882, 505], [3.92, 1484, 637], [10.6, 1392, 560]];
+          const CLICKS = [[2.1, 882, 505], [4.2, 1484, 637], [12.85, 1392, 560]];
           function camAt(t) {
             if (t <= CAM[0][0]) return CAM[0];
             for (let i = 1; i < CAM.length; i++) {
@@ -323,16 +326,16 @@
           function render(t) {
             const c = camAt(t), z = c[3];
             cam.style.transform = `translate(${(960 - c[1] * z).toFixed(2)}px, ${(540 - c[2] * z).toFixed(2)}px) scale(${z.toFixed(4)})`;
-            // SOR prompt typing 2.1 - 2.8
-            const p1 = clamp((t - 2.1) / 0.7);
+            // SOR prompt typing 2.2 - 2.9
+            const p1 = clamp((t - 2.2) / 0.7);
             m1.style.transform = `scaleX(${(1 - p1).toFixed(4)})`;
             c1.style.left = (497 + 318 * p1).toFixed(1) + "px";
-            c1.style.opacity = t < 4.0 && (t < 2.8 || blink(t)) ? "1" : "0";
-            // BQ prompt typing 6.05 - 10.2, in step with "Masukkan skop kerja ... seratus meter"
-            const p2 = clamp((t - 6.05) / 4.15);
+            c1.style.opacity = t < 4.3 && (t < 2.9 || blink(t)) ? "1" : "0";
+            // BQ prompt typing 8.3 - 11.95, in step with "Masukkan skop kerja ... seratus meter"
+            const p2 = clamp((t - 8.3) / 3.65);
             m2.style.transform = `scaleX(${(1 - p2).toFixed(4)})`;
             c2.style.left = (368 + 646 * p2).toFixed(1) + "px";
-            c2.style.opacity = t < 10.8 && (t < 10.2 || blink(t)) ? "1" : "0";
+            c2.style.opacity = t < 13.05 && (t < 11.95 || blink(t)) ? "1" : "0";
             // cursor + click ripple
             const pos = curAt(t);
             let press = 0, hit = null;
@@ -342,7 +345,7 @@
               if (s >= 0 && s < 0.28) press = s < 0.08 ? s / 0.08 : 1 - (s - 0.08) / 0.2;
             });
             cursor.style.transform = `translate(${(pos.x - 10).toFixed(1)}px, ${(pos.y - 6).toFixed(1)}px) scale(${(1 - 0.18 * press).toFixed(3)})`;
-            cursor.style.opacity = (t >= 0.9 && t < 4.6) || (t >= 9.8 && t < 11.4) ? "1" : "0";
+            cursor.style.opacity = (t >= 0.9 && t < 4.9) || (t >= 12.0 && t < 13.6) ? "1" : "0";
             const r01 = hit ? hit.s / 0.45 : 9;
             if (r01 < 1) {
               const r = 14 + 46 * arrive(r01);
@@ -352,7 +355,7 @@
             } else ripple.style.opacity = "0";
           }
           const clock = { t: 0 };
-          tl.to(clock, { t: 18.8, duration: 18.8, ease: "none", onUpdate: () => render(clock.t) }, 0);
+          tl.to(clock, { t: 21, duration: 21, ease: "none", onUpdate: () => render(clock.t) }, 0);
           render(0);
           window.__timelines = window.__timelines || {};
           window.__timelines["demo"] = tl;

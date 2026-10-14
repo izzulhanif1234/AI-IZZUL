@@ -147,24 +147,24 @@
       </div>
       <script>
         (function () {
-          // local 0 = root 35.9. "Jadual" 36.84 (.94), "memberikan" 38.74 (2.84), "menyediakan" 40.40 (4.5), "memaklumkan" 43.38 (7.48)
+          // local 0 = root 35.55. "Jadual" 37.12 (1.57), "memberikan" 38.56 (3.01), "menyediakan" 40.34 (4.79), "memaklumkan" 43.50 (7.95)
           const tl = gsap.timeline({ paused: true });
-          tl.fromTo("#hw-grid", { y: 0 }, { y: 80, duration: 11.7, ease: "none" }, 0);
-          tl.to("#hw-glow", { scale: 1.12, duration: 11.7, ease: "sine.inOut" }, 0);
+          tl.fromTo("#hw-grid", { y: 0 }, { y: 80, duration: 12.05, ease: "none" }, 0);
+          tl.to("#hw-glow", { scale: 1.12, duration: 12.05, ease: "sine.inOut" }, 0);
           tl.from("#hw-kicker", { y: -20, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, 0.1);
           tl.from("#hw-title", { y: 30, autoAlpha: 0, duration: 0.45, ease: "back.out(1.6)" }, 0.2);
-          const at = [0.9, 2.8, 4.45, 7.43];
+          const at = [1.5, 2.95, 4.73, 7.9];
           const cards = ["#hw-c1", "#hw-c2", "#hw-c3", "#hw-c4"];
           cards.forEach((c, i) => {
             tl.fromTo(c, { y: 160, autoAlpha: 0, rotationX: -35 }, { y: 0, autoAlpha: 1, rotationX: 0, duration: 0.5, ease: "back.out(1.4)" }, at[i]);
             tl.to(c + " .hw-ring", { opacity: 1, duration: 0.2 }, at[i] + 0.1);
             tl.to(c, { scale: 1.05, duration: 0.25, ease: "power2.out" }, at[i] + 0.1);
-            const off = i < 3 ? at[i + 1] : 10.4;
+            const off = i < 3 ? at[i + 1] : 10.8;
             tl.to(c + " .hw-ring", { opacity: 0, duration: 0.2 }, off);
             tl.to(c, { scale: 1, duration: 0.25, ease: "power2.inOut" }, off);
           });
-          tl.to(cards, { y: -60, autoAlpha: 0, duration: 0.3, ease: "power2.in", stagger: 0.05 }, 11.1);
-          tl.to("#hw-head", { autoAlpha: 0, duration: 0.25 }, 11.2);
+          tl.to(cards, { y: -60, autoAlpha: 0, duration: 0.3, ease: "power2.in", stagger: 0.05 }, 11.45);
+          tl.to("#hw-head", { autoAlpha: 0, duration: 0.25 }, 11.55);
           window.__timelines = window.__timelines || {};
           window.__timelines["how"] = tl;
         })();
