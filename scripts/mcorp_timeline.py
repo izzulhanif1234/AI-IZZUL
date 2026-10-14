@@ -39,8 +39,9 @@ def vo_words():
         toks = SCRIPT[lid].split()
         use = len(toks) == len(ws)
         for i, w in enumerate(ws):
-            out.append({"s": round(at + w["start"], 3), "e": round(at + w["end"], 3),
-                        "w": toks[i] if use else w["word"], "src": lid})
+            # the script spells "M-Corp" so the voice says it right; captions show the brand as written
+            word = (toks[i] if use else w["word"]).replace("M-Corp", "MCORP")
+            out.append({"s": round(at + w["start"], 3), "e": round(at + w["end"], 3), "w": word, "src": lid})
     return out
 
 

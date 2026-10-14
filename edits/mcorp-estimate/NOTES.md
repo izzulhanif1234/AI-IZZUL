@@ -32,3 +32,15 @@ calculator mark (sor1, sor2, bq2).
 
 ## Source footage (not in git, 4K HEVC -> 1080p H.264 proxies)
 Drive folder PROJEK RKB: INTRO LAKONAN (intro1-3), PUAN RAHIMAH (rahimah1-3), DATUK HELMY (helmy1-3).
+
+## Revision 2 (requested)
+- Name card: "YB Datuk Mohd Noor Helmy".
+- Brand text is "MCORP Estimate" everywhere on screen (team title, impact card, captions, screenshot
+  credit line). The VO script keeps the "M-Corp" spelling only so TTS pronounces it correctly;
+  `mcorp_timeline.py` maps it back to "MCORP" for captions.
+- Voice: Edge TTS judged too robotic. Next: Google Gemini TTS (needs `GEMINI_API_KEY` in the
+  environment). Regenerate lines in `hf/assets/vo/` with word timings, rerun
+  `mcorp_timeline.py`, `mcorp_captions.py`, `mcorp_index.py`, then render.
+- To rebuild footage in a fresh container: gdown the Drive folder
+  (1_diqAiqpfzLQOB1CS-ZMNV6oKfkUKNTj) into media/sistem-full, transcode to 1080p proxies
+  (see the ffmpeg line in this file's history / session), loudnorm intro2, rahimah3, helmy3 to -16 LUFS.

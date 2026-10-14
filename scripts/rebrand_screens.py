@@ -41,7 +41,7 @@ def fix(name, by_box, av_box, small_av_box):
     cx = (bx0 + bx1) / 2
     d.rectangle((bx0 - 4, by0 - 4, bx1 + 4, by1 + 4), fill=(0, 0, 0))
     font = ImageFont.truetype(FONT, 20)
-    text = "MCorp Estimate"
+    text = "MCORP Estimate"
     w = d.textlength(text, font=font)
     # "By Qamarul" cap top sits at by0; Noto ascent offset ~5px at 20px
     d.text((cx - w / 2, by0 - 5), text, font=font, fill=(205, 205, 205))
