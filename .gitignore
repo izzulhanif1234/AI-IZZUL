@@ -4,3 +4,6 @@ edits/**/preview/*.mp4
 edits/**/.hyperframes/
 edits/**/node_modules/
 edits/**/preview/
+edits/**/assets/footage/
+edits/**/renders/
+__pycache__/
