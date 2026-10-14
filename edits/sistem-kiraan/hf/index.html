@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Concept: a screen-recording demo that feels driven by a real user — camera follows the
+         cursor through the MCORP custom GPT, framed by kinetic type on a deep-navy tech stage.
+         Palette: navy ground, one electric-blue accent (matches the GPT send button), warm white. */
+      :root {
+        --bg: #070b17;
+        --fg: #f3f6ff;
+        --muted: #9aa6c4;
+        --accent: #4c8dff;
+        --accent-soft: rgba(76, 141, 255, 0.18);
+        --card: #0f1628;
+        --line: rgba(150, 175, 230, 0.16);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family: Inter, sans-serif;
+        color: var(--fg);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ---------- ambient background ---------- */
+      .bg-grid {
+        position: absolute;
+        inset: -80px;
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 80px 80px;
+        opacity: 0.35;
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+      }
+      #glow-a {
+        width: 900px;
+        height: 900px;
+        left: -260px;
+        top: -320px;
+        background: radial-gradient(circle, rgba(76, 141, 255, 0.35), rgba(76, 141, 255, 0) 65%);
+      }
+      #glow-b {
+        width: 1000px;
+        height: 1000px;
+        right: -320px;
+        bottom: -420px;
+        background: radial-gradient(circle, rgba(120, 90, 255, 0.22), rgba(120, 90, 255, 0) 65%);
+      }
+      .ghost {
+        position: absolute;
+        left: 0;
+        top: 440px;
+        white-space: nowrap;
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 260px;
+        letter-spacing: 0.02em;
+        color: rgba(160, 190, 255, 0.045);
+      }
+
+      /* ---------- hook ---------- */
+      .hook {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hook-line {
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 118px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .hook-line .w {
+        display: inline-block;
+      }
+      .hook-line em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .hook-kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.24em;
+        color: var(--muted);
+        margin-bottom: 28px;
+      }
+      #hook-3 .hook-line {
+        font-size: 170px;
+      }
+
+      /* ---------- stage / camera ---------- */
+      #cam {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: 0 0;
+      }
+      #browser-persp {
+        position: absolute;
+        inset: 0;
+        perspective: 2200px;
+      }
+      #browser {
+        position: absolute;
+        left: 160px;
+        top: 81px;
+        width: 1600px;
+        height: 918px;
+        border-radius: 22px;
+        overflow: hidden;
+        background: #000;
+        box-shadow:
+          0 0 0 1px rgba(160, 190, 255, 0.22),
+          0 40px 120px rgba(0, 0, 0, 0.6),
+          0 0 120px rgba(76, 141, 255, 0.18);
+        transform-origin: 50% 60%;
+      }
+      .chrome {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1600px;
+        height: 72px;
+        background: #16181d;
+        border-bottom: 1px solid #262a33;
+      }
+      .dots {
+        position: absolute;
+        left: 26px;
+        top: 27px;
+        display: flex;
+        gap: 12px;
+      }
+      .dots i {
+        display: block;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+      }
+      .urlbar {
+        position: absolute;
+        left: 150px;
+        top: 15px;
+        width: 1300px;
+        height: 42px;
+        border-radius: 21px;
+        background: #22252c;
+        display: flex;
+        align-items: center;
+        padding-left: 22px;
+        gap: 14px;
+        font-size: 22px;
+        color: #e8ebf2;
+      }
+      .urlbar svg {
+        width: 18px;
+        height: 18px;
+        flex: none;
+      }
+      #url-caret {
+        display: inline-block;
+        width: 2px;
+        height: 24px;
+        background: #e8ebf2;
+        margin-left: 2px;
+        vertical-align: middle;
+      }
+      #url-text {
+        white-space: pre;
+      }
+      #loadbar {
+        position: absolute;
+        left: 0;
+        top: 70px;
+        height: 3px;
+        width: 1600px;
+        background: var(--accent);
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
+      .viewport {
+        position: absolute;
+        left: 0;
+        top: 72px;
+        width: 1600px;
+        height: 846px;
+        overflow: hidden;
+        background: #000;
+      }
+      .newtab {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0c0e12;
+        font-family: Montserrat, sans-serif;
+        font-weight: 700;
+        font-size: 40px;
+        color: #3a4050;
+      }
+      /* Screens are authored in their native pixel space and scaled to the viewport. */
+      #sc1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1695px;
+        height: 896px;
+        transform-origin: 0 0;
+        transform: scale(0.944);
+      }
+      #sc1 img,
+      #sc3 img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+      }
+      #img-s2 {
+        left: 204px !important;
+        top: -1px !important;
+      }
+      #type-mask {
+        position: absolute;
+        left: 497px;
+        top: 438px;
+        width: 330px;
+        height: 38px;
+        background: #1b1b1b;
+        transform-origin: 100% 50%;
+      }
+      #type-caret {
+        position: absolute;
+        left: 497px;
+        top: 443px;
+        width: 2px;
+        height: 28px;
+        background: #f0f0f0;
+      }
+      #sc3 {
+        position: absolute;
+        left: 39px;
+        top: 0;
+        width: 1621px;
+        height: 901px;
+        transform-origin: 0 0;
+        transform: scale(0.939);
+      }
+      #stream-mask {
+        position: absolute;
+        left: 0;
+        top: 190px;
+        width: 1621px;
+        height: 640px;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0px, #000 70px, #000 100%);
+      }
+      .ring {
+        position: absolute;
+        border-radius: 18px;
+        border: 3px solid var(--accent);
+        box-shadow:
+          0 0 0 6px var(--accent-soft),
+          0 0 40px rgba(76, 141, 255, 0.55);
+        opacity: 0;
+      }
+
+      /* cursor + click ripple live in stage space, inside the camera */
+      #cursor {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 46px;
+        height: 46px;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+        opacity: 0;
+      }
+      #cursor path {
+        fill: #ffffff;
+        stroke: #111;
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+      }
+      #ripple {
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 50%;
+        border: 4px solid var(--accent);
+        opacity: 0;
+      }
+
+      /* ---------- step lower-third (screen space) ---------- */
+      .step {
+        position: absolute;
+        left: 50%;
+        bottom: 34px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 16px 34px 16px 16px;
+        border-radius: 999px;
+        background: rgba(10, 16, 32, 0.86);
+        box-shadow:
+          0 0 0 1px rgba(160, 190, 255, 0.25),
+          0 18px 40px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+        transform: translateX(-50%);
+      }
+      .step b {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: 0.12em;
+        color: #fff;
+        background: var(--accent);
+        padding: 10px 20px;
+        border-radius: 999px;
+      }
+      .step span {
+        font-family: Montserrat, sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        color: var(--fg);
+      }
+
+      /* ---------- feature cards ---------- */
+      .feat-title {
+        position: absolute;
+        left: 1010px;
+        top: 190px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 64px;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+      }
+      .feat-title em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .feat {
+        position: absolute;
+        left: 1010px;
+        width: 800px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        padding: 30px 34px;
+        border-radius: 26px;
+        background: var(--card);
+        box-shadow:
+          0 0 0 1px rgba(160, 190, 255, 0.18),
+          0 24px 60px rgba(0, 0, 0, 0.45);
+      }
+      .feat .ico {
+        width: 92px;
+        height: 92px;
+        border-radius: 22px;
+        background: var(--accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .feat svg {
+        width: 48px;
+        height: 48px;
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .feat h3 {
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 36px;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+      .feat p {
+        margin-top: 8px;
+        font-size: 28px;
+        color: var(--muted);
+      }
+
+      /* ---------- outro ---------- */
+      .outro {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .outro-kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.26em;
+        color: var(--accent);
+      }
+      .outro-title {
+        margin-top: 22px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 118px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .outro-sub {
+        margin-top: 30px;
+        font-size: 40px;
+        color: var(--muted);
+      }
+      .outro-cta {
+        margin-top: 54px;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        padding: 22px 44px;
+        border-radius: 999px;
+        background: var(--accent);
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 38px;
+        color: #fff;
+      }
+      .outro-credit {
+        margin-top: 40px;
+        font-size: 26px;
+        color: var(--muted);
+      }
+      #fade-out {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1920" data-height="1080">
+      <!-- ambient background, whole film -->
+      <div id="bg" class="clip" data-start="0" data-duration="32" data-track-index="0">
+        <div id="grid" class="bg-grid"></div>
+        <div id="glow-a" class="glow"></div>
+        <div id="glow-b" class="glow"></div>
+        <div id="ghost" class="ghost" data-layout-ignore aria-hidden="true">SOR · BQ · JKK 2025 · ANGGARAN KOS · SOR · BQ · JKK 2025</div>
+      </div>
+
+      <!-- S1 hook: 0 - 3.4 -->
+      <div id="s-hook" class="clip" data-start="0" data-duration="3.5" data-track-index="1">
+        <div id="hook-1" class="hook">
+          <div class="hook-kicker">MCORP · BAHAGIAN TEKNIKAL</div>
+          <div class="hook-line"><span class="w">Nak</span> <span class="w">semak</span> <span class="w">harga</span> <span class="w"><em>ikut</em></span> <span class="w"><em>SOR?</em></span></div>
+        </div>
+        <div id="hook-2" class="hook">
+          <div class="hook-line"><span class="w">Kira</span> <span class="w">anggaran</span> <span class="w"><em>kos</em></span> <span class="w"><em>BQ?</em></span></div>
+        </div>
+        <div id="hook-3" class="hook">
+          <div class="hook-line"><span class="w">Biar</span> <span class="w"><em>AI</em></span> <span class="w">kira.</span></div>
+        </div>
+      </div>
+
+      <!-- S2-S6 stage: the browser demo, camera-driven -->
+      <div id="s-stage" class="clip" data-start="3.2" data-duration="25.6" data-track-index="2">
+        <div id="cam" data-layout-allow-overflow>
+          <div id="browser-persp">
+            <div id="browser">
+              <div class="chrome">
+                <div class="dots"><i style="background: #ff5f57"></i><i style="background: #febc2e"></i><i style="background: #28c840"></i></div>
+                <div class="urlbar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#9aa3b5" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+                  <span><span id="url-text"></span><span id="url-caret"></span></span>
+                </div>
+                <div id="loadbar"></div>
+              </div>
+              <div class="viewport">
+                <div id="newtab" class="newtab">Tab baru</div>
+                <div id="sc1">
+                  <img id="img-s1" src="assets/screens/s1.png" width="1695" height="896" alt="" />
+                  <img id="img-s2" src="assets/screens/s2.png" width="1498" height="907" alt="" />
+                  <div id="type-mask"></div>
+                  <div id="type-caret"></div>
+                  <div id="ring-head" class="ring" style="left: 660px; top: 82px; width: 592px; height: 250px"></div>
+                  <div id="ring-chip" class="ring" style="left: 578px; top: 346px; width: 374px; height: 56px; border-radius: 30px"></div>
+                </div>
+                <div id="sc3">
+                  <img id="img-s3" src="assets/screens/s3.png" width="1621" height="901" alt="" />
+                  <div id="stream-mask"></div>
+                  <div id="ring-table" class="ring" style="left: 318px; top: 388px; width: 996px; height: 140px"></div>
+                  <div id="ring-asas" class="ring" style="left: 318px; top: 550px; width: 996px; height: 80px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="ripple"></div>
+          <svg id="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3 L5 19 L9 15 L12 22 L15 20.5 L11.5 14 L18 14 Z" /></svg>
+        </div>
+
+        <!-- step lower-thirds (stage-local times) -->
+        <div id="step-1" class="step"><b>LANGKAH 1</b><span>Buka ChatGPT, pilih GPT "MCORP – Anggaran Harga Projek"</span></div>
+        <div id="step-2" class="step"><b>LANGKAH 2</b><span>Klik "Semak Harga Berdasarkan SOR" &amp; hantar</span></div>
+        <div id="step-3" class="step"><b>LANGKAH 3</b><span>AI terus semak ikut Jadual Kadar JKK 2025</span></div>
+
+        <!-- S6 feature cards -->
+        <div id="feat-title" class="feat-title">Apa sistem ni<br /><em>boleh buat?</em></div>
+        <div id="feat-1" class="feat" style="top: 370px">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z" /><path d="M14 2v6h6" /><path d="M9 13h8M9 17h8" /></svg></div>
+          <div><h3>Rujuk Jadual Kadar JKK 2025</h3><p>Kejuruteraan Awam &amp; Bangunan</p></div>
+        </div>
+        <div id="feat-2" class="feat" style="top: 545px">
+          <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 19h2" /></svg></div>
+          <div><h3>Kod item, unit &amp; kadar</h3><p>Jumlah = kuantiti × kadar, siap tersusun</p></div>
+        </div>
+        <div id="feat-3" class="feat" style="top: 720px">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 22s7-7.6 7-12.5A7 7 0 0 0 5 9.5C5 14.4 12 22 12 22z" /><circle cx="12" cy="9.5" r="2.5" /></svg></div>
+          <div><h3>Kira tambahan lokasi</h3><p>Ikut daerah &amp; jarak dari Pejabat Jurutera</p></div>
+        </div>
+      </div>
+
+      <!-- S7 outro: 28.4 - 32 -->
+      <div id="s-outro" class="clip" data-start="28.4" data-duration="3.6" data-track-index="3">
+        <div class="outro">
+          <div id="o-kicker" class="outro-kicker">MCORP · BAHAGIAN TEKNIKAL</div>
+          <div id="o-title" class="outro-title">ANGGARAN HARGA PROJEK</div>
+          <div id="o-sub" class="outro-sub">Pembantu AI Ukur Bahan, terus dalam ChatGPT</div>
+          <div id="o-cta" class="outro-cta">Cuba sekarang →</div>
+          <div id="o-credit" class="outro-credit">Dibangunkan oleh Qamarul Ashraf</div>
+        </div>
+        <div id="fade-out"></div>
+      </div>
+
+      <!-- ===================== AUDIO =====================
+           SFX data-start = visual moment - file onset (whoosh .08, whoosh-short .08, impact-1 .05,
+           impact-2 .02, pop .11, ping .32, chime .41, click .04, key-press .07, typing .45,
+           sparkle .02; riser peaks at 3.47s) -->
+      <audio id="bgm" src="assets/bgm/track.wav" data-start="0" data-duration="32" data-track-index="10" data-volume="0.55" data-fade-in="0.6" data-fade-out="2.5"></audio>
+      <audio id="sfx-riser" src="assets/sfx/riser.mp3" data-start="0" data-duration="3.6" data-track-index="11" data-volume="0.35" data-fade-out="0.2"></audio>
+      <audio id="sfx-h1" src="assets/sfx/whoosh.mp3" data-start="0.02" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-h2" src="assets/sfx/whoosh-short.mp3" data-start="1.2" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-h3" src="assets/sfx/impact-bass-1.mp3" data-start="2.25" data-duration="1.4" data-track-index="13" data-volume="0.6" data-fade-out="0.3"></audio>
+      <audio id="sfx-browser" src="assets/sfx/whoosh.mp3" data-start="3.32" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx-url-type" src="assets/sfx/typing.mp3" data-start="3.8" data-duration="1.2" data-track-index="14" data-volume="0.45" data-fade-out="0.1"></audio>
+      <audio id="sfx-enter" src="assets/sfx/key-press.mp3" data-start="5.08" data-duration="0.4" data-track-index="15" data-volume="0.55"></audio>
+      <audio id="sfx-load" src="assets/sfx/sparkle.mp3" data-start="5.88" data-duration="1.2" data-track-index="16" data-volume="0.3" data-fade-out="0.3"></audio>
+      <audio id="sfx-zoom1" src="assets/sfx/whoosh-short.mp3" data-start="7.52" data-duration="0.57" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-ring1" src="assets/sfx/ping.mp3" data-start="8.18" data-duration="1.1" data-track-index="16" data-volume="0.35"></audio>
+      <audio id="sfx-pan1" src="assets/sfx/whoosh-short.mp3" data-start="10.72" data-duration="0.57" data-track-index="12" data-volume="0.35"></audio>
+      <audio id="sfx-click1" src="assets/sfx/click.mp3" data-start="12.56" data-duration="0.37" data-track-index="15" data-volume="0.6"></audio>
+      <audio id="sfx-type2" src="assets/sfx/typing.mp3" data-start="12.3" data-duration="1.5" data-track-index="14" data-volume="0.45" data-fade-out="0.1"></audio>
+      <audio id="sfx-click2" src="assets/sfx/click.mp3" data-start="14.76" data-duration="0.37" data-track-index="15" data-volume="0.6"></audio>
+      <audio id="sfx-send" src="assets/sfx/whoosh.mp3" data-start="14.92" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx-reply" src="assets/sfx/ping.mp3" data-start="15.28" data-duration="1.1" data-track-index="16" data-volume="0.4"></audio>
+      <audio id="sfx-zoom2" src="assets/sfx/whoosh-short.mp3" data-start="18.72" data-duration="0.57" data-track-index="12" data-volume="0.4"></audio>
+      <audio id="sfx-ring2" src="assets/sfx/pop.mp3" data-start="19.39" data-duration="0.6" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="sfx-pan2" src="assets/sfx/whoosh-short.mp3" data-start="20.82" data-duration="0.57" data-track-index="12" data-volume="0.35"></audio>
+      <audio id="sfx-ring3" src="assets/sfx/pop.mp3" data-start="21.39" data-duration="0.6" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="sfx-layout" src="assets/sfx/whoosh.mp3" data-start="23.32" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx-f1" src="assets/sfx/pop.mp3" data-start="24.09" data-duration="0.6" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="sfx-f2" src="assets/sfx/pop.mp3" data-start="24.59" data-duration="0.6" data-track-index="18" data-volume="0.45"></audio>
+      <audio id="sfx-f3" src="assets/sfx/pop.mp3" data-start="25.09" data-duration="0.6" data-track-index="19" data-volume="0.45"></audio>
+      <audio id="sfx-out-whoosh" src="assets/sfx/whoosh.mp3" data-start="28.32" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="sfx-out-impact" src="assets/sfx/impact-bass-2.mp3" data-start="28.66" data-duration="2.5" data-track-index="13" data-volume="0.55" data-fade-out="0.8"></audio>
+      <audio id="sfx-out-chime" src="assets/sfx/chime.mp3" data-start="29.4" data-duration="2.5" data-track-index="16" data-volume="0.4" data-fade-out="0.8"></audio>
+    </div>
+
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+        const STAGE_AT = 3.2; // s-stage data-start; stage tweens below use root time
+
+        // ---------- ambient: slow breathing + drift for the whole film ----------
+        tl.to("#glow-a", { scale: 1.15, x: 60, duration: 16, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+        tl.to("#glow-b", { scale: 1.12, x: -80, duration: 16, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+        tl.fromTo("#ghost", { x: 0 }, { x: -1400, duration: 32, ease: "none" }, 0);
+        tl.fromTo("#grid", { y: 0 }, { y: 80, duration: 32, ease: "none" }, 0);
+
+        // ---------- S1 hook ----------
+        tl.set(["#hook-2", "#hook-3"], { autoAlpha: 0 }, 0);
+        tl.from("#hook-1 .hook-kicker", { y: 20, autoAlpha: 0, duration: 0.3, ease: "power3.out" }, 0.05);
+        tl.from("#hook-1 .w", { y: 90, autoAlpha: 0, rotationX: -60, duration: 0.42, ease: "back.out(1.7)", stagger: 0.07 }, 0.1);
+        tl.to("#hook-1", { y: -80, autoAlpha: 0, filter: "blur(10px)", duration: 0.22, ease: "power2.in" }, 1.08);
+        tl.set("#hook-2", { autoAlpha: 1 }, 1.25);
+        tl.from("#hook-2 .w", { y: 90, autoAlpha: 0, rotationX: -60, duration: 0.4, ease: "back.out(1.7)", stagger: 0.07 }, 1.25);
+        tl.to("#hook-2", { y: -80, autoAlpha: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, 2.08);
+        tl.set("#hook-3", { autoAlpha: 1 }, 2.28);
+        tl.from("#hook-3 .w", { scale: 2.4, autoAlpha: 0, duration: 0.32, ease: "expo.out", stagger: 0.06 }, 2.28);
+        tl.to("#hook-3", { scale: 1.06, duration: 0.9, ease: "sine.out" }, 2.5);
+        tl.to("#hook-3", { y: -140, autoAlpha: 0, filter: "blur(14px)", duration: 0.3, ease: "power2.in" }, 3.15);
+
+        // ---------- S2 browser rises in (3D settle) ----------
+        tl.fromTo(
+          "#browser",
+          { y: 700, rotationX: 28, scale: 0.86, autoAlpha: 0 },
+          { y: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.9, ease: "expo.out" },
+          3.35,
+        );
+        tl.set(["#sc1", "#sc3", "#img-s2", "#type-mask", "#type-caret"], { autoAlpha: 0 }, 0);
+        tl.fromTo("#loadbar", { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, duration: 0.65, ease: "power2.inOut" }, 5.2);
+        tl.to("#loadbar", { autoAlpha: 0, duration: 0.15 }, 5.85);
+        tl.set("#newtab", { autoAlpha: 0 }, 5.9);
+        tl.fromTo("#sc1", { autoAlpha: 0, scale: 0.944 * 0.97 }, { autoAlpha: 1, scale: 0.944, duration: 0.45, ease: "power3.out" }, 5.9);
+
+        // S3 header highlight
+        tl.fromTo("#ring-head", { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 8.5);
+        tl.to("#ring-head", { autoAlpha: 0, duration: 0.25 }, 10.6);
+
+        // S4 chip highlight, chip click swaps to the typed screen
+        tl.fromTo("#ring-chip", { autoAlpha: 0, scale: 1.1 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 11.7);
+        tl.to("#ring-chip", { autoAlpha: 0, duration: 0.2 }, 12.7);
+        tl.set(["#img-s2", "#type-mask", "#type-caret"], { autoAlpha: 1 }, 12.65);
+
+        // S5 reply screen
+        tl.set("#sc1", { autoAlpha: 0 }, 15.15);
+        tl.fromTo("#sc3", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power3.out" }, 15.0);
+        tl.fromTo("#stream-mask", { y: 0 }, { y: 700, duration: 3.0, ease: "power1.inOut" }, 15.6);
+        tl.fromTo("#ring-table", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 19.5);
+        tl.to("#ring-table", { autoAlpha: 0, duration: 0.2 }, 20.9);
+        tl.fromTo("#ring-asas", { autoAlpha: 0, scale: 1.05 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 21.5);
+        tl.to("#ring-asas", { autoAlpha: 0, duration: 0.2 }, 22.9);
+
+        // step lower-thirds
+        [
+          ["#step-1", 4.4, 10.6],
+          ["#step-2", 11.0, 14.95],
+          ["#step-3", 15.4, 23.1],
+        ].forEach(([sel, inAt, outAt]) => {
+          tl.fromTo(sel, { y: 140, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.6)" }, inAt);
+          tl.to(sel, { y: 140, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, outAt);
+        });
+
+        // ---------- S6 browser slides left in 3D, feature cards stack in ----------
+        tl.to("#browser", { x: -420, scale: 0.56, rotationY: 16, duration: 0.8, ease: "expo.inOut" }, 23.35);
+        tl.from("#feat-title", { x: 120, autoAlpha: 0, duration: 0.5, ease: "power3.out" }, 23.8);
+        ["#feat-1", "#feat-2", "#feat-3"].forEach((sel, i) => {
+          tl.from(sel, { x: 220, autoAlpha: 0, rotationY: -25, duration: 0.5, ease: "back.out(1.4)" }, 24.2 + i * 0.5);
+        });
+        tl.to(["#feat-1", "#feat-2", "#feat-3"], { scale: 1.03, duration: 0.18, yoyo: true, repeat: 1, ease: "power1.inOut", stagger: 0.12 }, 26.4);
+        tl.to("#browser", { x: -1300, autoAlpha: 0, duration: 0.5, ease: "power3.in" }, 27.9);
+        tl.to(["#feat-title", "#feat-1", "#feat-2", "#feat-3"], { x: 400, autoAlpha: 0, duration: 0.4, ease: "power3.in", stagger: 0.05 }, 27.95);
+
+        // ---------- S7 outro ----------
+        tl.from("#o-kicker", { y: 30, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, 28.5);
+        tl.from("#o-title", { scale: 1.6, autoAlpha: 0, filter: "blur(16px)", duration: 0.5, ease: "expo.out" }, 28.68);
+        tl.from("#o-sub", { y: 30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 29.1);
+        tl.from("#o-cta", { scale: 0.5, autoAlpha: 0, duration: 0.45, ease: "back.out(2.2)" }, 29.45);
+        tl.to("#o-cta", { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, 30.2);
+        tl.from("#o-credit", { autoAlpha: 0, duration: 0.4, ease: "power1.out" }, 29.8);
+        tl.to("#fade-out", { opacity: 1, duration: 0.6, ease: "power1.in" }, 31.4);
+
+        // ---------- camera, cursor, typing: one deterministic render(t) ----------
+        const cam = document.getElementById("cam");
+        const cursor = document.getElementById("cursor");
+        const ripple = document.getElementById("ripple");
+        const urlText = document.getElementById("url-text");
+        const urlCaret = document.getElementById("url-caret");
+        const typeMask = document.getElementById("type-mask");
+        const typeCaret = document.getElementById("type-caret");
+        const W = 1920, H = 1080;
+        const ease = gsap.parseEase("power2.inOut");
+        const arrive = gsap.parseEase("power3.out");
+        const clamp = (u) => (u < 0 ? 0 : u > 1 ? 1 : u);
+        const mix = (a, b, u) => a + (b - a) * u;
+
+        // [time, centerX, centerY, zoom] in stage px; segments ease between keys
+        const CAM = [
+          [0, 960, 540, 1],
+          [7.55, 960, 540, 1],
+          [8.35, 1062, 345, 2.0],
+          [10.7, 1062, 345, 2.0],
+          [11.5, 1080, 565, 1.55],
+          [14.95, 1080, 565, 1.55],
+          [15.6, 960, 540, 1],
+          [18.75, 960, 540, 1],
+          [19.45, 964, 618, 1.8],
+          [20.85, 964, 618, 1.8],
+          [21.45, 950, 735, 1.8],
+          [22.8, 950, 735, 1.8],
+          [23.35, 960, 540, 1],
+        ];
+        function camAt(t) {
+          if (t <= CAM[0][0]) return CAM[0];
+          for (let i = 1; i < CAM.length; i++) {
+            const a = CAM[i - 1], b = CAM[i];
+            if (t <= b[0]) {
+              const u = ease(clamp((t - a[0]) / (b[0] - a[0])));
+              return [t, mix(a[1], b[1], u), mix(a[2], b[2], u), mix(a[3], b[3], u)];
+            }
+          }
+          return CAM[CAM.length - 1];
+        }
+
+        // cursor path [time, x, y] in stage px; moves arrive on power3.out along a gentle arc
+        const CUR = [
+          [11.35, 1560, 980],
+          [12.35, 868, 509],
+          [13.85, 868, 509],
+          [14.6, 1484, 637],
+          [15.05, 1484, 637],
+          [15.6, 1760, 1010],
+        ];
+        const CLICKS = [
+          [12.6, 868, 509],
+          [14.8, 1484, 637],
+        ];
+        function cursorAt(t) {
+          if (t <= CUR[0][0]) return { x: CUR[0][1], y: CUR[0][2] };
+          for (let i = 1; i < CUR.length; i++) {
+            const a = CUR[i - 1], b = CUR[i];
+            if (t <= b[0]) {
+              const u = arrive(clamp((t - a[0]) / (b[0] - a[0])));
+              const cx = (a[1] + b[1]) / 2 - (b[2] - a[2]) * 0.12;
+              const cy = (a[2] + b[2]) / 2 + (b[1] - a[1]) * 0.12;
+              const w = 1 - u;
+              return { x: w * w * a[1] + 2 * w * u * cx + u * u * b[1], y: w * w * a[2] + 2 * w * u * cy + u * u * b[2] };
+            }
+          }
+          const last = CUR[CUR.length - 1];
+          return { x: last[1], y: last[2] };
+        }
+
+        const URL = "chatgpt.com";
+        const URL_START = 3.95, URL_END = 4.95;
+        const TYPE_START = 12.75, TYPE_END = 13.75;
+
+        function render(t) {
+          const c = camAt(t);
+          const z = c[3];
+          cam.style.transform = `translate(${(W / 2 - c[1] * z).toFixed(2)}px, ${(H / 2 - c[2] * z).toFixed(2)}px) scale(${z.toFixed(4)})`;
+
+          // URL bar typing, caret blinks on a fixed 0.5s grid
+          const n = Math.round(URL.length * clamp((t - URL_START) / (URL_END - URL_START)));
+          urlText.textContent = URL.slice(0, n);
+          urlCaret.style.opacity = t < 5.2 && Math.floor(t * 2) % 2 === 0 ? "1" : t < URL_END && t > URL_START ? "1" : "0";
+
+          // prompt typing reveal inside the input box
+          const p = clamp((t - TYPE_START) / (TYPE_END - TYPE_START));
+          typeMask.style.transform = `scaleX(${(1 - p).toFixed(4)})`;
+          typeCaret.style.left = (497 + 318 * p).toFixed(1) + "px";
+          typeCaret.style.opacity = t < 15.1 && (t < TYPE_END || Math.floor(t * 2) % 2 === 0) ? "1" : "0";
+
+          // cursor + press
+          const pos = cursorAt(t);
+          let press = 0, hit = null;
+          CLICKS.forEach((k) => {
+            const s = t - k[0];
+            if (s >= 0) hit = { s, x: k[1], y: k[2] };
+            if (s >= 0 && s < 0.28) press = s < 0.08 ? s / 0.08 : 1 - (s - 0.08) / 0.2;
+          });
+          cursor.style.transform = `translate(${(pos.x - 10).toFixed(2)}px, ${(pos.y - 6).toFixed(2)}px) scale(${(1 - 0.18 * press).toFixed(3)})`;
+          cursor.style.opacity = t >= 11.35 && t < 15.6 ? "1" : "0";
+
+          const ring = hit ? hit.s / 0.45 : 9;
+          if (ring < 1) {
+            const r = 14 + 46 * arrive(ring);
+            ripple.style.opacity = (1 - ring).toFixed(3);
+            ripple.style.width = ripple.style.height = (2 * r).toFixed(1) + "px";
+            ripple.style.transform = `translate(${(hit.x - r).toFixed(1)}px, ${(hit.y - r).toFixed(1)}px)`;
+          } else {
+            ripple.style.opacity = "0";
+          }
+        }
+
+        const clock = { t: 0 };
+        tl.to(clock, { t: 32, duration: 32, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
