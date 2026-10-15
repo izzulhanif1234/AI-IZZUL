@@ -13,8 +13,8 @@
           position: absolute;
           right: 40px;
           top: 34px;
-          width: 230px;
-          height: 96px;
+          width: 200px;
+          height: 134px;
           perspective: 700px;
         }
         #bd-card {
@@ -27,8 +27,8 @@
         }
         /* no card: a thin white outline keeps the navy wordmark readable on dark scenes */
         #bd-card img {
-          width: 220px;
-          height: 88px;
+          width: 196px;
+          height: 130px;
           display: block;
           filter: drop-shadow(0 0 1.5px #ffffff) drop-shadow(0 0 1.5px #ffffff) drop-shadow(0 0 1px #ffffff)
             drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
@@ -37,18 +37,15 @@
       <div id="root" data-composition-id="badge" data-width="1920" data-height="1080">
         <div id="bd-stage">
           <div id="bd-card">
-            <img src="assets/img/logo.png" alt="MCORP Estimate" />
+            <img src="assets/img/mcorp-corporate.png" alt="MCORP Perbadanan Melaka" />
           </div>
         </div>
       </div>
       <script>
         (function () {
           const D = 118.6;
-          // hidden where the big logo is already on screen: title reveal and the end card
-          const HIDE = [
-            [12.3, 15.8],
-            [112.95, D],
-          ];
+          // corporate MCORP mark stays on for the whole film
+          const HIDE = [];
           const card = document.getElementById("bd-card");
           const stage = document.getElementById("bd-stage");
           const SWING = 28; // degrees each way: turns, never completes a spin

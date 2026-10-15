@@ -66,5 +66,5 @@ Drive folder PROJEK RKB: INTRO LAKONAN (intro1-3), PUAN RAHIMAH (rahimah1-3), DA
 - QR code (KOD QR folder, links to https://q.me-qr.com/5a7nj5ab) bottom-right with
   "TRIAL VERSION" / "Imbas untuk mencuba", from "Cepat" through the end card.
 
-- Top-right MCORP Estimate logo badge (`compositions/badge.html`): no card, thin white outline, swings in 3D
-  (rotateY +-28 deg, 4.2 s period) in place; hidden during the title reveal and the end card.
+- Top-right corporate MCORP (Perbadanan Melaka) logo badge, extracted from the PDF (218 px source) (`compositions/badge.html`): no card, thin white outline, swings in 3D
+  (rotateY +-28 deg, 4.2 s period) in place; on for the whole film.
