@@ -135,6 +135,8 @@ def main():
     <div id="root" data-composition-id="main" data-start="0" data-duration="{TOTAL}" data-width="1920" data-height="1080">
       <!-- scenes (see edits/mcorp-estimate/NOTES.md for the storyboard) -->
 {mounts}
+      <!-- small 3D-swinging logo badge, top right, whole film -->
+      <div id="m-badge" data-composition-id="badge" data-composition-src="compositions/badge.html" data-start="0" data-duration="{TOTAL}" data-track-index="4" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
       <!-- subtitles over everything -->
       <div id="m-captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="{TOTAL}" data-track-index="5" data-track-kind="captions" data-width="1920" data-height="1080"></div>
 
