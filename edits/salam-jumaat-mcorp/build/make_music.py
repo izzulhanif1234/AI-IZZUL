@@ -1,13 +1,13 @@
-"""Original Islamic-style background score for the Salam Jumaat motion poster (synthesised, no samples).
+"""Original "Islamic corporate" background score for the Salam Jumaat motion poster (synthesised).
 
-Maqam Hijaz on D (D Eb F# G A Bb C D). Instruments modelled in code: ney (breathy flute with vibrato),
-oud and qanun (Karplus-Strong plucked strings), daf (frame drum, dum/tak + jingles), drone and a soft
-"aah" choir pad. Cue sheet (matches build/compose.py):
-  0-3.2  hook: drone swell, shimmer, qanun glissando into the arch reveal (1.0), chime on the title
-  3.2-8  ney phrase over the drone
-  8-18   ayat: drone + choir pad only, music held low and still out of respect for the verse
-  18-34.6 message: oud ostinato + soft daf (maqsum) + ney phrases
-  34.6-42 closing: qanun glissando, final D, ring-out
+Warm, hopeful and calm: D major, 96 BPM, I-V-vi-IV (D A Bm G). Piano, soft high strings,
+oud/qanun-style plucks (Karplus-Strong) playing major-pentatonic figures with light ornaments,
+gentle daf + shaker, a little sub bass. No low drones, no choir. Cue sheet (matches build/compose.py):
+  0-3     hook: piano + bell over a soft swell, qanun run into the arch reveal (1.0), chime on the title
+  3-8     pluck arpeggio + strings
+  8-18    ayat: piano chords and strings only, soft and still
+  18-34.6 message: full warm groove (daf, pluck, piano melody, bass)
+  34.6-42 resolution on D, ring-out
 Usage: python3 make_music.py <out.wav>
 """
 import sys
@@ -19,9 +19,19 @@ from scipy.signal import butter, fftconvolve, lfilter, sosfilt
 FS = 48000
 DUR = 42.0
 N = int(DUR * FS)
-EIGHTH = 1 / 3  # 90 BPM
+BEAT = 60 / 96
+BAR = 4 * BEAT
 rng = np.random.default_rng(1311)
-HIJAZ = [62, 63, 66, 67, 69, 70, 72, 74]  # D4 Eb F# G A Bb C D5
+
+# D major chords, 2 bars each from t=3.0 (piano voicing, bass root)
+PROG = [([62, 66, 69, 74], 38), ([61, 64, 69, 73], 45), ([59, 62, 66, 71], 47), ([59, 62, 67, 71], 43)]
+PENTA = [62, 64, 66, 69, 71, 74, 76, 78, 81]  # D major pentatonic
+
+
+def chord_at(t):
+    if t < 3.0 or t >= 34.6:
+        return PROG[0]
+    return PROG[int((t - 3.0) // (2 * BAR)) % 4]
 
 
 def hz(m):
@@ -56,163 +66,155 @@ def add(bus, sig, t, g=1.0):
     bus[i:j] += g * sig[: j - i]
 
 
-def pluck(m, length=1.6, bright=0.5, damp=0.996):
-    """Karplus-Strong string: noise burst through a tuned, damped comb (oud / qanun)."""
+def piano(m, vel=1.0, length=2.6):
+    n = int(length * FS)
+    t = np.arange(n) / FS
+    f = hz(m)
+    out = sum((1 / k ** 1.3) * np.sin(2 * np.pi * f * k * np.sqrt(1 + 0.0004 * k * k) * t) * np.exp(-t * (0.9 + 0.8 * k))
+              for k in range(1, 9) if f * k < 14000)
+    return vel * out * env(n, 0.003, 0.3)
+
+
+def pluck(m, length=1.4, bright=0.5, damp=0.995):
     n = int(length * FS)
     L = int(round(FS / hz(m)))
     x = np.zeros(n)
-    burst = rng.standard_normal(L)
-    x[:L] = lp(burst, 1500 + 6000 * bright)
+    x[:L] = lp(rng.standard_normal(L), 1500 + 6000 * bright)
     a = np.zeros(L + 2)
     a[0], a[L], a[L + 1] = 1.0, -damp / 2, -damp / 2
     y = lfilter([1.0], a, x)
     return y / (np.max(np.abs(y)) + 1e-9) * env(n, 0.002, 0.15)
 
 
-def ney(m, length, vel=1.0, bend=0.0):
+def strings(m, n):
+    t = np.arange(n) / FS
+    vib = 1 + 0.003 * np.sin(2 * np.pi * 5.0 * t)
+    x = sum(2 * ((np.cumsum(hz(m) * 2 ** (d / 12) * vib) / FS + rng.random()) % 1.0) - 1 for d in (-0.07, 0.0, 0.07)) / 3
+    return lp(x, 3200)
+
+
+def bell(m, vel=1.0, length=3.5):
     n = int(length * FS)
     t = np.arange(n) / FS
-    vib = 1 + 0.006 * np.sin(2 * np.pi * 5.2 * t) * np.clip(t / 0.6, 0, 1)
-    f = hz(m) * vib * (1 + bend * np.exp(-t / 0.15))
-    ph = 2 * np.pi * np.cumsum(f) / FS
-    tone = np.sin(ph) + 0.18 * np.sin(2 * ph) + 0.08 * np.sin(3 * ph)
-    breath = bp(rng.standard_normal(n), hz(m) * 0.8, hz(m) * 4) * 0.35
-    return vel * (tone + breath) * env(n, 0.18, 0.35)
+    return vel * sum(a * np.sin(2 * np.pi * hz(m) * r * t) * np.exp(-t * d) for r, a, d in [(1, 1, 1.0), (2.0, 0.35, 1.8), (3.0, 0.15, 3.0)]) * env(n, 0.002, 0.5)
 
 
 def dum(vel=1.0):
-    n = int(0.5 * FS)
+    n = int(0.45 * FS)
     t = np.arange(n) / FS
-    f = 62 + 35 * np.exp(-t / 0.03)
-    return vel * (np.sin(2 * np.pi * np.cumsum(f) / FS) * np.exp(-t / 0.22) + lp(rng.standard_normal(n), 300) * np.exp(-t / 0.05) * 0.4)
+    f = 70 + 40 * np.exp(-t / 0.025)
+    return vel * np.sin(2 * np.pi * np.cumsum(f) / FS) * np.exp(-t / 0.16)
 
 
 def tak(vel=1.0):
-    n = int(0.35 * FS)
+    n = int(0.3 * FS)
     t = np.arange(n) / FS
-    slap = bp(rng.standard_normal(n), 1800, 6000) * np.exp(-t / 0.02)
-    jingle = hp(rng.standard_normal(n), 7000) * np.exp(-t / 0.12) * 0.45
-    return vel * (slap + jingle)
+    return vel * (bp(rng.standard_normal(n), 1800, 6000) * np.exp(-t / 0.018) + hp(rng.standard_normal(n), 7000) * np.exp(-t / 0.1) * 0.4)
 
 
-def saw_pad(m, n, voices=(-0.08, 0.0, 0.08)):
+def shaker(vel=1.0):
+    n = int(0.07 * FS)
     t = np.arange(n) / FS
-    return sum(2 * ((hz(m) * 2 ** (d / 12) * t + rng.random()) % 1.0) - 1 for d in voices) / len(voices)
+    return vel * hp(rng.standard_normal(n), 6500) * np.exp(-t / 0.02)
 
 
-def choir(m, n):
-    """Soft 'aah': saw stack through two vowel formants."""
-    x = saw_pad(m, n, (-0.1, -0.03, 0.04, 0.11))
-    return bp(x, 600, 1100) * 0.8 + bp(x, 1000, 1500) * 0.5
-
-
-def shimmer(length):
+def swell(length, vel=1.0):
     n = int(length * FS)
     t = np.arange(n) / FS
-    x = hp(rng.standard_normal(n), 6000) * (t / length) ** 2
-    return x
+    return vel * hp(rng.standard_normal(n), 3000) * (t / length) ** 2.5
 
 
-def boom(vel=1.0, length=3.0):
-    n = int(length * FS)
-    t = np.arange(n) / FS
-    f = 40 + 25 * np.exp(-t / 0.2)
-    return vel * np.sin(2 * np.pi * np.cumsum(f) / FS) * np.exp(-t / 1.0) * env(n, 0.002, 0.8)
-
-
-def chime(m, vel=1.0, length=4.0):
-    n = int(length * FS)
-    t = np.arange(n) / FS
-    out = sum(a * np.sin(2 * np.pi * hz(m) * r * t) * np.exp(-t * d) for r, a, d in [(1, 1, 0.8), (2.76, 0.4, 1.6), (5.4, 0.2, 3.0)])
-    return vel * out * env(n, 0.003, 0.5)
-
-
-bus = {k: np.zeros(N) for k in ("drone", "pad", "ney", "oud", "qanun", "daf", "fx")}
-
-# drone: D2 + A2 + D3, swelling in, dipping a touch during the verse
-for m, g in [(38, 0.5), (45, 0.3), (50, 0.25)]:
-    bus["drone"][:] += g * lp(saw_pad(m, N, (-0.05, 0.05)), 900)
+bus = {k: np.zeros(N) for k in ("piano", "str", "pluck", "bass", "perc", "fx")}
 tt = np.arange(N) / FS
-bus["drone"] *= np.interp(tt, [0, 2.5, 8, 18, 34.6, 39, 42], [0.0, 0.9, 0.75, 0.9, 1.0, 0.7, 0.0])
 
-# choir pad: D minor-ish colour of Hijaz (D F# A), (G Bb D) in the verse
-for t0, t1, notes in [(1.0, 8.2, [62, 66, 69]), (8.0, 13.2, [62, 66, 69]), (13.0, 18.2, [67, 70, 74]),
-                      (18.0, 34.8, [62, 66, 69]), (34.6, 42.0, [62, 66, 69, 74])]:
-    n = int((t1 - t0) * FS)
-    for m in notes:
-        add(bus["pad"], choir(m, n) * env(n, 1.2, 1.5), t0, 0.22)
+# hook
+for t, m in [(0.0, 74), (0.0, 62), (0.6, 78), (1.2, 81)]:
+    add(bus["piano"], piano(m, 0.45, 3.0), t)
+add(bus["fx"], swell(1.0, 0.12), 0.0)
+for i, m in enumerate([62, 64, 66, 69, 71, 74, 76, 78, 81, 83, 86]):
+    add(bus["pluck"], pluck(m, 1.4, 0.8, 0.996), 0.5 + i * 0.045, 0.3)
+add(bus["fx"], bell(86, 0.3), 2.6)
+add(bus["fx"], bell(81, 0.2), 2.62)
 
-# hook FX
-add(bus["fx"], shimmer(1.0) * 0.25, 0.0)
-add(bus["fx"], boom(0.7), 1.0)
-for i, m in enumerate([62, 63, 66, 67, 69, 70, 72, 74, 75, 78, 79, 81]):  # qanun glissando up the maqam
-    add(bus["qanun"], pluck(m, 1.6, 0.8, 0.997), 0.45 + i * 0.045, 0.35)
-add(bus["fx"], chime(86, 0.35), 2.6)
-add(bus["fx"], chime(81, 0.25), 2.62)
+# strings: whole bars throughout from 1.0, swelling in the message section
+k = 0
+t = 1.0
+while t < DUR - 0.5:
+    nxt = 3.0 if t < 3.0 else t + 2 * BAR
+    nxt = min(nxt, DUR)
+    tones, _ = chord_at(t + 0.01)
+    n = int((nxt - t + 0.6) * FS)
+    for m in tones:
+        add(bus["str"], strings(m + 12, n) * env(n, 0.6, 0.8), t, 0.11)
+    t = nxt
+bus["str"] *= np.interp(tt, [0, 3, 8, 18, 34.6, 39, 42], [0.4, 1.0, 1.0, 1.0, 1.1, 0.8, 0.0])
 
-# ney phrases (start, [(midi, beats)], vel)
-PHRASES = [
-    (3.3, [(69, 1.5), (70, 0.5), (69, 1), (67, 1), (66, 2), (67, 1), (69, 3)], 0.32),
-    (18.6, [(62, 1), (63, 1), (66, 2), (67, 1), (69, 3)], 0.26),
-    (24.0, [(72, 1), (70, 1), (69, 2), (67, 1), (66, 1), (67, 2)], 0.26),
-    (30.6, [(69, 1), (70, 1), (72, 1.5), (70, 0.5), (69, 3)], 0.28),
-    (35.4, [(74, 2), (72, 1), (70, 1), (69, 2), (66, 1), (63, 1), (62, 5)], 0.3),
-]
-BEAT = 2 * EIGHTH
-for t0, notes, v in PHRASES:
-    t = t0
-    for m, b in notes:
-        L = b * BEAT
-        add(bus["ney"], ney(m, L + 0.25, v, bend=-0.015), t)
-        t += L
+# piano chords on each 2-bar chord change (3-34.6), ring at the end
+t = 3.0
+while t < 34.6 - 1e-6:
+    tones, _ = chord_at(t)
+    for j, m in enumerate(tones):
+        add(bus["piano"], piano(m, 0.28, 4.5), t + j * 0.03)
+    t += 2 * BAR
+for j, m in enumerate([50, 62, 66, 69, 74, 78]):
+    add(bus["piano"], piano(m, 0.3, 6.0), 34.6 + j * 0.04)
+add(bus["fx"], bell(86, 0.25, 6.0), 34.6)
 
-# oud ostinato (18-32): Hijaz figure on D, 8ths
-OST = [62, 69, 66, 69, 63, 69, 66, 62]
+# pluck arpeggio 3-8 and 18-34.6 (16ths in the message, 8ths in the intro)
+for a, b, step, v in [(3.0, 8.0, BEAT / 2, 0.32), (18.0, 34.6, BEAT / 4, 0.16)]:
+    t, i = a, 0
+    while t < b - 1e-6:
+        tones, _ = chord_at(t)
+        arp = sorted(tones) + [tones[0] + 12]
+        m = arp[[0, 2, 1, 3, 4, 3, 1, 2][i % 8]] + 12
+        add(bus["pluck"], pluck(m, 0.9, 0.75, 0.993), t, v * (1.25 if i % 4 == 0 else 1))
+        t += step
+        i += 1
+
+# piano melody in the message section (major pentatonic, singable)
+MEL = [(18.6, 74, 1), (19.2, 76, 1), (19.85, 78, 2), (21.1, 76, 1), (21.7, 74, 1), (22.3, 71, 2),
+       (23.6, 69, 1), (24.2, 71, 1), (24.85, 74, 2), (26.1, 76, 1), (26.7, 78, 1), (27.3, 81, 2.5),
+       (28.6, 78, 1), (29.2, 76, 1), (29.85, 74, 2), (31.1, 71, 1), (31.7, 74, 1), (32.3, 76, 1), (32.9, 74, 3)]
+for t, m, b in MEL:
+    add(bus["piano"], piano(m, 0.32, 2.0 + b * 0.4), t)
+    add(bus["piano"], piano(m + 12, 0.08, 1.5), t)
+
+# bass (18-34.6): root on beats 1 and 3
 t = 18.0
-k = 0
 while t < 34.6 - 1e-6:
-    m = OST[k % 8] - (12 if k % 8 == 0 else 0)
-    add(bus["oud"], pluck(m, 1.2, 0.35, 0.994), t, 0.32 if k % 4 == 0 else 0.22)
-    t += EIGHTH
-    k += 1
+    _, root = chord_at(t)
+    n = int(BEAT * 1.6 * FS)
+    tb = np.arange(n) / FS
+    add(bus["bass"], (np.sin(2 * np.pi * hz(root) * tb) + 0.25 * np.sin(4 * np.pi * hz(root) * tb)) * env(n, 0.01, 0.3), t, 0.16)
+    t += 2 * BEAT
 
-# daf, maqsum (D T . T D . T .) from 20.0, soft
-pat = ["D", "T", None, "T", "D", None, "T", None]
-t = 20.0
-k = 0
+# light daf groove + shaker from 20.0: D . T . D D T .
+pat = ["D", None, "T", None, "D", "D", "T", None]
+t, i = 20.0, 0
 while t < 34.6 - 1e-6:
-    h = pat[k % 8]
+    h = pat[i % 8]
     if h == "D":
-        add(bus["daf"], dum(0.45), t)
+        add(bus["perc"], dum(0.35), t)
     elif h == "T":
-        add(bus["daf"], tak(0.16), t)
-    t += EIGHTH
-    k += 1
-add(bus["daf"], dum(0.55), 34.6)
-
-# closing glissando + final chime
-for i, m in enumerate([74, 72, 70, 69, 67, 66, 63, 62]):
-    add(bus["qanun"], pluck(m, 2.0, 0.7, 0.997), 34.0 + i * 0.07, 0.3)
-add(bus["fx"], boom(0.5), 34.6)
-add(bus["fx"], chime(86, 0.3, 6.0), 34.6)
-add(bus["fx"], chime(86, 0.28, 5.0), 36.6)
-for m in (50, 57, 62, 66, 69):
-    add(bus["oud"], pluck(m, 4.0, 0.4, 0.998), 34.6, 0.22)
+        add(bus["perc"], tak(0.13), t)
+    add(bus["perc"], shaker(0.035 if i % 2 else 0.06), t)
+    t += BEAT / 2
+    i += 1
+add(bus["perc"], dum(0.4), 34.6)
 
 # ------------------------------------------------------------------ mix
-dry = (bus["drone"] * 0.16 + bus["pad"] * 0.55 + bus["ney"] * 0.9 + hp(bus["oud"], 70) * 0.8
-       + bus["qanun"] * 0.6 + hp(bus["daf"], 45) * 0.75 + hp(bus["fx"], 30) * 0.6)
-nir = int(3.2 * FS)
+dry = bus["piano"] * 0.9 + bus["str"] + hp(bus["pluck"], 150) * 0.85 + hp(bus["bass"], 40) + hp(bus["perc"], 50) * 0.8 + bus["fx"] * 0.7
+nir = int(2.6 * FS)
 tir = np.arange(nir) / FS
 irs = []
 for _ in range(2):
-    ir = lp(rng.standard_normal(nir) * np.exp(-6.9 * tir / 2.8), 6500)
-    irs.append(ir / np.sqrt(np.sum(ir**2)))
-wet = hp(bus["pad"] * 0.5 + bus["ney"] + bus["oud"] * 0.7 + bus["qanun"] + bus["fx"] * 0.5 + bus["daf"] * 0.3, 200)
-L = dry + 0.55 * fftconvolve(wet, irs[0])[:N] + 0.1 * bus["oud"]
-R = dry + 0.55 * fftconvolve(wet, irs[1])[:N] - 0.1 * bus["oud"]
+    ir = lp(rng.standard_normal(nir) * np.exp(-6.9 * tir / 2.2), 8000)
+    irs.append(ir / np.sqrt(np.sum(ir ** 2)))
+wet = hp(bus["piano"] + bus["str"] * 0.7 + bus["pluck"] * 0.6 + bus["fx"] + bus["perc"] * 0.2, 250)
+L = dry + 0.4 * fftconvolve(wet, irs[0])[:N] + 0.12 * bus["pluck"]
+R = dry + 0.4 * fftconvolve(wet, irs[1])[:N] - 0.12 * bus["pluck"]
 st = np.stack([L, R]) * np.clip((DUR - tt) / 3.0, 0, 1) ** 1.5
 st /= np.max(np.abs(st))
-st = np.tanh(1.3 * st) / np.tanh(1.3) * 10 ** (-1 / 20)
+st = np.tanh(1.2 * st) / np.tanh(1.2) * 10 ** (-1 / 20)
 wavfile.write(sys.argv[1], FS, (st.T * 32767).astype(np.int16))
 print("wrote", sys.argv[1], f"{DUR}s")

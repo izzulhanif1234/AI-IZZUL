@@ -18,12 +18,15 @@ diberkati) over the title; gold emphasis on key phrases of the paragraphs (wordi
 | 18-34.6 | three message panels over Ken Burns HQ photos, word-by-word reveal, gold light sweeps between |
 | 34.6-42 | arch returns on the wide HQ shot: greeting, title, MCORP logo plaque (official logo, unaltered, on cream) |
 
-Visual system: emerald #0b4433 / #041d16, gold gradient (#fff1b8 -> #a77b25), cream #f8f0dc;
-girih lattice (8-point khatam), lanterns, gold dust. Fonts (SIL OFL): Amiri Quran (ayat), Amiri,
+Visual system (v2, client asked for MCORP logo colours, "Islamic korporat"): MCORP blue #2b3990
+(gradient to #141a52), red #ec1c24 accents, silver/white girih lattice (8-point khatam), silver
+lanterns with red caps, white corporate panels (blue text, red emphasis), white dust.
+v1 was emerald + gold. Fonts (SIL OFL): Amiri Quran (ayat), Amiri,
 Cinzel, Montserrat.
 
-Music (`build/make_music.py`): original, synthesised in maqam Hijaz on D: ney, oud and qanun
-(Karplus-Strong), daf, drone, choir pad. Quiet and still under the verse. Soft whooshes on the light
+Music (`build/make_music.py`, v2): original, synthesised, warm and hopeful: D major, 96 BPM,
+I-V-vi-IV; piano, soft strings, oud/qanun-style plucks, light daf + shaker. Calm under the verse.
+(v1 used maqam Hijaz with drone + choir; the client found it eerie.) Soft whooshes on the light
 sweeps (Pixabay licence). Master -14 LUFS.
 
 ## Rebuild (from `edits/salam-jumaat-mcorp/`)

@@ -49,16 +49,16 @@ def star8(cx, cy, R, cls="", extra=""):
 
 def lantern(x, id_):
     return f"""<svg id="{id_}" class="lantern" style="left:{x - 45}px" width="90" height="300" viewBox="0 0 90 300">
-  <defs><radialGradient id="{id_}g" cx="50%" cy="55%" r="55%"><stop offset="0" stop-color="#fff6c8"/><stop offset="0.35" stop-color="#ffd36b"/>
-  <stop offset="1" stop-color="#b9771a" stop-opacity="0"/></radialGradient></defs>
-  <line x1="45" y1="0" x2="45" y2="120" stroke="#c9a54a" stroke-width="2"/>
-  <circle cx="45" cy="124" r="5" fill="none" stroke="#e2c062" stroke-width="2"/>
-  <path d="M30,140 L60,140 L68,152 L22,152 Z" fill="#c9a54a"/>
+  <defs><radialGradient id="{id_}g" cx="50%" cy="55%" r="55%"><stop offset="0" stop-color="#ffffff"/><stop offset="0.35" stop-color="#fff3d6"/>
+  <stop offset="1" stop-color="#9aa6e0" stop-opacity="0"/></radialGradient></defs>
+  <line x1="45" y1="0" x2="45" y2="120" stroke="#cfd4e6" stroke-width="2"/>
+  <circle cx="45" cy="124" r="5" fill="none" stroke="#cfd4e6" stroke-width="2"/>
+  <path d="M30,140 L60,140 L68,152 L22,152 Z" fill="#ec1c24"/>
   <circle cx="45" cy="205" r="62" fill="url(#{id_}g)" opacity="0.55" class="glow"/>
-  <path d="M22,152 L68,152 L78,200 L66,252 L24,252 L12,200 Z" fill="rgba(255,214,120,0.28)" stroke="#e2c062" stroke-width="2.5"/>
-  <path d="M45,152 L45,252 M22,152 L12,200 L24,252 M68,152 L78,200 L66,252 M12,200 L78,200" stroke="#e2c062" stroke-width="1.4" fill="none"/>
-  <path d="M24,252 L66,252 L56,266 L34,266 Z" fill="#c9a54a"/>
-  <path d="M45,266 L45,290" stroke="#c9a54a" stroke-width="3"/><circle cx="45" cy="293" r="4" fill="#e2c062"/>
+  <path d="M22,152 L68,152 L78,200 L66,252 L24,252 L12,200 Z" fill="rgba(255,255,255,0.22)" stroke="#e6e9f3" stroke-width="2.5"/>
+  <path d="M45,152 L45,252 M22,152 L12,200 L24,252 M68,152 L78,200 L66,252 M12,200 L78,200" stroke="#e6e9f3" stroke-width="1.4" fill="none"/>
+  <path d="M24,252 L66,252 L56,266 L34,266 Z" fill="#ec1c24"/>
+  <path d="M45,266 L45,290" stroke="#cfd4e6" stroke-width="3"/><circle cx="45" cy="293" r="4" fill="#ec1c24"/>
 </svg>"""
 
 
@@ -70,14 +70,14 @@ CSS = """
 @font-face { font-family: "Cinzel"; font-weight: 700; src: url(assets/fonts/Cinzel-700.ttf); }
 @font-face { font-family: "Montserrat"; font-weight: 500; src: url(assets/fonts/Montserrat-500.ttf); }
 @font-face { font-family: "Montserrat"; font-weight: 600; src: url(assets/fonts/Montserrat-600.ttf); }
-:root { --em: #0b4433; --em-deep: #041d16; --gold: #e0b955; --gold-l: #fff1b8; --gold-d: #a77b25; --cream: #f8f0dc; }
+:root { --blue: #2b3990; --blue-d: #141a52; --red: #ec1c24; --silver: #d9ddea; --gold: #d9ddea; --cream: #ffffff; --ink: #1a2160; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 1080px; height: 1350px; overflow: hidden; background: var(--em-deep); }
+html, body { width: 1080px; height: 1350px; overflow: hidden; background: var(--blue-d); }
 #root { position: relative; width: 1080px; height: 1350px; overflow: hidden; color: var(--cream); font-family: Montserrat, sans-serif;
-  background: radial-gradient(ellipse 80% 65% at 50% 42%, #125a43 0%, #0b4433 40%, #041d16 100%); }
+  background: radial-gradient(ellipse 85% 70% at 50% 40%, #3d4db0 0%, #2b3990 42%, #141a52 100%); }
 .clip { position: absolute; inset: 0; }
 .layer { position: absolute; inset: 0; pointer-events: none; }
-.gold { background: linear-gradient(180deg, var(--gold-l) 0%, #f0cf6e 38%, #c9982f 72%, var(--gold-d) 100%);
+.gold { background: linear-gradient(180deg, #ffffff 0%, #f2f4fa 45%, #c3c9de 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent; }
 .mask { display: block; overflow: hidden; }
 .mask > span, .mask > div { display: block; }
@@ -85,18 +85,18 @@ svg .ln, svg .ln * { fill: none; stroke: var(--gold); }
 
 #lattice { opacity: 0.11; }
 #bgimgs img { position: absolute; left: 0; top: 0; width: 1080px; height: 1350px; object-fit: cover; opacity: 0; }
-#bg-tint { background: linear-gradient(180deg, rgba(4,29,22,0.82) 0%, rgba(11,68,51,0.72) 45%, rgba(4,29,22,0.92) 100%); opacity: 0; }
+#bg-tint { background: linear-gradient(180deg, rgba(20,26,82,0.84) 0%, rgba(43,57,144,0.74) 45%, rgba(20,26,82,0.92) 100%); opacity: 0; }
 #rays { inset: -400px; opacity: 0; mix-blend-mode: screen;
-  background: conic-gradient(from 180deg at 50% 26%, rgba(255,225,140,0) 0deg, rgba(255,225,140,0.16) 8deg, rgba(255,225,140,0) 16deg,
-    rgba(255,225,140,0.12) 30deg, rgba(255,225,140,0) 40deg, rgba(255,225,140,0.14) 320deg, rgba(255,225,140,0) 330deg,
-    rgba(255,225,140,0.1) 344deg, rgba(255,225,140,0) 352deg); }
-#sweep { opacity: 0; mix-blend-mode: screen; background: linear-gradient(105deg, rgba(255,220,120,0) 35%, rgba(255,226,140,0.55) 50%, rgba(255,220,120,0) 65%); }
+  background: conic-gradient(from 180deg at 50% 26%, rgba(255,255,255,0) 0deg, rgba(255,255,255,0.16) 8deg, rgba(255,255,255,0) 16deg,
+    rgba(255,255,255,0.12) 30deg, rgba(255,255,255,0) 40deg, rgba(255,255,255,0.14) 320deg, rgba(255,255,255,0) 330deg,
+    rgba(255,255,255,0.1) 344deg, rgba(255,255,255,0) 352deg); }
+#sweep { opacity: 0; mix-blend-mode: screen; background: linear-gradient(105deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 65%); }
 #vignette { background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%); }
 
 /* arch */
 .arch-win { clip-path: path('__ARCH__'); }
 .arch-win video { position: absolute; width: 1422px; height: 800px; left: -171px; top: 140px; object-fit: cover; }
-.arch-win .shade { background: linear-gradient(180deg, rgba(4,29,22,0) 55%, rgba(4,29,22,0.65) 100%); }
+.arch-win .shade { background: linear-gradient(180deg, rgba(20,26,82,0) 60%, rgba(20,26,82,0.55) 100%); }
 .arch-frame { overflow: visible; }
 .arch-frame .a1 { stroke-width: 4; } .arch-frame .a2 { stroke-width: 1.6; }
 
@@ -113,33 +113,37 @@ svg .ln, svg .ln * { fill: none; stroke: var(--gold); }
 #t-main { font-family: Cinzel, serif; font-weight: 700; font-size: 104px; line-height: 1.02; letter-spacing: 0.06em; }
 #t-sub { font-family: Cinzel, serif; font-weight: 500; font-size: 40px; letter-spacing: 0.22em; margin-top: 6px; color: var(--cream); }
 .divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 18px auto 12px; }
-.divider i { display: block; height: 1.5px; width: 150px; background: linear-gradient(90deg, rgba(224,185,85,0), var(--gold)); }
-.divider i.r { background: linear-gradient(270deg, rgba(224,185,85,0), var(--gold)); }
-#t-mc { font-family: Montserrat, sans-serif; font-weight: 600; font-size: 22px; letter-spacing: 0.5em; color: var(--gold); padding-left: 0.5em; }
+.divider i { display: block; height: 3px; width: 150px; background: linear-gradient(90deg, rgba(236,28,36,0), var(--red)); }
+.divider i.r { background: linear-gradient(270deg, rgba(236,28,36,0), var(--red)); }
+#t-mc { display: inline-block; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 0.5em; color: #fff; padding: 6px 10px 6px 20px; background: var(--red); }
 
 /* panels */
-.panel { position: absolute; left: 70px; right: 70px; border: 2px solid rgba(224,185,85,0.85); padding: 64px 56px;
-  background: linear-gradient(180deg, rgba(4,29,22,0.72), rgba(11,68,51,0.62)); box-shadow: 0 30px 80px rgba(0,0,0,0.35); }
-.panel::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(224,185,85,0.45); }
+.panel { position: absolute; left: 70px; right: 70px; border: 2px solid rgba(255,255,255,0.9); padding: 64px 56px; border-radius: 6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(240,242,250,0.95)); box-shadow: 0 30px 80px rgba(8,12,50,0.45); }
+.panel .ln, .panel .ln * { stroke: var(--blue); }
+.panel .gold { background: linear-gradient(180deg, #3d4fbf 0%, #2b3990 55%, #1a2160 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.panel::after { content: ""; position: absolute; left: 50%; top: 0; width: 120px; height: 5px; margin-left: -60px; background: var(--red); }
+.panel::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(43,57,144,0.28); border-radius: 3px; }
 .corner { position: absolute; width: 64px; height: 64px; }
 .corner.tl { left: -22px; top: -22px; } .corner.tr { right: -22px; top: -22px; }
 .corner.bl { left: -22px; bottom: -22px; } .corner.br { right: -22px; bottom: -22px; }
 #ayat-panel { top: 300px; bottom: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 #firman { font-family: Cinzel, serif; font-weight: 700; font-size: 30px; letter-spacing: 0.24em; }
+.panel #firman { background: none; color: var(--red); -webkit-text-fill-color: var(--red); }
 #ar { direction: rtl; font-family: "Amiri Quran", "Amiri", serif; font-size: 70px; line-height: 2.05; margin-top: 26px; }
 #ar .w { display: inline-block; margin: 0 0.12em; }
-#tr { font-family: "Amiri", serif; font-size: 38px; line-height: 1.45; margin-top: 30px; color: var(--cream); }
+#tr { font-family: "Amiri", serif; font-size: 38px; line-height: 1.45; margin-top: 30px; color: var(--ink); }
 #cite { display: flex; align-items: center; gap: 18px; margin-top: 36px; font-family: Cinzel, serif; font-weight: 700; font-size: 28px; letter-spacing: 0.08em; }
-#cite i { display: block; width: 90px; height: 1.5px; background: var(--gold); }
+#cite i { display: block; width: 90px; height: 2px; background: var(--red); }
 .para { top: 0; bottom: 0; margin: auto 0; height: fit-content; text-align: center; }
-.para .tx { font-family: Montserrat, sans-serif; font-weight: 500; font-size: 46px; line-height: 1.5; color: var(--cream); }
+.para .tx { font-family: Montserrat, sans-serif; font-weight: 500; font-size: 46px; line-height: 1.5; color: var(--ink); }
 .para .tx .w { display: inline-block; }
-.para .tx .em { font-weight: 600; color: var(--gold); }
+.para .tx .em { font-weight: 700; color: var(--red); }
 .para .star-top { display: block; margin: 0 auto 28px; }
 
 /* end */
 #plaque { position: absolute; left: 50%; top: 1218px; width: 330px; height: 104px; margin-left: -165px; border-radius: 52px;
-  background: var(--cream); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+  background: #fff; border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
 #plaque img { height: 80px; width: auto; object-fit: contain; }
 #end-title { position: absolute; left: 0; right: 0; top: 965px; text-align: center; }
 #e-ar { font-family: "Amiri", serif; font-weight: 700; font-size: 50px; line-height: 1.2; }
@@ -152,7 +156,7 @@ svg .ln, svg .ln * { fill: none; stroke: var(--gold); }
 def corners():
     c = ('<svg class="corner {p}" viewBox="-32 -32 64 64"><g class="ln" stroke-width="2">'
          '<rect x="-14" y="-14" width="28" height="28"/><rect x="-14" y="-14" width="28" height="28" transform="rotate(45)"/>'
-         '<circle r="6" fill="#e0b955" stroke="none"/></g></svg>')
+         '<circle r="6" fill="#ec1c24" stroke="none"/></g></svg>')
     return "".join(c.format(p=p) for p in ("tl", "tr", "bl", "br"))
 
 
@@ -192,7 +196,7 @@ def build():
     arch_frame = (f'<svg class="clip layer arch-frame" width="1080" height="1350"><g class="ln">'
                   f'<path class="a1 af" d="{ARCH}" pathLength="1" stroke-dasharray="1"/><path class="a2 af" d="{ARCH_OUT}" pathLength="1" stroke-dasharray="1"/></g>'
                   f'<g class="ln" stroke-width="2.5" id="key">{star8(540, 118, 34)}</g>'
-                  f'<circle cx="540" cy="118" r="7" fill="#e0b955" id="key-dot"/></svg>')
+                  f'<circle cx="540" cy="118" r="7" fill="#ec1c24" id="key-dot"/></svg>')
 
     def arch_group(gid, a, b, ms, rate):
         d = round(b - a, 2)
@@ -302,7 +306,7 @@ def build():
         'tl.from("#ayat-panel .corner", {rotation: -90, scale: 0, duration: 0.8, stagger: 0.06, ease: "back.out(1.6)"}, 8.15);',
         f'tl.from("#firman", {{{up}}}, 8.35);',
         'tl.from("#ar .w", {opacity: 0, y: 22, scale: 0.92, filter: "blur(10px)", duration: 0.65, stagger: 0.3, ease: "power2.out"}, 8.85);',
-        'tl.fromTo("#ar", {filter: "drop-shadow(0 0 0px rgba(255,220,130,0))"}, {filter: "drop-shadow(0 0 18px rgba(255,220,130,0.55))", duration: 1.0, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false}, 12.0);',
+        'tl.fromTo("#ar", {filter: "drop-shadow(0 0 0px rgba(255,220,130,0))"}, {filter: "drop-shadow(0 0 18px rgba(43,57,144,0.35))", duration: 1.0, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false}, 12.0);',
         'tl.from("#tr", {opacity: 0, y: 24, duration: 0.9, ease: "power2.out"}, 12.4);',
         'tl.from("#cite", {opacity: 0, y: 18, duration: 0.7, ease: "power2.out"}, 15.0);',
         'tl.from("#cite i", {scaleX: 0, duration: 0.7, ease: "power2.out"}, 15.2);',
@@ -326,7 +330,7 @@ def build():
         'tl.to("#fade", {opacity: 1, duration: 0.9, ease: "power1.in"}, 41.1);',
     ]
 
-    css = CSS.replace("__ARCH__", ARCH) + ".dust { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fff4c4 0%, #f0c95e 45%, rgba(240,201,94,0) 72%); }"
+    css = CSS.replace("__ARCH__", ARCH) + ".dust { position: absolute; border-radius: 50%; background: radial-gradient(circle, #ffffff 0%, #dfe4f5 45%, rgba(223,228,245,0) 72%); }"
     html = f"""<!doctype html>
 <html lang="ms" data-resolution="portrait">
   <head>
