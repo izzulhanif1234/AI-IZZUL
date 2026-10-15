@@ -6,3 +6,4 @@ edits/**/.hyperframes/
 edits/**/node_modules/
 __pycache__/
 edits/**/*.log
+edits/**/final/*-master.mp4
