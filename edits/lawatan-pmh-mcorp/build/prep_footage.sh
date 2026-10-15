@@ -19,10 +19,10 @@ grade() { # n file ev
   echo "graded p$1 ($(basename "$2"))"
 }
 export -f grade; export OUT LOOK
-# 4 clips in parallel (the 10-bit 4:4:4 grade filters are single-threaded); skips finished clips
+# 3 clips in parallel (4 exhausted memory) (the 10-bit 4:4:4 grade filters are single-threaded); skips finished clips
 i=1
 for f in $(ls "$SRC"/DJI_*_D.MP4 | sort); do
   n=$(printf "%02d" $i); i=$((i+1))
   [ -f "$OUT/p$n.mp4" ] && continue
   echo "$n $f ${EV[$n]:-0}"
-done | xargs -P 4 -L 1 bash -c 'grade "$@"' _
+done | xargs -P 3 -L 1 bash -c 'grade "$@"' _
