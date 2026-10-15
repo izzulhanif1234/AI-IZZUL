@@ -68,3 +68,11 @@ Drive folder PROJEK RKB: INTRO LAKONAN (intro1-3), PUAN RAHIMAH (rahimah1-3), DA
 
 - Top-right corporate MCORP (Perbadanan Melaka) logo badge, extracted from the PDF (218 px source) (`compositions/badge.html`): no card, thin white outline, swings in 3D
   (rotateY +-28 deg, 4.2 s period) in place; on for the whole film.
+
+## Revision 5
+- Segment VO re-done for tone match: four more full-script Charon takes were generated and scored
+  against the original take (median pitch ~95 Hz, ~5.7 syl/s); take 5 chosen (v08 95 Hz,
+  v09 109 Hz) instead of the separate short request (125-180 Hz, sounded different).
+  v09 now says "Sektor kerajaan dan agensi".
+- Segment numbers moved inside each card above the title (no longer over the lit border).
+- Corporate logo badge shrunk to 105x70.
