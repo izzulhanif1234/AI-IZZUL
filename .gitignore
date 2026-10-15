@@ -5,3 +5,4 @@ edits/**/preview/
 edits/**/.hyperframes/
 edits/**/node_modules/
 __pycache__/
+edits/**/*.log
