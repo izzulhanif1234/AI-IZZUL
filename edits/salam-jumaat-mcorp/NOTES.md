@@ -18,7 +18,11 @@ diberkati) over the title; gold emphasis on key phrases of the paragraphs (wordi
 | 18-34.6 | three message panels over Ken Burns HQ photos, word-by-word reveal, gold light sweeps between |
 | 34.6-42 | arch returns on the wide HQ shot: greeting, title, MCORP logo plaque (official logo, unaltered, on cream) |
 
-Visual system (v2, client asked for MCORP logo colours, "Islamic korporat"): MCORP blue #2b3990
+Visual system v3 (current, client asked for "more korporat"): follows MCORP's own collateral:
+white page, building photography with a diagonal blue + red band, corner brand shards, bold
+Montserrat type, MCORP logo in a white tab, diagonal brand-shard wipes between scenes; Islamic
+touches kept restrained (faint girih texture, the verse in Amiri Quran, the Arabic greeting).
+Previous look v2 (kept in build/compose_v2_islamic.py, client asked for MCORP logo colours, "Islamic korporat"): MCORP blue #2b3990
 (gradient to #141a52), red #ec1c24 accents, silver/white girih lattice (8-point khatam), silver
 lanterns with red caps, white corporate panels (blue text, red emphasis), white dust.
 v1 was emerald + gold. Fonts (SIL OFL): Amiri Quran (ayat), Amiri,

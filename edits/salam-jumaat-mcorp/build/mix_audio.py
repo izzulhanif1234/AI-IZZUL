@@ -9,12 +9,12 @@ A = Path(__file__).resolve().parent.parent / "hf/assets"
 OUT, TMP = A / "audio/mix.wav", A / "audio/mix.premaster.wav"
 DURATION = 42.0
 # (file, timeline time of the visual moment, file onset offset, volume)
-SFX = [  # soft whooshes on the gold light sweeps between sections
-    ("whoosh.mp3", 7.6, 0.08, 0.16),
-    ("whoosh.mp3", 17.8, 0.08, 0.14),
-    ("whoosh.mp3", 23.4, 0.08, 0.14),
-    ("whoosh.mp3", 30.2, 0.08, 0.14),
-    ("whoosh.mp3", 34.6, 0.08, 0.16),
+SFX = [  # whooshes on the diagonal brand wipes between scenes
+    ("whoosh.mp3", 7.35, 0.08, 0.16),
+    ("whoosh.mp3", 17.35, 0.08, 0.14),
+    ("whoosh.mp3", 22.95, 0.08, 0.14),
+    ("whoosh.mp3", 29.75, 0.08, 0.14),
+    ("whoosh.mp3", 34.15, 0.08, 0.16),
 ]
 
 
