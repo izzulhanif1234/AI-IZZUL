@@ -54,3 +54,14 @@ Drive folder PROJEK RKB: INTRO LAKONAN (intro1-3), PUAN RAHIMAH (rahimah1-3), DA
   and 19.22-26.20.
 - Demo scene 18.8 s -> 21 s: SOR reply now zooms into the result table and holds; BQ total holds ~2.3 s.
 - Total 1:58.6.
+
+## Revision 4
+- Impact scene replaced by `segmen` (Segmen Pasaran, 68.6-82.2): question "Siapa yang boleh guna?",
+  MCORP Estimate hub, connectors drawn to 4 segment cards that light up as the VO names them
+  (Sektor kerajaan, Pemimpin & komuniti, Industri pembinaan, Korporat & pendidikan).
+  New Charon VO lines v08/v09.
+- Testimonial lower-thirds moved to the bottom; name regular/smaller, position bold/larger.
+- Ambulance siren removed from YB Datuk's second cut with `scripts/remove_siren.py`
+  (tracked wail 1.1-1.7 kHz notched with harmonics, ~26 dB down at the siren, speech band -1.5 dB).
+- QR code (KOD QR folder, links to https://q.me-qr.com/5a7nj5ab) bottom-right with
+  "TRIAL VERSION" / "Imbas untuk mencuba", from "Cepat" through the end card.

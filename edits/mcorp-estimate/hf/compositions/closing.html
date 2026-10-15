@@ -88,6 +88,43 @@
           font-style: normal;
           color: #3b5bfd;
         }
+        #cl-qr {
+          position: absolute;
+          right: 70px;
+          bottom: 150px;
+          width: 250px;
+          padding: 18px 18px 16px;
+          border-radius: 22px;
+          background: #ffffff;
+          box-shadow:
+            0 0 0 3px #3b5bfd,
+            0 20px 50px rgba(0, 0, 0, 0.45);
+          text-align: center;
+        }
+        #cl-qr img {
+          display: block;
+          width: 214px;
+          height: 214px;
+        }
+        #cl-qr-badge {
+          display: inline-block;
+          margin-bottom: 12px;
+          padding: 6px 14px;
+          border-radius: 999px;
+          background: #e3262b;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 22px;
+          letter-spacing: 0.08em;
+          color: #fff;
+        }
+        #cl-qr-cap {
+          margin-top: 10px;
+          font-family: Montserrat, sans-serif;
+          font-weight: 800;
+          font-size: 22px;
+          color: #0b2a64;
+        }
         #cl-fade {
           position: absolute;
           inset: 0;
@@ -106,6 +143,11 @@
           <img id="cl-logo" src="assets/img/logo.png" alt="MCORP EstiMATE" />
           <div id="cl-tag">Ke arah <em>pendigitalan kerja</em> yang lebih lestari</div>
         </div>
+        <div id="cl-qr">
+          <div id="cl-qr-badge">TRIAL VERSION</div>
+          <img src="assets/img/qr.png" alt="Kod QR MCORP Estimate (versi percubaan)" />
+          <div id="cl-qr-cap">Imbas untuk mencuba</div>
+        </div>
         <div id="cl-fade"></div>
       </div>
       <script>
@@ -122,6 +164,9 @@
           tl.to("#cl-logo", { scale: 1.04, duration: 4.0, ease: "sine.out" }, 4.7);
           tl.fromTo("#cl-tag", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }, 4.5);
           tl.to(["#cl-g1", "#cl-g2"], { scale: 1.15, duration: 5.5, ease: "sine.inOut" }, 3.85);
+          // QR (trial version) lands with "Cepat" and stays through the end card so it can be scanned
+          tl.fromTo("#cl-qr", { y: 120, autoAlpha: 0, scale: 0.8 }, { y: 0, autoAlpha: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 1.25);
+          tl.to("#cl-qr", { scale: 1.05, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 4.6);
           tl.to("#cl-fade", { opacity: 1, duration: 0.55, ease: "power1.in" }, 8.85);
           window.__timelines = window.__timelines || {};
           window.__timelines["closing"] = tl;

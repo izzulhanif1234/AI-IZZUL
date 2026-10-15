@@ -8,7 +8,7 @@ TR = "/home/user/AI-IZZUL/media/sistem-full/transcripts"
 
 VO = {  # line id -> audio data-start (root s); Gemini TTS voice "Charon"
     "v01": 0.30, "v02": 5.40, "v03": 12.50, "v03b": 15.95, "v04": 27.70, "v05": 35.70,
-    "v06": 48.10, "v07": 55.80, "v08": 68.75, "v09": 73.95, "v10": 82.25, "v11": 109.35,
+    "v06": 48.10, "v07": 55.80, "v08": 68.75, "v09": 74.40, "v10": 82.25, "v11": 109.35,
 }
 # dialogue cuts: (clip, root_start, src_start, duration)
 DIALOGUE = [  # cut points sit in measured silence (see NOTES.md)

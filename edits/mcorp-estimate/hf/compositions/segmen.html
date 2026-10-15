@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #06112b;
+          font-family: Inter, sans-serif;
+          color: #fff;
+        }
+        #sg-grid {
+          position: absolute;
+          inset: -80px;
+          background-image:
+            linear-gradient(rgba(120, 150, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(120, 150, 255, 0.1) 1px, transparent 1px);
+          background-size: 80px 80px;
+        }
+        #sg-glow {
+          position: absolute;
+          left: 460px;
+          top: 60px;
+          width: 1000px;
+          height: 1000px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(59, 91, 253, 0.42), rgba(59, 91, 253, 0) 62%);
+        }
+        /* question */
+        #sg-q {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 400px;
+          text-align: center;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 120px;
+          line-height: 1.05;
+          white-space: nowrap;
+        }
+        #sg-q .w {
+          display: inline-block;
+          margin: 0 0.04em;
+        }
+        #sg-q em {
+          font-style: normal;
+          color: #ffd23f;
+        }
+        /* heading */
+        #sg-head {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 70px;
+          text-align: center;
+        }
+        #sg-kicker {
+          font-family: Montserrat, sans-serif;
+          font-weight: 800;
+          font-size: 28px;
+          letter-spacing: 0.32em;
+          color: #ffd23f;
+        }
+        #sg-title {
+          margin-top: 8px;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 62px;
+        }
+        /* network */
+        #sg-net {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+        #sg-net path {
+          fill: none;
+          stroke: url(#sg-line-grad);
+          stroke-width: 4;
+          stroke-linecap: round;
+        }
+        .sg-pulse {
+          fill: #ffd23f;
+          filter: drop-shadow(0 0 10px #ffd23f);
+        }
+        /* hub */
+        #sg-hub {
+          position: absolute;
+          left: 830px;
+          top: 430px;
+          width: 260px;
+          height: 260px;
+        }
+        .sg-ring {
+          position: absolute;
+          border-radius: 50%;
+        }
+        #sg-ring1 {
+          inset: -40px;
+          border: 3px dashed rgba(142, 164, 255, 0.55);
+        }
+        #sg-ring2 {
+          inset: -78px;
+          border: 2px solid rgba(142, 164, 255, 0.22);
+          border-top-color: #ffd23f;
+          border-right-color: rgba(255, 210, 63, 0.4);
+        }
+        #sg-burst {
+          inset: 0;
+          border: 6px solid #ffd23f;
+          opacity: 0;
+        }
+        #sg-disc {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: #ffffff;
+          box-shadow:
+            0 0 0 10px rgba(59, 91, 253, 0.35),
+            0 0 80px rgba(59, 91, 253, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #sg-disc img {
+          width: 190px;
+          height: 190px;
+        }
+        #sg-hub-label {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 290px;
+          text-align: center;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 30px;
+          letter-spacing: 0.06em;
+          white-space: nowrap;
+        }
+        /* segment cards */
+        .sg-card {
+          position: absolute;
+          width: 590px;
+          height: 176px;
+          display: flex;
+          align-items: center;
+          gap: 26px;
+          padding: 0 30px;
+          border-radius: 26px;
+          background: rgba(14, 28, 70, 0.95);
+          box-shadow: 0 0 0 2px rgba(142, 164, 255, 0.28);
+        }
+        .sg-num {
+          position: absolute;
+          top: -16px;
+          right: 22px;
+          padding: 4px 14px;
+          border-radius: 999px;
+          background: #3b5bfd;
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 22px;
+        }
+        .sg-ico {
+          width: 108px;
+          height: 108px;
+          border-radius: 24px;
+          background: rgba(59, 91, 253, 0.22);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: none;
+        }
+        .sg-ico svg {
+          width: 62px;
+          height: 62px;
+          fill: none;
+          stroke: #8ea4ff;
+          stroke-width: 1.8;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .sg-card h3 {
+          font-family: Montserrat, sans-serif;
+          font-weight: 900;
+          font-size: 33px;
+          line-height: 1.1;
+          white-space: nowrap;
+        }
+        .sg-card p {
+          margin-top: 8px;
+          font-size: 22px;
+          line-height: 1.35;
+          color: #b9c6ef;
+        }
+        .sg-lit {
+          position: absolute;
+          inset: -3px;
+          border-radius: 28px;
+          border: 3px solid #ffd23f;
+          box-shadow:
+            0 0 0 8px rgba(255, 210, 63, 0.14),
+            0 0 50px rgba(255, 210, 63, 0.45);
+          opacity: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="segmen" data-width="1920" data-height="1080">
+        <div id="sg-grid" data-layout-ignore></div>
+        <div id="sg-glow" data-layout-ignore></div>
+
+        <div id="sg-q" data-layout-allow-overlap><span class="w">Siapa</span> <span class="w">yang</span> <span class="w">boleh</span> <span class="w"><em>guna?</em></span></div>
+
+        <div id="sg-head">
+          <div id="sg-kicker">SEGMEN PASARAN</div>
+          <div id="sg-title">Merentas kumpulan pengguna</div>
+        </div>
+
+        <svg id="sg-net" viewBox="0 0 1920 1080" aria-hidden="true" data-layout-ignore>
+          <defs>
+            <linearGradient id="sg-line-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3b5bfd" />
+              <stop offset="1" stop-color="#8ea4ff" />
+            </linearGradient>
+          </defs>
+          <path id="sg-p1" d="M 960 560 C 820 480, 770 340, 660 340" />
+          <path id="sg-p2" d="M 960 560 C 1100 480, 1150 340, 1260 340" />
+          <path id="sg-p3" d="M 960 560 C 820 640, 770 780, 660 780" />
+          <path id="sg-p4" d="M 960 560 C 1100 640, 1150 780, 1260 780" />
+          <circle id="sg-d1" class="sg-pulse" r="10" cx="-50" cy="-50" />
+          <circle id="sg-d2" class="sg-pulse" r="10" cx="-50" cy="-50" />
+          <circle id="sg-d3" class="sg-pulse" r="10" cx="-50" cy="-50" />
+          <circle id="sg-d4" class="sg-pulse" r="10" cx="-50" cy="-50" />
+        </svg>
+
+        <div id="sg-hub">
+          <div id="sg-ring1" class="sg-ring"></div>
+          <div id="sg-ring2" class="sg-ring"></div>
+          <div id="sg-burst" class="sg-ring"></div>
+          <div id="sg-disc"><img src="assets/img/logo-icon.png" alt="MCORP Estimate" /></div>
+          <div id="sg-hub-label">MCORP Estimate</div>
+        </div>
+
+        <div id="sg-c1" class="sg-card" style="left: 70px; top: 252px">
+          <div class="sg-ico"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10h20L12 3z" /></svg></div>
+          <div><h3>Sektor kerajaan</h3><p>Agensi &amp; jabatan, termasuk<br />tanpa unit teknikal</p></div>
+          <div class="sg-num">01</div>
+          <div class="sg-lit"></div>
+        </div>
+        <div id="sg-c2" class="sg-card" style="left: 1260px; top: 252px">
+          <div class="sg-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" /><circle cx="17" cy="9" r="2.4" /><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14.5 14.3c.8-.3 1.6-.5 2.5-.5 2.8 0 5 2.2 5 5" /></svg></div>
+          <div><h3>Pemimpin &amp; komuniti</h3><p>Terangkan pecahan kos<br />projek kepada rakyat</p></div>
+          <div class="sg-num">02</div>
+          <div class="sg-lit"></div>
+        </div>
+        <div id="sg-c3" class="sg-card" style="left: 70px; top: 692px">
+          <div class="sg-ico"><svg viewBox="0 0 24 24"><path d="M4 21V4h3l11 4M7 4v17M4 21h7M18 8v4M16 12h4l-2 3z" /><path d="M7 8l4-4" /></svg></div>
+          <div><h3>Industri pembinaan</h3><p>Kontraktor &amp; perunding:<br />semakan SOR pantas</p></div>
+          <div class="sg-num">03</div>
+          <div class="sg-lit"></div>
+        </div>
+        <div id="sg-c4" class="sg-card" style="left: 1260px; top: 692px">
+          <div class="sg-ico"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z" /><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6" /></svg></div>
+          <div><h3>Korporat &amp; pendidikan</h3><p>Syarikat, institusi &amp;<br />latihan anggaran kos</p></div>
+          <div class="sg-num">04</div>
+          <div class="sg-lit"></div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          // local 0 = root 68.6. "Siapa" .15, "MCORP" 1.79, "merentas" 3.35,
+          // "Sektor" 5.80, "Pemimpin" 7.19, "Industri" 8.93, "korporat" 11.21 (Serta 10.53)
+          const D = 13.6;
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#sg-grid", { y: 0 }, { y: 80, duration: D, ease: "none" }, 0);
+          tl.fromTo("#sg-glow", { scale: 0.9 }, { scale: 1.12, duration: D, ease: "sine.inOut" }, 0);
+
+          // question, word by word, then out
+          tl.from("#sg-q .w", { y: 100, autoAlpha: 0, rotationX: -70, duration: 0.38, ease: "back.out(1.7)", stagger: 0.18 }, 0.1);
+          tl.to("#sg-q", { scale: 0.6, y: -320, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, 1.55);
+
+          // heading + hub slam on "MCORP Estimate"
+          tl.from("#sg-kicker", { y: -30, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, 1.75);
+          tl.from("#sg-title", { y: 30, autoAlpha: 0, duration: 0.45, ease: "back.out(1.6)" }, 1.85);
+          tl.fromTo("#sg-disc", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.8)" }, 1.8);
+          tl.fromTo(["#sg-ring1", "#sg-ring2"], { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "expo.out", stagger: 0.08 }, 1.95);
+          tl.fromTo("#sg-ring1", { rotation: 0 }, { rotation: 140, duration: D - 1.95, ease: "none" }, 1.95);
+          tl.fromTo("#sg-ring2", { rotation: 0 }, { rotation: -260, duration: D - 1.95, ease: "none" }, 1.95);
+          tl.from("#sg-hub-label", { y: 20, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, 2.3);
+
+          // connectors draw out on "merentas pelbagai kumpulan pengguna"
+          const paths = [1, 2, 3, 4].map((i) => document.getElementById("sg-p" + i));
+          paths.forEach((p, i) => {
+            const L = p.getTotalLength();
+            p.style.strokeDasharray = L;
+            tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 3.3 + i * 0.12);
+          });
+          // cards arrive dim, then light up when named
+          const cards = ["#sg-c1", "#sg-c2", "#sg-c3", "#sg-c4"];
+          const fromX = [-160, 160, -160, 160];
+          cards.forEach((c, i) => {
+            tl.fromTo(c, { x: fromX[i], autoAlpha: 0 }, { x: 0, autoAlpha: 0.38, duration: 0.5, ease: "power3.out" }, 3.9 + i * 0.12);
+          });
+          const LIT = [5.8, 7.19, 8.93, 11.0];
+          cards.forEach((c, i) => {
+            tl.to(c, { autoAlpha: 1, scale: 1.06, duration: 0.25, ease: "back.out(2.5)" }, LIT[i]);
+            tl.to(c, { scale: 1, duration: 0.35, ease: "power2.out" }, LIT[i] + 0.25);
+            tl.to(c + " .sg-lit", { opacity: 1, duration: 0.2 }, LIT[i]);
+            tl.to(c + " .sg-ico", { backgroundColor: "#3b5bfd", duration: 0.2 }, LIT[i]);
+            tl.to(c + " .sg-ico svg", { stroke: "#ffffff", duration: 0.2 }, LIT[i]);
+          });
+          // finale: every card glows together, hub bursts
+          tl.fromTo("#sg-burst", { scale: 1, opacity: 0.9 }, { scale: 2.6, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, 12.2);
+          tl.to(cards, { scale: 1.04, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut", stagger: 0.06 }, 12.2);
+          tl.to(["#sg-head", "#sg-hub", "#sg-net"].concat(cards), { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 13.33);
+
+          // pulses: travel hub -> card in the 0.45 s before each card lights
+          const dots = [1, 2, 3, 4].map((i) => document.getElementById("sg-d" + i));
+          const ease = gsap.parseEase("power2.in");
+          // sample each connector once at build time; render() only reads the table
+          const N = 120;
+          const SAMPLES = paths.map((p) => {
+            const L = p.getTotalLength();
+            const pts = [];
+            for (let k = 0; k <= N; k++) {
+              const q = p.getPointAtLength((L * k) / N);
+              pts.push([q.x, q.y]);
+            }
+            return pts;
+          });
+          function render(t) {
+            dots.forEach((d, i) => {
+              const u = (t - (LIT[i] - 0.45)) / 0.45;
+              if (u < 0 || u > 1.15) {
+                d.setAttribute("cx", -50);
+                d.setAttribute("cy", -50);
+                return;
+              }
+              const pos = Math.min(1, ease(Math.max(0, u))) * N;
+              const k = Math.min(N - 1, Math.floor(pos)), w = pos - k;
+              const A = SAMPLES[i][k], B = SAMPLES[i][k + 1];
+              d.setAttribute("cx", (A[0] + (B[0] - A[0]) * w).toFixed(1));
+              d.setAttribute("cy", (A[1] + (B[1] - A[1]) * w).toFixed(1));
+            });
+          }
+          const clock = { t: 0 };
+          tl.to(clock, { t: D, duration: D, ease: "none", onUpdate: () => render(clock.t) }, 0);
+          render(0);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["segmen"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

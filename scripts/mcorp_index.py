@@ -6,7 +6,7 @@ from mcorp_timeline import VO, DIALOGUE, HF
 TOTAL = 118.6
 SCENES = [  # id, start, duration
     ("hook", 0.0, 12.35), ("title", 12.35, 3.4), ("team", 15.75, 4.45), ("actor", 20.2, 7.4),
-    ("solution", 27.6, 7.95), ("how", 35.55, 12.05), ("demo", 47.6, 21.0), ("impact", 68.6, 13.6),
+    ("solution", 27.6, 7.95), ("how", 35.55, 12.05), ("demo", 47.6, 21.0), ("segmen", 68.6, 13.6),
     ("testi", 82.2, 26.98), ("closing", 109.18, 9.42),
 ]
 # (id, file, start, duration, volume) -- start = visual moment - file onset
@@ -34,10 +34,13 @@ SFX = [
     ("s-click3", "click", 60.41, 0.37, 0.6), ("s-reply2", "ping", 60.33, 1.1, 0.35),
     ("s-qty", "pop", 63.69, 0.6, 0.4), ("s-rate", "pop", 64.34, 0.6, 0.4), ("s-kont", "pop", 65.69, 0.6, 0.4),
     ("s-total", "chime", 65.89, 2.0, 0.4),
-    ("s-impact", "whoosh", 68.52, 0.57, 0.4),
-    ("s-n1", "chime", 72.09, 2.0, 0.35),
-    ("s-swap", "whoosh-short", 73.72, 0.57, 0.35),
-    ("s-n2", "chime", 78.19, 2.0, 0.35), ("s-n3", "chime", 80.49, 2.0, 0.35),
+    ("s-seg", "whoosh", 68.52, 0.57, 0.4),
+    ("s-segq", "whoosh-short", 68.62, 0.57, 0.3),
+    ("s-hub", "impact-bass-1", 70.35, 1.6, 0.55),
+    ("s-lines", "whoosh-short", 71.82, 0.57, 0.35),
+    ("s-g1", "pop", 74.29, 0.6, 0.45), ("s-g2", "pop", 75.68, 0.6, 0.45),
+    ("s-g3", "pop", 77.42, 0.6, 0.45), ("s-g4", "pop", 79.49, 0.6, 0.45),
+    ("s-segend", "chime", 80.39, 2.0, 0.35),
     ("s-testi", "whoosh", 82.12, 0.57, 0.4),
     ("s-close", "whoosh", 109.1, 0.57, 0.4),
     ("s-w1", "impact-bass-1", 110.49, 1.2, 0.4), ("s-w2", "impact-bass-1", 111.23, 1.2, 0.4), ("s-w3", "impact-bass-1", 112.05, 1.4, 0.45),
