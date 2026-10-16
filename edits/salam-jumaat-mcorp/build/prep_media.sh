@@ -16,3 +16,6 @@ for f in $(ls "$SRC"/dji_fly_*_photo.jpg | sort); do
   i=$((i+1))
 done
 echo "media ready"
+# 30fps copy for 1:1 playback in the 30fps render (no slow motion, no duplicated frames)
+ffmpeg -v error -y -i "$OUT/drone.mp4" -vf fps=30 -c:v libx264 -preset fast -crf 15 -g 15 -pix_fmt yuv420p \
+  -color_primaries bt709 -color_trc bt709 -colorspace bt709 -movflags +faststart -an "$OUT/drone30.mp4"

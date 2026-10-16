@@ -2,7 +2,9 @@
 
 v4 "3D Islamic corporate": the v3 MCORP layout (white page, building photography with diagonal
 blue/red bands, bold type) rebuilt on a real CSS-3D stage:
-  - a perspective camera that keeps orbiting and dollies back at every scene change
+  - a drifting perspective camera (perspective-origin moves on every 3D plane) that dollies back at
+    every scene change. Scenes are flat 3D planes with their own perspective, not one deep preserve-3d
+    tree: Chrome mis-culls large layers inside deep preserve-3d trees (panels were clipped on the right)
   - every scene is layered in depth (photo -150, text +40..+80, tokens -600..+300) so it parallaxes
   - scene changes are 3D cube rotations with red/blue streaks flying past the lens
   - hook: an extruded 3D khatam star (MCORP blue, red core) spins and flies through the camera
@@ -55,7 +57,8 @@ html, body { width: 1080px; height: 1350px; overflow: hidden; background: #fff; 
 .clip { position: absolute; inset: 0; }
 .layer { position: absolute; inset: 0; pointer-events: none; }
 .p3d { position: absolute; inset: 0; transform-style: preserve-3d; }
-.scene { position: absolute; inset: 0; transform-style: preserve-3d; backface-visibility: hidden; transform-origin: 50% 50% -540px; }
+.scene { position: absolute; inset: 0; backface-visibility: hidden; transform-origin: 50% 50% -540px; perspective: 1500px; perspective-origin: 50% 46%; }
+.persp { perspective: 1500px; perspective-origin: 50% 46%; }
 .mask { display: block; overflow: hidden; }
 .mask > span, .mask > div { display: block; }
 
@@ -63,10 +66,11 @@ html, body { width: 1080px; height: 1350px; overflow: hidden; background: #fff; 
 #texture .ln, #texture .ln * { fill: none; stroke: var(--blue); }
 
 /* photo panels with a diagonal bottom edge and blue/red bands along it */
-.hero { position: absolute; left: -90px; top: -60px; width: 1260px; overflow: visible; filter: drop-shadow(0 24px 30px rgba(20,28,86,0.28)); }
+.hero { position: absolute; overflow: visible; }
+.band.s { height: 60px; background: linear-gradient(180deg, rgba(20,28,86,0.18), rgba(20,28,86,0)); }
 .hero video, .hero img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
 .hero .tint { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,38,112,0.18), rgba(28,38,112,0) 45%); }
-.band { position: absolute; left: -100px; width: 1500px; transform-origin: 0 0; }
+.band { position: absolute; left: 0; width: 1100px; transform-origin: 0 0; }
 .band.b { background: var(--blue); height: 36px; }
 .band.r { background: var(--red); height: 11px; }
 
@@ -182,21 +186,35 @@ def words(text):
     return " ".join(f'<span class="w{" em" if em else ""}">{w}</span>' for w, em in out)
 
 
-def hero(hid, h, slope, media, a, b, ms="0", rate="1"):
-    """Photo/video panel (1260 wide, bleeding past the frame for camera moves) with a diagonal bottom edge."""
+BLEED_TOP = 80
+HERO_SCALE = 1.4
+# Chrome rasterises 3D-transformed layers only about one viewport wide from the layer's left edge, so
+# panels stay inside 0..1080 and are enlarged by scaling their wrapper about the diagonal edge instead
+# of overhanging the frame. That keeps every edge off-screen through the camera orbit and dolly.
+CLIP_LEN = 7.8  # drone30.mp4, played 1:1 (no slow motion)
+
+
+def hero(hid, h, slope, media, a, b, vstart=None, z=-150):
+    """Photo/video panel with a diagonal bottom edge whose visible part ends at y=h (left) / h-slope (right)."""
     d = round(b - a, 2)
-    h2 = h + 60
-    clip = f"polygon(0 0, 100% 0, 100% {h2 - slope}px, 0 {h2}px)"
-    ang = -math.degrees(math.atan2(slope, 1260))
+    pw = 1080
+    h2 = h + BLEED_TOP
+    sl = slope
+    clip = f"polygon(0 0, 100% 0, 100% {h2 - sl:.0f}px, 0 {h2}px)"
+    ang = -math.degrees(math.atan2(sl, pw))
     timed = f' data-start="{a}" data-duration="{d}" data-track-index="2"' if media.endswith(".mp4") else ""
     bands = (f'<div class="band b" style="top:{h2 - 6}px;transform:rotate({ang:.3f}deg)"></div>'
-             f'<div class="band r" style="top:{h2 + 36}px;transform:rotate({ang:.3f}deg)"></div>')
+             f'<div class="band r" style="top:{h2 + 36}px;transform:rotate({ang:.3f}deg)"></div>'
+             f'<div class="band s" style="top:{h2 + 47}px;transform:rotate({ang:.3f}deg)"></div>')
     if media.endswith(".mp4"):
-        src = (f'<video id="{hid}-m" class="clip" src="{media}" data-start="{a}" data-duration="{d}" data-media-start="{ms}" '
-               f'data-playback-rate="{rate}" data-track-index="2" muted playsinline></video>')
+        vs = a if vstart is None else vstart
+        src = (f'<video id="{hid}-m" class="clip" src="{media}" data-start="{vs}" data-duration="{min(round(b - vs, 2), CLIP_LEN)}" '
+               f'data-media-start="0" data-track-index="2" muted playsinline></video>')
     else:
         src = f'<img id="{hid}-m" src="{media}" alt="" />'
-    return (f'<div id="{hid}" class="hero" style="height:{h2 + 70}px"><div id="{hid}-ph" style="position:absolute;inset:0;bottom:70px;clip-path:{clip}">{src}'
+    return (f'<div id="{hid}" class="hero" style="left:0;top:{-BLEED_TOP}px;width:{pw}px;height:{h2 + 70}px;'
+            f'transform-origin:540px {h2}px;transform:translateZ({z}px) scale({HERO_SCALE})">'
+            f'<div id="{hid}-ph" style="position:absolute;inset:0;bottom:70px;clip-path:{clip}">{src}'
             f'<div class="tint clip"{timed}></div></div><div id="{hid}-bands" class="clip"{timed}>{bands}</div></div>')
 
 
@@ -230,7 +248,7 @@ def build():
     t1 = T[0] + HALF
     scenes.append(f"""
       <div id="s1" class="scene">
-        <div id="s1-hero" class="p3d" style="transform:translateZ(-140px)">{hero("hero1", 700, 150, "assets/footage/drone.mp4", 0, t1, "0.0", "0.5")}</div>
+        {hero("hero1", 700, 150, "assets/footage/drone30.mp4", 0, t1, vstart=0.35, z=-140)}
         <div class="lock clip" style="top:850px;bottom:auto" data-start="0" data-duration="{t1}" data-track-index="3" id="lock1">
           <div class="mask"><div id="h-ar" class="ar">{GREETING}</div></div>
           <div class="big">{letters("JUMAAT", "x-blue", "c1")}</div>
@@ -239,7 +257,7 @@ def build():
           <div class="sheen" id="sheen1"></div>
         </div>
       </div>
-      <div id="star-hook" class="p3d clip" data-start="0" data-duration="2.2" data-track-index="4">
+      <div id="star-hook" class="clip persp" data-start="0" data-duration="2.2" data-track-index="4">
         <div id="star1" class="star3d">{extruded_star("st1", 440)}</div>
       </div>""")
     tl += [
@@ -248,8 +266,8 @@ def build():
         'tl.to("#star1", {rotationY: 90, rotationX: -10, z: 1300, duration: 0.6, ease: "power3.in"}, 1.05);',
         'tl.to("#star1 .sl", {opacity: 0, duration: 0.25}, 1.45);',
         # photo panel flies in from deep space, swinging flat
-        'tl.fromTo("#hero1", {z: -1600, rotationY: 38, rotationX: 14, y: 120}, {z: 0, rotationY: 0, rotationX: 0, y: 0, duration: 1.5, ease: "expo.out"}, 0.9);',
-        'tl.fromTo("#hero1-m", {scale: 1.25}, {scale: 1.0, duration: 7.0, ease: "power1.out"}, 0.9);',
+        'tl.fromTo("#hero1", {z: -1600, rotationY: 38, rotationX: 14, y: 120, scale: 1.4, transformOrigin: "540px 780px"}, {z: -140, rotationY: 0, rotationX: 0, y: 0, scale: 1.4, duration: 1.5, ease: "expo.out"}, 0.9);',
+        'tl.fromTo("#hero1-m", {scale: 1.1}, {scale: 1.0, duration: 7.2, ease: "none"}, 0.9);',
         'tl.fromTo("#hero1-bands .band", {xPercent: 100}, {xPercent: 0, duration: 0.9, stagger: 0.08, ease: "expo.out"}, 1.5);',
         # extruded letters flip up one by one
         'tl.from("#h-ar", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 1.55);',
@@ -267,7 +285,7 @@ def build():
     ar = "".join(f'<span class="w">{w}</span>' for w in ws[:6]) + "<br/>" + "".join(f'<span class="w">{w}</span>' for w in ws[6:])
     scenes.append(f"""
       <div id="s2" class="scene clip" data-start="{a2}" data-duration="{round(b2 - a2, 2)}" data-track-index="3">
-        <div class="p3d" style="transform:translateZ(-160px)">{hero("hero2", 240, 70, "assets/footage/f8.jpg", a2, b2)}</div>
+        {hero("hero2", 240, 70, "assets/footage/f8.jpg", a2, b2, z=-160)}
         <div id="ayat"><div id="ayat-in">
           <div class="mask"><span id="a-pill" class="pill">FIRMAN ALLAH SWT</span></div>
           <div id="ar">{ar}</div>
@@ -292,7 +310,7 @@ def build():
         st = T[1 + k]
         scenes.append(f"""
       <div id="s-{pid}" class="scene clip" data-start="{a_}" data-duration="{round(b_ - a_, 2)}" data-track-index="3">
-        <div class="p3d" style="transform:translateZ(-180px)">{hero(f"hero-{pid}", 360, 90, f"assets/footage/{photo}.jpg", a_, b_)}</div>
+        {hero(f"hero-{pid}", 360, 90, f"assets/footage/{photo}.jpg", a_, b_, z=-180)}
         <div id="{pid}" class="card"><div class="bar"></div><div class="tx">{words(text)}</div></div>
       </div>""")
         sgn = (1, -1, 1)[k]
@@ -308,7 +326,7 @@ def build():
     a6 = T[4] - HALF
     scenes.append(f"""
       <div id="s6" class="scene">
-        <div class="p3d" style="transform:translateZ(-140px)">{hero("hero3", 700, 150, "assets/footage/drone.mp4", a6, DURATION, "3.4", "0.6")}</div>
+        {hero("hero3", 700, 150, "assets/footage/drone30.mp4", a6, DURATION, vstart=round(a6 + 0.1, 2), z=-140)}
         <div class="lock clip" style="top:850px;bottom:auto" data-start="{a6}" data-duration="{round(DURATION - a6, 2)}" data-track-index="3" id="lock2">
           <div class="mask"><div id="e-ar" class="ar">{GREETING}</div></div>
           <div class="big">{letters("JUMAAT", "x-blue", "c3")}</div>
@@ -316,13 +334,13 @@ def build():
           <div id="e-rule" class="rule"></div>
           <div class="sheen" id="sheen2"></div>
         </div>
-        <div id="star-end-wrap" class="p3d clip" data-start="{a6}" data-duration="{round(DURATION - a6, 2)}" data-track-index="4">
+        <div id="star-end-wrap" class="clip persp" data-start="{a6}" data-duration="{round(DURATION - a6, 2)}" data-track-index="4">
           <div id="star2" class="star3d" style="left:760px;top:900px;width:200px;height:200px">{extruded_star("st2", 200, 12)}</div>
         </div>
       </div>""")
     a = T[4]
     tl += [
-        f'tl.fromTo("#hero3-m", {{scale: 1.14}}, {{scale: 1.0, duration: {DURATION - a6:.2f}, ease: "none"}}, {a6});',
+        f'tl.fromTo("#hero3-m", {{scale: 1.08}}, {{scale: 1.0, duration: {DURATION - a6:.2f}, ease: "none"}}, {a6});',
         f'tl.from("#e-ar", {{yPercent: 110, duration: 0.6, ease: "power3.out"}}, {a + 0.5});',
         f'tl.fromTo(".c3", {{rotationX: -100, z: -160, opacity: 0}}, {{rotationX: 0, z: 0, opacity: 1, duration: 0.7, stagger: 0.06, ease: "back.out(1.6)", immediateRender: false}}, {a + 0.65});',
         f'tl.fromTo(".c4", {{rotationX: -100, z: -120, opacity: 0}}, {{rotationX: 0, z: 0, opacity: 1, duration: 0.55, stagger: 0.03, ease: "back.out(1.6)", immediateRender: false}}, {a + 1.0});',
@@ -337,9 +355,8 @@ def build():
     # ---------------------------------------------------------------- camera + cube transitions
     order = ["#s1", "#s2", "#s-p1", "#s-p2", "#s-p3", "#s6"]
     tl += [
-        'tl.fromTo("#orbit", {rotationY: -5}, {rotationY: 5, duration: 7, yoyo: true, repeat: 5, ease: "sine.inOut"}, 0);',
-        'tl.fromTo("#orbit", {rotationX: 4}, {rotationX: -3, duration: 9.5, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false}, 0);',
-        'tl.fromTo("#dolly", {z: -260}, {z: 0, duration: 2.2, ease: "power3.out"}, 0);',
+        'tl.fromTo([".scene", ".persp"], {perspectiveOrigin: "40% 42%"}, {perspectiveOrigin: "60% 50%", duration: 7, yoyo: true, repeat: 5, ease: "sine.inOut"}, 0);',
+        'tl.fromTo("#s1", {z: -200}, {z: 0, duration: 2.2, ease: "power3.out"}, 0);',
         'tl.fromTo("#tex-r", {x: 0, y: 0}, {x: -60, y: -120, duration: 42, ease: "none"}, 0);',
     ]
     for i, t in enumerate(T):
@@ -348,8 +365,8 @@ def build():
         tl += [
             f'tl.fromTo("{out_}", {{rotationY: 0}}, {{rotationY: -90, duration: {2 * HALF}, ease: "power2.inOut", immediateRender: false}}, {s});',
             f'tl.fromTo("{in_}", {{rotationY: 90}}, {{rotationY: 0, duration: {2 * HALF}, ease: "power2.inOut", immediateRender: false}}, {s});',
-            f'tl.to("#dolly", {{z: -320, duration: {HALF}, ease: "power2.in"}}, {s});',
-            f'tl.to("#dolly", {{z: 0, duration: {HALF + 0.2}, ease: "power3.out"}}, {t});',
+            f'tl.to("{out_}", {{z: -220, duration: {HALF}, ease: "power2.in"}}, {s});',
+            f'tl.fromTo("{in_}", {{z: -220}}, {{z: 0, duration: {2 * HALF + 0.2}, ease: "power3.inOut", immediateRender: false}}, {s});',
             f'tl.fromTo(["#stk-r", "#stk-b"], {{x: 1500, z: 300}}, {{x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}}, {round(t - 0.35, 2)});',
         ]
     # HUD intro
@@ -370,15 +387,13 @@ def build():
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{DURATION}" data-width="1080" data-height="1350">
-      <div id="dolly" class="p3d">
-        <div id="orbit" class="p3d">
-          <div class="p3d" style="transform:translateZ(-600px) scale(1.42)">{texture}</div>
-          {"".join(toks)}
-          {"".join(scenes)}
-          <div id="streaks" class="p3d"><div id="stk-r" class="streak" style="width:160px;background:#ec1c24;transform:translateX(1500px) skewX(-20deg)"></div>
-            <div id="stk-b" class="streak" style="width:320px;background:#2b3990;transform:translateX(1500px) skewX(-20deg)"></div></div>
-        </div>
+      <div id="bg" class="clip persp">
+        <div class="clip" style="transform:translateZ(-600px) scale(1.42)">{texture}</div>
+        {"".join(toks)}
       </div>
+      {"".join(scenes)}
+      <div id="streaks" class="clip persp"><div id="stk-r" class="streak" style="width:160px;background:#ec1c24;transform:translateX(1500px) skewX(-20deg)"></div>
+        <div id="stk-b" class="streak" style="width:320px;background:#2b3990;transform:translateX(1500px) skewX(-20deg)"></div></div>
       <div id="hud" class="clip layer" style="z-index:20;perspective:900px">
         <div id="sh3" class="shard"></div><div id="sh1" class="shard"></div><div id="sh2" class="shard"></div>
         <div id="tab"><img src="assets/img/mcorp-logo.png" alt="MCORP Perbadanan Melaka" /></div>
