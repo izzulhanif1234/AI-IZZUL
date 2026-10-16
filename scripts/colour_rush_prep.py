@@ -133,3 +133,30 @@ keyed((845, 52, 1292, 168), "partners")         # organised by MCS, Chery | Jeto
 keyed((900, 680, 1536, 1024), "splat-a", upscale=False)
 keyed((0, 180, 210, 720), "splat-b", upscale=False)
 keyed((1286, 20, 1430, 210), "splat-c", upscale=False)
+
+
+# ---------- clean title: brush lettering only, no board splatter / hard crop edges ----------
+def title_clean(box, name):
+    x0, y0, x1, y1 = box
+    crop = sr.upsample(board[y0:y1, x0:x1])
+    c = crop.astype(np.float32)
+    lum = c.max(axis=2)
+    a = np.clip((lum - 46) / (120 - 46), 0, 1)
+    white = c.min(axis=2) > 150
+    keep = cv2.dilate(white.astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41))) > 0
+    for bx0, by0, bx1, by1 in [(398, 20, 502, 128), (360, 116, 618, 162)]:  # rainbow "//" and "2026"
+        keep[(by0 - y0) * 4:(by1 - y0) * 4, (bx0 - x0) * 4:(bx1 - x0) * 4] = True
+    soft = cv2.GaussianBlur(keep.astype(np.float32), (0, 0), 6)
+    a = a * soft
+    lab, n = ndimage.label(a > 0.2)
+    sizes = ndimage.sum(a > 0.2, lab, range(1, n + 1))
+    small = np.isin(lab, 1 + np.where(sizes < 30)[0])  # stray specks
+    a[small] = 0
+    a[(127 - y0) * 4:, (635 - x0) * 4:] = 0  # board splatter under the H
+    a[(125 - y0) * 4:, :(100 - x0) * 4] = 0
+    rgba = np.dstack([crop, (np.clip(a, 0, 1) * 255).astype(np.uint8)])
+    cv2.imwrite(f"{out}/{name}.png", rgba)
+    print(name, rgba.shape[1], "x", rgba.shape[0])
+
+
+title_clean((86, 14, 742, 206), "title-block")

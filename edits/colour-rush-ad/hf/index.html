@@ -118,6 +118,32 @@
         -webkit-mask-image: radial-gradient(closest-side, #000 45%, transparent 100%);
         mask-image: radial-gradient(closest-side, #000 45%, transparent 100%);
       }
+      #sp-a1 {
+        left: -120px;
+        top: 620px;
+        width: 1100px;
+      }
+      #sp-a2 {
+        left: 940px;
+        top: 600px;
+        width: 1100px;
+        scale: -1 1;
+      }
+      #flare {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 8px;
+        margin-top: -4px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
+        box-shadow: 0 0 40px 10px rgba(170, 120, 255, 0.55);
+        mix-blend-mode: screen;
+        opacity: 0;
+      }
+      #end-tag {
+        display: none;
+      }
       #vignette {
         background: radial-gradient(ellipse 80% 75% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.75) 100%);
       }
@@ -405,6 +431,73 @@
         background: #fff;
         opacity: 0;
       }
+
+      /* ---------- 9:16 layout (root carries class="v") ---------- */
+      #root.v #ghost { top: 820px; font-size: 300px; }
+      #root.v #hk-1 { font-size: 130px; }
+      #root.v #hk-2 { font-size: 110px; }
+      #root.v #hk-3 { font-size: 168px; }
+      #root.v #title-img { left: 40px; top: 810px; width: 1000px; }
+      #root.v #shirt-shadow { left: 240px; top: 1560px; width: 600px; height: 80px; }
+      #root.v #shirt-glow { left: 40px; top: 490px; width: 1000px; height: 1000px; }
+      #root.v #turn { left: 38px; top: 400px; width: 1004px; height: 1180px; }
+      #root.v .face,
+      #root.v .face img { height: 1180px; }
+      #root.v #face-front { left: 4px; width: 996px; }
+      #root.v #face-back { width: 1004px; }
+      #root.v #tag-l { left: 70px; top: 96px; font-size: 92px; }
+      #root.v #tag-r { right: 70px; top: 1600px; }
+      #root.v #km { font-size: 170px; }
+      #root.v #km-sub { font-size: 24px; }
+      #root.v .word { font-size: 170px; }
+      #root.v .word.l { right: auto; left: 60px; text-align: left; }
+      #root.v .word.r { left: auto; right: 60px; text-align: right; }
+      #root.v #w-run { top: 100px; }
+      #root.v #w-loud { top: 250px; }
+      #root.v #w-live { top: 1570px; }
+      #root.v #w-bright { top: 1720px; }
+      #root.v .callout { left: 60px; bottom: 190px; }
+      #root.v .callout .t { font-size: 64px; }
+      #root.v #end-title { left: 60px; top: 150px; width: 960px; }
+      #root.v #end-km { top: 455px; font-size: 22px; letter-spacing: 0.2em; padding-left: 0.2em; }
+      #root.v .end-shirt { top: 545px; height: 620px; }
+      #root.v #end-front { left: 10px; }
+      #root.v #end-back { left: 540px; }
+      #root.v #end-partners { left: 160px; top: 1250px; width: 760px; }
+      #root.v #end-tag {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1530px;
+        text-align: center;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 76px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      #root.v #end-tag span {
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        padding: 0 30px;
+      }
+      #root.v #end-tag small {
+        display: block;
+        margin-top: 26px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.4em;
+        padding-left: 0.4em;
+        color: var(--muted);
+      }
+      #root.v #sp-a1 { left: -420px; top: 1250px; }
+      #root.v #sp-a2 { left: 400px; top: 1250px; }
     </style>
   </head>
   <body>
@@ -416,8 +509,8 @@
         <div class="blob" id="blob-2"></div>
         <div class="blob" id="blob-3"></div>
         <div id="ghost" data-layout-allow-occlusion>COLOUR RUSH ✦ COLOUR RUSH ✦ COLOUR RUSH ✦ COLOUR RUSH ✦</div>
-        <img class="splat" id="sp-a1" src="assets/img/splat-a.png" alt="" style="left: -120px; top: 620px; width: 1100px" />
-        <img class="splat" id="sp-a2" src="assets/img/splat-a.png" alt="" style="left: 940px; top: 600px; width: 1100px; scale: -1 1" />
+        <img class="splat" id="sp-a1" src="assets/img/splat-a.png" alt="" />
+        <img class="splat" id="sp-a2" src="assets/img/splat-a.png" alt="" />
         <canvas id="paint" width="1920" height="1080"></canvas>
       </div>
 
@@ -498,6 +591,7 @@
             <img class="end-shirt" id="end-back" src="assets/img/shirt-back.png" alt="Tee back" />
             <img id="end-title" src="assets/img/title-block.png" alt="Colour Rush Melaka 2026" />
             <div id="end-km"><b>5KM</b> · RUN · MUSIC · COLOUR · COMMUNITY FESTIVAL</div>
+            <div id="end-tag"><span>RUN LOUD LIVE BRIGHT</span><small>NO FILTER. JUST COLOUR.</small></div>
             <img id="end-partners" src="assets/img/partners.png" alt="Organised by MCS, mobility partner Chery and Jetour, AJ Group" />
           </div>
         </div>
@@ -505,9 +599,11 @@
 
       <div id="fx" class="clip" data-start="0" data-duration="20" data-track-index="2">
         <div id="vignette" class="layer"></div>
+        <div id="flare"></div>
         <div id="flash"></div>
       </div>
 
+      <audio id="bgm" src="assets/bgm/track.wav" data-start="0" data-duration="20" data-track-index="9" data-volume="0.62" data-fade-out="1.4"></audio>
       <!-- SFX: data-start = visual moment - file onset (whoosh .08, impact .05) -->
       <audio id="a-riser" src="assets/sfx/riser.mp3" data-start="0" data-duration="1.65" data-track-index="10" data-volume="0.4" data-fade-in="0.3" data-fade-out="0.15"></audio>
       <audio id="a-s1" src="assets/sfx/splat.wav" data-start="0.12" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
@@ -558,11 +654,17 @@
       (function () {
         const DUR = 20;
         const tl = gsap.timeline({ paused: true });
+        const ROOT = document.getElementById("root");
+        const W = +ROOT.dataset.width, H = +ROOT.dataset.height, V = H > W;
+        // music beat grid (seconds), written by scripts/colour_rush_build.py
+        const BEATS = [0.358, 0.819, 1.281, 1.742, 2.204, 2.665, 3.127, 3.588, 4.05, 4.512, 4.973, 5.435, 5.896, 6.358, 6.819, 7.281, 7.742, 8.204, 8.665, 9.127, 9.588, 10.05, 11.43, 11.892, 12.353, 12.815, 13.276, 13.738, 14.199, 14.661, 16.2, 16.662, 17.123, 17.585, 18.046, 18.508, 18.969, 19.431];
+        const DOWNBEATS = [0, 4, 8, 12, 16, 20, 22, 26, 30, 34];
 
         // ---------- camera helper: focus a point of the shirt at a given zoom ----------
-        // shirt box on screen at cam scale 1: left 594, top 110, 732 x 860
-        const SX = 594, SY = 110, SW = 732, SH = 860;
-        const camTo = (nx, ny, s) => ({ x: 960 - s * (SX + nx * SW), y: 540 - s * (SY + ny * SH), scale: s });
+        // shirt box on screen at cam scale 1 (matches #turn in each layout)
+        const [SX, SY, SW, SH] = V ? [38, 400, 1004, 1180] : [594, 110, 732, 860];
+        const camTo = (nx, ny, s) => ({ x: W / 2 - s * (SX + nx * SW), y: H / 2 - s * (SY + ny * SH), scale: s });
+        const ZS = V ? 0.8 : 1; // vertical shirt is already bigger on screen
 
         // ---------- 1. hook: NO FILTER. JUST COLOUR. ----------
         tl.from("#hk-1", { autoAlpha: 0, scale: 2.6, filter: "blur(20px)", duration: 0.32, ease: "expo.out" }, 0.12);
@@ -579,7 +681,7 @@
         // ---------- 3. the tee drops in spinning ----------
         tl.set(["#cam"], { autoAlpha: 0 }, 0);
         tl.set("#cam", { autoAlpha: 1 }, 3.2);
-        tl.fromTo("#turn", { y: -1300, rotationY: -1080, rotationZ: -14, scale: 0.7 }, { y: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 3.2);
+        tl.fromTo("#turn", { y: V ? -1900 : -1300, rotationY: -1080, rotationZ: -14, scale: 0.7 }, { y: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 3.2);
         tl.fromTo("#shirt-glow", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.95);
         tl.fromTo("#shirt-shadow", { scaleX: 0.2, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.8);
         // land: squash + settle
@@ -608,6 +710,7 @@
           [9.45, 0.62, 0.72, 2.3, "#co-4"], // fabric + splatter
         ];
         ZOOMS.forEach(([t, nx, ny, s, co], i) => {
+          s *= ZS;
           tl.to("#cam", { ...camTo(nx, ny, s), duration: 0.36, ease: "expo.inOut" }, t);
           tl.fromTo("#cam", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.12, yoyo: true, repeat: 1, ease: "power1.in", immediateRender: false }, t + 0.06);
           tl.fromTo(co, { autoAlpha: 0, x: -260 }, { autoAlpha: 1, x: 0, duration: 0.25, ease: "expo.out", immediateRender: false }, t + 0.18);
@@ -635,7 +738,7 @@
         // ---------- 6. turntable ----------
         tl.to("#turn", { rotationY: 1080, duration: 2.2, ease: "power2.inOut" }, 13.95);
         tl.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.7, ease: "power2.inOut", immediateRender: false }, 15.4);
-        tl.to("#turn", { y: -1400, rotationZ: 10, duration: 0.3, ease: "power3.in" }, 16.0);
+        tl.to("#turn", { y: V ? -2100 : -1400, rotationZ: 10, duration: 0.3, ease: "power3.in" }, 16.0);
         tl.to(["#shirt-glow", "#shirt-shadow"], { autoAlpha: 0, duration: 0.2 }, 16.05);
 
         // ---------- 7. end card ----------
@@ -644,6 +747,7 @@
         tl.fromTo("#end-title", { autoAlpha: 0, y: -260, scale: 1.4 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 16.55);
         tl.fromTo("#end-km", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 16.95);
         tl.fromTo("#end-partners", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 17.2);
+        tl.fromTo("#end-tag", { autoAlpha: 0, scale: 1.8 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 17.5);
         tl.to("#end-front", { y: -10, rotation: -1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.0);
         tl.to("#end-back", { y: -10, rotation: 1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.2);
         tl.to("#end", { scale: 1.035, duration: 3.3, ease: "none" }, 16.7);
@@ -651,6 +755,11 @@
         // ---------- flashes ----------
         [[0.12, 0.5], [1.05, 0.45], [1.62, 0.8], [4.05, 0.6], [11.45, 0.5], [16.2, 0.85]].forEach(([t, o]) => {
           tl.fromTo("#flash", { opacity: o }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t);
+        });
+
+        // ---------- anamorphic flare on the big hits ----------
+        [1.62, 4.05, 11.45, 16.2].forEach((t) => {
+          tl.fromTo("#flare", { opacity: 1, scaleX: 0.15, scaleY: 1.6 }, { opacity: 0, scaleX: 1.5, scaleY: 0.6, duration: 0.55, ease: "power2.out", immediateRender: false }, t);
         });
 
         // ---------- big splat images ----------
@@ -664,12 +773,20 @@
         const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
         const COLORS = ["#ff2d95", "#ff7a00", "#ffd600", "#2bd94a", "#00c2ff", "#7a3cff"];
         // [time, x, y, droplets, power]
-        const BURSTS = [
-          [0.12, 960, 470, 70, 1.0], [0.7, 560, 600, 50, 0.8], [1.05, 1360, 560, 80, 1.1],
-          [1.62, 960, 520, 120, 1.4], [4.05, 960, 900, 110, 1.3], [11.45, 960, 600, 100, 1.2],
-          [11.75, 380, 360, 40, 0.7], [12.15, 1540, 470, 40, 0.7], [12.55, 380, 640, 40, 0.7],
-          [12.95, 1540, 770, 50, 0.8], [16.2, 960, 620, 140, 1.5],
-        ].map(([t, x, y, n, p]) => ({
+        const BURSTS = (V
+          ? [
+              [0.12, 540, 800, 70, 1.0], [0.7, 300, 1000, 50, 0.8], [1.05, 780, 1100, 80, 1.1],
+              [1.62, 540, 950, 120, 1.4], [4.05, 540, 1560, 110, 1.3], [11.45, 540, 1100, 100, 1.2],
+              [11.75, 260, 200, 40, 0.7], [12.15, 820, 350, 40, 0.7], [12.55, 260, 1670, 40, 0.7],
+              [12.95, 820, 1820, 50, 0.8], [16.2, 540, 900, 140, 1.5],
+            ]
+          : [
+              [0.12, 960, 470, 70, 1.0], [0.7, 560, 600, 50, 0.8], [1.05, 1360, 560, 80, 1.1],
+              [1.62, 960, 520, 120, 1.4], [4.05, 960, 900, 110, 1.3], [11.45, 960, 600, 100, 1.2],
+              [11.75, 380, 360, 40, 0.7], [12.15, 1540, 470, 40, 0.7], [12.55, 380, 640, 40, 0.7],
+              [12.95, 1540, 770, 50, 0.8], [16.2, 960, 620, 140, 1.5],
+            ]
+        ).map(([t, x, y, n, p]) => ({
           t, x, y,
           drops: Array.from({ length: n }, () => {
             const a = rnd() * Math.PI * 2;
@@ -678,15 +795,45 @@
           }),
           blobs: Array.from({ length: 6 }, (_, k) => ({ dx: (rnd() - 0.5) * 340 * p, dy: (rnd() - 0.5) * 220 * p, r: (70 + rnd() * 110) * p, c: COLORS[(k + Math.floor(rnd() * 6)) % 6] })),
         }));
-        const ctx = document.getElementById("paint").getContext("2d");
+        const paint = document.getElementById("paint");
+        paint.width = W;
+        paint.height = H;
+        const ctx = paint.getContext("2d");
+        // radial speed streaks while the tee spins
+        const SPINS = [[3.2, 4.05], [10.78, 11.48], [13.95, 16.15]];
+        const STREAKS = Array.from({ length: 90 }, () => ({ a: rnd() * Math.PI * 2, r0: rnd(), w: 1 + rnd() * 3, c: COLORS[Math.floor(rnd() * 6)] }));
+        const RMAX = Math.hypot(W, H) / 2;
         const aura = document.getElementById("aura");
         const ghost = document.getElementById("ghost");
         const b1 = document.getElementById("blob-1"), b2 = document.getElementById("blob-2"), b3 = document.getElementById("blob-3");
         const stage = document.getElementById("stage");
-        const SHAKES = [1.05, 1.62, 4.05, 11.45, 16.2];
+        const SHAKES = [0.12, 1.05, 1.62, 4.05, 11.45, 11.75, 12.15, 12.55, 12.95, 16.2];
+        stage.style.transformOrigin = "50% 50%";
 
         function render(t) {
-          ctx.clearRect(0, 0, 1920, 1080);
+          ctx.clearRect(0, 0, W, H);
+          // speed streaks
+          let spin = 0;
+          SPINS.forEach(([a, b]) => {
+            if (t > a && t < b) spin = Math.max(spin, Math.sin((Math.PI * (t - a)) / (b - a)));
+          });
+          if (spin > 0.01) {
+            ctx.globalCompositeOperation = "lighter";
+            ctx.lineCap = "round";
+            STREAKS.forEach((s) => {
+              const r = ((s.r0 + t * 1.6) % 1) * RMAX;
+              const len = 60 + spin * 320 * (r / RMAX + 0.3);
+              const cx = W / 2, cy = H / 2;
+              ctx.globalAlpha = spin * 0.55 * Math.min(1, r / 200);
+              ctx.strokeStyle = s.c;
+              ctx.lineWidth = s.w;
+              ctx.beginPath();
+              ctx.moveTo(cx + Math.cos(s.a) * r, cy + Math.sin(s.a) * r);
+              ctx.lineTo(cx + Math.cos(s.a) * (r + len), cy + Math.sin(s.a) * (r + len));
+              ctx.stroke();
+            });
+            ctx.globalAlpha = 1;
+          }
           ctx.globalCompositeOperation = "lighter";
           BURSTS.forEach((b) => {
             const u = t - b.t;
@@ -725,22 +872,37 @@
           ctx.globalAlpha = 1;
           ctx.globalCompositeOperation = "source-over";
 
-          aura.style.transform = `rotate(${(t * 40).toFixed(2)}deg) scale(${(1 + 0.08 * Math.sin(t * 2.4)).toFixed(3)})`;
+          // beat pulse from the music grid (downbeats hit harder)
+          let pulse = 0;
+          for (let i = BEATS.length - 1; i >= 0; i--) {
+            if (BEATS[i] <= t) {
+              pulse = Math.exp(-(t - BEATS[i]) * 9) * (DOWNBEATS.includes(i) ? 1 : 0.55);
+              break;
+            }
+          }
+          aura.style.opacity = (0.3 + 0.35 * pulse).toFixed(3);
+          aura.style.transform = `rotate(${(t * 40).toFixed(2)}deg) scale(${(1 + 0.08 * Math.sin(t * 2.4) + 0.06 * pulse).toFixed(3)})`;
           ghost.style.transform = `translateX(${(-300 - t * 120).toFixed(1)}px)`;
           b1.style.transform = `translate(${(Math.sin(t * 0.9) * 90).toFixed(1)}px, ${(Math.cos(t * 0.7) * 60).toFixed(1)}px)`;
           b2.style.transform = `translate(${(Math.cos(t * 0.8) * 100).toFixed(1)}px, ${(Math.sin(t * 1.1) * 70).toFixed(1)}px)`;
           b3.style.transform = `translate(${(Math.sin(t * 1.3) * 70).toFixed(1)}px, ${(Math.sin(t * 0.6) * 60).toFixed(1)}px)`;
 
-          let sx = 0, sy = 0;
+          let sx = 0, sy = 0, rgb = 0;
           SHAKES.forEach((s, k) => {
             const u = t - s;
             if (u >= 0 && u < 0.4) {
               const amp = 14 * Math.exp(-u * 12);
               sx += Math.sin(u * 95 + k) * amp;
               sy += Math.cos(u * 80 + k * 3) * amp * 0.7;
+              rgb = Math.max(rgb, 14 * Math.exp(-u * 11));
             }
           });
-          stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px)`;
+          stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(${(1 + 0.014 * pulse).toFixed(4)})`;
+          // RGB split on impacts
+          stage.style.filter =
+            rgb > 0.5
+              ? `drop-shadow(${rgb.toFixed(1)}px 0 0 rgba(255, 0, 90, 0.6)) drop-shadow(${(-rgb).toFixed(1)}px 0 0 rgba(0, 210, 255, 0.6))`
+              : "none";
         }
 
         const clock = { t: 0 };

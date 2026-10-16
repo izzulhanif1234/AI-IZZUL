@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Concept: the tee IS the paint explosion. A near-black stage that keeps erupting in
+         rainbow paint on every beat; the shirt drops in spinning, the camera whips across
+         its details, it turns to show the back, spins on a turntable, then lands front + back
+         for the end card. Palette lifted from the print: magenta, orange, yellow, green,
+         cyan, violet on deep navy-black. */
+      :root {
+        --bg: #05060f;
+        --fg: #ffffff;
+        --muted: #b9bfd9;
+        --mag: #ff2d95;
+        --org: #ff7a00;
+        --yel: #ffd600;
+        --grn: #2bd94a;
+        --cyn: #00c2ff;
+        --vio: #7a3cff;
+        --rainbow: linear-gradient(90deg, #ff2d95, #ff7a00, #ffd600, #2bd94a, #00c2ff, #7a3cff);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family: Inter, sans-serif;
+        color: var(--fg);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ---------- background ---------- */
+      #bg-base {
+        background: radial-gradient(ellipse 65% 60% at 50% 50%, #121633 0%, #080a1a 55%, var(--bg) 100%);
+      }
+      #aura {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1500px;
+        height: 1500px;
+        margin: -750px 0 0 -750px;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, #ff2d95, #ff7a00, #ffd600, #2bd94a, #00c2ff, #7a3cff, #ff2d95);
+        filter: blur(140px);
+        opacity: 0.32;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        mix-blend-mode: screen;
+      }
+      #blob-1 {
+        width: 760px;
+        height: 760px;
+        left: -260px;
+        top: -260px;
+        background: radial-gradient(circle, rgba(255, 45, 149, 0.55), rgba(255, 45, 149, 0) 65%);
+      }
+      #blob-2 {
+        width: 820px;
+        height: 820px;
+        right: -300px;
+        bottom: -320px;
+        background: radial-gradient(circle, rgba(0, 194, 255, 0.5), rgba(0, 194, 255, 0) 65%);
+      }
+      #blob-3 {
+        width: 700px;
+        height: 700px;
+        right: -200px;
+        top: -300px;
+        background: radial-gradient(circle, rgba(255, 214, 0, 0.32), rgba(255, 214, 0, 0) 65%);
+      }
+      #ghost {
+        position: absolute;
+        left: 0;
+        top: 380px;
+        white-space: nowrap;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 330px;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.08);
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.12);
+      }
+      #paint {
+        position: absolute;
+        inset: 0;
+      }
+      .splat {
+        position: absolute;
+        opacity: 0;
+        mix-blend-mode: screen;
+        -webkit-mask-image: radial-gradient(closest-side, #000 45%, transparent 100%);
+        mask-image: radial-gradient(closest-side, #000 45%, transparent 100%);
+      }
+      #sp-a1 {
+        left: -120px;
+        top: 620px;
+        width: 1100px;
+      }
+      #sp-a2 {
+        left: 940px;
+        top: 600px;
+        width: 1100px;
+        scale: -1 1;
+      }
+      #flare {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 8px;
+        margin-top: -4px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
+        box-shadow: 0 0 40px 10px rgba(170, 120, 255, 0.55);
+        mix-blend-mode: screen;
+        opacity: 0;
+      }
+      #end-tag {
+        display: none;
+      }
+      #vignette {
+        background: radial-gradient(ellipse 80% 75% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.75) 100%);
+      }
+
+      /* ---------- hook ---------- */
+      #hook {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hk {
+        font-weight: 800;
+        font-style: italic;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      #hk-1 {
+        font-size: 150px;
+      }
+      #hk-2 {
+        font-size: 120px;
+        color: var(--muted);
+        margin-top: 18px;
+      }
+      #hk-3 {
+        font-size: 270px;
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        padding: 0 40px;
+        filter: drop-shadow(0 0 40px rgba(255, 45, 149, 0.45));
+      }
+
+      /* title slam */
+      #title-img {
+        position: absolute;
+        left: 260px;
+        top: 310px;
+        width: 1400px;
+      }
+
+      /* ---------- shirt stage ---------- */
+      #cam {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        transform-origin: 0 0;
+      }
+      #shirt-shadow {
+        position: absolute;
+        left: 660px;
+        top: 950px;
+        width: 600px;
+        height: 70px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0) 70%);
+      }
+      #shirt-glow {
+        position: absolute;
+        left: 560px;
+        top: 160px;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(140, 90, 255, 0.45), rgba(255, 45, 149, 0.18) 45%, rgba(0, 0, 0, 0) 70%);
+        filter: blur(30px);
+      }
+      #persp {
+        position: absolute;
+        inset: 0;
+        perspective: 2400px;
+        perspective-origin: 50% 45%;
+      }
+      #turn {
+        position: absolute;
+        left: 594px;
+        top: 110px;
+        width: 732px;
+        height: 860px;
+        transform-style: preserve-3d;
+      }
+      .face {
+        position: absolute;
+        top: 0;
+        height: 860px;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      .face img {
+        display: block;
+        height: 860px;
+        filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.55));
+      }
+      #face-front {
+        left: 3px;
+        width: 726px;
+      }
+      #face-back {
+        left: 0;
+        width: 732px;
+        transform: rotateY(180deg);
+      }
+      .sheen {
+        position: absolute;
+        inset: 0;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        background: linear-gradient(105deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.42) 50%, rgba(255, 255, 255, 0) 60%);
+        background-size: 300% 100%;
+        background-position: 120% 0;
+        mix-blend-mode: soft-light;
+      }
+      #face-front .sheen {
+        -webkit-mask-image: url(assets/img/shirt-front.png);
+        mask-image: url(assets/img/shirt-front.png);
+      }
+      #face-back .sheen {
+        -webkit-mask-image: url(assets/img/shirt-back.png);
+        mask-image: url(assets/img/shirt-back.png);
+      }
+
+      /* side kinetic type */
+      .side {
+        position: absolute;
+        font-weight: 800;
+        font-style: italic;
+        letter-spacing: -0.02em;
+        line-height: 0.95;
+        white-space: nowrap;
+      }
+      #tag-l {
+        left: 110px;
+        top: 330px;
+        font-size: 104px;
+      }
+      #tag-l div:nth-child(2) {
+        color: var(--yel);
+      }
+      #tag-l div:nth-child(3) {
+        color: var(--mag);
+      }
+      #tag-r {
+        right: 110px;
+        top: 300px;
+        text-align: right;
+      }
+      #km {
+        font-size: 230px;
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        padding: 0 20px 0 30px;
+      }
+      #km-sub {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.32em;
+        line-height: 1.6;
+        color: var(--fg);
+      }
+      .word {
+        position: absolute;
+        top: 420px;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 190px;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .word.l {
+        right: 1380px;
+        text-align: right;
+      }
+      .word.r {
+        left: 1380px;
+      }
+      #w-run {
+        top: 250px;
+      }
+      #w-loud {
+        top: 380px;
+        color: var(--cyn);
+      }
+      #w-live {
+        top: 560px;
+        color: var(--yel);
+      }
+      #w-bright {
+        top: 690px;
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        padding-right: 24px;
+      }
+
+      /* detail callouts */
+      .callout {
+        position: absolute;
+        left: 90px;
+        bottom: 96px;
+        padding: 22px 34px 24px 30px;
+        background: rgba(5, 6, 15, 0.78);
+        border-left: 10px solid var(--c);
+        border-radius: 6px 18px 18px 6px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+      .callout .k {
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: 0.3em;
+        color: var(--c);
+      }
+      .callout .t {
+        margin-top: 6px;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 74px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .callout .s {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 30px;
+        color: var(--muted);
+      }
+
+      /* ---------- end card ---------- */
+      .end-shirt {
+        position: absolute;
+        top: 318px;
+        height: 620px;
+        filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.6));
+      }
+      #end-front {
+        left: 404px;
+      }
+      #end-back {
+        left: 1000px;
+      }
+      #end-title {
+        position: absolute;
+        left: 535px;
+        top: 26px;
+        width: 850px;
+      }
+      #end-km {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 282px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: 0.42em;
+        padding-left: 0.42em;
+        color: var(--fg);
+      }
+      #end-km b {
+        color: var(--yel);
+      }
+      #end-partners {
+        position: absolute;
+        left: 735px;
+        top: 922px;
+        width: 450px;
+      }
+
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        opacity: 0;
+      }
+
+      /* ---------- 9:16 layout (root carries class="v") ---------- */
+      #root.v #ghost { top: 820px; font-size: 300px; }
+      #root.v #hk-1 { font-size: 130px; }
+      #root.v #hk-2 { font-size: 110px; }
+      #root.v #hk-3 { font-size: 168px; }
+      #root.v #title-img { left: 40px; top: 810px; width: 1000px; }
+      #root.v #shirt-shadow { left: 240px; top: 1560px; width: 600px; height: 80px; }
+      #root.v #shirt-glow { left: 40px; top: 490px; width: 1000px; height: 1000px; }
+      #root.v #turn { left: 38px; top: 400px; width: 1004px; height: 1180px; }
+      #root.v .face,
+      #root.v .face img { height: 1180px; }
+      #root.v #face-front { left: 4px; width: 996px; }
+      #root.v #face-back { width: 1004px; }
+      #root.v #tag-l { left: 70px; top: 96px; font-size: 92px; }
+      #root.v #tag-r { right: 70px; top: 1600px; }
+      #root.v #km { font-size: 170px; }
+      #root.v #km-sub { font-size: 24px; }
+      #root.v .word { font-size: 170px; }
+      #root.v .word.l { right: auto; left: 60px; text-align: left; }
+      #root.v .word.r { left: auto; right: 60px; text-align: right; }
+      #root.v #w-run { top: 100px; }
+      #root.v #w-loud { top: 250px; }
+      #root.v #w-live { top: 1570px; }
+      #root.v #w-bright { top: 1720px; }
+      #root.v .callout { left: 60px; bottom: 190px; }
+      #root.v .callout .t { font-size: 64px; }
+      #root.v #end-title { left: 60px; top: 150px; width: 960px; }
+      #root.v #end-km { top: 455px; font-size: 22px; letter-spacing: 0.2em; padding-left: 0.2em; }
+      #root.v .end-shirt { top: 545px; height: 620px; }
+      #root.v #end-front { left: 10px; }
+      #root.v #end-back { left: 540px; }
+      #root.v #end-partners { left: 160px; top: 1250px; width: 760px; }
+      #root.v #end-tag {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1530px;
+        text-align: center;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 76px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      #root.v #end-tag span {
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        padding: 0 30px;
+      }
+      #root.v #end-tag small {
+        display: block;
+        margin-top: 26px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.4em;
+        padding-left: 0.4em;
+        color: var(--muted);
+      }
+      #root.v #sp-a1 { left: -420px; top: 1250px; }
+      #root.v #sp-a2 { left: 400px; top: 1250px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="v" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="20" data-track-index="0">
+        <div id="bg-base" class="layer"></div>
+        <div id="aura"></div>
+        <div class="blob" id="blob-1"></div>
+        <div class="blob" id="blob-2"></div>
+        <div class="blob" id="blob-3"></div>
+        <div id="ghost" data-layout-allow-occlusion>COLOUR RUSH ✦ COLOUR RUSH ✦ COLOUR RUSH ✦ COLOUR RUSH ✦</div>
+        <img class="splat" id="sp-a1" src="assets/img/splat-a.png" alt="" />
+        <img class="splat" id="sp-a2" src="assets/img/splat-a.png" alt="" />
+        <canvas id="paint" width="1920" height="1080"></canvas>
+      </div>
+
+      <div id="stage" class="clip" data-start="0" data-duration="20" data-track-index="1">
+        <!-- hook -->
+        <div class="layer">
+          <div id="hook" class="layer">
+            <div class="hk" id="hk-1">NO FILTER.</div>
+            <div class="hk" id="hk-2">JUST</div>
+            <div class="hk" id="hk-3">COLOUR.</div>
+          </div>
+        </div>
+        <!-- title slam -->
+        <div class="layer">
+          <img id="title-img" src="assets/img/title-block.png" alt="Colour Rush Melaka 2026" />
+        </div>
+
+        <!-- shirt stage -->
+        <div class="layer">
+          <div id="cam">
+            <div id="shirt-glow"></div>
+            <div id="shirt-shadow"></div>
+            <div id="persp">
+              <div id="turn">
+                <div class="face" id="face-front">
+                  <img src="assets/img/shirt-front.png" alt="Colour Rush tee front" />
+                  <div class="sheen"></div>
+                </div>
+                <div class="face" id="face-back">
+                  <img src="assets/img/shirt-back.png" alt="Colour Rush tee back" />
+                  <div class="sheen"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="side" id="tag-l">
+            <div>RUN.</div>
+            <div>SPLASH.</div>
+            <div>REPEAT.</div>
+          </div>
+          <div class="side" id="tag-r">
+            <div id="km">5KM</div>
+            <div id="km-sub">RUN · MUSIC<br />COLOUR<br />COMMUNITY FESTIVAL</div>
+          </div>
+
+          <div class="word l" id="w-run">RUN</div>
+          <div class="word r" id="w-loud">LOUD</div>
+          <div class="word l" id="w-live">LIVE</div>
+          <div class="word r" id="w-bright">BRIGHT</div>
+
+          <div class="callout" id="co-1" style="--c: var(--mag)">
+            <div class="k">DESIGN DETAIL</div>
+            <div class="t">PREMIUM COLLAR</div>
+            <div class="s">Clean &amp; comfortable</div>
+          </div>
+          <div class="callout" id="co-2" style="--c: var(--cyn)">
+            <div class="k">LEFT SLEEVE</div>
+            <div class="t">CHERY</div>
+            <div class="s">Official mobility partner</div>
+          </div>
+          <div class="callout" id="co-3" style="--c: var(--yel)">
+            <div class="k">RIGHT SLEEVE</div>
+            <div class="t">JETOUR</div>
+            <div class="s">Official mobility partner</div>
+          </div>
+          <div class="callout" id="co-4" style="--c: var(--grn)">
+            <div class="k">DESIGN DETAIL</div>
+            <div class="t">BREATHABLE FABRIC</div>
+            <div class="s">For maximum performance</div>
+          </div>
+        </div>
+
+        <!-- end card -->
+        <div class="layer">
+          <div id="end" class="layer">
+            <img class="end-shirt" id="end-front" src="assets/img/shirt-front.png" alt="Tee front" />
+            <img class="end-shirt" id="end-back" src="assets/img/shirt-back.png" alt="Tee back" />
+            <img id="end-title" src="assets/img/title-block.png" alt="Colour Rush Melaka 2026" />
+            <div id="end-km"><b>5KM</b> · RUN · MUSIC · COLOUR · COMMUNITY FESTIVAL</div>
+            <div id="end-tag"><span>RUN LOUD LIVE BRIGHT</span><small>NO FILTER. JUST COLOUR.</small></div>
+            <img id="end-partners" src="assets/img/partners.png" alt="Organised by MCS, mobility partner Chery and Jetour, AJ Group" />
+          </div>
+        </div>
+      </div>
+
+      <div id="fx" class="clip" data-start="0" data-duration="20" data-track-index="2">
+        <div id="vignette" class="layer"></div>
+        <div id="flare"></div>
+        <div id="flash"></div>
+      </div>
+
+      <audio id="bgm" src="assets/bgm/track.wav" data-start="0" data-duration="20" data-track-index="9" data-volume="0.62" data-fade-out="1.4"></audio>
+      <!-- SFX: data-start = visual moment - file onset (whoosh .08, impact .05) -->
+      <audio id="a-riser" src="assets/sfx/riser.mp3" data-start="0" data-duration="1.65" data-track-index="10" data-volume="0.4" data-fade-in="0.3" data-fade-out="0.15"></audio>
+      <audio id="a-s1" src="assets/sfx/splat.wav" data-start="0.12" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="a-w1" src="assets/sfx/whoosh-short.mp3" data-start="0.04" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="a-w2" src="assets/sfx/whoosh-short.mp3" data-start="0.62" data-duration="0.57" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="a-s2" src="assets/sfx/splat.wav" data-start="0.7" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="a-s3" src="assets/sfx/splat.wav" data-start="1.02" data-duration="0.32" data-track-index="14" data-volume="0.85"></audio>
+      <audio id="a-zoom" src="assets/sfx/whoosh.mp3" data-start="1.44" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="a-title" src="assets/sfx/impact-bass-1.mp3" data-start="1.6" data-duration="1.5" data-track-index="15" data-volume="0.7" data-fade-out="0.4"></audio>
+      <audio id="a-s4" src="assets/sfx/splat.wav" data-start="1.62" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="a-glitch" src="assets/sfx/glitch-1.mp3" data-start="2.95" data-duration="0.35" data-track-index="16" data-volume="0.35" data-fade-out="0.1"></audio>
+      <audio id="a-drop" src="assets/sfx/whoosh-cinematic.mp3" data-start="3.15" data-duration="1.0" data-track-index="17" data-volume="0.55" data-fade-out="0.2"></audio>
+      <audio id="a-land" src="assets/sfx/impact-bass-2.mp3" data-start="4.0" data-duration="2.0" data-track-index="15" data-volume="0.75" data-fade-out="0.5"></audio>
+      <audio id="a-s5" src="assets/sfx/splat.wav" data-start="4.05" data-duration="0.32" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="a-p1" src="assets/sfx/pop.mp3" data-start="4.3" data-duration="0.5" data-track-index="18" data-volume="0.45"></audio>
+      <audio id="a-p2" src="assets/sfx/pop.mp3" data-start="4.6" data-duration="0.5" data-track-index="19" data-volume="0.45"></audio>
+      <audio id="a-p3" src="assets/sfx/pop.mp3" data-start="4.9" data-duration="0.5" data-track-index="18" data-volume="0.45"></audio>
+      <audio id="a-km" src="assets/sfx/whoosh-short.mp3" data-start="5.02" data-duration="0.57" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="a-sheen" src="assets/sfx/sparkle.mp3" data-start="5.5" data-duration="1.4" data-track-index="20" data-volume="0.3" data-fade-out="0.4"></audio>
+      <audio id="a-z1" src="assets/sfx/whoosh.mp3" data-start="6.37" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="a-z2" src="assets/sfx/whoosh-short.mp3" data-start="7.37" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="a-z3" src="assets/sfx/whoosh.mp3" data-start="8.37" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="a-z4" src="assets/sfx/whoosh-short.mp3" data-start="9.37" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="a-c1" src="assets/sfx/pop.mp3" data-start="6.72" data-duration="0.5" data-track-index="18" data-volume="0.35"></audio>
+      <audio id="a-c2" src="assets/sfx/pop.mp3" data-start="7.72" data-duration="0.5" data-track-index="19" data-volume="0.35"></audio>
+      <audio id="a-c3" src="assets/sfx/pop.mp3" data-start="8.72" data-duration="0.5" data-track-index="18" data-volume="0.35"></audio>
+      <audio id="a-c4" src="assets/sfx/pop.mp3" data-start="9.72" data-duration="0.5" data-track-index="19" data-volume="0.35"></audio>
+      <audio id="a-out" src="assets/sfx/whoosh.mp3" data-start="10.37" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="a-spin" src="assets/sfx/whoosh-cinematic.mp3" data-start="10.7" data-duration="0.9" data-track-index="17" data-volume="0.55" data-fade-out="0.2"></audio>
+      <audio id="a-backhit" src="assets/sfx/impact-bass-1.mp3" data-start="11.4" data-duration="1.4" data-track-index="15" data-volume="0.65" data-fade-out="0.4"></audio>
+      <audio id="a-s6" src="assets/sfx/splat.wav" data-start="11.45" data-duration="0.32" data-track-index="11" data-volume="0.85"></audio>
+      <audio id="a-wd1" src="assets/sfx/splat.wav" data-start="11.72" data-duration="0.32" data-track-index="14" data-volume="0.6"></audio>
+      <audio id="a-wd2" src="assets/sfx/splat.wav" data-start="12.12" data-duration="0.32" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="a-wd3" src="assets/sfx/splat.wav" data-start="12.52" data-duration="0.32" data-track-index="14" data-volume="0.6"></audio>
+      <audio id="a-wd4" src="assets/sfx/splat.wav" data-start="12.92" data-duration="0.32" data-track-index="11" data-volume="0.75"></audio>
+      <audio id="a-wdp1" src="assets/sfx/whoosh-short.mp3" data-start="11.64" data-duration="0.57" data-track-index="13" data-volume="0.35"></audio>
+      <audio id="a-wdp2" src="assets/sfx/whoosh-short.mp3" data-start="12.44" data-duration="0.57" data-track-index="13" data-volume="0.35"></audio>
+      <audio id="a-turn" src="assets/sfx/whoosh-cinematic.mp3" data-start="13.85" data-duration="2.2" data-track-index="17" data-volume="0.45" data-fade-in="0.2" data-fade-out="0.6"></audio>
+      <audio id="a-sheen2" src="assets/sfx/sparkle.mp3" data-start="14.6" data-duration="1.6" data-track-index="20" data-volume="0.28" data-fade-out="0.4"></audio>
+      <audio id="a-end" src="assets/sfx/impact-bass-2.mp3" data-start="16.15" data-duration="2.5" data-track-index="15" data-volume="0.8" data-fade-out="0.8"></audio>
+      <audio id="a-s7" src="assets/sfx/splat.wav" data-start="16.2" data-duration="0.32" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="a-et" src="assets/sfx/whoosh.mp3" data-start="16.47" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="a-ep" src="assets/sfx/pop.mp3" data-start="17.2" data-duration="0.5" data-track-index="18" data-volume="0.4"></audio>
+      <audio id="a-es" src="assets/sfx/sparkle.mp3" data-start="17.6" data-duration="1.8" data-track-index="20" data-volume="0.3" data-fade-out="0.5"></audio>
+    </div>
+
+    <script>
+      (function () {
+        const DUR = 20;
+        const tl = gsap.timeline({ paused: true });
+        const ROOT = document.getElementById("root");
+        const W = +ROOT.dataset.width, H = +ROOT.dataset.height, V = H > W;
+        // music beat grid (seconds), written by scripts/colour_rush_build.py
+        const BEATS = [0.358, 0.819, 1.281, 1.742, 2.204, 2.665, 3.127, 3.588, 4.05, 4.512, 4.973, 5.435, 5.896, 6.358, 6.819, 7.281, 7.742, 8.204, 8.665, 9.127, 9.588, 10.05, 11.43, 11.892, 12.353, 12.815, 13.276, 13.738, 14.199, 14.661, 16.2, 16.662, 17.123, 17.585, 18.046, 18.508, 18.969, 19.431];
+        const DOWNBEATS = [0, 4, 8, 12, 16, 20, 22, 26, 30, 34];
+
+        // ---------- camera helper: focus a point of the shirt at a given zoom ----------
+        // shirt box on screen at cam scale 1 (matches #turn in each layout)
+        const [SX, SY, SW, SH] = V ? [38, 400, 1004, 1180] : [594, 110, 732, 860];
+        const camTo = (nx, ny, s) => ({ x: W / 2 - s * (SX + nx * SW), y: H / 2 - s * (SY + ny * SH), scale: s });
+        const ZS = V ? 0.8 : 1; // vertical shirt is already bigger on screen
+
+        // ---------- 1. hook: NO FILTER. JUST COLOUR. ----------
+        tl.from("#hk-1", { autoAlpha: 0, scale: 2.6, filter: "blur(20px)", duration: 0.32, ease: "expo.out" }, 0.12);
+        tl.from("#hk-2", { autoAlpha: 0, x: -500, skewX: -20, duration: 0.28, ease: "expo.out" }, 0.66);
+        tl.from("#hk-3", { autoAlpha: 0, scale: 0.2, rotation: -8, duration: 0.42, ease: "back.out(2.4)" }, 1.05);
+        tl.to("#hook", { scale: 1.08, duration: 0.31, ease: "none" }, 1.05);
+        tl.to("#hook", { scale: 9, autoAlpha: 0, filter: "blur(30px)", duration: 0.26, ease: "expo.in" }, 1.36);
+
+        // ---------- 2. title slam ----------
+        tl.fromTo("#title-img", { autoAlpha: 0, scale: 2.8, filter: "blur(26px)", rotation: -4 }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", rotation: 0, duration: 0.36, ease: "expo.out" }, 1.62);
+        tl.to("#title-img", { scale: 1.07, duration: 1.3, ease: "none" }, 1.98);
+        tl.to("#title-img", { y: -900, scaleY: 1.6, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, 3.0);
+
+        // ---------- 3. the tee drops in spinning ----------
+        tl.set(["#cam"], { autoAlpha: 0 }, 0);
+        tl.set("#cam", { autoAlpha: 1 }, 3.2);
+        tl.fromTo("#turn", { y: V ? -1900 : -1300, rotationY: -1080, rotationZ: -14, scale: 0.7 }, { y: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 3.2);
+        tl.fromTo("#shirt-glow", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.95);
+        tl.fromTo("#shirt-shadow", { scaleX: 0.2, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.8);
+        // land: squash + settle
+        tl.to("#turn", { scaleY: 0.96, scaleX: 1.03, duration: 0.08, ease: "power2.out" }, 4.05);
+        tl.to("#turn", { scaleY: 1, scaleX: 1, duration: 0.4, ease: "elastic.out(1, 0.4)" }, 4.13);
+        // idle sway while the side copy is up
+        tl.to("#turn", { rotationY: 14, duration: 1.0, ease: "sine.inOut" }, 4.55);
+        tl.to("#turn", { rotationY: -10, duration: 0.5, ease: "sine.inOut" }, 5.55);
+        tl.to("#turn", { rotationY: 0, duration: 0.3, ease: "power2.inOut" }, 6.05);
+        // side copy
+        gsap.utils.toArray("#tag-l div").forEach((el, i) => {
+          tl.from(el, { autoAlpha: 0, x: -400, skewX: -24, duration: 0.3, ease: "expo.out" }, 4.3 + i * 0.3);
+        });
+        tl.from("#km", { autoAlpha: 0, scale: 2.2, filter: "blur(16px)", duration: 0.35, ease: "expo.out" }, 5.1);
+        tl.from("#km-sub", { autoAlpha: 0, x: 120, duration: 0.4, ease: "expo.out" }, 5.35);
+        tl.to("#tag-l", { x: -900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
+        tl.to("#tag-r", { x: 900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
+        // sheen pass
+        tl.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.9, ease: "power2.inOut", immediateRender: false }, 5.5);
+
+        // ---------- 4. detail whip-zooms ----------
+        const ZOOMS = [
+          [6.45, 0.495, 0.06, 2.6, "#co-1"], // collar
+          [7.45, 0.1, 0.33, 2.7, "#co-2"], // CHERY sleeve
+          [8.45, 0.88, 0.34, 2.7, "#co-3"], // JETOUR sleeve
+          [9.45, 0.62, 0.72, 2.3, "#co-4"], // fabric + splatter
+        ];
+        ZOOMS.forEach(([t, nx, ny, s, co], i) => {
+          s *= ZS;
+          tl.to("#cam", { ...camTo(nx, ny, s), duration: 0.36, ease: "expo.inOut" }, t);
+          tl.fromTo("#cam", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.12, yoyo: true, repeat: 1, ease: "power1.in", immediateRender: false }, t + 0.06);
+          tl.fromTo(co, { autoAlpha: 0, x: -260 }, { autoAlpha: 1, x: 0, duration: 0.25, ease: "expo.out", immediateRender: false }, t + 0.18);
+          tl.fromTo(co + " .t", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.22, ease: "power3.out", immediateRender: false }, t + 0.2);
+          tl.to(co, { autoAlpha: 0, x: -200, duration: 0.18, ease: "power2.in" }, t + 0.86);
+          // slow drift during the hold so it never sits still
+          tl.to("#cam", { ...camTo(nx + (i % 2 ? -0.02 : 0.02), ny + 0.01, s * 1.05), duration: 0.55, ease: "none" }, t + 0.36);
+        });
+        tl.set(".callout", { autoAlpha: 0 }, 0);
+        tl.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.36, ease: "expo.inOut" }, 10.45);
+
+        // ---------- 5. spin round to the back ----------
+        tl.to("#turn", { rotationY: 540, duration: 0.7, ease: "expo.inOut" }, 10.78);
+        tl.to("#turn", { scaleY: 0.97, scaleX: 1.02, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 11.45);
+        // push into the back print while the words slam
+        tl.to("#cam", { ...camTo(0.5, 0.42, 1.1), duration: 2.1, ease: "power1.inOut" }, 11.5);
+        [["#w-run", -1], ["#w-loud", 1], ["#w-live", -1], ["#w-bright", 1]].forEach(([sel, d], i) => {
+          tl.from(sel, { autoAlpha: 0, x: d * 700, skewX: -22 * d, scale: 1.4, duration: 0.3, ease: "expo.out" }, 11.75 + i * 0.4);
+        });
+        tl.to(["#w-run", "#w-live"], { x: -1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
+        tl.to(["#w-loud", "#w-bright"], { x: 1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
+        tl.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.4, ease: "expo.inOut" }, 13.7);
+        tl.fromTo("#face-back .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.8, ease: "power2.inOut", immediateRender: false }, 12.0);
+
+        // ---------- 6. turntable ----------
+        tl.to("#turn", { rotationY: 1080, duration: 2.2, ease: "power2.inOut" }, 13.95);
+        tl.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.7, ease: "power2.inOut", immediateRender: false }, 15.4);
+        tl.to("#turn", { y: V ? -2100 : -1400, rotationZ: 10, duration: 0.3, ease: "power3.in" }, 16.0);
+        tl.to(["#shirt-glow", "#shirt-shadow"], { autoAlpha: 0, duration: 0.2 }, 16.05);
+
+        // ---------- 7. end card ----------
+        tl.fromTo("#end-front", { autoAlpha: 0, x: -900, rotation: -12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.2);
+        tl.fromTo("#end-back", { autoAlpha: 0, x: 900, rotation: 12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.28);
+        tl.fromTo("#end-title", { autoAlpha: 0, y: -260, scale: 1.4 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 16.55);
+        tl.fromTo("#end-km", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 16.95);
+        tl.fromTo("#end-partners", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 17.2);
+        tl.fromTo("#end-tag", { autoAlpha: 0, scale: 1.8 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 17.5);
+        tl.to("#end-front", { y: -10, rotation: -1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.0);
+        tl.to("#end-back", { y: -10, rotation: 1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.2);
+        tl.to("#end", { scale: 1.035, duration: 3.3, ease: "none" }, 16.7);
+
+        // ---------- flashes ----------
+        [[0.12, 0.5], [1.05, 0.45], [1.62, 0.8], [4.05, 0.6], [11.45, 0.5], [16.2, 0.85]].forEach(([t, o]) => {
+          tl.fromTo("#flash", { opacity: o }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t);
+        });
+
+        // ---------- anamorphic flare on the big hits ----------
+        [1.62, 4.05, 11.45, 16.2].forEach((t) => {
+          tl.fromTo("#flare", { opacity: 1, scaleX: 0.15, scaleY: 1.6 }, { opacity: 0, scaleX: 1.5, scaleY: 0.6, duration: 0.55, ease: "power2.out", immediateRender: false }, t);
+        });
+
+        // ---------- big splat images ----------
+        [["#sp-a1", 1.62], ["#sp-a2", 4.05], ["#sp-a1", 11.45], ["#sp-a2", 11.5], ["#sp-a1", 16.2], ["#sp-a2", 16.25]].forEach(([sel, t]) => {
+          tl.fromTo(sel, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 0.9, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, t);
+          tl.to(sel, { autoAlpha: 0, duration: 0.9, ease: "power1.in" }, t + 1.0);
+        });
+
+        // ---------- deterministic paint bursts + ambient (render(t)) ----------
+        let seed = 7261;
+        const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+        const COLORS = ["#ff2d95", "#ff7a00", "#ffd600", "#2bd94a", "#00c2ff", "#7a3cff"];
+        // [time, x, y, droplets, power]
+        const BURSTS = (V
+          ? [
+              [0.12, 540, 800, 70, 1.0], [0.7, 300, 1000, 50, 0.8], [1.05, 780, 1100, 80, 1.1],
+              [1.62, 540, 950, 120, 1.4], [4.05, 540, 1560, 110, 1.3], [11.45, 540, 1100, 100, 1.2],
+              [11.75, 260, 200, 40, 0.7], [12.15, 820, 350, 40, 0.7], [12.55, 260, 1670, 40, 0.7],
+              [12.95, 820, 1820, 50, 0.8], [16.2, 540, 900, 140, 1.5],
+            ]
+          : [
+              [0.12, 960, 470, 70, 1.0], [0.7, 560, 600, 50, 0.8], [1.05, 1360, 560, 80, 1.1],
+              [1.62, 960, 520, 120, 1.4], [4.05, 960, 900, 110, 1.3], [11.45, 960, 600, 100, 1.2],
+              [11.75, 380, 360, 40, 0.7], [12.15, 1540, 470, 40, 0.7], [12.55, 380, 640, 40, 0.7],
+              [12.95, 1540, 770, 50, 0.8], [16.2, 960, 620, 140, 1.5],
+            ]
+        ).map(([t, x, y, n, p]) => ({
+          t, x, y,
+          drops: Array.from({ length: n }, () => {
+            const a = rnd() * Math.PI * 2;
+            const v = (300 + rnd() * 1300) * p;
+            return { vx: Math.cos(a) * v, vy: Math.sin(a) * v * 0.8 - 250 * p, r: 4 + rnd() * rnd() * 26 * p, c: COLORS[Math.floor(rnd() * 6)], life: 0.7 + rnd() * 0.9 };
+          }),
+          blobs: Array.from({ length: 6 }, (_, k) => ({ dx: (rnd() - 0.5) * 340 * p, dy: (rnd() - 0.5) * 220 * p, r: (70 + rnd() * 110) * p, c: COLORS[(k + Math.floor(rnd() * 6)) % 6] })),
+        }));
+        const paint = document.getElementById("paint");
+        paint.width = W;
+        paint.height = H;
+        const ctx = paint.getContext("2d");
+        // radial speed streaks while the tee spins
+        const SPINS = [[3.2, 4.05], [10.78, 11.48], [13.95, 16.15]];
+        const STREAKS = Array.from({ length: 90 }, () => ({ a: rnd() * Math.PI * 2, r0: rnd(), w: 1 + rnd() * 3, c: COLORS[Math.floor(rnd() * 6)] }));
+        const RMAX = Math.hypot(W, H) / 2;
+        const aura = document.getElementById("aura");
+        const ghost = document.getElementById("ghost");
+        const b1 = document.getElementById("blob-1"), b2 = document.getElementById("blob-2"), b3 = document.getElementById("blob-3");
+        const stage = document.getElementById("stage");
+        const SHAKES = [0.12, 1.05, 1.62, 4.05, 11.45, 11.75, 12.15, 12.55, 12.95, 16.2];
+        stage.style.transformOrigin = "50% 50%";
+
+        function render(t) {
+          ctx.clearRect(0, 0, W, H);
+          // speed streaks
+          let spin = 0;
+          SPINS.forEach(([a, b]) => {
+            if (t > a && t < b) spin = Math.max(spin, Math.sin((Math.PI * (t - a)) / (b - a)));
+          });
+          if (spin > 0.01) {
+            ctx.globalCompositeOperation = "lighter";
+            ctx.lineCap = "round";
+            STREAKS.forEach((s) => {
+              const r = ((s.r0 + t * 1.6) % 1) * RMAX;
+              const len = 60 + spin * 320 * (r / RMAX + 0.3);
+              const cx = W / 2, cy = H / 2;
+              ctx.globalAlpha = spin * 0.55 * Math.min(1, r / 200);
+              ctx.strokeStyle = s.c;
+              ctx.lineWidth = s.w;
+              ctx.beginPath();
+              ctx.moveTo(cx + Math.cos(s.a) * r, cy + Math.sin(s.a) * r);
+              ctx.lineTo(cx + Math.cos(s.a) * (r + len), cy + Math.sin(s.a) * (r + len));
+              ctx.stroke();
+            });
+            ctx.globalAlpha = 1;
+          }
+          ctx.globalCompositeOperation = "lighter";
+          BURSTS.forEach((b) => {
+            const u = t - b.t;
+            if (u < 0 || u > 1.8) return;
+            // splash core: blobs swell fast then fade
+            b.blobs.forEach((bl) => {
+              const g = 1 - Math.pow(1 - Math.min(1, u / 0.18), 3);
+              const a = Math.max(0, 1 - u / 0.9) * 0.55;
+              if (a <= 0) return;
+              ctx.globalAlpha = a;
+              ctx.fillStyle = bl.c;
+              ctx.beginPath();
+              ctx.arc(b.x + bl.dx * g, b.y + bl.dy * g, bl.r * g, 0, Math.PI * 2);
+              ctx.fill();
+            });
+            // droplets: drag + gravity, streak along velocity
+            b.drops.forEach((d) => {
+              if (u > d.life) return;
+              const k = 3.2;
+              const e = (1 - Math.exp(-k * u)) / k;
+              const x = b.x + d.vx * e;
+              const y = b.y + d.vy * e + 900 * u * u * 0.5;
+              const sp = Math.exp(-k * u);
+              const vx = d.vx * sp, vy = d.vy * sp + 900 * u;
+              const r = d.r * (1 - (u / d.life) * 0.6);
+              ctx.globalAlpha = Math.min(1, (1 - u / d.life) * 1.4);
+              ctx.strokeStyle = ctx.fillStyle = d.c;
+              ctx.lineCap = "round";
+              ctx.lineWidth = r * 1.6;
+              ctx.beginPath();
+              ctx.moveTo(x - vx * 0.035, y - vy * 0.035);
+              ctx.lineTo(x, y);
+              ctx.stroke();
+            });
+          });
+          ctx.globalAlpha = 1;
+          ctx.globalCompositeOperation = "source-over";
+
+          // beat pulse from the music grid (downbeats hit harder)
+          let pulse = 0;
+          for (let i = BEATS.length - 1; i >= 0; i--) {
+            if (BEATS[i] <= t) {
+              pulse = Math.exp(-(t - BEATS[i]) * 9) * (DOWNBEATS.includes(i) ? 1 : 0.55);
+              break;
+            }
+          }
+          aura.style.opacity = (0.3 + 0.35 * pulse).toFixed(3);
+          aura.style.transform = `rotate(${(t * 40).toFixed(2)}deg) scale(${(1 + 0.08 * Math.sin(t * 2.4) + 0.06 * pulse).toFixed(3)})`;
+          ghost.style.transform = `translateX(${(-300 - t * 120).toFixed(1)}px)`;
+          b1.style.transform = `translate(${(Math.sin(t * 0.9) * 90).toFixed(1)}px, ${(Math.cos(t * 0.7) * 60).toFixed(1)}px)`;
+          b2.style.transform = `translate(${(Math.cos(t * 0.8) * 100).toFixed(1)}px, ${(Math.sin(t * 1.1) * 70).toFixed(1)}px)`;
+          b3.style.transform = `translate(${(Math.sin(t * 1.3) * 70).toFixed(1)}px, ${(Math.sin(t * 0.6) * 60).toFixed(1)}px)`;
+
+          let sx = 0, sy = 0, rgb = 0;
+          SHAKES.forEach((s, k) => {
+            const u = t - s;
+            if (u >= 0 && u < 0.4) {
+              const amp = 14 * Math.exp(-u * 12);
+              sx += Math.sin(u * 95 + k) * amp;
+              sy += Math.cos(u * 80 + k * 3) * amp * 0.7;
+              rgb = Math.max(rgb, 14 * Math.exp(-u * 11));
+            }
+          });
+          stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(${(1 + 0.014 * pulse).toFixed(4)})`;
+          // RGB split on impacts
+          stage.style.filter =
+            rgb > 0.5
+              ? `drop-shadow(${rgb.toFixed(1)}px 0 0 rgba(255, 0, 90, 0.6)) drop-shadow(${(-rgb).toFixed(1)}px 0 0 rgba(0, 210, 255, 0.6))`
+              : "none";
+        }
+
+        const clock = { t: 0 };
+        tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
