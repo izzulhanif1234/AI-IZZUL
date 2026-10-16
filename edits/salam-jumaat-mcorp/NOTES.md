@@ -18,7 +18,15 @@ diberkati) over the title; gold emphasis on key phrases of the paragraphs (wordi
 | 18-34.6 | three message panels over Ken Burns HQ photos, word-by-word reveal, gold light sweeps between |
 | 34.6-42 | arch returns on the wide HQ shot: greeting, title, MCORP logo plaque (official logo, unaltered, on cream) |
 
-Visual system v3 (current, client asked for "more korporat"): follows MCORP's own collateral:
+Visual system v4 (current, client found v3 "2D" and asked for something more dynamic): the v3
+layout on a real CSS-3D stage: orbiting/dollying perspective camera, scenes layered in depth
+(parallax), 3D cube rotations between scenes with red/blue streaks past the lens, an extruded 3D
+khatam star (blue, red core) in the hook and on the end card, extruded lettering flipping in,
+verse words flying in from depth, tilted floating message cards, 3D tokens with depth of field.
+Text planes are kept flat (child 3D via `perspective`, not preserve-3d) to avoid Chrome plane-sorting
+artefacts. Previous v3 kept in build/compose_v3_flat.py.
+
+Visual system v3 ( client asked for "more korporat"): follows MCORP's own collateral:
 white page, building photography with a diagonal blue + red band, corner brand shards, bold
 Montserrat type, MCORP logo in a white tab, diagonal brand-shard wipes between scenes; Islamic
 touches kept restrained (faint girih texture, the verse in Amiri Quran, the Arabic greeting).

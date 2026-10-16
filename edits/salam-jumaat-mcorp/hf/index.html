@@ -8,7 +8,6 @@
     <style>
 @font-face { font-family: "Amiri Quran"; src: url(assets/fonts/AmiriQuran-400.ttf); }
 @font-face { font-family: "Amiri"; font-weight: 700; src: url(assets/fonts/Amiri-700.ttf); }
-@font-face { font-family: "Montserrat"; font-weight: 400; src: url(assets/fonts/Montserrat-400.ttf); }
 @font-face { font-family: "Montserrat"; font-weight: 500; src: url(assets/fonts/Montserrat-500.ttf); }
 @font-face { font-family: "Montserrat"; font-weight: 600; src: url(assets/fonts/Montserrat-600.ttf); }
 @font-face { font-family: "Montserrat"; font-weight: 700; src: url(assets/fonts/Montserrat-700.ttf); }
@@ -17,159 +16,260 @@
 :root { --blue: #2b3990; --blue-d: #1c2670; --red: #ec1c24; --ink: #1a1f45; --grey: #5a6080; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 1080px; height: 1350px; overflow: hidden; background: #fff; }
-#root { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: #fff; color: var(--ink); font-family: Montserrat, sans-serif; }
+#root { position: relative; width: 1080px; height: 1350px; overflow: hidden; color: var(--ink); font-family: Montserrat, sans-serif;
+  background: radial-gradient(ellipse 90% 70% at 50% 35%, #ffffff 0%, #f3f5fb 55%, #e3e8f4 100%);
+  perspective: 1500px; perspective-origin: 50% 46%; }
 .clip { position: absolute; inset: 0; }
 .layer { position: absolute; inset: 0; pointer-events: none; }
+.p3d { position: absolute; inset: 0; transform-style: preserve-3d; }
+.scene { position: absolute; inset: 0; transform-style: preserve-3d; backface-visibility: hidden; transform-origin: 50% 50% -540px; }
 .mask { display: block; overflow: hidden; }
 .mask > span, .mask > div { display: block; }
-.mask > span.pill { display: inline-block; }
-#texture { opacity: 0.07; }
+
+#texture { opacity: 0.08; }
 #texture .ln, #texture .ln * { fill: none; stroke: var(--blue); }
 
-/* photo panels with a diagonal bottom edge, a blue band and a thin red band along it */
-.hero { position: absolute; left: 0; top: 0; width: 1080px; overflow: hidden; }
+/* photo panels with a diagonal bottom edge and blue/red bands along it */
+.hero { position: absolute; left: -90px; top: -60px; width: 1260px; overflow: visible; filter: drop-shadow(0 24px 30px rgba(20,28,86,0.28)); }
 .hero video, .hero img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero .tint { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,38,112,0.15), rgba(28,38,112,0) 40%); }
-.band { position: absolute; left: -100px; width: 1300px; transform-origin: 0 0; }
-.band.b { background: var(--blue); height: 34px; }
-.band.r { background: var(--red); height: 10px; }
+.hero .tint { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,38,112,0.18), rgba(28,38,112,0) 45%); }
+.band { position: absolute; left: -100px; width: 1500px; transform-origin: 0 0; }
+.band.b { background: var(--blue); height: 36px; }
+.band.r { background: var(--red); height: 11px; }
 
-/* corner shards (static brand furniture) */
-.shard { position: absolute; transform: skewX(-32deg); }
-#sh1 { right: -150px; bottom: 0; width: 330px; height: 150px; background: var(--blue); }
-#sh2 { right: 120px; bottom: 0; width: 70px; height: 150px; background: var(--red); }
-#sh3 { left: -80px; bottom: 0; width: 210px; height: 22px; background: var(--red); transform: skewX(-32deg); }
-
-/* logo tab */
-#tab { position: absolute; left: 0; top: 0; width: 330px; height: 150px; background: #fff; display: flex; align-items: center;
-  justify-content: center; border-bottom-right-radius: 18px; box-shadow: 0 10px 30px rgba(20,30,90,0.18); }
-#tab img { height: 112px; width: auto; object-fit: contain; }
+/* extruded 3D type */
+.x-blue { color: #3443a6; text-shadow: 1px 1px 0 rgb(37,50,131), 2px 2px 0 rgb(34,46,122), 3px 3px 0 rgb(31,42,113), 4px 4px 0 rgb(28,38,104), 5px 5px 0 rgb(25,34,95), 6px 6px 0 rgb(22,30,86), 7px 7px 0 rgb(19,26,77), 8px 8px 0 rgb(16,22,68), 0 22px 28px rgba(20,28,86,0.35); }
+.x-red { color: var(--red); text-shadow: 0.7px 0.7px 0 rgb(208,22,30), 1.4px 1.4px 0 rgb(196,20,28), 2.1px 2.1px 0 rgb(184,18,26), 2.8px 2.8px 0 rgb(172,16,24), 3.5px 3.5px 0 rgb(160,14,22), 4.2px 4.2px 0 rgb(148,12,20), 0 14px 20px rgba(120,10,15,0.25); }
+.ch { display: inline-block; transform-origin: 50% 100%; backface-visibility: hidden; }
 
 /* title lockup */
-.lock { position: absolute; left: 90px; right: 90px; }
-.lock.clip { left: 90px; right: 90px; }
-.lock .ar { font-family: "Amiri", serif; font-weight: 700; font-size: 56px; line-height: 1.3; padding-top: 0.3em; color: var(--blue); text-align: left; }
-.lock .big { font-weight: 800; font-size: 150px; line-height: 0.95; letter-spacing: -0.01em; color: var(--blue); }
-.lock .sub { font-weight: 700; font-size: 50px; letter-spacing: 0.1em; color: var(--red); margin-top: 10px; }
-.lock .rule { width: 110px; height: 6px; background: var(--red); margin-top: 26px; transform-origin: 0 50%; }
-.lock .org { font-weight: 600; font-size: 24px; letter-spacing: 0.32em; color: var(--grey); margin-top: 22px; }
+.lock { position: absolute; left: 90px; right: 90px; top: 830px; }
+.lock .ar { font-family: "Amiri", serif; font-weight: 700; font-size: 58px; line-height: 1.3; padding-top: 0.3em; color: var(--blue); }
+.lock .big, .lock .sub { perspective: 700px; }
+.lock .big { font-weight: 800; font-size: 156px; line-height: 0.95; letter-spacing: -0.005em; white-space: nowrap; }
+.lock .sub { font-weight: 800; font-size: 52px; letter-spacing: 0.08em; margin-top: 14px; white-space: nowrap; }
+.lock .rule { width: 120px; height: 7px; background: var(--red); margin-top: 28px; transform-origin: 0 50%; }
+.sheen { position: absolute; inset: -20px -40px; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0) 60%);
+  mix-blend-mode: overlay; transform: translateX(-120%); }
+
+/* 3D extruded khatam star */
+.star3d { position: absolute; width: 440px; height: 440px; left: 320px; top: 340px; transform-style: preserve-3d; }
+.star3d svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+/* floating tokens */
+.tok { position: absolute; transform-style: preserve-3d; }
+.tok svg { display: block; overflow: visible; }
 
 /* verse */
-#ayat { position: absolute; left: 70px; right: 70px; top: 330px; bottom: 190px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.pill { display: inline-block; font-weight: 700; font-size: 22px; letter-spacing: 0.3em; color: #fff; background: var(--red); padding: 10px 18px 10px 24px; }
-#ar { direction: rtl; font-family: "Amiri Quran", "Amiri", serif; font-size: 80px; line-height: 2.0; color: var(--blue); margin-top: 30px; }
+#ayat { position: absolute; left: 70px; right: 70px; top: 330px; bottom: 190px; text-align: center; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; }
+.pill { display: inline-block; font-weight: 700; font-size: 22px; letter-spacing: 0.3em; color: #fff; background: var(--red); padding: 10px 18px 10px 24px;
+  box-shadow: 0 10px 20px rgba(236,28,36,0.3); }
+#ar { direction: rtl; font-family: "Amiri Quran", "Amiri", serif; font-size: 80px; line-height: 2.0; color: var(--blue); margin-top: 30px;
+  perspective: 900px; text-shadow: 0 10px 18px rgba(43,57,144,0.25); }
 #ar .w { display: inline-block; margin: 0 0.12em; }
 #tr { font-weight: 500; font-size: 36px; line-height: 1.5; color: var(--ink); margin-top: 26px; }
+#ayat-in { perspective: 1000px; display: flex; flex-direction: column; align-items: center; }
+#tr .ln2 { display: block; }
 #cite { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 32px; font-weight: 700; font-size: 26px; letter-spacing: 0.08em; color: var(--red); }
 #cite i { display: block; width: 80px; height: 3px; background: var(--red); }
 
-/* message */
-.msgwrap { position: absolute; left: 90px; right: 90px; top: 470px; bottom: 200px; display: flex; align-items: center; }
-.msg { display: flex; gap: 36px; }
-.msg .bar { width: 10px; background: linear-gradient(180deg, var(--red) 0 34%, var(--blue) 34% 100%); flex: none; transform-origin: 50% 0; }
-.msg .tx { font-weight: 600; font-size: 54px; line-height: 1.42; color: var(--ink); }
-.msg .tx .w { display: inline-block; }
-.msg .tx .em { color: var(--red); font-weight: 800; }
-.msg .lbl { font-weight: 700; font-size: 22px; letter-spacing: 0.32em; color: var(--blue); margin-bottom: 26px; }
+/* message cards */
+.card { position: absolute; left: 70px; right: 70px; top: 500px; padding: 56px 56px 56px 50px; background: #fff; border-radius: 10px;
+  box-shadow: 0 40px 70px rgba(20,28,86,0.25), 0 6px 14px rgba(20,28,86,0.12); display: flex; gap: 34px; }
+.card::after { content: ""; position: absolute; right: 0; top: 0; width: 140px; height: 8px; background: var(--red); border-top-right-radius: 10px; }
+.card .bar { width: 10px; background: linear-gradient(180deg, var(--red) 0 34%, var(--blue) 34% 100%); flex: none; transform-origin: 50% 0; }
+.card .tx { font-weight: 600; font-size: 50px; line-height: 1.42; color: var(--ink); perspective: 800px; }
+.card .tx .w { display: inline-block; transform-origin: 50% 100%; }
+.card .tx .em { color: var(--red); font-weight: 800; }
 
-/* scene-change wipe */
-#wipe-in { position: absolute; inset: 0; transform: translateX(2000px); }
-#wipe .wb { position: absolute; top: -10%; height: 120%; transform: skewX(-20deg); }
-#wipe .w1 { left: 0; width: 240px; background: var(--red); }
-#wipe .w2 { left: 240px; width: 1700px; background: var(--blue); }
-#wipe .w3 { left: 1940px; width: 180px; background: var(--blue-d); }
+/* HUD (screen-locked) brand furniture */
+.shard { position: absolute; transform: skewX(-32deg); }
+#sh1 { right: -150px; bottom: 0; width: 330px; height: 150px; background: var(--blue); }
+#sh2 { right: 120px; bottom: 0; width: 70px; height: 150px; background: var(--red); }
+#sh3 { left: -80px; bottom: 0; width: 210px; height: 22px; background: var(--red); }
+#tab { position: absolute; left: 0; top: 0; width: 330px; height: 150px; background: #fff; display: flex; align-items: center;
+  justify-content: center; border-bottom-right-radius: 18px; box-shadow: 0 14px 30px rgba(20,30,90,0.22); }
+#tab img { height: 112px; width: auto; object-fit: contain; }
+.streak { position: absolute; top: -200px; height: 1750px; transform: skewX(-20deg); }
 #fade { background: #fff; opacity: 0; }
 </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="42.0" data-width="1080" data-height="1350">
-      <svg id="texture" class="clip layer" width="1080" height="1350"><defs><pattern id="g" width="120" height="120" patternUnits="userSpaceOnUse"><g class="ln" stroke-width="1.4"><rect x="28.9" y="28.9" width="62.2" height="62.2"/><rect x="28.9" y="28.9" width="62.2" height="62.2" transform="rotate(45 60 60)"/><circle cx="60" cy="60" r="14.1"/><path d="M0,0 L28,28 M120,0 L92,28 M0,120 L28,92 M120,120 L92,92"/></g></pattern><linearGradient id="fadeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0.35" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="m"><rect width="1080" height="1350" fill="url(#fadeg)"/></mask></defs><rect id="tex-r" x="-120" y="-120" width="1320" height="1590" fill="url(#g)" mask="url(#m)"/></svg>
-      
-      <div id="s-hook" class="clip layer">
-        <div id="hero1" class="hero" style="height:820px"><div id="hero1-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 610px, 0 760px)"><video id="hero1-m" class="clip" src="assets/footage/drone.mp4" data-start="0" data-duration="7.7" data-media-start="0.0" data-playback-rate="0.5" data-track-index="2" muted playsinline></video><div class="tint clip" data-start="0" data-duration="7.7" data-track-index="2"></div></div><div id="hero1-bands" class="clip" data-start="0" data-duration="7.7" data-track-index="2"><div class="band b" style="top:754px;transform:rotate(-7.907deg)"></div><div class="band r" style="top:794px;transform:rotate(-7.907deg)"></div></div></div>
-        <div class="lock clip" style="top:840px;bottom:auto" data-start="0" data-duration="7.7" data-track-index="3">
+      <div id="dolly" class="p3d">
+        <div id="orbit" class="p3d">
+          <div class="p3d" style="transform:translateZ(-600px) scale(1.42)"><svg id="texture" class="clip layer" width="1080" height="1350"><defs><pattern id="g" width="120" height="120" patternUnits="userSpaceOnUse"><g class="ln" stroke-width="1.4"><rect x="28.9" y="28.9" width="62.2" height="62.2"/><rect x="28.9" y="28.9" width="62.2" height="62.2" transform="rotate(45 60 60)"/><circle cx="60" cy="60" r="14.1"/><path d="M0,0 L28,28 M120,0 L92,28 M0,120 L28,92 M120,120 L92,92"/></g></pattern></defs><rect id="tex-r" x="-200" y="-200" width="1480" height="1750" fill="url(#g)"/></svg></div>
+          <div id="tk0" class="tok" style="left:1040px;top:878px;transform:translateZ(-640px)"><svg width="94" height="94" style="filter:blur(2.5px);opacity:0.55"><g fill="none" stroke="#2b3990" stroke-width="3"><rect x="17.1" y="17.1" width="59.7" height="59.7"/><rect x="17.1" y="17.1" width="59.7" height="59.7" transform="rotate(45 46.897798737180295 46.897798737180295)"/><circle cx="46.897798737180295" cy="46.897798737180295" r="13.5"/></g></svg></div><div id="tk1" class="tok" style="left:1098px;top:584px;transform:translateZ(-700px)"><svg width="97" height="97" style="filter:blur(2.5px);opacity:0.55"><rect x="19" y="19" width="58" height="58" fill="#ec1c24" opacity="0.85" transform="rotate(45 48.45720226333726 48.45720226333726)"/></svg></div><div id="tk2" class="tok" style="left:-7px;top:46px;transform:translateZ(-700px)"><svg width="64" height="64" style="filter:blur(2.5px);opacity:0.55"><g fill="none" stroke="#9aa6d8" stroke-width="3"><rect x="11.7" y="11.7" width="41.0" height="41.0"/><rect x="11.7" y="11.7" width="41.0" height="41.0" transform="rotate(45 32.23475144617622 32.23475144617622)"/><circle cx="32.23475144617622" cy="32.23475144617622" r="9.3"/></g></svg></div><div id="tk3" class="tok" style="left:754px;top:1308px;transform:translateZ(260px)"><svg width="41" height="41" style="filter:blur(3.0px);opacity:0.8"><rect x="8" y="8" width="24" height="24" fill="#2b3990" opacity="0.85" transform="rotate(45 20.26383443728067 20.26383443728067)"/></svg></div><div id="tk4" class="tok" style="left:1009px;top:37px;transform:translateZ(180px)"><svg width="36" height="36" style="filter:blur(3.0px);opacity:0.8"><g fill="none" stroke="#ec1c24" stroke-width="3"><rect x="6.6" y="6.6" width="23.2" height="23.2"/><rect x="6.6" y="6.6" width="23.2" height="23.2" transform="rotate(45 18.220600679693664 18.220600679693664)"/><circle cx="18.220600679693664" cy="18.220600679693664" r="5.2"/></g></svg></div><div id="tk5" class="tok" style="left:992px;top:247px;transform:translateZ(-640px)"><svg width="92" height="92" style="filter:blur(2.5px);opacity:0.55"><rect x="18" y="18" width="55" height="55" fill="#9aa6d8" opacity="0.85" transform="rotate(45 46.004783943072425 46.004783943072425)"/></svg></div><div id="tk6" class="tok" style="left:218px;top:227px;transform:translateZ(-420px)"><svg width="55" height="55" style="filter:blur(1.2px);opacity:0.55"><g fill="none" stroke="#2b3990" stroke-width="3"><rect x="10.0" y="10.0" width="35.1" height="35.1"/><rect x="10.0" y="10.0" width="35.1" height="35.1" transform="rotate(45 27.580639174707535 27.580639174707535)"/><circle cx="27.580639174707535" cy="27.580639174707535" r="7.9"/></g></svg></div><div id="tk7" class="tok" style="left:-117px;top:854px;transform:translateZ(260px)"><svg width="28" height="28" style="filter:blur(3.0px);opacity:0.8"><rect x="6" y="6" width="17" height="17" fill="#ec1c24" opacity="0.85" transform="rotate(45 13.793770350441383 13.793770350441383)"/></svg></div><div id="tk8" class="tok" style="left:596px;top:826px;transform:translateZ(-700px)"><svg width="88" height="88" style="filter:blur(2.5px);opacity:0.55"><g fill="none" stroke="#9aa6d8" stroke-width="3"><rect x="16.0" y="16.0" width="56.1" height="56.1"/><rect x="16.0" y="16.0" width="56.1" height="56.1" transform="rotate(45 44.04777985694619 44.04777985694619)"/><circle cx="44.04777985694619" cy="44.04777985694619" r="12.7"/></g></svg></div><div id="tk9" class="tok" style="left:49px;top:98px;transform:translateZ(-420px)"><svg width="57" height="57" style="filter:blur(1.2px);opacity:0.55"><rect x="11" y="11" width="34" height="34" fill="#2b3990" opacity="0.85" transform="rotate(45 28.30803213810494 28.30803213810494)"/></svg></div><div id="tk10" class="tok" style="left:579px;top:16px;transform:translateZ(-640px)"><svg width="94" height="94" style="filter:blur(2.5px);opacity:0.55"><g fill="none" stroke="#ec1c24" stroke-width="3"><rect x="17.1" y="17.1" width="60.0" height="60.0"/><rect x="17.1" y="17.1" width="60.0" height="60.0" transform="rotate(45 47.12720302859662 47.12720302859662)"/><circle cx="47.12720302859662" cy="47.12720302859662" r="13.6"/></g></svg></div><div id="tk11" class="tok" style="left:149px;top:270px;transform:translateZ(-700px)"><svg width="74" height="74" style="filter:blur(2.5px);opacity:0.55"><rect x="15" y="15" width="44" height="44" fill="#9aa6d8" opacity="0.85" transform="rotate(45 37.061337208148515 37.061337208148515)"/></svg></div><div id="tk12" class="tok" style="left:-69px;top:1138px;transform:translateZ(180px)"><svg width="38" height="38" style="filter:blur(3.0px);opacity:0.8"><g fill="none" stroke="#2b3990" stroke-width="3"><rect x="6.9" y="6.9" width="24.3" height="24.3"/><rect x="6.9" y="6.9" width="24.3" height="24.3" transform="rotate(45 19.060863645878598 19.060863645878598)"/><circle cx="19.060863645878598" cy="19.060863645878598" r="5.5"/></g></svg></div><div id="tk13" class="tok" style="left:599px;top:1171px;transform:translateZ(-420px)"><svg width="63" height="63" style="filter:blur(1.2px);opacity:0.55"><rect x="13" y="13" width="38" height="38" fill="#ec1c24" opacity="0.85" transform="rotate(45 31.330351255356984 31.330351255356984)"/></svg></div><div id="tk14" class="tok" style="left:1077px;top:1166px;transform:translateZ(-420px)"><svg width="101" height="101" style="filter:blur(1.2px);opacity:0.55"><g fill="none" stroke="#9aa6d8" stroke-width="3"><rect x="18.4" y="18.4" width="64.3" height="64.3"/><rect x="18.4" y="18.4" width="64.3" height="64.3" transform="rotate(45 50.52469977412312 50.52469977412312)"/><circle cx="50.52469977412312" cy="50.52469977412312" r="14.6"/></g></svg></div><div id="tk15" class="tok" style="left:628px;top:732px;transform:translateZ(-480px)"><svg width="57" height="57" style="filter:blur(1.2px);opacity:0.55"><rect x="11" y="11" width="34" height="34" fill="#2b3990" opacity="0.85" transform="rotate(45 28.32641545628051 28.32641545628051)"/></svg></div>
+          
+      <div id="s1" class="scene">
+        <div id="s1-hero" class="p3d" style="transform:translateZ(-140px)"><div id="hero1" class="hero" style="height:830px"><div id="hero1-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 610px, 0 760px)"><video id="hero1-m" class="clip" src="assets/footage/drone.mp4" data-start="0" data-duration="8.15" data-media-start="0.0" data-playback-rate="0.5" data-track-index="2" muted playsinline></video><div class="tint clip" data-start="0" data-duration="8.15" data-track-index="2"></div></div><div id="hero1-bands" class="clip" data-start="0" data-duration="8.15" data-track-index="2"><div class="band b" style="top:754px;transform:rotate(-6.789deg)"></div><div class="band r" style="top:796px;transform:rotate(-6.789deg)"></div></div></div></div>
+        <div class="lock clip" style="top:850px;bottom:auto" data-start="0" data-duration="8.15" data-track-index="3" id="lock1">
           <div class="mask"><div id="h-ar" class="ar">جُمُعَة مُبَارَكَة</div></div>
-          <div class="mask"><div id="h-big" class="big">JUMAAT</div></div>
-          <div class="mask"><div id="h-sub" class="sub">YANG DIBERKATI</div></div>
+          <div class="big"><span class="x-blue"><span class="ch c1" style="white-space:pre">J</span><span class="ch c1" style="white-space:pre">U</span><span class="ch c1" style="white-space:pre">M</span><span class="ch c1" style="white-space:pre">A</span><span class="ch c1" style="white-space:pre">A</span><span class="ch c1" style="white-space:pre">T</span></span></div>
+          <div class="sub"><span class="x-red"><span class="ch c2" style="white-space:pre">Y</span><span class="ch c2" style="white-space:pre">A</span><span class="ch c2" style="white-space:pre">N</span><span class="ch c2" style="white-space:pre">G</span><span class="ch" style="white-space:pre"> </span><span class="ch c2" style="white-space:pre">D</span><span class="ch c2" style="white-space:pre">I</span><span class="ch c2" style="white-space:pre">B</span><span class="ch c2" style="white-space:pre">E</span><span class="ch c2" style="white-space:pre">R</span><span class="ch c2" style="white-space:pre">K</span><span class="ch c2" style="white-space:pre">A</span><span class="ch c2" style="white-space:pre">T</span><span class="ch c2" style="white-space:pre">I</span></span></div>
           <div id="h-rule" class="rule"></div>
+          <div class="sheen" id="sheen1"></div>
         </div>
       </div>
-      <div id="s-ayat" class="clip layer" data-start="7.7" data-duration="10.0" data-track-index="3">
-        <div id="hero2" class="hero" style="height:330px"><div id="hero2-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 200px, 0 270px)"><img id="hero2-m" src="assets/footage/f8.jpg" alt="" /><div class="tint clip"></div></div><div id="hero2-bands" class="clip"><div class="band b" style="top:264px;transform:rotate(-3.708deg)"></div><div class="band r" style="top:304px;transform:rotate(-3.708deg)"></div></div></div>
-        <div id="ayat">
+      <div id="star-hook" class="p3d clip" data-start="0" data-duration="2.2" data-track-index="4">
+        <div id="star1" class="star3d"><svg class="sl" style="transform:translateZ(-25.6px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(28,38,98)"/></svg><svg class="sl" style="transform:translateZ(-24.0px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(29,39,99)"/></svg><svg class="sl" style="transform:translateZ(-22.4px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(30,40,100)"/></svg><svg class="sl" style="transform:translateZ(-20.8px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(32,42,102)"/></svg><svg class="sl" style="transform:translateZ(-19.2px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(33,43,103)"/></svg><svg class="sl" style="transform:translateZ(-17.6px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(34,44,104)"/></svg><svg class="sl" style="transform:translateZ(-16.0px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(36,46,106)"/></svg><svg class="sl" style="transform:translateZ(-14.4px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(37,47,107)"/></svg><svg class="sl" style="transform:translateZ(-12.8px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(39,49,109)"/></svg><svg class="sl" style="transform:translateZ(-11.2px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(40,50,110)"/></svg><svg class="sl" style="transform:translateZ(-9.6px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(41,51,111)"/></svg><svg class="sl" style="transform:translateZ(-8.0px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(43,53,113)"/></svg><svg class="sl" style="transform:translateZ(-6.4px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(44,54,114)"/></svg><svg class="sl" style="transform:translateZ(-4.8px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(45,55,115)"/></svg><svg class="sl" style="transform:translateZ(-3.2px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(47,57,117)"/></svg><svg class="sl" style="transform:translateZ(-1.6px)" viewBox="0 0 440 440"><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="rgb(48,58,118)"/></svg><svg class="sl" style="transform:translateZ(0.5px)" viewBox="0 0 440 440"><defs><linearGradient id="st1g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a6cd6"/><stop offset="0.55" stop-color="#3443a6"/><stop offset="1" stop-color="#1c2670"/></linearGradient></defs><polygon points="220.0,4.4 283.1,67.6 372.5,67.5 372.4,156.9 435.6,220.0 372.4,283.1 372.5,372.5 283.1,372.4 220.0,435.6 156.9,372.4 67.5,372.5 67.6,283.1 4.4,220.0 67.6,156.9 67.5,67.5 156.9,67.6" fill="url(#st1g)" stroke="#fff" stroke-width="5.3"/><polygon points="220.0,64.8 265.4,110.3 329.8,110.2 329.7,174.6 375.2,220.0 329.7,265.4 329.8,329.8 265.4,329.7 220.0,375.2 174.6,329.7 110.2,329.8 110.3,265.4 64.8,220.0 110.3,174.6 110.2,110.2 174.6,110.3" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.6"/><circle cx="220.0" cy="220.0" r="56.1" fill="#ec1c24" stroke="#fff" stroke-width="4.4"/></svg></div>
+      </div>
+      <div id="s2" class="scene clip" data-start="7.25" data-duration="10.9" data-track-index="3">
+        <div class="p3d" style="transform:translateZ(-160px)"><div id="hero2" class="hero" style="height:370px"><div id="hero2-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 230px, 0 300px)"><img id="hero2-m" src="assets/footage/f8.jpg" alt="" /><div class="tint clip"></div></div><div id="hero2-bands" class="clip"><div class="band b" style="top:294px;transform:rotate(-3.180deg)"></div><div class="band r" style="top:336px;transform:rotate(-3.180deg)"></div></div></div></div>
+        <div id="ayat"><div id="ayat-in">
           <div class="mask"><span id="a-pill" class="pill">FIRMAN ALLAH SWT</span></div>
           <div id="ar"><span class="w">إِنَّ</span><span class="w">اللَّهَ</span><span class="w">لَا</span><span class="w">يُغَيِّرُ</span><span class="w">مَا</span><span class="w">بِقَوْمٍ</span><br/><span class="w">حَتَّىٰ</span><span class="w">يُغَيِّرُوا</span><span class="w">مَا</span><span class="w">بِأَنْفُسِهِمْ</span></div>
           <div id="tr">“Sesungguhnya Allah tidak mengubah apa yang ada pada sesuatu kaum sehingga mereka mengubah apa yang ada pada diri mereka sendiri.”</div>
           <div id="cite"><i></i><span>Surah Ar-Ra'd, ayat 11</span><i></i></div>
-        </div>
+        </div></div>
       </div>
-      <div id="s-p1" class="clip layer" data-start="17.7" data-duration="5.6" data-track-index="3">
-        <div id="hero-p1" class="hero" style="height:440px"><div id="hero-p1-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 290px, 0 380px)"><img id="hero-p1-m" src="assets/footage/f5.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p1-bands" class="clip"><div class="band b" style="top:374px;transform:rotate(-4.764deg)"></div><div class="band r" style="top:414px;transform:rotate(-4.764deg)"></div></div></div>
-        <div class="msgwrap"><div id="p1" class="msg"><div class="bar"></div><div class="tx"><span class="w">Kemajuan</span> <span class="w">bermula</span> <span class="w">dengan</span> <span class="w em">kesungguhan</span> <span class="w em">untuk</span> <span class="w em">berubah,</span> <span class="w em">keberanian</span> <span class="w">melakukan</span> <span class="w">penambahbaikan</span> <span class="w">dan</span> <span class="w em">komitmen</span> <span class="w">untuk</span> <span class="w">memberikan</span> <span class="w">yang</span> <span class="w">terbaik.</span></div></div></div>
+      <div id="s-p1" class="scene clip" data-start="17.25" data-duration="6.5" data-track-index="3">
+        <div class="p3d" style="transform:translateZ(-180px)"><div id="hero-p1" class="hero" style="height:490px"><div id="hero-p1-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 330px, 0 420px)"><img id="hero-p1-m" src="assets/footage/f5.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p1-bands" class="clip"><div class="band b" style="top:414px;transform:rotate(-4.086deg)"></div><div class="band r" style="top:456px;transform:rotate(-4.086deg)"></div></div></div></div>
+        <div id="p1" class="card"><div class="bar"></div><div class="tx"><span class="w">Kemajuan</span> <span class="w">bermula</span> <span class="w">dengan</span> <span class="w em">kesungguhan</span> <span class="w em">untuk</span> <span class="w em">berubah,</span> <span class="w em">keberanian</span> <span class="w">melakukan</span> <span class="w">penambahbaikan</span> <span class="w">dan</span> <span class="w em">komitmen</span> <span class="w">untuk</span> <span class="w">memberikan</span> <span class="w">yang</span> <span class="w">terbaik.</span></div></div>
       </div>
-      <div id="s-p2" class="clip layer" data-start="23.3" data-duration="6.8" data-track-index="3">
-        <div id="hero-p2" class="hero" style="height:440px"><div id="hero-p2-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 290px, 0 380px)"><img id="hero-p2-m" src="assets/footage/f2.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p2-bands" class="clip"><div class="band b" style="top:374px;transform:rotate(-4.764deg)"></div><div class="band r" style="top:414px;transform:rotate(-4.764deg)"></div></div></div>
-        <div class="msgwrap"><div id="p2" class="msg"><div class="bar"></div><div class="tx"><span class="w">Semoga</span> <span class="w em">MCORP</span> <span class="w">terus</span> <span class="w">melangkah</span> <span class="w">ke</span> <span class="w">hadapan</span> <span class="w">dengan</span> <span class="w em">visi</span> <span class="w em">yang</span> <span class="w em">jelas,</span> <span class="w em">semangat</span> <span class="w em">berpasukan</span> <span class="w">dan</span> <span class="w em">iltizam</span> <span class="w">untuk</span> <span class="w">membawa</span> <span class="w">manfaat</span> <span class="w">kepada</span> <span class="w">organisasi</span> <span class="w">serta</span> <span class="w">negeri</span> <span class="w">Melaka.</span></div></div></div>
+      <div id="s-p2" class="scene clip" data-start="22.85" data-duration="7.7" data-track-index="3">
+        <div class="p3d" style="transform:translateZ(-180px)"><div id="hero-p2" class="hero" style="height:490px"><div id="hero-p2-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 330px, 0 420px)"><img id="hero-p2-m" src="assets/footage/f2.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p2-bands" class="clip"><div class="band b" style="top:414px;transform:rotate(-4.086deg)"></div><div class="band r" style="top:456px;transform:rotate(-4.086deg)"></div></div></div></div>
+        <div id="p2" class="card"><div class="bar"></div><div class="tx"><span class="w">Semoga</span> <span class="w em">MCORP</span> <span class="w">terus</span> <span class="w">melangkah</span> <span class="w">ke</span> <span class="w">hadapan</span> <span class="w">dengan</span> <span class="w em">visi</span> <span class="w em">yang</span> <span class="w em">jelas,</span> <span class="w em">semangat</span> <span class="w em">berpasukan</span> <span class="w">dan</span> <span class="w em">iltizam</span> <span class="w">untuk</span> <span class="w">membawa</span> <span class="w">manfaat</span> <span class="w">kepada</span> <span class="w">organisasi</span> <span class="w">serta</span> <span class="w">negeri</span> <span class="w">Melaka.</span></div></div>
       </div>
-      <div id="s-p3" class="clip layer" data-start="30.1" data-duration="4.4" data-track-index="3">
-        <div id="hero-p3" class="hero" style="height:440px"><div id="hero-p3-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 290px, 0 380px)"><img id="hero-p3-m" src="assets/footage/f9.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p3-bands" class="clip"><div class="band b" style="top:374px;transform:rotate(-4.764deg)"></div><div class="band r" style="top:414px;transform:rotate(-4.764deg)"></div></div></div>
-        <div class="msgwrap"><div id="p3" class="msg"><div class="bar"></div><div class="tx"><span class="w">Moga</span> <span class="w">setiap</span> <span class="w">perubahan</span> <span class="w">ke</span> <span class="w">arah</span> <span class="w">kebaikan</span> <span class="w">mendapat</span> <span class="w em">reda</span> <span class="w em">dan</span> <span class="w em">keberkatan</span> <span class="w em">Allah</span> <span class="w em">SWT.</span></div></div></div>
+      <div id="s-p3" class="scene clip" data-start="29.650000000000002" data-duration="5.3" data-track-index="3">
+        <div class="p3d" style="transform:translateZ(-180px)"><div id="hero-p3" class="hero" style="height:490px"><div id="hero-p3-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 330px, 0 420px)"><img id="hero-p3-m" src="assets/footage/f9.jpg" alt="" /><div class="tint clip"></div></div><div id="hero-p3-bands" class="clip"><div class="band b" style="top:414px;transform:rotate(-4.086deg)"></div><div class="band r" style="top:456px;transform:rotate(-4.086deg)"></div></div></div></div>
+        <div id="p3" class="card"><div class="bar"></div><div class="tx"><span class="w">Moga</span> <span class="w">setiap</span> <span class="w">perubahan</span> <span class="w">ke</span> <span class="w">arah</span> <span class="w">kebaikan</span> <span class="w">mendapat</span> <span class="w em">reda</span> <span class="w em">dan</span> <span class="w em">keberkatan</span> <span class="w em">Allah</span> <span class="w em">SWT.</span></div></div>
       </div>
-      <div id="s-end" class="clip layer">
-        <div id="hero3" class="hero" style="height:820px"><div id="hero3-ph" style="position:absolute;inset:0;clip-path:polygon(0 0, 100% 0, 100% 610px, 0 760px)"><video id="hero3-m" class="clip" src="assets/footage/drone.mp4" data-start="34.5" data-duration="7.5" data-media-start="3.6" data-playback-rate="0.6" data-track-index="2" muted playsinline></video><div class="tint clip" data-start="34.5" data-duration="7.5" data-track-index="2"></div></div><div id="hero3-bands" class="clip" data-start="34.5" data-duration="7.5" data-track-index="2"><div class="band b" style="top:754px;transform:rotate(-7.907deg)"></div><div class="band r" style="top:794px;transform:rotate(-7.907deg)"></div></div></div>
-        <div class="lock clip" style="top:840px;bottom:auto" data-start="34.5" data-duration="7.5" data-track-index="3">
+      <div id="s6" class="scene">
+        <div class="p3d" style="transform:translateZ(-140px)"><div id="hero3" class="hero" style="height:830px"><div id="hero3-ph" style="position:absolute;inset:0;bottom:70px;clip-path:polygon(0 0, 100% 0, 100% 610px, 0 760px)"><video id="hero3-m" class="clip" src="assets/footage/drone.mp4" data-start="34.05" data-duration="7.95" data-media-start="3.4" data-playback-rate="0.6" data-track-index="2" muted playsinline></video><div class="tint clip" data-start="34.05" data-duration="7.95" data-track-index="2"></div></div><div id="hero3-bands" class="clip" data-start="34.05" data-duration="7.95" data-track-index="2"><div class="band b" style="top:754px;transform:rotate(-6.789deg)"></div><div class="band r" style="top:796px;transform:rotate(-6.789deg)"></div></div></div></div>
+        <div class="lock clip" style="top:850px;bottom:auto" data-start="34.05" data-duration="7.95" data-track-index="3" id="lock2">
           <div class="mask"><div id="e-ar" class="ar">جُمُعَة مُبَارَكَة</div></div>
-          <div class="mask"><div id="e-big" class="big">JUMAAT</div></div>
-          <div class="mask"><div id="e-sub" class="sub">YANG DIBERKATI</div></div>
+          <div class="big"><span class="x-blue"><span class="ch c3" style="white-space:pre">J</span><span class="ch c3" style="white-space:pre">U</span><span class="ch c3" style="white-space:pre">M</span><span class="ch c3" style="white-space:pre">A</span><span class="ch c3" style="white-space:pre">A</span><span class="ch c3" style="white-space:pre">T</span></span></div>
+          <div class="sub"><span class="x-red"><span class="ch c4" style="white-space:pre">Y</span><span class="ch c4" style="white-space:pre">A</span><span class="ch c4" style="white-space:pre">N</span><span class="ch c4" style="white-space:pre">G</span><span class="ch" style="white-space:pre"> </span><span class="ch c4" style="white-space:pre">D</span><span class="ch c4" style="white-space:pre">I</span><span class="ch c4" style="white-space:pre">B</span><span class="ch c4" style="white-space:pre">E</span><span class="ch c4" style="white-space:pre">R</span><span class="ch c4" style="white-space:pre">K</span><span class="ch c4" style="white-space:pre">A</span><span class="ch c4" style="white-space:pre">T</span><span class="ch c4" style="white-space:pre">I</span></span></div>
           <div id="e-rule" class="rule"></div>
+          <div class="sheen" id="sheen2"></div>
+        </div>
+        <div id="star-end-wrap" class="p3d clip" data-start="34.05" data-duration="7.95" data-track-index="4">
+          <div id="star2" class="star3d" style="left:760px;top:900px;width:200px;height:200px"><svg class="sl" style="transform:translateZ(-19.2px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(28,38,98)"/></svg><svg class="sl" style="transform:translateZ(-17.6px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(29,39,99)"/></svg><svg class="sl" style="transform:translateZ(-16.0px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(31,41,101)"/></svg><svg class="sl" style="transform:translateZ(-14.4px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(33,43,103)"/></svg><svg class="sl" style="transform:translateZ(-12.8px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(35,45,105)"/></svg><svg class="sl" style="transform:translateZ(-11.2px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(37,47,107)"/></svg><svg class="sl" style="transform:translateZ(-9.6px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(39,49,109)"/></svg><svg class="sl" style="transform:translateZ(-8.0px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(40,50,110)"/></svg><svg class="sl" style="transform:translateZ(-6.4px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(42,52,112)"/></svg><svg class="sl" style="transform:translateZ(-4.8px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(44,54,114)"/></svg><svg class="sl" style="transform:translateZ(-3.2px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(46,56,116)"/></svg><svg class="sl" style="transform:translateZ(-1.6px)" viewBox="0 0 200 200"><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="rgb(48,58,118)"/></svg><svg class="sl" style="transform:translateZ(0.5px)" viewBox="0 0 200 200"><defs><linearGradient id="st2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a6cd6"/><stop offset="0.55" stop-color="#3443a6"/><stop offset="1" stop-color="#1c2670"/></linearGradient></defs><polygon points="100.0,2.0 128.7,30.7 169.3,30.7 169.3,71.3 198.0,100.0 169.3,128.7 169.3,169.3 128.7,169.3 100.0,198.0 71.3,169.3 30.7,169.3 30.7,128.7 2.0,100.0 30.7,71.3 30.7,30.7 71.3,30.7" fill="url(#st2g)" stroke="#fff" stroke-width="2.4"/><polygon points="100.0,29.4 120.7,50.1 149.9,50.1 149.9,79.3 170.6,100.0 149.9,120.7 149.9,149.9 120.7,149.9 100.0,170.6 79.3,149.9 50.1,149.9 50.1,120.7 29.4,100.0 50.1,79.3 50.1,50.1 79.3,50.1" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.2"/><circle cx="100.0" cy="100.0" r="25.5" fill="#ec1c24" stroke="#fff" stroke-width="2.0"/></svg></div>
         </div>
       </div>
-      <div id="brand" class="clip layer" style="z-index:20">
+          <div id="streaks" class="p3d"><div id="stk-r" class="streak" style="width:160px;background:#ec1c24;transform:translateX(1500px) skewX(-20deg)"></div>
+            <div id="stk-b" class="streak" style="width:320px;background:#2b3990;transform:translateX(1500px) skewX(-20deg)"></div></div>
+        </div>
+      </div>
+      <div id="hud" class="clip layer" style="z-index:20;perspective:900px">
         <div id="sh3" class="shard"></div><div id="sh1" class="shard"></div><div id="sh2" class="shard"></div>
         <div id="tab"><img src="assets/img/mcorp-logo.png" alt="MCORP Perbadanan Melaka" /></div>
       </div>
-      <div id="wipe" class="clip layer" style="z-index:30"><div id="wipe-in"><div class="wb w1"></div><div class="wb w2"></div><div class="wb w3"></div></div></div>
       <div id="fade" class="clip layer" style="z-index:40"></div>
       <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="42.0" data-track-index="10"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#hero1-ph", {clipPath: "polygon(100% 0, 100% 0, 100% 610px, 100% 760px)"}, {clipPath: "polygon(0% 0, 100% 0, 100% 610px, 0% 760px)", duration: 1.0, ease: "expo.inOut"}, 0.1);
-      tl.fromTo("#hero1-m", {scale: 1.25}, {scale: 1.0, duration: 7.6, ease: "power1.out"}, 0.1);
-      tl.fromTo("#hero1-bands .band", {xPercent: 100}, {xPercent: 0, duration: 0.9, stagger: 0.08, ease: "expo.out"}, 0.55);
-      tl.from("#h-ar", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 1.05);
-      tl.from("#h-big", {yPercent: 105, duration: 0.75, ease: "power4.out"}, 1.2);
-      tl.from("#h-sub", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 1.45);
-      tl.from("#h-rule", {scaleX: 0, duration: 0.6, ease: "power2.out"}, 1.7);
-      tl.fromTo("#hero2-m", {scale: 1.15}, {scale: 1.0, duration: 10.0, ease: "none"}, 7.7);
+      tl.fromTo("#tk0 svg", {rotationY: 0, rotationZ: -28}, {rotationY: 360, rotationZ: 178, duration: 7.5, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk0", {y: 0}, {y: -208, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk1 svg", {rotationY: 0, rotationZ: 28}, {rotationY: 360, rotationZ: 111, duration: 8.7, repeat: 4, ease: "none"}, 0);
+      tl.fromTo("#tk1", {y: 0}, {y: -149, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk2 svg", {rotationY: 0, rotationZ: 12}, {rotationY: 360, rotationZ: 159, duration: 6.4, repeat: 6, ease: "none"}, 0);
+      tl.fromTo("#tk2", {y: 0}, {y: -233, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk3 svg", {rotationY: 0, rotationZ: 0}, {rotationY: 360, rotationZ: 68, duration: 7.5, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk3", {y: 0}, {y: -122, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk4 svg", {rotationY: 0, rotationZ: -9}, {rotationY: 360, rotationZ: 79, duration: 5.1, repeat: 8, ease: "none"}, 0);
+      tl.fromTo("#tk4", {y: 0}, {y: -292, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk5 svg", {rotationY: 0, rotationZ: 1}, {rotationY: 360, rotationZ: 170, duration: 7.8, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk5", {y: 0}, {y: -245, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk6 svg", {rotationY: 0, rotationZ: 8}, {rotationY: 360, rotationZ: 113, duration: 6.1, repeat: 6, ease: "none"}, 0);
+      tl.fromTo("#tk6", {y: 0}, {y: -141, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk7 svg", {rotationY: 0, rotationZ: -10}, {rotationY: 360, rotationZ: 64, duration: 7.6, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk7", {y: 0}, {y: -320, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk8 svg", {rotationY: 0, rotationZ: -13}, {rotationY: 360, rotationZ: 63, duration: 8.3, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk8", {y: 0}, {y: -156, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk9 svg", {rotationY: 0, rotationZ: 2}, {rotationY: 360, rotationZ: 142, duration: 7.3, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk9", {y: 0}, {y: -191, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk10 svg", {rotationY: 0, rotationZ: -11}, {rotationY: 360, rotationZ: 83, duration: 6.6, repeat: 6, ease: "none"}, 0);
+      tl.fromTo("#tk10", {y: 0}, {y: -313, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk11 svg", {rotationY: 0, rotationZ: -0}, {rotationY: 360, rotationZ: 151, duration: 7.3, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk11", {y: 0}, {y: -176, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk12 svg", {rotationY: 0, rotationZ: 28}, {rotationY: 360, rotationZ: 96, duration: 5.8, repeat: 7, ease: "none"}, 0);
+      tl.fromTo("#tk12", {y: 0}, {y: -121, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk13 svg", {rotationY: 0, rotationZ: -17}, {rotationY: 360, rotationZ: 179, duration: 8.9, repeat: 4, ease: "none"}, 0);
+      tl.fromTo("#tk13", {y: 0}, {y: -285, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk14 svg", {rotationY: 0, rotationZ: 21}, {rotationY: 360, rotationZ: 118, duration: 8.7, repeat: 4, ease: "none"}, 0);
+      tl.fromTo("#tk14", {y: 0}, {y: -134, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#tk15 svg", {rotationY: 0, rotationZ: 13}, {rotationY: 360, rotationZ: 94, duration: 8.2, repeat: 5, ease: "none"}, 0);
+      tl.fromTo("#tk15", {y: 0}, {y: -184, duration: 42.0, ease: "none"}, 0);
+      tl.fromTo("#star1", {rotationY: -200, rotationX: 28, z: -900, scale: 0.6}, {rotationY: 20, rotationX: 8, z: 0, scale: 1, duration: 1.15, ease: "power3.out"}, 0);
+      tl.to("#star1", {rotationY: 90, rotationX: -10, z: 1300, duration: 0.6, ease: "power3.in"}, 1.05);
+      tl.to("#star1 .sl", {opacity: 0, duration: 0.25}, 1.45);
+      tl.fromTo("#hero1", {z: -1600, rotationY: 38, rotationX: 14, y: 120}, {z: 0, rotationY: 0, rotationX: 0, y: 0, duration: 1.5, ease: "expo.out"}, 0.9);
+      tl.fromTo("#hero1-m", {scale: 1.25}, {scale: 1.0, duration: 7.0, ease: "power1.out"}, 0.9);
+      tl.fromTo("#hero1-bands .band", {xPercent: 100}, {xPercent: 0, duration: 0.9, stagger: 0.08, ease: "expo.out"}, 1.5);
+      tl.from("#h-ar", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 1.55);
+      tl.fromTo(".c1", {rotationX: -100, z: -160, opacity: 0}, {rotationX: 0, z: 0, opacity: 1, duration: 0.7, stagger: 0.06, ease: "back.out(1.6)"}, 1.7);
+      tl.fromTo(".c2", {rotationX: -100, z: -120, opacity: 0}, {rotationX: 0, z: 0, opacity: 1, duration: 0.55, stagger: 0.03, ease: "back.out(1.6)"}, 2.05);
+      tl.from("#h-rule", {scaleX: 0, duration: 0.6, ease: "power2.out"}, 2.4);
+      tl.to("#sheen1", {x: "240%", duration: 1.2, ease: "power2.inOut"}, 2.8);
+      tl.fromTo("#lock1", {z: 0, rotationY: 0}, {z: 70, rotationY: -6, duration: 5.75, ease: "sine.inOut", immediateRender: false}, 2.4);
+      tl.fromTo("#hero2-m", {scale: 1.15}, {scale: 1.0, duration: 10.90, ease: "none"}, 7.25);
       tl.from("#a-pill", {yPercent: 110, duration: 0.5, ease: "power3.out"}, 8.2);
-      tl.from("#ar .w", {opacity: 0, y: 20, filter: "blur(8px)", duration: 0.6, stagger: 0.3, ease: "power2.out"}, 8.55);
-      tl.from("#tr", {opacity: 0, y: 22, duration: 0.8, ease: "power2.out"}, 12.3);
+      tl.fromTo("#ar .w", {z: 650, opacity: 0, filter: "blur(10px)"}, {z: 0, opacity: 1, filter: "blur(0px)", duration: 0.85, stagger: 0.3, ease: "power3.out"}, 8.5);
+      tl.fromTo("#tr", {rotationX: -70, opacity: 0, transformOrigin: "50% 0%"}, {rotationX: 0, opacity: 1, duration: 0.9, ease: "power3.out"}, 12.3);
       tl.from("#cite", {opacity: 0, y: 16, duration: 0.6, ease: "power2.out"}, 14.9);
       tl.from("#cite i", {scaleX: 0, duration: 0.6, ease: "power2.out"}, 15.05);
-      tl.fromTo("#hero-p1-m", {scale: 1.14, xPercent: 0}, {scale: 1.0, xPercent: -2, duration: 5.6, ease: "none"}, 17.7);
-      tl.from("#p1 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 18.099999999999998);
-      tl.from("#p1 .tx .w", {opacity: 0, y: 18, duration: 0.45, stagger: 0.045, ease: "power2.out"}, 18.25);
-      tl.fromTo("#hero-p2-m", {scale: 1.14, xPercent: 0}, {scale: 1.0, xPercent: 2, duration: 6.8, ease: "none"}, 23.3);
-      tl.from("#p2 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 23.7);
-      tl.from("#p2 .tx .w", {opacity: 0, y: 18, duration: 0.45, stagger: 0.045, ease: "power2.out"}, 23.85);
-      tl.fromTo("#hero-p3-m", {scale: 1.14, xPercent: 0}, {scale: 1.0, xPercent: -2, duration: 4.4, ease: "none"}, 30.1);
-      tl.from("#p3 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 30.5);
-      tl.from("#p3 .tx .w", {opacity: 0, y: 18, duration: 0.45, stagger: 0.045, ease: "power2.out"}, 30.650000000000002);
-      tl.fromTo("#hero3-m", {scale: 1.12}, {scale: 1.0, duration: 7.5, ease: "none"}, 34.5);
+      tl.fromTo("#ayat", {z: 0, rotationY: 4}, {z: 60, rotationY: -4, duration: 9.95, ease: "sine.inOut", immediateRender: false}, 7.7);
+      tl.fromTo("#hero-p1-m", {scale: 1.16, xPercent: 0}, {scale: 1.0, xPercent: -2, duration: 6.50, ease: "none"}, 17.25);
+      tl.fromTo("#p1", {z: -500, rotationX: 24, rotationY: -18, y: 120, opacity: 0}, {z: 40, rotationX: 4, rotationY: -5, y: 0, opacity: 1, duration: 1.1, ease: "expo.out", immediateRender: false}, 17.75);
+      tl.to("#p1", {z: 90, rotationX: -2, rotationY: 4, duration: 4.85, ease: "sine.inOut"}, 18.849999999999998);
+      tl.from("#p1 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 18.15);
+      tl.fromTo("#p1 .tx .w", {rotationX: -90, opacity: 0}, {rotationX: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: "back.out(1.4)", immediateRender: false}, 18.25);
+      tl.fromTo("#hero-p2-m", {scale: 1.16, xPercent: 0}, {scale: 1.0, xPercent: 2, duration: 7.70, ease: "none"}, 22.85);
+      tl.fromTo("#p2", {z: -500, rotationX: 24, rotationY: 18, y: 120, opacity: 0}, {z: 40, rotationX: 4, rotationY: 5, y: 0, opacity: 1, duration: 1.1, ease: "expo.out", immediateRender: false}, 23.35);
+      tl.to("#p2", {z: 90, rotationX: -2, rotationY: -4, duration: 6.05, ease: "sine.inOut"}, 24.45);
+      tl.from("#p2 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 23.75);
+      tl.fromTo("#p2 .tx .w", {rotationX: -90, opacity: 0}, {rotationX: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: "back.out(1.4)", immediateRender: false}, 23.85);
+      tl.fromTo("#hero-p3-m", {scale: 1.16, xPercent: 0}, {scale: 1.0, xPercent: -2, duration: 5.30, ease: "none"}, 29.650000000000002);
+      tl.fromTo("#p3", {z: -500, rotationX: 24, rotationY: -18, y: 120, opacity: 0}, {z: 40, rotationX: 4, rotationY: -5, y: 0, opacity: 1, duration: 1.1, ease: "expo.out", immediateRender: false}, 30.150000000000002);
+      tl.to("#p3", {z: 90, rotationX: -2, rotationY: 4, duration: 3.65, ease: "sine.inOut"}, 31.25);
+      tl.from("#p3 .bar", {scaleY: 0, duration: 0.7, ease: "power3.out"}, 30.55);
+      tl.fromTo("#p3 .tx .w", {rotationX: -90, opacity: 0}, {rotationX: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: "back.out(1.4)", immediateRender: false}, 30.650000000000002);
+      tl.fromTo("#hero3-m", {scale: 1.14}, {scale: 1.0, duration: 7.95, ease: "none"}, 34.05);
       tl.from("#e-ar", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 35.0);
-      tl.from("#e-big", {yPercent: 105, duration: 0.75, ease: "power4.out"}, 35.15);
-      tl.from("#e-sub", {yPercent: 110, duration: 0.6, ease: "power3.out"}, 35.4);
-      tl.from("#e-rule", {scaleX: 0, duration: 0.6, ease: "power2.out"}, 35.6);
+      tl.fromTo(".c3", {rotationX: -100, z: -160, opacity: 0}, {rotationX: 0, z: 0, opacity: 1, duration: 0.7, stagger: 0.06, ease: "back.out(1.6)", immediateRender: false}, 35.15);
+      tl.fromTo(".c4", {rotationX: -100, z: -120, opacity: 0}, {rotationX: 0, z: 0, opacity: 1, duration: 0.55, stagger: 0.03, ease: "back.out(1.6)", immediateRender: false}, 35.5);
+      tl.from("#e-rule", {scaleX: 0, duration: 0.6, ease: "power2.out"}, 35.85);
+      tl.to("#sheen2", {x: "240%", duration: 1.2, ease: "power2.inOut"}, 36.3);
+      tl.fromTo("#star2", {z: -900, rotationY: -270, rotationX: 30, opacity: 0}, {z: 60, rotationY: 0, rotationX: 10, opacity: 1, duration: 1.4, ease: "expo.out", immediateRender: false}, 35.4);
+      tl.to("#star2", {rotationY: 360, duration: 5.20, ease: "none"}, 36.8);
+      tl.fromTo("#lock2", {z: 0, rotationY: 0}, {z: 70, rotationY: -6, duration: 6.00, ease: "sine.inOut", immediateRender: false}, 36.0);
       tl.fromTo("#fade", {opacity: 0}, {opacity: 1, duration: 0.8, ease: "power1.in"}, 41.2);
-      tl.from("#tab", {y: -170, duration: 0.8, ease: "back.out(1.4)"}, 0.9);
-      tl.from(["#sh1", "#sh2", "#sh3"], {y: 170, duration: 0.8, stagger: 0.07, ease: "expo.out"}, 0.3);
+      tl.fromTo("#orbit", {rotationY: -5}, {rotationY: 5, duration: 7, yoyo: true, repeat: 5, ease: "sine.inOut"}, 0);
+      tl.fromTo("#orbit", {rotationX: 4}, {rotationX: -3, duration: 9.5, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false}, 0);
+      tl.fromTo("#dolly", {z: -260}, {z: 0, duration: 2.2, ease: "power3.out"}, 0);
       tl.fromTo("#tex-r", {x: 0, y: 0}, {x: -60, y: -120, duration: 42, ease: "none"}, 0);
-      tl.fromTo("#wipe-in", {x: 2000}, {x: -2600, duration: 1.1, ease: "power3.inOut", immediateRender: false}, 7.15);
-      tl.fromTo("#wipe-in", {x: 2000}, {x: -2600, duration: 1.1, ease: "power3.inOut", immediateRender: false}, 17.15);
-      tl.fromTo("#wipe-in", {x: 2000}, {x: -2600, duration: 1.1, ease: "power3.inOut", immediateRender: false}, 22.75);
-      tl.fromTo("#wipe-in", {x: 2000}, {x: -2600, duration: 1.1, ease: "power3.inOut", immediateRender: false}, 29.55);
-      tl.fromTo("#wipe-in", {x: 2000}, {x: -2600, duration: 1.1, ease: "power3.inOut", immediateRender: false}, 33.95);
+      tl.fromTo("#s1", {rotationY: 0}, {rotationY: -90, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 7.25);
+      tl.fromTo("#s2", {rotationY: 90}, {rotationY: 0, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 7.25);
+      tl.to("#dolly", {z: -320, duration: 0.45, ease: "power2.in"}, 7.25);
+      tl.to("#dolly", {z: 0, duration: 0.65, ease: "power3.out"}, 7.7);
+      tl.fromTo(["#stk-r", "#stk-b"], {x: 1500, z: 300}, {x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}, 7.35);
+      tl.fromTo("#s2", {rotationY: 0}, {rotationY: -90, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 17.25);
+      tl.fromTo("#s-p1", {rotationY: 90}, {rotationY: 0, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 17.25);
+      tl.to("#dolly", {z: -320, duration: 0.45, ease: "power2.in"}, 17.25);
+      tl.to("#dolly", {z: 0, duration: 0.65, ease: "power3.out"}, 17.7);
+      tl.fromTo(["#stk-r", "#stk-b"], {x: 1500, z: 300}, {x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}, 17.35);
+      tl.fromTo("#s-p1", {rotationY: 0}, {rotationY: -90, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 22.85);
+      tl.fromTo("#s-p2", {rotationY: 90}, {rotationY: 0, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 22.85);
+      tl.to("#dolly", {z: -320, duration: 0.45, ease: "power2.in"}, 22.85);
+      tl.to("#dolly", {z: 0, duration: 0.65, ease: "power3.out"}, 23.3);
+      tl.fromTo(["#stk-r", "#stk-b"], {x: 1500, z: 300}, {x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}, 22.95);
+      tl.fromTo("#s-p2", {rotationY: 0}, {rotationY: -90, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 29.65);
+      tl.fromTo("#s-p3", {rotationY: 90}, {rotationY: 0, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 29.65);
+      tl.to("#dolly", {z: -320, duration: 0.45, ease: "power2.in"}, 29.65);
+      tl.to("#dolly", {z: 0, duration: 0.65, ease: "power3.out"}, 30.1);
+      tl.fromTo(["#stk-r", "#stk-b"], {x: 1500, z: 300}, {x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}, 29.75);
+      tl.fromTo("#s-p3", {rotationY: 0}, {rotationY: -90, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 34.05);
+      tl.fromTo("#s6", {rotationY: 90}, {rotationY: 0, duration: 0.9, ease: "power2.inOut", immediateRender: false}, 34.05);
+      tl.to("#dolly", {z: -320, duration: 0.45, ease: "power2.in"}, 34.05);
+      tl.to("#dolly", {z: 0, duration: 0.65, ease: "power3.out"}, 34.5);
+      tl.fromTo(["#stk-r", "#stk-b"], {x: 1500, z: 300}, {x: -1900, z: 300, duration: 0.7, stagger: 0.06, ease: "power2.inOut", immediateRender: false}, 34.15);
+      tl.from("#tab", {y: -170, rotationX: -90, transformOrigin: "50% 0%", duration: 0.9, ease: "back.out(1.4)"}, 1.0);
+      tl.from(["#sh1", "#sh2", "#sh3"], {y: 170, duration: 0.8, stagger: 0.07, ease: "expo.out"}, 0.4);
+      tl.fromTo("#tab", {rotationY: 0}, {rotationY: 360, duration: 1.2, ease: "power3.inOut", immediateRender: false}, 35.7);
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
     </script>
