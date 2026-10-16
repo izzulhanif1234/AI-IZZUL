@@ -501,8 +501,8 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1920" data-height="1080">
-      <div id="bg" class="clip" data-start="0" data-duration="20" data-track-index="0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="31" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="31" data-track-index="0">
         <div id="bg-base" class="layer"></div>
         <div id="aura"></div>
         <div class="blob" id="blob-1"></div>
@@ -514,7 +514,7 @@
         <canvas id="paint" width="1920" height="1080"></canvas>
       </div>
 
-      <div id="stage" class="clip" data-start="0" data-duration="20" data-track-index="1">
+      <div id="stage" class="clip" data-start="0" data-duration="31" data-track-index="1">
         <!-- hook -->
         <div class="layer">
           <div id="hook" class="layer">
@@ -597,63 +597,53 @@
         </div>
       </div>
 
-      <div id="fx" class="clip" data-start="0" data-duration="20" data-track-index="2">
+      <div id="fx" class="clip" data-start="0" data-duration="31" data-track-index="2">
         <div id="vignette" class="layer"></div>
         <div id="flare"></div>
         <div id="flash"></div>
       </div>
 
-      <audio id="bgm" src="assets/bgm/track.wav" data-start="0" data-duration="20" data-track-index="9" data-volume="0.62" data-fade-out="1.4"></audio>
-      <!-- SFX: data-start = visual moment - file onset (whoosh .08, impact .05) -->
-      <audio id="a-riser" src="assets/sfx/riser.mp3" data-start="0" data-duration="1.65" data-track-index="10" data-volume="0.4" data-fade-in="0.3" data-fade-out="0.15"></audio>
-      <audio id="a-s1" src="assets/sfx/splat.wav" data-start="0.12" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="a-w1" src="assets/sfx/whoosh-short.mp3" data-start="0.04" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
-      <audio id="a-w2" src="assets/sfx/whoosh-short.mp3" data-start="0.62" data-duration="0.57" data-track-index="13" data-volume="0.45"></audio>
-      <audio id="a-s2" src="assets/sfx/splat.wav" data-start="0.7" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="a-s3" src="assets/sfx/splat.wav" data-start="1.02" data-duration="0.32" data-track-index="14" data-volume="0.85"></audio>
-      <audio id="a-zoom" src="assets/sfx/whoosh.mp3" data-start="1.44" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
-      <audio id="a-title" src="assets/sfx/impact-bass-1.mp3" data-start="1.6" data-duration="1.5" data-track-index="15" data-volume="0.7" data-fade-out="0.4"></audio>
-      <audio id="a-s4" src="assets/sfx/splat.wav" data-start="1.62" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="a-glitch" src="assets/sfx/glitch-1.mp3" data-start="2.95" data-duration="0.35" data-track-index="16" data-volume="0.35" data-fade-out="0.1"></audio>
-      <audio id="a-drop" src="assets/sfx/whoosh-cinematic.mp3" data-start="3.15" data-duration="1.0" data-track-index="17" data-volume="0.55" data-fade-out="0.2"></audio>
-      <audio id="a-land" src="assets/sfx/impact-bass-2.mp3" data-start="4.0" data-duration="2.0" data-track-index="15" data-volume="0.75" data-fade-out="0.5"></audio>
-      <audio id="a-s5" src="assets/sfx/splat.wav" data-start="4.05" data-duration="0.32" data-track-index="11" data-volume="0.9"></audio>
-      <audio id="a-p1" src="assets/sfx/pop.mp3" data-start="4.3" data-duration="0.5" data-track-index="18" data-volume="0.45"></audio>
-      <audio id="a-p2" src="assets/sfx/pop.mp3" data-start="4.6" data-duration="0.5" data-track-index="19" data-volume="0.45"></audio>
-      <audio id="a-p3" src="assets/sfx/pop.mp3" data-start="4.9" data-duration="0.5" data-track-index="18" data-volume="0.45"></audio>
-      <audio id="a-km" src="assets/sfx/whoosh-short.mp3" data-start="5.02" data-duration="0.57" data-track-index="13" data-volume="0.45"></audio>
-      <audio id="a-sheen" src="assets/sfx/sparkle.mp3" data-start="5.5" data-duration="1.4" data-track-index="20" data-volume="0.3" data-fade-out="0.4"></audio>
-      <audio id="a-z1" src="assets/sfx/whoosh.mp3" data-start="6.37" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
-      <audio id="a-z2" src="assets/sfx/whoosh-short.mp3" data-start="7.37" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
-      <audio id="a-z3" src="assets/sfx/whoosh.mp3" data-start="8.37" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
-      <audio id="a-z4" src="assets/sfx/whoosh-short.mp3" data-start="9.37" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
-      <audio id="a-c1" src="assets/sfx/pop.mp3" data-start="6.72" data-duration="0.5" data-track-index="18" data-volume="0.35"></audio>
-      <audio id="a-c2" src="assets/sfx/pop.mp3" data-start="7.72" data-duration="0.5" data-track-index="19" data-volume="0.35"></audio>
-      <audio id="a-c3" src="assets/sfx/pop.mp3" data-start="8.72" data-duration="0.5" data-track-index="18" data-volume="0.35"></audio>
-      <audio id="a-c4" src="assets/sfx/pop.mp3" data-start="9.72" data-duration="0.5" data-track-index="19" data-volume="0.35"></audio>
-      <audio id="a-out" src="assets/sfx/whoosh.mp3" data-start="10.37" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
-      <audio id="a-spin" src="assets/sfx/whoosh-cinematic.mp3" data-start="10.7" data-duration="0.9" data-track-index="17" data-volume="0.55" data-fade-out="0.2"></audio>
-      <audio id="a-backhit" src="assets/sfx/impact-bass-1.mp3" data-start="11.4" data-duration="1.4" data-track-index="15" data-volume="0.65" data-fade-out="0.4"></audio>
-      <audio id="a-s6" src="assets/sfx/splat.wav" data-start="11.45" data-duration="0.32" data-track-index="11" data-volume="0.85"></audio>
-      <audio id="a-wd1" src="assets/sfx/splat.wav" data-start="11.72" data-duration="0.32" data-track-index="14" data-volume="0.6"></audio>
-      <audio id="a-wd2" src="assets/sfx/splat.wav" data-start="12.12" data-duration="0.32" data-track-index="11" data-volume="0.6"></audio>
-      <audio id="a-wd3" src="assets/sfx/splat.wav" data-start="12.52" data-duration="0.32" data-track-index="14" data-volume="0.6"></audio>
-      <audio id="a-wd4" src="assets/sfx/splat.wav" data-start="12.92" data-duration="0.32" data-track-index="11" data-volume="0.75"></audio>
-      <audio id="a-wdp1" src="assets/sfx/whoosh-short.mp3" data-start="11.64" data-duration="0.57" data-track-index="13" data-volume="0.35"></audio>
-      <audio id="a-wdp2" src="assets/sfx/whoosh-short.mp3" data-start="12.44" data-duration="0.57" data-track-index="13" data-volume="0.35"></audio>
-      <audio id="a-turn" src="assets/sfx/whoosh-cinematic.mp3" data-start="13.85" data-duration="2.2" data-track-index="17" data-volume="0.45" data-fade-in="0.2" data-fade-out="0.6"></audio>
-      <audio id="a-sheen2" src="assets/sfx/sparkle.mp3" data-start="14.6" data-duration="1.6" data-track-index="20" data-volume="0.28" data-fade-out="0.4"></audio>
-      <audio id="a-end" src="assets/sfx/impact-bass-2.mp3" data-start="16.15" data-duration="2.5" data-track-index="15" data-volume="0.8" data-fade-out="0.8"></audio>
-      <audio id="a-s7" src="assets/sfx/splat.wav" data-start="16.2" data-duration="0.32" data-track-index="11" data-volume="0.9"></audio>
-      <audio id="a-et" src="assets/sfx/whoosh.mp3" data-start="16.47" data-duration="0.57" data-track-index="12" data-volume="0.45"></audio>
-      <audio id="a-ep" src="assets/sfx/pop.mp3" data-start="17.2" data-duration="0.5" data-track-index="18" data-volume="0.4"></audio>
-      <audio id="a-es" src="assets/sfx/sparkle.mp3" data-start="17.6" data-duration="1.8" data-track-index="20" data-volume="0.3" data-fade-out="0.5"></audio>
+      <audio id="bgm" src="assets/bgm/track.wav" data-start="0" data-duration="31" data-track-index="9" data-volume="0.9" data-fade-out="2.0"></audio>
+      <!-- SFX (31 s timeline): data-start = visual moment - file onset (whoosh .08). Impacts are in the score. -->
+      <audio id="a-zoom" src="assets/sfx/whoosh.mp3" data-start="2.62" data-duration="0.57" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="a-drop" src="assets/sfx/whoosh-cinematic.mp3" data-start="5.95" data-duration="1.6" data-track-index="17" data-volume="0.4" data-fade-out="0.4"></audio>
+      <audio id="a-sheen" src="assets/sfx/sparkle.mp3" data-start="9.1" data-duration="1.6" data-track-index="20" data-volume="0.25" data-fade-out="0.5"></audio>
+      <audio id="a-z1" src="assets/sfx/whoosh.mp3" data-start="10.8" data-duration="0.57" data-track-index="12" data-volume="0.28"></audio>
+      <audio id="a-z2" src="assets/sfx/whoosh.mp3" data-start="12.3" data-duration="0.57" data-track-index="13" data-volume="0.28"></audio>
+      <audio id="a-z3" src="assets/sfx/whoosh.mp3" data-start="13.8" data-duration="0.57" data-track-index="12" data-volume="0.28"></audio>
+      <audio id="a-z4" src="assets/sfx/whoosh.mp3" data-start="15.3" data-duration="0.57" data-track-index="13" data-volume="0.28"></audio>
+      <audio id="a-out" src="assets/sfx/whoosh.mp3" data-start="16.8" data-duration="0.57" data-track-index="12" data-volume="0.28"></audio>
+      <audio id="a-spin" src="assets/sfx/whoosh-cinematic.mp3" data-start="17.3" data-duration="1.4" data-track-index="17" data-volume="0.4" data-fade-out="0.4"></audio>
+      <audio id="a-turn" src="assets/sfx/whoosh-cinematic.mp3" data-start="22.0" data-duration="3.2" data-track-index="17" data-volume="0.3" data-fade-in="0.4" data-fade-out="1.0"></audio>
+      <audio id="a-sheen2" src="assets/sfx/sparkle.mp3" data-start="24.3" data-duration="1.6" data-track-index="20" data-volume="0.22" data-fade-out="0.5"></audio>
+      <audio id="a-es" src="assets/sfx/sparkle.mp3" data-start="27.6" data-duration="1.8" data-track-index="20" data-volume="0.25" data-fade-out="0.6"></audio>
     </div>
 
     <script>
       (function () {
-        const DUR = 20;
+        const DUR = 31;
         const tl = gsap.timeline({ paused: true });
+        // Cinematic pacing: the cut was blocked on a 20 s grid; WARP stretches it to 31 s
+        // (hook + title ~1.9x, the rest ~1.5x). T.* = tl.* with positions and durations warped.
+        const WARP = [[0, 0], [1.6, 3.0], [3.2, 6.0], [6.4, 10.8], [10.8, 17.4], [13.9, 22.0], [16.2, 25.6], [20, 31]];
+        const Wt = (t) => {
+          for (let i = 1; i < WARP.length; i++) {
+            const [a0, b0] = WARP[i - 1], [a1, b1] = WARP[i];
+            if (t <= a1 || i === WARP.length - 1) return b0 + ((t - a0) * (b1 - b0)) / (a1 - a0);
+          }
+        };
+        const warpV = (v, pos) => {
+          const o = { ...v };
+          if (typeof o.duration === "number") o.duration = Wt(pos + o.duration) - Wt(pos);
+          if (typeof o.stagger === "number") o.stagger = Wt(pos + o.stagger) - Wt(pos);
+          return o;
+        };
+        const T = {
+          to: (sel, v, pos) => tl.to(sel, warpV(v, pos), Wt(pos)),
+          from: (sel, v, pos) => tl.from(sel, warpV(v, pos), Wt(pos)),
+          fromTo: (sel, f, v, pos) => tl.fromTo(sel, f, warpV(v, pos), Wt(pos)),
+          set: (sel, v, pos) => tl.set(sel, v, Wt(pos)),
+        };
         const ROOT = document.getElementById("root");
         const W = +ROOT.dataset.width, H = +ROOT.dataset.height, V = H > W;
         // music beat grid (seconds), written by scripts/colour_rush_build.py
@@ -667,40 +657,40 @@
         const ZS = V ? 0.8 : 1; // vertical shirt is already bigger on screen
 
         // ---------- 1. hook: NO FILTER. JUST COLOUR. ----------
-        tl.from("#hk-1", { autoAlpha: 0, scale: 2.6, filter: "blur(20px)", duration: 0.32, ease: "expo.out" }, 0.12);
-        tl.from("#hk-2", { autoAlpha: 0, x: -500, skewX: -20, duration: 0.28, ease: "expo.out" }, 0.66);
-        tl.from("#hk-3", { autoAlpha: 0, scale: 0.2, rotation: -8, duration: 0.42, ease: "back.out(2.4)" }, 1.05);
-        tl.to("#hook", { scale: 1.08, duration: 0.31, ease: "none" }, 1.05);
-        tl.to("#hook", { scale: 9, autoAlpha: 0, filter: "blur(30px)", duration: 0.26, ease: "expo.in" }, 1.36);
+        T.from("#hk-1", { autoAlpha: 0, scale: 2.6, filter: "blur(20px)", duration: 0.32, ease: "expo.out" }, 0.12);
+        T.from("#hk-2", { autoAlpha: 0, x: -500, skewX: -20, duration: 0.28, ease: "expo.out" }, 0.66);
+        T.from("#hk-3", { autoAlpha: 0, scale: 0.2, rotation: -8, duration: 0.42, ease: "back.out(2.4)" }, 1.05);
+        T.to("#hook", { scale: 1.08, duration: 0.31, ease: "none" }, 1.05);
+        T.to("#hook", { scale: 9, autoAlpha: 0, filter: "blur(30px)", duration: 0.26, ease: "expo.in" }, 1.36);
 
         // ---------- 2. title slam ----------
-        tl.fromTo("#title-img", { autoAlpha: 0, scale: 2.8, filter: "blur(26px)", rotation: -4 }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", rotation: 0, duration: 0.36, ease: "expo.out" }, 1.62);
-        tl.to("#title-img", { scale: 1.07, duration: 1.3, ease: "none" }, 1.98);
-        tl.to("#title-img", { y: -900, scaleY: 1.6, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, 3.0);
+        T.fromTo("#title-img", { autoAlpha: 0, scale: 2.8, filter: "blur(26px)", rotation: -4 }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", rotation: 0, duration: 0.36, ease: "expo.out" }, 1.62);
+        T.to("#title-img", { scale: 1.07, duration: 1.3, ease: "none" }, 1.98);
+        T.to("#title-img", { y: -900, scaleY: 1.6, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, 3.0);
 
         // ---------- 3. the tee drops in spinning ----------
-        tl.set(["#cam"], { autoAlpha: 0 }, 0);
-        tl.set("#cam", { autoAlpha: 1 }, 3.2);
-        tl.fromTo("#turn", { y: V ? -1900 : -1300, rotationY: -1080, rotationZ: -14, scale: 0.7 }, { y: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 3.2);
-        tl.fromTo("#shirt-glow", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.95);
-        tl.fromTo("#shirt-shadow", { scaleX: 0.2, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.8);
+        T.set(["#cam"], { autoAlpha: 0 }, 0);
+        T.set("#cam", { autoAlpha: 1 }, 3.2);
+        T.fromTo("#turn", { y: V ? -1900 : -1300, rotationY: -1080, rotationZ: -14, scale: 0.7 }, { y: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 3.2);
+        T.fromTo("#shirt-glow", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.95);
+        T.fromTo("#shirt-shadow", { scaleX: 0.2, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 3.8);
         // land: squash + settle
-        tl.to("#turn", { scaleY: 0.96, scaleX: 1.03, duration: 0.08, ease: "power2.out" }, 4.05);
-        tl.to("#turn", { scaleY: 1, scaleX: 1, duration: 0.4, ease: "elastic.out(1, 0.4)" }, 4.13);
+        T.to("#turn", { scaleY: 0.96, scaleX: 1.03, duration: 0.08, ease: "power2.out" }, 4.05);
+        T.to("#turn", { scaleY: 1, scaleX: 1, duration: 0.4, ease: "elastic.out(1, 0.4)" }, 4.13);
         // idle sway while the side copy is up
-        tl.to("#turn", { rotationY: 14, duration: 1.0, ease: "sine.inOut" }, 4.55);
-        tl.to("#turn", { rotationY: -10, duration: 0.5, ease: "sine.inOut" }, 5.55);
-        tl.to("#turn", { rotationY: 0, duration: 0.3, ease: "power2.inOut" }, 6.05);
+        T.to("#turn", { rotationY: 14, duration: 1.0, ease: "sine.inOut" }, 4.55);
+        T.to("#turn", { rotationY: -10, duration: 0.5, ease: "sine.inOut" }, 5.55);
+        T.to("#turn", { rotationY: 0, duration: 0.3, ease: "power2.inOut" }, 6.05);
         // side copy
         gsap.utils.toArray("#tag-l div").forEach((el, i) => {
-          tl.from(el, { autoAlpha: 0, x: -400, skewX: -24, duration: 0.3, ease: "expo.out" }, 4.3 + i * 0.3);
+          T.from(el, { autoAlpha: 0, x: -400, skewX: -24, duration: 0.3, ease: "expo.out" }, 4.3 + i * 0.3);
         });
-        tl.from("#km", { autoAlpha: 0, scale: 2.2, filter: "blur(16px)", duration: 0.35, ease: "expo.out" }, 5.1);
-        tl.from("#km-sub", { autoAlpha: 0, x: 120, duration: 0.4, ease: "expo.out" }, 5.35);
-        tl.to("#tag-l", { x: -900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
-        tl.to("#tag-r", { x: 900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
+        T.from("#km", { autoAlpha: 0, scale: 2.2, filter: "blur(16px)", duration: 0.35, ease: "expo.out" }, 5.1);
+        T.from("#km-sub", { autoAlpha: 0, x: 120, duration: 0.4, ease: "expo.out" }, 5.35);
+        T.to("#tag-l", { x: -900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
+        T.to("#tag-r", { x: 900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
         // sheen pass
-        tl.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.9, ease: "power2.inOut", immediateRender: false }, 5.5);
+        T.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.9, ease: "power2.inOut", immediateRender: false }, 5.5);
 
         // ---------- 4. detail whip-zooms ----------
         const ZOOMS = [
@@ -711,61 +701,61 @@
         ];
         ZOOMS.forEach(([t, nx, ny, s, co], i) => {
           s *= ZS;
-          tl.to("#cam", { ...camTo(nx, ny, s), duration: 0.36, ease: "expo.inOut" }, t);
-          tl.fromTo("#cam", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.12, yoyo: true, repeat: 1, ease: "power1.in", immediateRender: false }, t + 0.06);
-          tl.fromTo(co, { autoAlpha: 0, x: -260 }, { autoAlpha: 1, x: 0, duration: 0.25, ease: "expo.out", immediateRender: false }, t + 0.18);
-          tl.fromTo(co + " .t", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.22, ease: "power3.out", immediateRender: false }, t + 0.2);
-          tl.to(co, { autoAlpha: 0, x: -200, duration: 0.18, ease: "power2.in" }, t + 0.86);
+          T.to("#cam", { ...camTo(nx, ny, s), duration: 0.36, ease: "expo.inOut" }, t);
+          T.fromTo("#cam", { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.12, yoyo: true, repeat: 1, ease: "power1.in", immediateRender: false }, t + 0.06);
+          T.fromTo(co, { autoAlpha: 0, x: -260 }, { autoAlpha: 1, x: 0, duration: 0.25, ease: "expo.out", immediateRender: false }, t + 0.18);
+          T.fromTo(co + " .t", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.22, ease: "power3.out", immediateRender: false }, t + 0.2);
+          T.to(co, { autoAlpha: 0, x: -200, duration: 0.18, ease: "power2.in" }, t + 0.86);
           // slow drift during the hold so it never sits still
-          tl.to("#cam", { ...camTo(nx + (i % 2 ? -0.02 : 0.02), ny + 0.01, s * 1.05), duration: 0.55, ease: "none" }, t + 0.36);
+          T.to("#cam", { ...camTo(nx + (i % 2 ? -0.02 : 0.02), ny + 0.01, s * 1.05), duration: 0.55, ease: "none" }, t + 0.36);
         });
-        tl.set(".callout", { autoAlpha: 0 }, 0);
-        tl.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.36, ease: "expo.inOut" }, 10.45);
+        T.set(".callout", { autoAlpha: 0 }, 0);
+        T.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.36, ease: "expo.inOut" }, 10.45);
 
         // ---------- 5. spin round to the back ----------
-        tl.to("#turn", { rotationY: 540, duration: 0.7, ease: "expo.inOut" }, 10.78);
-        tl.to("#turn", { scaleY: 0.97, scaleX: 1.02, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 11.45);
+        T.to("#turn", { rotationY: 540, duration: 0.7, ease: "expo.inOut" }, 10.78);
+        T.to("#turn", { scaleY: 0.97, scaleX: 1.02, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 11.45);
         // push into the back print while the words slam
-        tl.to("#cam", { ...camTo(0.5, 0.42, 1.1), duration: 2.1, ease: "power1.inOut" }, 11.5);
+        T.to("#cam", { ...camTo(0.5, 0.42, 1.1), duration: 2.1, ease: "power1.inOut" }, 11.5);
         [["#w-run", -1], ["#w-loud", 1], ["#w-live", -1], ["#w-bright", 1]].forEach(([sel, d], i) => {
-          tl.from(sel, { autoAlpha: 0, x: d * 700, skewX: -22 * d, scale: 1.4, duration: 0.3, ease: "expo.out" }, 11.75 + i * 0.4);
+          T.from(sel, { autoAlpha: 0, x: d * 700, skewX: -22 * d, scale: 1.4, duration: 0.3, ease: "expo.out" }, 11.75 + i * 0.4);
         });
-        tl.to(["#w-run", "#w-live"], { x: -1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
-        tl.to(["#w-loud", "#w-bright"], { x: 1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
-        tl.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.4, ease: "expo.inOut" }, 13.7);
-        tl.fromTo("#face-back .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.8, ease: "power2.inOut", immediateRender: false }, 12.0);
+        T.to(["#w-run", "#w-live"], { x: -1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
+        T.to(["#w-loud", "#w-bright"], { x: 1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
+        T.to("#cam", { x: 0, y: 0, scale: 1, duration: 0.4, ease: "expo.inOut" }, 13.7);
+        T.fromTo("#face-back .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.8, ease: "power2.inOut", immediateRender: false }, 12.0);
 
         // ---------- 6. turntable ----------
-        tl.to("#turn", { rotationY: 1080, duration: 2.2, ease: "power2.inOut" }, 13.95);
-        tl.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.7, ease: "power2.inOut", immediateRender: false }, 15.4);
-        tl.to("#turn", { y: V ? -2100 : -1400, rotationZ: 10, duration: 0.3, ease: "power3.in" }, 16.0);
-        tl.to(["#shirt-glow", "#shirt-shadow"], { autoAlpha: 0, duration: 0.2 }, 16.05);
+        T.to("#turn", { rotationY: 1080, duration: 2.2, ease: "power2.inOut" }, 13.95);
+        T.fromTo("#face-front .sheen", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.7, ease: "power2.inOut", immediateRender: false }, 15.4);
+        T.to("#turn", { y: V ? -2100 : -1400, rotationZ: 10, duration: 0.3, ease: "power3.in" }, 16.0);
+        T.to(["#shirt-glow", "#shirt-shadow"], { autoAlpha: 0, duration: 0.2 }, 16.05);
 
         // ---------- 7. end card ----------
-        tl.fromTo("#end-front", { autoAlpha: 0, x: -900, rotation: -12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.2);
-        tl.fromTo("#end-back", { autoAlpha: 0, x: 900, rotation: 12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.28);
-        tl.fromTo("#end-title", { autoAlpha: 0, y: -260, scale: 1.4 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 16.55);
-        tl.fromTo("#end-km", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 16.95);
-        tl.fromTo("#end-partners", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 17.2);
-        tl.fromTo("#end-tag", { autoAlpha: 0, scale: 1.8 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 17.5);
-        tl.to("#end-front", { y: -10, rotation: -1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.0);
-        tl.to("#end-back", { y: -10, rotation: 1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.2);
-        tl.to("#end", { scale: 1.035, duration: 3.3, ease: "none" }, 16.7);
+        T.fromTo("#end-front", { autoAlpha: 0, x: -900, rotation: -12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.2);
+        T.fromTo("#end-back", { autoAlpha: 0, x: 900, rotation: 12 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 16.28);
+        T.fromTo("#end-title", { autoAlpha: 0, y: -260, scale: 1.4 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 16.55);
+        T.fromTo("#end-km", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 16.95);
+        T.fromTo("#end-partners", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 17.2);
+        T.fromTo("#end-tag", { autoAlpha: 0, scale: 1.8 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 17.5);
+        T.to("#end-front", { y: -10, rotation: -1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.0);
+        T.to("#end-back", { y: -10, rotation: 1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.2);
+        T.to("#end", { scale: 1.035, duration: 3.3, ease: "none" }, 16.7);
 
         // ---------- flashes ----------
-        [[0.12, 0.5], [1.05, 0.45], [1.62, 0.8], [4.05, 0.6], [11.45, 0.5], [16.2, 0.85]].forEach(([t, o]) => {
-          tl.fromTo("#flash", { opacity: o }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t);
+        [[1.62, 0.45], [4.05, 0.35], [11.45, 0.3], [16.2, 0.5]].forEach(([t, o]) => {
+          T.fromTo("#flash", { opacity: o }, { opacity: 0, duration: 0.22, ease: "power2.out", immediateRender: false }, t);
         });
 
         // ---------- anamorphic flare on the big hits ----------
         [1.62, 4.05, 11.45, 16.2].forEach((t) => {
-          tl.fromTo("#flare", { opacity: 1, scaleX: 0.15, scaleY: 1.6 }, { opacity: 0, scaleX: 1.5, scaleY: 0.6, duration: 0.55, ease: "power2.out", immediateRender: false }, t);
+          T.fromTo("#flare", { opacity: 1, scaleX: 0.15, scaleY: 1.6 }, { opacity: 0, scaleX: 1.5, scaleY: 0.6, duration: 0.55, ease: "power2.out", immediateRender: false }, t);
         });
 
         // ---------- big splat images ----------
         [["#sp-a1", 1.62], ["#sp-a2", 4.05], ["#sp-a1", 11.45], ["#sp-a2", 11.5], ["#sp-a1", 16.2], ["#sp-a2", 16.25]].forEach(([sel, t]) => {
-          tl.fromTo(sel, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 0.9, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, t);
-          tl.to(sel, { autoAlpha: 0, duration: 0.9, ease: "power1.in" }, t + 1.0);
+          T.fromTo(sel, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 0.9, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, t);
+          T.to(sel, { autoAlpha: 0, duration: 0.9, ease: "power1.in" }, t + 1.0);
         });
 
         // ---------- deterministic paint bursts + ambient (render(t)) ----------
@@ -787,7 +777,7 @@
               [12.95, 1540, 770, 50, 0.8], [16.2, 960, 620, 140, 1.5],
             ]
         ).map(([t, x, y, n, p]) => ({
-          t, x, y,
+          t: Wt(t), x, y,
           drops: Array.from({ length: n }, () => {
             const a = rnd() * Math.PI * 2;
             const v = (300 + rnd() * 1300) * p;
@@ -800,14 +790,14 @@
         paint.height = H;
         const ctx = paint.getContext("2d");
         // radial speed streaks while the tee spins
-        const SPINS = [[3.2, 4.05], [10.78, 11.48], [13.95, 16.15]];
+        const SPINS = [[3.2, 4.05], [10.78, 11.48], [13.95, 16.15]].map(([a, b]) => [Wt(a), Wt(b)]);
         const STREAKS = Array.from({ length: 90 }, () => ({ a: rnd() * Math.PI * 2, r0: rnd(), w: 1 + rnd() * 3, c: COLORS[Math.floor(rnd() * 6)] }));
         const RMAX = Math.hypot(W, H) / 2;
         const aura = document.getElementById("aura");
         const ghost = document.getElementById("ghost");
         const b1 = document.getElementById("blob-1"), b2 = document.getElementById("blob-2"), b3 = document.getElementById("blob-3");
         const stage = document.getElementById("stage");
-        const SHAKES = [0.12, 1.05, 1.62, 4.05, 11.45, 11.75, 12.15, 12.55, 12.95, 16.2];
+        const SHAKES = [1.62, 4.05, 11.45, 16.2].map(Wt);
         stage.style.transformOrigin = "50% 50%";
 
         function render(t) {
@@ -821,10 +811,10 @@
             ctx.globalCompositeOperation = "lighter";
             ctx.lineCap = "round";
             STREAKS.forEach((s) => {
-              const r = ((s.r0 + t * 1.6) % 1) * RMAX;
+              const r = ((s.r0 + t * 0.9) % 1) * RMAX;
               const len = 60 + spin * 320 * (r / RMAX + 0.3);
               const cx = W / 2, cy = H / 2;
-              ctx.globalAlpha = spin * 0.55 * Math.min(1, r / 200);
+              ctx.globalAlpha = spin * 0.3 * Math.min(1, r / 200);
               ctx.strokeStyle = s.c;
               ctx.lineWidth = s.w;
               ctx.beginPath();
@@ -836,7 +826,7 @@
           }
           ctx.globalCompositeOperation = "lighter";
           BURSTS.forEach((b) => {
-            const u = t - b.t;
+            const u = (t - b.t) * 0.62; // slow-motion paint
             if (u < 0 || u > 1.8) return;
             // splash core: blobs swell fast then fade
             b.blobs.forEach((bl) => {
@@ -881,8 +871,8 @@
             }
           }
           aura.style.opacity = (0.3 + 0.35 * pulse).toFixed(3);
-          aura.style.transform = `rotate(${(t * 40).toFixed(2)}deg) scale(${(1 + 0.08 * Math.sin(t * 2.4) + 0.06 * pulse).toFixed(3)})`;
-          ghost.style.transform = `translateX(${(-300 - t * 120).toFixed(1)}px)`;
+          aura.style.transform = `rotate(${(t * 18).toFixed(2)}deg) scale(${(1 + 0.08 * Math.sin(t * 2.4) + 0.06 * pulse).toFixed(3)})`;
+          ghost.style.transform = `translateX(${(-300 - t * 60).toFixed(1)}px)`;
           b1.style.transform = `translate(${(Math.sin(t * 0.9) * 90).toFixed(1)}px, ${(Math.cos(t * 0.7) * 60).toFixed(1)}px)`;
           b2.style.transform = `translate(${(Math.cos(t * 0.8) * 100).toFixed(1)}px, ${(Math.sin(t * 1.1) * 70).toFixed(1)}px)`;
           b3.style.transform = `translate(${(Math.sin(t * 1.3) * 70).toFixed(1)}px, ${(Math.sin(t * 0.6) * 60).toFixed(1)}px)`;
@@ -891,10 +881,10 @@
           SHAKES.forEach((s, k) => {
             const u = t - s;
             if (u >= 0 && u < 0.4) {
-              const amp = 14 * Math.exp(-u * 12);
+              const amp = 6 * Math.exp(-u * 8);
               sx += Math.sin(u * 95 + k) * amp;
               sy += Math.cos(u * 80 + k * 3) * amp * 0.7;
-              rgb = Math.max(rgb, 14 * Math.exp(-u * 11));
+              rgb = Math.max(rgb, 5 * Math.exp(-u * 9));
             }
           });
           stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(${(1 + 0.014 * pulse).toFixed(4)})`;
