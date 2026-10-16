@@ -173,13 +173,7 @@
       }
       #hk-3 {
         font-size: 270px;
-        background: var(--rainbow);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
         padding: 0 40px;
-        filter: drop-shadow(0 0 40px rgba(255, 45, 149, 0.45));
       }
 
       /* title slam */
@@ -299,11 +293,6 @@
       }
       #km {
         font-size: 230px;
-        background: var(--rainbow);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
         padding: 0 20px 0 30px;
       }
       #km-sub {
@@ -343,11 +332,6 @@
       }
       #w-bright {
         top: 690px;
-        background: var(--rainbow);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
         padding-right: 24px;
       }
 
@@ -479,11 +463,6 @@
         white-space: nowrap;
       }
       #root.v #end-tag span {
-        background: var(--rainbow);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
         padding: 0 30px;
       }
       #root.v #end-tag small {
@@ -498,6 +477,57 @@
       }
       #root.v #sp-a1 { left: -420px; top: 1250px; }
       #root.v #sp-a2 { left: 400px; top: 1250px; }
+
+      /* ---------- 3D type: extruded depth + glossy bevelled face ---------- */
+      #stage > .layer {
+        perspective: 1400px;
+      }
+      .hk,
+      :where(#tag-l) div,
+      :where(#km),
+      .word,
+      :where(#end-tag) span {
+        --ex: #4a1fa8;
+        --ex2: #1a0a45;
+        --face: linear-gradient(180deg, #ffffff 0%, #ffffff 46%, #cdd5ff 54%, #f1f3ff 100%);
+        background: var(--face);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(1px 2px 0 var(--ex)) drop-shadow(1px 2px 0 var(--ex)) drop-shadow(1px 2px 0 var(--ex))
+          drop-shadow(1px 2px 0 var(--ex2)) drop-shadow(1px 2px 0 var(--ex2)) drop-shadow(0 18px 26px rgba(0, 0, 0, 0.6));
+      }
+      .gold {
+        --ex: #9a5200;
+        --ex2: #3d1f00;
+        --face: linear-gradient(180deg, #fff8c2 0%, #ffe14a 46%, #ffc400 54%, #ff9d00 100%);
+      }
+      .pink {
+        --ex: #7a0042;
+        --ex2: #33001b;
+        --face: linear-gradient(180deg, #ffd0e8 0%, #ff5aac 46%, #ff2d95 54%, #c8006a 100%);
+      }
+      .cyan {
+        --ex: #004f7d;
+        --ex2: #001f33;
+        --face: linear-gradient(180deg, #d4f6ff 0%, #44d4ff 46%, #00b4f0 54%, #0083c4 100%);
+      }
+      .rainbow {
+        --face: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 46%, rgba(255, 255, 255, 0) 54%),
+          linear-gradient(90deg, #ff2d95, #ff7a00, #ffd600, #2bd94a, #00c2ff, #7a3cff);
+      }
+      #end {
+        perspective: 1400px;
+      }
+      #title-3d,
+      #end-title {
+        filter: drop-shadow(0 3px 0 #3a1690) drop-shadow(0 3px 0 #3a1690) drop-shadow(0 3px 0 #1a0a45) drop-shadow(0 22px 30px rgba(0, 0, 0, 0.6));
+      }
+      .callout {
+        rotate: y 10deg;
+        transform-origin: 0% 50%;
+      }
     </style>
   </head>
   <body>
@@ -520,11 +550,11 @@
           <div id="hook" class="layer">
             <div class="hk" id="hk-1">NO FILTER.</div>
             <div class="hk" id="hk-2">JUST</div>
-            <div class="hk" id="hk-3">COLOUR.</div>
+            <div class="hk rainbow" id="hk-3">COLOUR.</div>
           </div>
         </div>
         <!-- title slam -->
-        <div class="layer">
+        <div class="layer" id="title-3d">
           <img id="title-img" src="assets/img/title-block.png" alt="Colour Rush Melaka 2026" />
         </div>
 
@@ -549,18 +579,18 @@
 
           <div class="side" id="tag-l">
             <div>RUN.</div>
-            <div>SPLASH.</div>
-            <div>REPEAT.</div>
+            <div class="gold">SPLASH.</div>
+            <div class="pink">REPEAT.</div>
           </div>
           <div class="side" id="tag-r">
-            <div id="km">5KM</div>
+            <div id="km" class="rainbow">5KM</div>
             <div id="km-sub">RUN · MUSIC<br />COLOUR<br />COMMUNITY FESTIVAL</div>
           </div>
 
           <div class="word l" id="w-run">RUN</div>
-          <div class="word r" id="w-loud">LOUD</div>
-          <div class="word l" id="w-live">LIVE</div>
-          <div class="word r" id="w-bright">BRIGHT</div>
+          <div class="word r cyan" id="w-loud">LOUD</div>
+          <div class="word l gold" id="w-live">LIVE</div>
+          <div class="word r rainbow" id="w-bright">BRIGHT</div>
 
           <div class="callout" id="co-1" style="--c: var(--mag)">
             <div class="k">DESIGN DETAIL</div>
@@ -591,7 +621,7 @@
             <img class="end-shirt" id="end-back" src="assets/img/shirt-back.png" alt="Tee back" />
             <img id="end-title" src="assets/img/title-block.png" alt="Colour Rush Melaka 2026" />
             <div id="end-km"><b>5KM</b> · RUN · MUSIC · COLOUR · COMMUNITY FESTIVAL</div>
-            <div id="end-tag"><span>RUN LOUD LIVE BRIGHT</span><small>NO FILTER. JUST COLOUR.</small></div>
+            <div id="end-tag"><span class="rainbow">RUN LOUD LIVE BRIGHT</span><small>NO FILTER. JUST COLOUR.</small></div>
             <img id="end-partners" src="assets/img/partners.png" alt="Organised by MCS, mobility partner Chery and Jetour, AJ Group" />
           </div>
         </div>
@@ -657,14 +687,14 @@
         const ZS = V ? 0.8 : 1; // vertical shirt is already bigger on screen
 
         // ---------- 1. hook: NO FILTER. JUST COLOUR. ----------
-        T.from("#hk-1", { autoAlpha: 0, scale: 2.6, filter: "blur(20px)", duration: 0.32, ease: "expo.out" }, 0.12);
-        T.from("#hk-2", { autoAlpha: 0, x: -500, skewX: -20, duration: 0.28, ease: "expo.out" }, 0.66);
-        T.from("#hk-3", { autoAlpha: 0, scale: 0.2, rotation: -8, duration: 0.42, ease: "back.out(2.4)" }, 1.05);
+        T.from("#hk-1", { autoAlpha: 0, rotationX: -88, y: 70, transformPerspective: 900, transformOrigin: "50% 100%", duration: 0.34, ease: "back.out(1.7)" }, 0.12);
+        T.from("#hk-2", { autoAlpha: 0, rotationY: 95, x: -160, transformPerspective: 900, transformOrigin: "0% 50%", duration: 0.3, ease: "back.out(1.5)" }, 0.66);
+        T.from("#hk-3", { autoAlpha: 0, rotationX: 92, scale: 0.6, z: -300, transformPerspective: 900, duration: 0.42, ease: "back.out(1.8)" }, 1.05);
         T.to("#hook", { scale: 1.08, duration: 0.31, ease: "none" }, 1.05);
         T.to("#hook", { scale: 9, autoAlpha: 0, filter: "blur(30px)", duration: 0.26, ease: "expo.in" }, 1.36);
 
         // ---------- 2. title slam ----------
-        T.fromTo("#title-img", { autoAlpha: 0, scale: 2.8, filter: "blur(26px)", rotation: -4 }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", rotation: 0, duration: 0.36, ease: "expo.out" }, 1.62);
+        T.fromTo("#title-img", { autoAlpha: 0, scale: 2.8, filter: "blur(26px)", rotationX: 70, transformPerspective: 1200 }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", rotationX: 0, duration: 0.36, ease: "expo.out" }, 1.62);
         T.to("#title-img", { scale: 1.07, duration: 1.3, ease: "none" }, 1.98);
         T.to("#title-img", { y: -900, scaleY: 1.6, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, 3.0);
 
@@ -683,9 +713,9 @@
         T.to("#turn", { rotationY: 0, duration: 0.3, ease: "power2.inOut" }, 6.05);
         // side copy
         gsap.utils.toArray("#tag-l div").forEach((el, i) => {
-          T.from(el, { autoAlpha: 0, x: -400, skewX: -24, duration: 0.3, ease: "expo.out" }, 4.3 + i * 0.3);
+          T.from(el, { autoAlpha: 0, rotationY: -100, x: -140, transformPerspective: 900, transformOrigin: "0% 50%", duration: 0.34, ease: "back.out(1.4)" }, 4.3 + i * 0.3);
         });
-        T.from("#km", { autoAlpha: 0, scale: 2.2, filter: "blur(16px)", duration: 0.35, ease: "expo.out" }, 5.1);
+        T.from("#km", { autoAlpha: 0, rotationX: -95, transformPerspective: 900, transformOrigin: "50% 100%", duration: 0.4, ease: "back.out(1.6)" }, 5.1);
         T.from("#km-sub", { autoAlpha: 0, x: 120, duration: 0.4, ease: "expo.out" }, 5.35);
         T.to("#tag-l", { x: -900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
         T.to("#tag-r", { x: 900, skewX: -20, duration: 0.25, ease: "power3.in" }, 6.2);
@@ -718,7 +748,7 @@
         // push into the back print while the words slam
         T.to("#cam", { ...camTo(0.5, 0.42, 1.1), duration: 2.1, ease: "power1.inOut" }, 11.5);
         [["#w-run", -1], ["#w-loud", 1], ["#w-live", -1], ["#w-bright", 1]].forEach(([sel, d], i) => {
-          T.from(sel, { autoAlpha: 0, x: d * 700, skewX: -22 * d, scale: 1.4, duration: 0.3, ease: "expo.out" }, 11.75 + i * 0.4);
+          T.from(sel, { autoAlpha: 0, rotationY: d * 100, x: d * 260, z: -400, transformPerspective: 900, transformOrigin: d < 0 ? "0% 50%" : "100% 50%", duration: 0.36, ease: "back.out(1.4)" }, 11.75 + i * 0.4);
         });
         T.to(["#w-run", "#w-live"], { x: -1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
         T.to(["#w-loud", "#w-bright"], { x: 1200, autoAlpha: 0, duration: 0.25, ease: "power3.in" }, 13.6);
@@ -737,7 +767,7 @@
         T.fromTo("#end-title", { autoAlpha: 0, y: -260, scale: 1.4 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 16.55);
         T.fromTo("#end-km", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 16.95);
         T.fromTo("#end-partners", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 17.2);
-        T.fromTo("#end-tag", { autoAlpha: 0, scale: 1.8 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, 17.5);
+        T.fromTo("#end-tag", { autoAlpha: 0, rotationX: -90, transformPerspective: 900, transformOrigin: "50% 100%" }, { autoAlpha: 1, rotationX: 0, duration: 0.45, ease: "back.out(1.6)" }, 17.5);
         T.to("#end-front", { y: -10, rotation: -1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.0);
         T.to("#end-back", { y: -10, rotation: 1.5, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.2);
         T.to("#end", { scale: 1.035, duration: 3.3, ease: "none" }, 16.7);
@@ -800,7 +830,14 @@
         const SHAKES = [1.62, 4.05, 11.45, 16.2].map(Wt);
         stage.style.transformOrigin = "50% 50%";
 
+        const SWAY = [
+          ["#tag-l", 18, 0.0], ["#tag-r", -18, 1.3], ["#w-run", 16, 0.4], ["#w-loud", -16, 1.1],
+          ["#w-live", 16, 2.0], ["#w-bright", -16, 2.7], ["#hook", 0, 0.6], ["#end-tag", 0, 1.7], ["#title-img", 0, 0.9],
+        ].map(([sel, base, ph]) => [document.querySelector(sel), base, ph]);
         function render(t) {
+          SWAY.forEach(([el, base, ph]) => {
+            el.style.rotate = `y ${(base + 7 * Math.sin(t * 0.9 + ph)).toFixed(2)}deg`;
+          });
           ctx.clearRect(0, 0, W, H);
           // speed streaks
           let spin = 0;
