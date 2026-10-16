@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Concept: hyper-motion logo roll call for the MCORP group. A warp-speed tunnel stage
+         (starfield streaks, rotating light rays, a racing neon floor grid) in MCORP navy + red;
+         each subsidiary logo whip-pans in on its own white card, then all eleven crash into a
+         grid wall under the group title. Logos stay on white so their colours read true. */
+      :root {
+        --bg-0: #03061a;
+        --bg-1: #0a1745;
+        --navy: #1c2a85;
+        --red: #e3262d;
+        --blue: #3f7bff;
+        --fg: #f5f7ff;
+        --muted: #a9b6dd;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg-0);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg-0);
+        font-family: Inter, sans-serif;
+        color: var(--fg);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ---------- background ---------- */
+      #bg-base {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 70% 60% at 50% 46%, #13246a 0%, var(--bg-1) 38%, var(--bg-0) 78%);
+      }
+      #rays {
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        width: 3200px;
+        height: 3200px;
+        margin: -1600px 0 0 -1600px;
+        border-radius: 50%;
+        background: repeating-conic-gradient(
+          from 0deg,
+          rgba(90, 140, 255, 0.16) 0deg 4deg,
+          rgba(0, 0, 0, 0) 4deg 15deg,
+          rgba(227, 38, 45, 0.12) 15deg 18deg,
+          rgba(0, 0, 0, 0) 18deg 30deg
+        );
+        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 62%);
+        mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 62%);
+        mix-blend-mode: screen;
+      }
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(30px);
+        mix-blend-mode: screen;
+      }
+      #orb-red {
+        width: 1100px;
+        height: 1100px;
+        left: -380px;
+        top: -460px;
+        background: radial-gradient(circle, rgba(227, 38, 45, 0.55), rgba(227, 38, 45, 0) 64%);
+      }
+      #orb-blue {
+        width: 1200px;
+        height: 1200px;
+        right: -420px;
+        bottom: -520px;
+        background: radial-gradient(circle, rgba(63, 123, 255, 0.6), rgba(63, 123, 255, 0) 64%);
+      }
+      #orb-core {
+        width: 900px;
+        height: 520px;
+        left: 510px;
+        top: 240px;
+        background: radial-gradient(ellipse, rgba(140, 175, 255, 0.28), rgba(140, 175, 255, 0) 66%);
+      }
+      #floor-wrap {
+        position: absolute;
+        left: 0;
+        top: 560px;
+        width: 1920px;
+        height: 520px;
+        perspective: 520px;
+        perspective-origin: 50% 0%;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 38%);
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 38%);
+      }
+      #floor {
+        position: absolute;
+        left: -1540px;
+        top: 0;
+        width: 5000px;
+        height: 1800px;
+        transform-origin: 50% 0%;
+        transform: rotateX(76deg);
+        background-image:
+          linear-gradient(rgba(110, 160, 255, 0.75) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(110, 160, 255, 0.55) 2px, transparent 2px);
+        background-size: 120px 120px;
+      }
+      #horizon {
+        position: absolute;
+        left: 0;
+        top: 548px;
+        width: 1920px;
+        height: 26px;
+        background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(160, 195, 255, 0.85), rgba(160, 195, 255, 0) 70%);
+        filter: blur(6px);
+        mix-blend-mode: screen;
+      }
+      #ghost {
+        position: absolute;
+        left: 0;
+        top: 330px;
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 360px;
+        letter-spacing: 0.04em;
+        color: rgba(150, 185, 255, 0.07);
+        -webkit-text-stroke: 2px rgba(150, 185, 255, 0.12);
+      }
+      #stars {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: screen;
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.7) 100%);
+      }
+
+      /* ---------- stage (camera shake applies here) ---------- */
+      #stage {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* intro title */
+      #intro {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      #intro-kicker {
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.5em;
+        color: var(--muted);
+        margin-bottom: 18px;
+        padding-left: 0.5em;
+      }
+      .intro-line {
+        font-weight: 800;
+        line-height: 0.98;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      #intro-1 {
+        font-size: 150px;
+      }
+      #intro-2 {
+        font-size: 210px;
+        color: #ff4148;
+        text-shadow: 0 0 60px rgba(227, 38, 45, 0.55);
+      }
+      .intro-line .ch {
+        display: inline-block;
+      }
+
+      /* hero cards: one logo at a time */
+      #heroes {
+        perspective: 1600px;
+      }
+      .hero {
+        position: absolute;
+        left: 400px;
+        top: 240px;
+        width: 1120px;
+        height: 600px;
+        border-radius: 40px;
+        background: linear-gradient(160deg, #ffffff 0%, #f1f4fb 100%);
+        box-shadow:
+          0 0 0 3px rgba(255, 255, 255, 0.5),
+          0 50px 120px rgba(0, 0, 0, 0.55),
+          0 0 140px var(--glow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+      }
+      .hero.r {
+        --glow: rgba(227, 38, 45, 0.55);
+      }
+      .hero.b {
+        --glow: rgba(63, 123, 255, 0.6);
+      }
+      .hero img {
+        width: 940px;
+        height: 430px;
+        object-fit: contain;
+        display: block;
+      }
+      .hero .tag {
+        position: absolute;
+        left: 34px;
+        top: 26px;
+        font-weight: 800;
+        font-size: 24px;
+        letter-spacing: 0.12em;
+        color: #6c7593;
+        opacity: 0;
+        visibility: hidden;
+      }
+      .hero .tag b {
+        color: var(--red);
+      }
+      .hero .bar {
+        position: absolute;
+        left: 34px;
+        right: 34px;
+        bottom: 26px;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--red) 0 30%, var(--navy) 30% 100%);
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
+
+      /* grid wall finale */
+      #wall-persp {
+        perspective: 1800px;
+        perspective-origin: 50% 40%;
+      }
+      #wall {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 55%;
+      }
+      .gc {
+        position: absolute;
+        width: 400px;
+        height: 214px;
+        opacity: 0;
+        visibility: hidden;
+      }
+      .gc-in {
+        position: absolute;
+        inset: 0;
+        border-radius: 26px;
+        overflow: hidden;
+        background: linear-gradient(160deg, #ffffff 0%, #eef2fa 100%);
+        box-shadow:
+          0 0 0 2px rgba(255, 255, 255, 0.45),
+          0 26px 60px rgba(0, 0, 0, 0.5),
+          0 0 60px rgba(90, 140, 255, 0.28);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gc-in img {
+        width: 356px;
+        height: 176px;
+        object-fit: contain;
+        display: block;
+      }
+      .gc-in .shine {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        width: 120px;
+        height: 300px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+        transform: translateX(-200px) rotate(18deg);
+        mix-blend-mode: soft-light;
+      }
+      #wall-title {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 84px;
+        text-align: center;
+      }
+      #wt-kicker {
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: 0.5em;
+        padding-left: 0.5em;
+        color: var(--muted);
+      }
+      #wt-main {
+        margin-top: 8px;
+        font-weight: 800;
+        font-size: 92px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+      #wt-main em {
+        font-style: normal;
+        color: var(--red);
+        text-shadow: 0 0 40px rgba(227, 38, 45, 0.5);
+      }
+      #wt-rule {
+        margin: 18px auto 0;
+        width: 520px;
+        height: 5px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, rgba(227, 38, 45, 0), var(--red) 30%, var(--blue) 70%, rgba(63, 123, 255, 0));
+        transform-origin: 50% 50%;
+      }
+
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="14" data-width="1920" data-height="1080">
+      <!-- ambient warp stage -->
+      <div id="bg" class="clip" data-start="0" data-duration="14" data-track-index="0">
+        <div id="bg-base"></div>
+        <div id="rays"></div>
+        <div class="orb" id="orb-red"></div>
+        <div class="orb" id="orb-blue"></div>
+        <div class="orb" id="orb-core"></div>
+        <div id="ghost" data-layout-allow-occlusion>MCORP · MCORP · MCORP · MCORP · MCORP · MCORP</div>
+        <div id="floor-wrap"><div id="floor" data-layout-allow-overflow></div></div>
+        <div id="horizon"></div>
+        <canvas id="stars" width="1920" height="1080"></canvas>
+        <div id="vignette"></div>
+      </div>
+
+      <div id="stage" class="clip" data-start="0" data-duration="14" data-track-index="1">
+        <!-- intro -->
+        <div class="clip">
+          <div id="intro">
+            <div id="intro-kicker">KUMPULAN SYARIKAT</div>
+            <div class="intro-line" id="intro-1"></div>
+            <div class="intro-line" id="intro-2"></div>
+          </div>
+        </div>
+
+        <!-- one-by-one logo hits -->
+        <div id="heroes" class="clip"></div>
+
+        <!-- finale wall -->
+        <div id="wall-persp" class="clip">
+          <div id="wall"></div>
+          <div id="wall-title">
+            <div id="wt-kicker">KUMPULAN SYARIKAT</div>
+            <div id="wt-main">ANAK SYARIKAT <em>MCORP</em></div>
+            <div id="wt-rule"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fx" class="clip" data-start="0" data-duration="14" data-track-index="2">
+        <div id="flash"></div>
+      </div>
+
+      <!-- SFX: data-start = visual moment - file onset (whoosh .08, impact .05) -->
+      <audio id="sfx-riser" src="assets/sfx/riser.mp3" data-start="0" data-duration="1.4" data-track-index="10" data-volume="0.4" data-fade-in="0.2" data-fade-out="0.15"></audio>
+      <audio id="sfx-intro-hit" src="assets/sfx/impact-bass-1.mp3" data-start="0.12" data-duration="1.2" data-track-index="11" data-volume="0.45" data-fade-out="0.3"></audio>
+      <audio id="sfx-zoom" src="assets/sfx/whoosh.mp3" data-start="1.1" data-duration="0.57" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-h01" src="assets/sfx/whoosh-short.mp3" data-start="1.6" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-h02" src="assets/sfx/whoosh.mp3" data-start="2.18" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-h03" src="assets/sfx/whoosh-short.mp3" data-start="2.76" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-h04" src="assets/sfx/whoosh.mp3" data-start="3.34" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-h05" src="assets/sfx/whoosh-short.mp3" data-start="3.92" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-h06" src="assets/sfx/whoosh.mp3" data-start="4.5" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-h07" src="assets/sfx/whoosh-short.mp3" data-start="5.08" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-h08" src="assets/sfx/whoosh.mp3" data-start="5.66" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-h09" src="assets/sfx/whoosh-short.mp3" data-start="6.24" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-h10" src="assets/sfx/whoosh.mp3" data-start="6.82" data-duration="0.57" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-h11" src="assets/sfx/whoosh-short.mp3" data-start="7.4" data-duration="0.57" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-out" src="assets/sfx/whoosh.mp3" data-start="7.92" data-duration="0.57" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="sfx-wall" src="assets/sfx/impact-bass-2.mp3" data-start="8.2" data-duration="2.2" data-track-index="11" data-volume="0.6" data-fade-out="0.5"></audio>
+      <audio id="sfx-title" src="assets/sfx/impact-bass-1.mp3" data-start="9.35" data-duration="1.6" data-track-index="15" data-volume="0.4" data-fade-out="0.4"></audio>
+      <audio id="sfx-shine" src="assets/sfx/sparkle.mp3" data-start="10.3" data-duration="1.8" data-track-index="16" data-volume="0.35" data-fade-out="0.4"></audio>
+    </div>
+
+    <script>
+      (function () {
+        const DUR = 14;
+        const LOGOS = [
+          ["invest-melaka", "Invest Melaka"],
+          ["mitc", "MITC"],
+          ["melaka-sentral", "Melaka Sentral"],
+          ["pmh", "PMH"],
+          ["mcs", "MCS"],
+          ["mcorp-technology", "MCORP Technology"],
+          ["mcorp-hotel", "M'Corp Hotel"],
+          ["pmpc", "PMPC"],
+          ["mbsb", "Melaka Bekal"],
+          ["pm-multilink", "PM Multilink"],
+          ["melaka-halal-hub", "Melaka Halal Hub"],
+        ];
+        const N = LOGOS.length;
+        const HIT0 = 1.68; // first logo lands
+        const STEP = 0.58; // one logo per beat
+        const HITS = LOGOS.map((_, i) => HIT0 + i * STEP);
+        const WALL = 8.0; // wall slam
+        // whip directions (where each card comes FROM), unit vectors
+        const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 0], [0, 1], [-1, 0], [0, -1], [1, 0], [-1, 0], [0, 1]];
+
+        // ---------- build DOM ----------
+        const pad = (n) => String(n).padStart(2, "0");
+        const heroes = document.getElementById("heroes");
+        const wall = document.getElementById("wall");
+        LOGOS.forEach(([file, name], i) => {
+          const h = document.createElement("div");
+          h.className = "hero " + (i % 2 ? "b" : "r");
+          h.id = "hero-" + i;
+          h.innerHTML = `<div class="tag"><b>${pad(i + 1)}</b> / ${N}</div><img src="assets/logos/${file}.png" alt="${name}" /><div class="bar"></div>`;
+          heroes.appendChild(h);
+        });
+        // wall layout 4-4-3, centred
+        const CW = 400, CH = 214, GX = 30, GY = 28, TOP = 300;
+        const ROWS = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10]];
+        const wallPos = [];
+        ROWS.forEach((row, r) => {
+          const w = row.length * CW + (row.length - 1) * GX;
+          row.forEach((idx, c) => {
+            wallPos[idx] = { x: (1920 - w) / 2 + c * (CW + GX), y: TOP + r * (CH + GY) };
+          });
+        });
+        LOGOS.forEach(([file, name], i) => {
+          const g = document.createElement("div");
+          g.className = "gc";
+          g.id = "gc-" + i;
+          g.style.left = wallPos[i].x + "px";
+          g.style.top = wallPos[i].y + "px";
+          g.innerHTML = `<div class="gc-in"><img src="assets/logos/${file}.png" alt="${name}" /><div class="shine"></div></div>`;
+          wall.appendChild(g);
+        });
+        const splitChars = (el, text) => {
+          el.innerHTML = text
+            .split("")
+            .map((c) => `<span class="ch">${c === " " ? "&nbsp;" : c}</span>`)
+            .join("");
+        };
+        splitChars(document.getElementById("intro-1"), "ANAK SYARIKAT");
+        splitChars(document.getElementById("intro-2"), "MCORP");
+
+        const tl = gsap.timeline({ paused: true });
+
+        // ---------- intro: letters fly out of the warp, then the camera punches through ----------
+        tl.from("#intro-kicker", { autoAlpha: 0, y: 30, scaleX: 1.6, duration: 0.45, ease: "expo.out" }, 0.1);
+        tl.from("#intro-1 .ch", { autoAlpha: 0, scale: 3.2, filter: "blur(18px)", duration: 0.42, ease: "expo.out", stagger: 0.025 }, 0.15);
+        tl.from("#intro-2 .ch", { autoAlpha: 0, y: 160, scaleY: 1.8, duration: 0.4, ease: "back.out(2.2)", stagger: 0.05 }, 0.42);
+        tl.to("#intro", { scale: 1.06, duration: 0.5, ease: "none" }, 0.75);
+        tl.to("#intro", { scale: 7, autoAlpha: 0, filter: "blur(24px)", duration: 0.3, ease: "expo.in" }, 1.22);
+
+        // ---------- logo hits: whip in, push, whip out ----------
+        const OFF = 1500;
+        HITS.forEach((t, i) => {
+          const el = "#hero-" + i;
+          const [dx, dy] = DIRS[i];
+          const horiz = dx !== 0;
+          const tin = t - 0.24;
+          tl.fromTo(
+            el,
+            { autoAlpha: 1, x: dx * OFF, y: dy * OFF * 0.7, scaleX: horiz ? 1.5 : 0.85, scaleY: horiz ? 0.85 : 1.5, rotation: (dx - dy) * 7, filter: "blur(28px)" },
+            { x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0, filter: "blur(0px)", duration: 0.24, ease: "expo.out", immediateRender: false },
+            tin
+          );
+          tl.fromTo(el + " img", { scale: 0.7 }, { scale: 1.06, duration: 0.5, ease: "power2.out", immediateRender: false }, tin + 0.04);
+          tl.fromTo(el + " .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.42, ease: "power2.out", immediateRender: false }, t);
+          tl.fromTo(el + " .tag", { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.2, ease: "power2.out", immediateRender: false }, t);
+          const tout = t + 0.2;
+          if (i < N - 1) {
+            const [nx, ny] = DIRS[i + 1];
+            const nh = nx !== 0;
+            tl.to(el, { x: -nx * OFF, y: -ny * OFF * 0.7, scaleX: nh ? 1.5 : 0.85, scaleY: nh ? 0.85 : 1.5, filter: "blur(28px)", duration: 0.16, ease: "power3.in" }, tout + 0.18);
+            tl.set(el, { autoAlpha: 0 }, tout + 0.36);
+          } else {
+            // last card zooms through the lens into the wall
+            tl.to(el, { scale: 4, autoAlpha: 0, filter: "blur(30px)", duration: 0.32, ease: "expo.in" }, WALL - 0.36);
+          }
+          // landing flash
+          tl.fromTo("#flash", { opacity: 0.32 }, { opacity: 0, duration: 0.16, ease: "power2.out", immediateRender: false }, t - 0.02);
+        });
+
+        // ---------- wall: eleven cards crash in from depth ----------
+        tl.fromTo("#flash", { opacity: 0.85 }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, WALL - 0.04);
+        tl.fromTo("#wall", { rotationX: 38, rotationZ: -7, scale: 1.35, y: 60 }, { rotationX: 0, rotationZ: 0, scale: 1, y: 0, duration: 1.7, ease: "expo.out" }, WALL);
+        const order = [5, 6, 1, 2, 9, 4, 7, 0, 3, 8, 10]; // centre-out-ish
+        order.forEach((idx, k) => {
+          tl.fromTo(
+            "#gc-" + idx,
+            { autoAlpha: 0, z: 900, scale: 1.6, filter: "blur(16px)", rotationY: (idx % 4) * 12 - 18 },
+            { autoAlpha: 1, z: 0, scale: 1, filter: "blur(0px)", rotationY: 0, duration: 0.55, ease: "expo.out", immediateRender: false },
+            WALL + 0.04 + k * 0.06
+          );
+        });
+        // title slam
+        tl.from("#wt-kicker", { autoAlpha: 0, y: -24, scaleX: 1.5, duration: 0.5, ease: "expo.out" }, 9.25);
+        tl.from("#wt-main", { autoAlpha: 0, scale: 2.4, filter: "blur(18px)", duration: 0.45, ease: "expo.out" }, 9.4);
+        tl.from("#wt-rule", { scaleX: 0, duration: 0.6, ease: "expo.out" }, 9.7);
+        tl.fromTo("#flash", { opacity: 0.25 }, { opacity: 0, duration: 0.2, ease: "power2.out", immediateRender: false }, 9.42);
+        // light sweep across the wall
+        LOGOS.forEach((_, i) => {
+          const p = wallPos[i];
+          const delay = (p.x + p.y * 0.6) / 1920;
+          tl.fromTo("#gc-" + i + " .shine", { x: -200 }, { x: 520, duration: 0.55, ease: "power2.inOut", immediateRender: false }, 10.35 + delay * 0.9);
+        });
+        // wave pulse
+        LOGOS.forEach((_, i) => {
+          const p = wallPos[i];
+          tl.to("#gc-" + i + " .gc-in", { scale: 1.07, duration: 0.16, yoyo: true, repeat: 1, ease: "power2.out" }, 11.6 + (p.x / 1920) * 0.55);
+        });
+        // slow push to the end
+        tl.to("#wall-persp", { scale: 1.045, duration: DUR - 9.7, ease: "none" }, 9.7);
+
+        // ---------- deterministic background + camera: render(t) ----------
+        const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+        const smooth = (v) => {
+          v = clamp(v);
+          return v * v * (3 - 2 * v);
+        };
+        // seeded star field
+        let seed = 20261016;
+        const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+        const STARS = [];
+        for (let i = 0; i < 260; i++) {
+          const a = rnd() * Math.PI * 2;
+          const r = 0.08 + Math.pow(rnd(), 0.7) * 1.4;
+          STARS.push({ x: Math.cos(a) * r, y: Math.sin(a) * r * 0.7, z: rnd(), tint: rnd() });
+        }
+        // warp distance: steady cruise + a surge for every impact
+        const SURGES = [[0.0, 0.9, 1.1], [1.25, 0.5, 0.35], ...HITS.map((t) => [t - 0.24, 0.26, 0.2]), [WALL - 0.36, 0.7, 0.9]];
+        const dist = (t) => {
+          let d = 0.16 * t;
+          SURGES.forEach(([s, len, amt]) => (d += amt * smooth((t - s) / len)));
+          return d;
+        };
+        const ctx = document.getElementById("stars").getContext("2d");
+        const CX = 960, CY = 500, F = 620;
+        const proj = (s, z) => [CX + (s.x / z) * F, CY + (s.y / z) * F];
+        const rays = document.getElementById("rays");
+        const floor = document.getElementById("floor");
+        const ghost = document.getElementById("ghost");
+        const orbR = document.getElementById("orb-red");
+        const orbB = document.getElementById("orb-blue");
+        const orbC = document.getElementById("orb-core");
+        const stage = document.getElementById("stage");
+        const LANDS = [...HITS, WALL + 0.1, 9.45];
+
+        function render(t) {
+          const d = dist(t);
+          const speed = (d - dist(Math.max(0, t - 1 / 30))) * 30; // units / s
+
+          // star streaks
+          ctx.clearRect(0, 0, 1920, 1080);
+          ctx.lineCap = "round";
+          const trail = clamp(0.012 + speed * 0.045, 0.012, 0.22);
+          STARS.forEach((s) => {
+            let z = (((s.z - d) % 1) + 1) % 1;
+            z = 0.04 + z * 0.96;
+            const z2 = Math.min(1, z + trail);
+            const [x1, y1] = proj(s, z);
+            const [x2, y2] = proj(s, z2);
+            const a = clamp((1 - z) * 1.3) * 0.9;
+            ctx.strokeStyle =
+              s.tint < 0.18 ? `rgba(255,90,96,${a})` : s.tint < 0.55 ? `rgba(140,180,255,${a})` : `rgba(255,255,255,${a})`;
+            ctx.lineWidth = 1 + (1 - z) * 3;
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x1, y1);
+            ctx.stroke();
+          });
+
+          // rays spin, floor races, ghost text drifts
+          rays.style.transform = `rotate(${(t * 9 + d * 40).toFixed(2)}deg) scale(${(1 + 0.04 * Math.sin(t * 2.2)).toFixed(3)})`;
+          rays.style.opacity = (0.75 + clamp(speed * 0.25, 0, 0.25)).toFixed(3);
+          floor.style.backgroundPosition = `0px ${(d * 900).toFixed(1)}px`;
+          ghost.style.transform = `translateX(${(-200 - t * 70 - d * 160).toFixed(1)}px)`;
+          const pulse = 0.5 + 0.5 * Math.sin(t * 3.1);
+          orbR.style.opacity = (0.75 + 0.25 * pulse).toFixed(3);
+          orbB.style.opacity = (0.75 + 0.25 * (1 - pulse)).toFixed(3);
+          orbC.style.opacity = (0.6 + clamp(speed * 0.4, 0, 0.4)).toFixed(3);
+
+          // camera shake decaying after each landing
+          let sx = 0, sy = 0, rot = 0;
+          LANDS.forEach((L, k) => {
+            const u = t - L;
+            if (u >= 0 && u < 0.35) {
+              const amp = (k >= N ? 16 : 9) * Math.exp(-u * 14);
+              sx += Math.sin(u * 90 + k) * amp;
+              sy += Math.cos(u * 77 + k * 2) * amp * 0.7;
+              rot += Math.sin(u * 60 + k) * amp * 0.03;
+            }
+          });
+          stage.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) rotate(${rot.toFixed(3)}deg)`;
+        }
+
+        const clock = { t: 0 };
+        tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
