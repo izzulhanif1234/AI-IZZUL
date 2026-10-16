@@ -11,4 +11,4 @@ Composition `hf/index.html` (20 s, SFX only, no music): hook "NO FILTER. JUST CO
 title slam → tee drops in spinning → detail whip-zooms (collar, CHERY, JETOUR, fabric) →
 spin to back + "RUN LOUD LIVE BRIGHT" → turntable → front + back end card with partners.
 
-Status: not rendered yet; `npm run check` still flags the ghost text fill and the 5KM box.
+Render: `final/Colour-Rush-Tee-Ad-1080p.mp4` (20 s, 1080p30, -14 LUFS).
