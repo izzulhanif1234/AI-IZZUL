@@ -31,19 +31,6 @@ const SYARIKAT = {
   // Tahun semasa di pengaki
   document.querySelectorAll("[data-tahun]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
-  // Animasi muncul semasa skrol
-  const muncul = document.querySelectorAll(".muncul");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entri) => {
-      entri.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add("nampak"); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.12 });
-    muncul.forEach((el) => io.observe(el));
-  } else {
-    muncul.forEach((el) => el.classList.add("nampak"));
-  }
-
   // Penapis galeri projek
   const butangPenapis = document.querySelectorAll(".penapis button");
   butangPenapis.forEach((b) => {

@@ -144,7 +144,7 @@ def halaman(fail, tajuk, huraian, isi):
 def cta(tajuk="Ada projek atau tugasan untuk kami?", teks="Beritahu kami keperluan anda. Pasukan kami akan memberi sebut harga yang jelas secepat mungkin."):
     return f"""    <section class="seksyen">
       <div class="bekas">
-        <div class="cta muncul">
+        <div class="cta">
           <h2>{tajuk}</h2>
           <p>{teks}</p>
           <div class="tindakan">
@@ -171,7 +171,7 @@ def hero_kecil(jejak, tajuk, teks):
 # ---------------- Utama ----------------
 nod = "\n".join(f'          <div class="nod">{ikon(s[1])}<span>{s[2]}</span></div>' for s in SERVIS)
 kad = "\n".join(
-    f"""          <a class="kad muncul" href="perkhidmatan.html#{s[0]}">
+    f"""          <a class="kad" href="perkhidmatan.html#{s[0]}">
             <div class="ikon">{ikon(s[1])}</div>
             <h3>{s[2]}</h3>
             <p>{s[3]}</p>
@@ -201,7 +201,7 @@ utama = f"""    <section class="hero">
 
     <section class="seksyen">
       <div class="bekas">
-        <div class="kepala-seksyen muncul">
+        <div class="kepala-seksyen">
           <span class="label">Perkhidmatan Kami</span>
           <h2>Lima perkhidmatan di bawah satu bumbung</h2>
           <p>Tak perlu cari banyak kontraktor. Satu panggilan kepada PM Multilink, kami uruskan.</p>
@@ -214,22 +214,22 @@ utama = f"""    <section class="hero">
 
     <section class="seksyen lembut">
       <div class="bekas">
-        <div class="kepala-seksyen muncul">
+        <div class="kepala-seksyen">
           <span class="label">Kenapa PM Multilink</span>
           <h2>Mudah berurusan, jelas hasilnya</h2>
         </div>
         <div class="grid-4">
-          <div class="kelebihan muncul"><span class="no">01</span><h3>Satu pihak, banyak servis</h3><p>Satu titik hubungan untuk pelbagai kerja, jadi urusan anda lebih ringkas.</p></div>
-          <div class="kelebihan muncul"><span class="no">02</span><h3>Kumpulan MCORP</h3><p>Sebahagian daripada kumpulan syarikat Melaka Corporation, perbadanan pembangunan negeri Melaka.</p></div>
-          <div class="kelebihan muncul"><span class="no">03</span><h3>Sebut harga jelas</h3><p>Skop kerja dan kos dinyatakan dengan terang sebelum kerja dimulakan.</p></div>
-          <div class="kelebihan muncul"><span class="no">04</span><h3>Pasukan tempatan</h3><p>Berpangkalan di Melaka, dekat dengan pelanggan dan cepat bergerak ke lokasi.</p></div>
+          <div class="kelebihan"><span class="no">01</span><h3>Satu pihak, banyak servis</h3><p>Satu titik hubungan untuk pelbagai kerja, jadi urusan anda lebih ringkas.</p></div>
+          <div class="kelebihan"><span class="no">02</span><h3>Kumpulan MCORP</h3><p>Sebahagian daripada kumpulan syarikat Melaka Corporation, perbadanan pembangunan negeri Melaka.</p></div>
+          <div class="kelebihan"><span class="no">03</span><h3>Sebut harga jelas</h3><p>Skop kerja dan kos dinyatakan dengan terang sebelum kerja dimulakan.</p></div>
+          <div class="kelebihan"><span class="no">04</span><h3>Pasukan tempatan</h3><p>Berpangkalan di Melaka, dekat dengan pelanggan dan cepat bergerak ke lokasi.</p></div>
         </div>
       </div>
     </section>
 
     <section class="seksyen">
       <div class="bekas dua-lajur">
-        <div class="muncul">
+        <div>
           <span class="label">Tentang Kami</span>
           <h2 style="font-size:clamp(1.8rem,3.6vw,2.4rem)">Anak syarikat Melaka Corporation</h2>
           <p style="color:var(--teks-lembut)">PM Multilink ialah anak syarikat Melaka Corporation (MCORP). Kami menyediakan perkhidmatan sokongan harian kepada individu, syarikat swasta dan agensi, dengan menggabungkan beberapa kepakaran dalam satu organisasi.</p>
@@ -240,7 +240,7 @@ utama = f"""    <section class="hero">
           </ul>
           <a class="butang garis" href="tentang.html">Kenali Kami {ikon("panah")}</a>
         </div>
-        <div class="panel-induk muncul">
+        <div class="panel-induk">
           <img src="assets/mcorp.png" alt="Logo MCORP, Melaka Corporation">
           <strong>Melaka Corporation (MCORP)</strong>
           <p style="color:var(--teks-lembut);margin:4px 0 0">Perbadanan Melaka, syarikat induk</p>
@@ -257,14 +257,14 @@ tentang = f"""{hero_kecil("Tentang Kami", "Tentang PM Multilink", "Anak syarikat
 
     <section class="seksyen">
       <div class="bekas dua-lajur">
-        <div class="muncul">
+        <div>
           <span class="label">Siapa Kami</span>
           <h2 style="font-size:clamp(1.8rem,3.6vw,2.4rem)">Menghubungkan keperluan dengan penyelesaian</h2>
           <p style="color:var(--teks-lembut)">Nama <strong>Multilink</strong> membawa maksud kami: satu syarikat yang menghubungkan beberapa bidang perkhidmatan. Daripada menjaga kebersihan dan keadaan premis, menguruskan pengagihan kit, hinggalah menerbitkan kandungan media, kami berusaha menjadi rakan kerja yang boleh diharap.</p>
           <p style="color:var(--teks-lembut)">Sebagai ahli kumpulan Melaka Corporation, kami membawa nilai yang sama: berkhidmat untuk pembangunan negeri Melaka dan rakyatnya.</p>
           <p><span class="isi">Tahun ditubuhkan, latar belakang ringkas syarikat</span></p>
         </div>
-        <div class="panel-induk muncul">
+        <div class="panel-induk">
           <img src="assets/mcorp.png" alt="Logo MCORP, Melaka Corporation">
           <strong>Melaka Corporation (MCORP)</strong>
           <p style="color:var(--teks-lembut);margin:4px 0 0">Perbadanan Melaka, syarikat induk</p>
@@ -277,24 +277,24 @@ tentang = f"""{hero_kecil("Tentang Kami", "Tentang PM Multilink", "Anak syarikat
     <section class="seksyen lembut">
       <div class="bekas">
         <div class="grid-3">
-          <div class="kad-visi gelap muncul"><div class="ikon">{ikon("visi")}</div><h3>Visi</h3><p><span class="isi">Visi syarikat</span></p><p>Contoh: Menjadi penyedia perkhidmatan pelbagai yang utama dan dipercayai di negeri Melaka.</p></div>
-          <div class="kad-visi muncul"><div class="ikon">{ikon("misi")}</div><h3>Misi</h3><p><span class="isi">Misi syarikat</span></p><p style="color:var(--teks-lembut)">Contoh: Menyampaikan perkhidmatan yang berkualiti, tepat masa dan berpatutan kepada setiap pelanggan.</p></div>
-          <div class="kad-visi muncul"><div class="ikon">{ikon("perisai")}</div><h3>Komitmen</h3><p style="color:var(--teks-lembut)">Setiap kerja dirancang dengan skop yang jelas, dilaksanakan dengan selamat dan diserahkan dalam keadaan yang memuaskan hati pelanggan.</p></div>
+          <div class="kad-visi gelap"><div class="ikon">{ikon("visi")}</div><h3>Visi</h3><p><span class="isi">Visi syarikat</span></p><p>Contoh: Menjadi penyedia perkhidmatan pelbagai yang utama dan dipercayai di negeri Melaka.</p></div>
+          <div class="kad-visi"><div class="ikon">{ikon("misi")}</div><h3>Misi</h3><p><span class="isi">Misi syarikat</span></p><p style="color:var(--teks-lembut)">Contoh: Menyampaikan perkhidmatan yang berkualiti, tepat masa dan berpatutan kepada setiap pelanggan.</p></div>
+          <div class="kad-visi"><div class="ikon">{ikon("perisai")}</div><h3>Komitmen</h3><p style="color:var(--teks-lembut)">Setiap kerja dirancang dengan skop yang jelas, dilaksanakan dengan selamat dan diserahkan dalam keadaan yang memuaskan hati pelanggan.</p></div>
         </div>
       </div>
     </section>
 
     <section class="seksyen">
       <div class="bekas">
-        <div class="kepala-seksyen muncul">
+        <div class="kepala-seksyen">
           <span class="label">Nilai Kami</span>
           <h2>Cara kami bekerja</h2>
         </div>
         <div class="grid-4">
-          <div class="nilai muncul"><div class="huruf">A</div><h3>Amanah</h3><p>Menjaga kepercayaan pelanggan dan harta benda mereka.</p></div>
-          <div class="nilai muncul"><div class="huruf">P</div><h3>Profesional</h3><p>Kerja yang kemas, berdisiplin dan ikut skop yang dipersetujui.</p></div>
-          <div class="nilai muncul"><div class="huruf">P</div><h3>Pantas</h3><p>Respons dan penyiapan kerja mengikut jadual.</p></div>
-          <div class="nilai muncul"><div class="huruf">P</div><h3>Prihatin</h3><p>Mendengar keperluan pelanggan dan komuniti setempat.</p></div>
+          <div class="nilai"><div class="huruf">A</div><h3>Amanah</h3><p>Menjaga kepercayaan pelanggan dan harta benda mereka.</p></div>
+          <div class="nilai"><div class="huruf">P</div><h3>Profesional</h3><p>Kerja yang kemas, berdisiplin dan ikut skop yang dipersetujui.</p></div>
+          <div class="nilai"><div class="huruf">P</div><h3>Pantas</h3><p>Respons dan penyiapan kerja mengikut jadual.</p></div>
+          <div class="nilai"><div class="huruf">P</div><h3>Prihatin</h3><p>Mendengar keperluan pelanggan dan komuniti setempat.</p></div>
         </div>
       </div>
     </section>
@@ -330,7 +330,7 @@ for i, s in enumerate(SERVIS, 1):
     skop, untuk = BUTIRAN[s[0]]
     skop_html = "\n".join(f"              <li>{x}</li>" for x in skop)
     untuk_html = "".join(f"<li>{x}</li>" for x in untuk)
-    blok.append(f"""        <article class="blok-servis muncul" id="{s[0]}">
+    blok.append(f"""        <article class="blok-servis" id="{s[0]}">
           <div class="visual">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">{ikon(s[1])}<span class="nombor">0{i}</span></div>
             <h3>{s[2]}</h3>
@@ -374,7 +374,7 @@ penapis = '            <button type="button" data-kategori="semua" aria-pressed=
     f'            <button type="button" data-kategori="{s[0]}" aria-pressed="false">{s[2]}</button>' for s in SERVIS
 )
 kad_projek = "\n".join(
-    f"""          <article class="projek muncul" data-kategori="{k}">
+    f"""          <article class="projek" data-kategori="{k}">
             <div class="gambar">{ikon(ik)}<span class="tag">{label}</span></div>
             <div class="isi-projek">
               <div class="meta"><span class="isi">Tarikh / lokasi</span></div>
@@ -407,16 +407,16 @@ hubungi = f"""{hero_kecil("Hubungi Kami", "Hubungi Kami", "Isi borang di bawah u
       <div class="bekas grid-hubungi">
         <div>
           <div class="maklumat">
-            <div class="item muncul"><div class="ikon">{ikon("lokasi")}</div><div><h3>Alamat</h3><p><span class="isi">Alamat penuh syarikat</span><br>Melaka, Malaysia</p></div></div>
-            <div class="item muncul"><div class="ikon">{ikon("telefon")}</div><div><h3>Telefon</h3><p><span class="isi">No. telefon pejabat</span></p></div></div>
-            <div class="item muncul"><div class="ikon">{ikon("wa")}</div><div><h3>WhatsApp</h3><p><a data-wa href="#borang">Mesej kami di WhatsApp</a></p></div></div>
-            <div class="item muncul"><div class="ikon">{ikon("emel")}</div><div><h3>Emel</h3><p><span class="isi">Emel syarikat</span></p></div></div>
-            <div class="item muncul"><div class="ikon">{ikon("jam")}</div><div><h3>Waktu Operasi</h3><p><span class="isi">Hari dan waktu operasi</span></p></div></div>
+            <div class="item"><div class="ikon">{ikon("lokasi")}</div><div><h3>Alamat</h3><p><span class="isi">Alamat penuh syarikat</span><br>Melaka, Malaysia</p></div></div>
+            <div class="item"><div class="ikon">{ikon("telefon")}</div><div><h3>Telefon</h3><p><span class="isi">No. telefon pejabat</span></p></div></div>
+            <div class="item"><div class="ikon">{ikon("wa")}</div><div><h3>WhatsApp</h3><p><a data-wa href="#borang">Mesej kami di WhatsApp</a></p></div></div>
+            <div class="item"><div class="ikon">{ikon("emel")}</div><div><h3>Emel</h3><p><span class="isi">Emel syarikat</span></p></div></div>
+            <div class="item"><div class="ikon">{ikon("jam")}</div><div><h3>Waktu Operasi</h3><p><span class="isi">Hari dan waktu operasi</span></p></div></div>
           </div>
-          <div class="peta muncul"><span><span class="isi">Peta Google Maps</span><br>Tampal kod iframe Google Maps di sini</span></div>
+          <div class="peta"><span><span class="isi">Peta Google Maps</span><br>Tampal kod iframe Google Maps di sini</span></div>
         </div>
 
-        <form class="borang muncul" id="borang" novalidate>
+        <form class="borang" id="borang" novalidate>
           <h2>Minta Sebut Harga</h2>
           <p style="color:var(--teks-lembut)">Isi maklumat ringkas. Mesej anda akan dihantar terus kepada kami melalui WhatsApp.</p>
           <div class="baris">
@@ -442,22 +442,22 @@ hubungi = f"""{hero_kecil("Hubungi Kami", "Hubungi Kami", "Isi borang di bawah u
 
     <section class="seksyen lembut" id="soalan">
       <div class="bekas">
-        <div class="kepala-seksyen muncul">
+        <div class="kepala-seksyen">
           <span class="label">Soalan Lazim</span>
           <h2>Ada soalan?</h2>
         </div>
         <div class="soalan">
-          <details class="muncul"><summary>Kawasan mana yang PM Multilink liputi?</summary><p>Kami berpangkalan di Melaka. <span class="isi">Nyatakan kawasan liputan</span></p></details>
-          <details class="muncul"><summary>Boleh saya tempah lebih daripada satu perkhidmatan?</summary><p>Boleh. Nyatakan semua keperluan anda dalam borang dan kami akan sediakan sebut harga gabungan.</p></details>
-          <details class="muncul"><summary>Bagaimana cara mendapatkan sebut harga?</summary><p>Isi borang di atas atau hubungi kami melalui WhatsApp. Kami akan menghubungi anda untuk mendapatkan butiran lanjut sebelum memberi sebut harga.</p></details>
-          <details class="muncul"><summary>Adakah anda menerima kerja daripada agensi kerajaan dan syarikat?</summary><p>Ya. Kami melayani individu, syarikat swasta dan agensi kerajaan.</p></details>
+          <details><summary>Kawasan mana yang PM Multilink liputi?</summary><p>Kami berpangkalan di Melaka. <span class="isi">Nyatakan kawasan liputan</span></p></details>
+          <details><summary>Boleh saya tempah lebih daripada satu perkhidmatan?</summary><p>Boleh. Nyatakan semua keperluan anda dalam borang dan kami akan sediakan sebut harga gabungan.</p></details>
+          <details><summary>Bagaimana cara mendapatkan sebut harga?</summary><p>Isi borang di atas atau hubungi kami melalui WhatsApp. Kami akan menghubungi anda untuk mendapatkan butiran lanjut sebelum memberi sebut harga.</p></details>
+          <details><summary>Adakah anda menerima kerja daripada agensi kerajaan dan syarikat?</summary><p>Ya. Kami melayani individu, syarikat swasta dan agensi kerajaan.</p></details>
         </div>
       </div>
     </section>"""
 
 HURAIAN = "PM Multilink, anak syarikat Melaka Corporation (MCORP): cuci kereta, projek pembaikan, pembersihan, pengagihan kit dan media."
 PAGES = [
-    ("index.html", "PM Multilink | Anak Syarikat MCORP", HURAIAN, utama),
+    ("index.html", "PM Multilink", HURAIAN, utama),
     ("tentang.html", "Tentang Kami | PM Multilink", HURAIAN, tentang),
     ("perkhidmatan.html", "Perkhidmatan | PM Multilink", HURAIAN, perkhidmatan),
     ("projek.html", "Projek | PM Multilink", HURAIAN, projek),

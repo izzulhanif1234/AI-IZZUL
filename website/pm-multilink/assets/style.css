@@ -52,7 +52,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- Header ---------- */
 .pengepala {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: saturate(160%) blur(12px);
   -webkit-backdrop-filter: saturate(160%) blur(12px);
@@ -363,13 +363,8 @@ a.kad:hover .lagi svg { transform: translateX(4px); }
 .wa-terapung:hover { transform: scale(1.08); }
 .wa-terapung svg { width: 30px; height: 30px; }
 
-/* Animasi muncul semasa skrol */
-.muncul { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
-.muncul.nampak { opacity: 1; transform: none; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .muncul { opacity: 1; transform: none; transition: none; }
   .orbit .gelang, .orbit .nod { animation: none; }
 }
 
