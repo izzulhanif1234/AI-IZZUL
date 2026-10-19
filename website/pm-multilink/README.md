@@ -44,7 +44,24 @@ python3 scripts/pm_multilink_build.py
 Nota: menjalankan skrip akan menulis semula fail HTML, jadi masukkan juga maklumat syarikat ke dalam skrip
 (bukan terus dalam HTML) jika anda guna cara ini.
 
-## Hosting
+## Hosting (GitHub Pages)
 
-Boleh dihoskan di mana-mana hosting statik, contohnya GitHub Pages, Netlify atau cPanel
-(muat naik isi folder ini ke `public_html`).
+Website ini live di **https://izzulhanif1234.github.io/AI-IZZUL/**, dihoskan dari branch `gh-pages`
+(branch itu hanya mengandungi fail website, tanpa video atau fail lain dalam repo).
+
+Untuk kemas kini website selepas mengubah fail di folder ini:
+
+```bash
+git worktree add /tmp/gh-pages gh-pages
+cp -r website/pm-multilink/. /tmp/gh-pages/ && rm /tmp/gh-pages/README.md
+cd /tmp/gh-pages && git add -A && git commit -m "Kemas kini website" && git push origin gh-pages
+```
+
+Jika bertukar ke domain sendiri, tukar `SITE_URL` dalam `scripts/pm_multilink_build.py`, jana semula halaman,
+dan tetapkan domain di GitHub: Settings > Pages > Custom domain.
+
+## Google
+
+`sitemap.xml` disediakan untuk Google. Untuk muncul di Google lebih cepat, daftar laman di
+[Google Search Console](https://search.google.com/search-console) (jenis "URL prefix", alamat di atas),
+sahkan pemilikan dengan kod tag HTML yang diberi (letak dalam `<head>` melalui skrip penjana), kemudian hantar `sitemap.xml`.
