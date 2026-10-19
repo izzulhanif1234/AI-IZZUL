@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Oswald"; src: url("assets/fonts/Oswald[wght].ttf") format("truetype"); font-weight: 200 700; }
+      @font-face { font-family: "Montserrat"; src: url("assets/fonts/Montserrat[wght].ttf") format("truetype"); font-weight: 100 900; }
+      @font-face { font-family: "Playfair"; src: url("assets/fonts/PlayfairDisplay[wght].ttf") format("truetype"); font-weight: 400 900; }
+      @font-face { font-family: "Playfair"; src: url("assets/fonts/PlayfairDisplay-Italic[wght].ttf") format("truetype"); font-weight: 400 900; font-style: italic; }
+      :root {
+        --navy: #12204d;
+        --ink: #070c1f;
+        --royal: #2b4c9b;
+        --gold: #d4ae5c;
+        --gold-2: #f0d590;
+        --cyan: #a9e4ec;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink);
+        font-family: Montserrat, sans-serif; color: #fff; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .bg-ink { background: radial-gradient(ellipse at 50% 45%, #18264f 0%, var(--ink) 70%); }
+      .bg-navy { background: linear-gradient(135deg, #0c1638 0%, var(--navy) 55%, #1d3570 100%); perspective: 1400px; }
+      .bg-white { background: #f7f8fb; }
+
+      /* photos / clips */
+      .shot .kb { position: absolute; inset: 0; }
+      .shot img, .shot video { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; }
+      .vclip { width: 1920px; height: 1080px; object-fit: cover; }
+      .shade { position: absolute; inset: 0; }
+      .shade-full { background: radial-gradient(ellipse at 50% 50%, rgba(7, 12, 31, 0.6) 0%, rgba(7, 12, 31, 0.85) 100%); }
+      .shade-bottom { background: linear-gradient(0deg, rgba(7, 12, 31, 0.92) 0%, rgba(7, 12, 31, 0.55) 45%, rgba(7, 12, 31, 0) 75%); }
+      .shade-left { background: radial-gradient(ellipse 75% 60% at 0% 100%, rgba(7, 12, 31, 0.88) 0%, rgba(7, 12, 31, 0.55) 45%, rgba(7, 12, 31, 0) 100%),
+        linear-gradient(0deg, rgba(7, 12, 31, 0.55) 0%, rgba(7, 12, 31, 0) 45%); }
+      .shade-navy { background: linear-gradient(180deg, rgba(10, 18, 48, 0.82), rgba(10, 18, 48, 0.9)); }
+
+      /* global fx */
+      .fx { pointer-events: none; }
+      #flash { background: #fff; opacity: 0; }
+      #fadeout { background: #000; opacity: 0; }
+      #vignette { background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.38) 100%); }
+      #leak { opacity: 0; mix-blend-mode: screen;
+        background: radial-gradient(ellipse 40% 70% at 50% 50%, rgba(255, 196, 110, 0.85) 0%, rgba(255, 140, 60, 0.35) 40%, rgba(255, 120, 40, 0) 70%); }
+
+      /* intro */
+      .intro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .i-top { font-family: Oswald, sans-serif; font-weight: 500; font-size: 46px; letter-spacing: 0.32em; color: var(--gold-2); padding-left: 0.32em; }
+      .i-line { width: 760px; height: 2px; margin: 26px 0; background: linear-gradient(90deg, rgba(212, 174, 92, 0), var(--gold), rgba(212, 174, 92, 0)); }
+      .i-bot { font-weight: 600; font-size: 24px; letter-spacing: 0.6em; color: rgba(255, 255, 255, 0.8); padding-left: 0.6em; }
+
+      /* title */
+      .ttl { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+      .ttl-mask { overflow: hidden; }
+      .ttl-a { font-family: Oswald, sans-serif; font-weight: 700; font-size: 230px; line-height: 1.02; letter-spacing: 0.02em;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.45); }
+      .ttl-b { font-family: Oswald, sans-serif; font-weight: 400; font-size: 64px; letter-spacing: 0.55em; padding-left: 0.55em; color: var(--gold-2); margin-top: 4px; }
+      .stars { display: flex; gap: 22px; margin-top: 34px; }
+      .star { width: 50px; height: 50px; display: block; }
+      .star svg, .stat-star svg { width: 100%; height: 100%; fill: var(--gold); filter: drop-shadow(0 0 12px rgba(240, 213, 144, 0.7)); }
+      .ttl-c { margin-top: 34px; font-weight: 600; font-size: 26px; letter-spacing: 0.3em; color: rgba(255, 255, 255, 0.88); }
+      .sheen { position: absolute; top: 0; bottom: 0; left: 0; width: 100%;
+        background: linear-gradient(100deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0) 60%); }
+
+      /* corporate */
+      .panel { position: absolute; left: 0; top: 0; width: 1060px; height: 1080px; overflow: hidden;
+        background: linear-gradient(160deg, #0d1840 0%, var(--navy) 50%, var(--royal) 100%);
+        clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%); }
+      .hex { position: absolute; inset: 0; opacity: 0.12;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cpath d='M30 2h60l30 50-30 50H30L0 52z' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E");
+        background-size: 120px 104px; }
+      .hex.dark { opacity: 0.08; }
+      .hex.light { opacity: 0.5;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cpath d='M30 2h60l30 50-30 50H30L0 52z' fill='none' stroke='%23dfe3ee' stroke-width='2'/%3E%3C/svg%3E"); }
+      .corp-head { position: absolute; left: 130px; top: 120px; display: flex; align-items: center; gap: 30px;
+        font-family: Oswald, sans-serif; font-weight: 700; font-size: 128px; line-height: 0.98; }
+      .chev { width: 96px; height: 70px; display: block; background: linear-gradient(135deg, #fff, var(--cyan));
+        clip-path: polygon(0 0, 55% 0, 100% 50%, 55% 100%, 0 100%, 45% 50%); }
+      .corp-sub { position: absolute; left: 136px; top: 470px; font-size: 34px; font-weight: 500; color: rgba(255, 255, 255, 0.88); }
+      .corp-date { position: absolute; left: 132px; top: 520px; font-family: Oswald, sans-serif; font-weight: 600; font-size: 92px; color: var(--gold-2); }
+      .corp-sub2 { position: absolute; left: 136px; top: 680px; font-size: 32px; font-weight: 500; line-height: 1.45; color: rgba(255, 255, 255, 0.85);
+        border-left: 5px solid var(--gold); padding-left: 24px; }
+      .corp-sub2 b { font-weight: 800; color: #fff; }
+      .logo-card { position: absolute; right: 120px; bottom: 120px; width: 600px; padding: 34px 44px; background: rgba(255, 255, 255, 0.96);
+        border-radius: 22px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35); }
+      .logo-card img { width: 100%; display: block; }
+
+      /* generic centred text */
+      .kick { font-weight: 700; font-size: 26px; letter-spacing: 0.4em; color: var(--gold-2); }
+      .kick.gold { color: var(--gold-2); }
+
+      /* lokasi */
+      .lok { position: absolute; left: 130px; bottom: 120px; }
+      .lok-t { font-family: Oswald, sans-serif; font-weight: 700; font-size: 128px; line-height: 1.05; margin-top: 10px; }
+      .chips { display: flex; flex-direction: column; gap: 18px; margin-top: 30px; align-items: flex-start; }
+      .chip { display: flex; align-items: center; gap: 18px; padding: 16px 30px 16px 18px; border-radius: 60px;
+        background: rgba(18, 32, 77, 0.82); border: 2px solid rgba(240, 213, 144, 0.55); font-size: 32px; font-weight: 600; }
+      .ic { width: 52px; height: 52px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; flex: none; }
+      .ic svg { width: 30px; height: 30px; fill: var(--navy); }
+
+      /* stats */
+      .stats { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 90px; }
+      .stat { text-align: center; width: 420px; }
+      .stat-n { font-family: Oswald, sans-serif; font-weight: 700; font-size: 240px; line-height: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
+        background: linear-gradient(180deg, #fff 30%, var(--gold-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .stat-star { width: 120px; height: 120px; display: block; }
+      .stat-u { font-size: 90px; align-self: flex-end; margin-bottom: 30px; }
+      .stat-l { margin-top: 18px; font-weight: 700; font-size: 32px; letter-spacing: 0.22em; line-height: 1.4; color: rgba(255, 255, 255, 0.9); }
+      .stat-div { width: 3px; height: 300px; background: linear-gradient(180deg, rgba(212, 174, 92, 0), var(--gold), rgba(212, 174, 92, 0)); }
+
+      /* section slam */
+      .slam { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        background: radial-gradient(ellipse at 50% 50%, rgba(7, 12, 31, 0.55), rgba(7, 12, 31, 0.15) 70%); }
+      .slam-n { font-family: Oswald, sans-serif; font-weight: 700; font-size: 120px; line-height: 1; color: transparent;
+        -webkit-text-stroke: 2px var(--gold-2); }
+      .slam-w { font-family: Oswald, sans-serif; font-weight: 700; font-size: 200px; line-height: 1.05; letter-spacing: 0.04em; white-space: nowrap;
+        text-shadow: 0 12px 50px rgba(0, 0, 0, 0.5); }
+      .slam-line { width: 520px; height: 4px; margin-top: 14px; background: linear-gradient(90deg, rgba(212, 174, 92, 0), var(--gold), rgba(212, 174, 92, 0)); }
+
+      /* lower-left venue card */
+      .card { position: absolute; left: 130px; bottom: 130px; padding-left: 34px; }
+      .card-bar { position: absolute; left: 0; top: 4px; bottom: 4px; width: 7px; background: linear-gradient(180deg, var(--gold-2), var(--gold)); transform-origin: 50% 100%; }
+      .card-k { font-weight: 700; font-size: 24px; letter-spacing: 0.32em; color: var(--gold-2); }
+      .card-t-mask { overflow: hidden; margin-top: 6px; }
+      .card-t { font-family: Oswald, sans-serif; font-weight: 700; font-size: 104px; line-height: 1.08; text-shadow: 0 8px 30px rgba(0, 0, 0, 0.45); white-space: nowrap; }
+      .card-s { margin-top: 8px; font-weight: 500; font-size: 32px; color: rgba(255, 255, 255, 0.92); text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6); white-space: nowrap; }
+      .venue-logo { position: absolute; right: 110px; top: 90px; width: 250px; filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.5)); }
+      .venue-logo.light { padding: 18px 22px; background: rgba(255, 255, 255, 0.93); border-radius: 18px; width: 260px; }
+
+      /* recap */
+      .rc-k { position: absolute; top: 78px; left: 0; right: 0; text-align: center; font-weight: 700; font-size: 24px; letter-spacing: 0.4em; color: var(--gold-2); }
+      .rc-mask { position: absolute; top: 112px; left: 0; right: 0; display: flex; justify-content: center; }
+      .rc-t { font-family: Oswald, sans-serif; font-weight: 700; font-size: 76px; line-height: 1.1; }
+      .tile { position: absolute; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); border: 2px solid rgba(240, 213, 144, 0.45); }
+      .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .tile-l { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; font-weight: 700; font-size: 26px;
+        background: linear-gradient(0deg, rgba(7, 12, 31, 0.9), rgba(7, 12, 31, 0)); }
+      .tile-l span { font-family: Oswald, sans-serif; color: var(--gold-2); margin-right: 12px; }
+      .rc-f { position: absolute; top: 862px; left: 0; right: 0; text-align: center; font-weight: 600; font-size: 26px; letter-spacing: 0.4em; color: rgba(255, 255, 255, 0.8); }
+
+      /* end card */
+      .end-glow { position: absolute; left: 460px; top: 40px; width: 1000px; height: 560px;
+        background: radial-gradient(ellipse at 50% 50%, rgba(212, 174, 92, 0.22), rgba(212, 174, 92, 0) 70%); }
+      .end-logo { position: absolute; left: 50%; top: 110px; width: 560px; margin-left: -280px; }
+      .end-tag { position: absolute; top: 400px; left: 0; right: 0; text-align: center; font-family: Playfair, serif; font-style: italic; font-weight: 600;
+        font-size: 58px; color: var(--navy); }
+      .end-row { position: absolute; top: 500px; left: 0; right: 0; display: flex; justify-content: center; gap: 40px; }
+      .end-it { display: flex; align-items: center; gap: 18px; padding: 14px 34px 14px 16px; border-radius: 60px; background: var(--navy);
+        font-weight: 700; font-size: 36px; color: #fff; }
+      .end-addr { position: absolute; top: 612px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 14px;
+        font-weight: 500; font-size: 26px; color: #3b4566; }
+      .end-addr .ic { width: 40px; height: 40px; }
+      .end-addr .ic svg { width: 24px; height: 24px; }
+      .end-foot { position: absolute; left: 0; right: 0; bottom: 90px; display: flex; align-items: center; justify-content: center; gap: 28px; }
+      .end-by { font-weight: 700; font-size: 18px; letter-spacing: 0.3em; color: #6b7391; }
+      .end-mh { height: 96px; }
+      .end-mc { height: 92px; }
+      .end-sep { width: 2px; height: 80px; background: #cfd4e2; margin: 0 20px; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="68.400" data-width="1920" data-height="1080">
+      <div id="intro" class="clip bg-ink" data-start="0.000" data-duration="2.578" data-track-index="1"><div class="intro"><div class="i-top" id="i-top">M&#8217;CORP HOTEL SDN. BHD.</div><div class="i-line" id="i-line"></div><div class="i-bot" id="i-bot">MEMPERSEMBAHKAN</div></div></div>
+      <div id="s-title" class="clip shot" data-start="2.578" data-duration="3.940" data-track-index="1"><div class="kb" id="s-title-kb"><img id="s-title-img" src="assets/img/ext-night.jpg" alt="" style="transform-origin:50% 40%"/></div><div class="shade shade-full"></div></div>
+      <div id="title" class="clip ovl" data-start="2.578" data-duration="3.940" data-track-index="7"><div class="ttl"><div class="ttl-mask"><div class="ttl-a" id="ttl-a">HOTEL MITC</div></div><div class="ttl-b" id="ttl-b">MELAKA</div><div class="stars"><span class="star" id="st0"><svg viewBox="0 0 24 24"><path d="M12 1.8l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.9 5.6 21.4 7 14.3 1.7 9.3l7.2-.9z"/></svg></span><span class="star" id="st1"><svg viewBox="0 0 24 24"><path d="M12 1.8l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.9 5.6 21.4 7 14.3 1.7 9.3l7.2-.9z"/></svg></span><span class="star" id="st2"><svg viewBox="0 0 24 24"><path d="M12 1.8l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.9 5.6 21.4 7 14.3 1.7 9.3l7.2-.9z"/></svg></span><span class="star" id="st3"><svg viewBox="0 0 24 24"><path d="M12 1.8l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.9 5.6 21.4 7 14.3 1.7 9.3l7.2-.9z"/></svg></span></div><div class="ttl-c" id="ttl-c">HOTEL BERTARAF 4 BINTANG &#183; AYER KEROH</div><div class="sheen" id="ttl-sheen"></div></div></div>
+      <div id="s-corp" class="clip shot" data-start="6.518" data-duration="4.434" data-track-index="1"><div class="kb" id="s-corp-kb"><img id="s-corp-img" src="assets/img/ext-wide.jpg" alt="" style="transform-origin:70% 40%"/></div></div>
+      <div id="corp" class="clip ovl" data-start="6.518" data-duration="4.434" data-track-index="5"><div class="panel" id="corp-panel"><div class="hex"></div><div class="corp-head" id="corp-head"><span class="chev"></span><div>ANAK<br/>SYARIKAT</div></div><div class="corp-sub" id="corp-sub">Ditubuhkan oleh PKNM pada</div><div class="corp-date" id="corp-date">15 NOVEMBER 2016</div><div class="corp-sub2" id="corp-sub2">Mengurus &amp; mengendalikan operasi<br/><b>Hotel MITC, Ayer Keroh, Melaka</b></div></div><div class="logo-card" id="corp-logo"><img src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel Sdn. Bhd."/></div></div>
+      <div id="s-lok1" class="clip shot" data-start="10.952" data-duration="3.448" data-track-index="1"><div class="kb" id="s-lok1-kb"><img id="s-lok1-img" src="assets/img/ext-day.jpg" alt="" style="transform-origin:50% 30%"/></div><div class="shade shade-bottom"></div></div>
+      <div id="lokasi" class="clip ovl" data-start="10.952" data-duration="3.448" data-track-index="7"><div class="lok"><div class="kick gold" id="lok-k">LOKASI STRATEGIK</div><div class="ttl-mask"><div class="lok-t" id="lok-t">DI JANTUNG AYER KEROH</div></div><div class="chips"><div class="chip" id="chip1"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></span>Bertentangan Pusat Dagangan Antarabangsa Melaka (MITC)</div><div class="chip" id="chip2"><span class="ic"><svg viewBox="0 0 24 24"><path d="M18.9 6c-.2-.6-.8-1-1.4-1H6.5c-.7 0-1.2.4-1.4 1L3 12v8c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-1h12v1c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-8l-2.1-6zM6.5 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm11 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 11l1.5-4.5h11L19 11H5z"/></svg></span>10 minit dari Tol Ayer Keroh</div></div></div></div>
+      <div id="s-stats" class="clip shot" data-start="14.400" data-duration="3.941" data-track-index="1"><div class="kb" id="s-stats-kb"><img id="s-stats-img" src="assets/img/lobby.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-navy"></div></div>
+      <div id="stats" class="clip ovl" data-start="14.400" data-duration="3.941" data-track-index="7"><div class="stats"><div class="stat" id="stat1"><div class="stat-n"><span id="n1">0</span><span class="stat-star"><svg viewBox="0 0 24 24"><path d="M12 1.8l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.9 5.6 21.4 7 14.3 1.7 9.3l7.2-.9z"/></svg></span></div><div class="stat-l">BERTARAF<br/>4 BINTANG</div></div><div class="stat-div" id="sd1"></div><div class="stat" id="stat2"><div class="stat-n"><span id="n2">0</span></div><div class="stat-l">BILIK<br/>PENGINAPAN</div></div><div class="stat-div" id="sd2"></div><div class="stat" id="stat3"><div class="stat-n"><span id="n3">0</span><span class="stat-u">JAM</span></div><div class="stat-l">PERKHIDMATAN<br/>SETIAP HARI</div></div></div></div>
+      <div id="s-f1" class="clip shot" data-start="18.341" data-duration="2.463" data-track-index="1"><div class="kb" id="s-f1-kb"><img id="s-f1-img" src="assets/img/pool.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-f2" class="clip shot" data-start="20.804" data-duration="1.478" data-track-index="1"><div class="kb" id="s-f2-kb"><img id="s-f2-img" src="assets/img/pool-kids.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-f3" class="clip shot" data-start="22.282" data-duration="1.970" data-track-index="1"><div class="kb" id="s-f3-kb"><img id="s-f3-img" src="assets/img/pool-night.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-f4" class="clip shot" data-start="24.252" data-duration="1.970" data-track-index="1"><div class="kb" id="s-f4-kb"><img id="s-f4-img" src="assets/img/lobby.jpg" alt="" style="transform-origin:60% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="slam1" class="clip ovl" data-start="18.341" data-duration="1.350" data-track-index="7"><div class="slam"><div class="slam-n" id="slam1-n">01</div><div class="slam-w" id="slam1-w">FASILITI</div><div class="slam-line" id="slam1-l"></div></div></div>
+      <div id="card-f1" class="clip ovl" data-start="19.641" data-duration="4.611" data-track-index="6"><div class="card"><div class="card-bar" id="card-f1-bar"></div><div class="card-k" id="card-f1-k">01 &#183; FASILITI</div><div class="card-t-mask"><div class="card-t" id="card-f1-t">KOLAM RENANG</div></div><div class="card-s" id="card-f1-s">Kolam &amp; taman permainan air kanak-kanak</div></div></div>
+      <div id="card-f2" class="clip ovl" data-start="24.252" data-duration="1.970" data-track-index="6"><div class="card"><div class="card-bar" id="card-f2-bar"></div><div class="card-k" id="card-f2-k">01 &#183; FASILITI</div><div class="card-t-mask"><div class="card-t" id="card-f2-t">LOBI UTAMA</div></div><div class="card-s" id="card-f2-s">Perkhidmatan mesra 24 jam</div></div></div>
+      <div id="s-e1" class="clip shot" data-start="26.222" data-duration="2.463" data-track-index="1"><div class="kb" id="s-e1-kb"><img id="s-e1-img" src="assets/img/gadek.jpg" alt="" style="transform-origin:50% 40%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-e2" class="clip shot" data-start="28.685" data-duration="1.478" data-track-index="1"><div class="kb" id="s-e2-kb"><img id="s-e2-img" src="assets/img/gadek-event.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-e3" class="clip shot" data-start="30.163" data-duration="1.971" data-track-index="1"><div class="kb" id="s-e3-kb"><img id="s-e3-img" src="assets/img/gadek5.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-e4" class="clip shot" data-start="32.134" data-duration="1.970" data-track-index="1"><div class="kb" id="s-e4-kb"><img id="s-e4-img" src="assets/img/brisu-aerial.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="slam2" class="clip ovl" data-start="26.222" data-duration="1.350" data-track-index="7"><div class="slam"><div class="slam-n" id="slam2-n">02</div><div class="slam-w" id="slam2-w">DEWAN &amp; ACARA</div><div class="slam-line" id="slam2-l"></div></div></div>
+      <div id="card-e1" class="clip ovl" data-start="27.522" data-duration="2.641" data-track-index="6"><div class="card"><div class="card-bar" id="card-e1-bar"></div><div class="card-k" id="card-e1-k">02 &#183; DEWAN &amp; ACARA</div><div class="card-t-mask"><div class="card-t" id="card-e1-t">DEWAN GADEK</div></div><div class="card-s" id="card-e1-s">Perkahwinan, persidangan &amp; jamuan rasmi</div></div></div>
+      <div id="card-e2" class="clip ovl" data-start="30.163" data-duration="1.971" data-track-index="6"><div class="card"><div class="card-bar" id="card-e2-bar"></div><div class="card-k" id="card-e2-k">02 &#183; DEWAN &amp; ACARA</div><div class="card-t-mask"><div class="card-t" id="card-e2-t">BILIK GADEK 5</div></div><div class="card-s" id="card-e2-s">Mesyuarat, taklimat &amp; bengkel</div></div></div>
+      <div id="card-e3" class="clip ovl" data-start="32.134" data-duration="1.970" data-track-index="6"><div class="card"><div class="card-bar" id="card-e3-bar"></div><div class="card-k" id="card-e3-k">02 &#183; DEWAN &amp; ACARA</div><div class="card-t-mask"><div class="card-t" id="card-e3-t">HALAMAN BRISU</div></div><div class="card-s" id="card-e3-s">Ruang majlis terbuka di tengah taman</div></div></div>
+      <div id="lg-gadek" class="clip ovl" data-start="27.522" data-duration="2.641" data-track-index="8"><img class="venue-logo" id="lg-gadek-i" src="assets/img/gadek-logo.png" alt="Gadek Ballroom"/></div>
+      <div id="lg-brisu" class="clip ovl" data-start="32.134" data-duration="1.970" data-track-index="8"><img class="venue-logo light" id="lg-brisu-i" src="assets/img/brisu-logo.png" alt="Brisu Courtyard"/></div>
+      <div id="s-m1" class="clip shot" data-start="34.104" data-duration="2.463" data-track-index="1"><div class="kb" id="s-m1-kb"><img id="s-m1-img" src="assets/img/bemban.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-m2" class="clip shot" data-start="36.567" data-duration="1.478" data-track-index="1"><div class="kb" id="s-m2-kb"><img id="s-m2-img" src="assets/img/bemban-breakfast.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-m3" class="clip shot" data-start="38.045" data-duration="1.970" data-track-index="1"><div class="kb" id="s-m3-kb"><img id="s-m3-img" src="assets/img/asahan.jpg" alt="" style="transform-origin:70% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="s-m4" class="clip shot" data-start="40.015" data-duration="1.971" data-track-index="1"><div class="kb" id="s-m4-kb"><img id="s-m4-img" src="assets/img/asahan-live.jpg" alt="" style="transform-origin:60% 50%"/></div><div class="shade shade-left"></div></div>
+      <div id="slam3" class="clip ovl" data-start="34.104" data-duration="1.350" data-track-index="7"><div class="slam"><div class="slam-n" id="slam3-n">03</div><div class="slam-w" id="slam3-w">TEMPAT MAKAN</div><div class="slam-line" id="slam3-l"></div></div></div>
+      <div id="card-m1" class="clip ovl" data-start="35.404" data-duration="2.641" data-track-index="6"><div class="card"><div class="card-bar" id="card-m1-bar"></div><div class="card-k" id="card-m1-k">03 &#183; TEMPAT MAKAN</div><div class="card-t-mask"><div class="card-t" id="card-m1-t">RESTORAN BEMBAN</div></div><div class="card-s" id="card-m1-s">Bufet sarapan, makan tengah hari &amp; makan malam</div></div></div>
+      <div id="card-m2" class="clip ovl" data-start="38.045" data-duration="3.941" data-track-index="6"><div class="card"><div class="card-bar" id="card-m2-bar"></div><div class="card-k" id="card-m2-k">03 &#183; TEMPAT MAKAN</div><div class="card-t-mask"><div class="card-t" id="card-m2-t">ASAHAN CAFE</div></div><div class="card-s" id="card-m2-s">Kafe konsep Nyonya &#183; 10 pagi hingga 12 malam</div></div></div>
+      <video id="s-v0" class="clip vclip" src="assets/video/room-double.mp4" data-start="41.986" data-duration="3.940" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v0-sh" class="clip shade shade-left" data-start="41.986" data-duration="3.940" data-track-index="2"></div>
+      <video id="s-v1" class="clip vclip" src="assets/video/room-twin.mp4" data-start="45.926" data-duration="1.971" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v1-sh" class="clip shade shade-left" data-start="45.926" data-duration="1.971" data-track-index="2"></div>
+      <video id="s-v2" class="clip vclip" src="assets/video/room-deluxe.mp4" data-start="47.897" data-duration="1.970" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v2-sh" class="clip shade shade-left" data-start="47.897" data-duration="1.970" data-track-index="2"></div>
+      <video id="s-v3" class="clip vclip" src="assets/video/room-junior.mp4" data-start="49.867" data-duration="1.971" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v3-sh" class="clip shade shade-left" data-start="49.867" data-duration="1.971" data-track-index="2"></div>
+      <video id="s-v4" class="clip vclip" src="assets/video/room-junior-2.mp4" data-start="51.838" data-duration="1.970" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v4-sh" class="clip shade shade-left" data-start="51.838" data-duration="1.970" data-track-index="2"></div>
+      <video id="s-v5" class="clip vclip" src="assets/video/room-exec.mp4" data-start="53.808" data-duration="1.970" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v5-sh" class="clip shade shade-left" data-start="53.808" data-duration="1.970" data-track-index="2"></div>
+      <video id="s-v6" class="clip vclip" src="assets/video/room-exec-2.mp4" data-start="55.778" data-duration="1.971" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v6-sh" class="clip shade shade-left" data-start="55.778" data-duration="1.971" data-track-index="2"></div>
+      <video id="s-v7" class="clip vclip" src="assets/video/room-exec-bath.mp4" data-start="57.749" data-duration="1.970" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v7-sh" class="clip shade shade-left" data-start="57.749" data-duration="1.970" data-track-index="2"></div>
+      <div id="slam4" class="clip ovl" data-start="41.986" data-duration="1.350" data-track-index="7"><div class="slam"><div class="slam-n" id="slam4-n">04</div><div class="slam-w" id="slam4-w">BILIK &amp; SUITE</div><div class="slam-line" id="slam4-l"></div></div></div>
+      <div id="card-v1" class="clip ovl" data-start="43.286" data-duration="2.640" data-track-index="6"><div class="card"><div class="card-bar" id="card-v1-bar"></div><div class="card-k" id="card-v1-k">04 &#183; BILIK &amp; SUITE</div><div class="card-t-mask"><div class="card-t" id="card-v1-t">SUPERIOR DOUBLE</div></div><div class="card-s" id="card-v1-s">Katil Queen &#183; 172.76 kaki persegi</div></div></div>
+      <div id="card-v2" class="clip ovl" data-start="45.926" data-duration="1.971" data-track-index="6"><div class="card"><div class="card-bar" id="card-v2-bar"></div><div class="card-k" id="card-v2-k">04 &#183; BILIK &amp; SUITE</div><div class="card-t-mask"><div class="card-t" id="card-v2-t">SUPERIOR TWIN</div></div><div class="card-s" id="card-v2-s">2 Katil Bujang &#183; 172.76 kaki persegi</div></div></div>
+      <div id="card-v3" class="clip ovl" data-start="47.897" data-duration="1.970" data-track-index="6"><div class="card"><div class="card-bar" id="card-v3-bar"></div><div class="card-k" id="card-v3-k">04 &#183; BILIK &amp; SUITE</div><div class="card-t-mask"><div class="card-t" id="card-v3-t">DELUXE</div></div><div class="card-s" id="card-v3-s">1 Katil Queen + 1 Katil Bujang &#183; 185.75 kaki persegi</div></div></div>
+      <div id="card-v4" class="clip ovl" data-start="49.867" data-duration="3.941" data-track-index="6"><div class="card"><div class="card-bar" id="card-v4-bar"></div><div class="card-k" id="card-v4-k">04 &#183; BILIK &amp; SUITE</div><div class="card-t-mask"><div class="card-t" id="card-v4-t">JUNIOR SUITE</div></div><div class="card-s" id="card-v4-s">Katil King &#183; Ruang tamu berasingan &#183; 464.47 kaki persegi</div></div></div>
+      <div id="card-v5" class="clip ovl" data-start="53.808" data-duration="5.911" data-track-index="6"><div class="card"><div class="card-bar" id="card-v5-bar"></div><div class="card-k" id="card-v5-k">04 &#183; BILIK &amp; SUITE</div><div class="card-t-mask"><div class="card-t" id="card-v5-t">EXECUTIVE SUITE</div></div><div class="card-s" id="card-v5-s">Katil King &#183; Ruang makan &amp; lounge &#183; 637.23 kaki persegi</div></div></div>
+      <div id="recap" class="clip bg-navy" data-start="59.719" data-duration="3.941" data-track-index="2"><div class="hex dark"></div><div class="rc-k" id="rc-k">7 KEMUDAHAN UTAMA</div><div class="ttl-mask rc-mask"><div class="rc-t" id="rc-t">SEGALANYA DI SATU DESTINASI</div></div><div class="tile" id="tile0" style="left:167px;top:230px;width:380px;height:262px"><img src="assets/img/pool-2.jpg" alt=""/><div class="tile-l"><span>01</span>Kolam Renang</div></div><div class="tile" id="tile1" style="left:569px;top:230px;width:380px;height:262px"><img src="assets/img/gadek.jpg" alt=""/><div class="tile-l"><span>02</span>Dewan Gadek</div></div><div class="tile" id="tile2" style="left:971px;top:230px;width:380px;height:262px"><img src="assets/img/gadek5-2.jpg" alt=""/><div class="tile-l"><span>03</span>Bilik Gadek 5</div></div><div class="tile" id="tile3" style="left:1373px;top:230px;width:380px;height:262px"><img src="assets/img/brisu.jpg" alt=""/><div class="tile-l"><span>04</span>Halaman Brisu</div></div><div class="tile" id="tile4" style="left:368px;top:514px;width:380px;height:262px"><img src="assets/img/bemban.jpg" alt=""/><div class="tile-l"><span>05</span>Restoran Bemban</div></div><div class="tile" id="tile5" style="left:770px;top:514px;width:380px;height:262px"><img src="assets/img/asahan-2.jpg" alt=""/><div class="tile-l"><span>06</span>Asahan Cafe</div></div><div class="tile" id="tile6" style="left:1172px;top:514px;width:380px;height:262px"><img src="assets/img/room-exec.jpg" alt=""/><div class="tile-l"><span>07</span>188 Bilik Penginapan</div></div><div class="rc-f" id="rc-f">HOTEL MITC &#183; AYER KEROH &#183; MELAKA</div></div>
+      <div id="endc" class="clip bg-white" data-start="63.660" data-duration="4.740" data-track-index="2"><div class="hex light"></div><div class="end-glow"></div><img class="end-logo" id="end-logo" src="assets/img/mitc-logo.png" alt="MITC Hotel"/><div class="end-tag" id="end-tag">Tempah terus dengan kami!</div><div class="end-row" id="end-row"><div class="end-it"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></span>06-233 1551</div><div class="end-it"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-3a15.6 15.6 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.4 1.1-2.8 1.9-4zM4.3 14a8.2 8.2 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4H4.3zm.8 2h3c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16zm3-8h-3a8 8 0 0 1 4.4-3.6C8.9 5.5 8.4 6.7 8.1 8zM12 20c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.4-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h3a8 8 0 0 1-4.4 3.6zm1.7-5.6a16.5 16.5 0 0 0 0-4h3.4a8.2 8.2 0 0 1 0 4h-3.4z"/></svg></span>mitchotel.com.my</div></div><div class="end-addr" id="end-addr"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></span>Jalan Food City, Pusat Dagangan Antarabangsa Melaka, 75450 Ayer Keroh, Melaka</div><div class="end-foot" id="end-foot"><div class="end-by">DIURUSKAN OLEH</div><img class="end-mh" src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel Sdn. Bhd."/><div class="end-sep"></div><div class="end-by">ANAK SYARIKAT</div><img class="end-mc" src="assets/img/mcorp-corporate.png" alt="MCORP"/></div></div>
+      <div id="leak" class="clip fx" data-start="0" data-duration="68.400" data-track-index="20"></div>
+      <div id="vignette" class="clip fx" data-start="0" data-duration="68.400" data-track-index="21"></div>
+      <div id="flash" class="clip fx" data-start="0" data-duration="68.400" data-track-index="22"></div>
+      <div id="fadeout" class="clip fx" data-start="0" data-duration="68.400" data-track-index="23"></div>
+      <audio id="bgm" data-timeline-role="music" src="assets/bgm/bed.wav" data-start="0" data-duration="68.400" data-track-index="10" data-automation='{"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": 0}, {"t": 0.3, "v": 0.85}, {"t": 66.4, "v": 0.85}, {"t": 68.4, "v": 0}]}]}'></audio>
+      <audio id="sx00" src="assets/sfx/riser.mp3" data-start="0.000" data-duration="2.580" data-media-start="7.452" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="sx01" src="assets/sfx/sparkle.mp3" data-start="0.600" data-duration="1.802" data-track-index="31" data-volume="0.25"></audio>
+      <audio id="sx02" src="assets/sfx/whoosh-cinematic.mp3" data-start="2.378" data-duration="5.544" data-track-index="32" data-volume="0.35"></audio>
+      <audio id="sx03" src="assets/sfx/impact-bass-2.mp3" data-start="2.578" data-duration="2.592" data-track-index="31" data-volume="0.6"></audio>
+      <audio id="sx04" src="assets/sfx/pop.mp3" data-start="3.478" data-duration="0.720" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx05" src="assets/sfx/sparkle.mp3" data-start="3.578" data-duration="1.802" data-track-index="33" data-volume="0.3"></audio>
+      <audio id="sx06" src="assets/sfx/pop.mp3" data-start="3.618" data-duration="0.720" data-track-index="34" data-volume="0.22"></audio>
+      <audio id="sx07" src="assets/sfx/pop.mp3" data-start="3.758" data-duration="0.720" data-track-index="35" data-volume="0.22"></audio>
+      <audio id="sx08" src="assets/sfx/pop.mp3" data-start="3.898" data-duration="0.720" data-track-index="36" data-volume="0.22"></audio>
+      <audio id="sx09" src="assets/sfx/whoosh.mp3" data-start="6.368" data-duration="0.575" data-track-index="30" data-volume="0.45"></audio>
+      <audio id="sx10" src="assets/sfx/chime.mp3" data-start="7.268" data-duration="2.544" data-track-index="30" data-volume="0.3"></audio>
+      <audio id="sx11" src="assets/sfx/click.mp3" data-start="7.868" data-duration="0.366" data-track-index="31" data-volume="0.3"></audio>
+      <audio id="sx12" src="assets/sfx/click.mp3" data-start="8.518" data-duration="0.366" data-track-index="31" data-volume="0.25"></audio>
+      <audio id="sx13" src="assets/sfx/whoosh.mp3" data-start="10.752" data-duration="0.575" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="sx14" src="assets/sfx/pop.mp3" data-start="11.852" data-duration="0.720" data-track-index="30" data-volume="0.3"></audio>
+      <audio id="sx15" src="assets/sfx/pop.mp3" data-start="12.352" data-duration="0.720" data-track-index="31" data-volume="0.3"></audio>
+      <audio id="sx16" src="assets/sfx/whoosh.mp3" data-start="14.200" data-duration="0.575" data-track-index="30" data-volume="0.4"></audio>
+      <audio id="sx17" src="assets/sfx/click.mp3" data-start="14.600" data-duration="0.366" data-track-index="31" data-volume="0.3"></audio>
+      <audio id="sx18" src="assets/sfx/click.mp3" data-start="15.150" data-duration="0.366" data-track-index="30" data-volume="0.3"></audio>
+      <audio id="sx19" src="assets/sfx/click.mp3" data-start="15.700" data-duration="0.366" data-track-index="30" data-volume="0.3"></audio>
+      <audio id="sx20" src="assets/sfx/impact-bass-2.mp3" data-start="15.800" data-duration="2.592" data-track-index="31" data-volume="0.35"></audio>
+      <audio id="sx21" src="assets/sfx/whoosh.mp3" data-start="18.091" data-duration="0.575" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="sx22" src="assets/sfx/impact-bass-1.mp3" data-start="18.341" data-duration="2.116" data-track-index="32" data-volume="0.5"></audio>
+      <audio id="sx23" src="assets/sfx/whoosh-short.mp3" data-start="19.691" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx24" src="assets/sfx/whoosh-short.mp3" data-start="20.754" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx25" src="assets/sfx/whoosh-short.mp3" data-start="22.232" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx26" src="assets/sfx/whoosh-short.mp3" data-start="24.302" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx27" src="assets/sfx/whoosh.mp3" data-start="25.972" data-duration="0.575" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="sx28" src="assets/sfx/impact-bass-1.mp3" data-start="26.222" data-duration="2.116" data-track-index="31" data-volume="0.5"></audio>
+      <audio id="sx29" src="assets/sfx/whoosh-short.mp3" data-start="27.572" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx30" src="assets/sfx/whoosh-short.mp3" data-start="28.635" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx31" src="assets/sfx/whoosh-short.mp3" data-start="30.213" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx32" src="assets/sfx/whoosh-short.mp3" data-start="32.184" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx33" src="assets/sfx/whoosh.mp3" data-start="33.854" data-duration="0.575" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="sx34" src="assets/sfx/impact-bass-1.mp3" data-start="34.104" data-duration="2.116" data-track-index="31" data-volume="0.5"></audio>
+      <audio id="sx35" src="assets/sfx/whoosh-short.mp3" data-start="35.454" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx36" src="assets/sfx/whoosh-short.mp3" data-start="36.517" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx37" src="assets/sfx/whoosh-short.mp3" data-start="38.095" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx38" src="assets/sfx/whoosh-short.mp3" data-start="39.965" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx39" src="assets/sfx/whoosh.mp3" data-start="41.736" data-duration="0.575" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="sx40" src="assets/sfx/impact-bass-1.mp3" data-start="41.986" data-duration="2.116" data-track-index="31" data-volume="0.5"></audio>
+      <audio id="sx41" src="assets/sfx/whoosh-short.mp3" data-start="43.336" data-duration="0.575" data-track-index="30" data-volume="0.28"></audio>
+      <audio id="sx42" src="assets/sfx/whoosh-short.mp3" data-start="45.876" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx43" src="assets/sfx/whoosh-short.mp3" data-start="45.976" data-duration="0.575" data-track-index="31" data-volume="0.28"></audio>
+      <audio id="sx44" src="assets/sfx/whoosh-short.mp3" data-start="47.847" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx45" src="assets/sfx/whoosh-short.mp3" data-start="47.947" data-duration="0.575" data-track-index="31" data-volume="0.28"></audio>
+      <audio id="sx46" src="assets/sfx/whoosh-short.mp3" data-start="49.817" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx47" src="assets/sfx/whoosh-short.mp3" data-start="49.917" data-duration="0.575" data-track-index="31" data-volume="0.28"></audio>
+      <audio id="sx48" src="assets/sfx/whoosh-short.mp3" data-start="51.788" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx49" src="assets/sfx/whoosh-short.mp3" data-start="53.758" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx50" src="assets/sfx/whoosh-short.mp3" data-start="53.858" data-duration="0.575" data-track-index="31" data-volume="0.28"></audio>
+      <audio id="sx51" src="assets/sfx/whoosh-short.mp3" data-start="55.728" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx52" src="assets/sfx/whoosh-short.mp3" data-start="57.699" data-duration="0.575" data-track-index="30" data-volume="0.22"></audio>
+      <audio id="sx53" src="assets/sfx/whoosh.mp3" data-start="59.519" data-duration="0.575" data-track-index="30" data-volume="0.45"></audio>
+      <audio id="sx54" src="assets/sfx/pop.mp3" data-start="60.069" data-duration="0.720" data-track-index="31" data-volume="0.2"></audio>
+      <audio id="sx55" src="assets/sfx/pop.mp3" data-start="60.229" data-duration="0.720" data-track-index="30" data-volume="0.2"></audio>
+      <audio id="sx56" src="assets/sfx/pop.mp3" data-start="60.389" data-duration="0.720" data-track-index="32" data-volume="0.2"></audio>
+      <audio id="sx57" src="assets/sfx/pop.mp3" data-start="60.549" data-duration="0.720" data-track-index="33" data-volume="0.2"></audio>
+      <audio id="sx58" src="assets/sfx/pop.mp3" data-start="60.709" data-duration="0.720" data-track-index="34" data-volume="0.2"></audio>
+      <audio id="sx59" src="assets/sfx/pop.mp3" data-start="60.869" data-duration="0.720" data-track-index="31" data-volume="0.2"></audio>
+      <audio id="sx60" src="assets/sfx/pop.mp3" data-start="61.029" data-duration="0.720" data-track-index="30" data-volume="0.2"></audio>
+      <audio id="sx61" src="assets/sfx/whoosh-cinematic.mp3" data-start="63.260" data-duration="5.140" data-track-index="30" data-volume="0.35"></audio>
+      <audio id="sx62" src="assets/sfx/impact-bass-2.mp3" data-start="63.660" data-duration="2.592" data-track-index="31" data-volume="0.55"></audio>
+      <audio id="sx63" src="assets/sfx/chime.mp3" data-start="64.360" data-duration="2.544" data-track-index="32" data-volume="0.35"></audio>
+    </div>
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#i-line", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "expo.inOut", immediateRender: false }, 0.150);
+        tl.fromTo("#i-top", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: "power3.out", immediateRender: false }, 0.550);
+        tl.fromTo("#i-bot", { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", immediateRender: false }, 0.850);
+        tl.fromTo("#intro .intro", { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.08, duration: 0.35, ease: "power2.in", immediateRender: false }, 2.178);
+        tl.fromTo("#s-title-img", { scale: 1.28 }, { scale: 1.08, duration: 3.94, ease: "none", immediateRender: false }, 2.578);
+        tl.fromTo("#flash", { opacity: 1.0 }, { opacity: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, 2.578);
+        tl.fromTo("#ttl-a", { yPercent: 105 }, { yPercent: 0, duration: 0.8, ease: "expo.out", immediateRender: false }, 2.678);
+        tl.fromTo("#ttl-b", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power3.out", immediateRender: false }, 3.028);
+        tl.fromTo("#st0", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.478);
+        tl.fromTo("#st1", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.618);
+        tl.fromTo("#st2", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.758);
+        tl.fromTo("#st3", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.898);
+        tl.fromTo("#ttl-c", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 4.078);
+        tl.fromTo("#ttl-sheen", { xPercent: -120 }, { xPercent: 120, duration: 1.1, ease: "power2.inOut", immediateRender: false }, 4.278);
+        tl.fromTo("#title .ttl", { opacity: 1, scale: 1 }, { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in", immediateRender: false }, 6.198);
+        tl.fromTo("#s-corp-img", { scale: 1.12 }, { scale: 1.02, duration: 4.434, ease: "none", immediateRender: false }, 6.518);
+        tl.fromTo("#flash", { opacity: 0.8 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, 6.518);
+        tl.fromTo("#corp-panel", { xPercent: -100 }, { xPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: false }, 6.518);
+        tl.fromTo("#corp-head", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 6.868);
+        tl.fromTo("#corp-logo", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.6)", immediateRender: false }, 7.218);
+        tl.fromTo("#corp-sub", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 7.618);
+        tl.fromTo("#corp-date", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", immediateRender: false }, 7.818);
+        tl.fromTo("#corp-sub2", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 8.518);
+        tl.fromTo(["#corp-panel", "#corp-logo"], { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "power2.in", immediateRender: false }, 10.682);
+        tl.fromTo("#s-lok1-img", { scale: 1.0 }, { scale: 1.12, duration: 3.448, ease: "none", immediateRender: false }, 10.952);
+        tl.fromTo("#s-lok1-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 10.952);
+        tl.fromTo("#flash", { opacity: 0.7 }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, 10.952);
+        tl.fromTo("#lok-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 11.052);
+        tl.fromTo("#lok-t", { yPercent: 105 }, { yPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: false }, 11.202);
+        tl.fromTo("#chip1", { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "back.out(1.4)", immediateRender: false }, 11.852);
+        tl.fromTo("#chip2", { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "back.out(1.4)", immediateRender: false }, 12.352);
+        tl.fromTo("#lokasi .lok", { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "power3.out", immediateRender: false }, 14.130);
+        tl.fromTo("#s-stats-img", { scale: 1.1 }, { scale: 1.2, duration: 3.941, ease: "none", immediateRender: false }, 14.400);
+        tl.fromTo("#flash", { opacity: 0.8 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, 14.400);
+        tl.fromTo("#stat1", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 14.600);
+        tl.fromTo({v:0}, {v:0}, {v:4, duration:0.6, ease:"power2.out", immediateRender:false, onUpdate:function(){document.querySelector("#n1").textContent=Math.round(this.targets()[0].v);}}, 14.700);
+        tl.fromTo("#stat2", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 15.150);
+        tl.fromTo({v:0}, {v:0}, {v:188, duration:1.4, ease:"power2.out", immediateRender:false, onUpdate:function(){document.querySelector("#n2").textContent=Math.round(this.targets()[0].v);}}, 15.250);
+        tl.fromTo("#stat3", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 15.700);
+        tl.fromTo({v:0}, {v:0}, {v:24, duration:1.0, ease:"power2.out", immediateRender:false, onUpdate:function(){document.querySelector("#n3").textContent=Math.round(this.targets()[0].v);}}, 15.800);
+        tl.fromTo(["#sd1", "#sd2"], { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 14.800);
+        tl.fromTo("#stats .stats", { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.06, duration: 0.28, ease: "power2.in", immediateRender: false }, 18.041);
+        tl.fromTo("#s-f1-img", { scale: 1.04 }, { scale: 1.14, duration: 2.463, ease: "none", immediateRender: false }, 18.341);
+        tl.fromTo("#s-f2-img", { scale: 1.04 }, { scale: 1.12, duration: 1.478, ease: "none", immediateRender: false }, 20.804);
+        tl.fromTo("#s-f2-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 20.804);
+        tl.fromTo("#s-f3-img", { scale: 1.04 }, { scale: 1.14, duration: 1.97, ease: "none", immediateRender: false }, 22.282);
+        tl.fromTo("#s-f3-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 22.282);
+        tl.fromTo("#s-f4-img", { scale: 1.14 }, { scale: 1.04, duration: 1.97, ease: "none", immediateRender: false }, 24.252);
+        tl.fromTo("#s-f4-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 24.252);
+        tl.fromTo("#slam1-w", { scale: 1.5, opacity: 0, filter: "blur(20px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, 18.361);
+        tl.fromTo("#slam1-n", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 18.491);
+        tl.fromTo("#slam1-l", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 18.591);
+        tl.fromTo("#slam1 .slam", { opacity: 1, y: 0 }, { opacity: 0, y: -80, duration: 0.3, ease: "power2.in", immediateRender: false }, 19.391);
+        tl.fromTo("#flash", { opacity: 0.9 }, { opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 18.341);
+        tl.fromTo("#leak", { xPercent: -60, opacity: 0 }, { keyframes: [{opacity:0.9,duration:0.35},{opacity:0,duration:1.0499999999999998}], xPercent: 60, duration: 1.4, ease: "power1.inOut", immediateRender: false }, 18.341);
+        tl.fromTo("#card-f1-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 19.691);
+        tl.fromTo("#card-f1-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 19.761);
+        tl.fromTo("#card-f1-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 19.821);
+        tl.fromTo("#card-f1-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 20.021);
+        tl.fromTo("#card-f1 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 23.982);
+        tl.fromTo("#card-f2-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 24.302);
+        tl.fromTo("#card-f2-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 24.372);
+        tl.fromTo("#card-f2-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 24.432);
+        tl.fromTo("#card-f2-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 24.632);
+        tl.fromTo("#card-f2 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 25.952);
+        tl.fromTo("#s-e1-img", { scale: 1.04 }, { scale: 1.14, duration: 2.463, ease: "none", immediateRender: false }, 26.222);
+        tl.fromTo("#s-e2-img", { scale: 1.06 }, { scale: 1.14, duration: 1.478, ease: "none", immediateRender: false }, 28.685);
+        tl.fromTo("#s-e2-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 28.685);
+        tl.fromTo("#s-e3-img", { scale: 1.04 }, { scale: 1.12, duration: 1.971, ease: "none", immediateRender: false }, 30.163);
+        tl.fromTo("#s-e3-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 30.163);
+        tl.fromTo("#s-e4-img", { scale: 1.04 }, { scale: 1.16, duration: 1.97, ease: "none", immediateRender: false }, 32.134);
+        tl.fromTo("#s-e4-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 32.134);
+        tl.fromTo("#slam2-w", { scale: 1.5, opacity: 0, filter: "blur(20px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, 26.242);
+        tl.fromTo("#slam2-n", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 26.372);
+        tl.fromTo("#slam2-l", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 26.472);
+        tl.fromTo("#slam2 .slam", { opacity: 1, y: 0 }, { opacity: 0, y: -80, duration: 0.3, ease: "power2.in", immediateRender: false }, 27.272);
+        tl.fromTo("#flash", { opacity: 0.9 }, { opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 26.222);
+        tl.fromTo("#leak", { xPercent: -60, opacity: 0 }, { keyframes: [{opacity:0.9,duration:0.35},{opacity:0,duration:1.0499999999999998}], xPercent: 60, duration: 1.4, ease: "power1.inOut", immediateRender: false }, 26.222);
+        tl.fromTo("#card-e1-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 27.572);
+        tl.fromTo("#card-e1-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 27.642);
+        tl.fromTo("#card-e1-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 27.702);
+        tl.fromTo("#card-e1-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 27.902);
+        tl.fromTo("#card-e1 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 29.893);
+        tl.fromTo("#card-e2-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 30.213);
+        tl.fromTo("#card-e2-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 30.283);
+        tl.fromTo("#card-e2-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 30.343);
+        tl.fromTo("#card-e2-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 30.543);
+        tl.fromTo("#card-e2 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 31.864);
+        tl.fromTo("#card-e3-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 32.184);
+        tl.fromTo("#card-e3-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 32.254);
+        tl.fromTo("#card-e3-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 32.314);
+        tl.fromTo("#card-e3-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 32.514);
+        tl.fromTo("#card-e3 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 33.834);
+        tl.fromTo("#lg-gadek-i", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", immediateRender: false }, 27.722);
+        tl.fromTo("#lg-brisu-i", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", immediateRender: false }, 32.434);
+        tl.fromTo("#s-m1-img", { scale: 1.04 }, { scale: 1.14, duration: 2.463, ease: "none", immediateRender: false }, 34.104);
+        tl.fromTo("#s-m2-img", { scale: 1.06 }, { scale: 1.16, duration: 1.478, ease: "none", immediateRender: false }, 36.567);
+        tl.fromTo("#s-m2-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 36.567);
+        tl.fromTo("#s-m3-img", { scale: 1.04 }, { scale: 1.12, duration: 1.97, ease: "none", immediateRender: false }, 38.045);
+        tl.fromTo("#s-m3-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 38.045);
+        tl.fromTo("#s-m4-img", { scale: 1.04 }, { scale: 1.12, duration: 1.971, ease: "none", immediateRender: false }, 40.015);
+        tl.fromTo("#s-m4-kb", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 40.015);
+        tl.fromTo("#slam3-w", { scale: 1.5, opacity: 0, filter: "blur(20px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, 34.124);
+        tl.fromTo("#slam3-n", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 34.254);
+        tl.fromTo("#slam3-l", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 34.354);
+        tl.fromTo("#slam3 .slam", { opacity: 1, y: 0 }, { opacity: 0, y: -80, duration: 0.3, ease: "power2.in", immediateRender: false }, 35.154);
+        tl.fromTo("#flash", { opacity: 0.9 }, { opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 34.104);
+        tl.fromTo("#leak", { xPercent: -60, opacity: 0 }, { keyframes: [{opacity:0.9,duration:0.35},{opacity:0,duration:1.0499999999999998}], xPercent: 60, duration: 1.4, ease: "power1.inOut", immediateRender: false }, 34.104);
+        tl.fromTo("#card-m1-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 35.454);
+        tl.fromTo("#card-m1-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 35.524);
+        tl.fromTo("#card-m1-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 35.584);
+        tl.fromTo("#card-m1-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 35.784);
+        tl.fromTo("#card-m1 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 37.775);
+        tl.fromTo("#card-m2-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 38.095);
+        tl.fromTo("#card-m2-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 38.165);
+        tl.fromTo("#card-m2-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 38.225);
+        tl.fromTo("#card-m2-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 38.425);
+        tl.fromTo("#card-m2 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 41.716);
+        tl.fromTo("#s-v1", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 45.926);
+        tl.fromTo("#s-v2", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 47.897);
+        tl.fromTo("#s-v3", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 49.867);
+        tl.fromTo("#s-v4", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 51.838);
+        tl.fromTo("#s-v5", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 53.808);
+        tl.fromTo("#s-v6", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 55.778);
+        tl.fromTo("#s-v7", { scale: 1.22, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out", immediateRender: false }, 57.749);
+        tl.fromTo("#slam4-w", { scale: 1.5, opacity: 0, filter: "blur(20px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, 42.006);
+        tl.fromTo("#slam4-n", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 42.136);
+        tl.fromTo("#slam4-l", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 42.236);
+        tl.fromTo("#slam4 .slam", { opacity: 1, y: 0 }, { opacity: 0, y: -80, duration: 0.3, ease: "power2.in", immediateRender: false }, 43.036);
+        tl.fromTo("#flash", { opacity: 0.9 }, { opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 41.986);
+        tl.fromTo("#leak", { xPercent: -60, opacity: 0 }, { keyframes: [{opacity:0.9,duration:0.35},{opacity:0,duration:1.0499999999999998}], xPercent: 60, duration: 1.4, ease: "power1.inOut", immediateRender: false }, 41.986);
+        tl.fromTo("#card-v1-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 43.336);
+        tl.fromTo("#card-v1-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 43.406);
+        tl.fromTo("#card-v1-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 43.466);
+        tl.fromTo("#card-v1-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 43.666);
+        tl.fromTo("#card-v1 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 45.656);
+        tl.fromTo("#card-v2-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 45.976);
+        tl.fromTo("#card-v2-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 46.046);
+        tl.fromTo("#card-v2-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 46.106);
+        tl.fromTo("#card-v2-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 46.306);
+        tl.fromTo("#card-v2 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 47.627);
+        tl.fromTo("#card-v3-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 47.947);
+        tl.fromTo("#card-v3-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 48.017);
+        tl.fromTo("#card-v3-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 48.077);
+        tl.fromTo("#card-v3-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 48.277);
+        tl.fromTo("#card-v3 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 49.597);
+        tl.fromTo("#card-v4-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 49.917);
+        tl.fromTo("#card-v4-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 49.987);
+        tl.fromTo("#card-v4-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 50.047);
+        tl.fromTo("#card-v4-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 50.247);
+        tl.fromTo("#card-v4 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 53.538);
+        tl.fromTo("#card-v5-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, 53.858);
+        tl.fromTo("#card-v5-k", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 53.928);
+        tl.fromTo("#card-v5-t", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 53.988);
+        tl.fromTo("#card-v5-s", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 54.188);
+        tl.fromTo("#card-v5 .card", { opacity: 1, x: 0 }, { opacity: 0, x: -60, duration: 0.25, ease: "power2.in", immediateRender: false }, 59.449);
+        tl.fromTo("#flash", { opacity: 0.8 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, 59.719);
+        tl.fromTo("#rc-k", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 59.769);
+        tl.fromTo("#rc-t", { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 59.869);
+        tl.fromTo("#tile0", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.069);
+        tl.fromTo("#tile1", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.229);
+        tl.fromTo("#tile2", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.389);
+        tl.fromTo("#tile3", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.549);
+        tl.fromTo("#tile4", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.709);
+        tl.fromTo("#tile5", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 60.869);
+        tl.fromTo("#tile6", { opacity: 0, scale: 0.6, rotationX: -70, y: 40 }, { opacity: 1, scale: 1, rotationX: 0, y: 0, duration: 0.6, ease: "back.out(1.5)", immediateRender: false }, 61.029);
+        tl.fromTo("#rc-f", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, 61.319);
+        tl.fromTo("#recap", { scale: 1 }, { scale: 1.04, duration: 3.941, ease: "none", immediateRender: false }, 59.719);
+        tl.fromTo(["#recap .tile", "#rc-t", "#rc-k", "#rc-f"], { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 63.340);
+        tl.fromTo("#flash", { opacity: 1.0 }, { opacity: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, 63.660);
+        tl.fromTo("#end-logo", { scale: 0.6, opacity: 0, filter: "blur(12px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out", immediateRender: false }, 63.760);
+        tl.fromTo("#end-tag", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 64.360);
+        tl.fromTo("#end-row", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 64.660);
+        tl.fromTo("#end-addr", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 64.960);
+        tl.fromTo("#end-foot", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", immediateRender: false }, 65.260);
+        tl.fromTo("#end-logo", { scale: 1 }, { scale: 1.04, duration: 3.74, ease: "sine.inOut", immediateRender: false }, 64.660);
+        tl.fromTo("#fadeout", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.in", immediateRender: false }, 67.800);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
