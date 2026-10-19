@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 545" role="img" aria-label="PM Multilink">
+  <defs>
+    <linearGradient id="pmg" gradientUnits="userSpaceOnUse" x1="40" y1="40" x2="826" y2="411"><stop offset="0" stop-color="#e4068c"/><stop offset=".38" stop-color="#5e2d91"/><stop offset=".62" stop-color="#6a2d93"/><stop offset="1" stop-color="#e4068c"/></linearGradient>
+    <mask id="pmm" maskUnits="userSpaceOnUse" x="0" y="0" width="860" height="440">
+      <rect width="860" height="440" fill="#fff"/>
+      <g fill="#000">
+        <rect y="73" width="860" height="20"/><rect y="123" width="860" height="30"/><rect y="192" width="860" height="40"/>
+        <path d="M156,153 H205 Q217,172 202,185 Q192,192 176,192 V440 H156 Z"/>
+        <path d="M508,440 V165 Q508,153 520,153 H531 Q543,153 543,165 V440 Z"/>
+        <path d="M667,440 V165 Q667,153 679,153 H690 Q702,153 702,165 V440 Z"/>
+      </g>
+    </mask>
+  </defs>
+  <g fill="url(#pmg)" mask="url(#pmm)">
+    <path d="M32,411 V160 A154,120 0 0 1 340,160 V190 C340,252 292,287 200,287 H176 V411 Z"/>
+    <ellipse cx="503" cy="150" rx="123" ry="110"/><ellipse cx="709" cy="150" rx="124" ry="110"/>
+    <rect x="384" y="140" width="442" height="271"/>
+  </g>
+  <g fill="#51368f">
+    <path d="M886,416 V265 C886,222 908,196 940,196 C962,196 975,208 984,226 C993,208 1006,196 1028,196 C1060,196 1081,222 1081,265 V416 H1026 V270 C1026,263 1023,260 1019,260 C1015,260 1012,263 1012,270 V416 H956 V270 C956,263 953,260 948,260 C943,260 940,263 940,270 V416 Z"/>
+    <path d="M1110,262 H1160 V352 C1160,358 1163,362 1169,362 C1175,362 1180,358 1180,352 V262 H1230 V350 C1230,390 1205,421 1170,421 C1135,421 1110,390 1110,350 Z"/>
+    <rect x="1259" y="202" width="51" height="214"/>
+    <path d="M1334,202 H1384 V262 H1408 V324 H1384 V330 C1384,350 1392,357 1408,357 V419 C1365,419 1334,390 1334,340 Z"/>
+    <rect x="1432" y="262" width="50" height="154"/><ellipse cx="1457" cy="218" rx="25" ry="29"/>
+    <rect x="1512" y="202" width="51" height="214"/>
+    <rect x="1592" y="260" width="51" height="156"/><ellipse cx="1617" cy="218" rx="25" ry="29"/>
+    <path d="M1672,416 V330 C1672,285 1697,256 1732,256 C1767,256 1792,285 1792,330 V416 H1742 V325 C1742,320 1738,316 1732,316 C1726,316 1722,320 1722,325 V416 Z"/>
+    <rect x="1822" y="202" width="50" height="214"/><path d="M1874,316 L1897,260 H1949 L1925,318 L1961,416 H1905 Z"/>
+    <rect x="23" y="450" width="1953" height="25"/><rect x="23" y="498" width="1953" height="12"/>
+  </g>
+</svg>

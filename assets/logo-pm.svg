@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 30 820 392" role="img" aria-label="PM Multilink">
+  <defs>
+    <linearGradient id="pmg" gradientUnits="userSpaceOnUse" x1="40" y1="40" x2="826" y2="411"><stop offset="0" stop-color="#e4068c"/><stop offset=".38" stop-color="#5e2d91"/><stop offset=".62" stop-color="#6a2d93"/><stop offset="1" stop-color="#e4068c"/></linearGradient>
+    <mask id="pmm" maskUnits="userSpaceOnUse" x="0" y="0" width="860" height="440">
+      <rect width="860" height="440" fill="#fff"/>
+      <g fill="#000">
+        <rect y="73" width="860" height="20"/><rect y="123" width="860" height="30"/><rect y="192" width="860" height="40"/>
+        <path d="M156,153 H205 Q217,172 202,185 Q192,192 176,192 V440 H156 Z"/>
+        <path d="M508,440 V165 Q508,153 520,153 H531 Q543,153 543,165 V440 Z"/>
+        <path d="M667,440 V165 Q667,153 679,153 H690 Q702,153 702,165 V440 Z"/>
+      </g>
+    </mask>
+  </defs>
+  <g fill="url(#pmg)" mask="url(#pmm)">
+    <path d="M32,411 V160 A154,120 0 0 1 340,160 V190 C340,252 292,287 200,287 H176 V411 Z"/>
+    <ellipse cx="503" cy="150" rx="123" ry="110"/><ellipse cx="709" cy="150" rx="124" ry="110"/>
+    <rect x="384" y="140" width="442" height="271"/>
+  </g>
+</svg>
