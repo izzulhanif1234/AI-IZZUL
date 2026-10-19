@@ -5,12 +5,12 @@ Corporate intro for social media, all on-screen text in Malay.  Sources:
 Asahan hours, address, phone).
 
 Build (current, v4): `python3 scripts/mitc_build.py` → `hf/index.html` (styles in `style-v4.css`), then in `hf/`:
-`npx hyperframes@0.8.174 render -q delivery -f 30 -o ../final/_raw-v4.mp4` and a two-pass x264 encode to
+`npx hyperframes@0.8.174 render -q delivery -f 60 -o ../final/_raw-v4b.mp4` and a two-pass x264 encode to
 `final/MITC-Pengenalan-v4-1080p.mp4` (keeps it under GitHub's 100 MB limit).
 Earlier cuts rebuild with `scripts/mitc_build_v3.py` (`style-v3.css`) and `scripts/mitc_build_v2.py` (`style-v2.css`);
 every builder writes `hf/index.html`.
 
-## v4 — "digital experience" UI hypermotion (current, 96.7 s, silent)
+## v4 — "digital experience" UI hypermotion (current: v4.1, 96.7 s, 60 fps, SFX only)
 Requested after v3.1: still looked cheap, rushed and not interactive; wants the most solid, most corporate hypermotion.
 Concept: one continuous 3D camera through floating glass (glassmorphism) panels on a deep-navy world with drifting
 light orbs, a perspective grid floor that slides with every camera move, and bokeh. A single cursor uses the UI.
@@ -45,6 +45,18 @@ Glass panels have no backdrop-filter: it pushed the render past 25 min and the w
 AI clips used full screen: pool-2 (5.4 s), gadek (5.0 s), bemban, room-exec-2 (4.2 s); room previews: room-double,
 room-twin, room-deluxe, room-junior, room-exec.  The booking widget is a demo of the flow; the toast points to the real
 channels (website / phone) rather than claiming a booking was made.
+
+### v4.1 (after feedback: smoother transitions, a few sound effects; still no music)
+- Rendered at 60 fps (`-f 60`) instead of 30.
+- Camera moves softer: panels travel 620 px / 20° (was 760 px / 32°) with z −420. Outgoing panels slide away
+  (1.1 s `power2.in`) and fade within 0.5 s; incoming ones stay hidden, then start 0.5 s later (1.6 s `expo.out`
+  move, 0.7 s fade-in), so two scenes never sit on top of each other (the first 60 fps test showed that double
+  exposure and a one-frame flash of incoming panels). The app window enters the same way. The grid floor slides
+  over 1.8 s; cursor moves use `power3.inOut`.
+- 53 SFX from `hf/assets/sfx` (Pixabay library of the earlier MCORP projects, see CREDITS.md): soft
+  whoosh-cinematic on every camera move, click on every cursor click, whoosh / whoosh-short when a card opens /
+  closes, pop for map pins / chips / calendar, ping for the tooltip and map pop-up, notification for the booking
+  toast, low impacts + sparkle on the intro logo and hero, chime + sparkle on the end card.
 
 ## v3 — corporate hypermotion (`scripts/mitc_build_v3.py`, superseded)
 Requested after v2: "not interactive", wants hypermotion / motion graphics, more wow, more corporate; still no music.

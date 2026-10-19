@@ -74,17 +74,24 @@ def roll(cid, text, start, stagger=0.08, dur=1.5):
     return "".join(html)
 
 
-def panel_in(sels, t, d=1, stagger=0.1, dur=1.3):
-    """Panels arrive in 3D, as if the camera is travelling sideways onto them."""
+def panel_in(sels, t, d=1, stagger=0.08, dur=1.6, delay=0.5):
+    """Panels arrive in 3D once the previous ones have mostly faded, as if the camera travels sideways onto them.
+    They stay hidden until their move starts (no flash at the final position)."""
     for i, s in enumerate(sels):
-        tw(s, {"x": 760 * d, "z": -500, "rotationY": -32 * d, "opacity": 0, "transformPerspective": P3},
-           {"x": 0, "z": 0, "rotationY": 0, "opacity": 1, "transformPerspective": P3, "duration": dur, "ease": "power3.out"}, t + i * stagger)
+        st = t + delay + i * stagger
+        tw(s, {"opacity": 0}, {"opacity": 0, "duration": round(st - t, 3), "ease": "none"}, t)
+        tw(s, {"x": 620 * d, "z": -420, "rotationY": -20 * d, "transformPerspective": P3},
+           {"x": 0, "z": 0, "rotationY": 0, "transformPerspective": P3, "duration": dur, "ease": "expo.out"}, st)
+        tw(s, {"opacity": 0}, {"opacity": 1, "duration": 0.7, "ease": "power1.out"}, st)
 
 
-def panel_out(sels, t, d=1, stagger=0.06, dur=1.0):
+def panel_out(sels, t, d=1, stagger=0.05, dur=1.1):
+    """Panels slide away and fade out quickly, clearing the frame before the next ones arrive."""
     for i, s in enumerate(sels):
-        tw(s, {"x": 0, "z": 0, "rotationY": 0, "opacity": 1, "transformPerspective": P3},
-           {"x": -760 * d, "z": -500, "rotationY": 32 * d, "opacity": 0, "transformPerspective": P3, "duration": dur, "ease": "power3.in"}, t + i * stagger)
+        st = t - 0.15 + i * stagger
+        tw(s, {"x": 0, "z": 0, "rotationY": 0, "transformPerspective": P3},
+           {"x": -620 * d, "z": -420, "rotationY": 20 * d, "transformPerspective": P3, "duration": dur, "ease": "power2.in"}, st)
+        tw(s, {"opacity": 1}, {"opacity": 0, "duration": 0.5, "ease": "power1.in"}, st + 0.1)
 
 
 def hover(el, glow, t_in, t_out, lift=12, scale=1.03):
@@ -93,6 +100,14 @@ def hover(el, glow, t_in, t_out, lift=12, scale=1.03):
     if glow:
         tw(glow, {"opacity": 0}, {"opacity": 1, "duration": 0.35, "ease": "power2.out"}, t_in)
         tw(glow, {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power2.inOut"}, t_out)
+
+
+# ---------------------------------------------------------------- sound effects (assets/sfx, Pixabay; no music)
+SFX = []
+
+
+def sfx(name, t, vol, maxlen=None):
+    SFX.append((name, round(max(0.0, t), 3), vol, maxlen))
 
 
 # ---------------------------------------------------------------- cursor (one, global)
@@ -111,7 +126,7 @@ def chide(t):
 
 def cmove(t0, t1, x, y):
     """Move the cursor tip to (x, y) between t0 and t1."""
-    tw("#cursor", {"x": CUR["x"], "y": CUR["y"]}, {"x": x, "y": y, "duration": round(t1 - t0, 3), "ease": "power2.inOut"}, t0)
+    tw("#cursor", {"x": CUR["x"], "y": CUR["y"]}, {"x": x, "y": y, "duration": round(t1 - t0, 3), "ease": "power3.inOut"}, t0)
     CUR.update(x=x, y=y)
 
 
@@ -119,6 +134,7 @@ def cclick(t):
     tw("#cur-i", {"scale": 1}, {"scale": 0.8, "duration": 0.1, "ease": "power2.out"}, t)
     tw("#cur-i", {"scale": 0.8}, {"scale": 1, "duration": 0.22, "ease": "power2.out"}, t + 0.1)
     tw("#cur-r", {"scale": 0, "opacity": 0.9}, {"scale": 3.6, "opacity": 0, "duration": 0.65, "ease": "power2.out"}, t)
+    sfx("click", t - 0.02, 0.5)
 
 
 # ---------------------------------------------------------------- full-screen expansion of a card
@@ -128,6 +144,9 @@ def expand(cid, src, rect, t_open, t_close, t_end, kicker, title, sub, media_sta
     s = round(w / 1920, 4)
     video(cid, src, t_open, t_end, cls="xv", media_start=media_start, track=12)
     tw(f"#{cid}", {"x": x, "y": y, "scale": s}, {"x": 0, "y": 0, "scale": 1, "duration": 0.85, "ease": "expo.inOut"}, t_open)
+    sfx("whoosh", t_open + 0.1, 0.38)
+    if t_close:
+        sfx("whoosh-short", t_close + 0.05, 0.28)
     cap_end = (t_close or t_end) - 0.05
     clip(f"{cid}-cap", t_open + 0.7, cap_end, (
         '<div class="xcap-sh"></div><div class="xcap">'
@@ -181,7 +200,8 @@ FLOOR = [0]
 
 
 def travel(t, dx=-480):
-    tw("#floor", {"x": FLOOR[0]}, {"x": FLOOR[0] + dx, "duration": 1.4, "ease": "power3.inOut"}, t)
+    tw("#floor", {"x": FLOOR[0]}, {"x": FLOOR[0] + dx, "duration": 1.8, "ease": "power2.inOut"}, t - 0.15)
+    sfx("whoosh-cinematic", t - 0.3, 0.22, maxlen=2.2)
     FLOOR[0] += dx
 
 
@@ -199,6 +219,10 @@ clip("intro", 0, i1 + 0.6, (
 tw("#i-card", {"scale": 0.8, "rotationX": 35, "opacity": 0, "transformPerspective": P3},
    {"scale": 1, "rotationX": 0, "opacity": 1, "transformPerspective": P3, "duration": 1.4, "ease": "expo.out"}, 0.3)
 tw("#i-sh", {"xPercent": -150}, {"xPercent": 450, "duration": 1.1, "ease": "power2.inOut"}, 1.3)
+sfx("impact-bass-2", 0.3, 0.32)
+sfx("sparkle", 1.3, 0.22)
+sfx("whoosh-cinematic", 2.4, 0.3, maxlen=2.4)
+sfx("impact-bass-1", 3.3, 0.26)
 tw("#i-cap", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0, "duration": 0.8}, 1.1)
 tw("#i-card", {"z": 0, "opacity": 1, "transformPerspective": P3}, {"z": 900, "opacity": 0, "transformPerspective": P3, "duration": 0.9, "ease": "power3.in"}, 2.6)
 tw("#hero", {"z": -1200, "rotationX": 28, "opacity": 0, "transformPerspective": P3},
@@ -232,6 +256,7 @@ tw("#pp-img", {"scale": 1.25}, {"scale": 1.05, "duration": 8.5, "ease": "power2.
 cshow(c0 + 3.6, 1780, 1010)
 cmove(c0 + 3.7, c0 + 4.6, 1668, 418)
 tw("#tn2", {"scale": 1}, {"scale": 1.08, "duration": 0.35, "ease": "power2.out"}, c0 + 4.6)
+sfx("ping", c0 + 4.7, 0.22)
 tw("#tip", {"opacity": 0, "y": 16, "scale": 0.9}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.5, "ease": "back.out(2)"}, c0 + 4.7)
 tw("#tip", {"opacity": 1}, {"opacity": 0, "duration": 0.3}, c0 + 6.2)
 tw("#tn2", {"scale": 1.08}, {"scale": 1, "duration": 0.35}, c0 + 6.2)
@@ -266,10 +291,14 @@ panel_in(["#p-map"], l0 - 0.4)
 tw("#map-in", {"scale": 1.12}, {"scale": 1, "duration": 3.6, "ease": "power2.out"}, l0 - 0.4)
 for i, (m, tt) in enumerate([("#mk-toll", 1.9), ("#mk-hotel", 2.2), ("#mk-mitc", 2.5)]):
     tw(m, {"y": -120, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.8, "ease": "bounce.out"}, l0 + tt)
+    sfx("pop", l0 + tt + 0.25, 0.25)
 tw("#pulse", {"scale": 0.3, "opacity": 0.9}, {"scale": 3, "opacity": 0, "duration": 1.6, "ease": "power2.out"}, l0 + 4.5)
+sfx("whoosh", l0 + 2.6, 0.22)
+sfx("pop", l0 + 4.0, 0.22)
 tw("#r-chip", {"opacity": 0, "scale": 0.8}, {"opacity": 1, "scale": 1, "duration": 0.6, "ease": "back.out(2)"}, l0 + 4.0)
 cmove(l0 + 4.4, l0 + 5.4, MX + hx, MY + hy - 30)
 cclick(l0 + 5.5)
+sfx("ping", l0 + 5.6, 0.25)
 tw("#pop", {"opacity": 0, "y": 20, "scale": 0.92}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.6, "ease": "back.out(1.8)"}, l0 + 5.6)
 cmove(l0 + 6.6, l0 + 7.6, 1500, 940)
 panel_out(["#p-map"], l1 - 0.4)
@@ -294,6 +323,7 @@ th = "".join(f'<div class="glass kpi" id="kpi{i}"><div class="kpi-glow" id="kg{i
 clip("dash", d0 - 0.4, d1 + 0.6, ('<div class="dash-h" id="dash-h"><div class="kick">HOTEL MITC DALAM ANGKA</div>'
                                   '<div class="h1">Selesa. Strategik. Lengkap.</div></div>' + th), "", 3)
 panel_in(["#dash-h"] + [f"#kpi{i}" for i in range(4)], d0 - 0.4, stagger=0.09)
+sfx("sparkle", d0 + 1.0, 0.18)
 tw("#ring", {"strokeDashoffset": RING_C}, {"strokeDashoffset": RING_C * 0.2, "duration": 1.6, "ease": "power2.inOut"}, d0 + 1.0)
 for i in range(7):
     tw(f"#bar{i}", {"scaleY": 0}, {"scaleY": 1, "duration": 0.7, "ease": "back.out(1.6)"}, d0 + 1.3 + i * 0.07)
@@ -366,8 +396,10 @@ clip("app", a0 - 0.4, a1 + 0.6, (
     '<div class="glass win app" id="win"><div class="topbar"><div class="logo-pill"><img src="assets/img/mitc-logo.png" alt="MITC Hotel"/></div>'
     f'{tabs_html}<div class="tab-ind" id="tab-ind"></div><div class="btn-book" id="btn-top">Tempah</div></div>'
     f'<div class="content">{tc0}{tc1}{tc2}{tc3}</div></div>'), "", 3)
-tw("#win", {"y": 500, "rotationX": 32, "opacity": 0, "transformPerspective": P3},
-   {"y": 0, "rotationX": 0, "opacity": 1, "transformPerspective": P3, "duration": 1.5, "ease": "expo.out"}, a0 - 0.4)
+tw("#win", {"opacity": 0}, {"opacity": 0, "duration": 0.5, "ease": "none"}, a0 - 0.4)
+tw("#win", {"y": 420, "rotationX": 26, "transformPerspective": P3},
+   {"y": 0, "rotationX": 0, "transformPerspective": P3, "duration": 1.6, "ease": "expo.out"}, a0 + 0.1)
+tw("#win", {"opacity": 0}, {"opacity": 1, "duration": 0.7, "ease": "power1.out"}, a0 + 0.1)
 
 IND = {"i": 0}
 
@@ -381,7 +413,8 @@ def select_tab(i, t):
     if i:
         tw(f"#tab{i - 1}", {"opacity": 1}, {"opacity": 0.55, "duration": 0.3, "ease": "none"}, t + 0.05)
         tw(f"#tc{i - 1}", {"opacity": 1, "x": 0}, {"opacity": 0, "x": -60, "duration": 0.4, "ease": "power2.in"}, t + 0.05)
-    tw(f"#tc{i}", {"opacity": 0, "x": 60}, {"opacity": 1, "x": 0, "duration": 0.7, "ease": "expo.out"}, t + 0.4)
+    tw(f"#tc{i}", {"opacity": 0, "x": 60}, {"opacity": 1, "x": 0, "duration": 0.8, "ease": "expo.out"}, t + 0.4)
+    sfx("whoosh-short", t + 0.08, 0.2)
     IND["i"] = i
 
 
@@ -395,6 +428,7 @@ cclick(tF)
 select_tab(0, tF)
 for i in range(3):
     tw(f"#f-c{i}", {"y": 60, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.8, "ease": "expo.out"}, tF + 0.5 + i * 0.12)
+sfx("pop", tF + 1.3, 0.18)
 for i in range(len(CHIPS)):
     tw(f"#fch{i}", {"scale": 0, "opacity": 0}, {"scale": 1, "opacity": 1, "duration": 0.45, "ease": "back.out(2.2)"}, tF + 1.3 + i * 0.09)
 r0 = (WX + 60, CY + 170, 480, 270)
@@ -513,6 +547,7 @@ clip("book", b0 - 0.4, b1 + 0.6, (
 panel_in(["#sum", "#bk"], b0 - 0.4, stagger=0.12)
 cmove(b0 + 0.6, b0 + 1.6, BX + 50 + 140, BY + 110 + 55)
 cclick(b0 + 1.7)
+sfx("pop", b0 + 1.8, 0.22)
 tw("#cal", {"opacity": 0, "y": -16, "scale": 0.96}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "back.out(1.8)"}, b0 + 1.8)
 
 
@@ -542,6 +577,7 @@ cclick(b0 + 6.0)
 tw("#bk-btn", {"scale": 1}, {"scale": 0.95, "duration": 0.1, "ease": "power2.out"}, b0 + 6.0)
 tw("#bk-btn", {"scale": 0.95}, {"scale": 1, "duration": 0.35, "ease": "back.out(3)"}, b0 + 6.1)
 tw("#bk-rip", {"scale": 0, "opacity": 0.7}, {"scale": 9, "opacity": 0, "duration": 0.8, "ease": "power2.out"}, b0 + 6.0)
+sfx("notification", b0 + 6.2, 0.3)
 tw("#toast", {"y": -140, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.6, "ease": "back.out(1.6)"}, b0 + 6.2)
 chide(b1 - 0.5)
 panel_out(["#sum", "#bk", "#toast"], b1 - 0.4)
@@ -558,16 +594,37 @@ clip("endc", n0 - 0.4, n1, (
     '<div class="end-foot" id="end-foot"><span>DIURUSKAN OLEH</span><span class="wp"><img src="assets/img/mcorp-hotel-logo.png" alt="M\'Corp Hotel"/></span>'
     '<i></i><span>ANAK SYARIKAT</span><span class="wp"><img src="assets/img/mcorp-corporate.png" alt="MCORP"/></span></div></div>'), "", 3)
 panel_in(["#end"], n0 - 0.4)
+sfx("chime", n0 + 0.7, 0.3)
+sfx("sparkle", n0 + 1.0, 0.18)
 tw("#end-sh", {"xPercent": -150}, {"xPercent": 450, "duration": 1.2, "ease": "power2.inOut"}, n0 + 1.0)
 tw("#end-t .ch", {"yPercent": 110, "opacity": 0}, {"yPercent": 0, "opacity": 1, "duration": 0.7, "ease": "expo.out", "stagger": 0.025}, n0 + 0.8)
 tw(["#cb0", "#cb1"], {"y": 30, "opacity": 0, "scale": 0.9}, {"y": 0, "opacity": 1, "scale": 1, "duration": 0.7, "ease": "back.out(1.8)", "stagger": 0.14}, n0 + 1.3)
 tw("#end-addr", {"opacity": 0}, {"opacity": 1, "duration": 0.7}, n0 + 1.8)
 tw("#end-foot", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 0.7, "ease": "expo.out"}, n0 + 2.1)
-tw("#end", {"scale": 1, "transformPerspective": P3}, {"scale": 1.03, "transformPerspective": P3, "duration": round(n1 - n0 - 1.4, 3), "ease": "none"}, n0 + 1.0)
+tw("#end", {"scale": 1, "transformPerspective": P3}, {"scale": 1.03, "transformPerspective": P3, "duration": round(n1 - n0 - 2.2, 3), "ease": "none"}, n0 + 1.8)
 tw("#fadeout", {"opacity": 0}, {"opacity": 1, "duration": 0.7, "ease": "power1.in"}, n1 - 0.7)
 
 # ================================================================ assemble
 CSS = open(os.path.join(HF, "..", "style-v4.css")).read()
+
+
+def dur_of(path):
+    import subprocess
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                         capture_output=True, text=True).stdout.strip()
+    return float(out)
+
+
+aud, busy = [], []
+for k, (name, t0, vol, maxlen) in enumerate(sorted(SFX, key=lambda a: a[1])):
+    d = min(dur_of(os.path.join(HF, "assets", "sfx", f"{name}.mp3")), maxlen or 99, TOTAL - t0)
+    tr = next((j for j, e in enumerate(busy) if e <= t0), None)
+    if tr is None:
+        busy.append(0)
+        tr = len(busy) - 1
+    busy[tr] = t0 + d
+    aud.append(f'<audio id="sx{k:02d}" src="assets/sfx/{name}.mp3" data-start="{at(t0)}" data-duration="{at(d)}" '
+               f'data-track-index="{40 + tr}" data-volume="{vol}"></audio>')
 html = f"""<!doctype html>
 <html lang="ms">
   <head>
@@ -583,6 +640,7 @@ html = f"""<!doctype html>
       {chr(10).join('      ' + c_ for c_ in clips).lstrip()}
       <div id="curw" class="clip fx" data-start="0" data-duration="{at(TOTAL)}" data-track-index="30"><div class="cursor" id="cursor"><span class="cur-ring" id="cur-r"></span><div class="cur-i" id="cur-i"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6.2 1.6L16 20l-2.6 1.2-3.2-7.4L5 18z"/></svg></div></div></div>
       <div id="fadeout" class="clip fx" data-start="0" data-duration="{at(TOTAL)}" data-track-index="31"></div>
+      {chr(10).join('      ' + a_ for a_ in aud).lstrip()}
     </div>
     <script>
       (function () {{
@@ -596,5 +654,5 @@ html = f"""<!doctype html>
 </html>
 """
 open(os.path.join(HF, "index.html"), "w").write(html)
-print("total", TOTAL, "s;", len(clips), "clips;", len(tl), "tweens")
+print("total", TOTAL, "s;", len(clips), "clips;", len(tl), "tweens;", len(aud), "sfx")
 print("app tabs at", round(tF, 2), round(tD, 2), round(tS, 2), round(tB, 2), "exec open", round(xR, 2))
