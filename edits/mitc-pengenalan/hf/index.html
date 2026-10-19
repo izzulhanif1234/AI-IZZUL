@@ -5,370 +5,570 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <script src="vendor/gsap.min.js"></script>
     <style>
-      @font-face { font-family: "Cormorant"; src: url("assets/fonts/CormorantGaramond[wght].ttf") format("truetype"); font-weight: 300 700; }
-      @font-face { font-family: "Cormorant"; src: url("assets/fonts/CormorantGaramond-Italic[wght].ttf") format("truetype"); font-weight: 300 700; font-style: italic; }
-      @font-face { font-family: "Montserrat"; src: url("assets/fonts/Montserrat[wght].ttf") format("truetype"); font-weight: 100 900; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-Regular.otf"); font-weight: 400; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-Medium.otf"); font-weight: 500; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-SemiBold.otf"); font-weight: 600; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-Bold.otf"); font-weight: 700; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-ExtraBold.otf"); font-weight: 800; }
+      @font-face { font-family: "InterD"; src: url("assets/fonts/InterDisplay-Black.otf"); font-weight: 900; }
       :root {
-        --ink: #07090f;
-        --navy: #0e1528;
-        --gold: #c9a96a;
-        --gold-2: #e6d0a0;
-        --ivory: #f5f0e6;
-        --ivory-2: #ece4d4;
-        --text-dark: #1d2333;
+        --navy: #0a1633;
+        --navy-2: #12245a;
+        --blue: #1f5eff;
+        --gold: #d6ae5e;
+        --gold-2: #f2d38f;
+        --light: #f3f5fa;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
-      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink);
-        font-family: Montserrat, sans-serif; color: var(--ivory); }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--navy); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--navy);
+        font-family: InterD, sans-serif; color: #fff; }
       .clip { position: absolute; inset: 0; overflow: hidden; }
-      .bg-ink { background: var(--ink); }
-      .bg-ivory { background: radial-gradient(ellipse at 50% 35%, #fbf8f1 0%, var(--ivory) 55%, var(--ivory-2) 100%); }
-      .mask { overflow: hidden; }
+      .ovl { z-index: 30; }
+      .hudc { z-index: 40; }
+      .chpc { z-index: 50; }
+      .swc { z-index: 60; }
+      #streakw { z-index: 45; }
+      #fadeout { z-index: 100; background: #000; opacity: 0; }
+      .fx { pointer-events: none; }
+      .m { overflow: hidden; }
       .w { display: inline-block; white-space: nowrap; }
-      .ch { display: inline-block; }
+      .ch, .ch3 { display: inline-block; }
+      .bg-navy { background: radial-gradient(ellipse at 50% 40%, var(--navy-2) 0%, var(--navy) 70%); }
+      .bg-light { background: var(--light); color: var(--navy); }
+      .grid { position: absolute; inset: -60px;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 80px 80px; }
+      .grid.dark { background-image: linear-gradient(rgba(10, 22, 51, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 22, 51, 0.06) 1px, transparent 1px); }
 
-      /* photos / clips */
-      .shot img { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; }
+      /* shots */
+      .shot .kb, .kb { position: absolute; inset: 0; }
+      .kb img { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; }
       .vclip { width: 1920px; height: 1080px; object-fit: cover; }
       .shade { position: absolute; inset: 0; }
-      .shade-cap { background: linear-gradient(0deg, rgba(7, 9, 15, 0.82) 0%, rgba(7, 9, 15, 0.35) 30%, rgba(7, 9, 15, 0) 55%),
-        radial-gradient(ellipse 70% 55% at 0% 100%, rgba(7, 9, 15, 0.55) 0%, rgba(7, 9, 15, 0) 100%); }
-      .shade-title { background: radial-gradient(ellipse at 50% 50%, rgba(7, 9, 15, 0.55) 0%, rgba(7, 9, 15, 0.82) 100%); }
-      .shade-bottom { background: linear-gradient(0deg, rgba(7, 9, 15, 0.9) 0%, rgba(7, 9, 15, 0.5) 40%, rgba(7, 9, 15, 0) 70%); }
-      .shade-dark { background: rgba(7, 9, 15, 0.74); }
-      .shade-dark2 { background: radial-gradient(ellipse at 50% 50%, rgba(7, 9, 15, 0.72) 0%, rgba(7, 9, 15, 0.5) 100%); }
+      .shade-lt { background: linear-gradient(0deg, rgba(10, 22, 51, 0.75) 0%, rgba(10, 22, 51, 0.15) 38%, rgba(10, 22, 51, 0) 55%),
+        linear-gradient(180deg, rgba(10, 22, 51, 0.45) 0%, rgba(10, 22, 51, 0) 18%); }
+      .shade-title { background: radial-gradient(ellipse at 50% 50%, rgba(10, 22, 51, 0.5) 0%, rgba(10, 22, 51, 0.85) 100%); }
+      .shade-navy { background: linear-gradient(90deg, rgba(10, 22, 51, 0.95) 0%, rgba(10, 22, 51, 0.7) 50%, rgba(10, 22, 51, 0.35) 100%); }
+      .shade-mos { background: radial-gradient(ellipse at 50% 50%, rgba(10, 22, 51, 0.8) 0%, rgba(10, 22, 51, 0.55) 100%); }
+      #streak { position: absolute; top: -100px; left: 0; width: 360px; height: 1280px; transform: translateX(2400px) skewX(-14deg);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0)); filter: blur(18px); }
 
-      /* fx layers */
-      .fx { pointer-events: none; }
-      .lb { background: #000; height: 70px; }
-      #lb-top { top: 0; bottom: auto; }
-      #lb-bot { top: auto; bottom: 0; }
-      #fadeout { background: #000; opacity: 0; }
-
-      /* intro */
-      .intro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
-      .i-r { width: 420px; height: 1px; background: linear-gradient(90deg, rgba(201, 169, 106, 0), var(--gold), rgba(201, 169, 106, 0)); }
-      .i-t { font-family: Cormorant, serif; font-weight: 500; font-size: 40px; letter-spacing: 0.42em; padding-left: 0.42em; color: var(--gold-2); }
+      /* opening */
+      .op { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .op-line { width: 900px; height: 3px; background: linear-gradient(90deg, rgba(214, 174, 94, 0), var(--gold), rgba(214, 174, 94, 0)); margin-bottom: 26px; }
+      .op-t { font-weight: 800; font-size: 74px; letter-spacing: 0.08em; }
+      .op-s { margin-top: 14px; font-weight: 600; font-size: 24px; letter-spacing: 0.5em; padding-left: 0.5em; color: var(--gold-2); }
+      .sweep { position: absolute; top: -200px; left: 0; width: 2600px; height: 1480px; transform: skewX(-18deg); }
+      .sw-blue { background: var(--blue); }
+      .sw-gold { background: var(--gold); }
+      .sw-navy { background: var(--navy); }
 
       /* title */
-      .ttl { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .ttl-k { font-weight: 500; font-size: 20px; letter-spacing: 0.6em; padding-left: 0.6em; color: var(--gold-2); }
-      .ttl-a { margin-top: 14px; font-family: Cormorant, serif; font-weight: 500; font-size: 200px; line-height: 1; letter-spacing: 0.12em; padding-left: 0.12em;
-        text-shadow: 0 10px 50px rgba(0, 0, 0, 0.5); }
-      .ttl-a .w + .w { margin-left: 0.3em; }
-      .ttl-r { width: 560px; height: 1px; margin: 30px 0 26px; background: linear-gradient(90deg, rgba(201, 169, 106, 0), var(--gold), rgba(201, 169, 106, 0)); }
-      .ttl-b { font-weight: 400; font-size: 24px; letter-spacing: 0.55em; padding-left: 0.55em; color: rgba(245, 240, 230, 0.92); }
-      .stars { display: flex; gap: 16px; margin-top: 26px; }
-      .star { font-size: 22px; color: var(--gold); display: inline-block; }
+      .ttl { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; perspective: 1200px; }
+      .ttl-k { font-weight: 600; font-size: 46px; letter-spacing: 0.9em; padding-left: 0.9em; color: var(--gold-2); }
+      .ttl-a { font-weight: 900; font-size: 330px; line-height: 0.95; letter-spacing: 0.02em; transform-style: preserve-3d; text-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+      .ttl-bar { width: 760px; height: 8px; margin: 22px 0 26px; background: linear-gradient(90deg, var(--blue), var(--gold)); }
+      .ttl-b { font-weight: 600; font-size: 34px; letter-spacing: 0.4em; padding-left: 0.4em; }
+      .ttl-b .w + .w { margin-left: 0.4em; }
+      .stars { display: flex; gap: 18px; margin-top: 24px; }
+      .star { font-size: 40px; color: var(--gold); display: inline-block; }
+      .brk { position: absolute; width: 70px; height: 70px; border-color: rgba(255, 255, 255, 0.85); border-style: solid; border-width: 0; }
+      .brk-tl { left: 70px; top: 70px; border-left-width: 3px; border-top-width: 3px; }
+      .brk-tr { right: 70px; top: 70px; border-right-width: 3px; border-top-width: 3px; }
+      .brk-bl { left: 70px; bottom: 70px; border-left-width: 3px; border-bottom-width: 3px; }
+      .brk-br { right: 70px; bottom: 70px; border-right-width: 3px; border-bottom-width: 3px; }
 
       /* corporate */
-      .ivory { position: absolute; left: 0; top: 0; width: 900px; height: 1080px;
-        background: linear-gradient(160deg, #fbf8f1 0%, var(--ivory) 60%, var(--ivory-2) 100%); color: var(--text-dark);
-        box-shadow: 20px 0 80px rgba(0, 0, 0, 0.35); }
-      .corp-logo { position: absolute; left: 140px; top: 200px; width: 470px; }
-      .corp-k { position: absolute; left: 144px; top: 420px; font-weight: 600; font-size: 18px; letter-spacing: 0.45em; color: #9a7b3f; }
-      .ivory .mask { position: absolute; left: 140px; top: 462px; }
-      .corp-t { font-family: Cormorant, serif; font-weight: 500; font-size: 66px; line-height: 1.12; color: var(--text-dark); }
-      .corp-t em { font-style: italic; color: #8c6d33; }
-      .corp-r { position: absolute; left: 144px; top: 650px; width: 200px; height: 1px; background: var(--gold); transform-origin: 0 50%; }
-      .corp-s { position: absolute; left: 144px; top: 684px; font-weight: 400; font-size: 24px; line-height: 1.6; color: #4a5064; }
-
-      /* captions (lower left) */
-      .cap { position: absolute; left: 140px; bottom: 150px; }
-      .cap-k { font-weight: 600; font-size: 17px; letter-spacing: 0.5em; color: var(--gold-2); }
-      .cap-t { font-family: Cormorant, serif; font-weight: 500; font-size: 92px; line-height: 1.08; margin-top: 8px;
-        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5); white-space: nowrap; }
-      .cap-r { width: 140px; height: 1px; margin: 14px 0 16px; background: var(--gold); transform-origin: 0 50%; }
-      .cap-s { font-weight: 300; font-size: 25px; letter-spacing: 0.04em; color: rgba(245, 240, 230, 0.92);
-        text-shadow: 0 3px 14px rgba(0, 0, 0, 0.6); white-space: nowrap; }
+      .cp-photo { position: absolute; left: 1000px; top: 0; width: 1200px; height: 1080px; overflow: hidden; transform-origin: 0 50%; }
+      .cp-photo::before { content: ""; }
+      .cp-photo { clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%); }
+      .cp-photo-in { position: absolute; inset: 0; }
+      .cp-photo-in img { width: 100%; height: 100%; object-fit: cover; }
+      .cp-left { position: absolute; left: 140px; top: 190px; perspective: 1200px; }
+      .cp-card { width: 560px; padding: 34px 40px; background: #fff; border-radius: 22px; box-shadow: 0 30px 70px rgba(10, 22, 51, 0.16); }
+      .cp-card img { width: 100%; display: block; }
+      .cp-k { margin-top: 56px; font-weight: 700; font-size: 22px; letter-spacing: 0.3em; color: var(--blue); }
+      .cp-date { margin-top: 10px; font-weight: 900; font-size: 140px; line-height: 1; color: var(--navy); display: flex; }
+      .roll { display: inline-block; width: 0.64em; height: 1em; overflow: hidden; line-height: 1; font-variant-numeric: tabular-nums; }
+      .roll-s { display: flex; flex-direction: column; }
+      .roll-s span { height: 1em; display: block; text-align: center; }
+      .roll-c { display: inline-block; color: var(--gold); margin: 0 0.02em; }
+      .cp-s { margin-top: 24px; font-weight: 500; font-size: 32px; line-height: 1.45; color: #3c4a6b; border-left: 6px solid var(--gold); padding-left: 24px; }
+      .cp-s b { color: var(--navy); font-weight: 800; }
 
       /* lokasi */
-      .lok { position: absolute; left: 140px; bottom: 150px; }
-      .lok-t { font-family: Cormorant, serif; font-style: italic; font-weight: 500; font-size: 110px; line-height: 1.08; margin-top: 8px; }
-      .lok-s { font-weight: 300; font-size: 27px; line-height: 1.7; color: rgba(245, 240, 230, 0.94); }
+      .lok-left { position: absolute; left: 140px; top: 300px; }
+      .lk-k { font-weight: 700; font-size: 24px; letter-spacing: 0.4em; color: var(--gold-2); }
+      .lk-t { margin-top: 12px; font-weight: 900; font-size: 150px; line-height: 0.98; }
+      .lk-t .w + .w { margin-left: 0.25em; }
+      .lk-t .w { overflow: hidden; }
+      .lk-c { margin-top: 30px; font-weight: 500; font-size: 30px; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.8); white-space: pre; }
+      .pin-wrap { position: absolute; left: 1250px; top: 470px; width: 10px; height: 10px; }
+      .pin { position: absolute; left: -45px; top: -100px; width: 90px; height: 100px; }
+      .pin svg { width: 90px; height: 100px; fill: var(--gold); filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5)); }
+      .ring { position: absolute; left: -60px; top: -20px; width: 120px; height: 40px; border-radius: 50%; border: 3px solid var(--gold-2); }
+      .tline { position: absolute; height: 2px; background: rgba(255, 255, 255, 0.85); transform-origin: 0 50%; }
+      .tline1 { left: 30px; top: -60px; width: 120px; transform: rotate(-30deg); }
+      .tline2 { left: 30px; top: 20px; width: 120px; transform: rotate(25deg); }
+      .tag { position: absolute; padding: 16px 24px; background: rgba(255, 255, 255, 0.96); color: var(--navy); border-radius: 12px; border-left: 8px solid var(--gold);
+        white-space: nowrap; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35); }
+      .tag b { display: block; font-weight: 900; font-size: 34px; }
+      .tag span { font-weight: 500; font-size: 20px; color: #3c4a6b; }
+      .tag1 { left: 140px; top: -180px; }
+      .tag2 { left: 140px; top: 60px; }
 
       /* stats */
-      .stats { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 80px; }
-      .stat { text-align: center; width: 400px; }
-      .stat-n { font-family: Cormorant, serif; font-weight: 400; font-size: 190px; line-height: 1; color: var(--gold-2); }
-      .stat-star { font-size: 70px; vertical-align: top; margin-left: 6px; color: var(--gold); }
-      .stat-u { font-style: italic; font-size: 70px; margin-left: 8px; }
-      .stat-l { margin-top: 20px; font-weight: 500; font-size: 19px; letter-spacing: 0.45em; padding-left: 0.45em; color: rgba(245, 240, 230, 0.9); }
-      .stat-d { width: 1px; height: 230px; background: linear-gradient(180deg, rgba(201, 169, 106, 0), var(--gold), rgba(201, 169, 106, 0)); }
+      .sps { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 40px; }
+      .sp { position: relative; width: 500px; height: 640px; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45); }
+      .sp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .sp-sh { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10, 22, 51, 0.95) 0%, rgba(10, 22, 51, 0.55) 55%, rgba(10, 22, 51, 0.25) 100%); }
+      .sp-n { position: absolute; left: 44px; bottom: 170px; display: flex; align-items: flex-end; font-weight: 900; font-size: 190px; line-height: 1; }
+      .sp-suf { font-size: 60px; color: var(--gold); margin: 0 0 22px 10px; }
+      .sp-bar { position: absolute; left: 48px; bottom: 140px; width: 90px; height: 6px; background: var(--gold); }
+      .sp-l { position: absolute; left: 48px; bottom: 50px; font-weight: 700; font-size: 28px; letter-spacing: 0.15em; line-height: 1.3; }
 
-      /* chapter opener */
-      .chap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        background: radial-gradient(ellipse at 50% 50%, rgba(7, 9, 15, 0.55) 0%, rgba(7, 9, 15, 0.2) 70%); }
-      .chap-n { font-family: Cormorant, serif; font-weight: 500; font-size: 40px; letter-spacing: 0.3em; padding-left: 0.3em; color: var(--gold-2); }
-      .chap-w { font-family: Cormorant, serif; font-style: italic; font-weight: 500; font-size: 170px; line-height: 1.1; margin-top: 4px;
-        text-shadow: 0 10px 50px rgba(0, 0, 0, 0.55); white-space: nowrap; }
-      .chap-w .w + .w { margin-left: 0.25em; }
-      .chap-r { width: 380px; height: 1px; margin-top: 18px; background: linear-gradient(90deg, rgba(201, 169, 106, 0), var(--gold), rgba(201, 169, 106, 0)); }
-      .venue-logo { position: absolute; right: 120px; top: 120px; width: 200px; filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.6)); }
+      /* chapter wipe */
+      .chp-navy { position: absolute; top: -200px; left: 0; width: 2700px; height: 1480px; background: linear-gradient(90deg, var(--navy) 0%, var(--navy-2) 100%);
+        transform: translateX(2400px) skewX(-18deg); }
+      .chp-gold { position: absolute; top: -200px; left: 0; width: 140px; height: 1480px; background: var(--gold); transform: translateX(2400px) skewX(-18deg); }
+      .chp-num { position: absolute; left: 120px; top: 170px; font-weight: 900; font-size: 560px; line-height: 1; color: transparent;
+        -webkit-text-stroke: 3px rgba(242, 211, 143, 0.55); }
+      .chp-txt { position: absolute; left: 700px; top: 420px; }
+      .chp-k { font-weight: 700; font-size: 26px; letter-spacing: 0.5em; color: var(--gold-2); }
+      .chp-w { margin-top: 10px; font-weight: 900; font-size: 150px; line-height: 1; white-space: nowrap; }
+      .chp-w .w + .w { margin-left: 0.25em; }
 
-      /* diptych / triptych */
-      .dip, .tri { position: absolute; inset: 0; display: flex; gap: 14px; background: var(--ink); }
-      .dip-p, .tri-p { position: relative; flex: 1; overflow: hidden; }
-      .dip-p img, .tri-p img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .tri-txt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .tri-a, .tri-b { font-family: Cormorant, serif; font-style: italic; font-weight: 500; font-size: 96px; line-height: 1.1;
-        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.7); }
+      /* lower third */
+      .lt { position: absolute; left: 120px; bottom: 150px; }
+      .lt .m { width: max-content; }
+      .lt-k { display: inline-block; padding: 8px 16px; background: var(--blue); font-weight: 700; font-size: 20px; letter-spacing: 0.25em; }
+      .lt-box { display: flex; align-items: center; gap: 22px; padding: 12px 34px 12px 0; background: #fff; color: var(--navy);
+        font-weight: 900; font-size: 76px; line-height: 1.05; letter-spacing: 0.01em; white-space: nowrap; }
+      .lt-bar { width: 14px; align-self: stretch; background: var(--gold); }
+      .lt-s { display: inline-block; padding: 12px 22px; background: rgba(10, 22, 51, 0.88); font-weight: 500; font-size: 28px; white-space: nowrap; }
+      .chips { display: flex; gap: 12px; margin-top: 14px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; padding: 10px 20px; border-radius: 40px; background: rgba(255, 255, 255, 0.95);
+        color: var(--navy); font-weight: 800; font-size: 24px; }
+      .chip i { width: 12px; height: 12px; background: var(--gold); transform: rotate(45deg); display: block; }
+      .venue-logo { position: absolute; right: 110px; top: 120px; width: 210px; filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.6)); }
+
+      /* gallery */
+      .gal-stage { position: absolute; inset: 0; perspective: 1500px; display: flex; align-items: center; justify-content: center; }
+      .gal-row { display: flex; gap: 60px; transform-style: preserve-3d; }
+      .gc { position: relative; width: 640px; height: 420px; border-radius: 20px; overflow: hidden; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5); }
+      .gc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .gc-l { position: absolute; left: 0; right: 0; bottom: 0; padding: 50px 26px 20px; font-weight: 900; font-size: 36px;
+        background: linear-gradient(0deg, rgba(10, 22, 51, 0.95), rgba(10, 22, 51, 0)); }
+      .gc-l span { color: var(--gold); margin-right: 14px; }
+
+      /* slats */
+      .slats { position: absolute; inset: 0; display: flex; }
+      .slat { position: relative; flex: 1; overflow: hidden; border-right: 6px solid var(--navy); }
+      .slat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .slat-l { position: absolute; left: 30px; bottom: 140px; padding: 10px 18px; background: #fff; color: var(--navy); font-weight: 900; font-size: 32px; border-left: 8px solid var(--gold); }
+
+      /* mosaic */
+      .mos-stage { position: absolute; inset: 0; perspective: 1600px; }
+      .mos { position: absolute; inset: 0; transform-style: preserve-3d; }
+      .mt { position: absolute; width: 480px; height: 360px; overflow: hidden; border: 4px solid var(--navy); }
+      .mt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .mos-txt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; perspective: 1000px; }
+      .mos-k { font-weight: 700; font-size: 28px; letter-spacing: 0.5em; padding-left: 0.5em; color: var(--gold-2); }
+      .mos-t { margin-top: 14px; font-weight: 900; font-size: 92px; line-height: 1.05; white-space: nowrap; }
+      .mos-t .w + .w { margin-left: 0.25em; }
 
       /* end card */
-      .frame { position: absolute; left: 60px; right: 60px; top: 100px; bottom: 100px; border: 1px solid rgba(201, 169, 106, 0.7); }
-      .end-logo { position: absolute; left: 50%; top: 180px; width: 480px; margin-left: -240px; }
-      .end-r { position: absolute; left: 50%; top: 440px; width: 240px; height: 1px; margin-left: -120px; background: var(--gold); }
-      .end-tag { position: absolute; top: 464px; left: 0; right: 0; text-align: center; font-family: Cormorant, serif; font-style: italic; font-weight: 500;
-        font-size: 64px; color: var(--text-dark); }
-      .end-row { position: absolute; top: 566px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 34px;
-        font-weight: 500; font-size: 32px; letter-spacing: 0.12em; color: var(--text-dark); }
-      .end-row i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: block; }
-      .end-addr { position: absolute; top: 632px; left: 0; right: 0; text-align: center; font-weight: 400; font-size: 22px; letter-spacing: 0.06em; color: #5c6275; }
-      .end-foot { position: absolute; left: 0; right: 0; bottom: 150px; display: flex; align-items: center; justify-content: center; gap: 26px; }
-      .end-by { font-weight: 600; font-size: 15px; letter-spacing: 0.4em; color: #8a8f9f; }
-      .end-mh { height: 84px; }
-      .end-mc { height: 80px; }
-      .end-sep { width: 1px; height: 70px; background: rgba(201, 169, 106, 0.7); margin: 0 18px; }
+      .end-band { position: absolute; left: -200px; top: 0; width: 900px; height: 1080px; background: linear-gradient(160deg, var(--navy-2), var(--navy));
+        transform: skewX(-12deg); }
+      .end-logo-w { position: absolute; left: 1110px; top: 150px; width: 640px; margin-left: -320px; padding: 30px 50px; background: #fff; border-radius: 28px;
+        box-shadow: 0 30px 70px rgba(10, 22, 51, 0.15); }
+      .end-logo-w img { width: 100%; display: block; }
+      .end-tag { position: absolute; left: 610px; top: 470px; width: 1000px; text-align: center; font-weight: 900; font-size: 54px; color: var(--navy); }
+      .end-tag .w + .w { margin-left: 0.25em; }
+      .end-tag .w { overflow: hidden; }
+      .end-btns { position: absolute; left: 0; right: 0; top: 580px; display: flex; justify-content: center; gap: 22px; padding-left: 300px; }
+      .btn { position: relative; overflow: hidden; padding: 22px 40px; border-radius: 60px; border: 3px solid var(--navy); color: var(--navy);
+        font-weight: 800; font-size: 30px; letter-spacing: 0.04em; background: #fff; }
+      .btn-main { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 20px 40px rgba(31, 94, 255, 0.35); }
+      .ripple { position: absolute; left: 50%; top: 50%; width: 80px; height: 80px; margin: -40px 0 0 -40px; border-radius: 50%; background: rgba(255, 255, 255, 0.6); opacity: 0; }
+      .end-addr { position: absolute; left: 0; right: 0; top: 700px; text-align: center; padding-left: 300px; font-weight: 500; font-size: 24px; color: #4c5878; }
+      .cursor { position: absolute; left: 810px; top: 612px; width: 54px; height: 54px; transform-origin: 20% 10%; }
+      .cursor svg { width: 54px; height: 54px; fill: #fff; stroke: var(--navy); stroke-width: 1.4; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35)); }
+      .end-foot { position: absolute; left: 0; right: 0; bottom: 90px; display: flex; align-items: center; justify-content: center; gap: 24px; padding-left: 300px;
+        font-weight: 700; font-size: 16px; letter-spacing: 0.3em; color: #7a849e; }
+      .end-foot i { width: 2px; height: 60px; background: #cfd5e3; display: block; margin: 0 16px; }
+      .end-mh { height: 76px; }
+      .end-mc { height: 72px; }
+
+      /* HUD */
+      .hud-tl, .hud-tr { position: absolute; top: 48px; font-weight: 700; font-size: 20px; letter-spacing: 0.3em; display: flex; align-items: center; gap: 12px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); }
+      .hud-tl { left: 120px; }
+      .hud-tr { right: 120px; color: rgba(255, 255, 255, 0.85); }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); display: block; }
+      .hud-bar { position: absolute; left: 120px; right: 120px; bottom: 54px; display: flex; gap: 18px; }
+      .seg { flex: 1; }
+      .seg-l { font-weight: 600; font-size: 16px; letter-spacing: 0.2em; margin-bottom: 10px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); opacity: 0.45; }
+      .seg-l b { color: var(--gold-2); margin-right: 6px; }
+      .seg-tr { height: 4px; background: rgba(255, 255, 255, 0.25); }
+      .seg-f { height: 4px; background: var(--gold); transform-origin: 0 50%; transform: scaleX(0); }
 
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="76.400" data-width="1920" data-height="1080">
-      <div id="intro" class="clip bg-ink" data-start="0.000" data-duration="3.600" data-track-index="1"><div class="intro"><div class="i-r" id="i-r1"></div><div class="i-t" id="i-t">M&#8217;CORP HOTEL SDN. BHD.</div><div class="i-r" id="i-r2"></div></div></div>
-      <div id="s-title" class="clip shot" data-start="2.400" data-duration="5.600" data-track-index="1"><img id="s-title-img" src="assets/img/ext-night.jpg" alt="" style="transform-origin:50% 40%"/><div class="shade shade-title"></div></div>
-      <div id="title" class="clip ovl" data-start="3.000" data-duration="5.000" data-track-index="7"><div class="ttl"><div class="ttl-k" id="ttl-k">SELAMAT DATANG KE</div><div class="ttl-a" id="ttl-a"><span class="w"><span class="ch">H</span><span class="ch">O</span><span class="ch">T</span><span class="ch">E</span><span class="ch">L</span></span> <span class="w"><span class="ch">M</span><span class="ch">I</span><span class="ch">T</span><span class="ch">C</span></span></div><div class="ttl-r" id="ttl-r"></div><div class="ttl-b" id="ttl-b">AYER KEROH &#183; MELAKA</div><div class="stars" id="stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></div></div></div>
-      <div id="s-corp" class="clip shot" data-start="7.400" data-duration="5.400" data-track-index="1"><img id="s-corp-img" src="assets/img/ext-wide.jpg" alt="" style="transform-origin:70% 50%"/></div>
-      <div id="corp" class="clip ovl" data-start="7.400" data-duration="5.400" data-track-index="5"><div class="ivory" id="corp-panel"><img class="corp-logo" id="corp-logo" src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel Sdn. Bhd."/><div class="corp-k" id="corp-k">ANAK SYARIKAT PKNM</div><div class="mask"><div class="corp-t" id="corp-t">Ditubuhkan pada<br/><em>15 November 2016</em></div></div><div class="corp-r" id="corp-r"></div><div class="corp-s" id="corp-s">Dipertanggungjawabkan mengurus dan mengendalikan<br/>operasi Hotel MITC, Ayer Keroh, Melaka.</div></div></div>
-      <div id="s-lok" class="clip shot" data-start="12.200" data-duration="4.800" data-track-index="1"><img id="s-lok-img" src="assets/img/ext-day.jpg" alt="" style="transform-origin:50% 30%"/><div class="shade shade-bottom"></div></div>
-      <div id="lokasi" class="clip ovl" data-start="12.800" data-duration="4.200" data-track-index="7"><div class="lok"><div class="cap-k" id="lok-k">LOKASI STRATEGIK</div><div class="mask"><div class="lok-t" id="lok-t">Ayer Keroh, Melaka</div></div><div class="cap-r" id="lok-r"></div><div class="lok-s" id="lok-s1">Berhadapan Pusat Dagangan Antarabangsa Melaka (MITC)</div><div class="lok-s" id="lok-s2">10 minit dari Tol Ayer Keroh</div></div></div>
-      <div id="s-stats" class="clip shot" data-start="16.400" data-duration="4.400" data-track-index="1"><img id="s-stats-img" src="assets/img/lobby.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-dark"></div></div>
-      <div id="stats" class="clip ovl" data-start="17.000" data-duration="3.800" data-track-index="7"><div class="stats"><div class="stat" id="st1"><div class="stat-n">4<span class="stat-star">&#9733;</span></div><div class="stat-l">BERTARAF BINTANG</div></div><div class="stat-d" id="sd1"></div><div class="stat" id="st2"><div class="stat-n">188</div><div class="stat-l">BILIK PENGINAPAN</div></div><div class="stat-d" id="sd2"></div><div class="stat" id="st3"><div class="stat-n">24<span class="stat-u">jam</span></div><div class="stat-l">PERKHIDMATAN</div></div></div></div>
-      <div id="s-f1" class="clip shot" data-start="20.200" data-duration="4.000" data-track-index="1"><img id="s-f1-img" src="assets/img/pool-2.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="s-f2" class="clip shot" data-start="23.600" data-duration="3.000" data-track-index="1"><img id="s-f2-img" src="assets/img/pool-night.jpg" alt="" style="transform-origin:50% 60%"/><div class="shade shade-cap"></div></div>
-      <div id="s-f3" class="clip shot" data-start="26.000" data-duration="3.200" data-track-index="1"><img id="s-f3-img" src="assets/img/lobby.jpg" alt="" style="transform-origin:40% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="ch1" class="clip ovl" data-start="20.800" data-duration="1.900" data-track-index="7"><div class="chap"><div class="chap-n" id="ch1-n">I</div><div class="chap-w" id="ch1-w"><span class="w"><span class="ch">F</span><span class="ch">a</span><span class="ch">s</span><span class="ch">i</span><span class="ch">l</span><span class="ch">i</span><span class="ch">t</span><span class="ch">i</span></span></div><div class="chap-r" id="ch1-r"></div></div></div>
-      <div id="cp-f1" class="clip ovl" data-start="22.600" data-duration="4.000" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-f1-k">FASILITI</div><div class="mask"><div class="cap-t" id="cp-f1-t">Kolam Renang</div></div><div class="cap-r" id="cp-f1-r"></div><div class="cap-s" id="cp-f1-s">Kolam renang &amp; taman permainan air kanak-kanak</div></div></div>
-      <div id="cp-f2" class="clip ovl" data-start="26.600" data-duration="2.600" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-f2-k">FASILITI</div><div class="mask"><div class="cap-t" id="cp-f2-t">Lobi Utama</div></div><div class="cap-r" id="cp-f2-r"></div><div class="cap-s" id="cp-f2-s">Sambutan mesra, perkhidmatan 24 jam</div></div></div>
-      <div id="s-e1" class="clip shot" data-start="28.600" data-duration="4.000" data-track-index="1"><img id="s-e1-img" src="assets/img/gadek.jpg" alt="" style="transform-origin:50% 40%"/><div class="shade shade-cap"></div></div>
-      <div id="s-e2" class="clip shot" data-start="32.000" data-duration="2.600" data-track-index="1"><img id="s-e2-img" src="assets/img/gadek-event.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="s-e3" class="clip shot" data-start="34.000" data-duration="3.000" data-track-index="1"><img id="s-e3-img" src="assets/img/gadek5.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="s-e4" class="clip shot" data-start="36.400" data-duration="3.000" data-track-index="1"><img id="s-e4-img" src="assets/img/brisu-aerial.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="ch2" class="clip ovl" data-start="29.200" data-duration="1.900" data-track-index="7"><div class="chap"><div class="chap-n" id="ch2-n">II</div><div class="chap-w" id="ch2-w"><span class="w"><span class="ch">D</span><span class="ch">e</span><span class="ch">w</span><span class="ch">a</span><span class="ch">n</span></span> <span class="w"><span class="ch">&amp;</span></span> <span class="w"><span class="ch">A</span><span class="ch">c</span><span class="ch">a</span><span class="ch">r</span><span class="ch">a</span></span></div><div class="chap-r" id="ch2-r"></div></div></div>
-      <div id="cp-e1" class="clip ovl" data-start="31.000" data-duration="3.600" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-e1-k">DEWAN &amp; ACARA</div><div class="mask"><div class="cap-t" id="cp-e1-t">Dewan Gadek</div></div><div class="cap-r" id="cp-e1-r"></div><div class="cap-s" id="cp-e1-s">Perkahwinan, persidangan &amp; jamuan rasmi</div></div></div>
-      <div id="cp-e2" class="clip ovl" data-start="34.600" data-duration="2.400" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-e2-k">DEWAN &amp; ACARA</div><div class="mask"><div class="cap-t" id="cp-e2-t">Bilik Gadek 5</div></div><div class="cap-r" id="cp-e2-r"></div><div class="cap-s" id="cp-e2-s">Mesyuarat, taklimat &amp; bengkel</div></div></div>
-      <div id="cp-e3" class="clip ovl" data-start="37.000" data-duration="2.400" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-e3-k">DEWAN &amp; ACARA</div><div class="mask"><div class="cap-t" id="cp-e3-t">Halaman Brisu</div></div><div class="cap-r" id="cp-e3-r"></div><div class="cap-s" id="cp-e3-s">Ruang majlis terbuka di tengah taman</div></div></div>
-      <div id="lg-gadek" class="clip ovl" data-start="31.000" data-duration="3.600" data-track-index="8"><img class="venue-logo" id="lg-gadek-i" src="assets/img/gadek-logo.png" alt="Gadek Ballroom"/></div>
-      <div id="s-m1" class="clip shot" data-start="38.800" data-duration="4.000" data-track-index="1"><img id="s-m1-img" src="assets/img/bemban.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="s-m2" class="clip shot" data-start="42.200" data-duration="2.600" data-track-index="1"><img id="s-m2-img" src="assets/img/bemban-breakfast.jpg" alt="" style="transform-origin:50% 50%"/><div class="shade shade-cap"></div></div>
-      <div id="s-m3" class="clip shot bg-ink" data-start="44.200" data-duration="3.600" data-track-index="1"><div class="dip"><div class="dip-p" id="dip-l"><img id="dip-li" src="assets/img/asahan.jpg" alt="" /></div><div class="dip-p" id="dip-r"><img id="dip-ri" src="assets/img/asahan-live.jpg" alt="" /></div></div><div class="shade shade-cap"></div></div>
-      <div id="ch3" class="clip ovl" data-start="39.400" data-duration="1.900" data-track-index="7"><div class="chap"><div class="chap-n" id="ch3-n">III</div><div class="chap-w" id="ch3-w"><span class="w"><span class="ch">T</span><span class="ch">e</span><span class="ch">m</span><span class="ch">p</span><span class="ch">a</span><span class="ch">t</span></span> <span class="w"><span class="ch">M</span><span class="ch">a</span><span class="ch">k</span><span class="ch">a</span><span class="ch">n</span></span></div><div class="chap-r" id="ch3-r"></div></div></div>
-      <div id="cp-m1" class="clip ovl" data-start="41.200" data-duration="3.600" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-m1-k">TEMPAT MAKAN</div><div class="mask"><div class="cap-t" id="cp-m1-t">Restoran Bemban</div></div><div class="cap-r" id="cp-m1-r"></div><div class="cap-s" id="cp-m1-s">Bufet sarapan, makan tengah hari &amp; makan malam</div></div></div>
-      <div id="cp-m2" class="clip ovl" data-start="44.800" data-duration="3.000" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-m2-k">TEMPAT MAKAN</div><div class="mask"><div class="cap-t" id="cp-m2-t">Asahan Cafe</div></div><div class="cap-r" id="cp-m2-r"></div><div class="cap-s" id="cp-m2-s">Kafe konsep Nyonya &#183; 10 pagi hingga 12 malam</div></div></div>
-      <video id="s-v0" class="clip vclip" src="assets/video/room-double.mp4" data-start="47.200" data-duration="4.000" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v0-sh" class="clip shade shade-cap" data-start="47.200" data-duration="4.000" data-track-index="2"></div>
-      <video id="s-v1" class="clip vclip" src="assets/video/room-twin.mp4" data-start="50.600" data-duration="2.900" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v1-sh" class="clip shade shade-cap" data-start="50.600" data-duration="2.900" data-track-index="2"></div>
-      <video id="s-v2" class="clip vclip" src="assets/video/room-deluxe.mp4" data-start="52.900" data-duration="2.900" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v2-sh" class="clip shade shade-cap" data-start="52.900" data-duration="2.900" data-track-index="2"></div>
-      <video id="s-v3" class="clip vclip" src="assets/video/room-junior.mp4" data-start="55.200" data-duration="2.900" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v3-sh" class="clip shade shade-cap" data-start="55.200" data-duration="2.900" data-track-index="2"></div>
-      <video id="s-v4" class="clip vclip" src="assets/video/room-junior-2.mp4" data-start="57.500" data-duration="2.800" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v4-sh" class="clip shade shade-cap" data-start="57.500" data-duration="2.800" data-track-index="2"></div>
-      <video id="s-v5" class="clip vclip" src="assets/video/room-exec.mp4" data-start="59.700" data-duration="3.000" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v5-sh" class="clip shade shade-cap" data-start="59.700" data-duration="3.000" data-track-index="2"></div>
-      <video id="s-v6" class="clip vclip" src="assets/video/room-exec-2.mp4" data-start="62.100" data-duration="2.800" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v6-sh" class="clip shade shade-cap" data-start="62.100" data-duration="2.800" data-track-index="2"></div>
-      <video id="s-v7" class="clip vclip" src="assets/video/room-exec-bath.mp4" data-start="64.300" data-duration="2.900" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
-      <div id="s-v7-sh" class="clip shade shade-cap" data-start="64.300" data-duration="2.900" data-track-index="2"></div>
-      <div id="ch4" class="clip ovl" data-start="47.800" data-duration="1.900" data-track-index="7"><div class="chap"><div class="chap-n" id="ch4-n">IV</div><div class="chap-w" id="ch4-w"><span class="w"><span class="ch">B</span><span class="ch">i</span><span class="ch">l</span><span class="ch">i</span><span class="ch">k</span></span> <span class="w"><span class="ch">&amp;</span></span> <span class="w"><span class="ch">S</span><span class="ch">u</span><span class="ch">i</span><span class="ch">t</span><span class="ch">e</span></span></div><div class="chap-r" id="ch4-r"></div></div></div>
-      <div id="cp-v1" class="clip ovl" data-start="49.600" data-duration="1.600" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-v1-k">BILIK &amp; SUITE</div><div class="mask"><div class="cap-t" id="cp-v1-t">Superior Double</div></div><div class="cap-r" id="cp-v1-r"></div><div class="cap-s" id="cp-v1-s">Katil Queen &#183; 172.76 kaki persegi</div></div></div>
-      <div id="cp-v2" class="clip ovl" data-start="51.200" data-duration="2.300" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-v2-k">BILIK &amp; SUITE</div><div class="mask"><div class="cap-t" id="cp-v2-t">Superior Twin</div></div><div class="cap-r" id="cp-v2-r"></div><div class="cap-s" id="cp-v2-s">2 Katil Bujang &#183; 172.76 kaki persegi</div></div></div>
-      <div id="cp-v3" class="clip ovl" data-start="53.500" data-duration="2.300" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-v3-k">BILIK &amp; SUITE</div><div class="mask"><div class="cap-t" id="cp-v3-t">Deluxe</div></div><div class="cap-r" id="cp-v3-r"></div><div class="cap-s" id="cp-v3-s">1 Katil Queen + 1 Katil Bujang &#183; 185.75 kaki persegi</div></div></div>
-      <div id="cp-v4" class="clip ovl" data-start="55.800" data-duration="4.500" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-v4-k">BILIK &amp; SUITE</div><div class="mask"><div class="cap-t" id="cp-v4-t">Junior Suite</div></div><div class="cap-r" id="cp-v4-r"></div><div class="cap-s" id="cp-v4-s">Katil King &#183; Ruang tamu berasingan &#183; 464.47 kaki persegi</div></div></div>
-      <div id="cp-v5" class="clip ovl" data-start="60.300" data-duration="6.900" data-track-index="6"><div class="cap"><div class="cap-k" id="cp-v5-k">BILIK &amp; SUITE</div><div class="mask"><div class="cap-t" id="cp-v5-t">Executive Suite</div></div><div class="cap-r" id="cp-v5-r"></div><div class="cap-s" id="cp-v5-s">Katil King &#183; Ruang makan &amp; lounge &#183; 637.23 kaki persegi</div></div></div>
-      <div id="tri" class="clip bg-ink" data-start="66.600" data-duration="4.600" data-track-index="2"><div class="tri"><div class="tri-p" id="tri0"><img id="tri0-i" src="assets/img/pool-night.jpg" alt=""/></div><div class="tri-p" id="tri1"><img id="tri1-i" src="assets/img/gadek.jpg" alt=""/></div><div class="tri-p" id="tri2"><img id="tri2-i" src="assets/img/room-exec.jpg" alt=""/></div></div><div class="shade shade-dark2"></div><div class="tri-txt"><div class="tri-a" id="tri-a">Di mana keselesaan</div><div class="tri-b" id="tri-b">bertemu keanggunan.</div></div></div>
-      <div id="endc" class="clip bg-ivory" data-start="70.600" data-duration="5.800" data-track-index="3"><div class="frame" id="end-frame"></div><img class="end-logo" id="end-logo" src="assets/img/mitc-logo.png" alt="MITC Hotel"/><div class="end-r" id="end-r"></div><div class="end-tag" id="end-tag">Tempah terus dengan kami</div><div class="end-row" id="end-row"><span>06-233 1551</span><i></i><span>mitchotel.com.my</span></div><div class="end-addr" id="end-addr">Jalan Food City, Pusat Dagangan Antarabangsa Melaka, 75450 Ayer Keroh, Melaka</div><div class="end-foot" id="end-foot"><div class="end-by">DIURUSKAN OLEH</div><img class="end-mh" src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel Sdn. Bhd."/><div class="end-sep"></div><div class="end-by">ANAK SYARIKAT</div><img class="end-mc" src="assets/img/mcorp-corporate.png" alt="MCORP"/></div></div>
-      <div id="lb-top" class="clip fx lb" data-start="0" data-duration="76.400" data-track-index="20"></div>
-      <div id="lb-bot" class="clip fx lb" data-start="0" data-duration="76.400" data-track-index="21"></div>
-      <div id="fadeout" class="clip fx" data-start="0" data-duration="76.400" data-track-index="22"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="67.600" data-width="1920" data-height="1080">
+      <div id="open" class="clip bg-navy" data-start="0.000" data-duration="3.600" data-track-index="1"><div class="grid" id="op-grid"></div><div class="op"><div class="op-line" id="op-line"></div><div class="m"><div class="op-t" id="op-t"><span class="w"><span class="ch">M</span><span class="ch">’</span><span class="ch">C</span><span class="ch">O</span><span class="ch">R</span><span class="ch">P</span></span> <span class="w"><span class="ch">H</span><span class="ch">O</span><span class="ch">T</span><span class="ch">E</span><span class="ch">L</span></span> <span class="w"><span class="ch">S</span><span class="ch">D</span><span class="ch">N</span><span class="ch">.</span></span> <span class="w"><span class="ch">B</span><span class="ch">H</span><span class="ch">D</span><span class="ch">.</span></span></div></div><div class="m"><div class="op-s" id="op-s">PENGENDALI HOTEL MITC &#183; MELAKA</div></div></div></div>
+      <div id="sweep0" class="clip ovl swc" data-start="3.100" data-duration="1.000" data-track-index="10"><div class="sweep sw-blue" id="sw0"></div></div>
+      <div id="sweep1" class="clip ovl swc" data-start="3.100" data-duration="1.000" data-track-index="11"><div class="sweep sw-gold" id="sw1"></div></div>
+      <div id="sweep2" class="clip ovl swc" data-start="3.100" data-duration="1.000" data-track-index="12"><div class="sweep sw-navy" id="sw2"></div></div>
+      <div id="s-title" class="clip shot" data-start="3.600" data-duration="5.200" data-track-index="1"><div class="kb" id="s-title-kb"><img id="s-title-img" src="assets/img/ext-night.jpg" alt="" style="transform-origin:50% 38%"/></div><div class="shade shade-title"></div></div>
+      <div id="title" class="clip ovl" data-start="3.600" data-duration="5.200" data-track-index="7"><div class="ttl" id="ttl"><div class="ttl-k" id="ttl-k">HOTEL</div><div class="ttl-a" id="ttl-a"><span class="w"><span class="ch3">M</span><span class="ch3">I</span><span class="ch3">T</span><span class="ch3">C</span></span></div><div class="ttl-bar" id="ttl-bar"></div><div class="ttl-b" id="ttl-b"><span class="w"><span class="ch">A</span><span class="ch">Y</span><span class="ch">E</span><span class="ch">R</span></span> <span class="w"><span class="ch">K</span><span class="ch">E</span><span class="ch">R</span><span class="ch">O</span><span class="ch">H</span></span> <span class="w"><span class="ch">·</span></span> <span class="w"><span class="ch">M</span><span class="ch">E</span><span class="ch">L</span><span class="ch">A</span><span class="ch">K</span><span class="ch">A</span></span></div><div class="stars"><span class="star" id="st0">&#9733;</span><span class="star" id="st1">&#9733;</span><span class="star" id="st2">&#9733;</span><span class="star" id="st3">&#9733;</span></div></div></div>
+      <div id="brk1" class="clip ovl" data-start="3.900" data-duration="4.600" data-track-index="8"><span class="brk brk-tl" id="brk1-tl"></span><span class="brk brk-tr" id="brk1-tr"></span><span class="brk brk-bl" id="brk1-bl"></span><span class="brk brk-br" id="brk1-br"></span></div>
+      <div id="corp" class="clip bg-light" data-start="8.800" data-duration="4.800" data-track-index="1"><div class="grid dark" id="cp-grid"></div><div class="cp-photo" id="cp-photo"><div class="cp-photo-in" id="cp-pin"><img src="assets/img/ext-wide.jpg" alt=""/></div></div><div class="cp-left"><div class="cp-card" id="cp-card"><img src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel Sdn. Bhd."/></div><div class="m"><div class="cp-k" id="cp-k">ANAK SYARIKAT PKNM &#183; DITUBUHKAN</div></div><div class="cp-date" id="cp-date"><span class="roll"><span class="roll-s" id="cpd-d0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="cpd-d1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll-c">.</span><span class="roll"><span class="roll-s" id="cpd-d2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="cpd-d3"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll-c">.</span><span class="roll"><span class="roll-s" id="cpd-d4"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="cpd-d5"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="cpd-d6"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="cpd-d7"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></div><div class="m"><div class="cp-s" id="cp-s">Mengurus &amp; mengendalikan operasi<br/><b>Hotel MITC, Ayer Keroh, Melaka</b></div></div></div></div>
+      <div id="lok" class="clip bg-navy" data-start="13.600" data-duration="4.400" data-track-index="1"><div class="kb" id="lok-kb"><img id="lok-img" src="assets/img/ext-day.jpg" alt=""/></div><div class="shade shade-navy"></div><div class="grid" id="lok-grid"></div><div class="pin-wrap"><div class="ring" id="rg0"></div><div class="ring" id="rg1"></div><div class="ring" id="rg2"></div><div class="pin" id="pin"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></div><div class="tag tag1" id="tag1"><b>MITC</b><span>Bertentangan Pusat Dagangan Antarabangsa Melaka</span></div><div class="tag tag2" id="tag2"><b>10 MINIT</b><span>dari Tol Ayer Keroh</span></div><div class="tline tline1" id="tl1"></div><div class="tline tline2" id="tl2"></div></div><div class="lok-left"><div class="m"><div class="lk-k" id="lk-k">LOKASI STRATEGIK</div></div><div class="lk-t" id="lk-t"><span class="w"><span class="ch">A</span><span class="ch">Y</span><span class="ch">E</span><span class="ch">R</span></span> <span class="w"><span class="ch">K</span><span class="ch">E</span><span class="ch">R</span><span class="ch">O</span><span class="ch">H</span><span class="ch">,</span></span><br/><span class="w"><span class="ch">M</span><span class="ch">E</span><span class="ch">L</span><span class="ch">A</span><span class="ch">K</span><span class="ch">A</span></span></div><div class="lk-c" id="lk-c"><span class="w"><span class="ch">2</span><span class="ch">.</span><span class="ch">2</span><span class="ch">7</span><span class="ch">°</span></span> <span class="w"><span class="ch">U</span></span> <span class="w"></span> <span class="w"><span class="ch">·</span></span> <span class="w"></span> <span class="w"><span class="ch">1</span><span class="ch">0</span><span class="ch">2</span><span class="ch">.</span><span class="ch">2</span><span class="ch">8</span><span class="ch">°</span></span> <span class="w"><span class="ch">T</span></span></div></div></div>
+      <div id="brk2" class="clip ovl" data-start="13.800" data-duration="3.900" data-track-index="8"><span class="brk brk-tl" id="brk2-tl"></span><span class="brk brk-tr" id="brk2-tr"></span><span class="brk brk-bl" id="brk2-bl"></span><span class="brk brk-br" id="brk2-br"></span></div>
+      <div id="stats" class="clip bg-navy" data-start="18.000" data-duration="4.420" data-track-index="1"><div class="grid" id="st-grid"></div><div class="sps"><div class="sp" id="sp0"><img id="sp0-i" src="assets/img/ext-night.jpg" alt=""/><div class="sp-sh"></div><div class="sp-n"><span class="roll"><span class="roll-s" id="sn0-d0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="sp-suf">&#9733;</span></div><div class="sp-bar"></div><div class="sp-l">BERTARAF<br/>4 BINTANG</div></div><div class="sp" id="sp1"><img id="sp1-i" src="assets/img/room-exec.jpg" alt=""/><div class="sp-sh"></div><div class="sp-n"><span class="roll"><span class="roll-s" id="sn1-d0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="sn1-d1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="sn1-d2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="sp-suf"></span></div><div class="sp-bar"></div><div class="sp-l">BILIK<br/>PENGINAPAN</div></div><div class="sp" id="sp2"><img id="sp2-i" src="assets/img/lobby.jpg" alt=""/><div class="sp-sh"></div><div class="sp-n"><span class="roll"><span class="roll-s" id="sn2-d0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="roll"><span class="roll-s" id="sn2-d1"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="sp-suf">JAM</span></div><div class="sp-bar"></div><div class="sp-l">PERKHIDMATAN<br/>SETIAP HARI</div></div></div></div>
+      <div id="ch1" class="clip ovl chpc" data-start="22.000" data-duration="1.450" data-track-index="9"><div class="chp-gold" id="ch1-g"></div><div class="chp-navy" id="ch1-p"></div><div class="chp-num" id="ch1-n">01</div><div class="chp-txt"><div class="chp-k" id="ch1-k">BAHAGIAN 01</div><div class="chp-w" id="ch1-w"><span class="w"><span class="ch">F</span><span class="ch">A</span><span class="ch">S</span><span class="ch">I</span><span class="ch">L</span><span class="ch">I</span><span class="ch">T</span><span class="ch">I</span></span></div></div></div>
+      <div id="s-f1" class="clip shot" data-start="22.420" data-duration="2.980" data-track-index="1"><div class="kb" id="s-f1-kb"><img id="s-f1-img" src="assets/img/pool-2.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="s-f2" class="clip shot" data-start="25.400" data-duration="2.000" data-track-index="1"><div class="kb" id="s-f2-kb"><img id="s-f2-img" src="assets/img/pool-night.jpg" alt="" style="transform-origin:50% 60%"/></div><div class="shade shade-lt"></div></div>
+      <div id="s-f3" class="clip shot" data-start="27.400" data-duration="2.620" data-track-index="1"><div class="kb" id="s-f3-kb"><img id="s-f3-img" src="assets/img/lobby.jpg" alt="" style="transform-origin:40% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="lt-f1" class="clip ovl" data-start="23.300" data-duration="4.100" data-track-index="6"><div class="lt" id="lt-f1-lt"><div class="m"><div class="lt-k" id="lt-f1-k">01 &#183; FASILITI</div></div><div class="m" id="lt-f1-bm"><div class="lt-box" id="lt-f1-b"><span class="lt-bar"></span>KOLAM RENANG</div></div><div class="m" id="lt-f1-sm"><div class="lt-s" id="lt-f1-s">Kolam renang &amp; taman permainan air kanak-kanak</div></div></div></div>
+      <div id="lt-f2" class="clip ovl" data-start="27.700" data-duration="1.900" data-track-index="6"><div class="lt" id="lt-f2-lt"><div class="m"><div class="lt-k" id="lt-f2-k">01 &#183; FASILITI</div></div><div class="m" id="lt-f2-bm"><div class="lt-box" id="lt-f2-b"><span class="lt-bar"></span>LOBI UTAMA</div></div><div class="m" id="lt-f2-sm"><div class="lt-s" id="lt-f2-s">Sambutan mesra, perkhidmatan 24 jam</div></div></div></div>
+      <div id="ch2" class="clip ovl chpc" data-start="29.600" data-duration="1.450" data-track-index="9"><div class="chp-gold" id="ch2-g"></div><div class="chp-navy" id="ch2-p"></div><div class="chp-num" id="ch2-n">02</div><div class="chp-txt"><div class="chp-k" id="ch2-k">BAHAGIAN 02</div><div class="chp-w" id="ch2-w"><span class="w"><span class="ch">D</span><span class="ch">E</span><span class="ch">W</span><span class="ch">A</span><span class="ch">N</span></span> <span class="w"><span class="ch">&amp;</span></span> <span class="w"><span class="ch">A</span><span class="ch">C</span><span class="ch">A</span><span class="ch">R</span><span class="ch">A</span></span></div></div></div>
+      <div id="gal" class="clip bg-navy" data-start="30.020" data-duration="3.580" data-track-index="2"><div class="grid" id="gal-grid"></div><div class="gal-stage"><div class="gal-row" id="gal-row"><div class="gc" id="gc0"><img src="assets/img/gadek.jpg" alt=""/><div class="gc-l"><span>01</span>DEWAN GADEK</div></div><div class="gc" id="gc1"><img src="assets/img/gadek5.jpg" alt=""/><div class="gc-l"><span>02</span>BILIK GADEK 5</div></div><div class="gc" id="gc2"><img src="assets/img/brisu-aerial.jpg" alt=""/><div class="gc-l"><span>03</span>HALAMAN BRISU</div></div></div></div></div>
+      <div id="s-e1" class="clip shot" data-start="33.600" data-duration="1.800" data-track-index="1"><div class="kb" id="s-e1-kb"><img id="s-e1-img" src="assets/img/gadek.jpg" alt="" style="transform-origin:50% 40%"/></div><div class="shade shade-lt"></div></div>
+      <div id="s-e2" class="clip shot" data-start="35.400" data-duration="1.600" data-track-index="1"><div class="kb" id="s-e2-kb"><img id="s-e2-img" src="assets/img/gadek5.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="s-e3" class="clip shot" data-start="37.000" data-duration="2.220" data-track-index="1"><div class="kb" id="s-e3-kb"><img id="s-e3-img" src="assets/img/brisu-aerial.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="lt-e1" class="clip ovl" data-start="33.850" data-duration="1.550" data-track-index="6"><div class="lt" id="lt-e1-lt"><div class="m"><div class="lt-k" id="lt-e1-k">02 &#183; DEWAN &amp; ACARA</div></div><div class="m" id="lt-e1-bm"><div class="lt-box" id="lt-e1-b"><span class="lt-bar"></span>DEWAN GADEK</div></div><div class="m" id="lt-e1-sm"><div class="lt-s" id="lt-e1-s">Perkahwinan, persidangan &amp; jamuan rasmi</div></div></div></div>
+      <div id="lt-e2" class="clip ovl" data-start="35.650" data-duration="1.350" data-track-index="6"><div class="lt" id="lt-e2-lt"><div class="m"><div class="lt-k" id="lt-e2-k">02 &#183; DEWAN &amp; ACARA</div></div><div class="m" id="lt-e2-bm"><div class="lt-box" id="lt-e2-b"><span class="lt-bar"></span>BILIK GADEK 5</div></div><div class="m" id="lt-e2-sm"><div class="lt-s" id="lt-e2-s">Mesyuarat, taklimat &amp; bengkel</div></div></div></div>
+      <div id="lt-e3" class="clip ovl" data-start="37.250" data-duration="1.550" data-track-index="6"><div class="lt" id="lt-e3-lt"><div class="m"><div class="lt-k" id="lt-e3-k">02 &#183; DEWAN &amp; ACARA</div></div><div class="m" id="lt-e3-bm"><div class="lt-box" id="lt-e3-b"><span class="lt-bar"></span>HALAMAN BRISU</div></div><div class="m" id="lt-e3-sm"><div class="lt-s" id="lt-e3-s">Ruang majlis terbuka di tengah taman</div></div></div></div>
+      <div id="lg-gadek" class="clip ovl" data-start="33.900" data-duration="1.500" data-track-index="8"><img class="venue-logo" id="lg-gadek-i" src="assets/img/gadek-logo.png" alt="Gadek Ballroom"/></div>
+      <div id="ch3" class="clip ovl chpc" data-start="38.800" data-duration="1.450" data-track-index="9"><div class="chp-gold" id="ch3-g"></div><div class="chp-navy" id="ch3-p"></div><div class="chp-num" id="ch3-n">03</div><div class="chp-txt"><div class="chp-k" id="ch3-k">BAHAGIAN 03</div><div class="chp-w" id="ch3-w"><span class="w"><span class="ch">T</span><span class="ch">E</span><span class="ch">M</span><span class="ch">P</span><span class="ch">A</span><span class="ch">T</span></span> <span class="w"><span class="ch">M</span><span class="ch">A</span><span class="ch">K</span><span class="ch">A</span><span class="ch">N</span></span></div></div></div>
+      <div id="s-m1" class="clip shot" data-start="39.220" data-duration="4.680" data-track-index="1"><div class="kb" id="s-m1-kb"><img id="s-m1-img" src="assets/img/bemban.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="slats" class="clip " data-start="39.220" data-duration="2.680" data-track-index="2"><div class="slats"><div class="slat" id="sl0"><img id="sl0-i" src="assets/img/bemban.jpg" alt=""/><div class="slat-l">RESTORAN BEMBAN</div></div><div class="slat" id="sl1"><img id="sl1-i" src="assets/img/bemban-breakfast.jpg" alt=""/><div class="slat-l">BUFET SARAPAN</div></div><div class="slat" id="sl2"><img id="sl2-i" src="assets/img/asahan.jpg" alt=""/><div class="slat-l">ASAHAN CAFE</div></div></div></div>
+      <div id="s-m2" class="clip shot" data-start="43.900" data-duration="2.320" data-track-index="1"><div class="kb" id="s-m2-kb"><img id="s-m2-img" src="assets/img/asahan-live.jpg" alt="" style="transform-origin:50% 50%"/></div><div class="shade shade-lt"></div></div>
+      <div id="lt-m1" class="clip ovl" data-start="41.900" data-duration="2.000" data-track-index="6"><div class="lt" id="lt-m1-lt"><div class="m"><div class="lt-k" id="lt-m1-k">03 &#183; TEMPAT MAKAN</div></div><div class="m" id="lt-m1-bm"><div class="lt-box" id="lt-m1-b"><span class="lt-bar"></span>RESTORAN BEMBAN</div></div><div class="m" id="lt-m1-sm"><div class="lt-s" id="lt-m1-s">Bufet sarapan, makan tengah hari &amp; makan malam</div></div></div></div>
+      <div id="lt-m2" class="clip ovl" data-start="44.150" data-duration="1.650" data-track-index="6"><div class="lt" id="lt-m2-lt"><div class="m"><div class="lt-k" id="lt-m2-k">03 &#183; TEMPAT MAKAN</div></div><div class="m" id="lt-m2-bm"><div class="lt-box" id="lt-m2-b"><span class="lt-bar"></span>ASAHAN CAFE</div></div><div class="m" id="lt-m2-sm"><div class="lt-s" id="lt-m2-s">Kafe konsep Nyonya &#183; 10 pagi hingga 12 malam</div></div></div></div>
+      <div id="ch4" class="clip ovl chpc" data-start="45.800" data-duration="1.450" data-track-index="9"><div class="chp-gold" id="ch4-g"></div><div class="chp-navy" id="ch4-p"></div><div class="chp-num" id="ch4-n">04</div><div class="chp-txt"><div class="chp-k" id="ch4-k">BAHAGIAN 04</div><div class="chp-w" id="ch4-w"><span class="w"><span class="ch">B</span><span class="ch">I</span><span class="ch">L</span><span class="ch">I</span><span class="ch">K</span></span> <span class="w"><span class="ch">&amp;</span></span> <span class="w"><span class="ch">S</span><span class="ch">U</span><span class="ch">I</span><span class="ch">T</span><span class="ch">E</span></span></div></div></div>
+      <video id="s-v0" class="clip vclip" src="assets/video/room-double.mp4" data-start="46.220" data-duration="2.380" data-media-start="0" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v0-sh" class="clip shade shade-lt" data-start="46.220" data-duration="2.380" data-track-index="2"></div>
+      <video id="s-v1" class="clip vclip" src="assets/video/room-twin.mp4" data-start="48.600" data-duration="1.500" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v1-sh" class="clip shade shade-lt" data-start="48.600" data-duration="1.500" data-track-index="2"></div>
+      <video id="s-v2" class="clip vclip" src="assets/video/room-deluxe.mp4" data-start="50.100" data-duration="1.500" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v2-sh" class="clip shade shade-lt" data-start="50.100" data-duration="1.500" data-track-index="2"></div>
+      <video id="s-v3" class="clip vclip" src="assets/video/room-junior.mp4" data-start="51.600" data-duration="1.500" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v3-sh" class="clip shade shade-lt" data-start="51.600" data-duration="1.500" data-track-index="2"></div>
+      <video id="s-v4" class="clip vclip" src="assets/video/room-junior-2.mp4" data-start="53.100" data-duration="1.400" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v4-sh" class="clip shade shade-lt" data-start="53.100" data-duration="1.400" data-track-index="2"></div>
+      <video id="s-v5" class="clip vclip" src="assets/video/room-exec.mp4" data-start="54.500" data-duration="1.600" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v5-sh" class="clip shade shade-lt" data-start="54.500" data-duration="1.600" data-track-index="2"></div>
+      <video id="s-v6" class="clip vclip" src="assets/video/room-exec-2.mp4" data-start="56.100" data-duration="1.400" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v6-sh" class="clip shade shade-lt" data-start="56.100" data-duration="1.400" data-track-index="2"></div>
+      <video id="s-v7" class="clip vclip" src="assets/video/room-exec-bath.mp4" data-start="57.500" data-duration="1.500" data-media-start="0.3" data-hf-media-start-basis="local" data-track-index="1" muted playsinline></video>
+      <div id="s-v7-sh" class="clip shade shade-lt" data-start="57.500" data-duration="1.500" data-track-index="2"></div>
+      <div id="lt-v1" class="clip ovl" data-start="47.100" data-duration="1.500" data-track-index="6"><div class="lt" id="lt-v1-lt"><div class="m"><div class="lt-k" id="lt-v1-k">04 &#183; BILIK &amp; SUITE</div></div><div class="m" id="lt-v1-bm"><div class="lt-box" id="lt-v1-b"><span class="lt-bar"></span>SUPERIOR DOUBLE</div></div><div class="m" id="lt-v1-sm"><div class="lt-s" id="lt-v1-s">Selesa untuk urusan kerja &amp; percutian</div></div><div class="chips"><span class="chip" id="lt-v1-c0"><i></i>Katil Queen</span><span class="chip" id="lt-v1-c1"><i></i>172.76 kps</span></div></div></div>
+      <div id="lt-v2" class="clip ovl" data-start="48.800" data-duration="1.300" data-track-index="6"><div class="lt" id="lt-v2-lt"><div class="m"><div class="lt-k" id="lt-v2-k">04 &#183; BILIK &amp; SUITE</div></div><div class="m" id="lt-v2-bm"><div class="lt-box" id="lt-v2-b"><span class="lt-bar"></span>SUPERIOR TWIN</div></div><div class="m" id="lt-v2-sm"><div class="lt-s" id="lt-v2-s">Pilihan ideal untuk peserta seminar</div></div><div class="chips"><span class="chip" id="lt-v2-c0"><i></i>2 Katil Bujang</span><span class="chip" id="lt-v2-c1"><i></i>172.76 kps</span></div></div></div>
+      <div id="lt-v3" class="clip ovl" data-start="50.300" data-duration="1.300" data-track-index="6"><div class="lt" id="lt-v3-lt"><div class="m"><div class="lt-k" id="lt-v3-k">04 &#183; BILIK &amp; SUITE</div></div><div class="m" id="lt-v3-bm"><div class="lt-box" id="lt-v3-b"><span class="lt-bar"></span>DELUXE</div></div><div class="m" id="lt-v3-sm"><div class="lt-s" id="lt-v3-s">Luas untuk seisi keluarga</div></div><div class="chips"><span class="chip" id="lt-v3-c0"><i></i>1 Queen + 1 Bujang</span><span class="chip" id="lt-v3-c1"><i></i>185.75 kps</span></div></div></div>
+      <div id="lt-v4" class="clip ovl" data-start="51.800" data-duration="2.700" data-track-index="6"><div class="lt" id="lt-v4-lt"><div class="m"><div class="lt-k" id="lt-v4-k">04 &#183; BILIK &amp; SUITE</div></div><div class="m" id="lt-v4-bm"><div class="lt-box" id="lt-v4-b"><span class="lt-bar"></span>JUNIOR SUITE</div></div><div class="m" id="lt-v4-sm"><div class="lt-s" id="lt-v4-s">Ruang tamu berasingan dengan sofa bed</div></div><div class="chips"><span class="chip" id="lt-v4-c0"><i></i>Katil King</span><span class="chip" id="lt-v4-c1"><i></i>464.47 kps</span></div></div></div>
+      <div id="lt-v5" class="clip ovl" data-start="54.700" data-duration="4.300" data-track-index="6"><div class="lt" id="lt-v5-lt"><div class="m"><div class="lt-k" id="lt-v5-k">04 &#183; BILIK &amp; SUITE</div></div><div class="m" id="lt-v5-bm"><div class="lt-box" id="lt-v5-b"><span class="lt-bar"></span>EXECUTIVE SUITE</div></div><div class="m" id="lt-v5-sm"><div class="lt-s" id="lt-v5-s">Ruang makan, bilik bacaan &amp; lounge</div></div><div class="chips"><span class="chip" id="lt-v5-c0"><i></i>Katil King</span><span class="chip" id="lt-v5-c1"><i></i>637.23 kps</span></div></div></div>
+      <div id="recap" class="clip bg-navy" data-start="59.000" data-duration="3.000" data-track-index="2"><div class="mos-stage"><div class="mos" id="mos"><div class="mt" id="mt0" style="left:0px;top:0px"><img src="assets/img/pool-2.jpg" alt=""/></div><div class="mt" id="mt1" style="left:480px;top:0px"><img src="assets/img/gadek.jpg" alt=""/></div><div class="mt" id="mt2" style="left:960px;top:0px"><img src="assets/img/bemban.jpg" alt=""/></div><div class="mt" id="mt3" style="left:1440px;top:0px"><img src="assets/img/room-exec.jpg" alt=""/></div><div class="mt" id="mt4" style="left:0px;top:360px"><img src="assets/img/lobby.jpg" alt=""/></div><div class="mt" id="mt5" style="left:480px;top:360px"><img src="assets/img/gadek5.jpg" alt=""/></div><div class="mt" id="mt6" style="left:960px;top:360px"><img src="assets/img/asahan.jpg" alt=""/></div><div class="mt" id="mt7" style="left:1440px;top:360px"><img src="assets/img/room-junior.jpg" alt=""/></div><div class="mt" id="mt8" style="left:0px;top:720px"><img src="assets/img/ext-night.jpg" alt=""/></div><div class="mt" id="mt9" style="left:480px;top:720px"><img src="assets/img/brisu-aerial.jpg" alt=""/></div><div class="mt" id="mt10" style="left:960px;top:720px"><img src="assets/img/bemban-breakfast.jpg" alt=""/></div><div class="mt" id="mt11" style="left:1440px;top:720px"><img src="assets/img/room-twin.jpg" alt=""/></div></div></div><div class="shade shade-mos" id="mos-sh"></div><div class="mos-txt"><div class="m"><div class="mos-k" id="mos-k">HOTEL MITC MELAKA</div></div><div class="mos-t" id="mos-t"><span class="w"><span class="ch">S</span><span class="ch">E</span><span class="ch">G</span><span class="ch">A</span><span class="ch">L</span><span class="ch">A</span><span class="ch">N</span><span class="ch">Y</span><span class="ch">A</span></span> <span class="w"><span class="ch">D</span><span class="ch">I</span></span> <span class="w"><span class="ch">S</span><span class="ch">A</span><span class="ch">T</span><span class="ch">U</span></span> <span class="w"><span class="ch">D</span><span class="ch">E</span><span class="ch">S</span><span class="ch">T</span><span class="ch">I</span><span class="ch">N</span><span class="ch">A</span><span class="ch">S</span><span class="ch">I</span></span></div></div></div>
+      <div id="endc" class="clip bg-light" data-start="62.000" data-duration="5.600" data-track-index="3"><div class="grid dark" id="end-grid"></div><div class="end-band" id="end-band"></div><div class="end-logo-w" id="end-logo"><img src="assets/img/mitc-logo.png" alt="MITC Hotel"/></div><div class="end-tag" id="end-tag"><span class="w"><span class="ch">T</span><span class="ch">e</span><span class="ch">m</span><span class="ch">p</span><span class="ch">a</span><span class="ch">h</span></span> <span class="w"><span class="ch">t</span><span class="ch">e</span><span class="ch">r</span><span class="ch">u</span><span class="ch">s</span></span> <span class="w"><span class="ch">d</span><span class="ch">e</span><span class="ch">n</span><span class="ch">g</span><span class="ch">a</span><span class="ch">n</span></span> <span class="w"><span class="ch">k</span><span class="ch">a</span><span class="ch">m</span><span class="ch">i</span></span></div><div class="end-btns"><div class="btn btn-main" id="btn"><span class="ripple" id="ripple"></span>TEMPAH SEKARANG</div><div class="btn" id="btn2">06-233 1551</div><div class="btn" id="btn3">mitchotel.com.my</div></div><div class="end-addr" id="end-addr">Jalan Food City, Pusat Dagangan Antarabangsa Melaka, 75450 Ayer Keroh, Melaka</div><div class="cursor" id="cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6.2 1.6L16 20l-2.6 1.2-3.2-7.4L5 18z"/></svg></div><div class="end-foot" id="end-foot"><span>DIURUSKAN OLEH</span><img class="end-mh" src="assets/img/mcorp-hotel-logo.png" alt="M'Corp Hotel"/><i></i><span>ANAK SYARIKAT</span><img class="end-mc" src="assets/img/mcorp-corporate.png" alt="MCORP"/></div></div>
+      <div id="hud" class="clip ovl hudc" data-start="22.420" data-duration="36.580" data-track-index="15"><div class="hud-tl" id="hud-tl"><span class="dot"></span>HOTEL MITC</div><div class="hud-tr" id="hud-tr">AYER KEROH &#183; MELAKA</div><div class="hud-bar" id="hud-bar"><div class="seg" id="seg0"><div class="seg-l" id="segl0"><b>01</b> FASILITI</div><div class="seg-tr"><div class="seg-f" id="segf0"></div></div></div><div class="seg" id="seg1"><div class="seg-l" id="segl1"><b>02</b> DEWAN &amp; ACARA</div><div class="seg-tr"><div class="seg-f" id="segf1"></div></div></div><div class="seg" id="seg2"><div class="seg-l" id="segl2"><b>03</b> TEMPAT MAKAN</div><div class="seg-tr"><div class="seg-f" id="segf2"></div></div></div><div class="seg" id="seg3"><div class="seg-l" id="segl3"><b>04</b> BILIK &amp; SUITE</div><div class="seg-tr"><div class="seg-f" id="segf3"></div></div></div></div></div>
+      <div id="streakw" class="clip fx" data-start="0" data-duration="67.600" data-track-index="20"><div id="streak"></div></div>
+      <div id="fadeout" class="clip fx" data-start="0" data-duration="67.600" data-track-index="22"></div>
     </div>
     <script>
       (function () {
         const tl = gsap.timeline({ paused: true });
-        tl.fromTo("#i-r1", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "expo.inOut", immediateRender: false }, 0.300);
-        tl.fromTo("#i-r2", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "expo.inOut", immediateRender: false }, 0.450);
-        tl.fromTo("#i-t", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.4, ease: "sine.out", immediateRender: false }, 0.800);
-        tl.fromTo("#intro .intro", { opacity: 1 }, { opacity: 0, duration: 0.7, ease: "sine.in", immediateRender: false }, 2.500);
-        tl.fromTo("#s-title-img", { scale: 1.18, x: 0 }, { scale: 1.05, x: 0, duration: 5.6, ease: "none", immediateRender: false }, 2.400);
-        tl.fromTo("#s-title", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 2.400);
-        tl.fromTo("#ttl-k", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "sine.out", immediateRender: false }, 3.200);
-        tl.fromTo("#ttl-a .ch", { opacity: 0, y: 50, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, stagger: 0.06, ease: "power3.out", immediateRender: false }, 3.400);
-        tl.fromTo("#ttl-r", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "expo.inOut", immediateRender: false }, 4.000);
-        tl.fromTo("#ttl-b", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 4.500);
-        tl.fromTo("#stars .star", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.8, stagger: 0.12, ease: "power3.out", immediateRender: false }, 4.900);
-        tl.fromTo("#title .ttl", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "sine.in", immediateRender: false }, 7.400);
-        tl.fromTo("#s-corp-img", { scale: 1.12, x: 0 }, { scale: 1.04, x: 0, duration: 5.4, ease: "none", immediateRender: false }, 7.400);
-        tl.fromTo("#s-corp", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 7.400);
-        tl.fromTo("#corp-panel", { xPercent: -100 }, { xPercent: 0, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 7.400);
-        tl.fromTo("#corp-logo", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 8.400);
-        tl.fromTo("#corp-k", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power3.out", immediateRender: false }, 8.800);
-        tl.fromTo("#corp-t", { yPercent: 100 }, { yPercent: 0, duration: 1.2, ease: "expo.out", immediateRender: false }, 9.000);
-        tl.fromTo("#corp-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 9.300);
-        tl.fromTo("#corp-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 9.600);
-        tl.fromTo("#corp-panel", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "sine.in", immediateRender: false }, 12.200);
-        tl.fromTo("#s-lok-img", { scale: 1.02, x: 0 }, { scale: 1.1, x: 0, duration: 4.8, ease: "none", immediateRender: false }, 12.200);
-        tl.fromTo("#s-lok", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 12.200);
-        tl.fromTo("#lok-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 12.900);
-        tl.fromTo("#lok-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 13.000);
-        tl.fromTo("#lok-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 13.200);
-        tl.fromTo("#lok-s1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 13.500);
-        tl.fromTo("#lok-s2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 13.800);
-        tl.fromTo("#lokasi .lok", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "sine.in", immediateRender: false }, 16.500);
-        tl.fromTo("#s-stats-img", { scale: 1.12, x: 0 }, { scale: 1.04, x: 0, duration: 4.4, ease: "none", immediateRender: false }, 16.400);
-        tl.fromTo("#s-stats", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 16.400);
-        tl.fromTo("#st1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 17.200);
-        tl.fromTo("#st2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 17.550);
-        tl.fromTo("#st3", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 17.900);
-        tl.fromTo(["#sd1", "#sd2"], { scaleY: 0 }, { scaleY: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 17.500);
-        tl.fromTo("#stats .stats", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "sine.in", immediateRender: false }, 20.300);
-        tl.fromTo("#s-f1-img", { scale: 1.04, x: 0 }, { scale: 1.12, x: 0, duration: 4.0, ease: "none", immediateRender: false }, 20.200);
-        tl.fromTo("#s-f1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 20.200);
-        tl.fromTo("#s-f2-img", { scale: 1.1, x: 0 }, { scale: 1.03, x: 0, duration: 3.0, ease: "none", immediateRender: false }, 23.600);
-        tl.fromTo("#s-f2", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 23.600);
-        tl.fromTo("#s-f3-img", { scale: 1.06, x: 20 }, { scale: 1.12, x: -20, duration: 3.2, ease: "none", immediateRender: false }, 26.000);
-        tl.fromTo("#s-f3", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 26.000);
-        tl.fromTo("#ch1-n", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 20.800);
-        tl.fromTo("#ch1-w .ch", { opacity: 0, y: 40, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, stagger: 0.04, ease: "power3.out", immediateRender: false }, 20.950);
-        tl.fromTo("#ch1-r", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 21.100);
-        tl.fromTo("#ch1 .chap", { opacity: 1, y: 0 }, { opacity: 0, y: -20, duration: 0.6, ease: "sine.in", immediateRender: false }, 22.100);
-        tl.fromTo("#cp-f1-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 22.700);
-        tl.fromTo("#cp-f1-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 22.800);
-        tl.fromTo("#cp-f1-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 22.950);
-        tl.fromTo("#cp-f1-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 23.200);
-        tl.fromTo("#cp-f1 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 26.100);
-        tl.fromTo("#cp-f2-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 26.700);
-        tl.fromTo("#cp-f2-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 26.800);
-        tl.fromTo("#cp-f2-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 26.950);
-        tl.fromTo("#cp-f2-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 27.200);
-        tl.fromTo("#cp-f2 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 28.700);
-        tl.fromTo("#s-e1-img", { scale: 1.04, x: 0 }, { scale: 1.12, x: 0, duration: 4.0, ease: "none", immediateRender: false }, 28.600);
-        tl.fromTo("#s-e1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 28.600);
-        tl.fromTo("#s-e2-img", { scale: 1.1, x: 0 }, { scale: 1.04, x: 0, duration: 2.6, ease: "none", immediateRender: false }, 32.000);
-        tl.fromTo("#s-e2", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 32.000);
-        tl.fromTo("#s-e3-img", { scale: 1.06, x: -20 }, { scale: 1.12, x: 20, duration: 3.0, ease: "none", immediateRender: false }, 34.000);
-        tl.fromTo("#s-e3", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 34.000);
-        tl.fromTo("#s-e4-img", { scale: 1.04, x: 0 }, { scale: 1.12, x: 0, duration: 3.0, ease: "none", immediateRender: false }, 36.400);
-        tl.fromTo("#s-e4", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 36.400);
-        tl.fromTo("#ch2-n", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 29.200);
-        tl.fromTo("#ch2-w .ch", { opacity: 0, y: 40, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, stagger: 0.04, ease: "power3.out", immediateRender: false }, 29.350);
-        tl.fromTo("#ch2-r", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 29.500);
-        tl.fromTo("#ch2 .chap", { opacity: 1, y: 0 }, { opacity: 0, y: -20, duration: 0.6, ease: "sine.in", immediateRender: false }, 30.500);
-        tl.fromTo("#cp-e1-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 31.100);
-        tl.fromTo("#cp-e1-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 31.200);
-        tl.fromTo("#cp-e1-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 31.350);
-        tl.fromTo("#cp-e1-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 31.600);
-        tl.fromTo("#cp-e1 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 34.100);
-        tl.fromTo("#cp-e2-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 34.700);
-        tl.fromTo("#cp-e2-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 34.800);
-        tl.fromTo("#cp-e2-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 34.950);
-        tl.fromTo("#cp-e2-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 35.200);
-        tl.fromTo("#cp-e2 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 36.500);
-        tl.fromTo("#cp-e3-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 37.100);
-        tl.fromTo("#cp-e3-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 37.200);
-        tl.fromTo("#cp-e3-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 37.350);
-        tl.fromTo("#cp-e3-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 37.600);
-        tl.fromTo("#cp-e3 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 38.900);
-        tl.fromTo("#lg-gadek-i", { opacity: 0 }, { opacity: 0.92, duration: 1.2, ease: "sine.out", immediateRender: false }, 31.200);
-        tl.fromTo("#lg-gadek-i", { opacity: 0.92 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 34.100);
-        tl.fromTo("#s-m1-img", { scale: 1.04, x: 0 }, { scale: 1.12, x: 0, duration: 4.0, ease: "none", immediateRender: false }, 38.800);
-        tl.fromTo("#s-m1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 38.800);
-        tl.fromTo("#s-m2-img", { scale: 1.1, x: 0 }, { scale: 1.03, x: 0, duration: 2.6, ease: "none", immediateRender: false }, 42.200);
-        tl.fromTo("#s-m2", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 42.200);
-        tl.fromTo("#s-m3", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 44.200);
-        tl.fromTo("#dip-l", { yPercent: -8 }, { yPercent: 0, duration: 1.4, ease: "expo.out", immediateRender: false }, 44.200);
-        tl.fromTo("#dip-r", { yPercent: 8 }, { yPercent: 0, duration: 1.4, ease: "expo.out", immediateRender: false }, 44.200);
-        tl.fromTo(["#dip-li", "#dip-ri"], { scale: 1.12 }, { scale: 1.02, duration: 3.6, ease: "none", immediateRender: false }, 44.200);
-        tl.fromTo("#ch3-n", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 39.400);
-        tl.fromTo("#ch3-w .ch", { opacity: 0, y: 40, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, stagger: 0.04, ease: "power3.out", immediateRender: false }, 39.550);
-        tl.fromTo("#ch3-r", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 39.700);
-        tl.fromTo("#ch3 .chap", { opacity: 1, y: 0 }, { opacity: 0, y: -20, duration: 0.6, ease: "sine.in", immediateRender: false }, 40.700);
-        tl.fromTo("#cp-m1-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 41.300);
-        tl.fromTo("#cp-m1-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 41.400);
-        tl.fromTo("#cp-m1-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 41.550);
-        tl.fromTo("#cp-m1-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 41.800);
-        tl.fromTo("#cp-m1 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 44.300);
-        tl.fromTo("#cp-m2-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 44.900);
-        tl.fromTo("#cp-m2-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 45.000);
-        tl.fromTo("#cp-m2-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 45.150);
-        tl.fromTo("#cp-m2-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 45.400);
-        tl.fromTo("#cp-m2 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 47.300);
-        tl.fromTo("#s-v0", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 47.200);
-        tl.fromTo("#s-v0-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 47.200);
-        tl.fromTo("#s-v1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 50.600);
-        tl.fromTo("#s-v1-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 50.600);
-        tl.fromTo("#s-v2", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 52.900);
-        tl.fromTo("#s-v2-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 52.900);
-        tl.fromTo("#s-v3", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 55.200);
-        tl.fromTo("#s-v3-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 55.200);
-        tl.fromTo("#s-v4", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 57.500);
-        tl.fromTo("#s-v4-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 57.500);
-        tl.fromTo("#s-v5", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 59.700);
-        tl.fromTo("#s-v5-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 59.700);
-        tl.fromTo("#s-v6", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 62.100);
-        tl.fromTo("#s-v6-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 62.100);
-        tl.fromTo("#s-v7", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 64.300);
-        tl.fromTo("#s-v7-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 64.300);
-        tl.fromTo("#ch4-n", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 47.800);
-        tl.fromTo("#ch4-w .ch", { opacity: 0, y: 40, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, stagger: 0.04, ease: "power3.out", immediateRender: false }, 47.950);
-        tl.fromTo("#ch4-r", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 48.100);
-        tl.fromTo("#ch4 .chap", { opacity: 1, y: 0 }, { opacity: 0, y: -20, duration: 0.6, ease: "sine.in", immediateRender: false }, 49.100);
-        tl.fromTo("#cp-v1-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 49.700);
-        tl.fromTo("#cp-v1-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 49.800);
-        tl.fromTo("#cp-v1-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 49.950);
-        tl.fromTo("#cp-v1-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 50.200);
-        tl.fromTo("#cp-v1 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 50.700);
-        tl.fromTo("#cp-v2-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 51.300);
-        tl.fromTo("#cp-v2-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 51.400);
-        tl.fromTo("#cp-v2-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 51.550);
-        tl.fromTo("#cp-v2-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 51.800);
-        tl.fromTo("#cp-v2 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 53.000);
-        tl.fromTo("#cp-v3-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 53.600);
-        tl.fromTo("#cp-v3-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 53.700);
-        tl.fromTo("#cp-v3-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 53.850);
-        tl.fromTo("#cp-v3-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 54.100);
-        tl.fromTo("#cp-v3 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 55.300);
-        tl.fromTo("#cp-v4-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 55.900);
-        tl.fromTo("#cp-v4-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 56.000);
-        tl.fromTo("#cp-v4-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 56.150);
-        tl.fromTo("#cp-v4-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 56.400);
-        tl.fromTo("#cp-v4 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 59.800);
-        tl.fromTo("#cp-v5-k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 60.400);
-        tl.fromTo("#cp-v5-t", { yPercent: 105 }, { yPercent: 0, duration: 1.1, ease: "expo.out", immediateRender: false }, 60.500);
-        tl.fromTo("#cp-v5-r", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut", immediateRender: false }, 60.650);
-        tl.fromTo("#cp-v5-s", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", immediateRender: false }, 60.900);
-        tl.fromTo("#cp-v5 .cap", { opacity: 1 }, { opacity: 0, duration: 0.45, ease: "sine.in", immediateRender: false }, 66.700);
-        tl.fromTo("#tri", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut", immediateRender: false }, 66.600);
-        tl.fromTo("#tri0", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.4, ease: "expo.out", immediateRender: false }, 66.900);
-        tl.fromTo("#tri0-i", { scale: 1.14 }, { scale: 1.02, duration: 4.3, ease: "none", immediateRender: false }, 66.900);
-        tl.fromTo("#tri1", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 1.4, ease: "expo.out", immediateRender: false }, 67.050);
-        tl.fromTo("#tri1-i", { scale: 1.14 }, { scale: 1.02, duration: 4.3, ease: "none", immediateRender: false }, 66.900);
-        tl.fromTo("#tri2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.4, ease: "expo.out", immediateRender: false }, 67.200);
-        tl.fromTo("#tri2-i", { scale: 1.14 }, { scale: 1.02, duration: 4.3, ease: "none", immediateRender: false }, 66.900);
-        tl.fromTo("#tri-a", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.3, ease: "power3.out", immediateRender: false }, 67.800);
-        tl.fromTo("#tri-b", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.3, ease: "power3.out", immediateRender: false }, 68.200);
-        tl.fromTo("#tri .tri-txt", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "sine.in", immediateRender: false }, 70.700);
-        tl.fromTo("#endc", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.inOut", immediateRender: false }, 70.600);
-        tl.fromTo("#end-frame", { opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: 1.6, ease: "power3.out", immediateRender: false }, 71.000);
-        tl.fromTo("#end-logo", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1.4, ease: "power3.out", immediateRender: false }, 71.300);
-        tl.fromTo("#end-r", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "expo.inOut", immediateRender: false }, 71.800);
-        tl.fromTo("#end-tag", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 72.000);
-        tl.fromTo("#end-row", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 72.300);
-        tl.fromTo("#end-addr", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power3.out", immediateRender: false }, 72.600);
-        tl.fromTo("#end-foot", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", immediateRender: false }, 72.900);
-        tl.fromTo("#fadeout", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.in", immediateRender: false }, 75.600);
-        tl.fromTo("#lb-top", { yPercent: -100 }, { yPercent: 0, duration: 1.4, ease: "expo.inOut", immediateRender: false }, 0.000);
-        tl.fromTo("#lb-bot", { yPercent: 100 }, { yPercent: 0, duration: 1.4, ease: "expo.inOut", immediateRender: false }, 0.000);
+        tl.fromTo("#op-grid", { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 2.5, ease: "power2.out", immediateRender: false }, 0.000);
+        tl.fromTo("#op-line", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 0.200);
+        tl.fromTo("#op-t .ch", { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "expo.out", stagger: 0.025, immediateRender: false }, 0.700);
+        tl.fromTo("#op-s", { yPercent: -120 }, { yPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: false }, 1.300);
+        tl.fromTo("#open .op", { scale: 1, opacity: 1 }, { scale: 0.9, opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 3.200);
+        tl.fromTo("#sw0", { x: 2400 }, { x: -3000, duration: 0.9, ease: "expo.inOut", immediateRender: false }, 3.100);
+        tl.fromTo("#sw1", { x: 2400 }, { x: -3000, duration: 0.9, ease: "expo.inOut", immediateRender: false }, 3.170);
+        tl.fromTo("#sw2", { x: 2400 }, { x: -3000, duration: 0.9, ease: "expo.inOut", immediateRender: false }, 3.240);
+        tl.fromTo("#s-title-img", { scale: 1.55 }, { scale: 1.08, duration: 5.2, ease: "power2.out", immediateRender: false }, 3.600);
+        tl.fromTo("#brk1-tl", { x: -40, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 4.000);
+        tl.fromTo("#brk1-tr", { x: 40, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 4.000);
+        tl.fromTo("#brk1-bl", { x: -40, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 4.000);
+        tl.fromTo("#brk1-br", { x: 40, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 4.000);
+        tl.fromTo("#ttl-k", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 3.950);
+        tl.fromTo("#ttl-a .ch3", { z: -1400, rotationX: 80, opacity: 0 }, { z: 0, rotationX: 0, opacity: 1, duration: 1.0, ease: "expo.out", stagger: 0.09, immediateRender: false }, 4.050);
+        tl.fromTo("#ttl-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 4.700);
+        tl.fromTo("#ttl-b .ch", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.02, immediateRender: false }, 5.000);
+        tl.fromTo("#st0", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 5.500);
+        tl.fromTo("#st1", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 5.600);
+        tl.fromTo("#st2", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 5.700);
+        tl.fromTo("#st3", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 5.800);
+        tl.fromTo("#ttl", { scale: 1, opacity: 1, filter: "blur(0px)" }, { scale: 2.6, opacity: 0, filter: "blur(14px)", duration: 0.4, ease: "power2.in", immediateRender: false }, 8.400);
+        tl.fromTo("#s-title-kb", { scale: 1, filter: "blur(0px)" }, { scale: 1.5, filter: "blur(20px)", duration: 0.4, ease: "power2.in", immediateRender: false }, 8.400);
+        tl.fromTo("#cpd-d0", { yPercent: 0 }, { yPercent: -55.00000000000001, duration: 1.1, ease: "expo.out", immediateRender: false }, 9.900);
+        tl.fromTo("#cpd-d1", { yPercent: 0 }, { yPercent: -75.0, duration: 1.1500000000000001, ease: "expo.out", immediateRender: false }, 9.970);
+        tl.fromTo("#cpd-d2", { yPercent: 0 }, { yPercent: -55.00000000000001, duration: 1.2000000000000002, ease: "expo.out", immediateRender: false }, 10.040);
+        tl.fromTo("#cpd-d3", { yPercent: 0 }, { yPercent: -55.00000000000001, duration: 1.25, ease: "expo.out", immediateRender: false }, 10.110);
+        tl.fromTo("#cpd-d4", { yPercent: 0 }, { yPercent: -60.0, duration: 1.3, ease: "expo.out", immediateRender: false }, 10.180);
+        tl.fromTo("#cpd-d5", { yPercent: 0 }, { yPercent: -50.0, duration: 1.35, ease: "expo.out", immediateRender: false }, 10.250);
+        tl.fromTo("#cpd-d6", { yPercent: 0 }, { yPercent: -55.00000000000001, duration: 1.4000000000000001, ease: "expo.out", immediateRender: false }, 10.320);
+        tl.fromTo("#cpd-d7", { yPercent: 0 }, { yPercent: -80.0, duration: 1.4500000000000002, ease: "expo.out", immediateRender: false }, 10.390);
+        tl.fromTo("#corp", { scale: 0.8, filter: "blur(16px)" }, { scale: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out", immediateRender: false }, 8.800);
+        tl.fromTo("#cp-photo", { xPercent: 110 }, { xPercent: 0, duration: 0.9, ease: "expo.inOut", immediateRender: false }, 8.900);
+        tl.fromTo("#cp-pin", { scale: 1.4 }, { scale: 1.05, duration: 4.8, ease: "power2.out", immediateRender: false }, 8.900);
+        tl.fromTo("#cp-card", { rotationY: -90, opacity: 0 }, { rotationY: 0, opacity: 1, duration: 0.9, ease: "expo.out", immediateRender: false }, 9.200);
+        tl.fromTo("#cp-k", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 9.700);
+        tl.fromTo("#cp-date", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power3.out", immediateRender: false }, 9.850);
+        tl.fromTo("#cp-s", { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: "expo.out", immediateRender: false }, 10.800);
+        tl.fromTo("#brk2-tl", { x: -40, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 13.900);
+        tl.fromTo("#brk2-tr", { x: 40, y: -40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 13.900);
+        tl.fromTo("#brk2-bl", { x: -40, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 13.900);
+        tl.fromTo("#brk2-br", { x: 40, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 13.900);
+        tl.fromTo("#lok-img", { scale: 1.3 }, { scale: 1.08, duration: 4.4, ease: "power2.out", immediateRender: false }, 13.600);
+        tl.fromTo("#lk-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 14.000);
+        tl.fromTo("#lk-t .ch", { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.03, immediateRender: false }, 14.100);
+        tl.fromTo("#lk-c .ch", { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none", stagger: 0.035, immediateRender: false }, 14.800);
+        tl.fromTo("#pin", { y: -500, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "bounce.out", immediateRender: false }, 14.200);
+        tl.fromTo("#rg0", { scale: 0.2, opacity: 0.9 }, { scale: 3.2, opacity: 0, duration: 1.6, ease: "power2.out", immediateRender: false }, 14.900);
+        tl.fromTo("#rg1", { scale: 0.2, opacity: 0.9 }, { scale: 3.2, opacity: 0, duration: 1.6, ease: "power2.out", immediateRender: false }, 15.400);
+        tl.fromTo("#rg2", { scale: 0.2, opacity: 0.9 }, { scale: 3.2, opacity: 0, duration: 1.6, ease: "power2.out", immediateRender: false }, 15.900);
+        tl.fromTo("#tl1", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, 15.100);
+        tl.fromTo("#tag1", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 15.300);
+        tl.fromTo("#tl2", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, 15.700);
+        tl.fromTo("#tag2", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 15.900);
+        tl.fromTo("#corp", { x: 0, filter: "blur(0px)" }, { x: -620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 13.380);
+        tl.fromTo("#lok", { x: 620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 13.600);
+        tl.fromTo("#streak", { x: 2300 }, { x: -700, duration: 0.32, ease: "none", immediateRender: false }, 13.440);
+        tl.fromTo("#sn0-d0", { yPercent: 0 }, { yPercent: -70.0, duration: 1.3, ease: "expo.out", immediateRender: false }, 18.500);
+        tl.fromTo("#sn1-d0", { yPercent: 0 }, { yPercent: -55.00000000000001, duration: 1.3, ease: "expo.out", immediateRender: false }, 18.700);
+        tl.fromTo("#sn1-d1", { yPercent: 0 }, { yPercent: -90.0, duration: 1.35, ease: "expo.out", immediateRender: false }, 18.770);
+        tl.fromTo("#sn1-d2", { yPercent: 0 }, { yPercent: -90.0, duration: 1.4000000000000001, ease: "expo.out", immediateRender: false }, 18.840);
+        tl.fromTo("#sn2-d0", { yPercent: 0 }, { yPercent: -60.0, duration: 1.3, ease: "expo.out", immediateRender: false }, 18.900);
+        tl.fromTo("#sn2-d1", { yPercent: 0 }, { yPercent: -70.0, duration: 1.35, ease: "expo.out", immediateRender: false }, 18.970);
+        tl.fromTo("#sp0", { yPercent: 130, rotation: 4 }, { yPercent: 0, rotation: 0, duration: 0.8, ease: "expo.out", immediateRender: false }, 18.050);
+        tl.fromTo("#sp0-i", { scale: 1.4 }, { scale: 1.1, duration: 4.42, ease: "power2.out", immediateRender: false }, 18.000);
+        tl.fromTo("#sp1", { yPercent: -130, rotation: -4 }, { yPercent: 0, rotation: 0, duration: 0.8, ease: "expo.out", immediateRender: false }, 18.150);
+        tl.fromTo("#sp1-i", { scale: 1.4 }, { scale: 1.1, duration: 4.42, ease: "power2.out", immediateRender: false }, 18.000);
+        tl.fromTo("#sp2", { yPercent: 130, rotation: 4 }, { yPercent: 0, rotation: 0, duration: 0.8, ease: "expo.out", immediateRender: false }, 18.250);
+        tl.fromTo("#sp2-i", { scale: 1.4 }, { scale: 1.1, duration: 4.42, ease: "power2.out", immediateRender: false }, 18.000);
+        tl.fromTo("#lok", { y: 0, filter: "blur(0px)" }, { y: -460, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 17.780);
+        tl.fromTo("#stats", { y: 460, filter: "blur(30px)" }, { y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 18.000);
+        tl.fromTo("#ch1-g", { x: 2250 }, { x: -470, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 21.970);
+        tl.fromTo("#ch1-p", { x: 2400 }, { x: -330, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 22.000);
+        tl.fromTo("#ch1-n", { x: 500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 22.200);
+        tl.fromTo("#ch1-k", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 22.250);
+        tl.fromTo("#ch1-w .ch", { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.025, immediateRender: false }, 22.280);
+        tl.fromTo(["#ch1-n", "#ch1 .chp-txt"], { x: 0, opacity: 1 }, { x: -420, opacity: 0, duration: 0.38, ease: "expo.in", immediateRender: false }, 22.980);
+        tl.fromTo("#ch1-p", { x: -330 }, { x: -3250, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 23.000);
+        tl.fromTo("#ch1-g", { x: -470 }, { x: -3400, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 23.030);
+        tl.fromTo("#s-f1-img", { scale: 1.22 }, { scale: 1.04, duration: 2.98, ease: "power2.out", immediateRender: false }, 22.420);
+        tl.fromTo("#s-f2-img", { scale: 1.22 }, { scale: 1.04, duration: 2.0, ease: "power2.out", immediateRender: false }, 25.400);
+        tl.fromTo("#s-f3-img", { scale: 1.22 }, { scale: 1.04, duration: 2.62, ease: "power2.out", immediateRender: false }, 27.400);
+        tl.fromTo("#s-f1-kb", { x: 0, filter: "blur(0px)" }, { x: -620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 25.180);
+        tl.fromTo("#s-f2-kb", { x: 620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 25.400);
+        tl.fromTo("#streak", { x: 2300 }, { x: -700, duration: 0.32, ease: "none", immediateRender: false }, 25.240);
+        tl.fromTo("#s-f2-kb", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 27.180);
+        tl.fromTo("#s-f3-kb", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 27.400);
+        tl.fromTo("#lt-f1-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 23.300);
+        tl.fromTo("#lt-f1-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 23.350);
+        tl.fromTo("#lt-f1-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 23.350);
+        tl.fromTo("#lt-f1-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 23.500);
+        tl.fromTo("#lt-f1-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 23.500);
+        tl.fromTo("#lt-f1-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 27.140);
+        tl.fromTo("#lt-f2-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 27.700);
+        tl.fromTo("#lt-f2-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 27.750);
+        tl.fromTo("#lt-f2-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 27.750);
+        tl.fromTo("#lt-f2-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 27.900);
+        tl.fromTo("#lt-f2-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 27.900);
+        tl.fromTo("#lt-f2-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 29.340);
+        tl.fromTo("#ch2-g", { x: 2250 }, { x: -470, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 29.570);
+        tl.fromTo("#ch2-p", { x: 2400 }, { x: -330, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 29.600);
+        tl.fromTo("#ch2-n", { x: 500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 29.800);
+        tl.fromTo("#ch2-k", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 29.850);
+        tl.fromTo("#ch2-w .ch", { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.025, immediateRender: false }, 29.880);
+        tl.fromTo(["#ch2-n", "#ch2 .chp-txt"], { x: 0, opacity: 1 }, { x: -420, opacity: 0, duration: 0.38, ease: "expo.in", immediateRender: false }, 30.580);
+        tl.fromTo("#ch2-p", { x: -330 }, { x: -3250, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 30.600);
+        tl.fromTo("#ch2-g", { x: -470 }, { x: -3400, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 30.630);
+        tl.fromTo("#gal-row", { rotationY: 38, x: 520, z: -500 }, { rotationY: -30, x: -420, z: -260, duration: 3.58, ease: "power2.inOut", immediateRender: false }, 30.020);
+        tl.fromTo("#gc0", { y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 30.620);
+        tl.fromTo("#gc1", { y: -200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 30.740);
+        tl.fromTo("#gc2", { y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 30.860);
+        tl.fromTo("#s-e1-img", { scale: 1.22 }, { scale: 1.04, duration: 1.8, ease: "power2.out", immediateRender: false }, 33.600);
+        tl.fromTo("#s-e2-img", { scale: 1.22 }, { scale: 1.04, duration: 1.6, ease: "power2.out", immediateRender: false }, 35.400);
+        tl.fromTo("#s-e3-img", { scale: 1.22 }, { scale: 1.04, duration: 2.22, ease: "power2.out", immediateRender: false }, 37.000);
+        tl.fromTo("#gal", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 33.380);
+        tl.fromTo("#s-e1-kb", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 33.600);
+        tl.fromTo("#s-e1-kb", { x: 0, filter: "blur(0px)" }, { x: -620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 35.180);
+        tl.fromTo("#s-e2-kb", { x: 620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 35.400);
+        tl.fromTo("#streak", { x: 2300 }, { x: -700, duration: 0.32, ease: "none", immediateRender: false }, 35.240);
+        tl.fromTo("#s-e2-kb", { scale: 1, rotation: 0, filter: "blur(0px)" }, { scale: 1.4, rotation: 8, filter: "blur(24px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 36.780);
+        tl.fromTo("#s-e3-kb", { scale: 1.4, rotation: -8, filter: "blur(24px)" }, { scale: 1, rotation: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 37.000);
+        tl.fromTo("#lt-e1-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 33.850);
+        tl.fromTo("#lt-e1-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 33.900);
+        tl.fromTo("#lt-e1-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 33.900);
+        tl.fromTo("#lt-e1-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 34.050);
+        tl.fromTo("#lt-e1-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 34.050);
+        tl.fromTo("#lt-e1-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 35.140);
+        tl.fromTo("#lt-e2-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 35.650);
+        tl.fromTo("#lt-e2-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 35.700);
+        tl.fromTo("#lt-e2-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 35.700);
+        tl.fromTo("#lt-e2-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 35.850);
+        tl.fromTo("#lt-e2-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 35.850);
+        tl.fromTo("#lt-e2-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 36.740);
+        tl.fromTo("#lt-e3-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 37.250);
+        tl.fromTo("#lt-e3-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 37.300);
+        tl.fromTo("#lt-e3-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 37.300);
+        tl.fromTo("#lt-e3-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 37.450);
+        tl.fromTo("#lt-e3-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 37.450);
+        tl.fromTo("#lt-e3-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 38.540);
+        tl.fromTo("#lg-gadek-i", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.8)", immediateRender: false }, 34.100);
+        tl.fromTo("#ch3-g", { x: 2250 }, { x: -470, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 38.770);
+        tl.fromTo("#ch3-p", { x: 2400 }, { x: -330, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 38.800);
+        tl.fromTo("#ch3-n", { x: 500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 39.000);
+        tl.fromTo("#ch3-k", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 39.050);
+        tl.fromTo("#ch3-w .ch", { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.025, immediateRender: false }, 39.080);
+        tl.fromTo(["#ch3-n", "#ch3 .chp-txt"], { x: 0, opacity: 1 }, { x: -420, opacity: 0, duration: 0.38, ease: "expo.in", immediateRender: false }, 39.780);
+        tl.fromTo("#ch3-p", { x: -330 }, { x: -3250, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 39.800);
+        tl.fromTo("#ch3-g", { x: -470 }, { x: -3400, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 39.830);
+        tl.fromTo("#s-m1-img", { scale: 1.22 }, { scale: 1.04, duration: 4.68, ease: "power2.out", immediateRender: false }, 39.220);
+        tl.fromTo("#sl0", { yPercent: -100 }, { yPercent: 0, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 39.770);
+        tl.fromTo("#sl0-i", { scale: 1.5 }, { scale: 1.1, duration: 2.68, ease: "power2.out", immediateRender: false }, 39.770);
+        tl.fromTo("#sl0", { yPercent: 0 }, { yPercent: 100, duration: 0.45, ease: "expo.in", immediateRender: false }, 41.450);
+        tl.fromTo("#sl1", { yPercent: 100 }, { yPercent: 0, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 39.870);
+        tl.fromTo("#sl1-i", { scale: 1.5 }, { scale: 1.1, duration: 2.68, ease: "power2.out", immediateRender: false }, 39.770);
+        tl.fromTo("#sl1", { yPercent: 0 }, { yPercent: -100, duration: 0.45, ease: "expo.in", immediateRender: false }, 41.450);
+        tl.fromTo("#sl2", { yPercent: -100 }, { yPercent: 0, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 39.970);
+        tl.fromTo("#sl2-i", { scale: 1.5 }, { scale: 1.1, duration: 2.68, ease: "power2.out", immediateRender: false }, 39.770);
+        tl.fromTo("#sl2", { yPercent: 0 }, { yPercent: 100, duration: 0.45, ease: "expo.in", immediateRender: false }, 41.450);
+        tl.fromTo("#s-m2-img", { scale: 1.22 }, { scale: 1.04, duration: 2.32, ease: "power2.out", immediateRender: false }, 43.900);
+        tl.fromTo("#s-m1-kb", { x: 0, filter: "blur(0px)" }, { x: 620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 43.680);
+        tl.fromTo("#s-m2-kb", { x: -620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 43.900);
+        tl.fromTo("#streak", { x: -700 }, { x: 2300, duration: 0.32, ease: "none", immediateRender: false }, 43.740);
+        tl.fromTo("#lt-m1-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 41.900);
+        tl.fromTo("#lt-m1-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 41.950);
+        tl.fromTo("#lt-m1-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 41.950);
+        tl.fromTo("#lt-m1-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 42.100);
+        tl.fromTo("#lt-m1-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 42.100);
+        tl.fromTo("#lt-m1-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 43.640);
+        tl.fromTo("#lt-m2-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 44.150);
+        tl.fromTo("#lt-m2-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 44.200);
+        tl.fromTo("#lt-m2-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 44.200);
+        tl.fromTo("#lt-m2-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 44.350);
+        tl.fromTo("#lt-m2-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 44.350);
+        tl.fromTo("#lt-m2-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 45.540);
+        tl.fromTo("#ch4-g", { x: 2250 }, { x: -470, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 45.770);
+        tl.fromTo("#ch4-p", { x: 2400 }, { x: -330, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 45.800);
+        tl.fromTo("#ch4-n", { x: 500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", immediateRender: false }, 46.000);
+        tl.fromTo("#ch4-k", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 46.050);
+        tl.fromTo("#ch4-w .ch", { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", stagger: 0.025, immediateRender: false }, 46.080);
+        tl.fromTo(["#ch4-n", "#ch4 .chp-txt"], { x: 0, opacity: 1 }, { x: -420, opacity: 0, duration: 0.38, ease: "expo.in", immediateRender: false }, 46.780);
+        tl.fromTo("#ch4-p", { x: -330 }, { x: -3250, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 46.800);
+        tl.fromTo("#ch4-g", { x: -470 }, { x: -3400, duration: 0.42, ease: "expo.inOut", immediateRender: false }, 46.830);
+        tl.fromTo("#s-v0", { x: 0, filter: "blur(0px)" }, { x: -620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 48.380);
+        tl.fromTo("#s-v1", { x: 620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 48.600);
+        tl.fromTo("#streak", { x: 2300 }, { x: -700, duration: 0.32, ease: "none", immediateRender: false }, 48.440);
+        tl.fromTo("#s-v1", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 49.880);
+        tl.fromTo("#s-v2", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 50.100);
+        tl.fromTo("#s-v2", { y: 0, filter: "blur(0px)" }, { y: -460, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 51.380);
+        tl.fromTo("#s-v3", { y: 460, filter: "blur(30px)" }, { y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 51.600);
+        tl.fromTo("#s-v3", { x: 0, filter: "blur(0px)" }, { x: -620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 52.880);
+        tl.fromTo("#s-v4", { x: 620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 53.100);
+        tl.fromTo("#streak", { x: 2300 }, { x: -700, duration: 0.32, ease: "none", immediateRender: false }, 52.940);
+        tl.fromTo("#s-v4", { scale: 1, rotation: 0, filter: "blur(0px)" }, { scale: 1.4, rotation: 8, filter: "blur(24px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 54.280);
+        tl.fromTo("#s-v5", { scale: 1.4, rotation: -8, filter: "blur(24px)" }, { scale: 1, rotation: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 54.500);
+        tl.fromTo("#s-v5", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 55.880);
+        tl.fromTo("#s-v6", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 56.100);
+        tl.fromTo("#s-v6", { x: 0, filter: "blur(0px)" }, { x: 620, filter: "blur(30px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 57.280);
+        tl.fromTo("#s-v7", { x: -620, filter: "blur(30px)" }, { x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 57.500);
+        tl.fromTo("#streak", { x: -700 }, { x: 2300, duration: 0.32, ease: "none", immediateRender: false }, 57.340);
+        tl.fromTo("#lt-v1-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 47.100);
+        tl.fromTo("#lt-v1-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 47.150);
+        tl.fromTo("#lt-v1-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 47.150);
+        tl.fromTo("#lt-v1-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 47.300);
+        tl.fromTo("#lt-v1-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 47.300);
+        tl.fromTo("#lt-v1-c0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 47.550);
+        tl.fromTo("#lt-v1-c1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 47.670);
+        tl.fromTo("#lt-v1-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 48.340);
+        tl.fromTo("#lt-v2-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 48.800);
+        tl.fromTo("#lt-v2-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 48.850);
+        tl.fromTo("#lt-v2-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 48.850);
+        tl.fromTo("#lt-v2-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 49.000);
+        tl.fromTo("#lt-v2-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 49.000);
+        tl.fromTo("#lt-v2-c0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 49.250);
+        tl.fromTo("#lt-v2-c1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 49.370);
+        tl.fromTo("#lt-v2-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 49.840);
+        tl.fromTo("#lt-v3-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 50.300);
+        tl.fromTo("#lt-v3-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 50.350);
+        tl.fromTo("#lt-v3-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 50.350);
+        tl.fromTo("#lt-v3-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 50.500);
+        tl.fromTo("#lt-v3-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 50.500);
+        tl.fromTo("#lt-v3-c0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 50.750);
+        tl.fromTo("#lt-v3-c1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 50.870);
+        tl.fromTo("#lt-v3-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 51.340);
+        tl.fromTo("#lt-v4-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 51.800);
+        tl.fromTo("#lt-v4-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 51.850);
+        tl.fromTo("#lt-v4-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 51.850);
+        tl.fromTo("#lt-v4-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 52.000);
+        tl.fromTo("#lt-v4-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 52.000);
+        tl.fromTo("#lt-v4-c0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 52.250);
+        tl.fromTo("#lt-v4-c1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 52.370);
+        tl.fromTo("#lt-v4-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 54.240);
+        tl.fromTo("#lt-v5-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 54.700);
+        tl.fromTo("#lt-v5-bm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 54.750);
+        tl.fromTo("#lt-v5-b", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 54.750);
+        tl.fromTo("#lt-v5-sm", { xPercent: -101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 54.900);
+        tl.fromTo("#lt-v5-s", { xPercent: 101 }, { xPercent: 0, duration: 0.6, ease: "expo.inOut", immediateRender: false }, 54.900);
+        tl.fromTo("#lt-v5-c0", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 55.150);
+        tl.fromTo("#lt-v5-c1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 55.270);
+        tl.fromTo("#lt-v5-lt", { x: 0, opacity: 1 }, { x: -90, opacity: 0, duration: 0.24, ease: "power2.in", immediateRender: false }, 58.740);
+        tl.fromTo("#mt0", { x: -450.0, y: -300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.000);
+        tl.fromTo("#mt1", { x: -150.0, y: -300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.140);
+        tl.fromTo("#mt2", { x: 150.0, y: -300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.040);
+        tl.fromTo("#mt3", { x: 450.0, y: -300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.180);
+        tl.fromTo("#mt4", { x: -450.0, y: 0, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.080);
+        tl.fromTo("#mt5", { x: -150.0, y: 0, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.220);
+        tl.fromTo("#mt6", { x: 150.0, y: 0, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.120);
+        tl.fromTo("#mt7", { x: 450.0, y: 0, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.020);
+        tl.fromTo("#mt8", { x: -450.0, y: 300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.160);
+        tl.fromTo("#mt9", { x: -150.0, y: 300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.060);
+        tl.fromTo("#mt10", { x: 150.0, y: 300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.200);
+        tl.fromTo("#mt11", { x: 450.0, y: 300, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 59.100);
+        tl.fromTo("#mos", { scale: 1.25, rotationX: 0, rotation: 0 }, { scale: 0.82, rotationX: 18, rotation: -4, duration: 3.0, ease: "power2.inOut", immediateRender: false }, 59.000);
+        tl.fromTo("#mos-sh", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 59.500);
+        tl.fromTo("#mos-k", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, 59.800);
+        tl.fromTo("#mos-t .ch", { z: -600, opacity: 0 }, { z: 0, opacity: 1, duration: 0.7, ease: "expo.out", stagger: 0.02, immediateRender: false }, 59.900);
+        tl.fromTo("#s-v7", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 58.780);
+        tl.fromTo("#recap", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 59.000);
+        tl.fromTo("#recap", { scale: 1, filter: "blur(0px)" }, { scale: 1.7, filter: "blur(26px)", duration: 0.22, ease: "power2.in", immediateRender: false }, 61.780);
+        tl.fromTo("#endc", { scale: 0.55, filter: "blur(26px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 62.000);
+        tl.fromTo("#end-band", { xPercent: -120 }, { xPercent: 0, duration: 0.8, ease: "expo.inOut", immediateRender: false }, 62.100);
+        tl.fromTo("#end-logo", { scale: 0.3, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.9, ease: "back.out(1.6)", immediateRender: false }, 62.300);
+        tl.fromTo("#end-tag .ch", { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.02, immediateRender: false }, 62.800);
+        tl.fromTo("#btn", { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)", immediateRender: false }, 63.200);
+        tl.fromTo("#btn2", { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)", immediateRender: false }, 63.320);
+        tl.fromTo("#btn3", { y: 40, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)", immediateRender: false }, 63.440);
+        tl.fromTo("#end-addr", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, 63.600);
+        tl.fromTo("#end-foot", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 63.800);
+        tl.fromTo("#cursor", { x: 520, y: 380, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 1.0, ease: "power3.inOut", immediateRender: false }, 64.200);
+        tl.fromTo("#cursor", { scale: 1 }, { scale: 0.82, duration: 0.12, ease: "power2.out", immediateRender: false }, 65.250);
+        tl.fromTo("#cursor", { scale: 0.82 }, { scale: 1, duration: 0.2, ease: "power2.out", immediateRender: false }, 65.370);
+        tl.fromTo("#btn", { scale: 1 }, { scale: 0.94, duration: 0.12, ease: "power2.out", immediateRender: false }, 65.250);
+        tl.fromTo("#btn", { scale: 0.94 }, { scale: 1.06, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 65.370);
+        tl.fromTo("#ripple", { scale: 0, opacity: 0.7 }, { scale: 6, opacity: 0, duration: 0.8, ease: "power2.out", immediateRender: false }, 65.300);
+        tl.fromTo("#fadeout", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.in", immediateRender: false }, 67.100);
+        tl.fromTo(["#hud-tl", "#hud-tr"], { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 23.020);
+        tl.fromTo("#hud-bar", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 23.020);
+        tl.fromTo("#segf0", { scaleX: 0 }, { scaleX: 1, duration: 7.6, ease: "none", immediateRender: false }, 22.420);
+        tl.fromTo("#segl0", { opacity: 0.45 }, { opacity: 1, duration: 0.3, ease: "none", immediateRender: false }, 22.420);
+        tl.fromTo("#segl0", { opacity: 1 }, { opacity: 0.45, duration: 0.3, ease: "none", immediateRender: false }, 30.020);
+        tl.fromTo("#segf1", { scaleX: 0 }, { scaleX: 1, duration: 9.2, ease: "none", immediateRender: false }, 30.020);
+        tl.fromTo("#segl1", { opacity: 0.45 }, { opacity: 1, duration: 0.3, ease: "none", immediateRender: false }, 30.020);
+        tl.fromTo("#segl1", { opacity: 1 }, { opacity: 0.45, duration: 0.3, ease: "none", immediateRender: false }, 39.220);
+        tl.fromTo("#segf2", { scaleX: 0 }, { scaleX: 1, duration: 7.0, ease: "none", immediateRender: false }, 39.220);
+        tl.fromTo("#segl2", { opacity: 0.45 }, { opacity: 1, duration: 0.3, ease: "none", immediateRender: false }, 39.220);
+        tl.fromTo("#segl2", { opacity: 1 }, { opacity: 0.45, duration: 0.3, ease: "none", immediateRender: false }, 46.220);
+        tl.fromTo("#segf3", { scaleX: 0 }, { scaleX: 1, duration: 12.78, ease: "none", immediateRender: false }, 46.220);
+        tl.fromTo("#segl3", { opacity: 0.45 }, { opacity: 1, duration: 0.3, ease: "none", immediateRender: false }, 46.220);
+        tl.fromTo(["#hud-tl", "#hud-tr", "#hud-bar"], { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "power3.out", immediateRender: false }, 58.750);
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;
       })();

@@ -4,10 +4,40 @@ Corporate intro for social media, all on-screen text in Malay.  Sources:
 `MCORP_HOTEL_PROFILE_POSTER_2026.pdf` and https://mitchotel.com.my/ (photos, room types/sizes,
 Asahan hours, address, phone).
 
-Build: `python3 scripts/mitc_build.py` → `hf/index.html` (styles in `style.css`).
-Scene lengths are the list under "timeline" in the build script; shots overlap 0.6 s for dissolves.
+Build (current, v3): `python3 scripts/mitc_build.py` → `hf/index.html` (styles in `style-v3.css`),
+then in `hf/`: `npx hyperframes@0.8.174 render -q delivery -f 30 -o ../final/MITC-Pengenalan-v3-1080p.mp4`.
+The v2 luxury cut is rebuilt with `scripts/mitc_build_v2.py` (`style-v2.css`) — both write `hf/index.html`.
 
-## v2 — luxury cut (current, `final/MITC-Pengenalan-v2-1080p.mp4`)
+## v3 — corporate hypermotion (current, `final/MITC-Pengenalan-v3-1080p.mp4`, 67.6 s, silent)
+Requested after v2: "not interactive", wants hypermotion / motion graphics, more wow, more corporate; still no music.
+- Navy / white / gold + electric blue, Inter Display (bundled .otf), grid backgrounds.
+- Cuts: whip pans with motion blur + light streak, zoom-through, vertical whip, spin (`cut()`);
+  photos get a speed-ramped push (fast then easing out).
+- Chapter wipes: skewed navy panel with gold leading edge, giant outline number, kinetic word (`chapter()`).
+- Kinetic type: 3D flying letters on "MITC", per-letter reveals, slot-machine digits for 15.11.2016 and 4/188/24 (`roll()`).
+- Scenes: triple diagonal sweep into the title; light corporate panel with flipping M'Corp logo card;
+  location map pin with pulse rings, callout tags and coordinates (2.27° U · 102.28° T); three stat cards;
+  3D photo gallery for the halls; slat reveal for dining; AI room clips with spec chips; 12-tile 3D mosaic;
+  end card with buttons and a cursor that clicks "TEMPAH SEKARANG".
+- HUD from the first chapter to the recap: "HOTEL MITC" / "AYER KEROH · MELAKA" tags and a 4-segment
+  chapter progress bar that fills as the film plays.
+- Lower-thirds: blue kicker tag, white title plate with gold bar, navy sub-line, room spec chips.
+
+| Root time | Scene |
+|---|---|
+| 0–3.6 | opening: "M'CORP HOTEL SDN. BHD. / PENGENDALI HOTEL MITC · MELAKA", diagonal sweeps |
+| 3.6–8.8 | title over night exterior, zoom-through out |
+| 8.8–13.6 | korporat: logo card, "ANAK SYARIKAT PKNM · DITUBUHKAN 15.11.2016" |
+| 13.6–18.0 | lokasi: "AYER KEROH, MELAKA", MITC + 10 minit dari Tol Ayer Keroh |
+| 18.0–22.4 | 4★ / 188 bilik / 24 jam cards |
+| 22.0–29.6 | 01 FASILITI: kolam renang ×2, lobi utama |
+| 29.6–38.8 | 02 DEWAN & ACARA: 3D gallery, Dewan Gadek, Bilik Gadek 5, Halaman Brisu |
+| 38.8–45.8 | 03 TEMPAT MAKAN: slats, Restoran Bemban, Asahan Cafe |
+| 45.8–59.0 | 04 BILIK & SUITE: 8 AI camera-move clips, 5 room types |
+| 59.0–62.0 | mosaic "SEGALANYA DI SATU DESTINASI" |
+| 62.0–67.6 | end card, button click, contacts, M'Corp Hotel + MCORP logos |
+
+## v2 — luxury cut (`scripts/mitc_build_v2.py`, superseded)
 Requested after v1: look more stylish / luxurious, less basic; drop "MEMPERSEMBAHKAN";
 "Di jantung Ayer Keroh" sounded wrong; **no music** (audio is added on the platform), so the
 render is silent.

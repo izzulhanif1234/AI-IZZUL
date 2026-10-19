@@ -2,19 +2,17 @@
 
 usage: python3 scripts/mitc_build.py
 
-Luxury cut (v2): letterboxed, serif typography, slow cross-dissolves, graded photos with
-film grain, no audio (the music is added on the social platform).  Scene lengths are in
-the timeline list below; shots overlap by XF seconds for the dissolves.
+v3, corporate hypermotion: whip / zoom-through transitions with motion blur, diagonal
+chapter wipes, 3D kinetic type, rolling digits, 3D photo gallery, slat and mosaic
+reveals, an on-screen chapter progress HUD and a "Tempah sekarang" button click on the
+end card.  Silent (music is added on the platform).  Styles: edits/mitc-pengenalan/style-v3.css
+(v2 luxury cut: scripts/mitc_build_v2.py).
 """
 import json
 import os
 
 HF = os.path.join(os.path.dirname(__file__), "..", "edits", "mitc-pengenalan", "hf")
 W, H = 1920, 1080
-XF = 0.6           # cross-dissolve length
-
-# The grade, vignette and film grain are applied to the whole render afterwards
-# (scripts/mitc_finish.sh); per-element data-color-grading made the render >25 min.
 
 clips, tl = [], []
 
@@ -42,249 +40,367 @@ def clip(cid, start, end, inner, cls="", track=1):
                  f'data-duration="{at(end - start)}" data-track-index="{track}">{inner}</div>')
 
 
-def chars(text):
-    """Split text into per-letter spans so letters can be staggered with transforms."""
+def chars(text, cls="ch"):
     out = []
     for word in text.split(" "):
         if word.startswith("&"):
-            out.append(f'<span class="w"><span class="ch">{word}</span></span>')
+            out.append(f'<span class="w"><span class="{cls}">{word}</span></span>')
             continue
-        out.append('<span class="w">' + "".join(f'<span class="ch">{c}</span>' for c in word) + "</span>")
+        out.append('<span class="w">' + "".join(f'<span class="{cls}">{c}</span>' for c in word) + "</span>")
     return " ".join(out)
 
 
-def shot(cid, img, start, end, kb=(1.04, 1.12), origin="50% 50%", fade=True, track=1, shade="shade-cap", x=(0, 0)):
-    """Photo with slow drift; fades in over XF before `start` (cross-dissolve)."""
-    s0 = start - XF if fade else start
-    inner = (f'<img id="{cid}-img" src="assets/img/{img}.jpg" alt="" '
-             f'style="transform-origin:{origin}"/>' + (f'<div class="shade {shade}"></div>' if shade else ""))
-    clip(cid, s0, end, inner, "shot", track)
-    tw(f"#{cid}-img", {"scale": kb[0], "x": x[0]}, {"scale": kb[1], "x": x[1], "duration": round(end - s0, 3), "ease": "none"}, s0)
-    if fade:
-        tw(f"#{cid}", {"opacity": 0}, {"opacity": 1, "duration": XF, "ease": "sine.inOut"}, s0)
+def roll(cid, text, start, stagger=0.07, dur=1.1):
+    """Slot-machine digits: every digit spins through two cycles and lands on its value."""
+    html = []
+    k = 0
+    for c in text:
+        if c.isdigit():
+            stack = "".join(f"<span>{n % 10}</span>" for n in range(20))
+            html.append(f'<span class="roll"><span class="roll-s" id="{cid}-d{k}">{stack}</span></span>')
+            land = -(10 + int(c)) / 20 * 100
+            tw(f"#{cid}-d{k}", {"yPercent": 0}, {"yPercent": land, "duration": dur + k * 0.05, "ease": "expo.out"}, start + k * stagger)
+            k += 1
+        else:
+            html.append(f'<span class="roll-c">{c}</span>')
+    return "".join(html)
 
 
-def vshot(cid, vid, start, end, track=1, shade="shade-cap"):
-    """AI camera-move clip, a direct child of the stage, dissolving in like the photos."""
-    s0 = start - XF
-    clips.append(f'<video id="{cid}" class="clip vclip" src="assets/video/{vid}.mp4" data-start="{at(s0)}" '
-                 f'data-duration="{at(end - s0)}" data-media-start="0" data-hf-media-start-basis="local" '
+# ---------------------------------------------------------------- shots + transitions
+def shot(cid, img, start, end, kb=(1.22, 1.04), origin="50% 50%", track=1, shade="shade-lt"):
+    """Photo with a speed-ramped push (fast then easing out).  #cid-kb carries the transitions."""
+    inner = (f'<div class="kb" id="{cid}-kb"><img id="{cid}-img" src="assets/img/{img}.jpg" alt="" '
+             f'style="transform-origin:{origin}"/></div>' + (f'<div class="shade {shade}"></div>' if shade else ""))
+    clip(cid, start, end, inner, "shot", track)
+    tw(f"#{cid}-img", {"scale": kb[0]}, {"scale": kb[1], "duration": round(end - start, 3), "ease": "power2.out"}, start)
+    return f"#{cid}-kb"
+
+
+def vshot(cid, vid, start, end, track=1, media_start=0.3):
+    clips.append(f'<video id="{cid}" class="clip vclip" src="assets/video/{vid}.mp4" data-start="{at(start)}" '
+                 f'data-duration="{at(end - start)}" data-media-start="{media_start}" data-hf-media-start-basis="local" '
                  f'data-track-index="{track}" muted playsinline></video>')
-    tw(f"#{cid}", {"opacity": 0}, {"opacity": 1, "duration": XF, "ease": "sine.inOut"}, s0)
-    if shade:
-        clip(f"{cid}-sh", s0, end, "", f"shade {shade}", track + 1)
-        tw(f"#{cid}-sh", {"opacity": 0}, {"opacity": 1, "duration": XF, "ease": "sine.inOut"}, s0)
+    clip(f"{cid}-sh", start, end, "", "shade shade-lt", track + 1)
+    return f"#{cid}"
 
 
-def caption(cid, start, end, kicker, title, sub, track=6):
-    """Lower-left caption: tracked kicker, serif name, gold hairline, light sub-line."""
-    inner = (f'<div class="cap"><div class="cap-k" id="{cid}-k">{kicker}</div>'
-             f'<div class="mask"><div class="cap-t" id="{cid}-t">{title}</div></div>'
-             f'<div class="cap-r" id="{cid}-r"></div><div class="cap-s" id="{cid}-s">{sub}</div></div>')
+OUT = {
+    "whip":  ({"x": 0, "filter": "blur(0px)"}, {"x": -620, "filter": "blur(30px)"}),
+    "whipr": ({"x": 0, "filter": "blur(0px)"}, {"x": 620, "filter": "blur(30px)"}),
+    "whipv": ({"y": 0, "filter": "blur(0px)"}, {"y": -460, "filter": "blur(30px)"}),
+    "zoom":  ({"scale": 1, "filter": "blur(0px)"}, {"scale": 1.7, "filter": "blur(26px)"}),
+    "spin":  ({"scale": 1, "rotation": 0, "filter": "blur(0px)"}, {"scale": 1.4, "rotation": 8, "filter": "blur(24px)"}),
+}
+IN = {
+    "whip":  ({"x": 620, "filter": "blur(30px)"}, {"x": 0, "filter": "blur(0px)"}),
+    "whipr": ({"x": -620, "filter": "blur(30px)"}, {"x": 0, "filter": "blur(0px)"}),
+    "whipv": ({"y": 460, "filter": "blur(30px)"}, {"y": 0, "filter": "blur(0px)"}),
+    "zoom":  ({"scale": 0.55, "filter": "blur(26px)"}, {"scale": 1, "filter": "blur(0px)"}),
+    "spin":  ({"scale": 1.4, "rotation": -8, "filter": "blur(24px)"}, {"scale": 1, "rotation": 0, "filter": "blur(0px)"}),
+}
+
+
+def cut(a, b, T, kind="whip"):
+    """Hypermotion cut at T from element a to element b (selectors)."""
+    f, t = OUT[kind]
+    tw(a, f, dict(t, duration=0.22, ease="power2.in"), T - 0.22)
+    f, t = IN[kind]
+    tw(b, f, dict(t, duration=0.5, ease="expo.out"), T)
+    if kind in ("whip", "whipr"):
+        x0, x1 = (2300, -700) if kind == "whip" else (-700, 2300)
+        tw("#streak", {"x": x0}, {"x": x1, "duration": 0.32, "ease": "none"}, T - 0.16)
+
+
+# ---------------------------------------------------------------- overlays
+def lower_third(cid, start, end, kicker, title, sub, chips=(), track=6):
+    chip_html = "".join(f'<span class="chip" id="{cid}-c{i}"><i></i>{c}</span>' for i, c in enumerate(chips))
+    inner = (f'<div class="lt" id="{cid}-lt">'
+             f'<div class="m"><div class="lt-k" id="{cid}-k">{kicker}</div></div>'
+             f'<div class="m" id="{cid}-bm"><div class="lt-box" id="{cid}-b"><span class="lt-bar"></span>{title}</div></div>'
+             f'<div class="m" id="{cid}-sm"><div class="lt-s" id="{cid}-s">{sub}</div></div>'
+             + (f'<div class="chips">{chip_html}</div>' if chips else "") + "</div>")
     clip(cid, start, end, inner, "ovl", track)
-    tw(f"#{cid}-k", {"opacity": 0, "x": -20}, {"opacity": 1, "x": 0, "duration": 1.0}, start + 0.1)
-    tw(f"#{cid}-t", {"yPercent": 105}, {"yPercent": 0, "duration": 1.1, "ease": "expo.out"}, start + 0.2)
-    tw(f"#{cid}-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.2, "ease": "expo.inOut"}, start + 0.35)
-    tw(f"#{cid}-s", {"opacity": 0, "y": 12}, {"opacity": 1, "y": 0, "duration": 1.0}, start + 0.6)
-    tw(f"#{cid} .cap", {"opacity": 1}, {"opacity": 0, "duration": 0.45, "ease": "sine.in"}, end - 0.5)
+    tw(f"#{cid}-k", {"yPercent": 110}, {"yPercent": 0, "duration": 0.5, "ease": "expo.out"}, start)
+    tw(f"#{cid}-bm", {"xPercent": -101}, {"xPercent": 0, "duration": 0.6, "ease": "expo.inOut"}, start + 0.05)
+    tw(f"#{cid}-b", {"xPercent": 101}, {"xPercent": 0, "duration": 0.6, "ease": "expo.inOut"}, start + 0.05)
+    tw(f"#{cid}-sm", {"xPercent": -101}, {"xPercent": 0, "duration": 0.6, "ease": "expo.inOut"}, start + 0.2)
+    tw(f"#{cid}-s", {"xPercent": 101}, {"xPercent": 0, "duration": 0.6, "ease": "expo.inOut"}, start + 0.2)
+    for i in range(len(chips)):
+        tw(f"#{cid}-c{i}", {"scale": 0, "opacity": 0}, {"scale": 1, "opacity": 1, "duration": 0.45, "ease": "back.out(2)"}, start + 0.45 + i * 0.12)
+    tw(f"#{cid}-lt", {"x": 0, "opacity": 1}, {"x": -90, "opacity": 0, "duration": 0.24, "ease": "power2.in"}, end - 0.26)
 
 
-def chapter(cid, start, end, num, word):
-    """Chapter opener: roman numeral, italic serif word letter by letter, hairline."""
-    inner = (f'<div class="chap"><div class="chap-n" id="{cid}-n">{num}</div>'
-             f'<div class="chap-w" id="{cid}-w">{chars(word)}</div><div class="chap-r" id="{cid}-r"></div></div>')
-    clip(cid, start, end, inner, "ovl", 7)
-    tw(f"#{cid}-n", {"opacity": 0, "y": 16}, {"opacity": 1, "y": 0, "duration": 1.0}, start)
-    tw(f"#{cid}-w .ch", {"opacity": 0, "y": 40, "filter": "blur(6px)"},
-       {"opacity": 1, "y": 0, "filter": "blur(0px)", "duration": 0.9, "stagger": 0.04}, start + 0.15)
-    tw(f"#{cid}-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.3, "ease": "expo.inOut"}, start + 0.3)
-    tw(f"#{cid} .chap", {"opacity": 1, "y": 0}, {"opacity": 0, "y": -20, "duration": 0.6, "ease": "sine.in"}, end - 0.6)
+CHAP_T = []   # (start, label) of each chapter wipe, for the HUD
 
 
-# ================================================================ timeline
-S = {}
-t = 0.0
-for k, d in [("intro", 3.0), ("title", 5.0), ("corp", 4.8), ("lokasi", 4.2), ("stats", 3.8),
-             ("f1", 3.4), ("f2", 2.4), ("f3", 2.6),
-             ("e1", 3.4), ("e2", 2.0), ("e3", 2.4), ("e4", 2.4),
-             ("m1", 3.4), ("m2", 2.0), ("m3", 3.0),
-             ("v0", 3.4), ("v1", 2.3), ("v2", 2.3), ("v3", 2.3), ("v4", 2.2), ("v5", 2.4), ("v6", 2.2), ("v7", 2.3),
-             ("tri", 4.0), ("end", 5.2)]:
-    S[k] = t
-    t = round(t + d, 3)
-TOTAL = t
-NXT = {k: v for k, v in zip(S, list(S.values())[1:] + [TOTAL])}
+def chapter(cid, c, num, word):
+    """Diagonal navy panel (gold leading edge) wipes across; the scene changes underneath at c+0.42."""
+    inner = (f'<div class="chp-gold" id="{cid}-g"></div><div class="chp-navy" id="{cid}-p"></div>'
+             f'<div class="chp-num" id="{cid}-n">{num}</div>'
+             f'<div class="chp-txt"><div class="chp-k" id="{cid}-k">BAHAGIAN {num}</div>'
+             f'<div class="chp-w" id="{cid}-w">{chars(word)}</div></div>')
+    clip(cid, c, c + 1.45, inner, "ovl chpc", 9)
+    tw(f"#{cid}-g", {"x": 2250}, {"x": -470, "duration": 0.42, "ease": "expo.inOut"}, c - 0.03)
+    tw(f"#{cid}-p", {"x": 2400}, {"x": -330, "duration": 0.42, "ease": "expo.inOut"}, c)
+    tw(f"#{cid}-n", {"x": 500, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.8, "ease": "expo.out"}, c + 0.2)
+    tw(f"#{cid}-k", {"x": 120, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, c + 0.25)
+    tw(f"#{cid}-w .ch", {"x": 260, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out", "stagger": 0.025}, c + 0.28)
+    tw([f"#{cid}-n", f"#{cid} .chp-txt"], {"x": 0, "opacity": 1}, {"x": -420, "opacity": 0, "duration": 0.38, "ease": "expo.in"}, c + 0.98)
+    tw(f"#{cid}-p", {"x": -330}, {"x": -3250, "duration": 0.42, "ease": "expo.inOut"}, c + 1.0)
+    tw(f"#{cid}-g", {"x": -470}, {"x": -3400, "duration": 0.42, "ease": "expo.inOut"}, c + 1.03)
+    CHAP_T.append(c)
 
-# ---- intro: company line on black
-i0, i1 = S["intro"], NXT["intro"]
-clip("intro", i0, i1 + XF, '<div class="intro"><div class="i-r" id="i-r1"></div>'
-     '<div class="i-t" id="i-t">M&#8217;CORP HOTEL SDN. BHD.</div><div class="i-r" id="i-r2"></div></div>', "bg-ink", 1)
-tw("#i-r1", {"scaleX": 0}, {"scaleX": 1, "duration": 1.6, "ease": "expo.inOut"}, 0.3)
-tw("#i-r2", {"scaleX": 0}, {"scaleX": 1, "duration": 1.6, "ease": "expo.inOut"}, 0.45)
-tw("#i-t", {"opacity": 0, "y": 10}, {"opacity": 1, "y": 0, "duration": 1.4, "ease": "sine.out"}, 0.8)
-tw("#intro .intro", {"opacity": 1}, {"opacity": 0, "duration": 0.7, "ease": "sine.in"}, i1 - 0.5)
 
-# ---- title over the night exterior
-t0, t1 = S["title"], NXT["title"]
-shot("s-title", "ext-night", t0, t1, kb=(1.18, 1.05), origin="50% 40%", shade="shade-title")
+def brackets(cid, start, end, track=8):
+    clip(cid, start, end, "".join(f'<span class="brk brk-{p}" id="{cid}-{p}"></span>' for p in ("tl", "tr", "bl", "br")), "ovl", track)
+    for p, (dx, dy) in {"tl": (-40, -40), "tr": (40, -40), "bl": (-40, 40), "br": (40, 40)}.items():
+        tw(f"#{cid}-{p}", {"x": dx, "y": dy, "opacity": 0}, {"x": 0, "y": 0, "opacity": 1, "duration": 0.7, "ease": "expo.out"}, start + 0.1)
+
+
+# ================================================================ TIMELINE
+T = dict(open=0.0, title=3.6, corp=8.8, lok=13.6, stats=18.0,
+         ch1=22.0, ch2=29.6, ch3=38.8, ch4=45.8, recap=59.0, end=62.0, fin=67.6)
+TOTAL = T["fin"]
+
+# ---- 1. opening on navy
+o1 = T["title"]
+clip("open", 0, o1, (
+    '<div class="grid" id="op-grid"></div>'
+    '<div class="op"><div class="op-line" id="op-line"></div>'
+    f'<div class="m"><div class="op-t" id="op-t">{chars("M’CORP HOTEL SDN. BHD.")}</div></div>'
+    '<div class="m"><div class="op-s" id="op-s">PENGENDALI HOTEL MITC &#183; MELAKA</div></div></div>'), "bg-navy", 1)
+tw("#op-grid", {"opacity": 0, "scale": 1.15}, {"opacity": 1, "scale": 1, "duration": 2.5, "ease": "power2.out"}, 0)
+tw("#op-line", {"scaleX": 0}, {"scaleX": 1, "duration": 0.8, "ease": "expo.inOut"}, 0.2)
+tw("#op-t .ch", {"yPercent": 120}, {"yPercent": 0, "duration": 0.7, "ease": "expo.out", "stagger": 0.025}, 0.7)
+tw("#op-s", {"yPercent": -120}, {"yPercent": 0, "duration": 0.7, "ease": "expo.out"}, 1.3)
+tw("#open .op", {"scale": 1, "opacity": 1}, {"scale": 0.9, "opacity": 0, "duration": 0.3, "ease": "power2.in"}, o1 - 0.4)
+# triple diagonal sweep into the title
+for i, cls in enumerate(["sw-blue", "sw-gold", "sw-navy"]):
+    clip(f"sweep{i}", o1 - 0.5, o1 + 0.5, f'<div class="sweep {cls}" id="sw{i}"></div>', "ovl swc", 10 + i)
+    tw(f"#sw{i}", {"x": 2400}, {"x": -3000, "duration": 0.9, "ease": "expo.inOut"}, o1 - 0.5 + i * 0.07)
+
+# ---- 2. title
+t0, t1 = T["title"], T["corp"]
+kb = shot("s-title", "ext-night", t0, t1, kb=(1.55, 1.08), origin="50% 38%", shade="shade-title")
 clip("title", t0, t1, (
-    '<div class="ttl"><div class="ttl-k" id="ttl-k">SELAMAT DATANG KE</div>'
-    f'<div class="ttl-a" id="ttl-a">{chars("HOTEL MITC")}</div>'
-    '<div class="ttl-r" id="ttl-r"></div>'
-    '<div class="ttl-b" id="ttl-b">AYER KEROH &#183; MELAKA</div>'
-    '<div class="stars" id="stars">' + "".join('<span class="star">&#9733;</span>' for _ in range(4)) + '</div></div>'), "ovl", 7)
-tw("#ttl-k", {"opacity": 0}, {"opacity": 1, "duration": 1.2, "ease": "sine.out"}, t0 + 0.2)
-tw("#ttl-a .ch", {"opacity": 0, "y": 50, "filter": "blur(8px)"},
-   {"opacity": 1, "y": 0, "filter": "blur(0px)", "duration": 1.2, "stagger": 0.06}, t0 + 0.4)
-tw("#ttl-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.6, "ease": "expo.inOut"}, t0 + 1.0)
-tw("#ttl-b", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0, "duration": 1.2}, t0 + 1.5)
-tw("#stars .star", {"opacity": 0, "scale": 0.6}, {"opacity": 1, "scale": 1, "duration": 0.8, "stagger": 0.12}, t0 + 1.9)
-tw("#title .ttl", {"opacity": 1}, {"opacity": 0, "duration": 0.6, "ease": "sine.in"}, t1 - 0.6)
+    '<div class="ttl" id="ttl"><div class="ttl-k" id="ttl-k">HOTEL</div>'
+    f'<div class="ttl-a" id="ttl-a">{chars("MITC", "ch3")}</div>'
+    '<div class="ttl-bar" id="ttl-bar"></div>'
+    f'<div class="ttl-b" id="ttl-b">{chars("AYER KEROH · MELAKA")}</div>'
+    '<div class="stars">' + "".join(f'<span class="star" id="st{i}">&#9733;</span>' for i in range(4)) + "</div></div>"), "ovl", 7)
+brackets("brk1", t0 + 0.3, t1 - 0.3)
+tw("#ttl-k", {"y": -40, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, t0 + 0.35)
+tw("#ttl-a .ch3", {"z": -1400, "rotationX": 80, "opacity": 0}, {"z": 0, "rotationX": 0, "opacity": 1, "duration": 1.0, "ease": "expo.out", "stagger": 0.09}, t0 + 0.45)
+tw("#ttl-bar", {"scaleX": 0}, {"scaleX": 1, "duration": 0.8, "ease": "expo.inOut"}, t0 + 1.1)
+tw("#ttl-b .ch", {"x": -30, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.5, "ease": "expo.out", "stagger": 0.02}, t0 + 1.4)
+for i in range(4):
+    tw(f"#st{i}", {"scale": 0, "rotation": -180}, {"scale": 1, "rotation": 0, "duration": 0.6, "ease": "back.out(2)"}, t0 + 1.9 + i * 0.1)
+tw("#ttl", {"scale": 1, "opacity": 1, "filter": "blur(0px)"}, {"scale": 2.6, "opacity": 0, "filter": "blur(14px)", "duration": 0.4, "ease": "power2.in"}, t1 - 0.4)
+tw(kb, {"scale": 1, "filter": "blur(0px)"}, {"scale": 1.5, "filter": "blur(20px)", "duration": 0.4, "ease": "power2.in"}, t1 - 0.4)
 
-# ---- corporate: ivory panel + exterior
-c0, c1 = S["corp"], NXT["corp"]
-shot("s-corp", "ext-wide", c0, c1, kb=(1.12, 1.04), origin="70% 50%", shade="")
-clip("corp", c0 - XF, c1, (
-    '<div class="ivory" id="corp-panel">'
-    '<img class="corp-logo" id="corp-logo" src="assets/img/mcorp-hotel-logo.png" alt="M\'Corp Hotel Sdn. Bhd."/>'
-    '<div class="corp-k" id="corp-k">ANAK SYARIKAT PKNM</div>'
-    '<div class="mask"><div class="corp-t" id="corp-t">Ditubuhkan pada<br/><em>15 November 2016</em></div></div>'
-    '<div class="corp-r" id="corp-r"></div>'
-    '<div class="corp-s" id="corp-s">Dipertanggungjawabkan mengurus dan mengendalikan<br/>operasi Hotel MITC, Ayer Keroh, Melaka.</div></div>'), "ovl", 5)
-tw("#corp-panel", {"xPercent": -100}, {"xPercent": 0, "duration": 1.3, "ease": "expo.inOut"}, c0 - XF)
-tw("#corp-logo", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 1.2}, c0 + 0.4)
-tw("#corp-k", {"opacity": 0}, {"opacity": 1, "duration": 1.0}, c0 + 0.8)
-tw("#corp-t", {"yPercent": 100}, {"yPercent": 0, "duration": 1.2, "ease": "expo.out"}, c0 + 1.0)
-tw("#corp-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.2, "ease": "expo.inOut"}, c0 + 1.3)
-tw("#corp-s", {"opacity": 0, "y": 12}, {"opacity": 1, "y": 0, "duration": 1.0}, c0 + 1.6)
-tw("#corp-panel", {"opacity": 1}, {"opacity": 0, "duration": 0.6, "ease": "sine.in"}, c1 - 0.6)
+# ---- 3. corporate (light)
+c0, c1 = T["corp"], T["lok"]
+clip("corp", c0, c1, (
+    '<div class="grid dark" id="cp-grid"></div>'
+    '<div class="cp-photo" id="cp-photo"><div class="cp-photo-in" id="cp-pin"><img src="assets/img/ext-wide.jpg" alt=""/></div></div>'
+    '<div class="cp-left">'
+    '<div class="cp-card" id="cp-card"><img src="assets/img/mcorp-hotel-logo.png" alt="M\'Corp Hotel Sdn. Bhd."/></div>'
+    '<div class="m"><div class="cp-k" id="cp-k">ANAK SYARIKAT PKNM &#183; DITUBUHKAN</div></div>'
+    f'<div class="cp-date" id="cp-date">{roll("cpd", "15.11.2016", c0 + 1.1)}</div>'
+    '<div class="m"><div class="cp-s" id="cp-s">Mengurus &amp; mengendalikan operasi<br/><b>Hotel MITC, Ayer Keroh, Melaka</b></div></div></div>'), "bg-light", 1)
+tw("#corp", {"scale": 0.8, "filter": "blur(16px)"}, {"scale": 1, "filter": "blur(0px)", "duration": 0.6, "ease": "expo.out"}, c0)
+tw("#cp-photo", {"xPercent": 110}, {"xPercent": 0, "duration": 0.9, "ease": "expo.inOut"}, c0 + 0.1)
+tw("#cp-pin", {"scale": 1.4}, {"scale": 1.05, "duration": round(c1 - c0, 3), "ease": "power2.out"}, c0 + 0.1)
+tw("#cp-card", {"rotationY": -90, "opacity": 0}, {"rotationY": 0, "opacity": 1, "duration": 0.9, "ease": "expo.out"}, c0 + 0.4)
+tw("#cp-k", {"yPercent": 110}, {"yPercent": 0, "duration": 0.6, "ease": "expo.out"}, c0 + 0.9)
+tw("#cp-date", {"opacity": 0}, {"opacity": 1, "duration": 0.2}, c0 + 1.05)
+tw("#cp-s", {"yPercent": 110}, {"yPercent": 0, "duration": 0.7, "ease": "expo.out"}, c0 + 2.0)
 
-# ---- lokasi
-l0, l1 = S["lokasi"], NXT["lokasi"]
-shot("s-lok", "ext-day", l0, l1, kb=(1.02, 1.1), origin="50% 30%", shade="shade-bottom")
-clip("lokasi", l0, l1, (
-    '<div class="lok"><div class="cap-k" id="lok-k">LOKASI STRATEGIK</div>'
-    '<div class="mask"><div class="lok-t" id="lok-t">Ayer Keroh, Melaka</div></div>'
-    '<div class="cap-r" id="lok-r"></div>'
-    '<div class="lok-s" id="lok-s1">Berhadapan Pusat Dagangan Antarabangsa Melaka (MITC)</div>'
-    '<div class="lok-s" id="lok-s2">10 minit dari Tol Ayer Keroh</div></div>'), "ovl", 7)
-tw("#lok-k", {"opacity": 0, "x": -20}, {"opacity": 1, "x": 0, "duration": 1.0}, l0 + 0.1)
-tw("#lok-t", {"yPercent": 105}, {"yPercent": 0, "duration": 1.1, "ease": "expo.out"}, l0 + 0.2)
-tw("#lok-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.2, "ease": "expo.inOut"}, l0 + 0.4)
-tw("#lok-s1", {"opacity": 0, "y": 12}, {"opacity": 1, "y": 0, "duration": 1.0}, l0 + 0.7)
-tw("#lok-s2", {"opacity": 0, "y": 12}, {"opacity": 1, "y": 0, "duration": 1.0}, l0 + 1.0)
-tw("#lokasi .lok", {"opacity": 1}, {"opacity": 0, "duration": 0.5, "ease": "sine.in"}, l1 - 0.5)
-
-# ---- stats
-s0, s1 = S["stats"], NXT["stats"]
-shot("s-stats", "lobby", s0, s1, kb=(1.12, 1.04), shade="shade-dark")
-clip("stats", s0, s1, (
-    '<div class="stats">'
-    '<div class="stat" id="st1"><div class="stat-n">4<span class="stat-star">&#9733;</span></div><div class="stat-l">BERTARAF BINTANG</div></div>'
-    '<div class="stat-d" id="sd1"></div>'
-    '<div class="stat" id="st2"><div class="stat-n">188</div><div class="stat-l">BILIK PENGINAPAN</div></div>'
-    '<div class="stat-d" id="sd2"></div>'
-    '<div class="stat" id="st3"><div class="stat-n">24<span class="stat-u">jam</span></div><div class="stat-l">PERKHIDMATAN</div></div></div>'), "ovl", 7)
+# ---- 4. lokasi
+l0, l1 = T["lok"], T["stats"]
+clip("lok", l0, l1, (
+    '<div class="kb" id="lok-kb"><img id="lok-img" src="assets/img/ext-day.jpg" alt=""/></div>'
+    '<div class="shade shade-navy"></div><div class="grid" id="lok-grid"></div>'
+    '<div class="pin-wrap"><div class="ring" id="rg0"></div><div class="ring" id="rg1"></div><div class="ring" id="rg2"></div>'
+    '<div class="pin" id="pin"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.6A2.6 2.6 0 1 1 12 6.4a2.6 2.6 0 0 1 0 5.2z"/></svg></div>'
+    '<div class="tag tag1" id="tag1"><b>MITC</b><span>Bertentangan Pusat Dagangan Antarabangsa Melaka</span></div>'
+    '<div class="tag tag2" id="tag2"><b>10 MINIT</b><span>dari Tol Ayer Keroh</span></div>'
+    '<div class="tline tline1" id="tl1"></div><div class="tline tline2" id="tl2"></div></div>'
+    '<div class="lok-left"><div class="m"><div class="lk-k" id="lk-k">LOKASI STRATEGIK</div></div>'
+    f'<div class="lk-t" id="lk-t">{chars("AYER KEROH,")}<br/>{chars("MELAKA")}</div>'
+    f'<div class="lk-c" id="lk-c">{chars("2.27° U  ·  102.28° T")}</div></div>'), "bg-navy", 1)
+brackets("brk2", l0 + 0.2, l1 - 0.3)
+tw("#lok-img", {"scale": 1.3}, {"scale": 1.08, "duration": round(l1 - l0, 3), "ease": "power2.out"}, l0)
+tw("#lk-k", {"yPercent": 110}, {"yPercent": 0, "duration": 0.5, "ease": "expo.out"}, l0 + 0.4)
+tw("#lk-t .ch", {"yPercent": 100, "opacity": 0}, {"yPercent": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out", "stagger": 0.03}, l0 + 0.5)
+tw("#lk-c .ch", {"opacity": 0}, {"opacity": 1, "duration": 0.05, "ease": "none", "stagger": 0.035}, l0 + 1.2)
+tw("#pin", {"y": -500, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.8, "ease": "bounce.out"}, l0 + 0.6)
 for i in range(3):
-    tw(f"#st{i + 1}", {"opacity": 0, "y": 30}, {"opacity": 1, "y": 0, "duration": 1.2}, s0 + 0.2 + i * 0.35)
-tw(["#sd1", "#sd2"], {"scaleY": 0}, {"scaleY": 1, "duration": 1.3, "ease": "expo.inOut"}, s0 + 0.5)
-tw("#stats .stats", {"opacity": 1}, {"opacity": 0, "duration": 0.5, "ease": "sine.in"}, s1 - 0.5)
+    tw(f"#rg{i}", {"scale": 0.2, "opacity": 0.9}, {"scale": 3.2, "opacity": 0, "duration": 1.6, "ease": "power2.out"}, l0 + 1.3 + i * 0.5)
+tw("#tl1", {"scaleX": 0}, {"scaleX": 1, "duration": 0.5, "ease": "expo.out"}, l0 + 1.5)
+tw("#tag1", {"x": 40, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, l0 + 1.7)
+tw("#tl2", {"scaleX": 0}, {"scaleX": 1, "duration": 0.5, "ease": "expo.out"}, l0 + 2.1)
+tw("#tag2", {"x": 40, "opacity": 0}, {"x": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, l0 + 2.3)
+cut("#corp", "#lok", l0, "whip")
 
-# ---- I. fasiliti
-shot("s-f1", "pool-2", S["f1"], NXT["f1"], kb=(1.04, 1.12))
-shot("s-f2", "pool-night", S["f2"], NXT["f2"], kb=(1.1, 1.03), origin="50% 60%")
-shot("s-f3", "lobby", S["f3"], NXT["f3"], kb=(1.06, 1.12), origin="40% 50%", x=(20, -20))
-chapter("ch1", S["f1"], S["f1"] + 1.9, "I", "Fasiliti")
-caption("cp-f1", S["f1"] + 1.8, NXT["f2"], "FASILITI", "Kolam Renang", "Kolam renang &amp; taman permainan air kanak-kanak")
-caption("cp-f2", S["f3"], NXT["f3"], "FASILITI", "Lobi Utama", "Sambutan mesra, perkhidmatan 24 jam")
+# ---- 5. stats (three panels)
+s0, s1 = T["stats"], T["ch1"] + 0.42
+panels = [("ext-night", "4", "&#9733;", "BERTARAF<br/>4 BINTANG"), ("room-exec", "188", "", "BILIK<br/>PENGINAPAN"),
+          ("lobby", "24", "JAM", "PERKHIDMATAN<br/>SETIAP HARI")]
+ph = []
+for i, (img, n, suf, lab) in enumerate(panels):
+    ph.append(f'<div class="sp" id="sp{i}"><img id="sp{i}-i" src="assets/img/{img}.jpg" alt=""/><div class="sp-sh"></div>'
+              f'<div class="sp-n">{roll(f"sn{i}", n, s0 + 0.5 + i * 0.2, dur=1.3)}<span class="sp-suf">{suf}</span></div>'
+              f'<div class="sp-bar"></div><div class="sp-l">{lab}</div></div>')
+clip("stats", s0, s1, '<div class="grid" id="st-grid"></div><div class="sps">' + "".join(ph) + "</div>", "bg-navy", 1)
+for i in range(3):
+    tw(f"#sp{i}", {"yPercent": 130 if i != 1 else -130, "rotation": 4 if i != 1 else -4},
+       {"yPercent": 0, "rotation": 0, "duration": 0.8, "ease": "expo.out"}, s0 + 0.05 + i * 0.1)
+    tw(f"#sp{i}-i", {"scale": 1.4}, {"scale": 1.1, "duration": round(s1 - s0, 3), "ease": "power2.out"}, s0)
+cut("#lok", "#stats", s0, "whipv")
 
-# ---- II. dewan & acara
-shot("s-e1", "gadek", S["e1"], NXT["e1"], kb=(1.04, 1.12), origin="50% 40%")
-shot("s-e2", "gadek-event", S["e2"], NXT["e2"], kb=(1.1, 1.04))
-shot("s-e3", "gadek5", S["e3"], NXT["e3"], kb=(1.06, 1.12), x=(-20, 20))
-shot("s-e4", "brisu-aerial", S["e4"], NXT["e4"], kb=(1.04, 1.12))
-chapter("ch2", S["e1"], S["e1"] + 1.9, "II", "Dewan &amp; Acara")
-caption("cp-e1", S["e1"] + 1.8, NXT["e2"], "DEWAN &amp; ACARA", "Dewan Gadek", "Perkahwinan, persidangan &amp; jamuan rasmi")
-caption("cp-e2", S["e3"], NXT["e3"], "DEWAN &amp; ACARA", "Bilik Gadek 5", "Mesyuarat, taklimat &amp; bengkel")
-caption("cp-e3", S["e4"], NXT["e4"], "DEWAN &amp; ACARA", "Halaman Brisu", "Ruang majlis terbuka di tengah taman")
-clip("lg-gadek", S["e1"] + 1.8, NXT["e2"], '<img class="venue-logo" id="lg-gadek-i" src="assets/img/gadek-logo.png" alt="Gadek Ballroom"/>', "ovl", 8)
-tw("#lg-gadek-i", {"opacity": 0}, {"opacity": 0.92, "duration": 1.2, "ease": "sine.out"}, S["e1"] + 2.0)
-tw("#lg-gadek-i", {"opacity": 0.92}, {"opacity": 0, "duration": 0.45, "ease": "sine.in"}, NXT["e2"] - 0.5)
+# ---- 6. 01 fasiliti
+c = T["ch1"]
+chapter("ch1", c, "01", "FASILITI")
+f = [c + 0.42, 25.4, 27.4, T["ch2"] + 0.42]
+a = shot("s-f1", "pool-2", f[0], f[1])
+b = shot("s-f2", "pool-night", f[1], f[2], origin="50% 60%")
+d = shot("s-f3", "lobby", f[2], f[3], origin="40% 50%")
+cut(a, b, f[1], "whip")
+cut(b, d, f[2], "zoom")
+lower_third("lt-f1", c + 1.3, f[2], "01 &#183; FASILITI", "KOLAM RENANG", "Kolam renang &amp; taman permainan air kanak-kanak")
+lower_third("lt-f2", f[2] + 0.3, f[3] - 0.42, "01 &#183; FASILITI", "LOBI UTAMA", "Sambutan mesra, perkhidmatan 24 jam")
 
-# ---- III. tempat makan (Asahan as a diptych)
-shot("s-m1", "bemban", S["m1"], NXT["m1"], kb=(1.04, 1.12))
-shot("s-m2", "bemban-breakfast", S["m2"], NXT["m2"], kb=(1.1, 1.03))
-m3, m3e = S["m3"], NXT["m3"]
-clip("s-m3", m3 - XF, m3e, (
-    '<div class="dip"><div class="dip-p" id="dip-l"><img id="dip-li" src="assets/img/asahan.jpg" alt="" '
-    '/></div>'
-    '<div class="dip-p" id="dip-r"><img id="dip-ri" src="assets/img/asahan-live.jpg" alt="" '
-    '/></div></div><div class="shade shade-cap"></div>'), "shot bg-ink", 1)
-tw("#s-m3", {"opacity": 0}, {"opacity": 1, "duration": XF, "ease": "sine.inOut"}, m3 - XF)
-tw("#dip-l", {"yPercent": -8}, {"yPercent": 0, "duration": 1.4, "ease": "expo.out"}, m3 - XF)
-tw("#dip-r", {"yPercent": 8}, {"yPercent": 0, "duration": 1.4, "ease": "expo.out"}, m3 - XF)
-tw(["#dip-li", "#dip-ri"], {"scale": 1.12}, {"scale": 1.02, "duration": round(m3e - m3 + XF, 3), "ease": "none"}, m3 - XF)
-chapter("ch3", S["m1"], S["m1"] + 1.9, "III", "Tempat Makan")
-caption("cp-m1", S["m1"] + 1.8, NXT["m2"], "TEMPAT MAKAN", "Restoran Bemban", "Bufet sarapan, makan tengah hari &amp; makan malam")
-caption("cp-m2", m3, m3e, "TEMPAT MAKAN", "Asahan Cafe", "Kafe konsep Nyonya &#183; 10 pagi hingga 12 malam")
+# ---- 7. 02 dewan & acara (3D gallery, then full shots)
+c = T["ch2"]
+chapter("ch2", c, "02", "DEWAN &amp; ACARA")
+g0, g1 = c + 0.42, 33.6
+cards = [("gadek", "DEWAN GADEK"), ("gadek5", "BILIK GADEK 5"), ("brisu-aerial", "HALAMAN BRISU")]
+gal = "".join(f'<div class="gc" id="gc{i}"><img src="assets/img/{img}.jpg" alt=""/><div class="gc-l"><span>0{i + 1}</span>{lab}</div></div>'
+              for i, (img, lab) in enumerate(cards))
+clip("gal", g0, g1, f'<div class="grid" id="gal-grid"></div><div class="gal-stage"><div class="gal-row" id="gal-row">{gal}</div></div>', "bg-navy", 2)
+tw("#gal-row", {"rotationY": 38, "x": 520, "z": -500}, {"rotationY": -30, "x": -420, "z": -260, "duration": round(g1 - g0, 3), "ease": "power2.inOut"}, g0)
+for i in range(3):
+    tw(f"#gc{i}", {"y": 200 if i % 2 == 0 else -200, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.8, "ease": "expo.out"}, g0 + 0.6 + i * 0.12)
+e = [g1, 35.4, 37.0, T["ch3"] + 0.42]
+e1 = shot("s-e1", "gadek", e[0], e[1], origin="50% 40%")
+e2 = shot("s-e2", "gadek5", e[1], e[2])
+e3 = shot("s-e3", "brisu-aerial", e[2], e[3])
+cut("#gal", e1, e[0], "zoom")
+cut(e1, e2, e[1], "whip")
+cut(e2, e3, e[2], "spin")
+lower_third("lt-e1", e[0] + 0.25, e[1], "02 &#183; DEWAN &amp; ACARA", "DEWAN GADEK", "Perkahwinan, persidangan &amp; jamuan rasmi")
+lower_third("lt-e2", e[1] + 0.25, e[2], "02 &#183; DEWAN &amp; ACARA", "BILIK GADEK 5", "Mesyuarat, taklimat &amp; bengkel")
+lower_third("lt-e3", e[2] + 0.25, e[3] - 0.42, "02 &#183; DEWAN &amp; ACARA", "HALAMAN BRISU", "Ruang majlis terbuka di tengah taman")
+clip("lg-gadek", e[0] + 0.3, e[1], '<img class="venue-logo" id="lg-gadek-i" src="assets/img/gadek-logo.png" alt="Gadek Ballroom"/>', "ovl", 8)
+tw("#lg-gadek-i", {"scale": 0.6, "opacity": 0}, {"scale": 1, "opacity": 1, "duration": 0.6, "ease": "back.out(1.8)"}, e[0] + 0.5)
 
-# ---- IV. bilik & suite (AI camera-move clips)
+# ---- 8. 03 tempat makan (slats, then full shots)
+c = T["ch3"]
+chapter("ch3", c, "03", "TEMPAT MAKAN")
+m0, m1 = c + 0.42, 41.9
+slats = [("bemban", "RESTORAN BEMBAN"), ("bemban-breakfast", "BUFET SARAPAN"), ("asahan", "ASAHAN CAFE")]
+sl = "".join(f'<div class="slat" id="sl{i}"><img id="sl{i}-i" src="assets/img/{img}.jpg" alt=""/><div class="slat-l">{lab}</div></div>'
+             for i, (img, lab) in enumerate(slats))
+mm = [m1, 43.9, T["ch4"] + 0.42]
+s_m1 = shot("s-m1", "bemban", m0, mm[1], track=1)   # under the slats
+clip("slats", m0, m1, f'<div class="slats">{sl}</div>', "", 2)
+for i in range(3):
+    tw(f"#sl{i}", {"yPercent": -100 if i % 2 == 0 else 100}, {"yPercent": 0, "duration": 0.8, "ease": "expo.inOut"}, m0 + 0.55 + i * 0.1)
+    tw(f"#sl{i}-i", {"scale": 1.5}, {"scale": 1.1, "duration": round(m1 - m0, 3), "ease": "power2.out"}, m0 + 0.55)
+    tw(f"#sl{i}", {"yPercent": 0}, {"yPercent": 100 if i % 2 == 0 else -100, "duration": 0.45, "ease": "expo.in"}, m1 - 0.45 + i * 0.0)
+
+s_m2 = shot("s-m2", "asahan-live", mm[1], mm[2])
+cut(s_m1, s_m2, mm[1], "whipr")
+lower_third("lt-m1", mm[0], mm[1], "03 &#183; TEMPAT MAKAN", "RESTORAN BEMBAN", "Bufet sarapan, makan tengah hari &amp; makan malam")
+lower_third("lt-m2", mm[1] + 0.25, mm[2] - 0.42, "03 &#183; TEMPAT MAKAN", "ASAHAN CAFE", "Kafe konsep Nyonya &#183; 10 pagi hingga 12 malam")
+
+# ---- 9. 04 bilik & suite (AI camera-move clips)
+c = T["ch4"]
+chapter("ch4", c, "04", "BILIK &amp; SUITE")
+rb = [c + 0.42, 48.6, 50.1, 51.6, 53.1, 54.5, 56.1, 57.5, T["recap"]]
 ROOMS = ["room-double", "room-twin", "room-deluxe", "room-junior", "room-junior-2", "room-exec", "room-exec-2", "room-exec-bath"]
-for i, vid in enumerate(ROOMS):
-    vshot(f"s-v{i}", vid, S[f"v{i}"], NXT[f"v{i}"])
-chapter("ch4", S["v0"], S["v0"] + 1.9, "IV", "Bilik &amp; Suite")
-K = "BILIK &amp; SUITE"
-caption("cp-v1", S["v0"] + 1.8, NXT["v0"], K, "Superior Double", "Katil Queen &#183; 172.76 kaki persegi")
-caption("cp-v2", S["v1"], NXT["v1"], K, "Superior Twin", "2 Katil Bujang &#183; 172.76 kaki persegi")
-caption("cp-v3", S["v2"], NXT["v2"], K, "Deluxe", "1 Katil Queen + 1 Katil Bujang &#183; 185.75 kaki persegi")
-caption("cp-v4", S["v3"], NXT["v4"], K, "Junior Suite", "Katil King &#183; Ruang tamu berasingan &#183; 464.47 kaki persegi")
-caption("cp-v5", S["v5"], NXT["v7"], K, "Executive Suite", "Katil King &#183; Ruang makan &amp; lounge &#183; 637.23 kaki persegi")
+KINDS = ["whip", "zoom", "whipv", "whip", "spin", "zoom", "whipr"]
+sel = [vshot(f"s-v{i}", vid, rb[i], rb[i + 1], media_start=0 if i == 0 else 0.3) for i, vid in enumerate(ROOMS)]
+for i in range(1, len(ROOMS)):
+    cut(sel[i - 1], sel[i], rb[i], KINDS[i - 1])
+K = "04 &#183; BILIK &amp; SUITE"
+lower_third("lt-v1", c + 1.3, rb[1], K, "SUPERIOR DOUBLE", "Selesa untuk urusan kerja &amp; percutian", ("Katil Queen", "172.76 kps"))
+lower_third("lt-v2", rb[1] + 0.2, rb[2], K, "SUPERIOR TWIN", "Pilihan ideal untuk peserta seminar", ("2 Katil Bujang", "172.76 kps"))
+lower_third("lt-v3", rb[2] + 0.2, rb[3], K, "DELUXE", "Luas untuk seisi keluarga", ("1 Queen + 1 Bujang", "185.75 kps"))
+lower_third("lt-v4", rb[3] + 0.2, rb[5], K, "JUNIOR SUITE", "Ruang tamu berasingan dengan sofa bed", ("Katil King", "464.47 kps"))
+lower_third("lt-v5", rb[5] + 0.2, rb[8], K, "EXECUTIVE SUITE", "Ruang makan, bilik bacaan &amp; lounge", ("Katil King", "637.23 kps"))
 
-# ---- triptych + line
-r0, r1 = S["tri"], NXT["tri"]
-panels = "".join(
-    f'<div class="tri-p" id="tri{i}"><img id="tri{i}-i" src="assets/img/{img}.jpg" alt=""/></div>'
-    for i, img in enumerate(["pool-night", "gadek", "room-exec"]))
-clip("tri", r0 - XF, r1, f'<div class="tri">{panels}</div><div class="shade shade-dark2"></div>'
-     '<div class="tri-txt"><div class="tri-a" id="tri-a">Di mana keselesaan</div>'
-     '<div class="tri-b" id="tri-b">bertemu keanggunan.</div></div>', "bg-ink", 2)
-tw("#tri", {"opacity": 0}, {"opacity": 1, "duration": XF, "ease": "sine.inOut"}, r0 - XF)
-for i in range(3):
-    tw(f"#tri{i}", {"opacity": 0, "y": 40 if i % 2 == 0 else -40}, {"opacity": 1, "y": 0, "duration": 1.4, "ease": "expo.out"}, r0 - 0.3 + i * 0.15)
-    tw(f"#tri{i}-i", {"scale": 1.14}, {"scale": 1.02, "duration": round(r1 - r0 + 0.3, 3), "ease": "none"}, r0 - 0.3)
-tw("#tri-a", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 1.3}, r0 + 0.6)
-tw("#tri-b", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 1.3}, r0 + 1.0)
-tw("#tri .tri-txt", {"opacity": 1}, {"opacity": 0, "duration": 0.5, "ease": "sine.in"}, r1 - 0.5)
+# ---- 10. recap mosaic
+r0, r1 = T["recap"], T["end"]
+MOS = ["pool-2", "gadek", "bemban", "room-exec", "lobby", "gadek5", "asahan", "room-junior", "ext-night", "brisu-aerial",
+       "bemban-breakfast", "room-twin"]
+tiles = "".join(f'<div class="mt" id="mt{i}" style="left:{(i % 4) * 480}px;top:{(i // 4) * 360}px">'
+                f'<img src="assets/img/{img}.jpg" alt=""/></div>' for i, img in enumerate(MOS))
+clip("recap", r0, r1, (
+    f'<div class="mos-stage"><div class="mos" id="mos">{tiles}</div></div><div class="shade shade-mos" id="mos-sh"></div>'
+    f'<div class="mos-txt"><div class="m"><div class="mos-k" id="mos-k">HOTEL MITC MELAKA</div></div>'
+    f'<div class="mos-t" id="mos-t">{chars("SEGALANYA DI SATU DESTINASI")}</div></div>'), "bg-navy", 2)
+for i in range(12):
+    dx, dy = ((i % 4) - 1.5) * 300, ((i // 4) - 1) * 300
+    tw(f"#mt{i}", {"x": dx, "y": dy, "scale": 0.3, "opacity": 0}, {"x": 0, "y": 0, "scale": 1, "opacity": 1, "duration": 0.7, "ease": "expo.out"},
+       r0 + 0.02 * ((i * 7) % 12))
+tw("#mos", {"scale": 1.25, "rotationX": 0, "rotation": 0}, {"scale": 0.82, "rotationX": 18, "rotation": -4, "duration": round(r1 - r0, 3), "ease": "power2.inOut"}, r0)
+tw("#mos-sh", {"opacity": 0}, {"opacity": 1, "duration": 0.6}, r0 + 0.5)
+tw("#mos-k", {"yPercent": 110}, {"yPercent": 0, "duration": 0.5, "ease": "expo.out"}, r0 + 0.8)
+tw("#mos-t .ch", {"z": -600, "opacity": 0}, {"z": 0, "opacity": 1, "duration": 0.7, "ease": "expo.out", "stagger": 0.02}, r0 + 0.9)
+cut(sel[-1], "#recap", r0, "zoom")
 
-# ---- end card (ivory, gold frame)
-n0, n1 = S["end"], TOTAL
-clip("endc", n0 - XF, n1, (
-    '<div class="frame" id="end-frame"></div>'
-    '<img class="end-logo" id="end-logo" src="assets/img/mitc-logo.png" alt="MITC Hotel"/>'
-    '<div class="end-r" id="end-r"></div>'
-    '<div class="end-tag" id="end-tag">Tempah terus dengan kami</div>'
-    '<div class="end-row" id="end-row"><span>06-233 1551</span><i></i><span>mitchotel.com.my</span></div>'
+# ---- 11. end card with button click
+n0, n1 = r1, TOTAL
+clip("endc", n0, n1, (
+    '<div class="grid dark" id="end-grid"></div><div class="end-band" id="end-band"></div>'
+    '<div class="end-logo-w" id="end-logo"><img src="assets/img/mitc-logo.png" alt="MITC Hotel"/></div>'
+    f'<div class="end-tag" id="end-tag">{chars("Tempah terus dengan kami")}</div>'
+    '<div class="end-btns"><div class="btn btn-main" id="btn"><span class="ripple" id="ripple"></span>TEMPAH SEKARANG</div>'
+    '<div class="btn" id="btn2">06-233 1551</div><div class="btn" id="btn3">mitchotel.com.my</div></div>'
     '<div class="end-addr" id="end-addr">Jalan Food City, Pusat Dagangan Antarabangsa Melaka, 75450 Ayer Keroh, Melaka</div>'
-    '<div class="end-foot" id="end-foot"><div class="end-by">DIURUSKAN OLEH</div>'
-    '<img class="end-mh" src="assets/img/mcorp-hotel-logo.png" alt="M\'Corp Hotel Sdn. Bhd."/>'
-    '<div class="end-sep"></div><div class="end-by">ANAK SYARIKAT</div>'
-    '<img class="end-mc" src="assets/img/mcorp-corporate.png" alt="MCORP"/></div>'), "bg-ivory", 3)
-tw("#endc", {"opacity": 0}, {"opacity": 1, "duration": XF + 0.2, "ease": "sine.inOut"}, n0 - XF)
-tw("#end-frame", {"opacity": 0, "scale": 1.03}, {"opacity": 1, "scale": 1, "duration": 1.6}, n0 - 0.2)
-tw("#end-logo", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 1.4}, n0 + 0.1)
-tw("#end-r", {"scaleX": 0}, {"scaleX": 1, "duration": 1.3, "ease": "expo.inOut"}, n0 + 0.6)
-tw("#end-tag", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0, "duration": 1.2}, n0 + 0.8)
-tw("#end-row", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0, "duration": 1.2}, n0 + 1.1)
-tw("#end-addr", {"opacity": 0}, {"opacity": 1, "duration": 1.2}, n0 + 1.4)
-tw("#end-foot", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0, "duration": 1.2}, n0 + 1.7)
-tw("#fadeout", {"opacity": 0}, {"opacity": 1, "duration": 0.8, "ease": "sine.in"}, n1 - 0.8)
+    '<div class="cursor" id="cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6.2 1.6L16 20l-2.6 1.2-3.2-7.4L5 18z"/></svg></div>'
+    '<div class="end-foot" id="end-foot"><span>DIURUSKAN OLEH</span><img class="end-mh" src="assets/img/mcorp-hotel-logo.png" alt="M\'Corp Hotel"/>'
+    '<i></i><span>ANAK SYARIKAT</span><img class="end-mc" src="assets/img/mcorp-corporate.png" alt="MCORP"/></div>'), "bg-light", 3)
+cut("#recap", "#endc", n0, "zoom")
+tw("#end-band", {"xPercent": -120}, {"xPercent": 0, "duration": 0.8, "ease": "expo.inOut"}, n0 + 0.1)
+tw("#end-logo", {"scale": 0.3, "opacity": 0, "rotation": -8}, {"scale": 1, "opacity": 1, "rotation": 0, "duration": 0.9, "ease": "back.out(1.6)"}, n0 + 0.3)
+tw("#end-tag .ch", {"yPercent": 100, "opacity": 0}, {"yPercent": 0, "opacity": 1, "duration": 0.5, "ease": "expo.out", "stagger": 0.02}, n0 + 0.8)
+for i, b_ in enumerate(["#btn", "#btn2", "#btn3"]):
+    tw(b_, {"y": 40, "opacity": 0, "scale": 0.9}, {"y": 0, "opacity": 1, "scale": 1, "duration": 0.6, "ease": "back.out(1.8)"}, n0 + 1.2 + i * 0.12)
+tw("#end-addr", {"opacity": 0}, {"opacity": 1, "duration": 0.6}, n0 + 1.6)
+tw("#end-foot", {"y": 30, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, n0 + 1.8)
+# cursor glides to the main button and clicks it
+tw("#cursor", {"x": 520, "y": 380, "opacity": 0}, {"x": 0, "y": 0, "opacity": 1, "duration": 1.0, "ease": "power3.inOut"}, n0 + 2.2)
+tw("#cursor", {"scale": 1}, {"scale": 0.82, "duration": 0.12, "ease": "power2.out"}, n0 + 3.25)
+tw("#cursor", {"scale": 0.82}, {"scale": 1, "duration": 0.2, "ease": "power2.out"}, n0 + 3.37)
+tw("#btn", {"scale": 1}, {"scale": 0.94, "duration": 0.12, "ease": "power2.out"}, n0 + 3.25)
+tw("#btn", {"scale": 0.94}, {"scale": 1.06, "duration": 0.35, "ease": "back.out(3)"}, n0 + 3.37)
+tw("#ripple", {"scale": 0, "opacity": 0.7}, {"scale": 6, "opacity": 0, "duration": 0.8, "ease": "power2.out"}, n0 + 3.3)
+tw("#fadeout", {"opacity": 0}, {"opacity": 1, "duration": 0.5, "ease": "power1.in"}, n1 - 0.5)
 
-# letterbox: slides in at the start, stays for the whole film
-tw("#lb-top", {"yPercent": -100}, {"yPercent": 0, "duration": 1.4, "ease": "expo.inOut"}, 0.0)
-tw("#lb-bot", {"yPercent": 100}, {"yPercent": 0, "duration": 1.4, "ease": "expo.inOut"}, 0.0)
+# ---- HUD: brand tags + chapter progress (from the first chapter to the recap)
+h0, h1 = T["ch1"] + 0.42, T["recap"]
+LABELS = ["FASILITI", "DEWAN &amp; ACARA", "TEMPAT MAKAN", "BILIK &amp; SUITE"]
+segs = "".join(f'<div class="seg" id="seg{i}"><div class="seg-l" id="segl{i}"><b>0{i + 1}</b> {lab}</div>'
+               f'<div class="seg-tr"><div class="seg-f" id="segf{i}"></div></div></div>' for i, lab in enumerate(LABELS))
+clip("hud", h0, h1, (
+    '<div class="hud-tl" id="hud-tl"><span class="dot"></span>HOTEL MITC</div>'
+    '<div class="hud-tr" id="hud-tr">AYER KEROH &#183; MELAKA</div>'
+    f'<div class="hud-bar" id="hud-bar">{segs}</div>'), "ovl hudc", 15)
+tw(["#hud-tl", "#hud-tr"], {"y": -30, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, h0 + 0.6)
+tw("#hud-bar", {"y": 40, "opacity": 0}, {"y": 0, "opacity": 1, "duration": 0.6, "ease": "expo.out"}, h0 + 0.6)
+bounds = [T["ch1"] + 0.42, T["ch2"] + 0.42, T["ch3"] + 0.42, T["ch4"] + 0.42, T["recap"]]
+for i in range(4):
+    tw(f"#segf{i}", {"scaleX": 0}, {"scaleX": 1, "duration": round(bounds[i + 1] - bounds[i], 3), "ease": "none"}, bounds[i])
+    tw(f"#segl{i}", {"opacity": 0.45}, {"opacity": 1, "duration": 0.3, "ease": "none"}, bounds[i])
+    if i < 3:
+        tw(f"#segl{i}", {"opacity": 1}, {"opacity": 0.45, "duration": 0.3, "ease": "none"}, bounds[i + 1])
+tw(["#hud-tl", "#hud-tr", "#hud-bar"], {"opacity": 1}, {"opacity": 0, "duration": 0.25}, h1 - 0.25)
 
 # ================================================================ assemble
-CSS = open(os.path.join(HF, "..", "style.css")).read()
+CSS = open(os.path.join(HF, "..", "style-v3.css")).read()
 html = f"""<!doctype html>
 <html lang="ms">
   <head>
@@ -297,9 +413,8 @@ html = f"""<!doctype html>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{at(TOTAL)}" data-width="{W}" data-height="{H}">
-      {chr(10).join('      ' + c for c in clips).lstrip()}
-      <div id="lb-top" class="clip fx lb" data-start="0" data-duration="{at(TOTAL)}" data-track-index="20"></div>
-      <div id="lb-bot" class="clip fx lb" data-start="0" data-duration="{at(TOTAL)}" data-track-index="21"></div>
+      {chr(10).join('      ' + c_ for c_ in clips).lstrip()}
+      <div id="streakw" class="clip fx" data-start="0" data-duration="{at(TOTAL)}" data-track-index="20"><div id="streak"></div></div>
       <div id="fadeout" class="clip fx" data-start="0" data-duration="{at(TOTAL)}" data-track-index="22"></div>
     </div>
     <script>
@@ -314,5 +429,4 @@ html = f"""<!doctype html>
 </html>
 """
 open(os.path.join(HF, "index.html"), "w").write(html)
-print("total", TOTAL, "s;", len(clips), "clips")
-print(json.dumps(S))
+print("total", TOTAL, "s;", len(clips), "clips;", len(tl), "tweens")
