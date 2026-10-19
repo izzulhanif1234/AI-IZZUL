@@ -8,7 +8,7 @@ Build (current, v3): `python3 scripts/mitc_build.py` → `hf/index.html` (styles
 then in `hf/`: `npx hyperframes@0.8.174 render -q delivery -f 30 -o ../final/MITC-Pengenalan-v3-1080p.mp4`.
 The v2 luxury cut is rebuilt with `scripts/mitc_build_v2.py` (`style-v2.css`) — both write `hf/index.html`.
 
-## v3 — corporate hypermotion (current, `final/MITC-Pengenalan-v3-1080p.mp4`, 67.6 s, silent)
+## v3 — corporate hypermotion (current, `final/MITC-Pengenalan-v3-1080p.mp4`, 86 s, silent)
 Requested after v2: "not interactive", wants hypermotion / motion graphics, more wow, more corporate; still no music.
 - Navy / white / gold + electric blue, Inter Display (bundled .otf), grid backgrounds.
 - Cuts: whip pans with motion blur + light streak, zoom-through, vertical whip, spin (`cut()`);
@@ -23,19 +23,31 @@ Requested after v2: "not interactive", wants hypermotion / motion graphics, more
   chapter progress bar that fills as the film plays.
 - Lower-thirds: blue kicker tag, white title plate with gold bar, navy sub-line, room spec chips.
 
+### v3.1 polish (after feedback: some words ran off the frame, scenes too fast)
+- Slower: 67.6 s → 86 s; transitions 0.28 s out / 0.65 s in; chapter wipes 0.5 s; lower-thirds hold longer.
+- Overflow fixed (checked with `npx hyperframes inspect`): chapter titles 104 px at x 700, map tags wrap
+  on two lines, map pin moved clear of "AYER KEROH,", mosaic title 92 px.
+- Every full-screen photo is now an AI depth camera move too (`scripts/mitc_room3d.py`):
+  ext-night dolly_in 6.0 s, ext-day crane_up 5.6, pool-2 push_right 4.4, pool-night orbit_left 3.0,
+  lobby dolly_in 3.0, gadek push_left 3.0, gadek5 orbit_right 2.8, brisu-aerial dolly_in 2.8,
+  bemban push_right 6.0, asahan-live orbit_left 3.0.
+- UI feel: a cursor hovers each stat card (card lifts with a gold glow) and clicks "Dewan Gadek" in the
+  3D gallery before zooming into it; sheen sweeps across lower-third plates, the logo cards and the end logo;
+  drifting gold bokeh on the navy scenes; lower-thirds drift slowly while on screen.
+
 | Root time | Scene |
 |---|---|
-| 0–3.6 | opening: "M'CORP HOTEL SDN. BHD. / PENGENDALI HOTEL MITC · MELAKA", diagonal sweeps |
-| 3.6–8.8 | title over night exterior, zoom-through out |
-| 8.8–13.6 | korporat: logo card, "ANAK SYARIKAT PKNM · DITUBUHKAN 15.11.2016" |
-| 13.6–18.0 | lokasi: "AYER KEROH, MELAKA", MITC + 10 minit dari Tol Ayer Keroh |
-| 18.0–22.4 | 4★ / 188 bilik / 24 jam cards |
-| 22.0–29.6 | 01 FASILITI: kolam renang ×2, lobi utama |
-| 29.6–38.8 | 02 DEWAN & ACARA: 3D gallery, Dewan Gadek, Bilik Gadek 5, Halaman Brisu |
-| 38.8–45.8 | 03 TEMPAT MAKAN: slats, Restoran Bemban, Asahan Cafe |
-| 45.8–59.0 | 04 BILIK & SUITE: 8 AI camera-move clips, 5 room types |
-| 59.0–62.0 | mosaic "SEGALANYA DI SATU DESTINASI" |
-| 62.0–67.6 | end card, button click, contacts, M'Corp Hotel + MCORP logos |
+| 0–4.2 | opening: "M'CORP HOTEL SDN. BHD. / PENGENDALI HOTEL MITC · MELAKA", diagonal sweeps |
+| 4.2–10.0 | title over the night exterior (AI dolly), zoom-through out |
+| 10.0–15.6 | korporat: logo card, "ANAK SYARIKAT PKNM · DITUBUHKAN 15.11.2016" |
+| 15.6–21.0 | lokasi: "AYER KEROH, MELAKA", MITC + 10 minit dari Tol Ayer Keroh |
+| 21.0–26.3 | 4★ / 188 bilik / 24 jam cards, cursor hover |
+| 25.8–35.9 | 01 FASILITI: kolam renang ×2, lobi utama |
+| 35.4–47.9 | 02 DEWAN & ACARA: 3D gallery + click, Dewan Gadek, Bilik Gadek 5, Halaman Brisu |
+| 47.4–56.4 | 03 TEMPAT MAKAN: slats, Restoran Bemban, Asahan Cafe |
+| 55.9–75.7 | 04 BILIK & SUITE: 8 AI camera-move clips, 5 room types |
+| 75.7–79.7 | mosaic "SEGALANYA DI SATU DESTINASI" |
+| 79.7–86.0 | end card, button click, contacts, M'Corp Hotel + MCORP logos |
 
 ## v2 — luxury cut (`scripts/mitc_build_v2.py`, superseded)
 Requested after v1: look more stylish / luxurious, less basic; drop "MEMPERSEMBAHKAN";
