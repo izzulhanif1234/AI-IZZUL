@@ -93,22 +93,23 @@ type CardProps = {
   readonly icon: React.ReactNode;
   readonly label: string;
   readonly big: string;
-  readonly sub: string;
+  readonly sub?: string;
   readonly note?: string;
   readonly left: number;
+  readonly width: number;
 };
 
-const Card: React.FC<CardProps> = ({ f, at, glowAt, icon, label, big, sub, note, left }) => {
+const Card: React.FC<CardProps> = ({ f, at, glowAt, icon, label, big, sub, note, left, width }) => {
   const glow = interpolate(f, [glowAt, glowAt + 3, glowAt + 14], [0, 1, 0], clamp);
   return (
     <div
       style={{
         position: "absolute",
-        top: 500,
+        top: 690,
         left,
-        width: 560,
-        height: 470,
-        borderRadius: 32,
+        width,
+        height: 290,
+        borderRadius: 28,
         background: `linear-gradient(160deg, rgba(122,15,46,0.96) 0%, rgba(62,6,24,0.96) 100%)`,
         border: `4px solid ${C.hotPink}`,
         boxShadow: `0 24px 60px rgba(0,0,0,0.5), 0 0 ${30 + glow * 50}px rgba(255,63,164,${0.45 + glow * 0.5})`,
@@ -134,26 +135,26 @@ const Card: React.FC<CardProps> = ({ f, at, glowAt, icon, label, big, sub, note,
           translate: `${interpolate(f, [112, 128], [-120, 120], clamp)}% 0`,
         }}
       />
-      <div style={{ display: "flex", alignItems: "center", gap: 22, padding: "34px 38px 0" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "24px 34px 0" }}>
         <div
           style={{
-            width: 104,
-            height: 104,
-            borderRadius: 52,
+            width: 80,
+            height: 80,
+            borderRadius: 40,
             backgroundColor: C.white,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: `0 0 0 6px rgba(255,63,164,0.35)`,
+            boxShadow: `0 0 0 5px rgba(255,63,164,0.35)`,
           }}
         >
-          {icon}
+          <div style={{ scale: "0.8", display: "flex" }}>{icon}</div>
         </div>
         <div
           style={{
             fontFamily: FONT.body,
             fontWeight: 800,
-            fontSize: 46,
+            fontSize: 38,
             letterSpacing: 4,
             color: C.hotPink,
           }}
@@ -161,33 +162,34 @@ const Card: React.FC<CardProps> = ({ f, at, glowAt, icon, label, big, sub, note,
           {label}
         </div>
       </div>
-      <div style={{ padding: "6px 40px 0" }}>
+      <div style={{ padding: "10px 36px 0" }}>
         <div
           style={{
             fontFamily: FONT.display,
             fontWeight: 900,
             fontStyle: "italic",
-            fontSize: 156,
+            fontSize: 88,
             lineHeight: 1,
             color: C.white,
+            whiteSpace: "nowrap",
             transformOrigin: "0% 60%",
-            scale: interpolate(f, [at + 8, at + 11, at + 15], [1.6, 0.95, 1], {
+            scale: interpolate(f, [at + 8, at + 11, at + 15], [1.3, 0.96, 1], {
               ...clamp,
               output: "perceptual-scale",
             }),
             opacity: interpolate(f, [at + 7, at + 8], [0, 1], clamp),
-            textShadow: `0 8px 0 ${C.magenta}`,
+            textShadow: `0 6px 0 ${C.magenta}`,
           }}
         >
           {big}
         </div>
         <div
           style={{
-            marginTop: 12,
+            marginTop: 10,
             fontFamily: FONT.display,
             fontWeight: 800,
             fontStyle: "italic",
-            fontSize: 60,
+            fontSize: 46,
             lineHeight: 1,
             color: C.white,
             opacity: interpolate(f, [at + 10, at + 13], [0, 1], clamp),
@@ -198,9 +200,7 @@ const Card: React.FC<CardProps> = ({ f, at, glowAt, icon, label, big, sub, note,
           }}
         >
           {sub}
-          {note ? (
-            <div style={{ color: C.hotPink, fontSize: 44, marginTop: 8 }}>{note}</div>
-          ) : null}
+          {note ? <span style={{ color: C.hotPink }}>{note}</span> : null}
         </div>
       </div>
     </div>
@@ -230,7 +230,7 @@ const InfoInner: React.FC = () => {
         />
         <AbsoluteFill
           style={{
-            background: `linear-gradient(180deg, rgba(62,6,24,0.05) 0%, rgba(122,15,46,0.3) 36%, rgba(62,6,24,0.92) 60%, ${C.ink} 100%)`,
+            background: `linear-gradient(180deg, rgba(62,6,24,0) 0%, rgba(122,15,46,0.15) 45%, rgba(62,6,24,0.85) 70%, ${C.ink} 100%)`,
           }}
         />
         <AbsoluteFill
@@ -279,18 +279,19 @@ const InfoInner: React.FC = () => {
         f={f}
         at={4}
         glowAt={66}
-        left={80}
+        left={100}
+        width={560}
         icon={<CalendarIcon t={f - 8} />}
         label="TARIKH"
-        big="27"
-        sub="OKTOBER 2026"
+        big="27/10/2026"
         note="(SELASA)"
       />
       <Card
         f={f}
         at={26}
         glowAt={81}
-        left={680}
+        left={700}
+        width={540}
         icon={<ClockIcon t={f - 30} />}
         label="MASA"
         big="5.00"
@@ -301,6 +302,7 @@ const InfoInner: React.FC = () => {
         at={48}
         glowAt={96}
         left={1280}
+        width={540}
         icon={<PinIcon t={f - 54} />}
         label="TEMPAT"
         big="LOBI"

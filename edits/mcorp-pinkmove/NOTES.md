@@ -15,7 +15,7 @@ Remotion skills in `.claude/skills/`.
 |---|---|---|---|
 | 0–3 s | `Opening` | Plain pink ribbon streams in and ties itself into the awareness loop, turns into the client's pink ribbon, flies beside 2026. MCORP zoom-punch at 0.5 s + shake, PINK / MOVE slide in, 2026 stamps at 1.5 s, pink light leak | whoosh + swoosh + riser, bass hit 0.5 s & 1.5 s |
 | 3–6 s | `Tagline` | ZUMBA • FITNESS • AWARENESS one per beat in a maroon pill, "~ Satu Rentak, Seribu Semangat ~" writes on, participants rise in | whip per word |
-| 6–11 s | `Info` | Tarikh / Masa / Tempat cards slide in over the MCORP building; animated calendar, clock to 5:00, pin drop | ding when the date lands (6.4 s) |
+| 6–11 s | `Info` | Tarikh (27/10/2026, (SELASA) below) / Masa / Tempat cards slide in along the bottom so the MCORP building and lobby stay visible; animated calendar, clock to 5:00, pin drop | ding when the date lands (6.4 s) |
 | 11–13 s | `DressCode` | Maroon TeamSync Retreat tee drops in; tudung pink example in a ring | thump, whip |
 | 13–15 s | `Mandatory` | Logo plate with two ribbons, "KEHADIRAN SEMUA WARGA KERJA MCORP", ADALAH **DIWAJIBKAN** rubber stamp at 13.5 s | music dips 13.2–13.5 s, riser → bass hit |
 
