@@ -32,6 +32,9 @@ def ikon(nama, kelas=""):
     return f'<svg{k} aria-hidden="true"><use href="#i-{nama}"/></svg>'
 
 
+# Public address of the site (GitHub Pages). Change this when moving to a custom domain.
+SITE_URL = "https://izzulhanif1234.github.io/AI-IZZUL/"
+
 LOGO = '<img class="logo" src="assets/logo.svg" alt="PM Multilink" width="150" height="41">'
 MARK = '<img src="assets/logo-pm.svg" alt="" width="90" height="43">'
 
@@ -53,6 +56,17 @@ SERVIS = [
 
 
 def halaman(fail, tajuk, huraian, isi):
+    url = SITE_URL + ("" if fail == "index.html" else fail)
+    ld = ""
+    if fail == "index.html":
+        ld = """
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "Organization", "name": "PM Multilink",
+   "url": "%s", "logo": "%sassets/logo.svg",
+   "description": "%s",
+   "parentOrganization": {"@type": "Organization", "name": "Melaka Corporation (MCORP)", "url": "https://mcorp.gov.my/"},
+   "areaServed": "Melaka, Malaysia"}
+  </script>""" % (SITE_URL, SITE_URL, huraian)
     nav = "\n".join(
         f'          <li><a href="{h}"{" aria-current=\"page\"" if h == fail else ""}>{n}</a></li>' for h, n in MENU
     )
@@ -64,7 +78,14 @@ def halaman(fail, tajuk, huraian, isi):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{tajuk}</title>
   <meta name="description" content="{huraian}">
-  <meta name="theme-color" content="#8b2cf5">
+  <link rel="canonical" href="{url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PM Multilink">
+  <meta property="og:title" content="{tajuk}">
+  <meta property="og:description" content="{huraian}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:locale" content="ms_MY">
+  <meta name="theme-color" content="#8b2cf5">{ld}
   <link rel="icon" type="image/svg+xml" href="assets/logo-pm.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -466,3 +487,10 @@ PAGES = [
 for f, t, h, isi in PAGES:
     (OUT / f).write_text(halaman(f, t, h, isi), encoding="utf-8")
     print("wrote", f)
+
+peta = "".join(f"  <url><loc>{SITE_URL}{'' if f == 'index.html' else f}</loc></url>\n" for f, *_ in PAGES)
+(OUT / "sitemap.xml").write_text(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + peta + "</urlset>\n",
+    encoding="utf-8")
+(OUT / ".nojekyll").write_text("")
+print("wrote sitemap.xml, .nojekyll")
