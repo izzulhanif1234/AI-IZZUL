@@ -42,20 +42,30 @@ export const SalamJumaat: React.FC<Props> = (p) => {
         </StarReveal>
       </Sequence>
 
-      {p.muzik && (
-        <Audio
-          src={staticFile('music/bed.wav')}
-          volume={(f) => interpolate(f, [0, 30, TOTAL - 50, TOTAL], [0, 0.6, 0.6, 0], {extrapolateRight: 'clamp'})}
-        />
-      )}
-      <Sfx at={30} src="sfx/sparkle.mp3" volume={0.35} />
-      {[ayat.from, doa1.from, doa2.from, end.from].map((t) => (
-        <Sfx key={t} at={t - 4} src="sfx/whoosh-short.mp3" volume={0.45} />
-      ))}
-      {[34, 82, 130].map((t) => (
-        <Sfx key={t} at={doa2.from + t} src="sfx/chime.mp3" volume={0.16} />
-      ))}
-      <Sfx at={end.from + 28} src="sfx/sparkle.mp3" volume={0.35} />
+      <Soundtrack muzik={p.muzik} />
     </AbsoluteFill>
+  );
+};
+
+/** Music bed + SFX, shared by both designs (same scene timings). */
+export const Soundtrack: React.FC<{muzik: boolean}> = ({muzik}) => {
+  const {ayat, doa1, doa2, end} = SCENES;
+  return (
+    <>
+        {muzik && (
+          <Audio
+            src={staticFile('music/bed.wav')}
+            volume={(f) => interpolate(f, [0, 30, TOTAL - 50, TOTAL], [0, 0.6, 0.6, 0], {extrapolateRight: 'clamp'})}
+          />
+        )}
+        <Sfx at={30} src="sfx/sparkle.mp3" volume={0.35} />
+        {[ayat.from, doa1.from, doa2.from, end.from].map((t) => (
+          <Sfx key={t} at={t - 4} src="sfx/whoosh-short.mp3" volume={0.45} />
+        ))}
+        {[34, 82, 130].map((t) => (
+          <Sfx key={t} at={doa2.from + t} src="sfx/chime.mp3" volume={0.16} />
+        ))}
+        <Sfx at={end.from + 28} src="sfx/sparkle.mp3" volume={0.35} />
+    </>
   );
 };

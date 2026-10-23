@@ -10,6 +10,7 @@ export const schema = z.object({
   doa2Kata: z.tuple([z.string(), z.string(), z.string()]),
   doa2Penutup: z.string(),
   muzik: z.boolean(),
+  tema: z.enum(['biru', 'marun']),
 });
 
 export type Props = z.infer<typeof schema>;
@@ -24,4 +25,5 @@ export const defaultProps: Props = {
   doa2Kata: ['kemajuan', 'kemakmuran', 'kesejahteraan'],
   doa2Penutup: 'buat seluruh rakyatnya.',
   muzik: true,
+  tema: 'biru',
 };

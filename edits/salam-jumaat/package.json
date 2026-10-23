@@ -4,7 +4,8 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render SalamJumaat final/salam-jumaat-9x16.mp4",
-    "render:4x5": "remotion render SalamJumaat4x5 final/salam-jumaat-4x5.mp4"
+    "render:b": "remotion render SalamJumaatB final/salam-jumaat-B-biru-9x16.mp4 --props='{\"tema\":\"biru\"}'",
+    "render:b-marun": "remotion render SalamJumaatB final/salam-jumaat-B-marun-9x16.mp4 --props='{\"tema\":\"marun\"}'"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.538",

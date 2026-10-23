@@ -24,6 +24,20 @@ depan cukup tukar teks di Studio atau `--props`. `muzik: false` buang muzik lata
 
 Masa babak: `src/theme.ts` (`SCENES`). Ornamen: `src/ornaments.tsx`. Kesan: `src/effects.tsx`.
 
+## Design B (`SalamJumaatB`, `src/b/`)
+Diminta: warna lain selain hijau, **tanpa tanglung dan tanpa bulan sabit**.
+Prop `tema`: `biru` (langit biru diraja -> fajar jingga) atau `marun` (merah marun ala bangunan merah Melaka).
+Emas + aksen turquoise jubin Iznik. Masa babak dan audio sama dengan Design A.
+- Elemen: langit malam->fajar dengan bintang berkelip, jalur arked ogee di atas, siluet masjid di bawah
+  (bingkai emas nipis), tingkap gerbang ogee dengan jalur turquoise + manik emas.
+- Transisi: gerbang ogee membesar (`ArchIris`) — bukan star wipe.
+- Pembuka: "جمعة مباركة" khat Ruq'ah (Aref Ruqaa) didedah kanan->kiri, "Salam" / "JUMAAT" (Playfair Display).
+- Ayat: video dron dalam gerbang, teks atas panel lut sinar berbingkai emas.
+- Doa 1: jalur montaj dron dengan tepi bawah berbentuk lambrequin (scallop).
+- Doa 2: tiga medalion foto bulat menyala satu-satu dengan setiap kata kunci.
+- Penutup: bangunan dalam gerbang, logo atas plak, "جمعة مباركة" + "Salam Jumaat".
+Render: `npm run render:b`, `npm run render:b-marun`, kemudian loudnorm -14 LUFS seperti di bawah.
+
 ## Media (tidak dalam git — `media/` di-ignore)
 Folder Drive `17mbbzm-Sk5vFVR_kfPBzbvE3DFD4WBga` (gdown --folder) -> `media/jumaat-src/`, kemudian:
 - foto dron 8064x4536 -> `public/media/drone1..9.jpg` (4096x2304, ikut susunan nama fail)
