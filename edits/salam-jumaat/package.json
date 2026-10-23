@@ -1,0 +1,24 @@
+{
+  "name": "salam-jumaat",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render SalamJumaat final/salam-jumaat-9x16.mp4",
+    "render:4x5": "remotion render SalamJumaat4x5 final/salam-jumaat-4x5.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.538",
+    "@remotion/media": "^4.0.538",
+    "@remotion/paths": "^4.0.538",
+    "@remotion/shapes": "^4.0.538",
+    "@remotion/zod-types": "^4.0.538",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.538",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^5.9.3"
+  }
+}
