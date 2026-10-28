@@ -35,6 +35,18 @@ Video pengenalan ±3:00, 1920x1080, untuk pelawat Pusat Informasi. Sumber: dokum
 - Motion grafik baharu: `f15` teks-mask zoom-through, `f16` triptych menyerong, `f17` glitch/RGB slice
   (`draft/out/gaya-motion-grafik.jpg`). Logo MPPM tidak digunakan (arahan pengguna).
 
+## Draf 3 v2 (3:10): `draft/out/draf3-v2-pratonton-720p.mp4`
+Maklum balas pengguna: hook kurang menarik (mahu banyak rakaman dron semua pulau), buang kuiz, transition lebih menarik,
+lebih interaktif, tunjuk video pulau lebih lama; guna animasi topografi; "pastikan nampak real"; hantar draf dulu.
+- Hook 14 s: 12 potongan dron 0.6 s (kaunter 01→16, kata kinetik), grid 4 skrin, mozek 16 pulau yang bermain, slam "16".
+- Pulau ±9 s (Melaka 10.5, Besar 12): cut 1 tajuk, cut 2 viewfinder dron + label AR dijejak (OpenCV template matching,
+  `CALL` dalam film_plan.py) + peta mini dengan kontur, cut 3 fakta / Tahukah Anda / rantai sejarah / Anda di sini.
+- Transition (setiap babak bertindih OV=0.6 s supaya dua video bercampur): zoom, topo, pin, mask, slats, whip, cube, wave,
+  split, lens — semua mesti selesai < 0.6 s. Kuiz & babak Taman Laut dibuang (lencana Taman Laut kekal).
+- Topografi: `draft/topo.py` jana kontur (cv2.findContours atas medan hingar) → `assets/topo/*.svg` + `topo.js`.
+- Klip kini 1920x1080 @ 25 fps (mozek/dinding 480 px). Elemen anak yang di-`set` visibility:visible mesti dikembalikan
+  ke `inherit` bila lapisan induk tamat, kalau tidak ia bocor ke babak lain.
+
 ## Draf 3 penuh (pilihan pengguna, 3:00): `draft/out/draf3-pratonton-3minit.mp4`
 Pengguna pilih struktur draf 3 (tanpa bot) dan mahu draf 3 minit sebelum render akhir.
 - `draft/film_plan.py` → `draft/film-plan.js` (jadual babak, teks, klip, 115 isyarat SFX) dan ekstrak frame klip

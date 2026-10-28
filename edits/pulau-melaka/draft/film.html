@@ -256,7 +256,7 @@ const RING=(()=>{const svg=new DOMParser().parseFromString(window.TOPO.ring,'ima
 const TR={
   zoom(L,O,T){
     if(O)tl.to(O,{scale:2.6,opacity:0,duration:.5,ease:'power3.in'},T);
-    tl.fromTo(L,{scale:2.2,opacity:0},{scale:1,opacity:1,duration:.55,ease:'power3.out'},T+.25)
+    tl.fromTo(L,{scale:2.2,opacity:0},{scale:1,opacity:1,duration:.33,ease:'power3.out'},T+.25)
       .fromTo('#zfx',{opacity:0,scale:.6,rotation:0},{keyframes:[{opacity:1,scale:1.1,duration:.35},{opacity:0,scale:1.6,duration:.35}],rotation:12},T+.1);
     flash(T+.42,.65);
   },
@@ -266,51 +266,51 @@ const TR={
       .fromTo('#wfx',{opacity:0,y:0},{keyframes:[{opacity:1,duration:.25},{opacity:0,duration:.3}],y:-120},T+.05);
   },
   cube(L,O,T){
-    if(O)tl.fromTo(O,{transformOrigin:'50% 50% -960px',rotationY:0},{rotationY:-90,duration:.65,ease:'power2.inOut'},T);
-    tl.fromTo(L,{transformOrigin:'50% 50% -960px',rotationY:90},{rotationY:0,duration:.65,ease:'power2.inOut'},T)
-      .set(L,{transformOrigin:'50% 50%'},T+.66);
+    if(O)tl.fromTo(O,{transformOrigin:'50% 50% -960px',rotationY:0},{rotationY:-90,duration:.56,ease:'power2.inOut'},T);
+    tl.fromTo(L,{transformOrigin:'50% 50% -960px',rotationY:90},{rotationY:0,duration:.56,ease:'power2.inOut'},T)
+      .set(L,{transformOrigin:'50% 50%'},T+.57);
   },
   lens(L,O,T){
     if(O)tl.to(O,{scale:1.2,rotation:6,duration:.6,ease:'power2.in'},T);
-    tl.fromTo(L,{rotation:-14,scale:1.6,opacity:0},{rotation:0,scale:1,opacity:1,duration:.65,ease:'power3.out'},T+.1)
+    tl.fromTo(L,{rotation:-14,scale:1.6,opacity:0},{rotation:0,scale:1,opacity:1,duration:.48,ease:'power3.out'},T+.08)
       .fromTo('#leak',{opacity:0},{keyframes:[{opacity:.95,duration:.3},{opacity:0,duration:.6}]},T);
   },
   wave(L,O,T){
-    clipAnim(L,T,.7,'power2.inOut',p=>{const base=1080+120-p*(1080+300),pts=[];
+    clipAnim(L,T,.57,'power2.inOut',p=>{const base=1080+120-p*(1080+300),pts=[];
       for(let x=1920;x>=0;x-=40)pts.push([x,base+38*Math.sin(x/150+p*9)+18*Math.sin(x/63-p*6)]);
       L.style.clipPath=poly([[0,1400],[1920,1400],...pts]);
       tfx(0,'M'+pts.map(([x,y])=>`${x} ${y}`).join(' L'),16,.9);tfx(1,'M'+pts.map(([x,y])=>`${x} ${y+26}`).join(' L'),5,.5);});
   },
   pin(L,O,T){
     if(O)tl.to(O,{scale:.92,duration:.6,ease:'power2.in'},T);
-    clipAnim(L,T,.65,'power2.in',p=>{const r=8+p*1500,cx=960,cy=470+p*200;
+    clipAnim(L,T,.57,'power2.in',p=>{const r=8+p*1500,cx=960,cy=470+p*200;
       const d=`M ${cx} ${cy+1.6*r} C ${cx-.35*r} ${cy+1.1*r} ${cx-r} ${cy+.55*r} ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy} C ${cx+r} ${cy+.55*r} ${cx+.35*r} ${cy+1.1*r} ${cx} ${cy+1.6*r} Z`;
       L.style.clipPath=`path('${d}')`;tfx(0,d,10,1);});
   },
   split(L,O,T){
-    clipAnim(L,T,.6,'power3.inOut',p=>{const w=4+p*1250,dx=.87,dy=-.49,nx=.49,ny=.87,c=[960,540],F=2600;
+    clipAnim(L,T,.57,'power3.inOut',p=>{const w=4+p*1250,dx=.87,dy=-.49,nx=.49,ny=.87,c=[960,540],F=2600;
       const a=[c[0]-dx*F+nx*w,c[1]-dy*F+ny*w],b=[c[0]+dx*F+nx*w,c[1]+dy*F+ny*w],e=[c[0]+dx*F-nx*w,c[1]+dy*F-ny*w],f=[c[0]-dx*F-nx*w,c[1]-dy*F-ny*w];
       L.style.clipPath=poly([a,b,e,f]);tfx(0,`M${a[0]} ${a[1]} L${b[0]} ${b[1]} M${f[0]} ${f[1]} L${e[0]} ${e[1]}`,8,1);});
   },
   topo(L,O,T){
     const shapes=[RING[2],RING[4],RING[6],RING[8]];
-    clipAnim(L,T,.75,'power2.in',p=>{const s=.02+p*7.5,path=(o,k)=>'M'+o.pts.map(([x,y])=>`${960+x*s*k} ${540+y*s*k}`).join(' L')+' Z';
+    clipAnim(L,T,.57,'power2.in',p=>{const s=.02+p*7.5,path=(o,k)=>'M'+o.pts.map(([x,y])=>`${960+x*s*k} ${540+y*s*k}`).join(' L')+' Z';
       L.style.clipPath=poly(shapes[0].pts.map(([x,y])=>[960+x*s,540+y*s]));
       tfx(0,path(shapes[0],1),7,1);tfx(1,path(shapes[1],1),3,.8);tfx(2,path(shapes[2],1),2.5,.6);tfx(3,path(shapes[3],1),2,.45);});
-    if(O)tl.to(O,{scale:1.06,duration:.75,ease:'none'},T);
+    if(O)tl.to(O,{scale:1.06,duration:.6,ease:'none'},T);
   },
   slats(L,O,T){
     const S=L.querySelector('.slats');
     tl.set(S,{visibility:'visible'},T).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:0},T).set(L,{background:'transparent'},T)
-      .fromTo(S.children,{rotationY:-92,opacity:.4},{rotationY:0,opacity:1,duration:.34,ease:'power2.out',stagger:.045},T)
-      .set(S,{visibility:'hidden'},T+.72).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:1},T+.72).set(L,{background:'#021422'},T+.72);
+      .fromTo(S.children,{rotationY:-92,opacity:.4},{rotationY:0,opacity:1,duration:.28,ease:'power2.out',stagger:.035},T)
+      .set(S,{visibility:'hidden'},T+.57).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:1},T+.57).set(L,{background:'#021422'},T+.57);
   },
   mask(L,O,T){
     const M=L.querySelector('.mk'),t=M.querySelector('.t');
     tl.set(M,{visibility:'visible'},T).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:0},T).set(L,{background:'transparent'},T)
-      .fromTo(t,{scale:.7,opacity:0},{scale:1,opacity:1,duration:.22,ease:'expo.out'},T)
-      .to(t,{scale:16,duration:.48,ease:'power3.in'},T+.24)
-      .set(M,{visibility:'hidden'},T+.72).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:1},T+.72).set(L,{background:'#021422'},T+.72);
+      .fromTo(t,{scale:.7,opacity:0},{scale:1,opacity:1,duration:.18,ease:'expo.out'},T)
+      .to(t,{scale:16,duration:.37,ease:'power3.in'},T+.2)
+      .set(M,{visibility:'hidden'},T+.57).set([L.querySelector('.v'),L.querySelector('.shade')],{opacity:1},T+.57).set(L,{background:'#021422'},T+.57);
   },
 };
 
@@ -362,6 +362,7 @@ const builders={
     .fromTo(E.querySelector('.wr'),{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.7},12.1)
     .to(E,{scale:1.6,opacity:0,duration:.5,ease:'power2.in'},13.55);
   drawTopo(E.querySelectorAll('.topo path'),11.5,1.6);
+  tl.set([M,E],{visibility:'inherit'},T+s.dur+OV);
   flash(14,.9,.4);
  },
  map(s){
