@@ -31,7 +31,7 @@ def shading(im, alpha, debug=None):
     out = np.ones((H, W), np.float32)
     xx = np.arange(W)[None, :]
     edge = np.clip((np.minimum(xx, W - 1 - xx) - 20) / 60.0, 0, 1)
-    for region, s, t, k in (((yy > s1) & np.ones((1, W), bool), 18, 0.78, 0.5),):
+    for region, s, t, k in (((yy > s1) & np.ones((1, W), bool), 10, 0.75, 0.72),):
         w = (bg & region).astype(np.float32)
         low, den = nblur(L.astype(np.float32), w, s)
         ref = np.array([np.percentile(low[y][w[y] > 0], 80) if w[y].sum() > 40 else np.nan for y in range(H)])
@@ -39,18 +39,53 @@ def shading(im, alpha, debug=None):
         ref = np.interp(idx, idx[ok], ref[ok]) if ok.any() else np.full(H, 255.0)
         ref = np.convolve(np.pad(ref, 40, mode='edge'), np.ones(81) / 81, 'valid')
         ratio = np.where(den > 0.15, low / ref[:, None], 1.0)
-        sh = np.clip(1 - ratio / t, 0, 1) * k * near * np.clip((yy - s1) / 35.0, 0, 1) * edge
+        u = np.clip((t - ratio) / (t - 0.3), 0, 1)
+        sh = u * u * (3 - 2 * u) * k * near * np.clip((yy - s1) / 35.0, 0, 1) * edge
         out = np.where(region, 1 - sh, out)
     out = cv2.GaussianBlur(out, (0, 0), 3)
     if debug: Image.fromarray((out * 255).astype(np.uint8)).save(debug)
     return out, (fy, s0, s1)
 
-def composite(src, mpath, out, debug=None):
+def sharpen(rgb):
+    """Two-scale unsharp mask on luminance only (no colour fringing)."""
+    Y = rgb @ np.array([0.299, 0.587, 0.114])
+    d = np.zeros_like(Y)
+    for sig, amt in ((0.7, 0.9), (1.6, 0.45)):
+        hp = Y - cv2.GaussianBlur(Y, (0, 0), sig)
+        hp = np.sign(hp) * np.maximum(np.abs(hp) - 0.004, 0)
+        d += amt * hp
+    return np.clip(rgb + d[..., None], 0, 1)
+
+def seat_shade(S, chair):
+    """Soft occlusion shadow on the floor under each chair seat, between its legs."""
+    H, W = S.shape
+    yy = np.arange(H)[:, None]
+    hard = (chair > 0.5).astype(np.uint8)
+    n, lab, st, _ = cv2.connectedComponentsWithStats(cv2.dilate(hard, np.ones((9, 9), np.uint8)), 8)
+    occ = np.zeros((H, W), np.float32)
+    for i in range(1, n):
+        if st[i][4] < 1500: continue
+        comp = (lab == i) & (hard > 0)
+        rows = np.nonzero(comp.sum(1) >= 25)[0]
+        if not len(rows): continue
+        top, bot = rows[0] + 20, st[i][1] + st[i][3]
+        pts = cv2.findNonZero(comp.astype(np.uint8))
+        hull = np.zeros((H, W), np.uint8)
+        cv2.fillConvexPoly(hull, cv2.convexHull(pts), 1)
+        under = (hull > 0) & ~comp & (yy > top)
+        grad = np.clip(1 - 0.6 * (yy - top) / max(bot - top, 1), 0.3, 1)
+        occ = np.maximum(occ, under * grad * 0.2)
+    occ = cv2.GaussianBlur(occ, (0, 0), 6)
+    return S * (1 - occ)
+
+def composite(src, mpath, out, debug=None, chairpath=None):
     pil = Image.open(src)
     im = np.asarray(pil.convert('RGB')).astype(np.float64) / 255
     a = np.asarray(Image.open(mpath).convert('L')).astype(np.float64) / 255
     S, info = shading(im * 255, a, debug)
-    fg = estimate_foreground_ml(im, a)
+    if chairpath:
+        S = seat_shade(S, np.asarray(Image.open(chairpath).convert('L')).astype(np.float32) / 255)
+    fg = sharpen(estimate_foreground_ml(im, a))
     a3 = a[..., None]
     o = fg * a3 + S[..., None] * (1 - a3)
     Image.fromarray((np.clip(o, 0, 1) * 255 + .5).astype(np.uint8)).save(
@@ -58,4 +93,4 @@ def composite(src, mpath, out, debug=None):
     return info
 
 if __name__ == '__main__':
-    print(composite(*sys.argv[1:4], *(sys.argv[4:5])))
+    print(composite(sys.argv[1], sys.argv[2], sys.argv[3], None, *(sys.argv[4:5])))

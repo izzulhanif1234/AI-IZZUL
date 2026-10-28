@@ -16,4 +16,9 @@ Pipeline v2 (`scripts/studio-bg/`, run from a work dir with originals in `../dl/
    (06, 07 also take `extra.py` chair/body prompts from v1.)
 4. `refine.py` — closed-form matting in a thin band around the chairs for clean leg edges.
 5. `backrow.py` — back-row shoes/skirts visible between chairs recovered with SAM.
-6. `studio.py` — white background + real floor shadows, foreground colour decontamination.
+6. `darkfill.py` — dark clothing / under-seat darkness between people (back row, crotch gaps) kept
+   instead of turning white; skirting line excluded.
+7. `studio.py [chairs mask]` — white background + real floor shadows (deep shadows only, carpet tile
+   pattern dropped), soft occlusion shadow under each chair seat, foreground colour decontamination,
+   two-scale luminance unsharp mask.
+`chain.sh NN` runs steps 3–7 for a chair photo.

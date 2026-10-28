@@ -13,7 +13,10 @@ n0, lab0, st0, _ = cv2.connectedComponentsWithStats(cv2.dilate(hard, np.ones((7,
 yy = np.arange(g.shape[0])[:, None]
 seat = np.zeros(g.shape, bool)
 for i in range(1, n0):
-    seat |= (lab0 == i) & (yy <= st0[i][1] + 40)
+    comp = lab0 == i
+    rows = np.nonzero(comp.sum(1) >= 25)[0]
+    top = rows[0] if len(rows) else st0[i][1]
+    seat |= comp & (yy <= top + 45)
 carpet = (g < 150) & (tex > 5) & (a < 0.5) & ~seat
 carpet = cv2.morphologyEx(carpet.astype(np.uint8), cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8)) > 0
 c[carpet] = 0
