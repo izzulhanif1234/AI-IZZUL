@@ -50,7 +50,7 @@ def sharpen(rgb):
     """Two-scale unsharp mask on luminance only (no colour fringing)."""
     Y = rgb @ np.array([0.299, 0.587, 0.114])
     d = np.zeros_like(Y)
-    for sig, amt in ((0.7, 0.9), (1.6, 0.45)):
+    for sig, amt in ((0.8, 0.35), (1.6, 0.15)):
         hp = Y - cv2.GaussianBlur(Y, (0, 0), sig)
         hp = np.sign(hp) * np.maximum(np.abs(hp) - 0.004, 0)
         d += amt * hp

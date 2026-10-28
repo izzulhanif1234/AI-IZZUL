@@ -21,4 +21,8 @@ Pipeline v2 (`scripts/studio-bg/`, run from a work dir with originals in `../dl/
 7. `studio.py [chairs mask]` — white background + real floor shadows (deep shadows only, carpet tile
    pattern dropped), soft occlusion shadow under each chair seat, foreground colour decontamination,
    two-scale luminance unsharp mask.
+8. `decarpet.py` — carpet pieces the person model kept around shoes/furniture bases removed
+   (region-based, solid black protected); `erase.py` for the two leftovers under the sofa in 09/10
+   (boxes 1012,828..1105,905 and 1012,830..1105,900).
+Sharpening was toned down after review (0.8px×0.35 + 1.6px×0.15).
 `chain.sh NN` runs steps 3–7 for a chair photo.
