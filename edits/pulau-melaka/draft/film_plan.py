@@ -1,4 +1,4 @@
-"""Build the 3-minute draft-3 film plan.
+"""Build the draft-3 film plan (v2: drone-montage hook, no quiz, overlapping transitions).
 
 Writes draft/film-plan.js (scene schedule, island copy, clip windows, SFX cues) and extracts the
 frames each clip window needs from the source videos into draft/clips/<island>_<slot>/NNNNN.jpg,
@@ -15,7 +15,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, '..', '..', '..', 'media', 'pulau', 'src', 'GUGUSAN PULAU-PULAU MELAKA')
-FPS = 20
+FPS = 25
 
 CUTS = json.load(open(os.path.join(HERE, '..', 'cuts.json')))
 
@@ -49,17 +49,62 @@ PIN = {'masjid': (89, 624), 'keramat': (454, 755), 'konet': (606, 989), 'upeh': 
        'peringgi': (1980, 2210), 'hanyut': (774, 2292), 'burung': (1979, 2360), 'besar': (1440, 2365),
        'dodol': (1515, 2521), 'nangka': (1406, 2710), 'undan': (1227, 2838)}
 
-# film order: (scene, seconds[, island, entry])  entry = map | mask | tri | glitch
+# AR callouts pinned to features in the footage: island -> (slot, [(label, x, y) on the clip's first frame, in 960x540 units])
+# tracks are stored in 1920x1080 units
+# the callout clip plays second in the island's segment so it gets the clean middle of the scene
+CALL = {
+    'masjid': ('A', [('Bot nelayan', 850, 450)]),
+    'keramat': ('C', [('Tebing berbatu', 560, 200)]),
+    'konet': ('B', [('Beting pasir ketika air surut', 280, 390)]),
+    'upeh': ('A', [('Jeti Pulau Upeh', 800, 170)]),
+    'melaka': ('A', [('Masjid Selat Melaka', 504, 240)]),
+    'panjang': ('A', [('Bandar Melaka', 160, 220), ('Pulau Panjang', 360, 234)]),
+    'menatang': ('B', [('Batu separa tenggelam', 520, 300)]),
+    'burung': ('A', [('Pantai berpasir', 600, 400)]),
+    'peringgi': ('A', [('Pulau kecil dikelilingi batu', 480, 205)]),
+    'besar': ('A', [('Pantai pasir putih', 320, 400)]),
+    'serimbun': ('A', [('Bot nelayan', 510, 380)]),
+    'hanyut': ('B', [('Batuan & air jernih', 560, 330)]),
+    'lalang': ('C', [('Kapal layar', 910, 60), ('Pasir putih', 460, 410)]),
+    'dodol': ('A', [('Bentuk seakan-akan kuih dodol', 460, 300)]),
+    'nangka': ('A', [('Pantai berpasir', 520, 130)]),
+    'undan': ('A', [('Rumah api zaman British', 396, 80)]),
+}
+
+
+def seq(key):
+    slots = ['A', 'B', 'C', 'D'] if 'D' in CUTS[key] else ['A', 'B', 'C']
+    c = CALL[key][0]
+    rest = [x for x in slots if x != c]
+    return [rest[0], c] + rest[1:]
+
+
+# film order: (scene, seconds[, island, transition-in])
+# every scene overlaps the next by OV seconds so transitions can mix two live videos
+OV = 0.6
 ORDER = [
-    ('hook', 8), ('map', 10), ('zones', 8),
-    ('zone', 2, 'u'), ('island', 7.3, 'masjid', 'map'), ('island', 7.3, 'keramat', 'glitch'), ('island', 7.4, 'konet', 'map'),
-    ('zone', 2, 't'), ('island', 8, 'upeh', 'mask'), ('island', 10, 'melaka', 'map'), ('island', 8, 'panjang', 'glitch'),
-    ('island', 8, 'menatang', 'map'), ('island', 8, 'burung', 'tri'), ('island', 8, 'peringgi', 'map'),
-    ('quiz', 8),
-    ('zone', 2, 's'), ('island', 12, 'besar', 'map'), ('island', 6.6, 'serimbun', 'glitch'), ('island', 6.6, 'hanyut', 'map'),
-    ('island', 6.6, 'lalang', 'mask'), ('island', 6.6, 'dodol', 'tri'), ('island', 6.6, 'nangka', 'glitch'), ('island', 7, 'undan', 'map'),
-    ('taman', 8), ('close', 8),
+    ('hook', 14), ('map', 9), ('zones', 6),
+    ('zone', 1.6, 'u'), ('island', 9, 'masjid', 'zoom'), ('island', 9, 'keramat', 'topo'), ('island', 9, 'konet', 'pin'),
+    ('zone', 1.6, 't'), ('island', 9, 'upeh', 'zoom'), ('island', 10.5, 'melaka', 'mask'), ('island', 9, 'panjang', 'slats'),
+    ('island', 9, 'menatang', 'whip'), ('island', 9, 'burung', 'cube'), ('island', 9, 'peringgi', 'wave'),
+    ('zone', 1.6, 's'), ('island', 12, 'besar', 'zoom'), ('island', 9, 'serimbun', 'split'), ('island', 9, 'hanyut', 'lens'),
+    ('island', 9, 'lalang', 'topo'), ('island', 9, 'dodol', 'slats'), ('island', 9, 'nangka', 'whip'), ('island', 9, 'undan', 'cube'),
+    ('close', 8),
 ]
+# hook montage: whole-island drone shots, (island, slot, offset into the cut)
+HOOK = [('masjid', 'B', 2), ('keramat', 'A', 2), ('konet', 'A', 1), ('upeh', 'A', 2), ('melaka', 'A', 2), ('panjang', 'B', 3),
+        ('menatang', 'B', 2), ('burung', 'B', 2), ('peringgi', 'C', 3), ('besar', 'C', 2), ('serimbun', 'C', 2), ('hanyut', 'B', 2),
+        ('lalang', 'A', 2), ('dodol', 'A', 1), ('nangka', 'B', 2), ('undan', 'B', 2)]
+H_START, H_CUT = 0.6, 0.6          # 12 single cuts of 0.6 s, then a 4-up grid of the last four
+H_GRID = H_START + 12 * H_CUT       # 7.8
+H_GRID_DUR = 1.6
+H_MOS = H_GRID + H_GRID_DUR         # 9.4
+
+
+def clip(key, slot, t0, vis, src0, src_len, out=None, max_speed=2.0, w=1920):
+    speed = min(max_speed, max(.8, src_len / vis))
+    return dict(key=out or key, src_key=key, slot=slot, t0=round(t0, 3), dur=round(vis, 3), src=src0, speed=round(speed, 3),
+                n=int(round(vis * FPS)) + 1, w=w)
 
 
 def plan():
@@ -69,41 +114,50 @@ def plan():
         sc = dict(kind=kind, t0=round(t, 3), dur=dur)
         if kind == 'zone':
             sc['zone'] = row[2]
-            sfx += [(t, 'whoosh-cinematic'), (t + .25, 'impact-bass-2')]
+            sfx += [(t, 'whoosh-cinematic'), (t + .2, 'impact-bass-2')]
         elif kind == 'island':
-            key, entry = row[2], row[3]
+            key, tr = row[2], row[3]
             n += 1
-            e = 1.0 if entry == 'map' else 0.8
-            body = dur - e
-            a, b = e + .38 * body, e + .70 * body          # A | B | C boundaries (relative)
-            sc.update(key=key, entry=entry, num=n, e=e, a=round(a, 3), b=round(b, 3))
-            win = {'A': (0 if entry in ('mask', 'tri') else e, a), 'B': (0 if entry == 'tri' else a, b), 'C': (0 if entry == 'tri' else b, dur)}
-            for slot, (w0, w1) in win.items():
-                src0, src1 = CUTS[key][slot]
-                vis = w1 - w0
-                speed = min(3.0, max(.8, (src1 - src0) / vis))
-                clips.append(dict(key=key, slot=slot, t0=round(t + w0, 3), dur=round(vis, 3), src=src0, speed=round(speed, 3),
-                                  n=int(round(vis * FPS)) + 1))
-            sfx += [(t, {'map': 'whoosh', 'mask': 'whoosh-cinematic', 'tri': 'whoosh', 'glitch': 'glitch-1'}[entry]),
-                    (t + e, 'impact-bass-1'), (t + a + .2, 'pop'), (t + a + .4, 'pop')]
+            slots = seq(key)
+            edges = [0] + [round(dur * (i + 1) / len(slots), 3) for i in range(len(slots) - 1)] + [dur + OV]
+            sc.update(key=key, tr=tr, num=n, cuts=edges, seq=slots, call=CALL[key])
+            for i, slot in enumerate(slots):
+                s0, s1 = CUTS[key][slot]
+                clips.append(clip(key, slot, t + edges[i], edges[i + 1] - edges[i], s0, s1 - s0))
+            sfx += [(t, {'zoom': 'whoosh-cinematic', 'wave': 'whoosh', 'pin': 'whoosh-short', 'slats': 'whoosh-short', 'whip': 'whoosh',
+                         'cube': 'whoosh', 'mask': 'whoosh-cinematic', 'split': 'whoosh-short', 'lens': 'whoosh-cinematic',
+                         'topo': 'sparkle'}[tr]),
+                    (t + .5, 'impact-bass-1'), (t + edges[1] + .3, 'pop'), (t + edges[1] + .55, 'pop')]
             if 'dyk' in ISL[key] or 'chain' in ISL[key] or 'here' in ISL[key]:
-                sfx.append((t + b + .2, 'sparkle'))
+                sfx.append((t + edges[2] + .2, 'sparkle'))
+            if tr == 'slats':
+                sfx += [(t + .08 * i, 'click') for i in range(4)]
         elif kind == 'hook':
-            sfx += [(0.3, 'impact-bass-2'), (0.8, 'whoosh-short'), (6.6, 'riser')]
+            for i, (k, sl, off) in enumerate(HOOK[:12]):
+                s0 = CUTS[k][sl][0] + off
+                clips.append(clip(k, sl, H_START + i * H_CUT, H_CUT, s0, 1.0, out='hook-' + k, max_speed=1.7))
+                sfx.append((H_START + i * H_CUT, 'whoosh-short' if i % 2 else 'pop'))
+            for k, sl, off in HOOK[12:]:
+                s0 = CUTS[k][sl][0] + off
+                clips.append(clip(k, sl, H_GRID, H_GRID_DUR, s0, 2.4, out='hook-' + k, w=960))
+            for k, sl, off in HOOK:                      # 4x4 mosaic of every island, playing
+                s0 = CUTS[k][sl][0] + off + 1
+                clips.append(clip(k, sl, H_MOS, 14 - H_MOS + OV, s0, 6, out='mos-' + k, w=480))
+            sfx += [(0.1, 'riser'), (H_GRID, 'impact-bass-1'), (H_GRID + H_GRID_DUR, 'whoosh-cinematic'),
+                    (11.4, 'impact-bass-2'), (12.0, 'sparkle'), (13.5, 'riser')]
         elif kind == 'map':
-            sfx += [(t, 'impact-bass-1'), (t + .1, 'whoosh-cinematic')] + [(t + 1.6 + i * .18, 'pop') for i in range(16)]
+            sfx += [(t, 'impact-bass-1'), (t + .1, 'whoosh-cinematic')] + [(t + 1.6 + i * .16, 'pop') for i in range(16)]
         elif kind == 'zones':
-            sfx += [(t + .5 + i * .6, 'whoosh-short') for i in range(3)]
-        elif kind == 'quiz':
-            sfx += [(t, 'notification')] + [(t + 1.5 + i, 'click') for i in range(5)] + [(t + 6.5, 'chime')]
-        elif kind == 'taman':
-            sfx += [(t, 'whoosh-cinematic')] + [(t + .8 + i * .35, 'whoosh-short') for i in range(3)]
+            sfx += [(t + .5 + i * .5, 'whoosh-short') for i in range(3)]
         elif kind == 'close':
+            for k, sl, off in HOOK:                      # closing wall plays every island again
+                s0 = CUTS[k][sl][0] + off + 2
+                clips.append(clip(k, sl, t, dur, s0, dur * 1.3, out='wall-' + k, w=480))
             sfx += [(t, 'whoosh'), (t + 1.2, 'impact-bass-2'), (t + 4.5, 'sparkle')]
         scenes.append(sc)
         t += dur
-    return dict(fps=FPS, total=round(t, 3), scenes=scenes, clips=clips, isl=ISL, pin=PIN,
-                sfx=[(round(a, 3), b) for a, b in sorted(sfx)])
+    return dict(fps=FPS, total=round(t, 3), ov=OV, scenes=scenes, clips=clips, isl=ISL, pin=PIN, hook=HOOK,
+                hgrid=[H_START, H_CUT, H_GRID, H_GRID_DUR], sfx=[(round(a, 3), b) for a, b in sorted(sfx)])
 
 
 def source(key):
@@ -114,6 +168,40 @@ def source(key):
     raise SystemExit('no source for ' + key)
 
 
+def track(p):
+    """Follow each callout point through its clip frames with template matching (positions in 960x540)."""
+    import cv2
+    out = {}
+    for key, (slot, pts) in CALL.items():
+        d = os.path.join(HERE, 'clips', f'{key}_{slot}')
+        files = sorted(os.listdir(d))
+        tracks = []
+        k = 1920 / 960
+        for _, x, y in pts:
+            x, y = x * k, y * k
+            prev = cv2.cvtColor(cv2.imread(os.path.join(d, files[0])), cv2.COLOR_BGR2GRAY)
+            r, sr, path = 56, 110, [(x, y)]
+            for f in files[1:]:
+                cur = cv2.cvtColor(cv2.imread(os.path.join(d, f)), cv2.COLOR_BGR2GRAY)
+                H, W = cur.shape
+                cx, cy = int(round(path[-1][0])), int(round(path[-1][1]))
+                tx0, ty0 = max(0, cx - r), max(0, cy - r)
+                tpl = prev[ty0:min(H, cy + r), tx0:min(W, cx + r)]
+                sx0, sy0 = max(0, cx - r - sr), max(0, cy - r - sr)
+                win = cur[sy0:min(H, cy + r + sr), sx0:min(W, cx + r + sr)]
+                if tpl.shape[0] < 8 or tpl.shape[1] < 8 or win.shape[0] <= tpl.shape[0] or win.shape[1] <= tpl.shape[1]:
+                    path.append(path[-1]); prev = cur; continue
+                m = cv2.matchTemplate(win, tpl, cv2.TM_CCOEFF_NORMED)
+                _, score, _, loc = cv2.minMaxLoc(m)
+                nx, ny = sx0 + loc[0] + (cx - tx0), sy0 + loc[1] + (cy - ty0)
+                path.append((nx, ny) if score > .4 else path[-1])
+                prev = cur
+            tracks.append([[round(a, 1), round(b, 1)] for a, b in path])
+        out[f'{key}_{slot}'] = tracks
+        print('track', key, slot, len(files), 'frames', flush=True)
+    return out
+
+
 def extract(p):
     root = os.path.join(HERE, 'clips')
     shutil.rmtree(root, ignore_errors=True)
@@ -121,11 +209,11 @@ def extract(p):
         d = os.path.join(root, f"{c['key']}_{c['slot']}")
         os.makedirs(d, exist_ok=True)
         # Upeh's source carries a small corner watermark: crop from the bottom-left before scaling
-        crop = 'crop=iw*0.88:ih*0.88:0:ih*0.12,' if c['key'] == 'upeh' else ''
-        vf = f"setpts=PTS/{c['speed']},fps={FPS},{crop}scale=960:540"
+        crop = 'crop=iw*0.88:ih*0.88:0:ih*0.12,' if c['src_key'] == 'upeh' else ''
+        vf = f"setpts=PTS/{c['speed']},fps={FPS},{crop}scale={c['w']}:{c['w'] * 9 // 16}"
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(c['src']), '-t', str(c['dur'] * c['speed'] + .3),
-                        '-i', source(c['key']), '-vf', vf, '-frames:v', str(c['n']), '-q:v', '4',
-                        os.path.join(d, '%05d.jpg')], check=True)
+                        '-i', source(c['src_key']), '-vf', vf, '-frames:v', str(c['n']), '-q:v', '4',
+                        os.path.join(d, '%05d.jpg')], check=True)  # -q:v 4 above keeps 1080p frames small
         got = len(os.listdir(d))
         c['n'] = got
         print(c['key'], c['slot'], got, 'frames', flush=True)
@@ -135,6 +223,7 @@ if __name__ == '__main__':
     p = plan()
     if '--no-extract' not in sys.argv:
         extract(p)
+    p['tracks'] = track(p)
     with open(os.path.join(HERE, 'film-plan.js'), 'w') as fh:
         fh.write('window.PLAN=' + json.dumps(p, ensure_ascii=False) + ';\n')
     print('total', p['total'], 's,', len(p['clips']), 'clips,', len(p['sfx']), 'sfx cues')
