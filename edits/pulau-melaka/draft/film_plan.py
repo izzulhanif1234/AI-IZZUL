@@ -15,7 +15,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, '..', '..', '..', 'media', 'pulau', 'src', 'GUGUSAN PULAU-PULAU MELAKA')
-FPS = 25
+FPS = 30   # matches the sources (30 fps, or 60 fps that halves cleanly); 25 fps caused uneven cadence
 
 CUTS = json.load(open(os.path.join(HERE, '..', 'cuts.json')))
 
@@ -101,8 +101,9 @@ H_GRID_DUR = 1.6
 H_MOS = H_GRID + H_GRID_DUR         # 9.4
 
 
-def clip(key, slot, t0, vis, src0, src_len, out=None, max_speed=2.0, w=1920):
-    speed = min(max_speed, max(.8, src_len / vis))
+def clip(key, slot, t0, vis, src0, src_len, out=None, max_speed=1.0, w=1920):
+    # real-time playback: speeding drone footage up made every frame a big jump and looked choppy
+    speed = min(max_speed, max(1.0, src_len / vis))
     return dict(key=out or key, src_key=key, slot=slot, t0=round(t0, 3), dur=round(vis, 3), src=src0, speed=round(speed, 3),
                 n=int(round(vis * FPS)) + 1, w=w)
 
@@ -135,7 +136,7 @@ def plan():
         elif kind == 'hook':
             for i, (k, sl, off) in enumerate(HOOK[:12]):
                 s0 = CUTS[k][sl][0] + off
-                clips.append(clip(k, sl, H_START + i * H_CUT, H_CUT, s0, 1.0, out='hook-' + k, max_speed=1.7))
+                clips.append(clip(k, sl, H_START + i * H_CUT, H_CUT, s0, 1.0, out='hook-' + k))
                 sfx.append((H_START + i * H_CUT, 'whoosh-short' if i % 2 else 'pop'))
             for k, sl, off in HOOK[12:]:
                 s0 = CUTS[k][sl][0] + off
@@ -202,21 +203,46 @@ def track(p):
     return out
 
 
+def stutter(src, ss, t):
+    """Share of repeated frames when the window is read at FPS, ignoring near-static footage."""
+    import numpy as np
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', str(ss), '-t', str(t), '-i', src,
+                          '-vf', f'fps={FPS},scale=240:135,format=gray', '-f', 'rawvideo', '-'], capture_output=True).stdout
+    fr = np.frombuffer(raw, np.uint8).reshape(-1, 135, 240).astype(np.int16)
+    if len(fr) < 3:
+        return 0.0
+    d = np.abs(np.diff(fr, axis=0)).mean(axis=(1, 2))
+    moving = d > .15
+    if moving.mean() < .2:                   # essentially a still shot: nothing to smooth
+        return 0.0
+    return float((d < .15).mean())
+
+
+def extract_one(c):
+    d = os.path.join(HERE, 'clips', f"{c['key']}_{c['slot']}")
+    os.makedirs(d, exist_ok=True)
+    src = source(c['src_key'])
+    # Upeh's source carries a small corner watermark: crop from the bottom-left before scaling
+    crop = 'crop=iw*0.88:ih*0.88:0:ih*0.12,' if c['src_key'] == 'upeh' else ''
+    # several sources hold low-frame-rate footage padded with repeated frames: drop the repeats and
+    # motion-interpolate back to FPS so pans move evenly
+    c['interp'] = stutter(src, c['src'], c['dur'] * c['speed']) > .12
+    rate = (f'mpdecimate=hi=768:lo=320:frac=0.33,minterpolate=fps={FPS}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1'
+            if c['interp'] else f'fps={FPS}')
+    vf = f"setpts=PTS/{c['speed']},{rate},{crop}scale={c['w']}:{c['w'] * 9 // 16}"
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(c['src']), '-t', str(c['dur'] * c['speed'] + .3),
+                    '-i', src, '-vf', vf, '-frames:v', str(c['n']), '-q:v', '4',
+                    os.path.join(d, '%05d.jpg')], check=True)  # -q:v 4 keeps 1080p frames small
+    c['n'] = len(os.listdir(d))
+    print(c['key'], c['slot'], c['n'], 'frames', 'interp' if c['interp'] else '', flush=True)
+
+
 def extract(p):
-    root = os.path.join(HERE, 'clips')
-    shutil.rmtree(root, ignore_errors=True)
-    for c in p['clips']:
-        d = os.path.join(root, f"{c['key']}_{c['slot']}")
-        os.makedirs(d, exist_ok=True)
-        # Upeh's source carries a small corner watermark: crop from the bottom-left before scaling
-        crop = 'crop=iw*0.88:ih*0.88:0:ih*0.12,' if c['src_key'] == 'upeh' else ''
-        vf = f"setpts=PTS/{c['speed']},fps={FPS},{crop}scale={c['w']}:{c['w'] * 9 // 16}"
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(c['src']), '-t', str(c['dur'] * c['speed'] + .3),
-                        '-i', source(c['src_key']), '-vf', vf, '-frames:v', str(c['n']), '-q:v', '4',
-                        os.path.join(d, '%05d.jpg')], check=True)  # -q:v 4 above keeps 1080p frames small
-        got = len(os.listdir(d))
-        c['n'] = got
-        print(c['key'], c['slot'], got, 'frames', flush=True)
+    from concurrent.futures import ThreadPoolExecutor
+    shutil.rmtree(os.path.join(HERE, 'clips'), ignore_errors=True)
+    # slow interpolated clips first so the pool stays busy
+    with ThreadPoolExecutor(4) as ex:
+        list(ex.map(extract_one, p['clips']))
 
 
 if __name__ == '__main__':
