@@ -1,0 +1,247 @@
+{
+ "_note": "Source in/out seconds per island (videos from the shared Drive folder). Each cut is sped up to fit its slot.",
+ "masjid": {
+  "A": [
+   1,
+   7
+  ],
+  "B": [
+   44,
+   52
+  ],
+  "C": [
+   90,
+   97
+  ],
+  "idea": "Datang dari laut bersama bot nelayan, top-down atas batu-batan"
+ },
+ "keramat": {
+  "A": [
+   24,
+   34
+  ],
+  "B": [
+   42,
+   50
+  ],
+  "C": [
+   81,
+   88
+  ],
+  "idea": "Push-in ke pulau, low pass atas pokok, top-down tebing merah"
+ },
+ "konet": {
+  "A": [
+   13,
+   22
+  ],
+  "B": [
+   33,
+   42
+  ],
+  "C": [
+   128,
+   136
+  ],
+  "idea": "Beting pasir berliku ke pulau, orbit, low pass batu merah"
+ },
+ "upeh": {
+  "A": [
+   36,
+   46
+  ],
+  "B": [
+   9,
+   17
+  ],
+  "C": [
+   93,
+   103
+  ],
+  "idea": "Orbit dengan latar bandar, top-down wakaf, orbit jeti"
+ },
+ "melaka": {
+  "A": [
+   0,
+   9
+  ],
+  "B": [
+   93,
+   103
+  ],
+  "C": [
+   127,
+   135
+  ],
+  "idea": "Masjid Selat dari udara, laguna hijau, close-up kubah"
+ },
+ "panjang": {
+  "A": [
+   9,
+   19
+  ],
+  "B": [
+   105,
+   115
+  ],
+  "C": [
+   126,
+   134
+  ],
+  "idea": "Low pass atas air ke gugusan pokok, makin dekat"
+ },
+ "menatang": {
+  "A": [
+   30,
+   40
+  ],
+  "B": [
+   54,
+   64
+  ],
+  "C": [
+   126,
+   134
+  ],
+  "idea": "Paras air: batu & pokok separa tenggelam, langit dramatik"
+ },
+ "burung": {
+  "A": [
+   18,
+   28
+  ],
+  "B": [
+   48,
+   58
+  ],
+  "C": [
+   99,
+   108
+  ],
+  "idea": "Pantai & bot biru, orbit, batu laterit berpahat"
+ },
+ "peringgi": {
+  "A": [
+   13,
+   23
+  ],
+  "B": [
+   90,
+   100
+  ],
+  "C": [
+   110,
+   120
+  ],
+  "idea": "Pulau kecil bermenara di tengah laut, push-in"
+ },
+ "besar": {
+  "A": [
+   0,
+   10
+  ],
+  "B": [
+   93,
+   102
+  ],
+  "C": [
+   117,
+   126
+  ],
+  "D": [
+   51,
+   60
+  ],
+  "idea": "Terbang rendah dari pantai, top-down pantai & bot, shot lebar, sapuan hutan"
+ },
+ "serimbun": {
+  "A": [
+   1,
+   10
+  ],
+  "B": [
+   36,
+   46
+  ],
+  "C": [
+   99,
+   109
+  ],
+  "idea": "Pantai & bot dari atas, orbit, shot lebar laut biru"
+ },
+ "hanyut": {
+  "A": [
+   15,
+   25
+  ],
+  "B": [
+   54,
+   64
+  ],
+  "C": [
+   72,
+   82
+  ],
+  "idea": "Low pass, orbit dengan air jernih, pulau kecil di tengah laut"
+ },
+ "lalang": {
+  "A": [
+   0,
+   10
+  ],
+  "B": [
+   24,
+   33
+  ],
+  "C": [
+   40,
+   50
+  ],
+  "idea": "Laut turquoise, orbit pasir putih, kapal layar di latar"
+ },
+ "dodol": {
+  "A": [
+   10,
+   17
+  ],
+  "B": [
+   96,
+   106
+  ],
+  "C": [
+   117,
+   124
+  ],
+  "idea": "Push-in pulau berbentuk hati, pull-back reveal, shot lebar"
+ },
+ "nangka": {
+  "A": [
+   0,
+   12
+  ],
+  "B": [
+   25,
+   35
+  ],
+  "C": [
+   115,
+   125
+  ],
+  "idea": "Pull-back dari pantai, orbit, terbang rendah atas kanopi"
+ },
+ "undan": {
+  "A": [
+   16,
+   28
+  ],
+  "B": [
+   46,
+   56
+  ],
+  "C": [
+   126,
+   135
+  ],
+  "idea": "Push-in ke rumah api, shot lebar turquoise, jeti & pantai"
+ }
+}

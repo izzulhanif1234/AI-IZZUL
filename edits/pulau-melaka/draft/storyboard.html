@@ -50,7 +50,7 @@ header .meta b{color:var(--navy)}
 .cut .hd b{font-family:Anton;font-weight:400;font-size:34px;color:var(--navy)}
 .cut .hd span{font-size:15px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .cut .th{display:flex;gap:10px;margin-top:10px}
-.cut .th div{position:relative;width:266px;height:150px;border-radius:10px;background-size:cover;background-position:center}
+.cut .th div{position:relative;flex:1;aspect-ratio:16/9;border-radius:10px;background-size:cover;background-position:center}
 .cut .th i{position:absolute;left:8px;top:8px;font-style:normal;font-weight:900;font-size:15px;color:#fff;padding:4px 10px;border-radius:6px}
 .cut .th .no{filter:grayscale(.6) brightness(.75)}
 .cut .th .no::after{content:"";position:absolute;inset:0;border:4px solid #e5484d;border-radius:10px}
@@ -90,7 +90,7 @@ header .meta b{color:var(--navy)}
       <li>Muzik latar sinematik-tropika (perkusi ringan + tali), naik intensiti di setiap pertukaran zon.</li>
       <li>Ambien ombak &amp; burung camar di bawah muzik sepanjang video.</li>
       <li>SFX: <b>whoosh</b> setiap transisi, <b>pop</b> setiap pin pulau (16 pop, nada makin tinggi), <b>bass hit</b> pada tajuk besar, <b>riser</b> sebelum peta keluar, <b>tik-tok</b> kiraan kuiz, <b>ding</b> jawapan betul.</li>
-      <li>Rakaman: guna rakaman dron dari video YouTube setiap pulau (16 pautan dalam dokumen), <b>bahagian tanpa tulisan sahaja</b>. Semua tajuk &amp; teks direka baharu.</li>
+      <li>Rakaman: 16 video dron dari folder Google Drive, <b>bahagian tanpa tulisan sahaja</b> (lihat Pelan Potongan). Semua tajuk &amp; teks direka baharu.</li>
     </ul>
   </div>
 </section>
@@ -105,10 +105,10 @@ header .meta b{color:var(--navy)}
 
 <section class="page" id="p3">
   <header>
-    <div><h1>PELAN POTONGAN VIDEO · 16 PULAU</h1><p>Setiap pulau: 3 potongan dari video YouTube yang diberi. Frame di bawah ialah pratonton dari setiap video.</p></div>
+    <div><h1>PELAN POTONGAN VIDEO · 16 PULAU</h1><p>Potongan dipilih dari 16 video dalam folder Google Drive. Frame di bawah ialah frame sebenar dari setiap potongan, dengan masa dalam video asal.</p></div>
     <div class="meta"><b>±7 s / pulau</b> · Cut A 2.5 s · Cut B 2.5 s · Cut C 2 s<br>Pulau Besar & Pulau Melaka lebih panjang (10–12 s)</div>
   </header>
-  <div class="legend"><span><i style="background:#22c46e">GUNA</i> rakaman bersih, sesuai dipotong</span><span><i style="background:#e5484d">ELAK</i> ada tulisan/tajuk dari video asal, tidak diambil</span></div>
+  <div class="legend"><span>Semua potongan disemak: <b>tiada tulisan/tajuk dari video asal</b>, tiada crossfade. Klip dilajukan (speed-ramp ×1.5–3) supaya rentak laju.</span></div>
   <div class="cuts" id="cuts"></div>
 </section>
 
@@ -132,6 +132,23 @@ header .meta b{color:var(--navy)}
       <p>Shot orbit/pusing dengan <b>speed-ramp</b> (laju → perlahan). Nama mengecil ke penjuru, 3 fakta pop satu-satu, peta mini “LOKASI” masuk.<br><b>Bunyi:</b> pop × 3.</p></div></div>
     <div class="beat"><img src="out/f14.jpg"><div class="in"><span class="tc">5.5 – 7.0 s · Cut C</span><h3>Detail + Tahukah Anda, whip-pan keluar</h3>
       <p>Shot dekat (rumah api). Kad “TAHUKAH ANDA?” melantun masuk, kemudian <b>whip-pan</b> kabur ke pulau seterusnya.<br><b>Bunyi:</b> sparkle + whoosh pantas.</p></div></div>
+  </div>
+</section>
+
+<section class="page" id="p5">
+  <header>
+    <div><h1>GAYA MOTION GRAFIK</h1><p>Transisi &amp; kesan “hypermotion” yang digilirkan antara pulau supaya video tidak berulang dan membosankan.</p></div>
+    <div class="meta"><b>Setiap pulau guna 1 gaya transisi</b><br>digilir: zoom peta · teks-mask · triptych · glitch · whip-pan</div>
+  </header>
+  <div class="beats">
+    <div class="beat"><img src="out/f2.jpg"><div class="in"><span class="tc">Pembukaan</span><h3>Peta pop keluar dari skrin</h3>
+      <p>Peta HD melonjak keluar dari bingkai video dalam 3D, jejak gerak di belakang, 16 pin jatuh dengan pop.<br><b>Bunyi:</b> riser → impact + 16 pop.</p></div></div>
+    <div class="beat"><img src="out/f15.jpg"><div class="in"><span class="tc">Transisi · teks-mask</span><h3>Zoom-through nama pulau</h3>
+      <p>Nama pulau gergasi berisi rakaman dron, kamera <b>terbang masuk melalui huruf</b> hingga rakaman penuh skrin. Garisan laju memancar dari tengah.<br><b>Bunyi:</b> whoosh dalam + bass drop.</p></div></div>
+    <div class="beat"><img src="out/f16.jpg"><div class="in"><span class="tc">Transisi · triptych</span><h3>3 panel menyerong</h3>
+      <p>Tiga potongan pulau yang sama meluncur masuk serentak dalam panel menyerong, nama pulau hentak di tengah, statistik melantun di penjuru.<br><b>Bunyi:</b> 3 swoosh berturut + impact.</p></div></div>
+    <div class="beat"><img src="out/f17.jpg"><div class="in"><span class="tc">Transisi · glitch</span><h3>Potong glitch &amp; RGB split</h3>
+      <p>Hirisan mendatar bergoncang dengan pemisahan warna (merah/biru), garisan imbasan, terus potong ke pulau seterusnya. Digunakan secara jimat (2–3 kali sahaja).<br><b>Bunyi:</b> glitch digital pendek.</p></div></div>
   </div>
 </section>
 
@@ -207,30 +224,14 @@ ISL.forEach(([k,z,n,t,f],i)=>{
 });
 
 
-const CUT={ // [island, ok flags for preview frames 1..3, cut idea]
- masjid:[[0,1,0],'Top-down atas batu-batan, bot nelayan melintas'],
- keramat:[[1,1,0],'Dron rendah atas pokok, beting merah ke pulau'],
- konet:[[1,1,0],'Orbit beting pasir berliku dari tanah besar'],
- upeh:[[0,1,1],'Pusing atas chalet & jeti, reveal pulau penuh'],
- melaka:[[1,1,0],'Masjid Selat dari udara, kemudian laguna hijau'],
- panjang:[[0,1,0],'Low pass atas air ke gugusan pokok'],
- menatang:[[0,1,0],'Pokok separa tenggelam ketika air pasang'],
- burung:[[1,1,1],'Papan tanda → pantai pasir → jejak dalam hutan'],
- peringgi:[[1,1,0],'Push-in perlahan ke pulau kecil di tengah laut'],
- besar:[[1,1,0],'Tracking sepanjang pantai pasir putih'],
- serimbun:[[1,1,0],'Top-down batu granit & bot di pantai'],
- hanyut:[[0,1,0],'Orbit pulau kecil di tengah laut biru'],
- lalang:[[1,1,0],'Pull-back, tunjuk pantai pasir & batu'],
- dodol:[[1,1,0],'Top-down bentuk “dodol” & air jernih'],
- nangka:[[1,1,0],'Reveal bentuk “buah nangka” dari atas'],
- undan:[[1,1,0],'Push-in ke rumah api, kemudian shot lebar'],
-};
+const CUT={"masjid": {"A": [1, 7], "B": [44, 52], "C": [90, 97], "idea": "Datang dari laut bersama bot nelayan, top-down atas batu-batan"}, "keramat": {"A": [24, 34], "B": [42, 50], "C": [81, 88], "idea": "Push-in ke pulau, low pass atas pokok, top-down tebing merah"}, "konet": {"A": [13, 22], "B": [33, 42], "C": [128, 136], "idea": "Beting pasir berliku ke pulau, orbit, low pass batu merah"}, "upeh": {"A": [36, 46], "B": [9, 17], "C": [93, 103], "idea": "Orbit dengan latar bandar, top-down wakaf, orbit jeti"}, "melaka": {"A": [0, 9], "B": [93, 103], "C": [127, 135], "idea": "Masjid Selat dari udara, laguna hijau, close-up kubah"}, "panjang": {"A": [9, 19], "B": [105, 115], "C": [126, 134], "idea": "Low pass atas air ke gugusan pokok, makin dekat"}, "menatang": {"A": [30, 40], "B": [54, 64], "C": [126, 134], "idea": "Paras air: batu & pokok separa tenggelam, langit dramatik"}, "burung": {"A": [18, 28], "B": [48, 58], "C": [99, 108], "idea": "Pantai & bot biru, orbit, batu laterit berpahat"}, "peringgi": {"A": [13, 23], "B": [90, 100], "C": [110, 120], "idea": "Pulau kecil bermenara di tengah laut, push-in"}, "besar": {"A": [0, 10], "B": [93, 102], "C": [117, 126], "D": [51, 60], "idea": "Terbang rendah dari pantai, top-down pantai & bot, shot lebar, sapuan hutan"}, "serimbun": {"A": [1, 10], "B": [36, 46], "C": [99, 109], "idea": "Pantai & bot dari atas, orbit, shot lebar laut biru"}, "hanyut": {"A": [15, 25], "B": [54, 64], "C": [72, 82], "idea": "Low pass, orbit dengan air jernih, pulau kecil di tengah laut"}, "lalang": {"A": [0, 10], "B": [24, 33], "C": [40, 50], "idea": "Laut turquoise, orbit pasir putih, kapal layar di latar"}, "dodol": {"A": [10, 17], "B": [96, 106], "C": [117, 124], "idea": "Push-in pulau berbentuk hati, pull-back reveal, shot lebar"}, "nangka": {"A": [0, 12], "B": [25, 35], "C": [115, 125], "idea": "Pull-back dari pantai, orbit, terbang rendah atas kanopi"}, "undan": {"A": [16, 28], "B": [46, 56], "C": [126, 135], "idea": "Push-in ke rumah api, shot lebar turquoise, jeti & pantai"}};
+const mmss=t=>Math.floor(t/60)+':'+String(t%60).padStart(2,'0');
 const cuts=document.getElementById('cuts');
 ISL.forEach(([k,z,n],i)=>{
-  const [ok,idea]=CUT[k];
+  const c=CUT[k];const slots=['A','B','C','D'].filter(x=>c[x]);
   cuts.insertAdjacentHTML('beforeend',`<div class="cut" style="border-color:${Z[z][1]}"><div class="hd"><b>${String(i+1).padStart(2,'0')} · ${n.toUpperCase()}</b><span style="color:${Z[z][1]}">${Z[z][0]}</span></div>
-  <div class="th">${ok.map((o,j)=>`<div class="${o?'':'no'}" style="background-image:url(assets/img/cuts/${k}_${j+1}.jpg)"><i style="background:${o?'#22c46e':'#e5484d'}">${o?'GUNA':'ELAK'}</i></div>`).join('')}</div>
-  <p><em>Idea potongan:</em> ${idea}</p></div>`);
+  <div class="th">${slots.map(x=>`<div style="background-image:url(assets/img/cuts-hd/${k}_${x}.jpg)"><i style="background:${Z[z][1]}">${x} · ${mmss(c[x][0])}–${mmss(c[x][1])}</i></div>`).join('')}</div>
+  <p><em>Idea potongan:</em> ${c.idea}</p></div>`);
 });
 
 const id=(location.hash||'#p1').slice(1);document.getElementById(id).classList.add('on');

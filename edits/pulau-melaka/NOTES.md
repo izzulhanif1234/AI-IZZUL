@@ -21,6 +21,20 @@ Video pengenalan ±3:00, 1920x1080, untuk pelawat Pusat Informasi. Sumber: dokum
 - Muat turun video dari container cloud disekat YouTube ("Sign in to confirm you're not a bot").
   Perlu fail MP4 dari pengguna (atau folder Google Drive) untuk pilih timestamp sebenar.
 
+## Draf v3: rakaman sebenar + motion grafik
+- Sumber: folder Google Drive 1J3_zN8Z5kXVF18ytVQccn0rqWSQqK3_P (16 video 1080p ±2:30, Upeh 3:51 dari
+  saluran lain, + "Display Poster ( MCORP ) FINAL.png" = peta HD 2394x3263 → `draft/assets/img/peta-hd.jpg`).
+  Muat turun semula: `gdown --folder <url>` ke `media/pulau/src/` (tidak dalam git).
+- `scripts/pulau_scan.py`: imbas setiap video (4 fps) untuk tulisan overlay (warna pil kuning/kotak merah jambu siri
+  "Tambo Pulau Di Mulaqah"), pergerakan, ketajaman; keluarkan contact sheet ke `media/pulau/scan/`.
+  Tulisan overlay muncul dua kali setiap video (awal ±0:05–0:22 dan hujung ±2:00–2:25).
+- `cuts.json`: potongan A/B/C (Besar ada D) setiap pulau, masa dalam video asal; semua disahkan tiada tulisan &
+  tiada crossfade. Frame tengah setiap potongan di `draft/assets/img/cuts-hd/`.
+- Pulau Upeh: ada watermark kecil "AerialTrooper" penjuru kanan atas sepanjang video → crop/scale dari kiri bawah.
+- Peringgi: rakaman hampir statik → push-in digital + speed-ramp.
+- Motion grafik baharu: `f15` teks-mask zoom-through, `f16` triptych menyerong, `f17` glitch/RGB slice
+  (`draft/out/gaya-motion-grafik.jpg`). Logo MPPM tidak digunakan (arahan pengguna).
+
 ## Arahan pengguna
 - Peta mesti "pop keluar" dari video.
 - Hypermotion, SFX, motion; interaktif, tidak membosankan.
@@ -34,7 +48,4 @@ Hook 8 · Peta pop 10 · 3 Zon 8 · Zon Utara 24 · Zon Tengah 52 · Kuiz 8 · Z
 Taman Laut 10 · Penutup 8. Warna zon ikut legenda peta: Utara oren, Tengah merah jambu, Selatan hijau.
 
 ## Perlu sebelum video akhir
-- Peta resolusi tinggi (fail asal AI/PSD/PNG besar); yang ada hanya 634x865.
-- Logo MPPM (tempat simpan sedia di penutup).
-- Rakaman dron: 16 video sebagai fail MP4 (versi asal tanpa tulisan paling baik); guna bahagian tanpa tulisan sahaja.
 - Keputusan suara latar (VO Bahasa Melayu) atau muzik + teks sahaja.

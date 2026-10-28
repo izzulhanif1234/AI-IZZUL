@@ -2,7 +2,7 @@
 const { chromium } = require('playwright');
 const path = require('path');
 (async () => {
-  const ids = process.argv.slice(2).length ? process.argv.slice(2) : Array.from({length: 10}, (_, i) => 'f' + (i + 1));
+  const ids = process.argv.slice(2).length ? process.argv.slice(2) : Array.from({length: 17}, (_, i) => 'f' + (i + 1));
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   await page.goto('file://' + path.join(__dirname, 'frames.html'));
