@@ -35,6 +35,26 @@ Video pengenalan ±3:00, 1920x1080, untuk pelawat Pusat Informasi. Sumber: dokum
 - Motion grafik baharu: `f15` teks-mask zoom-through, `f16` triptych menyerong, `f17` glitch/RGB slice
   (`draft/out/gaya-motion-grafik.jpg`). Logo MPPM tidak digunakan (arahan pengguna).
 
+## Draf v4: perjalanan bot atas peta (struktur semasa)
+Rujukan pengguna: intro → peta Melaka → turun ke setiap pulau; video pop keluar dari pin lalu full screen.
+Pengguna mahu pergerakan guna **bot** (pulau → bot).
+- `draft/journey.html`: animasi sebenar (GSAP timeline, paused, seek dengan `?t=` atau `window.tl.seek`).
+  Rig kamera `#zoom > #cam (3D tilt) > #world` (peta HD 2394x3263, origin 0 0). Bot SVG pandangan atas
+  dengan buih ombak, berpusing ikut tangen laluan. Kad video setiap pulau (`#c-<pulau>`) pop dari pin,
+  membesar ke 1920x1080, main Cut A → B → C (draf guna frame `cuts-hd`; final guna klip video).
+- Pin diukur pada poster HD (piksel merah): masjid 89,624 · keramat 454,755 · konet 606,989 · upeh 850,1330 ·
+  melaka 1229,1532 · panjang 1352,1718 · menatang 1683,1824 · serimbun 1207,2049 · lalang 1684,2099 ·
+  peringgi 1980,2210 · hanyut 774,2292 · burung 1979,2360 · besar 1440,2365 · dodol 1515,2521 ·
+  nangka 1406,2710 · undan 1227,2838.
+- Laluan bot (zon tidak bercampur): Masjid, Keramat, Konet | Upeh, Melaka, Panjang, Menatang, Peringgi, Burung |
+  Lalang, Serimbun, Hanyut, Besar, Dodol, Nangka, Undan.
+- Masa: intro 0–7, peta 7–12, pulau ke-i bermula 12 + 9i (belayar 1.8, kad 1.2, besar 0.6, full 4.6, balik 0.8),
+  penutup 156–175 s.
+- Capture: `node draft/render_journey.js nama=masa ...`; pratonton gerak: `node draft/preview_journey.js <dari> <hingga> <fps> <out.mp4>`.
+  Nota: `page.evaluate` mesti tidak memulangkan objek timeline (Playwright cuba serialise → hang), dan elak
+  CSS blur/filter pada lapisan peta yang besar (paint perisian sangat perlahan).
+- Quiz & babak Taman Laut berasingan digugurkan; Taman Laut jadi lencana di Dodol/Nangka/Undan, "ANDA DI SINI" di Besar.
+
 ## Arahan pengguna
 - Peta mesti "pop keluar" dari video.
 - Hypermotion, SFX, motion; interaktif, tidak membosankan.

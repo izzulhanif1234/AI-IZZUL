@@ -9,3 +9,4 @@ edits/**/*.log
 edits/**/final/*-master.mp4
 edits/**/final/.*-transaction-*/
 edits/**/final/work-*/
+edits/**/out/.frames/

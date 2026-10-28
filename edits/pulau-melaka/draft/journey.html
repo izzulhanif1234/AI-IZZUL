@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>Gugusan Pulau Melaka: perjalanan peta</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face{font-family:Montserrat;src:url(assets/fonts/Montserrat.ttf);font-weight:100 900}
+@font-face{font-family:Anton;src:url(assets/fonts/Anton-Regular.ttf)}
+@font-face{font-family:Kaushan;src:url(assets/fonts/KaushanScript-Regular.ttf)}
+:root{--navy:#03192b;--aqua:#5ff0e2;--sand:#ffcf4a;--coral:#ff6a4d;--utara:#ff7a1f;--tengah:#ff2e93;--selatan:#22c46e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#021422;font-family:Montserrat,sans-serif;color:#fff}
+#stage{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#0b4a66 0,#021422 70%);perspective:1600px}
+.abs{position:absolute}
+.anton{font-family:Anton;font-weight:400}
+
+/* camera rig: #zoom (screen-centred punch) > #cam (3D tilt) > #world (map plane, origin 0 0) */
+#zoom,#cam{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 55%}
+#world{position:absolute;left:0;top:0;width:2394px;height:3263px;transform-origin:0 0}
+#world .map{position:absolute;inset:0;background:url(assets/img/peta-hd.jpg) 0 0/2394px 3263px;border-radius:20px;box-shadow:0 0 0 14px #fff}
+#route{position:absolute;left:0;top:0;overflow:visible}
+#route .glow{fill:none;stroke:#5ff0e2;stroke-width:40;stroke-linecap:round;opacity:.28}
+#route .line{fill:none;stroke:#fff;stroke-width:14;stroke-linecap:round;opacity:.9}
+#route .dash{fill:none;stroke:#03192b;stroke-width:4;stroke-dasharray:18 22;stroke-linecap:round;opacity:.55}
+#head{position:absolute;width:0;height:0}
+#boat{position:absolute;left:-90px;top:-40px;width:180px;height:80px;transform-origin:90px 40px}
+#boat svg{width:180px;height:80px;overflow:visible}
+.ring{position:absolute;border-radius:50%;border:6px solid #fff;transform:translate(-50%,-50%)}
+.done{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:5px solid #fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.done svg{width:22px;height:22px;stroke:#fff;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bub{position:absolute;width:230px;height:230px;margin:-115px 0 0 -115px;border-radius:50%;border:10px solid #fff;background-size:cover;background-position:center;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+
+#rays{position:absolute;left:50%;top:50%;width:2600px;height:2600px;margin:-1300px 0 0 -1300px;
+  background:repeating-conic-gradient(rgba(95,240,226,.26) 0 3deg,transparent 3deg 11deg);
+  -webkit-mask:radial-gradient(circle,#000 0,#000 18%,transparent 60%);mask:radial-gradient(circle,#000 0,#000 18%,transparent 60%)}
+.cloud{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.8),rgba(255,255,255,.35) 55%,rgba(255,255,255,0));pointer-events:none}
+.speed{position:absolute;height:4px;border-radius:4px;background:linear-gradient(90deg,transparent,#fff,transparent)}
+
+/* HUD */
+#hud{position:absolute;inset:0;pointer-events:none}
+#hud .brand{position:absolute;left:60px;top:46px;font-weight:800;letter-spacing:.34em;font-size:18px;color:var(--aqua)}
+#hud .zone{position:absolute;left:60px;top:80px;display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 14px;border-radius:40px;font-weight:800;font-size:22px;letter-spacing:.14em}
+#hud .zone b{width:16px;height:16px;border-radius:50%;background:#fff}
+#hud .count{position:absolute;right:60px;top:30px;font-family:Anton;font-size:120px;line-height:1;text-align:right}
+#hud .count small{font-size:50px;opacity:.55}
+#hud .rail{position:absolute;left:60px;right:60px;bottom:40px;display:flex;gap:8px}
+#hud .rail i{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.22)}
+.bug{position:absolute;right:60px;bottom:74px;background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.bug img{height:50px;display:block}
+
+/* zone banner */
+.zb{position:absolute;left:-300px;right:-300px;top:380px;height:320px;transform:skewY(-6deg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.zb span{font-family:Anton;font-size:250px;line-height:1;white-space:nowrap;transform:skewY(6deg);text-shadow:0 14px 40px rgba(0,0,0,.35)}
+.zb em{font-style:normal;font-family:Montserrat;font-weight:800;font-size:34px;letter-spacing:.3em;margin-left:40px;transform:skewY(6deg)}
+
+/* island cards (one per island, screen space) */
+.card{position:absolute;left:700px;top:290px;width:960px;height:540px;border-radius:26px;overflow:hidden;background:#000;
+  box-shadow:0 0 0 8px #fff,0 30px 60px rgba(0,0,0,.6);transform-origin:0% 50%;visibility:hidden}
+.card .m{position:absolute;inset:0;background-size:cover;background-position:center;will-change:transform}
+.card .wipe{position:absolute;inset:0;background:#fff;opacity:0}
+.card .tag{position:absolute;left:28px;bottom:26px;display:flex;align-items:center;gap:14px}
+.card .tag .n{font-family:Anton;font-size:72px;line-height:1;text-shadow:0 8px 24px rgba(0,0,0,.5)}
+.card .tag .k{background:#fff;color:var(--navy);font-weight:900;font-size:22px;padding:6px 12px;border-radius:8px}
+.card .rec{position:absolute;right:26px;top:22px;font-weight:800;font-size:18px;letter-spacing:.2em;display:flex;align-items:center;gap:10px}
+.card .rec i{width:14px;height:14px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 12px #ff3b3b}
+/* full-screen overlays live in a fixed 1920x1080 layer that is scaled with the card */
+.card .fs{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;opacity:0}
+.fs .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,20,34,.9),rgba(2,20,34,0) 55%),linear-gradient(90deg,rgba(2,20,34,.55),transparent 45%)}
+.fs .chip{position:absolute;left:90px;top:90px;display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 14px;border-radius:40px;font-weight:800;font-size:22px;letter-spacing:.14em}
+.fs .chip b{width:16px;height:16px;border-radius:50%;background:#fff}
+.fs .pl{position:absolute;left:92px;bottom:415px;font-weight:800;letter-spacing:.34em;font-size:40px;color:var(--sand)}
+.fs .nm{position:absolute;left:84px;bottom:205px;font-family:Anton;font-size:230px;line-height:.85;text-shadow:0 18px 50px rgba(0,0,0,.45);white-space:nowrap}
+.fs .gh{position:absolute;left:84px;bottom:205px;font-family:Anton;font-size:230px;line-height:.85;color:transparent;-webkit-text-stroke:3px rgba(255,255,255,.4);white-space:nowrap}
+.fs .tg{position:absolute;left:92px;bottom:96px;font-size:38px;font-weight:800;max-width:1000px;line-height:1.2}
+.fs .facts{position:absolute;right:90px;bottom:110px;display:flex;flex-direction:column;gap:16px;align-items:flex-end}
+.fs .fact{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);background:rgba(2,20,34,.55);border-radius:16px;padding:16px 26px;font-size:28px;font-weight:700;max-width:620px;text-align:right}
+.fs .badge{position:absolute;right:90px;top:90px;font-weight:900;font-size:28px;letter-spacing:.16em;padding:14px 28px;border-radius:50px;box-shadow:0 14px 30px rgba(0,0,0,.4)}
+.link{position:absolute;height:5px;background:#fff;transform-origin:0 50%;box-shadow:0 0 18px rgba(95,240,226,.9);visibility:hidden}
+
+/* intro */
+#intro{position:absolute;inset:0;overflow:hidden}
+#intro .bg{position:absolute;inset:-5%;background:url(assets/img/cuts-hd/lalang_A.jpg) center/cover}
+#intro .shade{position:absolute;inset:0;background:linear-gradient(100deg,rgba(3,25,43,.92),rgba(3,25,43,.5) 50%,rgba(3,25,43,.1))}
+#intro .big{position:absolute;left:110px;top:170px;font-family:Anton;font-size:620px;line-height:.78;background:url(assets/img/cuts-hd/undan_A.jpg) 30% 40%/900px auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:6px #fff}
+#intro .pulau{position:absolute;left:640px;top:225px;font-family:Anton;font-size:250px;line-height:.85}
+#intro .wr{position:absolute;left:660px;top:450px;font-family:Kaushan;font-size:120px;color:var(--sand);transform:rotate(-7deg)}
+#intro .sub{position:absolute;left:120px;bottom:150px;font-size:34px;font-weight:600;max-width:900px;line-height:1.35}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
+/* closing */
+#close{position:absolute;inset:0;pointer-events:none}
+#close .l{position:absolute;left:80px;top:300px;width:600px}
+#close .l .w{font-family:Anton;font-size:120px;line-height:1.02}
+#close .l .w span{color:var(--sand)}
+#close .l .s{font-family:Kaushan;font-size:52px;margin-top:20px}
+#close .r{position:absolute;right:80px;bottom:120px;text-align:right}
+#close .r .lg{display:inline-block;background:#fff;border-radius:18px;padding:16px 26px}
+#close .r .lg img{height:90px;display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="rays"></div>
+  <div id="zoom"><div id="cam"><div id="world">
+    <div class="map"></div>
+    <svg id="route" width="2394" height="3263"></svg>
+    <div id="marks"></div>
+    <div id="head"><div id="boat"><svg viewBox="0 0 180 80">
+      <g id="wake" opacity=".9"><path d="M40 40 L-160 -10 L-160 0 L40 46 Z M40 40 L-160 90 L-160 80 L40 34 Z" fill="rgba(255,255,255,.55)"/>
+        <path d="M30 40 L-220 40" stroke="rgba(255,255,255,.75)" stroke-width="16" stroke-linecap="round"/></g>
+      <path d="M22 18 Q22 8 34 8 L120 8 Q160 14 172 40 Q160 66 120 72 L34 72 Q22 72 22 62 Z" fill="#fff" stroke="#03192b" stroke-width="3"/>
+      <path d="M30 14 L118 14 Q150 20 160 40 Q150 60 118 66 L30 66" fill="none" stroke="#e5232f" stroke-width="5"/>
+      <rect x="58" y="24" width="48" height="32" rx="8" fill="#1d6fa5" stroke="#03192b" stroke-width="2.5"/>
+      <path d="M106 26 Q120 40 106 54" fill="none" stroke="#5ff0e2" stroke-width="5" stroke-linecap="round"/>
+      <rect x="12" y="30" width="14" height="20" rx="3" fill="#2b2f36"/></svg></div></div>
+  </div></div></div>
+  <div id="fx"></div>
+  <div id="cards"></div>
+  <div id="hud">
+    <div class="brand">GUGUSAN PULAU-PULAU MELAKA</div>
+    <div class="zone" id="zone"><b></b><span>ZON UTARA</span></div>
+    <div class="count" id="count">01<small> / 16</small></div>
+    <div class="rail" id="rail"></div>
+    <div class="bug"><img src="assets/img/mcorp-corporate.png" alt=""></div>
+  </div>
+  <div id="banners"></div>
+  <div id="close">
+    <div class="l"><div class="eyebrow" style="font-weight:800;letter-spacing:.32em;font-size:22px;color:var(--aqua)">16 PULAU · 3 ZON · 1 WARISAN</div>
+      <div class="w">JELAJAH.<br><span>HARGAI.</span><br>PELIHARA.</div><div class="s">khazanah kita bersama</div></div>
+    <div class="r"><div class="lg"><img src="assets/img/mcorp-corporate.png" alt=""></div></div>
+  </div>
+  <div id="intro">
+    <div class="bg"></div><div class="shade"></div>
+    <div class="abs" style="left:122px;top:70px;font-weight:700;letter-spacing:.42em;font-size:22px;color:var(--aqua)">SELAT MELAKA · NEGERI MELAKA</div>
+    <div class="big">16</div><div class="pulau">PULAU</div><div class="wr">satu warisan</div>
+    <div class="sub">Dari Kuala Linggi hingga ke Pulau Undan, 16 pulau menyimpan sejarah, legenda dan khazanah laut Melaka.</div>
+  </div>
+  <div id="flash"></div>
+</div>
+
+<script>
+// ---------- data ----------
+const Z={u:['ZON UTARA','#ff7a1f'],t:['ZON TENGAH','#ff2e93'],s:['ZON SELATAN','#22c46e']};
+// pin centres measured on the HD poster (2394 x 3263), see NOTES.md
+const ISL={
+ masjid:  {n:'MASJID',  z:'u',p:[89,624],  t:'Pulau paling utara, bersempadan Negeri Sembilan.',f:['Mukim Kuala Linggi, Alor Gajah','0.61 ekar · barat Tanjung Tuan']},
+ keramat: {n:'KERAMAT', z:'u',p:[454,755], t:'Boleh berjalan kaki ke pulau ketika air surut.',f:['±50 m dari Pulau Konet','5 kubur lama pedagang Arab / ulama Aceh']},
+ konet:   {n:'KONET',   z:'u',p:[606,989], t:'Beting pasir muncul ketika air surut.',f:['Nama asal: Pulau Kenit','Legenda orang bunian']},
+ upeh:    {n:'UPEH',    z:'t',p:[850,1330],t:'Rumah penyu karah di Melaka.',f:['±3 batu ke barat Bukit St. Paul','Pokok setinggi 34 m']},
+ melaka:  {n:'MELAKA',  z:'t',p:[1229,1532],t:'Batu lateritnya membina A’Famosa.',f:['Portugis: “Ilha das Pedras”','Ditambak sejak 2013']},
+ panjang: {n:'PANJANG', z:'t',p:[1352,1718],t:'Dinamakan sempena bentuknya yang memanjang.',f:['2.17 hektar','Boya panduan untuk nelayan']},
+ menatang:{n:'MENATANG',z:'t',p:[1683,1824],t:'Air pasang: dua pulau. Air surut: satu pulau.',f:['Berhampiran Teluk Mas','Kutip kerang & siput ketika surut']},
+ peringgi:{n:'PERINGGI',z:'t',p:[1980,2210],t:'“Peringgi”: gelaran nelayan untuk orang Portugis.',f:['Pulau kecil dikelilingi batu','Berhampiran Pulau Burung']},
+ burung:  {n:'BURUNG',  z:'t',p:[1979,2360],t:'Satu pulau yang “terbelah dua” oleh pasang surut.',f:['Pulau Burung Ibu & Anak Burung','Kesan pahatan batu laterit']},
+ lalang:  {n:'LALANG',  z:'s',p:[1684,2099],t:'Pasir putih, pohon nyiur & pokok ±3,000 tahun.',f:['Portugis: “Alan-Alan”','Air surut: jalan kaki ke Pulau Terendak']},
+ serimbun:{n:'SERIMBUN',z:'s',p:[1207,2049],t:'Tapak perkhemahan dengan ±25 spesies karang.',f:['20 karang keras + 5 lembut','Tempat nelayan berlindung']},
+ hanyut:  {n:'HANYUT',  z:'s',p:[774,2292], t:'Dari jauh, seperti daratan yang hanyut.',f:['1.8 hektar','4.5 km dari Pulau Undan']},
+ besar:   {n:'BESAR',   z:'s',p:[1440,2365],t:'Antara pusat terawal penyebaran Islam di Nusantara.',f:['10 minit bot laju dari Jeti Umbai','Bentuk seperti puteri tidur'],badge:['ANDA DI SINI','#ff6a4d']},
+ dodol:   {n:'DODOL',   z:'s',p:[1515,2521],t:'Bentuknya seakan-akan kuih dodol.',f:['6.34 hektar','18 spesies karang'],badge:['TAMAN LAUT 2022','#0fb5ba']},
+ nangka:  {n:'NANGKA',  z:'s',p:[1406,2710],t:'Berbentuk buah nangka, pokok berusia 4,000 tahun.',f:['11.76 hektar','Bukit setinggi 50 m'],badge:['TAMAN LAUT 2022','#0fb5ba']},
+ undan:   {n:'UNDAN',   z:'s',p:[1227,2838],t:'Karang “Table Top” terbesar dari Selangor hingga Johor Barat.',f:['Rumah api zaman British','Nama sempena burung undan'],badge:['TAMAN LAUT 2022','#0fb5ba']},
+};
+const ROUTE=['masjid','keramat','konet','upeh','melaka','panjang','menatang','peringgi','burung','lalang','serimbun','hanyut','besar','dodol','nangka','undan'];
+const ENTRY=[160,40];          // route starts off the top of the map (Kuala Linggi side)
+const PIN_AT=[560,600], S_ISL=1.2;
+const T_INTRO=7, T_ISL0=12, SEG=9;   // island i starts at T_ISL0 + i*SEG
+const T_END=T_ISL0+ROUTE.length*SEG; // 156
+
+const fitS=1080/3263, FIT={x:(1920-2394*fitS)/2,y:0,scale:fitS};
+const camAt=k=>{const [px,py]=ISL[k].p;return {x:PIN_AT[0]-S_ISL*px,y:PIN_AT[1]-S_ISL*py,scale:S_ISL};};
+
+// ---------- build route ----------
+const NS='http://www.w3.org/2000/svg', svg=document.getElementById('route');
+const pts=[ENTRY,...ROUTE.map(k=>ISL[k].p)];
+const segs=[];
+for(let i=1;i<pts.length;i++){
+  const [x0,y0]=pts[i-1],[x1,y1]=pts[i];const mx=(x0+x1)/2,my=(y0+y1)/2;const dx=x1-x0,dy=y1-y0,L=Math.hypot(dx,dy);
+  const bend=Math.min(220,L*.35);const cx=mx+dy/L*bend,cy=my-dx/L*bend; // bow each leg out to sea
+  const d=`M${x0} ${y0} Q${cx} ${cy} ${x1} ${y1}`;
+  const g=document.createElementNS(NS,'g');
+  for(const c of ['glow','line','dash']){const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class',c);g.appendChild(p);}
+  svg.appendChild(g);
+  const len=g.firstChild.getTotalLength();
+  g.querySelectorAll('.glow,.line').forEach(p=>{p.style.strokeDasharray=len;p.style.strokeDashoffset=len;});
+  g.querySelector('.dash').style.opacity=0;
+  segs.push({g,len,path:g.firstChild});
+}
+// marks: pulse rings, visited ticks, end-of-film photo bubbles
+const marks=document.getElementById('marks');
+ROUTE.forEach(k=>{
+  const [x,y]=ISL[k].p, col=Z[ISL[k].z][1];
+  for(const r of [1,2]){const d=document.createElement('div');d.className='ring';d.id=`r${r}-${k}`;Object.assign(d.style,{left:x+'px',top:y+'px',width:'60px',height:'60px',borderColor:col,opacity:0});marks.appendChild(d);}
+  const t=document.createElement('div');t.className='done';t.id='d-'+k;Object.assign(t.style,{left:x+'px',top:y+'px',background:col,opacity:0});
+  t.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';marks.appendChild(t);
+  const b=document.createElement('div');b.className='bub';b.id='b-'+k;
+  Object.assign(b.style,{left:x+'px',top:(y-170)+'px',borderColor:col,backgroundImage:`url(assets/img/cuts-hd/${k}_A.jpg)`,opacity:0});marks.appendChild(b);
+});
+// rail
+const rail=document.getElementById('rail');ROUTE.forEach(k=>{const i=document.createElement('i');i.id='ra-'+k;rail.appendChild(i);});
+// cards
+const cards=document.getElementById('cards');
+ROUTE.forEach((k,i)=>{
+  const I=ISL[k], col=Z[I.z][1];
+  const imgs=['A','B','C'].map(s=>`<div class="m" id="m${s}-${k}" style="background-image:url(assets/img/cuts-hd/${k}_${s}.jpg)"></div>`).join('');
+  cards.insertAdjacentHTML('beforeend',`<div class="link" id="ln-${k}"></div>
+  <div class="card" id="c-${k}">${imgs}<div class="wipe" id="w-${k}"></div>
+    <div class="tag" id="tg-${k}"><span class="k">${String(i+1).padStart(2,'0')}</span><span class="n">PULAU ${I.n}</span></div>
+    <div class="rec" id="rc-${k}"><i></i>TONTON</div>
+    <div class="fs" id="fs-${k}"><div class="shade"></div>
+      <div class="chip" style="background:${col}"><b></b>${Z[I.z][0]} · ${String(i+1).padStart(2,'0')} / 16</div>
+      ${I.badge?`<div class="badge" style="background:${I.badge[1]}">${I.badge[0]}</div>`:''}
+      <div class="pl">PULAU</div><div class="gh">${I.n}</div><div class="nm">${I.n}</div>
+      <div class="tg">${I.t}</div>
+      <div class="facts">${I.f.map(x=>`<div class="fact">${x}</div>`).join('')}</div>
+    </div></div>`);
+});
+// zone banners
+const banners=document.getElementById('banners');
+for(const z of ['u','t','s']){banners.insertAdjacentHTML('beforeend',`<div class="zb" id="zb-${z}" style="background:${Z[z][1]};visibility:hidden"><span>${Z[z][0]}</span><em>${{u:'3 PULAU',t:'6 PULAU',s:'7 PULAU'}[z]}</em></div>`);}
+// clouds + speed lines for travel
+const fx=document.getElementById('fx');
+for(let i=0;i<3;i++)fx.insertAdjacentHTML('beforeend',`<div class="cloud" id="cl${i}" style="width:${900-i*150}px;height:${420-i*60}px;opacity:0"></div>`);
+for(let i=0;i<6;i++)fx.insertAdjacentHTML('beforeend',`<div class="speed" id="sp${i}" style="top:${120+i*160}px;width:${500+i*70%300}px;opacity:0"></div>`);
+
+// ---------- timeline ----------
+const tl=gsap.timeline({paused:true});
+// every fromTo here is scheduled for later: never let it paint its start state at build time
+const _ft=tl.fromTo.bind(tl);tl.fromTo=(t,f,v,p)=>_ft(t,f,{...v,immediateRender:false},p);
+const world=document.getElementById('world'),head=document.getElementById('head'),boat=document.getElementById('boat');
+gsap.set(world,FIT);gsap.set('#zoom',{scale:1});gsap.set('#cam',{rotationX:0,rotationY:0});
+gsap.set(head,{left:ENTRY[0],top:ENTRY[1],opacity:0});boat.style.transform='rotate(60deg)';
+gsap.set('#hud,#close,#rays',{opacity:0});
+gsap.set('#close .l>*,#close .r',{opacity:0,y:40});
+
+// intro 0-7
+tl.fromTo('#intro .bg',{scale:1.25},{scale:1.05,duration:7,ease:'none'},0)
+  .from('#intro .big',{scale:2.4,opacity:0,duration:.7,ease:'expo.out'},.3)
+  .from('#intro .pulau',{x:300,opacity:0,duration:.6,ease:'expo.out'},.8)
+  .from('#intro .wr',{clipPath:'inset(0 100% 0 0)',duration:.9,ease:'power2.out'},1.3)
+  .from('#intro .sub',{y:40,opacity:0,duration:.6},2.2)
+  .to('#intro',{scale:1.6,opacity:0,duration:.5,ease:'power2.in'},T_INTRO-.5)
+  .to('#flash',{opacity:1,duration:.12},T_INTRO-.12).to('#flash',{opacity:0,duration:.4},T_INTRO);
+// map reveal 7-12: map bursts out of the screen in 3D, then flattens
+tl.fromTo('#zoom',{scale:.15},{scale:1,duration:1.4,ease:'back.out(1.4)'},T_INTRO)
+  .fromTo('#cam',{rotationY:-40,rotationX:18},{rotationY:12,rotationX:6,duration:1.6,ease:'power3.out'},T_INTRO)
+  .to('#rays',{opacity:1,duration:.6},T_INTRO+.2)
+  .fromTo('#rays',{rotation:0},{rotation:40,duration:5,ease:'none'},T_INTRO)
+  .to('#cam',{rotationY:0,rotationX:0,duration:1.4,ease:'power2.inOut'},T_INTRO+2.4)
+  .to('#rays',{opacity:0,duration:.8},T_ISL0-.6)
+  .to('#hud',{opacity:1,duration:.6},T_ISL0-.4);
+ROUTE.forEach((k,i)=>tl.fromTo(`#r1-${k}`,{opacity:0,scale:.2},{opacity:1,scale:1,duration:.25,ease:'back.out(3)'},T_INTRO+1.2+i*.12)
+                     .to(`#r1-${k}`,{opacity:0,duration:.3},T_ISL0-.3));
+
+let zone=null;
+ROUTE.forEach((k,i)=>{
+  const T=T_ISL0+i*SEG, I=ISL[k], seg=segs[i];
+  const c=`#c-${k}`, fs=`#fs-${k}`;
+  // travel 0-1.8: swoop out, tilt, draw route leg, head rides the leg
+  tl.to(world,{...camAt(k),duration:1.8,ease:'power3.inOut'},T)
+    .to('#zoom',{keyframes:[{scale:.62,duration:.9,ease:'power2.out'},{scale:1,duration:.9,ease:'power2.in'}]},T)
+    .to('#cam',{keyframes:[{rotationX:26,duration:.9,ease:'power2.out'},{rotationX:0,duration:.9,ease:'power2.in'}]},T)
+    .to(seg.g.querySelectorAll('.glow,.line'),{strokeDashoffset:0,duration:1.6,ease:'power2.inOut'},T+.1)
+    .to(seg.g.querySelector('.dash'),{opacity:.55,duration:.3},T+1.6)
+    .set(head,{opacity:1},T);
+  const proxy={p:0};
+  tl.to(proxy,{p:1,duration:1.6,ease:'power2.inOut',onUpdate(){const l=proxy.p*seg.len,pt=seg.path.getPointAtLength(l),q=seg.path.getPointAtLength(Math.min(seg.len,l+4)),r=seg.path.getPointAtLength(Math.max(0,l-4));head.style.left=pt.x+'px';head.style.top=pt.y+'px';boat.style.transform=`rotate(${Math.atan2(q.y-r.y,q.x-r.x)*180/Math.PI}deg)`;}},T+.1);
+  // clouds & speed lines sweep past
+  [0,1,2].forEach(j=>tl.fromTo(`#cl${j}`,{x:2100-j*200,y:150+j*280,opacity:0},{x:-1200,opacity:.75-j*.15,duration:1.4,ease:'power1.in'},T+.2+j*.1).to(`#cl${j}`,{opacity:0,duration:.2},T+1.5+j*.1));
+  [0,1,2,3,4,5].forEach(j=>tl.fromTo(`#sp${j}`,{x:1900,opacity:0},{x:-700,opacity:.8,duration:.7,ease:'power1.in'},T+.5+j*.06).set(`#sp${j}`,{opacity:0},T+1.25+j*.06));
+  // zone change: HUD pill + full-width banner
+  if(I.z!==zone){zone=I.z;
+    tl.set('#zone',{background:Z[zone][1]},T).set('#zone span',{textContent:Z[zone][0]},T)
+      .set(`#zb-${zone}`,{visibility:'visible'},T+.1)
+      .fromTo(`#zb-${zone}`,{xPercent:-120},{xPercent:0,duration:.45,ease:'expo.out'},T+.1)
+      .to(`#zb-${zone}`,{xPercent:120,duration:.45,ease:'expo.in'},T+1.3)
+      .set(`#zb-${zone}`,{visibility:'hidden'},T+1.8);}
+  tl.set('#count',{innerHTML:`${String(i+1).padStart(2,'0')}<small> / 16</small>`},T+1.6)
+    .to(`#ra-${k}`,{background:'#fff',height:12,duration:.3},T+1.6);
+  // arrive: pin pulses
+  tl.fromTo(`#r1-${k}`,{opacity:1,scale:.5},{opacity:0,scale:3.2,duration:.9,ease:'power2.out'},T+1.7)
+    .fromTo(`#r2-${k}`,{opacity:1,scale:.5},{opacity:0,scale:4.6,duration:1.1,ease:'power2.out'},T+1.85)
+    .fromTo('#boat svg',{y:0},{y:-6,duration:.5,ease:'sine.inOut',yoyo:true,repeat:5},T+1.8);
+  // card pops out of the pin
+  const dx=PIN_AT[0]-700, dy=PIN_AT[1]-560;
+  tl.set(`#ln-${k}`,{visibility:'visible',left:PIN_AT[0],top:PIN_AT[1],width:0,rotation:-12},T+2)
+    .to(`#ln-${k}`,{width:150,duration:.25,ease:'power2.out'},T+2)
+    .set(c,{visibility:'visible'},T+2.1)
+    .fromTo(c,{x:dx,y:dy,scale:.04,rotationY:-75,opacity:0},{x:0,y:0,scale:1,rotationY:-10,opacity:1,duration:.75,ease:'back.out(1.5)'},T+2.1)
+    .fromTo(`#mA-${k}`,{scale:1.25},{scale:1.05,duration:2.2,ease:'none'},T+2.1)
+    .from(`#tg-${k}`,{y:60,opacity:0,duration:.4,ease:'expo.out'},T+2.5);
+  // expand to full screen
+  tl.to(`#ln-${k}`,{opacity:0,duration:.2},T+3.1).set(`#ln-${k}`,{visibility:'hidden',opacity:1},T+3.3)
+    .to(c,{left:0,top:0,width:1920,height:1080,borderRadius:0,rotationY:0,boxShadow:'0 0 0 0 #fff',duration:.6,ease:'expo.inOut'},T+3.1)
+    .to([`#tg-${k}`,`#rc-${k}`],{opacity:0,duration:.2},T+3.1)
+    .to('#hud',{opacity:0,duration:.2},T+3.1)
+    .to(fs,{opacity:1,duration:.01},T+3.7)
+    .from(`${fs} .chip`,{x:-80,opacity:0,duration:.4,ease:'expo.out'},T+3.7)
+    .from(`${fs} .nm`,{scale:1.6,opacity:0,duration:.5,ease:'expo.out',transformOrigin:'0% 100%'},T+3.75)
+    .from(`${fs} .gh`,{x:-120,opacity:0,duration:.6,ease:'expo.out'},T+3.8)
+    .from(`${fs} .pl`,{y:30,opacity:0,duration:.4},T+3.85)
+    .from(`${fs} .tg`,{y:40,opacity:0,duration:.45,ease:'power3.out'},T+4.1)
+    .from(`${fs} .fact`,{x:120,opacity:0,duration:.45,stagger:.18,ease:'back.out(1.6)'},T+4.6);
+  if(I.badge)tl.from(`${fs} .badge`,{scale:0,rotation:-12,duration:.5,ease:'back.out(2.2)'},T+4.3);
+  // cuts A -> B -> C inside the full screen, white flash at each cut
+  tl.fromTo(`#mB-${k}`,{opacity:0,scale:1.25},{opacity:1,scale:1.05,duration:.01},T+5.2).to(`#mB-${k}`,{scale:1,duration:1.5,ease:'none'},T+5.21)
+    .fromTo(`#w-${k}`,{opacity:.85},{opacity:0,duration:.35},T+5.2)
+    .fromTo(`#mC-${k}`,{opacity:0,scale:1.25},{opacity:1,scale:1.05,duration:.01},T+6.7).to(`#mC-${k}`,{scale:1,duration:1.5,ease:'none'},T+6.71)
+    .fromTo(`#w-${k}`,{opacity:.85},{opacity:0,duration:.35},T+6.7);
+  // collapse back into the pin, mark it visited
+  tl.to(fs,{opacity:0,duration:.25},T+8.1)
+    .to(c,{left:700,top:290,width:960,height:540,borderRadius:26,duration:.4,ease:'expo.in'},T+8.15)
+    .to(c,{x:dx,y:dy,scale:.03,opacity:0,duration:.3,ease:'power3.in'},T+8.55)
+    .set(c,{visibility:'hidden'},T+8.9)
+    .to('#hud',{opacity:1,duration:.3},T+8.6)
+    .fromTo(`#d-${k}`,{opacity:0,scale:2.5},{opacity:1,scale:1,duration:.35,ease:'back.out(2)'},T+8.7);
+});
+// finale: pull back to the full map, every island pops a photo bubble, closing words
+tl.to(world,{...FIT,duration:2.2,ease:'power3.inOut'},T_END)
+  .to('#zoom',{keyframes:[{scale:.85,duration:1.1},{scale:1,duration:1.1}]},T_END)
+  .to('#hud',{opacity:0,duration:.4},T_END);
+ROUTE.forEach((k,i)=>tl.fromTo(`#b-${k}`,{opacity:0,scale:0},{opacity:1,scale:1,duration:.35,ease:'back.out(2.4)'},T_END+2.3+i*.12));
+tl.to(world,{x:FIT.x+380,duration:1.2,ease:'power2.inOut'},T_END+5.5)
+  .to('#close',{opacity:1,duration:.01},T_END+5.8)
+  .to('#close .l>*',{opacity:1,y:0,duration:.5,stagger:.2,ease:'expo.out'},T_END+6)
+  .to('#close .r',{opacity:1,y:0,duration:.5,ease:'expo.out'},T_END+7)
+  .to({}, {duration:1},T_END+18);
+
+window.tl=tl;
+const q=new URLSearchParams(location.search);if(q.has('t'))tl.seek(parseFloat(q.get('t')));
+</script>
+</body>
+</html>
