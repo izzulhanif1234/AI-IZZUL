@@ -42,6 +42,34 @@ header .meta b{color:var(--navy)}
 .card ul{list-style:none;margin-top:10px;font-size:17px;line-height:1.45;color:#34495a;font-weight:500}
 .card li{padding-left:18px;position:relative}
 .card li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5}
+
+/* cut plan */
+.cuts{display:grid;grid-template-columns:1fr 1fr;gap:20px 30px;margin-top:36px}
+.cut{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 4px 18px rgba(3,25,43,.07);border-left:10px solid}
+.cut .hd{display:flex;align-items:baseline;gap:14px}
+.cut .hd b{font-family:Anton;font-weight:400;font-size:34px;color:var(--navy)}
+.cut .hd span{font-size:15px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.cut .th{display:flex;gap:10px;margin-top:10px}
+.cut .th div{position:relative;width:266px;height:150px;border-radius:10px;background-size:cover;background-position:center}
+.cut .th i{position:absolute;left:8px;top:8px;font-style:normal;font-weight:900;font-size:15px;color:#fff;padding:4px 10px;border-radius:6px}
+.cut .th .no{filter:grayscale(.6) brightness(.75)}
+.cut .th .no::after{content:"";position:absolute;inset:0;border:4px solid #e5484d;border-radius:10px}
+.cut p{font-size:19px;font-weight:600;margin-top:10px;line-height:1.4}
+.cut p em{font-style:normal;color:var(--mute);font-weight:700}
+.legend{display:flex;gap:26px;margin-top:24px;font-size:20px;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:10px}
+.legend i{display:inline-block;padding:4px 10px;border-radius:6px;color:#fff;font-style:normal;font-size:15px;font-weight:900}
+/* segment strip */
+.beats{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:40px}
+.beat{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 18px rgba(3,25,43,.07)}
+.beat img{width:100%;display:block}
+.beat .in{padding:20px 26px 26px}
+.beat .tc{display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:19px;padding:5px 12px;border-radius:8px}
+.beat h3{font-size:30px;font-weight:900;margin-top:10px}
+.beat p{font-size:20px;line-height:1.45;margin-top:8px;font-weight:500}
+.beat p b{font-weight:800}
+.formula{margin-top:34px;display:flex;height:80px;border-radius:14px;overflow:hidden;font-weight:800;font-size:19px;color:#fff}
+.formula div{display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:3px solid #fff;text-align:center;line-height:1.25}
 </style>
 </head>
 <body>
@@ -73,6 +101,38 @@ header .meta b{color:var(--navy)}
     <div class="meta"><b>Sumber:</b> dokumen “Gugusan Pulau-Pulau Melaka”<br>Mohon semak fakta sebelum render akhir</div>
   </header>
   <div class="grid" id="grid"></div>
+</section>
+
+<section class="page" id="p3">
+  <header>
+    <div><h1>PELAN POTONGAN VIDEO · 16 PULAU</h1><p>Setiap pulau: 3 potongan dari video YouTube yang diberi. Frame di bawah ialah pratonton dari setiap video.</p></div>
+    <div class="meta"><b>±7 s / pulau</b> · Cut A 2.5 s · Cut B 2.5 s · Cut C 2 s<br>Pulau Besar & Pulau Melaka lebih panjang (10–12 s)</div>
+  </header>
+  <div class="legend"><span><i style="background:#22c46e">GUNA</i> rakaman bersih, sesuai dipotong</span><span><i style="background:#e5484d">ELAK</i> ada tulisan/tajuk dari video asal, tidak diambil</span></div>
+  <div class="cuts" id="cuts"></div>
+</section>
+
+<section class="page" id="p4">
+  <header>
+    <div><h1>CONTOH SEGMEN PULAU · PULAU UNDAN</h1><p>Bagaimana rakaman video digunakan dalam setiap segmen pulau (±7 saat), dari peta ke potongan video.</p></div>
+    <div class="meta"><b>Formula sama untuk 16 pulau</b><br>Peta → Cut A → Cut B → Cut C → transisi</div>
+  </header>
+  <div class="formula">
+    <div style="flex:1;background:#0fb5ba">0.0–1.0 s<br>Zoom peta</div>
+    <div style="flex:2.5;background:#06324d">1.0–3.5 s · CUT A<br>Shot lebar / reveal</div>
+    <div style="flex:2;background:#0a5f7d">3.5–5.5 s · CUT B<br>Orbit / speed-ramp</div>
+    <div style="flex:1.5;background:#22c46e">5.5–7.0 s · CUT C<br>Detail + whip-pan</div>
+  </div>
+  <div class="beats">
+    <div class="beat"><img src="out/f11.jpg"><div class="in"><span class="tc">0.0 – 1.0 s</span><h3>Zoom masuk ke pin pulau</h3>
+      <p>Dari peta penuh, kamera <b>zoom laju</b> (zoom blur) ke pin Pulau Undan. Pin berdenyut, label pulau pop masuk.<br><b>Bunyi:</b> whoosh zoom + pop.</p></div></div>
+    <div class="beat"><img src="out/f12.jpg"><div class="in"><span class="tc">1.0 – 3.5 s · Cut A</span><h3>Rakaman dron lebar + nama pulau</h3>
+      <p>Potong terus (<b>flash putih 2 frame</b>) ke shot lebar pulau. Nama “UNDAN” <b>slam</b> masuk dengan jejak gerak, 1 ayat utama menyusul.<br><b>Bunyi:</b> bass hit + ombak.</p></div></div>
+    <div class="beat"><img src="out/f13.jpg"><div class="in"><span class="tc">3.5 – 5.5 s · Cut B</span><h3>Potongan kedua + fakta pop</h3>
+      <p>Shot orbit/pusing dengan <b>speed-ramp</b> (laju → perlahan). Nama mengecil ke penjuru, 3 fakta pop satu-satu, peta mini “LOKASI” masuk.<br><b>Bunyi:</b> pop × 3.</p></div></div>
+    <div class="beat"><img src="out/f14.jpg"><div class="in"><span class="tc">5.5 – 7.0 s · Cut C</span><h3>Detail + Tahukah Anda, whip-pan keluar</h3>
+      <p>Shot dekat (rumah api). Kad “TAHUKAH ANDA?” melantun masuk, kemudian <b>whip-pan</b> kabur ke pulau seterusnya.<br><b>Bunyi:</b> sparkle + whoosh pantas.</p></div></div>
+  </div>
 </section>
 
 <script>
@@ -145,6 +205,34 @@ ISL.forEach(([k,z,n,t,f],i)=>{
   <div class="in"><div class="z" style="color:${Z[z][1]}">${String(i+1).padStart(2,'0')} · ${Z[z][0]}</div><h4>${n.toUpperCase()}</h4><div class="t">${t}</div>
   <ul style="color:${Z[z][1]}">${f.map(x=>`<li><span style="color:#34495a">${x}</span></li>`).join('')}</ul></div></div>`);
 });
+
+
+const CUT={ // [island, ok flags for preview frames 1..3, cut idea]
+ masjid:[[0,1,0],'Top-down atas batu-batan, bot nelayan melintas'],
+ keramat:[[1,1,0],'Dron rendah atas pokok, beting merah ke pulau'],
+ konet:[[1,1,0],'Orbit beting pasir berliku dari tanah besar'],
+ upeh:[[0,1,1],'Pusing atas chalet & jeti, reveal pulau penuh'],
+ melaka:[[1,1,0],'Masjid Selat dari udara, kemudian laguna hijau'],
+ panjang:[[0,1,0],'Low pass atas air ke gugusan pokok'],
+ menatang:[[0,1,0],'Pokok separa tenggelam ketika air pasang'],
+ burung:[[1,1,1],'Papan tanda → pantai pasir → jejak dalam hutan'],
+ peringgi:[[1,1,0],'Push-in perlahan ke pulau kecil di tengah laut'],
+ besar:[[1,1,0],'Tracking sepanjang pantai pasir putih'],
+ serimbun:[[1,1,0],'Top-down batu granit & bot di pantai'],
+ hanyut:[[0,1,0],'Orbit pulau kecil di tengah laut biru'],
+ lalang:[[1,1,0],'Pull-back, tunjuk pantai pasir & batu'],
+ dodol:[[1,1,0],'Top-down bentuk “dodol” & air jernih'],
+ nangka:[[1,1,0],'Reveal bentuk “buah nangka” dari atas'],
+ undan:[[1,1,0],'Push-in ke rumah api, kemudian shot lebar'],
+};
+const cuts=document.getElementById('cuts');
+ISL.forEach(([k,z,n],i)=>{
+  const [ok,idea]=CUT[k];
+  cuts.insertAdjacentHTML('beforeend',`<div class="cut" style="border-color:${Z[z][1]}"><div class="hd"><b>${String(i+1).padStart(2,'0')} · ${n.toUpperCase()}</b><span style="color:${Z[z][1]}">${Z[z][0]}</span></div>
+  <div class="th">${ok.map((o,j)=>`<div class="${o?'':'no'}" style="background-image:url(assets/img/cuts/${k}_${j+1}.jpg)"><i style="background:${o?'#22c46e':'#e5484d'}">${o?'GUNA':'ELAK'}</i></div>`).join('')}</div>
+  <p><em>Idea potongan:</em> ${idea}</p></div>`);
+});
+
 const id=(location.hash||'#p1').slice(1);document.getElementById(id).classList.add('on');
 </script>
 </body>

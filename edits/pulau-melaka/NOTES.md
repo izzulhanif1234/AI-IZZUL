@@ -11,6 +11,16 @@ Video pengenalan ±3:00, 1920x1080, untuk pelawat Pusat Informasi. Sumber: dokum
 - `draft/out/teks-ringkas-16-pulau.jpg`: keterangan setiap pulau dipadatkan (1 ayat + 2 fakta).
 - Render semula: `node draft/render.js` (frame) dan `node draft/render_sheets.js` (helaian).
 
+## Draf v2: video setiap pulau
+- Pengguna mahu setiap pulau ada rakaman video dari pautan YouTube yang diberi, dengan potongan yang menarik.
+- `draft/out/pelan-potongan-video.jpg`: 3 frame pratonton setiap video (YouTube hq1-3), ditanda GUNA / ELAK
+  (ELAK = ada tajuk/tulisan dari video asal) + idea potongan setiap pulau.
+- `draft/out/contoh-segmen-pulau-undan.jpg` (`f11`-`f14`): formula segmen ±7 s:
+  zoom peta 1 s → Cut A 2.5 s (lebar, nama slam) → Cut B 2 s (orbit/speed-ramp, fakta pop) →
+  Cut C 1.5 s (detail, Tahukah Anda, whip-pan keluar).
+- Muat turun video dari container cloud disekat YouTube ("Sign in to confirm you're not a bot").
+  Perlu fail MP4 dari pengguna (atau folder Google Drive) untuk pilih timestamp sebenar.
+
 ## Arahan pengguna
 - Peta mesti "pop keluar" dari video.
 - Hypermotion, SFX, motion; interaktif, tidak membosankan.
@@ -26,5 +36,5 @@ Taman Laut 10 · Penutup 8. Warna zon ikut legenda peta: Utara oren, Tengah mera
 ## Perlu sebelum video akhir
 - Peta resolusi tinggi (fail asal AI/PSD/PNG besar); yang ada hanya 634x865.
 - Logo MPPM (tempat simpan sedia di penutup).
-- Rakaman dron: muat turun 16 video YouTube, guna bahagian tanpa tulisan sahaja.
+- Rakaman dron: 16 video sebagai fail MP4 (versi asal tanpa tulisan paling baik); guna bahagian tanpa tulisan sahaja.
 - Keputusan suara latar (VO Bahasa Melayu) atau muzik + teks sahaja.

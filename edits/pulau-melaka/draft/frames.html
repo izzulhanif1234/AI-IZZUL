@@ -214,6 +214,24 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy);font
 #f10 .logos .lg{background:#fff;border-radius:18px;padding:14px 26px;height:110px;display:flex;align-items:center}
 #f10 .logos .lg img{height:80px}
 #f10 .logos .ph{color:var(--navy);font-weight:800;font-size:22px;line-height:1.2;text-align:left;border:3px dashed #9ab;border-radius:12px;padding:10px 16px}
+
+/* ============ F11-F14: one island segment with video cuts (Pulau Undan) ============ */
+#f11{background:#021422}
+#f11 .z{position:absolute;inset:0;background:url(assets/img/peta.png) no-repeat;background-size:2536px 3460px;background-position:-340px -2468px}
+#f11 .zb{position:absolute;inset:0;background:url(assets/img/peta.png) no-repeat;opacity:.18}
+#f11 .lbl{position:absolute;left:960px;top:640px;transform:translateX(-50%);background:#fff;color:var(--navy);font-weight:900;font-size:40px;padding:14px 30px;border-radius:50px;letter-spacing:.06em;box-shadow:0 18px 40px rgba(0,0,0,.4);white-space:nowrap}
+#f12 .bg{background-image:url(assets/img/undan.jpg);transform:scale(1.06);filter:saturate(1.2)}
+#f12 .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,25,43,.85),transparent 50%),linear-gradient(90deg,rgba(3,25,43,.6),transparent 50%)}
+#f12 .slam{position:absolute;left:100px;bottom:150px}
+#f12 .slam .nm{font-family:Anton;font-size:260px;line-height:.82;text-shadow:0 18px 50px rgba(0,0,0,.45)}
+#f12 .slam .gh{position:absolute;left:0;bottom:0;font-family:Anton;font-size:260px;line-height:.82;color:transparent;-webkit-text-stroke:3px rgba(255,255,255,.35)}
+#f13 .bg{background-image:url(assets/img/cuts/undan_2.jpg);transform:scale(1.1);filter:saturate(1.25) contrast(1.05)}
+#f13 .shade{position:absolute;inset:0;background:linear-gradient(270deg,rgba(3,25,43,.88) 0,rgba(3,25,43,.5) 35%,transparent 60%)}
+#f13 .lt{position:absolute;left:100px;top:110px;display:flex;align-items:center;gap:16px}
+#f13 .lt .n{font-family:Anton;font-size:64px;line-height:1}
+#f14 .bg{background-image:url(assets/img/cuts/undan_1.jpg);transform:scale(1.12);filter:saturate(1.2)}
+#f14 .whip{position:absolute;top:0;bottom:0;right:0;width:760px;overflow:hidden}
+#f14 .whip div{position:absolute;inset:0 -200px 0 0;background:url(assets/img/nangka.jpg) center/cover}
 </style>
 </head>
 <body>
@@ -441,6 +459,57 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy);font
   </div>
 </section>
 
+<!-- F11-F14: Pulau Undan segment, beat by beat -->
+<section class="f" id="f11">
+  <div class="zb" style="background-size:4200px 5730px;background-position:-1186px -4442px"></div>
+  <div class="zb" style="background-size:3300px 4500px;background-position:-726px -3374px"></div>
+  <div class="z"></div><div class="vign"></div>
+  <div class="ring" style="left:960px;top:540px;width:90px;height:90px;border-color:#22c46e;border-width:6px"></div>
+  <div class="ring" style="left:960px;top:540px;width:200px;height:200px;border-color:rgba(34,196,110,.6)"></div>
+  <div class="ring" style="left:960px;top:540px;width:340px;height:340px;border-color:rgba(34,196,110,.3)"></div>
+  <div class="lbl">16 · PULAU UNDAN</div>
+  <div class="streak" style="left:0;top:300px;width:600px"></div><div class="streak" style="left:1300px;top:800px;width:620px"></div>
+  <div class="rail" id="rail11"></div>
+</section>
+<section class="f" id="f12">
+  <div class="bg"></div><div class="shade"></div>
+  <div class="abs" style="left:100px;top:110px;display:flex;gap:18px;align-items:center"><span class="chip" style="background:var(--selatan)"><b></b>Zon Selatan</span><span class="anton" style="font-size:42px">16 <small style="opacity:.5;font-size:32px">/ 16</small></span></div>
+  <div class="slam">
+    <div class="eyebrow" style="color:var(--sand);font-size:40px;letter-spacing:.32em;font-weight:800">PULAU</div>
+    <div style="position:relative"><div class="gh" style="transform:translateX(-40px)">UNDAN</div><div class="nm">UNDAN</div></div>
+    <div style="font-size:40px;font-weight:800;margin-top:22px">Karang “Table Top” terbesar dari Selangor hingga Johor Barat.</div>
+  </div>
+  <div class="streak" style="left:1100px;top:880px;width:700px"></div><div class="streak" style="left:1250px;top:930px;width:500px;opacity:.6"></div>
+  <div class="rail" id="rail12"></div>
+  <div class="bug"><img src="assets/img/mcorp-corporate.png" alt=""></div>
+</section>
+<section class="f" id="f13">
+  <div class="bg"></div><div class="shade"></div>
+  <div class="lt"><span class="chip" style="background:var(--selatan);font-size:18px"><b></b>16 / 16</span><span class="n">PULAU UNDAN</span></div>
+  <div class="facts" style="left:auto;right:110px;top:300px;align-items:flex-end">
+    <div class="fact"><span class="ic" style="background:var(--aqua)"><svg><use href="#i-pin"/></svg></span><span>Rumah api sejak <b>zaman British</b></span></div>
+    <div class="fact"><span class="ic" style="background:var(--sand)"><svg><use href="#i-tree"/></svg></span><span>Nama sempena <b>burung undan</b></span></div>
+    <div class="fact"><span class="ic" style="background:#9be7a7"><svg><use href="#i-area"/></svg></span><span><b>4.76 hektar</b> · air laut jernih</span></div>
+  </div>
+  <div class="mini" style="right:110px;bottom:120px;width:280px;height:280px" id="mini13"><div class="lbl">LOKASI</div></div>
+  <div class="rail" id="rail13"></div>
+</section>
+<section class="f" id="f14">
+  <div class="bg"></div><div class="vign" style="opacity:.6"></div>
+  <div class="dyk" style="left:110px;bottom:150px;right:auto;padding-left:44px;width:640px">
+    <div class="q">TAHUKAH ANDA?</div>
+    <h4>3 penjaga bergilir-gilir</h4>
+    <p>Mereka menjaga rumah api selama 3 minggu setiap giliran, memantau kapal di Selat Melaka.</p>
+  </div>
+  <div class="whip">
+    <div style="transform:translateX(-120px);opacity:.25"></div><div style="transform:translateX(-60px);opacity:.3"></div>
+    <div style="transform:translateX(0);opacity:.35"></div><div style="transform:translateX(60px);opacity:.3"></div>
+  </div>
+  <div class="streak" style="left:1000px;top:200px;width:920px;height:6px"></div><div class="streak" style="left:1100px;top:520px;width:820px;height:4px"></div>
+  <div class="streak" style="left:1050px;top:860px;width:870px;height:5px"></div>
+  <div class="rail" id="rail14"></div>
+</section>
+
 <script>
 // pin positions on the source map (634 x 865 px), in route order
 const ISL=[
@@ -462,17 +531,17 @@ function rail(id,cur){
   const el=document.getElementById(id);
   ISL.forEach(([n,z],i)=>{const r=document.createElement('i');r.className=i<cur?z:(i===cur?'cur':'todo');el.appendChild(r);});
 }
-rail('rail5',3);rail('rail6',4);rail('rail8',9);
+rail('rail5',3);rail('rail6',4);rail('rail8',9);['rail11','rail12','rail13','rail14'].forEach(r=>rail(r,15));
 // mini-map crop centred on an island pin
 function mini(id,name,zoom){
   const box=document.getElementById(id);const [n,z,x,y]=ISL.find(a=>a[0]===name);
   const img=document.createElement('img');img.src='assets/img/peta.png';
-  const W=634*zoom,H=865*zoom,S=318;img.style.width=W+'px';img.style.height=H+'px';
+  const W=634*zoom,H=865*zoom,S=(parseInt(box.style.width)||330)-12;img.style.width=W+'px';img.style.height=H+'px';
   img.style.left=(S/2-x*zoom)+'px';img.style.top=(S/2-y*zoom)+'px';box.prepend(img);
   for(const [d,o] of [[40,1],[80,.6],[130,.3]]){const r=document.createElement('div');r.className='ring';
     Object.assign(r.style,{left:S/2+'px',top:S/2+'px',width:d+'px',height:d+'px',opacity:o,borderColor:ZC[z]});box.appendChild(r);}
 }
-mini('mini5','upeh',2.2);
+mini('mini5','upeh',2.2);mini('mini13','undan',2.2);
 // turtle cut from the map illustration
 (function(){const b=document.getElementById('turtle5');const i=document.createElement('img');i.src='assets/img/peta.png';
   const z=1.05;Object.assign(i.style,{width:634*z+'px',height:865*z+'px',left:(68-505*z)+'px',top:(68-778*z)+'px'});b.appendChild(i);})();
