@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>Storyboard Gugusan Pulau</title>
+<style>
+@font-face{font-family:Montserrat;src:url(assets/fonts/Montserrat.ttf);font-weight:100 900}
+@font-face{font-family:Anton;src:url(assets/fonts/Anton-Regular.ttf)}
+:root{--navy:#03192b;--ink:#0d2233;--mute:#5b6f7f;--line:#dfe6ec;--utara:#ff7a1f;--tengah:#ff2e93;--selatan:#22c46e;--sand:#f2b705;--aqua:#0fb5ba}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px;background:#f4f7f9;font-family:Montserrat,sans-serif;color:var(--ink)}
+.page{padding:70px 80px 80px;display:none}
+.page.on{display:block}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:4px solid var(--navy);padding-bottom:26px}
+header h1{font-family:Anton;font-size:84px;line-height:1;font-weight:400;color:var(--navy)}
+header p{font-size:24px;font-weight:600;color:var(--mute);margin-top:10px}
+header .meta{text-align:right;font-size:22px;font-weight:700;line-height:1.6;color:var(--mute)}
+header .meta b{color:var(--navy)}
+.tl{margin-top:40px}
+.tl .bar{display:flex;height:64px;border-radius:12px;overflow:hidden}
+.tl .bar div{display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;color:#fff;font-weight:800;font-size:16px;border-right:2px solid #fff;overflow:hidden}
+.tl .ticks{display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:var(--mute);margin-top:8px}
+.rows{margin-top:46px;display:flex;flex-direction:column;gap:28px}
+.row{display:grid;grid-template-columns:600px 1fr;gap:40px;background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 18px rgba(3,25,43,.07)}
+.row img{width:600px;height:338px;border-radius:12px;display:block}
+.row .tc{display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:20px;padding:6px 14px;border-radius:8px}
+.row h3{font-size:36px;font-weight:900;margin-top:12px}
+.row dl{display:grid;grid-template-columns:150px 1fr;gap:10px 18px;margin-top:16px;font-size:21px;line-height:1.45}
+.row dt{font-weight:800;color:var(--mute);text-transform:uppercase;font-size:16px;letter-spacing:.12em;padding-top:4px}
+.row dd{font-weight:500}
+.note{margin-top:40px;background:var(--navy);color:#fff;border-radius:20px;padding:34px 40px;font-size:22px;line-height:1.55}
+.note h4{font-size:26px;font-weight:900;color:#ffcf4a;margin-bottom:10px}
+.note ul{padding-left:26px}
+/* concise copy page */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:40px}
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 18px rgba(3,25,43,.07);border-top:10px solid}
+.card .ph{height:170px;background-size:cover;background-position:center}
+.card .in{padding:18px 22px 22px}
+.card .z{font-size:14px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.card h4{font-family:Anton;font-weight:400;font-size:42px;line-height:1;margin-top:6px;color:var(--navy)}
+.card .t{font-size:19px;font-weight:800;margin-top:10px;line-height:1.3}
+.card ul{list-style:none;margin-top:10px;font-size:17px;line-height:1.45;color:#34495a;font-weight:500}
+.card li{padding-left:18px;position:relative}
+.card li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5}
+</style>
+</head>
+<body>
+
+<section class="page" id="p1">
+  <header>
+    <div><h1>GUGUSAN PULAU-PULAU MELAKA</h1><p>Storyboard draf v1 · video pengenalan untuk pameran Pusat Informasi</p></div>
+    <div class="meta"><b>±3:00</b> · 1920×1080 · 16:9<br>Gaya: hypermotion, kinetic type, peta pop keluar<br>Draf: 28 Okt 2026</div>
+  </header>
+  <div class="tl">
+    <div class="bar" id="bar"></div>
+    <div class="ticks"><span>0:00</span><span>0:30</span><span>1:00</span><span>1:30</span><span>2:00</span><span>2:30</span><span>3:00</span></div>
+  </div>
+  <div class="rows" id="rows"></div>
+  <div class="note">
+    <h4>Bunyi &amp; muzik (keseluruhan)</h4>
+    <ul>
+      <li>Muzik latar sinematik-tropika (perkusi ringan + tali), naik intensiti di setiap pertukaran zon.</li>
+      <li>Ambien ombak &amp; burung camar di bawah muzik sepanjang video.</li>
+      <li>SFX: <b>whoosh</b> setiap transisi, <b>pop</b> setiap pin pulau (16 pop, nada makin tinggi), <b>bass hit</b> pada tajuk besar, <b>riser</b> sebelum peta keluar, <b>tik-tok</b> kiraan kuiz, <b>ding</b> jawapan betul.</li>
+      <li>Rakaman: guna rakaman dron dari video YouTube setiap pulau (16 pautan dalam dokumen), <b>bahagian tanpa tulisan sahaja</b>. Semua tajuk &amp; teks direka baharu.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="page" id="p2">
+  <header>
+    <div><h1>TEKS RINGKAS · 16 PULAU</h1><p>Keterangan dipadatkan: 1 ayat utama + 2 fakta. Ikut turutan dalam video (utara ke selatan).</p></div>
+    <div class="meta"><b>Sumber:</b> dokumen “Gugusan Pulau-Pulau Melaka”<br>Mohon semak fakta sebelum render akhir</div>
+  </header>
+  <div class="grid" id="grid"></div>
+</section>
+
+<script>
+const SEG=[ // [label, seconds, colour]
+ ['Hook',8,'#03192b'],['Peta pop',10,'#0fb5ba'],['3 Zon',8,'#06324d'],['Zon Utara · 3 pulau',24,'#ff7a1f'],
+ ['Zon Tengah · 6 pulau',52,'#ff2e93'],['Kuiz',8,'#f2b705'],['Zon Selatan · 7 pulau',52,'#22c46e'],['Taman Laut',10,'#0a5f7d'],['Penutup',8,'#03192b']];
+const bar=document.getElementById('bar');
+for(const [l,s,c] of SEG){const d=document.createElement('div');d.style.flex=s;d.style.background=c;d.textContent=l;bar.appendChild(d);}
+
+const ROWS=[
+ ['f1','0:00 – 0:08','Hook: “16 PULAU, satu warisan”',
+  'Rakaman dron laju (speed-ramp) melintasi laut. Nombor 16 terisi footage pulau, bergetar dengan kesan chromatic, “PULAU” hentak masuk, tulisan tangan “satu warisan” dilukis.',
+  'Ombak + riser, BASS HIT bila “16” masuk, whoosh untuk “PULAU”.'],
+ ['f2','0:08 – 0:18','Peta pop keluar dari skrin',
+  'Video mengecil jadi “skrin” berbingkai. Peta Gugusan Pulau-Pulau Melaka melonjak keluar dari skrin dalam 3D (tilt + jejak gerak), sinar cahaya di belakang. 16 pin jatuh satu-satu sambil kaunter naik 0 → 16.',
+  'Riser → whoosh besar + impact semasa peta keluar. 16 “pop” berturut-turut (nada naik).'],
+ ['f3','0:18 – 0:26','3 zon pesisiran',
+  'Peta meluncur ke kiri; zon menyala ikut warna (oren / merah jambu / hijau). Kad zon masuk satu-satu dengan nombor 3 · 6 · 7 berkira.',
+  'Swoosh untuk setiap kad, tick ringan untuk kaunter.'],
+ ['f4','0:26 – 0:28 (ulang tiap zon)','Kad transisi zon',
+  'Panel warna zon meluncur menyerong (wipe). “ZON UTARA” slam masuk, foto pulau zon itu terbang masuk dengan motion blur. Diulang untuk Zon Tengah & Selatan.',
+  'Whoosh berat + bass hit.'],
+ ['f5','Templat pulau · ±7 s setiap pulau','Templat pulau (contoh: Pulau Upeh)',
+  'Kamera zoom dari peta ke pin pulau → potong ke rakaman dron. Nama pulau besar, 1 ayat ringkas, 2 fakta pop masuk. Peta mini “LOKASI” dengan pin berdenyut. Kad “TAHUKAH ANDA?” melantun masuk. Bar kemajuan 16 pulau di bawah.',
+  'Whoosh zoom, pop untuk setiap fakta, sparkle untuk kad Tahukah Anda.'],
+ ['f6','1:00 – 1:10','Variasi: fakta sejarah (Pulau Melaka)',
+  'Skrin terbelah menyerong. Rantai 3 langkah (batu laterit → dibawa ke darat → A’Famosa & Gereja St. Paul) muncul ikut anak panah. Digunakan untuk pulau yang kuat unsur sejarah.',
+  'Klik/ketukan untuk setiap langkah, swoosh garis anak panah.'],
+ ['f7','1:42 – 1:50','Kuiz pantas (interaktif)',
+  'Soalan muncul, 3 pilihan bergambar, cincin kiraan 5 → 0. Jawapan betul membesar & bercahaya hijau, yang lain jadi kelabu. “BETUL!” hentak masuk dengan percikan.',
+  'Tik-tok jam, ding + sorakan kecil untuk jawapan.'],
+ ['f8','1:52 – 2:04','Pulau Besar: “ANDA DI SINI”',
+  'Pin besar jatuh ke pulau dengan gelombang denyut. Statistik (10 minit · 7 batu nautika · 2020) berkira naik. Sorotan khas kerana pameran berada di Pusat Informasi Pulau Besar.',
+  'Pin drop “thud”, gelombang sonar, count-up tick.'],
+ ['f9','2:42 – 2:52','Taman Laut Negeri Melaka',
+  'Tiga kad (Dodol · Nangka · Undan) berpusing masuk dari sisi dalam 3D; angka utama berkira naik. Cahaya bawah laut (caustics) bergerak di latar.',
+  'Bunyi bawah air, whoosh kad, impact pada “4,000”.'],
+ ['f10','2:52 – 3:00','Penutup',
+  'Dinding 16 rakaman pulau bergerak perlahan dalam 3D. “JELAJAH · HARGAI · PELIHARA” masuk perkataan demi perkataan, diikuti logo MCORP & MPPM.',
+  'Muzik naik ke klimaks, bass hit akhir, ombak fade out.'],
+];
+const rows=document.getElementById('rows');
+for(const [f,tc,h,vis,sfx] of ROWS){
+  rows.insertAdjacentHTML('beforeend',`<div class="row"><img src="out/${f}.jpg"><div><span class="tc">${tc}</span><h3>${h}</h3>
+  <dl><dt>Visual / motion</dt><dd>${vis}</dd><dt>Bunyi</dt><dd>${sfx}</dd></dl></div></div>`);
+}
+
+const Z={u:['Zon Utara','#ff7a1f'],t:['Zon Tengah','#ff2e93'],s:['Zon Selatan','#22c46e']};
+const ISL=[
+ ['masjid','u','Pulau Masjid','Pulau paling utara, bersempadan Negeri Sembilan.',['Mukim Kuala Linggi, Alor Gajah','Barat Tanjung Tuan · 0.61 ekar']],
+ ['keramat','u','Pulau Keramat','Boleh berjalan kaki ke pulau ketika air surut.',['Hanya ±50 m dari Pulau Konet','5 kubur lama, dipercayai pedagang Arab / ulama Aceh']],
+ ['konet','u','Pulau Konet','Beting pasir muncul ketika air surut, laluan dari tanah besar.',['Nama asal: Pulau Kenit','Legenda orang bunian meminjamkan pinggan mangkuk']],
+ ['upeh','t','Pulau Upeh','Rumah penyu karah di Melaka.',['±3 batu ke barat Bukit St. Paul','Hutan tebal, pokok setinggi 34 m']],
+ ['melaka','t','Pulau Melaka','Batu lateritnya membina A’Famosa.',['Portugis: “Ilha das Pedras”','Juga Gereja St. Paul · ditambak 2013']],
+ ['panjang','t','Pulau Panjang','Dinamakan sempena bentuknya yang memanjang.',['2.17 hektar · ada boya panduan nelayan','Lihat obor-obor & ikan dari bot']],
+ ['menatang','t','Pulau Menatang','Air pasang: dua pulau. Air surut: satu pulau.',['Berhampiran Teluk Mas','Lokasi kutip kerang & siput ketika surut']],
+ ['burung','t','Pulau Burung','Satu pulau yang “terbelah dua” oleh pasang surut.',['Pulau Burung Ibu & Pulau Anak Burung','Portugis: “Pulo Buron” · kesan pahatan batu laterit']],
+ ['peringgi','t','Pulau Peringgi','“Peringgi” gelaran nelayan untuk orang Portugis.',['Pulau kecil dikelilingi batu','Berhampiran Pulau Burung']],
+ ['besar','s','Pulau Besar','Antara pusat terawal penyebaran Islam di Nusantara.',['10 minit bot laju dari Jeti Umbai','Bentuk seperti puteri tidur · Pusat Informasi MPPM']],
+ ['serimbun','s','Pulau Serimbun','Tapak perkhemahan dengan ±25 spesies karang.',['20 karang keras + 5 karang lembut','Tempat nelayan berlindung ketika ribut']],
+ ['hanyut','s','Pulau Hanyut','Dari jauh, seperti daratan yang hanyut.',['1.8 hektar · 4.5 km dari Pulau Undan','Lokasi kegemaran pemancing']],
+ ['lalang','s','Pulau Lalang','Pasir putih, pohon nyiur & pokok ±3,000 tahun.',['Portugis: “Alan-Alan”','Air surut: jalan kaki ke Pulau Terendak']],
+ ['dodol','s','Pulau Dodol','Bentuknya seakan-akan kuih dodol.',['6.34 hektar · 18 spesies karang','Taman Laut Negeri Melaka (2022)']],
+ ['nangka','s','Pulau Nangka','Pulau berbentuk buah nangka dengan pokok 4,000 tahun.',['11.76 hektar · bukit 50 m','Taman Laut Negeri Melaka (2022)']],
+ ['undan','s','Pulau Undan','Karang “Table Top” terbesar dari Selangor hingga Johor Barat.',['Rumah api zaman British','Nama sempena burung undan · Taman Laut (2022)']],
+];
+const grid=document.getElementById('grid');
+ISL.forEach(([k,z,n,t,f],i)=>{
+  grid.insertAdjacentHTML('beforeend',`<div class="card" style="border-color:${Z[z][1]}"><div class="ph" style="background-image:url(assets/img/${k}.jpg)"></div>
+  <div class="in"><div class="z" style="color:${Z[z][1]}">${String(i+1).padStart(2,'0')} · ${Z[z][0]}</div><h4>${n.toUpperCase()}</h4><div class="t">${t}</div>
+  <ul style="color:${Z[z][1]}">${f.map(x=>`<li><span style="color:#34495a">${x}</span></li>`).join('')}</ul></div></div>`);
+});
+const id=(location.hash||'#p1').slice(1);document.getElementById(id).classList.add('on');
+</script>
+</body>
+</html>
