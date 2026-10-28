@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<title>Gugusan Pulau Melaka: draf 3</title>
+<script src="vendor/gsap.min.js"></script>
+<script src="film-plan.js"></script>
+<style>
+@font-face{font-family:Montserrat;src:url(assets/fonts/Montserrat.ttf);font-weight:100 900}
+@font-face{font-family:Anton;src:url(assets/fonts/Anton-Regular.ttf)}
+@font-face{font-family:Kaushan;src:url(assets/fonts/KaushanScript-Regular.ttf)}
+:root{--navy:#03192b;--aqua:#5ff0e2;--sand:#ffcf4a;--coral:#ff6a4d;--utara:#ff7a1f;--tengah:#ff2e93;--selatan:#22c46e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:Montserrat,sans-serif;color:#fff}
+#stage{position:absolute;inset:0;overflow:hidden;background:var(--navy)}
+.L{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.abs{position:absolute}
+.anton{font-family:Anton;font-weight:400}
+.eyebrow{font-weight:800;letter-spacing:.38em;text-transform:uppercase;font-size:22px;color:var(--aqua)}
+.chip{display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 14px;border-radius:40px;font-weight:800;font-size:22px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.chip b{display:inline-block;width:16px;height:16px;border-radius:50%;background:#fff}
+.streak{position:absolute;height:4px;border-radius:3px;background:linear-gradient(90deg,transparent,#fff,transparent)}
+.ring{position:absolute;border-radius:50%;border:5px solid #fff;transform:translate(-50%,-50%)}
+.full{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover}
+.vign{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(2,12,22,.7) 100%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
+/* hook */
+#hook .bg{position:absolute;inset:-5%;background:url(assets/img/cuts-hd/lalang_A.jpg) center/cover}
+#hook .shade{position:absolute;inset:0;background:linear-gradient(100deg,rgba(3,25,43,.92),rgba(3,25,43,.5) 50%,rgba(3,25,43,.05))}
+#hook .big,#hook .gh{position:absolute;left:110px;top:175px;font-family:Anton;font-size:620px;line-height:.78}
+#hook .big{background:url(assets/img/cuts-hd/undan_A.jpg) 30% 40%/900px auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:6px #fff}
+#hook .gh{color:transparent;-webkit-text-stroke:3px}
+#hook .pulau{position:absolute;left:640px;top:230px;font-family:Anton;font-size:250px;line-height:.85}
+#hook .wr{position:absolute;left:660px;top:455px;font-family:Kaushan;font-size:120px;color:var(--sand);transform:rotate(-7deg)}
+#hook .sub{position:absolute;left:120px;bottom:150px;font-size:34px;font-weight:600;max-width:900px;line-height:1.35}
+#hook .sub em{font-style:normal;color:var(--aqua);font-weight:800}
+
+/* map pop-out */
+#map .bg{position:absolute;inset:-3%;background:url(assets/img/bg-map.jpg) center/cover}
+#map .screen{position:absolute;left:150px;top:150px;width:1620px;height:780px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+#map .screen .in{position:absolute;inset:0;background:url(assets/img/cuts-hd/undan_B.jpg) center/cover;filter:brightness(.5)}
+#map .screen .tint{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,25,43,.2),rgba(3,25,43,.85) 70%)}
+#map .corner{position:absolute;width:60px;height:60px;border:5px solid var(--aqua)}
+#map .rays{position:absolute;left:640px;top:540px;width:1800px;height:1800px;margin:-900px 0 0 -900px;
+  background:repeating-conic-gradient(rgba(95,240,226,.3) 0 4deg,transparent 4deg 13deg);
+  -webkit-mask:radial-gradient(circle,#000 0,#000 25%,transparent 62%);mask:radial-gradient(circle,#000 0,#000 25%,transparent 62%)}
+#map .stage{position:absolute;left:300px;top:42px;width:700px;height:955px;perspective:2000px}
+#map .card3d{position:absolute;inset:0;transform-origin:50% 50%}
+#map .mapc{position:absolute;inset:0;border:10px solid #fff;border-radius:18px;overflow:hidden;box-shadow:0 50px 100px rgba(0,0,0,.6)}
+#map .mapc img{width:100%;height:100%;display:block}
+#map .trail{position:absolute;inset:0;border-radius:18px;border:6px solid rgba(255,255,255,.35);background:url(assets/img/peta-hd.jpg) center/100% 100%}
+#map .copy{position:absolute;left:1150px;top:230px;width:640px}
+#map .n{font-family:Anton;font-size:300px;line-height:.8;color:var(--sand);margin-top:30px}
+#map .t{font-family:Anton;font-size:96px;line-height:.95;margin-top:10px}
+#map .copy p{font-size:30px;font-weight:600;margin-top:22px;line-height:1.35;color:#d9f7f4}
+#map .zones{display:flex;gap:14px;margin-top:34px}
+.pin{position:absolute;transform:translate(-50%,-50%)}
+.pin::before{content:"";position:absolute;left:50%;top:50%;width:22px;height:22px;border-radius:50%;transform:translate(-50%,-50%);background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.35),0 0 24px #fff}
+.pin::after{content:"";position:absolute;left:50%;top:50%;width:56px;height:56px;border-radius:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.75)}
+
+/* zones overview */
+#zones{background:radial-gradient(circle at 30% 50%,#0a4a6b 0,#03192b 70%)}
+#zones .mapw{position:absolute;left:110px;top:60px;width:700px;height:955px;border-radius:22px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+#zones .mapw img{width:100%;height:100%;display:block;filter:saturate(.75) brightness(.7)}
+#zones .glow{position:absolute;border-radius:50%}
+#zones h2{position:absolute;left:900px;top:110px;font-family:Anton;font-weight:400;font-size:120px;line-height:.95}
+#zones h2 span{color:var(--sand)}
+#zones .zc{position:absolute;left:900px;width:900px;height:196px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);overflow:hidden;display:flex;align-items:center;padding-left:44px}
+#zones .zc .bar{position:absolute;left:0;top:0;bottom:0;width:14px}
+#zones .zc .num{font-family:Anton;font-size:170px;width:150px;text-align:center}
+#zones .zc .txt{margin-left:30px}
+#zones .zc h3{font-size:46px;font-weight:900}
+#zones .zc p{font-size:24px;font-weight:600;color:#cfe9ee;margin-top:8px;line-height:1.4}
+
+/* zone cards */
+.zone{background:var(--navy)}
+.zone .slab{position:absolute;top:-200px;height:1500px;left:-300px;width:1300px;transform:skewX(-14deg)}
+.zone .zl{position:absolute;left:120px;top:150px;font-family:Anton;font-size:250px;color:transparent;-webkit-text-stroke:4px rgba(255,255,255,.9);line-height:.8}
+.zone .zn{position:absolute;left:110px;top:345px;font-family:Anton;font-size:300px;line-height:.8;text-shadow:12px 12px 0 rgba(0,0,0,.25);white-space:nowrap}
+.zone .meta{position:absolute;left:125px;top:640px;font-size:40px;font-weight:700}
+.zone .meta b{color:var(--navy);background:#fff;padding:4px 16px;border-radius:8px;margin-right:12px}
+.zone .ph{position:absolute;width:300px;height:180px;border-radius:14px;border:6px solid #fff;background-size:cover;background-position:center;box-shadow:0 24px 50px rgba(0,0,0,.5)}
+
+/* island */
+.isl .v{position:absolute;inset:0}
+.isl .mz{position:absolute;inset:0;background:url(assets/img/bg-map.jpg) center/cover}
+.isl .mz .w{position:absolute;left:0;top:0;width:2394px;height:3263px;background:url(assets/img/peta-hd.jpg) 0 0/2394px 3263px;transform-origin:0 0}
+.isl .mz .lbl{position:absolute;left:960px;top:650px;transform:translateX(-50%);background:#fff;color:var(--navy);font-weight:900;font-size:40px;padding:14px 30px;border-radius:50px;white-space:nowrap;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.isl .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,20,34,.88),rgba(2,20,34,0) 50%),linear-gradient(90deg,rgba(2,20,34,.55),transparent 45%)}
+.isl .ch{position:absolute;left:90px;top:90px}
+.isl .cn{position:absolute;left:90px;top:150px;font-family:Anton;font-size:64px;line-height:1;text-shadow:0 6px 20px rgba(0,0,0,.5);white-space:nowrap}
+.isl .tb{position:absolute;left:90px;bottom:120px}
+.isl .pl{font-weight:800;letter-spacing:.34em;font-size:40px;color:var(--sand)}
+.isl .nm{font-family:Anton;font-size:230px;line-height:.85;text-shadow:0 18px 50px rgba(0,0,0,.45);white-space:nowrap;margin-top:6px}
+.isl .tg{font-size:38px;font-weight:800;max-width:1100px;line-height:1.2;margin-top:18px}
+.isl .facts{position:absolute;right:90px;bottom:120px;display:flex;flex-direction:column;gap:16px;align-items:flex-end}
+.isl .fact{background:rgba(2,20,34,.6);border:1px solid rgba(255,255,255,.28);border-radius:16px;padding:16px 26px;font-size:28px;font-weight:700;max-width:640px;text-align:right}
+.isl .mini{position:absolute;right:90px;top:150px;width:280px;height:280px;border-radius:22px;overflow:hidden;border:6px solid #fff;box-shadow:0 24px 50px rgba(0,0,0,.5)}
+.isl .mini .mm{position:absolute;width:1392px;height:1898px;background:url(assets/img/peta-hd.jpg) 0 0/100% 100%}
+.isl .mini .lbl{position:absolute;left:0;right:0;bottom:0;padding:8px;background:rgba(3,25,43,.85);font-weight:800;font-size:18px;letter-spacing:.2em;text-align:center}
+.isl .dyk{position:absolute;left:90px;bottom:120px;width:640px;border-radius:24px;background:#fff;color:var(--navy);padding:30px 34px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.isl .dyk .q{position:absolute;left:-20px;top:-26px;background:var(--sand);font-weight:900;font-size:22px;letter-spacing:.14em;padding:10px 18px;border-radius:12px;transform:rotate(-5deg)}
+.isl .dyk h4{font-size:36px;font-weight:900;line-height:1.1}
+.isl .dyk p{font-size:24px;font-weight:600;margin-top:8px;line-height:1.35;color:#30536a}
+.isl .chain{position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,20,34,.0) 30%,rgba(2,20,34,.92) 55%)}
+.isl .chain .in{position:absolute;left:1020px;top:190px;width:820px}
+.isl .chain .old{font-size:30px;font-weight:600;color:#cfe9ee}
+.isl .chain .old b{display:block;font-family:Kaushan;font-weight:400;font-size:64px;color:var(--sand);margin-top:6px}
+.isl .chain .row{display:flex;margin-top:46px}
+.isl .chain .st{width:230px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:22px 20px}
+.isl .chain .st .k{font-family:Anton;font-size:56px;color:var(--tengah);line-height:1}
+.isl .chain .st p{font-size:24px;font-weight:700;margin-top:10px;line-height:1.25}
+.isl .chain .ar{width:40px;display:grid;place-items:center;color:var(--sand);font-size:40px;font-weight:900}
+.isl .here{position:absolute;left:1390px;top:200px;text-align:center;transform:translateX(-50%)}
+.isl .here .lab{background:var(--coral);font-weight:900;font-size:34px;letter-spacing:.16em;padding:14px 30px;border-radius:50px;white-space:nowrap;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+.isl .here svg{width:120px;height:160px;margin-top:10px}
+.isl .stats{position:absolute;left:90px;right:90px;bottom:110px;display:flex;gap:26px}
+.isl .stats .s{flex:1;background:rgba(2,20,34,.6);border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:24px 28px}
+.isl .stats .s b{font-family:Anton;font-weight:400;font-size:76px;line-height:1;color:var(--sand)}
+.isl .stats .s small{font-weight:800;font-size:28px;margin-left:8px}
+.isl .stats .s p{font-size:24px;font-weight:600;margin-top:8px;color:#d9f2f4}
+.isl .badge{position:absolute;right:90px;top:90px;font-weight:900;font-size:26px;letter-spacing:.16em;padding:12px 26px;border-radius:50px;background:#0fb5ba}
+.isl .whip{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.0) 0 40px,rgba(255,255,255,.35) 40px 44px);opacity:0}
+/* entries */
+.isl .mk{position:absolute;inset:0;background:#010b14}
+.isl .mk .burst{position:absolute;left:50%;top:50%;width:2600px;height:2600px;margin:-1300px 0 0 -1300px;
+  background:repeating-conic-gradient(from 3deg,rgba(95,240,226,.25) 0 1.2deg,transparent 1.2deg 7deg);
+  -webkit-mask:radial-gradient(circle,transparent 0,transparent 16%,#000 30%,transparent 70%);mask:radial-gradient(circle,transparent 0,transparent 16%,#000 30%,transparent 70%)}
+.isl .mk .t{position:absolute;left:50%;top:50%;font-family:Anton;font-size:470px;line-height:1;white-space:nowrap;
+  background-position:center;background-size:1700px auto;-webkit-background-clip:text;background-clip:text;color:transparent;transform:translate(-50%,-52%)}
+.isl .tri{position:absolute;inset:0;background:#021422}
+.isl .tri .pn{position:absolute;top:-60px;height:1200px;width:700px;transform:skewX(-11deg);overflow:hidden;border-left:10px solid #fff}
+.isl .tri .pn img{position:absolute;left:-300px;top:60px;width:1300px;height:1080px;object-fit:cover;transform:skewX(11deg)}
+.isl .tri .big{position:absolute;left:0;right:0;top:330px;text-align:center;font-family:Anton;font-size:250px;line-height:.9;text-shadow:0 20px 60px rgba(0,0,0,.6)}
+.isl .gl{position:absolute;inset:0;background:#000}
+.isl .gl .sl{position:absolute;left:0;right:0;background-size:1920px 1080px;background-repeat:no-repeat}
+#hud{position:absolute;inset:0;pointer-events:none;visibility:hidden}
+#hud .rail{position:absolute;left:120px;right:120px;bottom:44px;display:flex;gap:8px;align-items:center}
+#hud .rail i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.22)}
+#hud .bug{position:absolute;top:30px;right:40px;background:#fff;border-radius:12px;padding:6px 12px}
+#hud .bug img{height:44px;display:block}
+
+/* quiz */
+#quiz .bg{position:absolute;inset:-3%;background:url(assets/img/bg-quiz.jpg) center/cover}
+#quiz .badge{position:absolute;left:50%;top:70px;transform:translateX(-50%) rotate(-3deg);background:var(--sand);color:var(--navy);font-family:Anton;font-size:80px;padding:10px 46px 6px;border-radius:18px;box-shadow:10px 10px 0 var(--coral)}
+#quiz .qq{position:absolute;left:100px;right:100px;top:270px;text-align:center;font-size:58px;font-weight:900;line-height:1.2}
+#quiz .qq span{color:var(--aqua)}
+#quiz .opts{position:absolute;left:180px;right:180px;top:520px;display:flex;gap:40px}
+#quiz .op{flex:1;height:330px;border-radius:28px;overflow:hidden;position:relative;border:6px solid rgba(255,255,255,.5);background-size:cover;background-position:center}
+#quiz .op::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,25,43,.95),rgba(3,25,43,.1) 60%)}
+#quiz .op .l{position:absolute;left:24px;top:22px;width:70px;height:70px;border-radius:50%;background:#fff;color:var(--navy);font-family:Anton;font-size:44px;display:grid;place-items:center;z-index:2}
+#quiz .op .n{position:absolute;left:28px;bottom:24px;font-size:42px;font-weight:900;z-index:2}
+#quiz .betul{position:absolute;left:50%;top:880px;transform:translateX(-50%) rotate(-2deg);font-family:Anton;font-size:84px;background:var(--selatan);padding:6px 40px 2px;border-radius:16px;white-space:nowrap}
+#quiz .timer{position:absolute;right:120px;top:70px;width:160px;height:160px}
+#quiz .timer .num{position:absolute;inset:0;display:grid;place-items:center;font-family:Anton;font-size:80px}
+
+/* taman laut */
+#taman{background:radial-gradient(ellipse at 50% 0%,#0f6a86 0,#04304a 45%,#021422 100%)}
+#taman .ttl{position:absolute;left:0;right:0;top:70px;text-align:center}
+#taman h2{font-family:Anton;font-weight:400;font-size:116px;margin-top:10px;line-height:1}
+#taman .ttl p{font-size:28px;font-weight:600;margin-top:12px;color:#cfe9ee}
+#taman .cards{position:absolute;left:0;right:0;top:390px;height:620px;perspective:2200px}
+#taman .c{position:absolute;top:0;width:480px;height:600px;border-radius:30px;overflow:hidden;border:6px solid #fff;background-size:cover;background-position:center;box-shadow:0 40px 90px rgba(0,0,0,.6)}
+#taman .c::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,20,34,.97) 0,rgba(2,20,34,.6) 40%,transparent 70%)}
+#taman .c .in{position:absolute;left:30px;right:30px;bottom:30px;z-index:2}
+#taman .c .nm{font-family:Anton;font-size:64px;line-height:1}
+#taman .c .v{font-family:Anton;font-size:84px;color:var(--sand);line-height:1;margin-top:14px}
+#taman .c p{font-size:24px;font-weight:700;margin-top:4px}
+
+/* closing */
+#close{background:#021422}
+#close .wall{position:absolute;left:50%;top:50%;width:2500px;height:1420px;margin:-710px 0 0 -1250px;transform:perspective(1800px) rotateX(24deg) rotateZ(-8deg);display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+#close .wall div{border-radius:18px;background-size:cover;background-position:center;border:5px solid}
+#close .dark{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(2,20,34,.9) 0,rgba(2,20,34,.6) 45%,rgba(2,20,34,.3) 100%)}
+#close .mid{position:absolute;left:0;right:0;top:250px;text-align:center}
+#close .w{font-family:Anton;font-size:150px;line-height:1.05}
+#close .w span{display:inline-block}
+#close .s{font-family:Kaushan;font-size:64px;margin-top:20px}
+#close .lg{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);background:#fff;border-radius:18px;padding:14px 26px}
+#close .lg img{height:84px;display:block}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const P=window.PLAN, FPS=P.fps;
+const Z={u:['ZON UTARA','#ff7a1f','Daerah Alor Gajah'],t:['ZON TENGAH','#ff2e93','Daerah Melaka Tengah & Jasin'],s:['ZON SELATAN','#22c46e','Perairan selatan Melaka']};
+const HERO={masjid:'B',keramat:'B',konet:'B',upeh:'C',melaka:'A',panjang:'A',menatang:'B',burung:'B',peringgi:'C',besar:'C',serimbun:'C',hanyut:'B',lalang:'A',dodol:'A',nangka:'B',undan:'A'};
+const still=(k,s)=>`assets/img/cuts-hd/${k}_${s||HERO[k]}.jpg`;
+const stage=document.getElementById('stage');
+const add=(html)=>{stage.insertAdjacentHTML('beforeend',html);return stage.lastElementChild;};
+const ORDER=P.scenes.filter(s=>s.kind==='island').map(s=>s.key);
+const pad=n=>String(n).padStart(2,'0');
+
+// ---------- clip frames ----------
+const CL={};P.clips.forEach((c,i)=>{c.els=[];c.cur=0;CL[c.key+'_'+c.slot]=c;});
+const clipUrl=(c,i)=>`clips/${c.key}_${c.slot}/${String(i).padStart(5,'0')}.jpg`;
+window.__pending=[];
+function updateClips(t){
+  for(const c of P.clips){
+    if(!c.els.length)continue;
+    const i=Math.max(1,Math.min(c.n,Math.floor((t-c.t0)*FPS)+1));
+    if(i===c.cur)continue;c.cur=i;const u=clipUrl(c,i);
+    for(const el of c.els){
+      if(el.tagName==='IMG'){el.src=u;window.__pending.push(el.decode().catch(()=>{}));}
+      else{el.style.backgroundImage=`url(${u})`;const im=new Image();im.src=u;window.__pending.push(im.decode().catch(()=>{}));}
+    }
+  }
+}
+const clipImg=(key,slot,cls='full')=>{const im=document.createElement('img');im.className=cls;im.src=still(key,slot);CL[key+'_'+slot].els.push(im);return im;};
+
+// ---------- build scenes ----------
+const tl=gsap.timeline({paused:true});
+// fromTo tweens never paint at build time; instead every element starts in the from-state of its earliest fromTo (see below)
+const REC=[];const _ft=tl.fromTo.bind(tl);tl.fromTo=(t,f,v,p)=>{REC.push({t:gsap.utils.toArray(t),f,at:p});return _ft(t,f,{...v,immediateRender:false},p);};
+const show=(el,t0,dur)=>{tl.set(el,{visibility:'visible'},t0).set(el,{visibility:'hidden'},t0+dur);};
+const flash=(t,a=.9)=>{tl.fromTo('#flash',{opacity:a},{opacity:0,duration:.3},t);};
+const count=(el,to,t,d,fmt=v=>Math.round(v))=>{const o={v:0};tl.to(o,{v:to,duration:d,ease:'power2.out',onUpdate(){el.textContent=fmt(o.v);}},t);};
+
+const builders={
+ hook(s){
+  const L=add(`<div class="L" id="hook"><div class="bg"></div><div class="shade"></div>
+    <div class="abs eyebrow" style="left:122px;top:64px">Selat Melaka · Negeri Melaka</div>
+    <div class="gh g1" style="-webkit-text-stroke-color:rgba(255,106,77,.55)">16</div><div class="gh g2" style="-webkit-text-stroke-color:rgba(95,240,226,.55)">16</div>
+    <div class="big">16</div><div class="pulau">PULAU</div><div class="wr">satu warisan</div>
+    <div class="streak s1" style="left:900px;top:120px;width:700px"></div><div class="streak s2" style="left:980px;top:880px;width:820px"></div>
+    <div class="sub">Dari Kuala Linggi hingga ke Pulau Undan, <em>16 pulau</em> menyimpan sejarah, legenda dan khazanah laut Melaka.</div></div>`);
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo('#hook .bg',{scale:1.3},{scale:1.05,duration:s.dur,ease:'none'},T)
+    .fromTo('#hook .big',{scale:2.6,opacity:0},{scale:1,opacity:1,duration:.7,ease:'expo.out'},T+.3)
+    .fromTo('#hook .g1',{x:-120,opacity:0},{x:-26,opacity:1,duration:.7,ease:'expo.out'},T+.35)
+    .fromTo('#hook .g2',{x:120,opacity:0},{x:26,opacity:1,duration:.7,ease:'expo.out'},T+.35)
+    .fromTo('#hook .pulau',{x:320,opacity:0},{x:0,opacity:1,duration:.6,ease:'expo.out'},T+.8)
+    .fromTo('#hook .wr',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.9,ease:'power2.out'},T+1.3)
+    .fromTo('#hook .sub',{y:40,opacity:0},{y:0,opacity:1,duration:.6},T+2.2)
+    .fromTo('#hook .streak',{x:900},{x:-1400,duration:1.2,ease:'power1.in',stagger:.2,repeat:2},T+1)
+    .to('#hook .big,#hook .gh',{scale:1.15,duration:5,ease:'none'},T+2)
+    .to(L,{scale:1.5,opacity:0,duration:.45,ease:'power2.in'},T+s.dur-.45);
+  flash(T+s.dur);
+ },
+ map(s){
+  const L=add(`<div class="L" id="map"><div class="bg"></div><div class="screen"><div class="in"></div><div class="tint"></div></div>
+    <div class="corner" style="left:130px;top:130px;border-right:0;border-bottom:0;border-radius:16px 0 0 0"></div>
+    <div class="corner" style="left:1730px;top:130px;border-left:0;border-bottom:0;border-radius:0 16px 0 0"></div>
+    <div class="corner" style="left:130px;top:890px;border-right:0;border-top:0;border-radius:0 0 0 16px"></div>
+    <div class="corner" style="left:1730px;top:890px;border-left:0;border-top:0;border-radius:0 0 16px 0"></div>
+    <div class="rays"></div>
+    <div class="stage"><div class="card3d"><div class="trail t1"></div><div class="trail t2"></div><div class="mapc"><img src="assets/img/peta-hd.jpg"><div class="pins"></div></div></div></div>
+    <div class="copy"><div class="eyebrow">Gugusan pulau-pulau</div><div class="n">0</div><div class="t">PULAU,<br>3 ZON</div>
+      <p>Setiap pulau ada kisah tersendiri. Jom terokai satu demi satu.</p>
+      <div class="zones"><span class="chip" style="background:var(--utara)"><b></b>Utara</span><span class="chip" style="background:var(--tengah)"><b></b>Tengah</span><span class="chip" style="background:var(--selatan)"><b></b>Selatan</span></div></div></div>`);
+  const pins=L.querySelector('.pins');
+  ORDER.forEach(k=>{const [x,y]=P.pin[k];pins.insertAdjacentHTML('beforeend',`<div class="pin" style="left:${x/2394*100}%;top:${y/3263*100}%"></div>`);});
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo('#map .screen',{scale:.6,opacity:0},{scale:1,opacity:1,duration:.5,ease:'expo.out'},T)
+    .fromTo('#map .card3d',{scale:.1,rotationY:-70,rotationX:20,rotationZ:10,opacity:0},{scale:1,rotationY:16,rotationX:5,rotationZ:-4,opacity:1,duration:1.1,ease:'back.out(1.6)'},T+.15)
+    .fromTo('#map .t1',{x:0,y:0,opacity:0},{x:-230,y:60,scale:.78,opacity:.22,duration:1},T+.4)
+    .fromTo('#map .t2',{x:0,y:0,opacity:0},{x:-120,y:30,scale:.88,opacity:.38,duration:1},T+.4)
+    .fromTo('#map .rays',{opacity:0,rotation:0},{opacity:1,rotation:30,duration:s.dur,ease:'none'},T)
+    .fromTo('#map .pin',{scale:0,opacity:0},{scale:1,opacity:1,duration:.3,ease:'back.out(3)',stagger:.18},T+1.6)
+    .fromTo('#map .copy>*',{x:80,opacity:0},{x:0,opacity:1,duration:.5,stagger:.15,ease:'expo.out'},T+1.2)
+    .to('#map .card3d',{rotationY:8,duration:6,ease:'sine.inOut'},T+2.5)
+    .to('#map .stage',{scale:1.8,x:300,opacity:0,duration:.5,ease:'power3.in'},T+s.dur-.5);
+  count(L.querySelector('.n'),16,T+1.6,16*.18);
+ },
+ zones(s){
+  const L=add(`<div class="L" id="zones"><div class="mapw"><img src="assets/img/peta-hd.jpg">
+      <div class="glow g1" style="left:-60px;top:150px;width:420px;height:300px;background:radial-gradient(closest-side,rgba(255,122,31,.85),transparent)"></div>
+      <div class="glow g2" style="left:190px;top:420px;width:540px;height:420px;background:radial-gradient(closest-side,rgba(255,46,147,.7),transparent)"></div>
+      <div class="glow g3" style="left:150px;top:640px;width:500px;height:400px;background:radial-gradient(closest-side,rgba(34,196,110,.8),transparent)"></div></div>
+    <h2><span>3</span> ZON<br>PESISIRAN</h2>
+    <div class="zc" style="top:420px"><div class="bar" style="background:var(--utara)"></div><div class="num" style="color:var(--utara)">3</div><div class="txt"><h3>ZON UTARA</h3><p>Masjid · Keramat · Konet</p></div></div>
+    <div class="zc" style="top:630px;left:960px"><div class="bar" style="background:var(--tengah)"></div><div class="num" style="color:var(--tengah)">6</div><div class="txt"><h3>ZON TENGAH</h3><p>Upeh · Melaka · Panjang · Menatang<br>Burung · Peringgi</p></div></div>
+    <div class="zc" style="top:840px"><div class="bar" style="background:var(--selatan)"></div><div class="num" style="color:var(--selatan)">7</div><div class="txt"><h3>ZON SELATAN</h3><p>Besar · Serimbun · Hanyut · Lalang<br>Dodol · Nangka · Undan</p></div></div></div>`);
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo('#zones .mapw',{x:-500,opacity:0,rotationY:30},{x:0,opacity:1,rotationY:0,duration:.7,ease:'expo.out'},T)
+    .fromTo('#zones h2',{y:60,opacity:0},{y:0,opacity:1,duration:.5,ease:'expo.out'},T+.2)
+    .fromTo('#zones .zc',{x:1100},{x:0,duration:.6,ease:'expo.out',stagger:.6},T+.5)
+    .fromTo('#zones .glow',{opacity:0,scale:.3},{opacity:1,scale:1,duration:.6,stagger:.6},T+.5)
+    .to('#zones .mapw img',{scale:1.06,duration:7,ease:'none'},T)
+    .to(L,{x:-1920,duration:.4,ease:'power3.in'},T+s.dur-.4);
+ },
+ zone(s){
+  const z=s.zone, list=P.scenes.filter(x=>x.kind==='island'&&P.isl[x.key].z===z).map(x=>x.key);
+  const L=add(`<div class="L zone" id="zone-${z}"><div class="slab" style="background:${Z[z][1]}"></div>
+    <div class="zl">ZON</div><div class="zn">${Z[z][0].split(' ')[1]}</div><div class="meta"><b>${list.length} PULAU</b>${Z[z][2]}</div></div>`);
+  list.forEach((k,i)=>{const col=i%2,row=Math.floor(i/2);L.insertAdjacentHTML('beforeend',`<div class="ph" style="left:${1180+col*330+(row%2)*40}px;top:${90+row*235}px;background-image:url(${still(k)});transform:rotate(${(i%3-1)*4}deg)"></div>`);});
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo(L.querySelector('.slab'),{xPercent:-110},{xPercent:0,duration:.35,ease:'expo.out'},T)
+    .fromTo(L.querySelector('.zl'),{x:-200,opacity:0},{x:0,opacity:1,duration:.4,ease:'expo.out'},T+.15)
+    .fromTo(L.querySelector('.zn'),{scale:1.8,opacity:0},{scale:1,opacity:1,duration:.4,ease:'expo.out'},T+.25)
+    .fromTo(L.querySelector('.meta'),{y:30,opacity:0},{y:0,opacity:1,duration:.3},T+.45)
+    .fromTo(L.querySelectorAll('.ph'),{x:900,opacity:0},{x:0,opacity:1,duration:.45,ease:'expo.out',stagger:.07},T+.2)
+    .to(L,{xPercent:110,duration:.3,ease:'power3.in'},T+s.dur-.3);
+ },
+ island(s){
+  const k=s.key,I=P.isl[k],col=Z[I.z][1],T=s.t0,D=s.dur,e=s.e,a=s.a,b=s.b;
+  const L=add(`<div class="L isl" id="i-${k}"><div class="v"></div><div class="shade"></div>
+     <div class="ch"><span class="chip" style="background:${col}"><b></b>${Z[I.z][0]} · ${pad(s.num)} / 16</span></div>
+     <div class="cn">PULAU ${I.n}</div>
+     <div class="tb"><div class="pl">PULAU</div><div class="nm">${I.n}</div><div class="tg">${I.t}</div></div>
+     <div class="mini"><div class="mm"></div><div class="lbl">LOKASI</div></div>
+     <div class="facts">${I.f.map(x=>`<div class="fact">${x}</div>`).join('')}</div>
+     <div class="whip"></div></div>`);
+  const V=L.querySelector('.v');const vA=clipImg(k,'A'),vB=clipImg(k,'B'),vC=clipImg(k,'C');V.append(vA,vB,vC);
+  // mini-map centred on the pin (map at 0.58x)
+  const [px,py]=P.pin[k];Object.assign(L.querySelector('.mm').style,{left:(134-px*.5814)+'px',top:(134-py*.5817)+'px'});
+  L.querySelector('.mini').insertAdjacentHTML('beforeend',`<div class="ring r1" style="left:134px;top:134px;width:40px;height:40px;border-color:${col}"></div><div class="ring r2" style="left:134px;top:134px;width:40px;height:40px;border-color:${col}"></div>`);
+  show(L,T,D);
+  // entry
+  if(s.entry==='map'){
+    const M=document.createElement('div');M.className='mz';M.innerHTML=`<div class="w"></div><div class="ring m1" style="left:960px;top:540px;width:90px;height:90px;border-color:${col};border-width:7px"></div><div class="ring m2" style="left:960px;top:540px;width:90px;height:90px;border-color:${col}"></div><div class="lbl">${pad(s.num)} · PULAU ${I.n}</div>`;L.appendChild(M);
+    const W=M.querySelector('.w'),at=sc=>({x:960-px*sc,y:540-py*sc,scale:sc});
+    tl.fromTo(W,at(.8),{...at(2.2),duration:e,ease:'power3.in'},T)
+      .fromTo(M.querySelectorAll('.ring'),{scale:.4,opacity:1},{scale:3.5,opacity:0,duration:.7,stagger:.2,ease:'power2.out'},T+.15)
+      .fromTo(M.querySelector('.lbl'),{y:30,opacity:0,scale:.6},{y:0,opacity:1,scale:1,duration:.35,ease:'back.out(2)'},T+.2)
+      .set(M,{visibility:'hidden'},T+e);
+    flash(T+e,.8);
+  }else if(s.entry==='mask'){
+    const M=document.createElement('div');M.className='mk';M.innerHTML=`<div class="burst"></div><div class="t">${I.n}</div>`;L.appendChild(M);
+    CL[k+'_A'].els.push(M.querySelector('.t'));M.querySelector('.t').style.backgroundImage=`url(${still(k,'A')})`;
+    tl.fromTo(M.querySelector('.t'),{scale:.7,opacity:0},{scale:1,opacity:1,duration:.3,ease:'expo.out'},T)
+      .to(M.querySelector('.t'),{scale:9,duration:.5,ease:'power3.in'},T+.3)
+      .fromTo(M.querySelector('.burst'),{rotation:0,scale:.8},{rotation:20,scale:1.4,duration:e,ease:'none'},T)
+      .to(M,{opacity:0,duration:.15},T+e-.15).set(M,{visibility:'hidden'},T+e);
+  }else if(s.entry==='tri'){
+    const M=document.createElement('div');M.className='tri';L.appendChild(M);
+    [['A',-120,0],['B',560,-20],['C',1240,-100]].forEach(([sl,x,y])=>{const p=document.createElement('div');p.className='pn';Object.assign(p.style,{left:x+'px',top:y+'px'});p.appendChild(clipImg(k,sl,''));M.appendChild(p);});
+    M.insertAdjacentHTML('beforeend',`<div class="big">PULAU<br>${I.n}</div>`);
+    tl.fromTo(M.querySelectorAll('.pn'),{yPercent:i=>i%2?-110:110},{yPercent:0,duration:.35,ease:'expo.out',stagger:.07},T)
+      .fromTo(M.querySelector('.big'),{scale:1.8,opacity:0},{scale:1,opacity:1,duration:.3,ease:'expo.out'},T+.25)
+      .to(M.querySelectorAll('.pn'),{xPercent:i=>[-120,0,120][i],opacity:i=>i===1?0:1,duration:.3,ease:'power3.in'},T+e-.3)
+      .to(M.querySelector('.big'),{opacity:0,duration:.2},T+e-.25).set(M,{visibility:'hidden'},T+e);
+  }else if(s.entry==='glitch'){
+    const prev=ORDER[ORDER.indexOf(k)-1];
+    const M=document.createElement('div');M.className='gl';L.appendChild(M);
+    const H=[60,30,110,24,80,46,140,20,70,36,90,52,120,28,64,40,60];let y=0;
+    H.forEach((h,i)=>{const d=document.createElement('div');d.className='sl';Object.assign(d.style,{top:y+'px',height:h+'px',backgroundImage:`url(${still(i%3===1?prev:k,i%3===1?null:'A')})`,backgroundPosition:`0 ${-y}px`});M.appendChild(d);y+=h;});
+    tl.fromTo(M.querySelectorAll('.sl'),{x:i=>[0,-60,40,-120,90,-30,0,150,-80,20,-40,70,0,-150,30,-20,60][i]},{x:0,duration:.08,repeat:6,yoyo:true,ease:'steps(1)'},T)
+      .set(M,{visibility:'hidden'},T+e);
+  }
+  // video cuts A -> B -> C with flash and drift
+  tl.set(vA,{opacity:1},T).set(vB,{opacity:0},T).set(vC,{opacity:0},T)
+    .fromTo(vA,{scale:1.18},{scale:1.02,duration:a,ease:'none'},T)
+    .set(vB,{opacity:1},T+a).fromTo(vB,{scale:1.15},{scale:1.02,duration:b-a,ease:'none'},T+a)
+    .set(vC,{opacity:1},T+b).fromTo(vC,{scale:1.15},{scale:1.02,duration:D-b,ease:'none'},T+b);
+  flash(T+a,.6);flash(T+b,.6);
+  // titles
+  const tb=L.querySelector('.tb');
+  tl.fromTo(L.querySelector('.ch'),{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:'expo.out'},T+e)
+    .fromTo(tb.querySelector('.nm'),{scale:1.7,opacity:0,transformOrigin:'0% 100%'},{scale:1,opacity:1,duration:.45,ease:'expo.out'},T+e+.05)
+    .fromTo(tb.querySelector('.pl'),{y:30,opacity:0},{y:0,opacity:1,duration:.35},T+e+.15)
+    .fromTo(tb.querySelector('.tg'),{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:'power3.out'},T+e+.4)
+    .to(tb,{y:80,opacity:0,duration:.3,ease:'power2.in'},T+a-.05)
+    .fromTo(L.querySelector('.cn'),{x:-60,opacity:0},{x:0,opacity:1,duration:.35,ease:'expo.out'},T+a+.05)
+    .fromTo(L.querySelectorAll('.fact'),{x:140,opacity:0},{x:0,opacity:1,duration:.4,stagger:.2,ease:'back.out(1.6)'},T+a+.2)
+    .fromTo(L.querySelector('.mini'),{scale:0,rotation:-10,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,ease:'back.out(1.8)'},T+a+.3)
+    .fromTo(L.querySelectorAll('.mini .ring'),{scale:.5,opacity:1},{scale:4,opacity:0,duration:1,stagger:.35,repeat:2},T+a+.5);
+  const extra=I.dyk||I.chain||I.here;
+  if(extra){
+    tl.to(L.querySelectorAll('.fact,.mini'),{opacity:0,duration:.25},T+b);
+    if(I.dyk){L.insertAdjacentHTML('beforeend',`<div class="dyk"><div class="q">TAHUKAH ANDA?</div><h4>${I.dyk[0]}</h4><p>${I.dyk[1]}</p></div>`);
+      tl.fromTo(L.querySelector('.dyk'),{y:140,scale:.7,opacity:0},{y:0,scale:1,opacity:1,duration:.5,ease:'back.out(1.7)'},T+b+.15);}
+    if(I.chain){L.insertAdjacentHTML('beforeend',`<div class="chain"><div class="in"><div class="old">Catatan Portugis menamakannya<b>“Ilha das Pedras”</b></div>
+      <div class="row"><div class="st"><div class="k">01</div><p>Pulau kaya dengan batu laterit</p></div><div class="ar">›</div><div class="st"><div class="k">02</div><p>Portugis membawanya ke darat</p></div><div class="ar">›</div><div class="st" style="border-color:var(--sand)"><div class="k" style="color:var(--sand)">03</div><p>Membina A’Famosa &amp; Gereja St. Paul</p></div></div></div></div>`);
+      const C=L.querySelector('.chain');
+      tl.fromTo(C,{opacity:0},{opacity:1,duration:.3},T+b).fromTo(C.querySelector('.old'),{x:100,opacity:0},{x:0,opacity:1,duration:.4,ease:'expo.out'},T+b+.1)
+        .fromTo(C.querySelectorAll('.st,.ar'),{y:60,opacity:0},{y:0,opacity:1,duration:.35,stagger:.25,ease:'back.out(1.8)'},T+b+.4);}
+    if(I.here){L.insertAdjacentHTML('beforeend',`<div class="here"><div class="lab">ANDA DI SINI</div><svg viewBox="0 0 24 32"><path d="M12 31s10-10 10-18A10 10 0 0 0 2 13c0 8 10 18 10 18z" fill="#ff6a4d" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="13" r="4" fill="#fff"/></svg></div>
+      <div class="stats"><div class="s"><b>10</b><small>minit</small><p>bot laju dari Jeti Umbai</p></div><div class="s"><b>7</b><small>batu nautika</small><p>dari bandar Melaka</p></div><div class="s"><b>2020</b><p>muzium dijadikan Pusat Informasi</p></div></div>`);
+      tl.fromTo(L.querySelector('.here'),{y:-500},{y:0,duration:.6,ease:'bounce.out'},T+b+.1)
+        .fromTo(L.querySelectorAll('.stats .s'),{y:120,opacity:0},{y:0,opacity:1,duration:.45,stagger:.2,ease:'back.out(1.6)'},T+b+.5)
+        .to(L.querySelector('.cn'),{opacity:0,duration:.2},T+b);}
+  }
+  if(['dodol','nangka','undan'].includes(k)){L.insertAdjacentHTML('beforeend','<div class="badge">TAMAN LAUT 2022</div>');
+    tl.fromTo(L.querySelector('.badge'),{scale:0,rotation:-12},{scale:1,rotation:0,duration:.45,ease:'back.out(2.2)'},T+e+.6);}
+  // whip out
+  tl.fromTo(L.querySelector('.whip'),{opacity:0,y:0},{opacity:1,y:-300,duration:.3,ease:'power2.in'},T+D-.3)
+    .to(L.querySelector('.v'),{x:-260,duration:.3,ease:'power2.in'},T+D-.3);
+  // HUD rail state
+  tl.to(`#ra-${k}`,{background:'#fff',height:12,duration:.2},T+e).to(`#ra-${k}`,{background:col,height:6,duration:.2},T+D);
+ },
+ quiz(s){
+  const L=add(`<div class="L" id="quiz"><div class="bg"></div><div class="vign"></div><div class="badge">KUIZ PANTAS!</div>
+    <svg class="timer" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="rgba(3,25,43,.6)" stroke="rgba(255,255,255,.2)" stroke-width="8"/>
+      <circle class="arc" cx="50" cy="50" r="44" fill="none" stroke="#ffcf4a" stroke-width="8" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="0" transform="rotate(-90 50 50)"/></svg>
+    <div class="abs anton tnum" style="right:120px;top:70px;width:160px;height:160px;display:grid;place-items:center;font-size:80px">5</div>
+    <div class="qq">Pulau manakah memiliki karang <span>“Table Top”</span><br>terbesar dari Selangor hingga Johor Barat?</div>
+    <div class="opts"><div class="op o1" style="background-image:url(${still('dodol','A')})"><div class="l">A</div><div class="n">Pulau Dodol</div></div>
+      <div class="op o2" style="background-image:url(${still('undan','A')})"><div class="l">B</div><div class="n">Pulau Undan</div></div>
+      <div class="op o3" style="background-image:url(${still('serimbun','C')})"><div class="l">C</div><div class="n">Pulau Serimbun</div></div></div>
+    <div class="betul">BETUL! PULAU UNDAN</div></div>`);
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo('#quiz .badge',{y:-250},{y:0,duration:.5,ease:'bounce.out'},T)
+    .fromTo('#quiz .qq',{scale:.6,opacity:0},{scale:1,opacity:1,duration:.45,ease:'back.out(1.8)'},T+.3)
+    .fromTo('#quiz .op',{y:300,opacity:0},{y:0,opacity:1,duration:.45,stagger:.2,ease:'back.out(1.6)'},T+.8)
+    .fromTo('#quiz .timer,#quiz .tnum',{scale:0},{scale:1,duration:.35,ease:'back.out(2)'},T+1.2)
+    .fromTo('#quiz .arc',{strokeDashoffset:0},{strokeDashoffset:276,duration:5,ease:'none'},T+1.5)
+    .to('#quiz .o1,#quiz .o3',{filter:'grayscale(.8) brightness(.55)',scale:.94,duration:.3},T+6.5)
+    .to('#quiz .o2',{scale:1.08,borderColor:'#22c46e',boxShadow:'0 0 0 6px rgba(34,196,110,.35),0 0 70px rgba(34,196,110,.7)',duration:.35,ease:'back.out(2)'},T+6.5)
+    .fromTo('#quiz .betul',{scale:2.5,opacity:0},{scale:1,opacity:1,duration:.35,ease:'expo.out'},T+6.7)
+    .to(L,{scale:1.3,opacity:0,duration:.3,ease:'power2.in'},T+s.dur-.3);
+  const n=L.querySelector('.tnum');const o={v:5};tl.to(o,{v:0,duration:5,ease:'none',onUpdate(){n.textContent=o.v>0?Math.ceil(o.v):'✓';}},T+1.5);
+ },
+ taman(s){
+  const L=add(`<div class="L" id="taman"><div class="ttl"><div class="eyebrow">Diluluskan 23 Jun 2022</div><h2>TAMAN LAUT NEGERI MELAKA</h2><p>Tiga pulau di selatan kini dilindungi untuk generasi akan datang.</p></div>
+    <div class="cards"><div class="c c1" style="left:250px;background-image:url(${still('dodol','B')})"><div class="in"><div class="nm">PULAU DODOL</div><div class="v">0</div><p>spesies karang keras &amp; lembut</p></div></div>
+      <div class="c c2" style="left:720px;top:-30px;border-color:var(--sand);z-index:2;background-image:url(${still('nangka','B')})"><div class="in"><div class="nm">PULAU NANGKA</div><div class="v">0</div><p>tahun, usia pokok tertua</p></div></div>
+      <div class="c c3" style="left:1190px;background-image:url(${still('undan','C')})"><div class="in"><div class="nm">PULAU UNDAN</div><div class="v">No. 1</div><p>karang Table Top terbesar</p></div></div></div></div>`);
+  const T=s.t0;show(L,T,s.dur);
+  tl.fromTo('#taman .ttl>*',{y:50,opacity:0},{y:0,opacity:1,duration:.5,stagger:.15,ease:'expo.out'},T+.1)
+    .fromTo('#taman .c',{rotationY:90,opacity:0},{rotationY:i=>[18,0,-18][i],rotationZ:i=>[-3,0,3][i],opacity:1,duration:.6,stagger:.35,ease:'back.out(1.4)'},T+.8)
+    .to(L,{opacity:0,duration:.35},T+s.dur-.35);
+  count(L.querySelector('.c1 .v'),18,T+1.2,1);count(L.querySelector('.c2 .v'),4000,T+1.55,1.2,v=>Math.round(v).toLocaleString('en'));
+ },
+ close(s){
+  const L=add(`<div class="L" id="close"><div class="wall"></div><div class="dark"></div>
+    <div class="mid"><div class="eyebrow">16 pulau · 3 zon · 1 warisan</div><div class="w"><span>JELAJAH</span> <span style="color:var(--aqua)">·</span> <span style="color:var(--sand)">HARGAI</span> <span style="color:var(--aqua)">·</span> <span>PELIHARA</span></div>
+      <div class="s">Pulau-pulau Melaka, khazanah kita bersama.</div></div><div class="lg"><img src="assets/img/mcorp-corporate.png"></div></div>`);
+  const w=L.querySelector('.wall');ORDER.forEach(k=>w.insertAdjacentHTML('beforeend',`<div style="background-image:url(${still(k)});border-color:${Z[P.isl[k].z][1]}"></div>`));
+  const T=s.t0;show(L,T,s.dur+.5);
+  tl.fromTo(w,{x:300,y:100},{x:-200,y:-60,duration:s.dur,ease:'none'},T)
+    .fromTo('#close .wall div',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.4,stagger:.04,ease:'back.out(1.6)'},T)
+    .fromTo('#close .eyebrow',{opacity:0,y:30},{opacity:1,y:0,duration:.4},T+1)
+    .fromTo('#close .w span',{opacity:0,y:80,scale:1.4},{opacity:1,y:0,scale:1,duration:.45,stagger:.2,ease:'expo.out'},T+1.2)
+    .fromTo('#close .s',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:1,ease:'power2.out'},T+2.6)
+    .fromTo('#close .lg',{y:100,opacity:0},{y:0,opacity:1,duration:.5,ease:'back.out(1.6)'},T+4.5)
+    .to('#close .dark',{opacity:.6,duration:.5},T+s.dur-.5);
+ },
+};
+// HUD (rail + logo) shown while islands play
+const hud=add(`<div id="hud"><div class="rail">${ORDER.map(k=>`<i id="ra-${k}"></i>`).join('')}</div><div class="bug"><img src="assets/img/mcorp-corporate.png"></div></div>`);
+P.scenes.forEach(s=>builders[s.kind](s));
+stage.appendChild(hud);
+P.scenes.forEach(s=>{tl.set(hud,{visibility:s.kind==='island'?'visible':'hidden'},s.t0);});
+add('<div id="flash"></div>');
+tl.to({}, {duration:.01},P.total);
+const FL=document.getElementById('flash');REC.filter(r=>!r.t.includes(FL)).sort((a,b)=>b.at-a.at).forEach(r=>gsap.set(r.t,r.f));
+tl.eventCallback('onUpdate',()=>updateClips(tl.time()));
+window.tl=tl;
+window.seekTo=async t=>{window.__pending=[];tl.seek(t,false);updateClips(t);await Promise.all(window.__pending);};
+const q=new URLSearchParams(location.search);if(q.has('t'))window.seekTo(parseFloat(q.get('t')));
+</script>
+</body>
+</html>

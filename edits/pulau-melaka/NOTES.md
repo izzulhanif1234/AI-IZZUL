@@ -35,6 +35,18 @@ Video pengenalan ±3:00, 1920x1080, untuk pelawat Pusat Informasi. Sumber: dokum
 - Motion grafik baharu: `f15` teks-mask zoom-through, `f16` triptych menyerong, `f17` glitch/RGB slice
   (`draft/out/gaya-motion-grafik.jpg`). Logo MPPM tidak digunakan (arahan pengguna).
 
+## Draf 3 penuh (pilihan pengguna, 3:00): `draft/out/draf3-pratonton-3minit.mp4`
+Pengguna pilih struktur draf 3 (tanpa bot) dan mahu draf 3 minit sebelum render akhir.
+- `draft/film_plan.py` → `draft/film-plan.js` (jadual babak, teks, klip, 115 isyarat SFX) dan ekstrak frame klip
+  (dilajukan ×0.8–3, 20 fps, 960x540) ke `draft/clips/` (tidak dalam git; jana semula dengan skrip).
+  Susunan: hook 8 · peta pop 10 · 3 zon 8 · [kad zon 2 + pulau] × 3 zon · kuiz 8 (selepas Zon Tengah) ·
+  Taman Laut 8 · penutup 8 = 180 s. Masuk pulau digilir: zoom peta / teks-mask / triptych / glitch.
+- `draft/film.html`: semua babak dalam satu GSAP timeline; `window.seekTo(t)` tukar frame klip dan tunggu decode.
+  Setiap elemen bermula pada from-state fromTo terawalnya (REC), jadi tiada overlay muncul awal.
+- `draft/film_capture.js frames <dari> <hingga> <fps> <dir>` (4 proses selari ±3 min untuk 3600 frame);
+  `draft/film_audio.py` campur muzik (bed.wav projek MCORP Estimate, sementara) + SFX, -14 LUFS.
+  Audio video sumber ialah muzik saluran mereka → tidak digunakan.
+
 ## Draf v4: perjalanan bot atas peta (struktur semasa)
 Rujukan pengguna: intro → peta Melaka → turun ke setiap pulau; video pop keluar dari pin lalu full screen.
 Pengguna mahu pergerakan guna **bot** (pulau → bot).
