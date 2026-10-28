@@ -11,3 +11,4 @@ edits/**/final/.*-transaction-*/
 edits/**/final/work-*/
 edits/**/out/.frames/
 edits/**/draft/clips/
+edits/**/out/.frames*
