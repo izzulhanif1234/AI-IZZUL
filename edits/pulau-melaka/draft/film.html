@@ -147,6 +147,8 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .co .bx{position:absolute;left:112px;top:-150px;white-space:nowrap;background:#fff;color:var(--navy);font-weight:900;font-size:28px;padding:12px 22px;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
 .co .bx small{display:block;font-size:15px;letter-spacing:.24em;font-weight:800;margin-bottom:2px}
 .co.left .ln{transform:rotate(-142deg)}
+.co.long .bx{white-space:normal;width:520px;font-size:24px;line-height:1.3}
+.co.long .bx small{font-size:20px;color:#0fb5ba}
 .co.left .bx{left:auto;right:112px}
 .co.down .ln{transform:rotate(38deg)}
 .co.left.down .ln{transform:rotate(142deg)}
@@ -194,6 +196,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 #close .w{font-family:Anton;font-size:150px;line-height:1.05}
 #close .w span{display:inline-block}
 #close .s{font-family:Kaushan;font-size:64px;margin-top:20px}
+#close .wm{position:absolute;left:50%;top:40px;width:1090px;height:725px;margin-left:-545px;background:url(assets/img/mcorp-watermark.png) center/contain no-repeat;opacity:.2}
 #close .lg{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);background:#fff;border-radius:18px;padding:14px 26px}
 #close .lg img{height:84px;display:block}
 </style>
@@ -429,7 +432,7 @@ const builders={
        <div class="rec"><b></b>REC · PULAU ${I.n}</div><div class="cross"></div></div>
      <div class="ch"><span class="chip" style="background:${col}"><b></b>${Z[I.z][0]} · ${pad(s.num)} / 16</span></div>
      <div class="cn">PULAU ${I.n}</div>
-     <div class="tb"><div class="tp">${topo(s.num%3,'')}</div><div class="pl">PULAU</div><div class="nm">${I.n}</div><div class="tg">${I.t}</div></div>
+     <div class="tb"><div class="tp">${topo(s.num%3,'')}</div><div class="pl">PULAU</div><div class="nm">${I.n}</div>${I.t?`<div class="tg">${I.t}</div>`:''}</div>
      <div class="mini"><div class="mm"></div><div class="mt">${window.TOPO.ring}</div><div class="lbl">LOKASI</div></div>
      <div class="facts">${I.f.map(x=>`<div class="fact"><i style="background:${col}"></i>${x}</div>`).join('')}</div></div>`);
   show(L,T,D+OV);LAYERS.push(L);
@@ -453,7 +456,7 @@ const builders={
   tl.fromTo(L.querySelector('.ch'),{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:'expo.out'},T+.6)
     .fromTo(tb.querySelector('.nm'),{scale:1.7,opacity:0,transformOrigin:'0% 100%'},{scale:1,opacity:1,duration:.45,ease:'expo.out'},T+.65)
     .fromTo(tb.querySelector('.pl'),{y:30,opacity:0},{y:0,opacity:1,duration:.35},T+.75)
-    .fromTo(tb.querySelector('.tg'),{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:'power3.out'},T+1.0)
+    .fromTo(tb.querySelectorAll('.tg'),{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:'power3.out'},T+1.0)
     .to(tb,{y:80,opacity:0,duration:.3,ease:'power2.in'},T+E[1]-.3)
     .fromTo(L.querySelector('.cn'),{x:-60,opacity:0},{x:0,opacity:1,duration:.35,ease:'expo.out'},T+E[1]-.1);
   drawTopo(tb.querySelectorAll('.topo path'),T+.6,1.4,.015);
@@ -463,9 +466,10 @@ const builders={
     .fromTo(L.querySelector('.mini'),{scale:0,rotation:-10,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,ease:'back.out(1.8)'},T+E[1]+.15);
   drawTopo(L.querySelectorAll('.mini .mt path'),T+E[1]+.3,1.6,.04);
   const [cs,pts]=s.call,ks=k+'_'+cs,cimg=imgs[SQ.indexOf(cs)];
-  pts.forEach(([label,x,y],j)=>{
+  pts.forEach(([label,x,y,head],j)=>{
     const dir=x>600?'left':'';const el=document.createElement('div');el.className='co '+dir+((y<200||(j===1&&!dir))?' down':'');
-    el.innerHTML=`<div class="pr"></div><div class="ln"></div><div class="dot"></div><div class="bx"><small>${pad(s.num)} · PULAU ${I.n}</small>${label}</div>`;L.appendChild(el);
+    if(label.length>40)el.classList.add('long');
+    el.innerHTML=`<div class="pr"></div><div class="ln"></div><div class="dot"></div><div class="bx"><small>${head||pad(s.num)+' · PULAU '+I.n}</small>${label}</div>`;L.appendChild(el);
     CALLOUTS.push({el,ks,p:j,img:cimg});
     const t0=T+E[1]+.35+j*.35;
     tl.fromTo(el.querySelector('.dot'),{scale:0},{scale:1,duration:.3,ease:'back.out(3)'},t0)
@@ -487,7 +491,7 @@ const builders={
       .fromTo(C.querySelectorAll('.st,.ar'),{y:60,opacity:0},{y:0,opacity:1,duration:.35,stagger:.25,ease:'back.out(1.8)'},T+E[2]+.5)
       .to(L.querySelector('.mini'),{opacity:0,duration:.2},T+E[2]);}
   if(I.here){L.insertAdjacentHTML('beforeend',`<div class="here"><div class="lab">ANDA DI SINI</div><svg viewBox="0 0 24 32"><path d="M12 31s10-10 10-18A10 10 0 0 0 2 13c0 8 10 18 10 18z" fill="#ff6a4d" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="13" r="4" fill="#fff"/></svg></div>
-      <div class="stats"><div class="s"><b>10</b><small>minit</small><p>bot laju dari Jeti Umbai</p></div><div class="s"><b>7</b><small>batu nautika</small><p>dari bandar Melaka</p></div><div class="s"><b>2020</b><p>muzium dijadikan Pusat Informasi</p></div></div>`);
+      <div class="stats"><div class="s"><b>20</b><small>minit</small><p>bot laju dari Jeti Umbai</p></div><div class="s"><b>4.5</b><small>km</small><p>dari Jeti Umbai</p></div><div class="s"><b>2026</b><p>Pusat Informasi Geopark &amp; Taman Laut Negeri Melaka</p></div></div>`);
     tl.fromTo(L.querySelector('.here'),{y:-500},{y:0,duration:.6,ease:'bounce.out'},T+E[2]+.1)
       .fromTo(L.querySelectorAll('.stats .s'),{y:120,opacity:0},{y:0,opacity:1,duration:.45,stagger:.2,ease:'back.out(1.6)'},T+E[2]+.5)
       .to([L.querySelector('.here'),L.querySelector('.stats')],{opacity:0,duration:.25},T+E[3]-.25);}
@@ -496,7 +500,7 @@ const builders={
   tl.to(`#ra-${k}`,{background:'#fff',height:12,duration:.2},T+.4).to(`#ra-${k}`,{background:col,height:6,duration:.2},T+D);
  },
  close(s){
-  const L=add(`<div class="L" id="close"><div class="wall"></div><div class="dark"></div>${topo(0)}
+  const L=add(`<div class="L" id="close"><div class="wall"></div><div class="dark"></div>${topo(0)}<div class="wm"></div>
     <div class="mid"><div class="eyebrow">16 pulau · 3 zon · 1 warisan</div><div class="w"><span>JELAJAH</span> <span style="color:var(--aqua)">·</span> <span style="color:var(--sand)">HARGAI</span> <span style="color:var(--aqua)">·</span> <span>PELIHARA</span></div>
       <div class="s">Pulau-pulau Melaka, khazanah kita bersama.</div></div><div class="lg"><img src="assets/img/mcorp-corporate.png"></div></div>`);
   const w=L.querySelector('.wall');P.hook.forEach(([k,sl])=>{const d=document.createElement('div');d.style.borderColor=Z[P.isl[k].z][1];d.appendChild(clipImg('wall-'+k,sl,''));w.appendChild(d);});
@@ -505,6 +509,7 @@ const builders={
   drawTopo(L.querySelectorAll('.topo path'),T+.5,2.5,.03);
   tl.fromTo(w,{x:300,y:100},{x:-200,y:-60,duration:s.dur,ease:'none'},T)
     .fromTo(w.children,{opacity:0,scale:.6},{opacity:1,scale:1,duration:.4,stagger:.04,ease:'back.out(1.6)'},T+.3)
+    .fromTo('#close .wm',{opacity:0,scale:1.25},{opacity:.2,scale:1,duration:1.2,ease:'power2.out'},T+.6)
     .fromTo('#close .eyebrow',{opacity:0,y:30},{opacity:1,y:0,duration:.4},T+1)
     .fromTo('#close .w span',{opacity:0,y:80,scale:1.4},{opacity:1,y:0,scale:1,duration:.45,stagger:.2,ease:'expo.out'},T+1.2)
     .fromTo('#close .s',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:1,ease:'power2.out'},T+2.6)

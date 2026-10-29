@@ -4,7 +4,7 @@ Writes draft/film-plan.js (scene schedule, island copy, clip windows, SFX cues) 
 frames each clip window needs from the source videos into draft/clips/<island>_<slot>/NNNNN.jpg,
 sampled at the preview frame rate with the clip's speed-up already applied.
 
-usage: python3 film_plan.py [--no-extract]
+usage: python3 film_plan.py [--no-extract | --only key,key]
 """
 import glob
 import json
@@ -25,7 +25,7 @@ ISL = {
     'keramat':  dict(n='KERAMAT', z='u', t='Boleh berjalan kaki ke pulau ketika air surut.', f=['±50 m dari Pulau Konet', '5 kubur lama pedagang Arab / ulama Aceh']),
     'konet':    dict(n='KONET', z='u', t='Beting pasir muncul ketika air surut.', f=['Nama asal: Pulau Kenit', 'Laluan pasir dari tanah besar'],
                      dyk=['Legenda orang bunian', 'Penduduk kampung dikatakan meminjam pinggan mangkuk bunian untuk kenduri.']),
-    'upeh':     dict(n='UPEH', z='t', t='Rumah penyu karah di Melaka.', f=['±3 batu ke barat Bukit St. Paul', 'Hutan tebal, pokok setinggi 34 m'],
+    'upeh':     dict(n='UPEH', z='t', t='Rumah penyu karah di Melaka.', f=[],
                      dyk=['Penyu karah bertelur di sini', 'Antara tapak sarang utama penyu karah, spesies yang jarang ditemui.']),
     'melaka':   dict(n='MELAKA', z='t', t='Batu lateritnya membina A’Famosa.', f=['Portugis: “Ilha das Pedras”', 'Ditambak sejak 2013'], chain=True),
     'panjang':  dict(n='PANJANG', z='t', t='Dinamakan sempena bentuknya yang memanjang.', f=['2.17 hektar', 'Boya panduan untuk nelayan']),
@@ -33,14 +33,14 @@ ISL = {
     'burung':   dict(n='BURUNG', z='t', t='Satu pulau yang “terbelah dua” oleh pasang surut.', f=['Pulau Burung Ibu & Anak Burung', 'Portugis: “Pulo Buron”'],
                      dyk=['Batu laterit berpahat', 'Dipahat penduduk untuk batu nisan & alas tiang masjid.']),
     'peringgi': dict(n='PERINGGI', z='t', t='“Peringgi”: gelaran nelayan untuk orang Portugis.', f=['Pulau kecil dikelilingi batu', 'Berhampiran Pulau Burung']),
-    'besar':    dict(n='BESAR', z='s', t='Antara pusat terawal penyebaran Islam di Nusantara.', f=['Bentuk seperti puteri tidur', 'Abad ke-15'], here=True),
-    'serimbun': dict(n='SERIMBUN', z='s', t='Tapak perkhemahan dengan ±25 spesies karang.', f=['20 karang keras + 5 lembut', 'Tempat nelayan berlindung']),
+    'besar':    dict(n='BESAR', z='s', t='Antara pusat terawal penyebaran Islam di Nusantara.', f=[], here=True),
+    'serimbun': dict(n='SERIMBUN', z='s', t='', f=[]),
     'hanyut':   dict(n='HANYUT', z='s', t='Dari jauh, seperti daratan yang hanyut.', f=['1.8 hektar', '4.5 km dari Pulau Undan']),
-    'lalang':   dict(n='LALANG', z='s', t='Pasir putih, pohon nyiur & pokok ±3,000 tahun.', f=['Portugis: “Alan-Alan”', 'Air surut: jalan kaki ke Pulau Terendak']),
-    'dodol':    dict(n='DODOL', z='s', t='Bentuknya seakan-akan kuih dodol.', f=['6.34 hektar', '18 spesies karang']),
-    'nangka':   dict(n='NANGKA', z='s', t='Berbentuk buah nangka, pokok berusia 4,000 tahun.', f=['11.76 hektar', 'Bukit setinggi 50 m'],
-                     dyk=['Pokok tertua di pulau', 'Sebesar empat pemeluk dan dianggarkan berusia 4,000 tahun.']),
-    'undan':    dict(n='UNDAN', z='s', t='Karang “Table Top” terbesar dari Selangor hingga Johor Barat.', f=['Rumah api zaman British', 'Nama sempena burung undan'],
+    'lalang':   dict(n='LALANG', z='s', t='Pasir putih, pohon nyiur & pokok ±3,000 tahun.', f=['Portugis: “Alan-Alan”']),
+    'dodol':    dict(n='DODOL', z='s', t='Bentuknya seakan-akan kuih dodol.', f=[]),
+    'nangka':   dict(n='NANGKA', z='s', t='Berbentuk buah nangka, pokok berusia 400 tahun.', f=['11.76 hektar', 'Bukit setinggi 50 m'],
+                     dyk=['Pokok tertua di pulau', 'Sebesar lapan depa dan dianggarkan berusia 400 tahun.']),
+    'undan':    dict(n='UNDAN', z='s', t='', f=['Rumah api zaman British', 'Nama sempena burung undan'],
                      dyk=['3 penjaga rumah api', 'Bergilir-gilir setiap 3 minggu, memantau kapal di Selat Melaka.']),
 }
 # pin centres on the HD poster (2394 x 3263)
@@ -58,17 +58,18 @@ CALL = {
     'konet': ('B', [('Beting pasir ketika air surut', 280, 390)]),
     'upeh': ('A', [('Jeti Pulau Upeh', 800, 170)]),
     'melaka': ('A', [('Masjid Selat Melaka', 504, 240)]),
-    'panjang': ('A', [('Bandar Melaka', 160, 220), ('Pulau Panjang', 360, 234)]),
+    'panjang': ('A', [('Pulau Panjang', 360, 234)]),
     'menatang': ('B', [('Batu separa tenggelam', 520, 300)]),
     'burung': ('A', [('Pantai berpasir', 600, 400)]),
     'peringgi': ('A', [('Pulau kecil dikelilingi batu', 480, 205)]),
     'besar': ('A', [('Pantai pasir putih', 320, 400)]),
     'serimbun': ('A', [('Bot nelayan', 510, 380)]),
     'hanyut': ('B', [('Batuan & air jernih', 560, 330)]),
-    'lalang': ('C', [('Kapal layar', 910, 60), ('Pasir putih', 460, 410)]),
+    'lalang': ('C', [('Pasir putih', 460, 410)]),
     'dodol': ('A', [('Bentuk seakan-akan kuih dodol', 460, 300)]),
     'nangka': ('A', [('Pantai berpasir', 520, 130)]),
-    'undan': ('A', [('Rumah api zaman British', 396, 80)]),
+    'undan': ('A', [('Rumah api zaman British', 360, 120),
+                    ('Beting pasir 70 m yang menghubungkan pulau utama dengan pulau kecil. Bentuknya berubah ikut arus laut.', 480, 405, 'TOMBOLO')]),
 }
 
 
@@ -88,7 +89,7 @@ ORDER = [
     ('zone', 1.6, 't'), ('island', 9, 'upeh', 'zoom'), ('island', 10.5, 'melaka', 'mask'), ('island', 9, 'panjang', 'slats'),
     ('island', 9, 'menatang', 'whip'), ('island', 9, 'burung', 'cube'), ('island', 9, 'peringgi', 'wave'),
     ('zone', 1.6, 's'), ('island', 12, 'besar', 'zoom'), ('island', 9, 'serimbun', 'split'), ('island', 9, 'hanyut', 'lens'),
-    ('island', 9, 'lalang', 'topo'), ('island', 9, 'dodol', 'slats'), ('island', 9, 'nangka', 'whip'), ('island', 9, 'undan', 'cube'),
+    ('island', 9, 'lalang', 'topo'), ('island', 9, 'dodol', 'slats'), ('island', 9, 'nangka', 'whip'), ('island', 10.5, 'undan', 'cube'),
     ('close', 8),
 ]
 # hook montage: whole-island drone shots, (island, slot, offset into the cut)
@@ -178,7 +179,7 @@ def track(p):
         files = sorted(os.listdir(d))
         tracks = []
         k = 1920 / 960
-        for _, x, y in pts:
+        for _, x, y, *_ in pts:
             x, y = x * k, y * k
             prev = cv2.cvtColor(cv2.imread(os.path.join(d, files[0])), cv2.COLOR_BGR2GRAY)
             r, sr, path = 56, 110, [(x, y)]
@@ -237,18 +238,28 @@ def extract_one(c):
     print(c['key'], c['slot'], c['n'], 'frames', 'interp' if c['interp'] else '', flush=True)
 
 
-def extract(p):
+def extract(p, only=None):
     from concurrent.futures import ThreadPoolExecutor
-    shutil.rmtree(os.path.join(HERE, 'clips'), ignore_errors=True)
-    # slow interpolated clips first so the pool stays busy
+    todo = p['clips']
+    if only:
+        todo = [c for c in todo if c['key'] in only]
+        for c in todo:
+            shutil.rmtree(os.path.join(HERE, 'clips', f"{c['key']}_{c['slot']}"), ignore_errors=True)
+        for c in p['clips']:                 # untouched clips keep their extracted frame count
+            d = os.path.join(HERE, 'clips', f"{c['key']}_{c['slot']}")
+            if c not in todo and os.path.isdir(d):
+                c['n'] = len(os.listdir(d))
+    else:
+        shutil.rmtree(os.path.join(HERE, 'clips'), ignore_errors=True)
     with ThreadPoolExecutor(4) as ex:
-        list(ex.map(extract_one, p['clips']))
+        list(ex.map(extract_one, todo))
 
 
 if __name__ == '__main__':
     p = plan()
+    only = sys.argv[sys.argv.index('--only') + 1].split(',') if '--only' in sys.argv else None
     if '--no-extract' not in sys.argv:
-        extract(p)
+        extract(p, only)
     p['tracks'] = track(p)
     with open(os.path.join(HERE, 'film-plan.js'), 'w') as fh:
         fh.write('window.PLAN=' + json.dumps(p, ensure_ascii=False) + ';\n')
