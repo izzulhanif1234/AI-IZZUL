@@ -196,7 +196,9 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 #close .w{font-family:Anton;font-size:150px;line-height:1.05}
 #close .w span{display:inline-block}
 #close .s{font-family:Kaushan;font-size:64px;margin-top:20px}
-#close .wm{position:absolute;left:50%;top:40px;width:1090px;height:725px;margin-left:-545px;background:url(assets/img/mcorp-watermark.png) center/contain no-repeat;opacity:.2}
+#close .wm{position:absolute;left:50%;top:40px;width:1090px;height:725px;margin-left:-545px;background:url(assets/img/mcorp-logo-big.png) center/contain no-repeat;opacity:.8}
+#close .glow{position:absolute;left:50%;top:40px;width:1500px;height:900px;margin-left:-750px;background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.42) 0,rgba(255,255,255,.18) 40%,transparent 68%)}
+#close .w,#close .s,#close .eyebrow{text-shadow:0 6px 30px rgba(2,20,34,.85),0 2px 6px rgba(2,20,34,.9)}
 #close .lg{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);background:#fff;border-radius:18px;padding:14px 26px}
 #close .lg img{height:84px;display:block}
 </style>
@@ -500,20 +502,20 @@ const builders={
   tl.to(`#ra-${k}`,{background:'#fff',height:12,duration:.2},T+.4).to(`#ra-${k}`,{background:col,height:6,duration:.2},T+D);
  },
  close(s){
-  const L=add(`<div class="L" id="close"><div class="wall"></div><div class="dark"></div>${topo(0)}<div class="wm"></div>
+  const L=add(`<div class="L" id="close"><div class="wall"></div><div class="dark"></div>${topo(0)}<div class="glow"></div><div class="wm"></div>
     <div class="mid"><div class="eyebrow">16 pulau · 3 zon · 1 warisan</div><div class="w"><span>JELAJAH</span> <span style="color:var(--aqua)">·</span> <span style="color:var(--sand)">HARGAI</span> <span style="color:var(--aqua)">·</span> <span>PELIHARA</span></div>
-      <div class="s">Pulau-pulau Melaka, khazanah kita bersama.</div></div><div class="lg"><img src="assets/img/mcorp-corporate.png"></div></div>`);
+      <div class="s">Pulau-pulau Melaka, khazanah kita bersama.</div></div></div>`);
   const w=L.querySelector('.wall');P.hook.forEach(([k,sl])=>{const d=document.createElement('div');d.style.borderColor=Z[P.isl[k].z][1];d.appendChild(clipImg('wall-'+k,sl,''));w.appendChild(d);});
   const T=s.t0,O=LAYERS[LAYERS.length-1];show(L,T,s.dur+.5);LAYERS.push(L);
   TR.zoom(L,O,T);
   drawTopo(L.querySelectorAll('.topo path'),T+.5,2.5,.03);
   tl.fromTo(w,{x:300,y:100},{x:-200,y:-60,duration:s.dur,ease:'none'},T)
     .fromTo(w.children,{opacity:0,scale:.6},{opacity:1,scale:1,duration:.4,stagger:.04,ease:'back.out(1.6)'},T+.3)
-    .fromTo('#close .wm',{opacity:0,scale:1.25},{opacity:.2,scale:1,duration:1.2,ease:'power2.out'},T+.6)
+    .fromTo('#close .wm',{opacity:0,scale:1.25},{opacity:.8,scale:1,duration:1.2,ease:'power2.out'},T+.6)
+    .fromTo('#close .glow',{opacity:0},{opacity:1,duration:1.2},T+.6)
     .fromTo('#close .eyebrow',{opacity:0,y:30},{opacity:1,y:0,duration:.4},T+1)
     .fromTo('#close .w span',{opacity:0,y:80,scale:1.4},{opacity:1,y:0,scale:1,duration:.45,stagger:.2,ease:'expo.out'},T+1.2)
     .fromTo('#close .s',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:1,ease:'power2.out'},T+2.6)
-    .fromTo('#close .lg',{y:100,opacity:0},{y:0,opacity:1,duration:.5,ease:'back.out(1.6)'},T+4.5)
     .to(L,{opacity:0,duration:.8},T+s.dur-.8);
  },
 };
