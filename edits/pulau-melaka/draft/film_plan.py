@@ -81,16 +81,16 @@ def seq(key):
 
 
 # film order: (scene, seconds[, island, transition-in])
-# islands run ~4 s per cut so every caption stays up long enough to read (boss review)
+# islands run ~3.8 s per cut so every caption stays up long enough to read (boss review); film stays under 4 min
 # every scene overlaps the next by OV seconds so transitions can mix two live videos
 OV = 0.6
 ORDER = [
-    ('hook', 14), ('map', 9), ('zones', 6),
-    ('zone', 2.4, 'u'), ('island', 12, 'masjid', 'zoom'), ('island', 12, 'keramat', 'topo'), ('island', 12, 'konet', 'pin'),
-    ('zone', 2.4, 't'), ('island', 12, 'upeh', 'zoom'), ('island', 13.5, 'melaka', 'mask'), ('island', 12, 'panjang', 'slats'),
-    ('island', 12, 'menatang', 'whip'), ('island', 12, 'burung', 'cube'), ('island', 12, 'peringgi', 'wave'),
-    ('zone', 2.4, 's'), ('island', 16, 'besar', 'zoom'), ('island', 12, 'serimbun', 'split'), ('island', 12, 'hanyut', 'lens'),
-    ('island', 12, 'lalang', 'topo'), ('island', 12, 'dodol', 'slats'), ('island', 12, 'nangka', 'whip'), ('island', 13.5, 'undan', 'cube'),
+    ('hook', 14), ('map', 8), ('zones', 5),
+    ('zone', 2.4, 'u'), ('island', 11.5, 'masjid', 'zoom'), ('island', 11.5, 'keramat', 'topo'), ('island', 11.5, 'konet', 'pin'),
+    ('zone', 2.4, 't'), ('island', 11.5, 'upeh', 'zoom'), ('island', 13, 'melaka', 'mask'), ('island', 11.5, 'panjang', 'slats'),
+    ('island', 11.5, 'menatang', 'whip'), ('island', 11.5, 'burung', 'cube'), ('island', 11.5, 'peringgi', 'wave'),
+    ('zone', 2.4, 's'), ('island', 15.5, 'besar', 'zoom'), ('island', 11.5, 'serimbun', 'split'), ('island', 11.5, 'hanyut', 'lens'),
+    ('island', 11.5, 'lalang', 'topo'), ('island', 11.5, 'dodol', 'slats'), ('island', 11.5, 'nangka', 'whip'), ('island', 13, 'undan', 'cube'),
     ('close', 8),
 ]
 # hook montage: whole-island drone shots, (island, slot, offset into the cut)
