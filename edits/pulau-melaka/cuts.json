@@ -1,5 +1,5 @@
 {
- "_note": "Source in/out seconds per island (videos from the shared Drive folder). Each cut is sped up to fit its slot. Keramat and Konet source videos are swapped in the Drive folder (boss review v1): the cut windows follow the footage, film_plan.SOURCE maps each island to the right file.",
+ "_note": "Source in/out seconds per island (videos from the shared Drive folder). Each cut is sped up to fit its slot. Keramat/Konet checked against each file's own Muzium title card: the Drive files are labelled correctly.",
  "masjid": {
   "A": [
    1,
@@ -17,21 +17,6 @@
  },
  "keramat": {
   "A": [
-   13,
-   22
-  ],
-  "B": [
-   33,
-   42
-  ],
-  "C": [
-   128,
-   136
-  ],
-  "idea": "Beting pasir berliku ke pulau, orbit, low pass batu merah"
- },
- "konet": {
-  "A": [
    24,
    34
   ],
@@ -44,6 +29,21 @@
    88
   ],
   "idea": "Push-in ke pulau, low pass atas pokok, top-down tebing merah"
+ },
+ "konet": {
+  "A": [
+   13,
+   22
+  ],
+  "B": [
+   33,
+   42
+  ],
+  "C": [
+   128,
+   136
+  ],
+  "idea": "Beting pasir berliku ke pulau, orbit, low pass batu merah"
  },
  "upeh": {
   "A": [

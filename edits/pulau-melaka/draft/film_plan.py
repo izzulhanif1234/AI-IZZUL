@@ -54,8 +54,8 @@ PIN = {'masjid': (89, 624), 'keramat': (454, 755), 'konet': (606, 989), 'upeh': 
 # the callout clip plays second in the island's segment so it gets the clean middle of the scene
 CALL = {
     'masjid': ('A', [('Bot nelayan', 850, 450)]),
-    'keramat': ('B', [('Beting pasir ketika air surut', 280, 390)]),
-    'konet': ('C', [('Tebing berbatu', 560, 200)]),
+    'keramat': ('C', [('Tebing berbatu', 560, 200)]),
+    'konet': ('B', [('Beting pasir ketika air surut', 280, 390)]),
     'upeh': ('A', [('Jeti Pulau Upeh', 800, 170)]),
     'melaka': ('A', [('Masjid Selat Melaka', 504, 240)]),
     'panjang': ('A', [('Pulau Panjang', 360, 234)]),
@@ -172,8 +172,8 @@ def plan():
                 hgrid=[H_START, H_CUT, H_GRID, H_GRID_DUR], sfx=[(round(a, 3), b) for a, b in sorted(sfx)])
 
 
-# the Drive folder's Keramat and Konet videos show each other's island (boss review v1)
-SOURCE = {'keramat': 'konet', 'konet': 'keramat'}
+# island -> Drive file prefix when they differ (Keramat/Konet were checked against the Muzium title cards: no remap)
+SOURCE = {}
 
 
 def source(key):
