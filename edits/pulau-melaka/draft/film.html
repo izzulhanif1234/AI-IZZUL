@@ -467,23 +467,27 @@ const builders={
   tl.fromTo(vf,{opacity:0,scale:1.08},{opacity:1,scale:1,duration:.3,ease:'power2.out'},T+E[1]).to(vf,{opacity:0,duration:.25},T+E[2]-.25)
     .fromTo(L.querySelector('.mini'),{scale:0,rotation:-10,opacity:0},{scale:1,rotation:0,opacity:1,duration:.4,ease:'back.out(1.8)'},T+E[1]+.15);
   drawTopo(L.querySelectorAll('.mini .mt path'),T+E[1]+.3,1.6,.04);
-  const [cs,pts]=s.call,ks=k+'_'+cs,cimg=imgs[SQ.indexOf(cs)];
-  pts.forEach(([label,x,y,head],j)=>{
-    const dir=x>600?'left':'';const el=document.createElement('div');el.className='co '+dir+((y<200||(j===1&&!dir))?' down':'');
-    if(label.length>40)el.classList.add('long');
-    el.innerHTML=`<div class="pr"></div><div class="ln"></div><div class="dot"></div><div class="bx"><small>${head||pad(s.num)+' · PULAU '+I.n}</small>${label}</div>`;L.appendChild(el);
-    CALLOUTS.push({el,ks,p:j,img:cimg});
-    const t0=T+E[1]+.3+j*.25;
-    tl.fromTo(el.querySelector('.dot'),{scale:0},{scale:1,duration:.3,ease:'back.out(3)'},t0)
-      .fromTo(el.querySelector('.pr'),{scale:.3,opacity:1},{scale:2.2,opacity:0,duration:.9,repeat:2,ease:'power2.out'},t0)
-      .fromTo(el.querySelector('.ln'),{scaleX:0},{scaleX:1,duration:.25,ease:'power2.out'},t0+.15)
-      .fromTo(el.querySelector('.bx'),{opacity:0,y:20,scale:.8},{opacity:1,y:0,scale:1,duration:.3,ease:'back.out(2)'},t0+.3)
-      .to(el,{opacity:0,duration:.2},T+E[2]-.2);
+  // callouts pinned to tracked features; s.call sits on the second cut, s.call2 (optional) on another cut
+  [s.call,s.call2].filter(Boolean).forEach(([cs,pts])=>{
+    const ks=k+'_'+cs,ci=SQ.indexOf(cs),cimg=imgs[ci],base=P.tracks[ks].length-pts.length;
+    pts.forEach(([label,x,y,head,flag],j)=>{
+      const dir=x>600?'left':'';const down=flag==='down'||y<200||(j===1&&!dir&&!flag);
+      const el=document.createElement('div');el.className='co '+dir+(down?' down':'');
+      if(label.length>40)el.classList.add('long');
+      el.innerHTML=`<div class="pr"></div><div class="ln"></div><div class="dot"></div><div class="bx"><small>${head||pad(s.num)+' · PULAU '+I.n}</small>${label}</div>`;L.appendChild(el);
+      CALLOUTS.push({el,ks,p:base+j,img:cimg});
+      const t0=T+E[ci]+.3+j*.25;
+      tl.fromTo(el.querySelector('.dot'),{scale:0},{scale:1,duration:.3,ease:'back.out(3)'},t0)
+        .fromTo(el.querySelector('.pr'),{scale:.3,opacity:1},{scale:2.2,opacity:0,duration:.9,repeat:2,ease:'power2.out'},t0)
+        .fromTo(el.querySelector('.ln'),{scaleX:0},{scaleX:1,duration:.25,ease:'power2.out'},t0+.15)
+        .fromTo(el.querySelector('.bx'),{opacity:0,y:20,scale:.8},{opacity:1,y:0,scale:1,duration:.3,ease:'back.out(2)'},t0+.3)
+        .to(el,{opacity:0,duration:.2},T+E[ci+1]-.2);
+    });
   });
   // cut 3 (+4 for Pulau Besar): facts, stories
   const iF=I.here?3:2;
   tl.fromTo(L.querySelectorAll('.fact'),{x:160,opacity:0},{x:0,opacity:1,duration:.4,stagger:.2,ease:'back.out(1.6)'},T+E[iF]+.25);
-  if(I.dyk){L.insertAdjacentHTML('beforeend',`<div class="dyk"><div class="q">TAHUKAH ANDA?</div><h4>${I.dyk[0]}</h4><p>${I.dyk[1]}</p></div>`);
+  if(I.dyk){L.insertAdjacentHTML('beforeend',`<div class="dyk"><div class="q">${I.dyk[2]||'TAHUKAH ANDA?'}</div><h4>${I.dyk[0]}</h4><p>${I.dyk[1]}</p></div>`);
     tl.fromTo(L.querySelector('.dyk'),{y:160,scale:.7,opacity:0},{y:0,scale:1,opacity:1,duration:.5,ease:'back.out(1.7)'},T+E[2]+.3);}
   if(I.chain){L.insertAdjacentHTML('beforeend',`<div class="chain"><div class="in"><div class="old">Catatan Portugis menamakannya<b>“Ilha das Pedras”</b></div>
       <div class="row"><div class="st"><div class="k">01</div><p>Pulau kaya dengan batu laterit</p></div><div class="ar">›</div><div class="st"><div class="k">02</div><p>Portugis membawanya ke darat</p></div><div class="ar">›</div><div class="st" style="border-color:var(--sand)"><div class="k" style="color:var(--sand)">03</div><p>Membina A’Famosa &amp; Gereja St. Paul</p></div></div></div></div>`);

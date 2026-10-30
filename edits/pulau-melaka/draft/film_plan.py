@@ -24,9 +24,9 @@ ISL = {
     'masjid':   dict(n='MASJID', z='u', t='Pulau paling utara, bersempadan Negeri Sembilan.', f=['Mukim Kuala Linggi, Alor Gajah', '0.61 ekar · barat Tanjung Tuan']),
     'keramat':  dict(n='KERAMAT', z='u', t='Boleh berjalan kaki ke pulau ketika air surut.', f=['±50 m dari Pulau Konet', '5 kubur lama pedagang Arab / ulama Aceh']),
     'konet':    dict(n='KONET', z='u', t='Beting pasir muncul ketika air surut.', f=['Nama asal: Pulau Kenit', 'Laluan pasir dari tanah besar'],
-                     dyk=['Legenda orang bunian', 'Penduduk kampung dikatakan meminjam pinggan mangkuk bunian untuk kenduri.']),
-    'upeh':     dict(n='UPEH', z='t', t='Rumah penyu karah di Melaka.', f=[],
-                     dyk=['Penyu karah bertelur di sini', 'Antara tapak sarang utama penyu karah, spesies yang jarang ditemui.']),
+                     dyk=['Legenda orang bunian', 'Penduduk kampung dikatakan meminjam pinggan mangkuk bunian untuk kenduri.', 'MITOS']),
+    'upeh':     dict(n='UPEH', z='t', t='Kawasan pendaratan penyu karah.', f=[],
+                     dyk=['Penyu karah bertelur di sini', 'Penyu karah adalah antara spesies yang jarang ditemui.']),
     'melaka':   dict(n='MELAKA', z='t', t='Batu lateritnya membina A’Famosa.', f=['Portugis: “Ilha das Pedras”', 'Ditambak sejak 2013'], chain=True),
     'panjang':  dict(n='PANJANG', z='t', t='Dinamakan sempena bentuknya yang memanjang.', f=['2.17 hektar', 'Boya panduan untuk nelayan']),
     'menatang': dict(n='MENATANG', z='t', t='Air pasang: dua pulau. Air surut: satu pulau.', f=['Berhampiran Teluk Mas', 'Kutip kerang & siput ketika surut']),
@@ -36,7 +36,7 @@ ISL = {
     'besar':    dict(n='BESAR', z='s', t='Antara pusat terawal penyebaran Islam di Nusantara.', f=[], here=True),
     'serimbun': dict(n='SERIMBUN', z='s', t='', f=[]),
     'hanyut':   dict(n='HANYUT', z='s', t='Dari jauh, seperti daratan yang hanyut.', f=['1.8 hektar', '4.5 km dari Pulau Undan']),
-    'lalang':   dict(n='LALANG', z='s', t='Pasir putih, pohon nyiur & pokok ±3,000 tahun.', f=['Portugis: “Alan-Alan”']),
+    'lalang':   dict(n='LALANG', z='s', t='Pasir putih, pohon nyiur & aktiviti kayak.', f=['Portugis: “Alan-Alan”']),
     'dodol':    dict(n='DODOL', z='s', t='Bentuknya seakan-akan kuih dodol.', f=[]),
     'nangka':   dict(n='NANGKA', z='s', t='Berbentuk buah nangka, pokok berusia 400 tahun.', f=['11.76 hektar', 'Bukit setinggi 50 m'],
                      dyk=['Pokok tertua di pulau', 'Sebesar lapan depa dan dianggarkan berusia 400 tahun.']),
@@ -54,8 +54,8 @@ PIN = {'masjid': (89, 624), 'keramat': (454, 755), 'konet': (606, 989), 'upeh': 
 # the callout clip plays second in the island's segment so it gets the clean middle of the scene
 CALL = {
     'masjid': ('A', [('Bot nelayan', 850, 450)]),
-    'keramat': ('C', [('Tebing berbatu', 560, 200)]),
-    'konet': ('B', [('Beting pasir ketika air surut', 280, 390)]),
+    'keramat': ('B', [('Beting pasir ketika air surut', 280, 390)]),
+    'konet': ('C', [('Tebing berbatu', 560, 200)]),
     'upeh': ('A', [('Jeti Pulau Upeh', 800, 170)]),
     'melaka': ('A', [('Masjid Selat Melaka', 504, 240)]),
     'panjang': ('A', [('Pulau Panjang', 360, 234)]),
@@ -66,11 +66,19 @@ CALL = {
     'serimbun': ('A', [('Bot nelayan', 510, 380)]),
     'hanyut': ('B', [('Batuan & air jernih', 560, 330)]),
     'lalang': ('C', [('Pasir putih', 460, 410)]),
-    'dodol': ('A', [('Bentuk seakan-akan kuih dodol', 460, 300)]),
+    'dodol': ('A', [('Bentuk seakan-akan kuih dodol', 460, 300), ('Terumbu karang', 750, 390, None, 'down')]),
     'nangka': ('A', [('Pantai berpasir', 520, 130)]),
     'undan': ('A', [('Rumah api zaman British', 360, 120),
                     ('Beting pasir 70 m yang menghubungkan pulau utama dengan pulau kecil. Bentuknya berubah ikut arus laut.', 480, 405, 'TOMBOLO')]),
 }
+
+
+# a second set of callouts on another cut of the same island
+CALL2 = {
+    'undan': ('C', [('Aktiviti snorkeling', 600, 380)]),
+}
+# relative cut lengths where one cut carries more to read
+WEIGHTS = {'besar': [1, 1, 1.6, 1]}
 
 
 def seq(key):
@@ -89,7 +97,7 @@ ORDER = [
     ('zone', 2.4, 'u'), ('island', 11.5, 'masjid', 'zoom'), ('island', 11.5, 'keramat', 'topo'), ('island', 11.5, 'konet', 'pin'),
     ('zone', 2.4, 't'), ('island', 11.5, 'upeh', 'zoom'), ('island', 13, 'melaka', 'mask'), ('island', 11.5, 'panjang', 'slats'),
     ('island', 11.5, 'menatang', 'whip'), ('island', 11.5, 'burung', 'cube'), ('island', 11.5, 'peringgi', 'wave'),
-    ('zone', 2.4, 's'), ('island', 15.5, 'besar', 'zoom'), ('island', 11.5, 'serimbun', 'split'), ('island', 11.5, 'hanyut', 'lens'),
+    ('zone', 2.4, 's'), ('island', 18, 'besar', 'zoom'), ('island', 11.5, 'serimbun', 'split'), ('island', 11.5, 'hanyut', 'lens'),
     ('island', 11.5, 'lalang', 'topo'), ('island', 11.5, 'dodol', 'slats'), ('island', 11.5, 'nangka', 'whip'), ('island', 13, 'undan', 'cube'),
     ('close', 8),
 ]
@@ -122,8 +130,9 @@ def plan():
             key, tr = row[2], row[3]
             n += 1
             slots = seq(key)
-            edges = [0] + [round(dur * (i + 1) / len(slots), 3) for i in range(len(slots) - 1)] + [dur + OV]
-            sc.update(key=key, tr=tr, num=n, cuts=edges, seq=slots, call=CALL[key])
+            w = WEIGHTS.get(key, [1] * len(slots))
+            edges = [0] + [round(dur * sum(w[:i + 1]) / sum(w), 3) for i in range(len(slots) - 1)] + [dur + OV]
+            sc.update(key=key, tr=tr, num=n, cuts=edges, seq=slots, call=CALL[key], call2=CALL2.get(key))
             for i, slot in enumerate(slots):
                 s0, s1 = CUTS[key][slot]
                 clips.append(clip(key, slot, t + edges[i], edges[i + 1] - edges[i], s0, s1 - s0))
@@ -163,10 +172,15 @@ def plan():
                 hgrid=[H_START, H_CUT, H_GRID, H_GRID_DUR], sfx=[(round(a, 3), b) for a, b in sorted(sfx)])
 
 
+# the Drive folder's Keramat and Konet videos show each other's island (boss review v1)
+SOURCE = {'keramat': 'konet', 'konet': 'keramat'}
+
+
 def source(key):
+    name = SOURCE.get(key, key)
     for f in glob.glob(os.path.join(SRC, '*.mp4')):
         b = os.path.basename(f).lower()
-        if b.startswith('pulau ' + key):
+        if b.startswith('pulau ' + name):
             return f
     raise SystemExit('no source for ' + key)
 
@@ -175,7 +189,7 @@ def track(p):
     """Follow each callout point through its clip frames with template matching (positions in 960x540)."""
     import cv2
     out = {}
-    for key, (slot, pts) in CALL.items():
+    for key, (slot, pts) in list(CALL.items()) + list(CALL2.items()):
         d = os.path.join(HERE, 'clips', f'{key}_{slot}')
         files = sorted(os.listdir(d))
         tracks = []
@@ -200,7 +214,7 @@ def track(p):
                 path.append((nx, ny) if score > .4 else path[-1])
                 prev = cur
             tracks.append([[round(a, 1), round(b, 1)] for a, b in path])
-        out[f'{key}_{slot}'] = tracks
+        out.setdefault(f'{key}_{slot}', []).extend(tracks)
         print('track', key, slot, len(files), 'frames', flush=True)
     return out
 
@@ -243,7 +257,7 @@ def extract(p, only=None):
     from concurrent.futures import ThreadPoolExecutor
     todo = p['clips']
     if only:
-        todo = [c for c in todo if c['key'] in only]
+        todo = [c for c in todo if c['src_key'] in only]
         for c in todo:
             shutil.rmtree(os.path.join(HERE, 'clips', f"{c['key']}_{c['slot']}"), ignore_errors=True)
         for c in p['clips']:                 # untouched clips keep their extracted frame count
