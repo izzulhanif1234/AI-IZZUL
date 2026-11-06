@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Amiri"; font-weight: 400; src: url("assets/fonts/amiri-arabic-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Amiri"; font-weight: 700; src: url("assets/fonts/amiri-arabic-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 300; src: url("assets/fonts/montserrat-latin-300-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 400; src: url("assets/fonts/montserrat-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 500; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/montserrat-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 700; src: url("assets/fonts/montserrat-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/montserrat-latin-800-normal.woff2") format("woff2"); }
+
+      :root {
+        --navy-0: #04102a;
+        --navy-1: #0a2350;
+        --navy-2: #12347a;
+        --red: #d7262e;
+        --gold: #c9a45c;
+        --gold-hi: #e6c98a;
+        --ink: #ffffff;
+        --ink-2: #b7c4de;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy-0); }
+      #root {
+        position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Montserrat", sans-serif; color: var(--ink);
+        background: radial-gradient(120% 70% at 50% 38%, var(--navy-2) 0%, var(--navy-1) 45%, var(--navy-0) 100%);
+      }
+      .layer { position: absolute; inset: 0; }
+
+      /* background */
+      #pattern { opacity: 0; }
+      #pattern svg { position: absolute; left: -180px; top: -180px; width: 1440px; height: 2280px; }
+      #glow {
+        background: radial-gradient(45% 25% at 50% 42%, rgba(201,164,92,0.18), rgba(201,164,92,0) 70%);
+        opacity: 0;
+      }
+      #vignette { background: radial-gradient(90% 60% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
+
+      /* frame chrome */
+      .corner { position: absolute; width: 90px; height: 90px; border-color: var(--gold); border-style: solid; opacity: 0.85; }
+      .c-tl { left: 60px; top: 60px; border-width: 3px 0 0 3px; }
+      .c-tr { right: 60px; top: 60px; border-width: 3px 3px 0 0; }
+      .c-bl { left: 60px; bottom: 60px; border-width: 0 0 3px 3px; }
+      .c-br { right: 60px; bottom: 60px; border-width: 0 3px 3px 0; }
+      #topbar { position: absolute; left: 90px; right: 90px; top: 150px; display: flex; justify-content: space-between; align-items: center; }
+      #topbar .org { font-size: 24px; font-weight: 700; letter-spacing: 6px; color: var(--ink); }
+      #topbar .org span { color: var(--red); }
+      #topbar .tag { font-size: 22px; font-weight: 600; letter-spacing: 6px; color: var(--gold-hi); }
+      #topline { position: absolute; left: 90px; right: 90px; top: 205px; height: 2px; background: linear-gradient(90deg, var(--red) 0 120px, rgba(255,255,255,0.22) 120px 100%); transform-origin: 0 50%; }
+      #botbar { position: absolute; left: 90px; right: 90px; bottom: 150px; display: flex; justify-content: space-between; font-size: 20px; font-weight: 500; letter-spacing: 5px; color: var(--ink-2); }
+      #progress { position: absolute; left: 90px; right: 90px; bottom: 205px; height: 2px; background: rgba(255,255,255,0.14); }
+      #progress i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: var(--gold); transform-origin: 0 50%; transform: scaleX(0); }
+
+      /* shared type */
+      .scene { position: absolute; left: 0; right: 0; top: 0; bottom: 0; opacity: 0; }
+      .kicker { display: inline-flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 700; letter-spacing: 8px; color: var(--gold-hi); }
+      .kicker::before { content: ""; width: 54px; height: 3px; background: var(--red); }
+      .mask { overflow: hidden; display: block; }
+      .mask > span { display: block; }
+      .w { display: inline-block; white-space: pre; }
+      .hl { color: var(--gold-hi); }
+
+      /* S1 title */
+      #s1 .wrap { position: absolute; left: 90px; right: 90px; top: 700px; }
+      #s1 .t1 { font-size: 150px; font-weight: 300; line-height: 1; letter-spacing: 14px; margin-top: 46px; }
+      #s1 .t2 { font-size: 172px; font-weight: 800; line-height: 1.02; letter-spacing: 6px; }
+      #s1 .rule { width: 900px; height: 3px; margin: 56px 0 40px; background: linear-gradient(90deg, var(--gold), rgba(201,164,92,0)); transform-origin: 0 50%; }
+      #s1 .sub { font-size: 44px; font-weight: 500; letter-spacing: 2px; color: var(--ink-2); }
+      #s1 .sub b { color: var(--ink); font-weight: 700; }
+
+      /* S2 arabic */
+      #s2 .wrap { position: absolute; left: 90px; right: 90px; top: 590px; text-align: center; }
+      #s2 .label { font-size: 30px; font-weight: 600; letter-spacing: 8px; color: var(--ink-2); }
+      #s2 .orn { display: flex; justify-content: center; align-items: center; gap: 22px; margin: 44px 0; }
+      #s2 .orn i { display: block; width: 260px; height: 2px; background: var(--gold); }
+      #s2 .orn em { display: block; width: 22px; height: 22px; border: 2px solid var(--gold); transform: rotate(45deg); }
+      #s2 .ar { font-family: "Amiri", serif; font-weight: 700; direction: rtl; color: var(--ink); line-height: 1.55; }
+      #s2 .ar1 { font-size: 150px; }
+      #s2 .ar2 { font-size: 104px; }
+      #s2 .ar .gold { color: var(--gold-hi); }
+
+      /* S3 translation */
+      #s3 .wrap { position: absolute; left: 90px; right: 90px; top: 430px; }
+      #s3 .arsm { font-family: "Amiri", serif; font-weight: 700; direction: rtl; text-align: right; font-size: 64px; line-height: 1.5; color: var(--gold-hi); margin: 40px 0 48px; }
+      #s3 .quote { font-size: 66px; font-weight: 600; line-height: 1.32; letter-spacing: -0.5px; }
+      #s3 .qmark { font-size: 200px; font-weight: 800; line-height: 0.6; color: #e0464d; height: 90px; }
+      #s3 .src { margin-top: 64px; padding-left: 28px; border-left: 4px solid var(--gold); }
+      #s3 .src .a { font-size: 34px; font-weight: 700; letter-spacing: 1px; }
+      #s3 .src .b { font-size: 26px; font-weight: 500; color: var(--ink-2); margin-top: 12px; line-height: 1.5; }
+
+      /* S4 values */
+      #s4 .wrap { position: absolute; left: 90px; right: 90px; top: 420px; }
+      #s4 .lead { font-size: 54px; font-weight: 500; line-height: 1.38; margin-top: 44px; }
+      #s4 .lead b { font-weight: 800; }
+      #s4 .cards { margin-top: 64px; display: flex; flex-direction: column; gap: 26px; }
+      .card {
+        position: relative; display: flex; align-items: center; gap: 40px; height: 168px; padding: 0 48px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
+        border: 1px solid rgba(255,255,255,0.16); border-radius: 18px; overflow: hidden;
+      }
+      .card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--red); }
+      .card .n { font-size: 30px; font-weight: 700; color: var(--gold); letter-spacing: 2px; width: 56px; }
+      .card .v { font-size: 64px; font-weight: 800; letter-spacing: 6px; }
+      .card .ico { margin-left: auto; width: 74px; height: 74px; }
+      .card .ico svg { width: 74px; height: 74px; }
+
+      /* S5 closing message */
+      #s5 .wrap { position: absolute; left: 90px; right: 90px; top: 560px; }
+      #s5 .msg { font-size: 70px; font-weight: 600; line-height: 1.3; margin-top: 50px; letter-spacing: -0.5px; }
+      #s5 .tags { display: flex; gap: 20px; margin-top: 70px; flex-wrap: wrap; }
+      #s5 .tags span { font-size: 28px; font-weight: 700; letter-spacing: 4px; padding: 18px 30px; border: 2px solid var(--gold); color: var(--gold-hi); border-radius: 999px; }
+
+      /* S6 end card */
+      #s6 .wrap { position: absolute; left: 0; right: 0; top: 600px; text-align: center; }
+      #s6 .logo { display: inline-block; background: #fff; border-radius: 28px; padding: 46px 64px; box-shadow: 0 30px 80px rgba(0,0,0,0.45); }
+      #s6 .logo img { display: block; width: 360px; height: auto; }
+      #s6 .t { font-size: 90px; font-weight: 800; letter-spacing: 8px; margin-top: 90px; }
+      #s6 .t span { font-weight: 300; }
+      #s6 .s { font-size: 34px; font-weight: 500; color: var(--ink-2); margin-top: 28px; letter-spacing: 3px; }
+      #s6 .rule { width: 160px; height: 4px; background: var(--red); margin: 46px auto 0; transform-origin: 50% 50%; }
+
+      #flash { background: #fff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37" data-width="1080" data-height="1920">
+      <!-- background -->
+      <div id="pattern" class="layer">
+        <svg viewBox="0 0 1440 2280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="star" width="180" height="180" patternUnits="userSpaceOnUse">
+              <g fill="none" stroke="#c9a45c" stroke-width="1.6">
+                <rect x="45" y="45" width="90" height="90" />
+                <rect x="45" y="45" width="90" height="90" transform="rotate(45 90 90)" />
+                <circle cx="90" cy="90" r="22" />
+                <path d="M0 90 L26 90 M154 90 L180 90 M90 0 L90 26 M90 154 L90 180" />
+                <path d="M0 0 L27 27 M180 0 L153 27 M0 180 L27 153 M180 180 L153 153" />
+              </g>
+            </pattern>
+          </defs>
+          <rect width="1440" height="2280" fill="url(#star)" />
+        </svg>
+      </div>
+      <div id="glow" class="layer"></div>
+      <div id="vignette" class="layer"></div>
+
+      <!-- frame chrome -->
+      <div id="chrome" class="layer">
+        <div class="corner c-tl"></div><div class="corner c-tr"></div>
+        <div class="corner c-bl"></div><div class="corner c-br"></div>
+        <div id="topbar"><div class="org">M<span>CORP</span> · PERBADANAN MELAKA</div><div class="tag">JUMAAT</div></div>
+        <div id="topline"></div>
+        <div id="progress"><i></i></div>
+        <div id="botbar"><div>AMANAH · INTEGRITI</div><div>#SALAMJUMAAT</div></div>
+      </div>
+
+      <!-- S1: title -->
+      <div id="s1" class="scene">
+        <div class="wrap">
+          <div class="kicker k">TAZKIRAH JUMAAT</div>
+          <div class="mask"><span class="t1">SALAM</span></div>
+          <div class="mask"><span class="t2">JUMAAT</span></div>
+          <div class="rule"></div>
+          <div class="mask"><span class="sub">Tema: <b>Amanah &amp; Tanggungjawab</b></span></div>
+        </div>
+      </div>
+
+      <!-- S2: arabic -->
+      <div id="s2" class="scene">
+        <div class="wrap">
+          <div class="label">SABDA RASULULLAH SAW</div>
+          <div class="orn"><i></i><em></em><i></i></div>
+          <div class="ar ar1" id="ar1">كُلُّكُمْ <span class="gold">رَاعٍ</span></div>
+          <div class="ar ar2" id="ar2">وَكُلُّكُمْ <span class="gold">مَسْئُولٌ</span> عَنْ رَعِيَّتِهِ</div>
+          <div class="orn o2"><i></i><em></em><i></i></div>
+        </div>
+      </div>
+
+      <!-- S3: translation -->
+      <div id="s3" class="scene">
+        <div class="wrap">
+          <div class="kicker k">MAKSUDNYA</div>
+          <div class="arsm">كُلُّكُمْ رَاعٍ وَكُلُّكُمْ مَسْئُولٌ عَنْ رَعِيَّتِهِ</div>
+          <div class="qmark">“</div>
+          <div class="quote split" id="q3">Setiap daripada kamu adalah |pemimpin| dan setiap daripada kamu akan |dipertanggungjawabkan| terhadap orang yang dipimpinnya.</div>
+          <div class="src">
+            <div class="a">Riwayat al-Bukhari &amp; Muslim</div>
+            <div class="b">Sahih al-Bukhari, Hadis 2554 · Sahih Muslim, Hadis 1829<br />40 Hadis Pentadbiran dan Pengurusan Tanah, JAKIM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4: values -->
+      <div id="s4" class="scene">
+        <div class="wrap">
+          <div class="kicker k">MESEJ JUMAAT</div>
+          <div class="lead split" id="q4">Setiap |amanah| yang diberikan merupakan tanggungjawab yang perlu dilaksanakan dengan penuh:</div>
+          <div class="cards">
+            <div class="card" id="c1"><div class="n">01</div><div class="v">INTEGRITI</div>
+              <div class="ico"><svg viewBox="0 0 74 74" fill="none" stroke="#e6c98a" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M37 8 L62 18 V36 C62 52 51 62 37 67 C23 62 12 52 12 36 V18 Z" /><path d="M26 37 L34 45 L49 29" /></svg></div></div>
+            <div class="card" id="c2"><div class="n">02</div><div class="v">KEIKHLASAN</div>
+              <div class="ico"><svg viewBox="0 0 74 74" fill="none" stroke="#e6c98a" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M37 62 C20 50 10 40 10 27 C10 18 17 12 25 12 C30 12 34 15 37 20 C40 15 44 12 49 12 C57 12 64 18 64 27 C64 40 54 50 37 62 Z" /></svg></div></div>
+            <div class="card" id="c3"><div class="n">03</div><div class="v">DEDIKASI</div>
+              <div class="ico"><svg viewBox="0 0 74 74" fill="none" stroke="#e6c98a" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="37" cy="37" r="26" /><circle cx="37" cy="37" r="15" /><circle cx="37" cy="37" r="4" fill="#e6c98a" /></svg></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5: closing message -->
+      <div id="s5" class="scene">
+        <div class="wrap">
+          <div class="kicker k">SEMOGA</div>
+          <div class="msg split" id="q5">Setiap usaha yang digerakkan membawa manfaat kepada |masyarakat| serta menyumbang kepada |pembangunan| |negeri.|</div>
+          <div class="tags"><span id="tg1">MASYARAKAT</span><span id="tg2">PEMBANGUNAN NEGERI</span></div>
+        </div>
+      </div>
+
+      <!-- S6: end card -->
+      <div id="s6" class="scene">
+        <div class="wrap">
+          <div class="logo"><img src="assets/img/mcorp-corporate.png" alt="MCORP Perbadanan Melaka" /></div>
+          <div class="t">SALAM <span>JUMAAT</span></div>
+          <div class="rule"></div>
+          <div class="s">Jumaat yang penuh keberkatan</div>
+        </div>
+      </div>
+
+      <div id="flash" class="layer"></div>
+
+      <!-- sound effects only, no music -->
+      <audio id="x01" src="assets/sfx/whoosh-cinematic.mp3" data-start="0.05" data-duration="5.5" data-track-index="20" data-volume="0.35"></audio>
+      <audio id="x02" src="assets/sfx/impact-bass-1.mp3" data-start="0.95" data-duration="2.1" data-track-index="21" data-volume="0.45"></audio>
+      <audio id="x03" src="assets/sfx/whoosh.mp3" data-start="4.15" data-duration="0.57" data-track-index="22" data-volume="0.45"></audio>
+      <audio id="x04" src="assets/sfx/chime.mp3" data-start="5.0" data-duration="2.54" data-track-index="23" data-volume="0.4"></audio>
+      <audio id="x05" src="assets/sfx/sparkle.mp3" data-start="6.6" data-duration="1.8" data-track-index="24" data-volume="0.22"></audio>
+      <audio id="x06" src="assets/sfx/whoosh.mp3" data-start="11.35" data-duration="0.57" data-track-index="25" data-volume="0.45"></audio>
+      <audio id="x07" src="assets/sfx/ping.mp3" data-start="13.0" data-duration="1.32" data-track-index="26" data-volume="0.18"></audio>
+      <audio id="x08" src="assets/sfx/ping.mp3" data-start="14.3" data-duration="1.32" data-track-index="27" data-volume="0.18"></audio>
+      <audio id="x09" src="assets/sfx/whoosh.mp3" data-start="19.35" data-duration="0.57" data-track-index="28" data-volume="0.45"></audio>
+      <audio id="x10" src="assets/sfx/click.mp3" data-start="21.9" data-duration="0.37" data-track-index="29" data-volume="0.5"></audio>
+      <audio id="x11" src="assets/sfx/click.mp3" data-start="22.6" data-duration="0.37" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="x12" src="assets/sfx/click.mp3" data-start="23.3" data-duration="0.37" data-track-index="31" data-volume="0.5"></audio>
+      <audio id="x13" src="assets/sfx/whoosh.mp3" data-start="27.35" data-duration="0.57" data-track-index="32" data-volume="0.45"></audio>
+      <audio id="x14" src="assets/sfx/pop.mp3" data-start="30.0" data-duration="0.72" data-track-index="33" data-volume="0.3"></audio>
+      <audio id="x15" src="assets/sfx/pop.mp3" data-start="30.25" data-duration="0.72" data-track-index="34" data-volume="0.3"></audio>
+      <audio id="x16" src="assets/sfx/whoosh-cinematic.mp3" data-start="32.2" data-duration="4.7" data-track-index="35" data-volume="0.3"></audio>
+      <audio id="x17" src="assets/sfx/impact-bass-1.mp3" data-start="32.75" data-duration="2.1" data-track-index="36" data-volume="0.4"></audio>
+      <audio id="x18" src="assets/sfx/sparkle.mp3" data-start="33.4" data-duration="1.8" data-track-index="37" data-volume="0.2"></audio>
+    </div>
+
+    <script>
+      (function () {
+        // split ".split" blocks into word spans; |word| marks a highlighted word
+        document.querySelectorAll(".split").forEach(function (el) {
+          var parts = el.textContent.trim().split(/\s+/);
+          el.innerHTML = parts
+            .map(function (p) {
+              var hl = /^\|.*\|$/.test(p);
+              var txt = hl ? p.slice(1, -1) : p;
+              return '<span class="w' + (hl ? " hl" : "") + '">' + txt + "</span>";
+            })
+            .join(" ");
+        });
+
+        var D = 37;
+        var tl = gsap.timeline({ paused: true });
+        var E = "power3.out";
+
+        // background + chrome
+        tl.fromTo("#pattern", { opacity: 0 }, { opacity: 0.11, duration: 2.0, ease: "power2.out" }, 0);
+        tl.fromTo("#pattern svg", { x: 0, y: 0 }, { x: -90, y: -180, duration: D, ease: "none" }, 0);
+        tl.fromTo("#glow", { opacity: 0 }, { opacity: 1, duration: 2.5, ease: "power2.out" }, 0.2);
+        tl.from(".corner", { opacity: 0, scale: 0.6, duration: 0.8, ease: E, stagger: 0.06 }, 0.1);
+        tl.from("#topbar > div", { opacity: 0, y: -20, duration: 0.7, ease: E, stagger: 0.1 }, 0.4);
+        tl.from("#topline", { scaleX: 0, duration: 1.1, ease: "power2.inOut" }, 0.35);
+        tl.from("#botbar > div", { opacity: 0, y: 20, duration: 0.7, ease: E, stagger: 0.1 }, 0.5);
+        tl.to("#progress i", { scaleX: 1, duration: D, ease: "none" }, 0);
+
+        // S1 title 0 - 4.3
+        tl.set("#s1", { opacity: 1 }, 0);
+        tl.from("#s1 .k", { opacity: 0, x: -30, duration: 0.7, ease: E }, 0.45);
+        tl.from("#s1 .t1", { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.7);
+        tl.from("#s1 .t2", { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.88);
+        tl.from("#s1 .rule", { scaleX: 0, duration: 1.0, ease: "power2.inOut" }, 1.25);
+        tl.from("#s1 .sub", { yPercent: 110, duration: 0.8, ease: E }, 1.55);
+        tl.to("#s1 .wrap", { y: -12, duration: 3.0, ease: "none" }, 1.2);
+        tl.to("#s1", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 4.05);
+
+        // S2 arabic 4.4 - 11.4
+        tl.set("#s2", { opacity: 1 }, 4.4);
+        tl.from("#s2 .label", { opacity: 0, y: 20, duration: 0.6, ease: E }, 4.45);
+        tl.from("#s2 .orn i", { scaleX: 0, duration: 0.9, ease: "power2.inOut" }, 4.6);
+        tl.from("#s2 .orn em", { scale: 0, rotation: 225, duration: 0.8, ease: "back.out(2)" }, 4.75);
+        tl.fromTo("#ar1", { clipPath: "inset(0 0 0 100%)", opacity: 0.3 }, { clipPath: "inset(0 0 0 0%)", opacity: 1, duration: 1.3, ease: "power2.inOut" }, 5.0);
+        tl.fromTo("#ar2", { clipPath: "inset(0 0 0 100%)", opacity: 0.3 }, { clipPath: "inset(0 0 0 0%)", opacity: 1, duration: 1.6, ease: "power2.inOut" }, 6.1);
+        tl.fromTo("#s2 .wrap", { scale: 0.985 }, { scale: 1.02, duration: 6.8, ease: "none" }, 4.5);
+        tl.to("#glow", { opacity: 0.6, duration: 1.0 }, 10.5);
+        tl.to("#s2", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 11.0);
+
+        // S3 translation 11.4 - 19.4
+        tl.set("#s3", { opacity: 1 }, 11.4);
+        tl.from("#s3 .k", { opacity: 0, x: -30, duration: 0.6, ease: E }, 11.45);
+        tl.from("#s3 .arsm", { opacity: 0, y: 20, duration: 0.7, ease: E }, 11.6);
+        tl.from("#s3 .qmark", { opacity: 0, scale: 0.5, transformOrigin: "0% 50%", duration: 0.6, ease: "back.out(2)" }, 11.75);
+        tl.from("#q3 .w", { opacity: 0, y: 26, duration: 0.5, ease: E, stagger: 0.13 }, 11.95);
+        tl.from("#s3 .src", { opacity: 0, x: -24, duration: 0.7, ease: E }, 14.8);
+        tl.to("#s3", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 19.0);
+
+        // S4 values 19.4 - 27.4
+        tl.set("#s4", { opacity: 1 }, 19.4);
+        tl.from("#s4 .k", { opacity: 0, x: -30, duration: 0.6, ease: E }, 19.45);
+        tl.from("#q4 .w", { opacity: 0, y: 24, duration: 0.45, ease: E, stagger: 0.11 }, 19.65);
+        tl.from("#c1", { opacity: 0, x: 120, duration: 0.6, ease: E }, 21.85);
+        tl.from("#c2", { opacity: 0, x: 120, duration: 0.6, ease: E }, 22.55);
+        tl.from("#c3", { opacity: 0, x: 120, duration: 0.6, ease: E }, 23.25);
+        tl.from("#s4 .ico", { opacity: 0, scale: 0.4, duration: 0.5, ease: "back.out(2.2)", stagger: 0.7 }, 22.1);
+        tl.to("#s4 .card", { borderColor: "rgba(201,164,92,0.7)", duration: 0.4, stagger: 0.25 }, 24.6);
+        tl.to("#s4", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 27.0);
+
+        // S5 message 27.4 - 32.4
+        tl.set("#s5", { opacity: 1 }, 27.4);
+        tl.from("#s5 .k", { opacity: 0, x: -30, duration: 0.6, ease: E }, 27.45);
+        tl.from("#q5 .w", { opacity: 0, y: 26, duration: 0.5, ease: E, stagger: 0.12 }, 27.65);
+        tl.from("#tg1", { opacity: 0, scale: 0.7, duration: 0.5, ease: "back.out(2)" }, 30.0);
+        tl.from("#tg2", { opacity: 0, scale: 0.7, duration: 0.5, ease: "back.out(2)" }, 30.25);
+        tl.to("#s5", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 32.0);
+
+        // S6 end card 32.6 - 37
+        tl.set("#s6", { opacity: 1 }, 32.5);
+        tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.35, duration: 0.12, ease: "none" }, 32.62);
+        tl.to("#flash", { opacity: 0, duration: 0.6, ease: "power2.out" }, 32.74);
+        tl.from("#s6 .logo", { opacity: 0, y: 50, scale: 0.9, duration: 0.9, ease: E }, 32.65);
+        tl.from("#s6 .t", { opacity: 0, y: 40, duration: 0.8, ease: E }, 33.1);
+        tl.from("#s6 .rule", { scaleX: 0, duration: 0.7, ease: "power2.inOut" }, 33.4);
+        tl.from("#s6 .s", { opacity: 0, y: 20, duration: 0.7, ease: E }, 33.6);
+        tl.to("#glow", { opacity: 1, duration: 1.5 }, 32.6);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
