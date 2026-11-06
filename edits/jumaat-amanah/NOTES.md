@@ -22,5 +22,9 @@ The link the user gave (hadith-web, id 3898) is Sahih al-Bukhari 2409, worded
 
 ## Render
 `cd hf && npx --yes hyperframes@0.8.155 render -q high -o preview/high.mp4`, then
-`ffmpeg -i preview/high.mp4 -c copy -movflags +faststart ../final/Salam-Jumaat-Amanah-9x16-v1.mp4`.
+`ffmpeg -i preview/high.mp4 -c copy -movflags +faststart ../final/Salam-Jumaat-Amanah-9x16-v2.mp4`.
 Loudness: -16.6 LUFS integrated, peak -3.7 dBFS.
+
+## Revision 2
+- Arabic wipe clipped the shadda/damma above كُلُّكُمْ (clip-path inset was the line box).
+  Inset now extends -60% above and below, so all harakat stay visible during and after the wipe.
