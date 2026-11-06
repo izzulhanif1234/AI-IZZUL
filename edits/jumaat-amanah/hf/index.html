@@ -67,12 +67,10 @@
       .hl { color: var(--gold-hi); }
 
       /* S1 title */
-      #s1 .wrap { position: absolute; left: 90px; right: 90px; top: 700px; }
+      #s1 .wrap { position: absolute; left: 90px; right: 90px; top: 740px; }
       #s1 .t1 { font-size: 150px; font-weight: 300; line-height: 1; letter-spacing: 14px; margin-top: 46px; }
       #s1 .t2 { font-size: 172px; font-weight: 800; line-height: 1.02; letter-spacing: 6px; }
       #s1 .rule { width: 900px; height: 3px; margin: 56px 0 40px; background: linear-gradient(90deg, var(--gold), rgba(201,164,92,0)); transform-origin: 0 50%; }
-      #s1 .sub { font-size: 44px; font-weight: 500; letter-spacing: 2px; color: var(--ink-2); }
-      #s1 .sub b { color: var(--ink); font-weight: 700; }
 
       /* S2 arabic */
       #s2 .wrap { position: absolute; left: 90px; right: 90px; top: 590px; text-align: center; }
@@ -167,7 +165,6 @@
           <div class="mask"><span class="t1">SALAM</span></div>
           <div class="mask"><span class="t2">JUMAAT</span></div>
           <div class="rule"></div>
-          <div class="mask"><span class="sub">Tema: <b>Amanah &amp; Tanggungjawab</b></span></div>
         </div>
       </div>
 
@@ -288,7 +285,6 @@
         tl.from("#s1 .t1", { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.7);
         tl.from("#s1 .t2", { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.88);
         tl.from("#s1 .rule", { scaleX: 0, duration: 1.0, ease: "power2.inOut" }, 1.25);
-        tl.from("#s1 .sub", { yPercent: 110, duration: 0.8, ease: E }, 1.55);
         tl.to("#s1 .wrap", { y: -12, duration: 3.0, ease: "none" }, 1.2);
         tl.to("#s1", { opacity: 0, y: -60, duration: 0.5, ease: "power2.in" }, 4.05);
 
