@@ -1,80 +1,116 @@
 # Sistem Signal BUY / SELL XAUUSD
 
-Dua fail:
-
 | Fail | Guna |
 |---|---|
-| `xauusd_signal.pine` | Indikator TradingView: keluarkan label BUY/SELL dengan Entry, SL, TP1/TP2/TP3, panel status dan alert |
+| `xauusd_signal.pine` | Indikator TradingView: label BUY/SELL dengan **ENTRY**, **COLLECT** (ambil untung) dan **SL**, panel status, alert |
 | `backtest.py` | Uji logik yang sama atas data emas sebenar (Python) |
 
-## Logik entry
+Indikator ada **dua mode** (tukar dalam Settings → *Mode*):
 
-Signal hanya keluar bila **semua** syarat dipenuhi, dan hanya selepas candle **tutup** (tiada repaint):
+| | Win Rate Tinggi (default) | Trend TP3 |
+|---|---|---|
+| Chart | **H1 sahaja** | M15 |
+| Ambil untung | 1 COLLECT, kecil (0.5 ATR, ~$7–10) | COLLECT 1 / 2 / 3 (1R / 2R / 3R) |
+| Kena COLLECT | ~65% | ~28–48% |
+| Tidak rugi (COLLECT + breakeven) | **~89%** | – |
+| Profit factor | 1.25 | ~1.2–1.5 (bila sasar COLLECT 3) |
+| Sifat | Selalu menang sikit, sekali-sekala rugi besar | Selalu rugi sikit, sekali-sekala menang besar |
 
-1. **Trend besar (HTF)**: harga H1 di atas EMA200 H1 untuk BUY, di bawah untuk SELL.
-2. **Trend chart**: EMA21 > EMA50 (BUY) atau EMA21 < EMA50 (SELL).
-3. **Pullback**: dalam 5 candle terakhir harga turun (atau naik) menyentuh EMA21. Kita tak kejar harga.
-4. **Confirmation**: candle searah trend tutup melepasi high candle sebelum (BUY) atau low candle sebelum (SELL).
-5. **Penapis**: RSI 50–70 (BUY) / 30–50 (SELL), ADX > 20 (ada momentum), dan hanya dalam sesi London + New York (14:00–02:00 waktu Malaysia).
-6. **SL**: di bawah swing low pullback (atau di atas swing high) + 0.2 ATR. Kalau SL lebih jauh dari 2.5 ATR, signal di-skip kerana entry tu dah lewat.
-7. **TP**: 1R, 2R, 3R (R = jarak entry ke SL).
+---
 
-Satu trade pada satu masa. Signal baru hanya keluar selepas trade sebelumnya kena SL atau TP3.
+## Mode 1: Win Rate Tinggi (H1)
+
+### Bila signal keluar
+1. **Trend besar (H4)**: harga H4 di atas EMA200 → cari **BUY sahaja**. Di bawah → cari **SELL sahaja**.
+2. **Entry**: harga jatuh mendadak melawan trend, iaitu RSI(2) bawah 30 untuk BUY atau atas 70 untuk SELL. Kita beli "diskaun" dalam trend naik.
+3. **Penapis**: ADX bawah 30 (pasaran tak terlalu meluncur sehala), dan sesi London + New York sahaja (14:00–02:00 waktu Malaysia).
+
+### Apa yang anda nampak di chart
+```
+BUY SEKARANG
+ENTRY    4119.20     <- masuk pada harga ni (tutup candle)
+COLLECT  4129.15     <- ambil untung di sini (letak TP)
+SL       4069.45     <- stop loss
+SL ke entry bila harga 4125.17
+Tutup sendiri lepas 12 candle
+```
+Setiap paras juga dilukis sebagai garisan dengan nama dan harga di hujungnya. Panel di kanan atas tunjuk ENTRY / COLLECT / SL untuk trade yang sedang aktif.
+
+### Cara urus trade (penting)
+1. Masuk pada harga **ENTRY**. Letak **TP = COLLECT** dan **SL** dalam MT4/MT5.
+2. Bila harga sampai paras **"SL ke entry"**, alihkan SL ke harga ENTRY. Inilah yang kurangkan rugi: kalau harga patah balik, anda keluar tanpa rugi (cuma spread).
+3. Kalau selepas **12 candle H1** belum kena COLLECT atau SL, **tutup trade sendiri**.
+4. Langkah 2 dan 3 ada alert: *XAU pindah SL ke entry* dan *XAU time stop*.
+
+### Keputusan backtest (GC=F, H1, Jun 2024 – Nov 2026, kos $0.30/trade)
+
+| Keputusan | Bil. | % | Purata per trade (1 oz = 0.01 lot) |
+|---|---|---|---|
+| COLLECT (untung) | 485 | 65.4% | +$6.74 |
+| BE (SL di entry, keluar kosong) | 175 | 23.6% | −$0.30 (spread) |
+| SL (rugi penuh) | 60 | 8.1% | −$38.14 |
+| Time stop | 22 | 3.0% | −$11.88 |
+
+- **Tidak rugi: 88.9%** · Profit factor **1.25** · Loss berturut paling banyak: **2**
+- Untung bersih +$666 per oz, drawdown terbesar $220 per oz
+- 9 daripada 11 suku tahun untung. Dua suku rugi: 2025Q4 (−$120) dan 2026Q3 (−$101).
+
+### Bagaimana tetapan ni dipilih
+- Diuji **lebih 2,000 kombinasi**. Data dibahagi dua: 60% pertama untuk pilih tetapan, 40% terakhir untuk uji tetapan tu atas data yang ia tak pernah "nampak".
+- Tetapan ni lulus kedua-dua bahagian (PF 1.29 → 1.23).
+- Kebanyakan sistem "win rate 80%" lain gagal di bahagian ujian. Sebabnya, kerugian yang besar memadam semua kemenangan kecil.
+
+### Risiko yang anda kena tahu
+- **Satu SL penuh (−$38) memadam ~6 COLLECT (+$6.74).** Jangan sesekali alihkan SL lebih jauh atau buang SL. Itulah cara akaun hangus dengan sistem win rate tinggi.
+- **Mesti ikut breakeven dan time stop.** Tanpa BE, purata rugi naik dari $10 ke $30. Win rate memang naik ke ~84%, tapi rugi lebih besar setiap kali kalah.
+- **Hanya H1.** Pada M15/M5 COLLECT terlalu kecil berbanding spread, dan hasilnya rugi (PF 0.85–0.96). Panel akan tunjuk "AMARAN: Guna chart H1".
+- Emas naik kuat sepanjang 2024–2026, jadi kebanyakan trade dalam ujian ni ialah BUY (503 BUY vs 239 SELL). Bila pasaran berubah, prestasi boleh berbeza.
+- Spread broker anda penting. Kalau spread biasa melebihi $0.50, untung sistem ni banyak terhakis.
+
+---
+
+## Mode 2: Trend TP3 (M15)
+
+1. **Trend H1**: harga di atas EMA200 H1 (BUY) atau di bawah (SELL).
+2. **Struktur**: EMA21 > EMA50 (BUY) atau EMA21 < EMA50 (SELL).
+3. **Pullback**: dalam 5 candle terakhir harga menyentuh EMA21.
+4. **Pengesahan**: candle tutup melepasi high (BUY) atau low (SELL) candle sebelum.
+5. **Penapis**: RSI 50–70 / 30–50, ADX > 20, sesi London + NY.
+6. **SL** di bawah swing pullback. **COLLECT 1 / 2 / 3** = 1R / 2R / 3R.
+
+Keputusan: sistem ni untung hanya bila trade dibiarkan sampai **COLLECT 3**. Di M15 (60 hari) purata +0.35R per trade, di H1 (2 tahun) +0.10R. Pada COLLECT 1 hasilnya rugi sikit.
+
+---
 
 ## Cara pasang di TradingView
+1. Buka chart **XAUUSD**, pilih timeframe **H1** (atau M15 untuk mode Trend).
+2. Klik **Pine Editor**, padam semua kod sedia ada, paste **seluruh** isi `xauusd_signal.pine` (mula dari `//@version=6`).
+3. Klik **Save**, kemudian **Add to chart**.
 
-1. Buka chart **XAUUSD** (OANDA / broker anda), timeframe **M15**.
-2. Buka **Pine Editor** → padam semua → paste isi `xauusd_signal.pine` → **Save** → **Add to chart**.
-3. Untuk chart H1, tukar input *Timeframe trend (HTF)* ke **4 jam**.
+### Alert
+Create Alert → Condition: **XAU Signal**, kemudian pilih:
+- `XAU BUY` / `XAU SELL`: signal baru
+- `XAU pindah SL ke entry`: masa untuk alihkan SL ke harga entry
+- `XAU time stop`: tutup trade sekarang
+- **Any alert() function call**: semua di atas, dengan harga penuh dalam format JSON (sesuai untuk webhook / bot Telegram):
+  `{"signal":"BUY","mode":"winrate","entry":4119.20,"tp":4129.15,"sl":4069.45,"be_trigger":4125.17,"max_bars":12}`
 
-### Alert ke telefon / Telegram
+Pilih *Once per bar close*.
 
-- **Alert biasa**: Create Alert → Condition: `XAU Signal` → `XAU BUY` atau `XAU SELL` → *Once per bar close*.
-- **Alert dengan harga penuh (JSON)**: Condition: `XAU Signal` → **Any alert() function call**. Mesej alert akan mengandungi:
-  `{"signal":"BUY","symbol":"XAUUSD","tf":"15","entry":4057.10,"sl":4040.40,"tp1":...,"tp2":...,"tp3":...}`
-  Masukkan URL webhook (contohnya bot Telegram) kalau nak hantar automatik.
-
-## Backtest
-
+## Backtest sendiri
 ```bash
 pip install yfinance pandas numpy
-python backtest.py                                   # M15, trend H1, 60 hari
-python backtest.py --tf 1h --htf 4h --period 730d    # H1, trend H4, ~2 tahun
-python backtest.py --csv xauusd_m15.csv              # data broker sendiri (time,open,high,low,close)
+python backtest.py                     # Win Rate Tinggi, H1, ~2 tahun
+python backtest.py --wr-be 0           # tanpa breakeven (untuk banding)
+python backtest.py --mode trend        # mode Trend, M15, 60 hari
+python backtest.py --csv data.csv --tf 1h   # data broker sendiri (time,open,high,low,close)
 ```
 
-### Keputusan (data GC=F gold futures, kos spread $0.30, dijalankan 10 Nov 2026)
+## Saiz lot
+Risiko **0.5–1% akaun** setiap trade:
 
-**M15 / trend H1, 60 hari (41 trade)**
+lot = (baki akaun × 1%) ÷ (jarak SL dalam $ × 100)
 
-| Target | Win % | Purata per trade | Jumlah | Max drawdown |
-|---|---|---|---|---|
-| 1R | 48.8% | −0.05R | −1.8R | 6.3R |
-| 2R | 34.1% | +0.00R | +0.2R | 10.3R |
-| 3R | 34.1% | **+0.35R** | +14.2R | 9.2R |
+Contoh: akaun $1,000 dan SL $50 → (1000 × 0.01) ÷ (50 × 100) = **0.002 lot**. Ini bawah lot minimum 0.01, maknanya akaun $1,000 terlalu kecil untuk SL selebar ni pada risiko 1%. Gunakan 0.01 lot hanya kalau anda terima risiko ~5% setiap trade.
 
-**H1 / trend H4, ~2 tahun (118 trade)**
-
-| Target | Win % | Purata per trade | Jumlah | Max drawdown |
-|---|---|---|---|---|
-| 1R | 48.3% | −0.05R | −5.9R | 10.3R |
-| 2R | 33.1% | −0.03R | −2.9R | 12.5R |
-| 3R | 28.0% | **+0.10R** | +12.1R | 8.2R |
-
-### Apa maksud keputusan ni (baca betul-betul)
-
-- **Tiada sistem yang bagi entry "tepat" setiap kali.** Sistem ni lebih kurang separuh kali salah pun pada TP1.
-- **Kelebihan (edge) sistem ni kecil.** Ia untung hanya bila anda biarkan trade lari ke **TP3 (3R)**. Kalau ambil untung di TP1 sahaja, keputusannya rugi sedikit.
-- Kami juga uji 36 kombinasi parameter (EMA HTF 50/200, pullback 3/5/8, ADX 0/20/25, dengan/tanpa sesi). Coraknya konsisten: target 1R biasanya rugi, target 3R biasanya untung sedikit. Penapis sesi London+NY membantu pada M15. Tetapan default **tidak** dipilih sebagai yang paling untung dalam ujian, supaya tak *overfit*.
-- Data 60 hari M15 masih sikit (41 trade). Jangan anggap +0.35R itu pasti berulang.
-- Drawdown 8–12R adalah biasa. Dengan risiko 1% seakaun per trade, itu bermakna akaun boleh turun 8–12% sebelum pulih.
-
-### Cadangan guna
-
-1. **Demo dulu** sekurang-kurangnya 1–2 bulan.
-2. Risiko **0.5–1% akaun** per trade sahaja. Saiz lot = (baki × 1%) ÷ (jarak SL dalam $ × 100) untuk lot standard XAUUSD (1 lot = 100 oz).
-3. Sasarkan **TP3**, atau ambil separuh di TP2 dan biarkan selebihnya ke TP3.
-4. Elak trade 30 minit sebelum/selepas berita besar (NFP, CPI, FOMC). Spread emas melebar teruk dan SL mudah kena.
-5. Panel di chart menunjukkan win rate sebenar indikator atas data broker anda. Semak panel tu sebelum percaya pada mana-mana nombor di atas.
-
-> Ini alat bantuan analisis, bukan nasihat kewangan. Prestasi lepas tidak menjamin keputusan akan datang.
+> Ini alat bantuan analisis, bukan nasihat kewangan. Prestasi lepas tidak menjamin keputusan akan datang. Uji di akaun demo dahulu sekurang-kurangnya 1–2 bulan.
