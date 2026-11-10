@@ -4,8 +4,8 @@ Backtest signal XAUUSD (logik sama dengan xauusd_signal.pine).
 BUY : trend H4 naik (harga H4 atas EMA200), harga atas EMA50 & EMA200,
       RSI(2) < 30, ADX < 30, sesi London + New York
 SELL: trend H4 turun, harga bawah EMA50 & EMA200, RSI(2) > 70, ADX < 30, sesi
-ENTRY   = order LIMIT pada harga signal -/+ 0.25 ATR, sah 6 candle
-          (batal kalau tak kena, atau harga terus ke COLLECT dulu)
+ENTRY   = BUY / SELL terus pada harga tutup candle signal
+          (--lim > 0 untuk uji order LIMIT, sah --valid candle)
 COLLECT = harga signal +/- 0.5 ATR   (wajib close untung)
 SL      = harga signal -/+ 3 ATR     (wajib close rugi)
 SL disemak dulu pada candle fill; COLLECT hanya dikira selepas candle fill (konservatif).
@@ -99,8 +99,8 @@ def run(df, a):
         e = c - s * a.lim * A[i]
         tp, sl = c + s * a.tp * A[i], c - s * a.sl * A[i]
         # tunggu order LIMIT kena
-        j, fill = i + 1, None
-        while j < n and j - i <= a.valid:
+        j, fill = i + 1, (i if a.lim == 0 else None)   # lim 0 = masuk terus
+        while fill is None and j < n and j - i <= a.valid:
             if (s == 1 and L[j] <= e) or (s == -1 and H[j] >= e):
                 fill = j
                 break
@@ -112,7 +112,7 @@ def run(df, a):
                             result="BATAL", pnl=0.0, candles=j - i))
             i = j + 1
             continue
-        m, res = fill, None
+        m, res = (fill + 1 if a.lim == 0 else fill), None
         while m < n:
             if (s == 1 and L[m] <= sl) or (s == -1 and H[m] >= sl):
                 res = ("SL", sl)
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     ap.add_argument("--symbol", default="GC=F")
     ap.add_argument("--csv")
     ap.add_argument("--htf", default="4h")
-    ap.add_argument("--lim", type=float, default=0.25, help="jarak LIMIT dari harga signal (x ATR), 0 = masuk terus")
+    ap.add_argument("--lim", type=float, default=0.0, help="0 = masuk terus (default); >0 = uji order LIMIT (x ATR)")
     ap.add_argument("--valid", type=int, default=6, help="order LIMIT sah N candle")
     ap.add_argument("--sl", type=float, default=3.0, help="SL dari harga signal (x ATR)")
     ap.add_argument("--tp", type=float, default=0.5, help="COLLECT dari harga signal (x ATR)")
