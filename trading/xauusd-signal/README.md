@@ -47,10 +47,10 @@ Pilih **Jenis SL** dalam Settings:
 
 | | SL purata | COLLECT purata | **Kena COLLECT** | Profit factor |
 |---|---|---|---|---|
-| **H1 + SL Rapat** (default) | $22.64 | $8.49 | **74.0%** | 1.23 |
+| **H1 + SL Rapat** | $22.64 | $8.49 | **74.0%** | 1.23 |
 | **H1 + SL Normal** | $47.73 | $8.47 | **87.0%** | 1.66 |
 | M15 + SL Rapat | $11.64 | $4.77 | 70.3% | 0.99 (**rugi**, jangan guna) |
-| **M15 + SL Normal** | $24.55 | $4.76 | **89.2%** | 1.72 |
+| **M15 + SL Normal** (default) | $24.55 | $4.76 | **89.2%** | 1.72 |
 
 - **SL Rapat** = 1 ATR di bawah EMA50 (BUY) / di atas EMA50 (SELL). SL separuh lebih kecil, tapi win rate lebih rendah. **Guna di H1 sahaja.**
 - **SL Normal** = 3 ATR dari entry. Win rate paling tinggi.

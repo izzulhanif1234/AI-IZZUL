@@ -7,7 +7,7 @@ SELL: trend H4 turun, harga bawah EMA50 & EMA200, dalam ZON, RSI(2) > 70, ADX < 
 ENTRY   = BUY / SELL terus pada harga tutup candle signal
           (--lim > 0 untuk uji order LIMIT, sah --valid candle)
 COLLECT = harga signal +/- 0.5 ATR, minimum 50 pip   (wajib close untung)
-SL      = rapat (default): 1 ATR di bawah/atas EMA50; normal: harga signal -/+ 3 ATR
+SL      = normal (default): harga signal -/+ 3 ATR; rapat: 1 ATR di bawah/atas EMA50 (H1 sahaja)
 SL disemak dulu pada candle fill; COLLECT hanya dikira selepas candle fill (konservatif).
 Satu trade pada satu masa.
 
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     ap.add_argument("--zone", type=float, default=0.75, help="lebar ZON ENTRY dari EMA50 (x ATR); 99 = tiada penapis zon")
     ap.add_argument("--lim", type=float, default=0.0, help="0 = masuk terus (default); >0 = uji order LIMIT (x ATR)")
     ap.add_argument("--valid", type=int, default=6, help="order LIMIT sah N candle")
-    ap.add_argument("--sl-mode", choices=["rapat", "normal"], default="rapat", help="rapat = bawah/atas EMA50; normal = 3 ATR dari entry")
+    ap.add_argument("--sl-mode", choices=["rapat", "normal"], default="normal", help="rapat = bawah/atas EMA50; normal = 3 ATR dari entry")
     ap.add_argument("--sl-buf", type=float, default=1.0, help="SL rapat: jarak dari EMA50 (x ATR)")
     ap.add_argument("--sl", type=float, default=3.0, help="SL normal: jarak dari harga signal (x ATR)")
     ap.add_argument("--tp", type=float, default=0.5, help="COLLECT dari harga signal (x ATR)")

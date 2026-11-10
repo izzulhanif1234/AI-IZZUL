@@ -15,8 +15,8 @@
 //  ENTRY   = BUY / SELL terus pada harga tutup candle signal
 //  COLLECT = wajib close untung (entry +/- 0.5 ATR, minimum 50 pip)
 //  SL      = wajib close rugi:
-//            Rapat  (default) = 1 ATR di bawah EMA50 untuk BUY / di atas EMA50 untuk SELL
-//            Normal           = entry -/+ 3 ATR
+//            Normal (default) = entry -/+ 3 ATR   (terbaik untuk M15)
+//            Rapat            = 1 ATR di bawah EMA50 untuk BUY / di atas EMA50 untuk SELL (H1 sahaja)
 //
 //  Signal keluar bila candle TUTUP dan tidak berubah selepas itu (tiada repaint).
 // ============================================================================
@@ -28,7 +28,7 @@ rsiLvl   = input.int(30, "RSI(2): BUY bawah nilai ni, SELL atas 100 - nilai", mi
 adxMax   = input.float(30, "ADX maksimum")
 SL_T     = "Rapat (bawah / atas EMA50)"
 SL_N     = "Normal (3 ATR dari entry)"
-slMode   = input.string(SL_T, "Jenis SL", options = [SL_T, SL_N])
+slMode   = input.string(SL_N, "Jenis SL", options = [SL_N, SL_T])
 slBuf    = input.float(1.0, "SL Rapat: jarak dari EMA50 (x ATR)", step = 0.1)
 slAtr    = input.float(3.0, "SL Normal: jarak dari entry (x ATR)", step = 0.1)
 tpAtr    = input.float(0.5, "COLLECT (x ATR)", step = 0.1)
