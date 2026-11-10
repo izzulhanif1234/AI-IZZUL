@@ -26,6 +26,19 @@ Anda close position sendiri secara manual. Sebaiknya letak COLLECT sebagai TP da
 - **Satu trade pada satu masa.** Signal baru hanya keluar selepas trade sebelumnya kena COLLECT atau SL.
 - **Chart sentiasa bersih.** Hanya trade terkini dilukis penuh. Signal lama tinggal segi tiga kecil.
 
+## Panel monitor (kanan atas)
+
+| Baris | Maksud |
+|---|---|
+| Trend H4 | NAIK = cari BUY sahaja, TURUN = cari SELL sahaja |
+| Struktur EMA50 / EMA200 | ATAS sokong BUY, BAWAH sokong SELL, CAMPUR = tiada signal |
+| RSI(2) | DIP (bawah 30) atau LONJAK (atas 70) = harga baru bergerak mendadak |
+| ADX | OK bila bawah 30 |
+| Sesi London + NY | Signal hanya keluar bila AKTIF |
+| Status | *Tunggu dip untuk BUY*, *Tunggu lonjakan untuk SELL*, *BERSEDIA*, *BUY / SELL aktif*, atau *Tiada setup* |
+| ENTRY / COLLECT / SL | Paras trade yang sedang berjalan |
+| Rekod chart ni | % trade yang kena COLLECT atas data broker anda |
+
 ## Keputusan backtest (kos spread $0.30 setiap trade)
 
 | | **H1** | **M15** |

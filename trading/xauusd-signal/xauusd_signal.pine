@@ -25,6 +25,7 @@ sess     = input.session("1400-0200", "Sesi (waktu Malaysia)")
 allowBuy = input.bool(true, "Signal BUY")
 allowSel = input.bool(true, "Signal SELL")
 showPrep = input.bool(true, "Tunjuk BERSEDIA pada candle yang belum tutup")
+showTbl  = input.bool(true, "Tunjuk panel monitor")
 
 if timeframe.in_seconds(htf) <= timeframe.in_seconds()
     runtime.error("Timeframe trend mesti lebih besar dari timeframe chart. Guna chart M15 atau H1.")
@@ -51,6 +52,8 @@ var int   tBar = na
 var float tEnt = na
 var float tTP  = na
 var float tSL  = na
+var int   nTP  = 0
+var int   nSL  = 0
 
 hitTP = false
 hitSL = false
@@ -58,6 +61,8 @@ if tDir != 0 and bar_index > tBar
     hitSL := tDir == 1 ? low <= tSL : high >= tSL
     hitTP := not hitSL and (tDir == 1 ? high >= tTP : low <= tTP)
     if hitSL or hitTP
+        nTP  += hitTP ? 1 : 0
+        nSL  += hitSL ? 1 : 0
         tDir := 0
 closedNow = hitSL or hitTP
 
@@ -123,7 +128,51 @@ alertcondition(hitTP, "XAU sampai COLLECT", "XAUUSD sampai COLLECT - CLOSE SEKAR
 alertcondition(hitSL, "XAU kena SL", "XAUUSD kena SL - CLOSE SEKARANG")
 alertcondition(prepBuy or prepSell, "XAU bersedia", "XAUUSD setup sedang terbentuk - signal sah bila candle tutup")
 
-// Amaran kalau bukan M15 / H1
-var table warn = table.new(position.top_right, 1, 1)
-if barstate.islast and timeframe.period != "15" and timeframe.period != "60"
-    table.cell(warn, 0, 0, "Guna chart M15 atau H1", text_color = color.black, bgcolor = color.yellow, text_size = size.small)
+// ----- Panel monitor -----
+var table tbl = table.new(position.top_right, 2, 11, bgcolor = color.new(color.black, 15), border_width = 1)
+row(r, k, v, c) =>
+    table.cell(tbl, 0, r, k, text_color = color.silver, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, r, v, text_color = c, text_size = size.small, text_halign = text.align_right)
+
+if showTbl and barstate.islast
+    tfOk = timeframe.period == "15" or timeframe.period == "60"
+    hUp  = hClose > hEma
+    sUp  = close > e50 and close > e200
+    sDn  = close < e50 and close < e200
+    upOk = hUp and sUp and allowBuy
+    dnOk = not hUp and sDn and allowSel
+    sts  = "Tiada setup - trend bercampur"
+    stC  = color.gray
+    if tDir == 1
+        sts := "BUY aktif - tunggu COLLECT / SL"
+        stC := color.lime
+    else if tDir == -1
+        sts := "SELL aktif - tunggu COLLECT / SL"
+        stC := color.red
+    else if prepBuy or prepSell
+        sts := "BERSEDIA " + (prepBuy ? "BUY" : "SELL") + " - tunggu candle tutup"
+        stC := color.yellow
+    else if upOk
+        sts := "Tunggu dip untuk BUY"
+        stC := color.white
+    else if dnOk
+        sts := "Tunggu lonjakan untuk SELL"
+        stC := color.white
+    if tDir == 0 and not inSess
+        sts := sts + " (sesi tutup)"
+
+    row(0, "XAU Signal", tfOk ? (timeframe.period == "15" ? "M15" : "H1") : "Guna chart M15 / H1", tfOk ? color.white : color.yellow)
+    row(1, "Trend H4", hUp ? "NAIK" : "TURUN", hUp ? color.lime : color.red)
+    row(2, "Struktur EMA50 / EMA200", sUp ? "ATAS (sokong BUY)" : sDn ? "BAWAH (sokong SELL)" : "CAMPUR", sUp ? color.lime : sDn ? color.red : color.gray)
+    row(3, "RSI(2)", str.tostring(rsi2, "0.0") + (rsi2 < rsiLvl ? "  DIP" : rsi2 > 100 - rsiLvl ? "  LONJAK" : ""), rsi2 < rsiLvl or rsi2 > 100 - rsiLvl ? color.yellow : color.white)
+    row(4, "ADX", str.tostring(adx, "0.0") + (adx < adxMax ? "  OK" : "  terlalu laju"), adx < adxMax ? color.lime : color.gray)
+    row(5, "Sesi London + NY", inSess ? "AKTIF" : "TUTUP", inSess ? color.lime : color.gray)
+    row(6, "Status", sts, stC)
+    if tDir != 0
+        row(7, ">> ENTRY", f(tEnt), color.aqua)
+        row(8, ">> COLLECT", f(tTP), color.lime)
+        row(9, ">> SL", f(tSL), color.red)
+    else
+        table.clear(tbl, 0, 7, 1, 9)
+    nAll = nTP + nSL
+    row(10, "Rekod chart ni", nAll > 0 ? str.tostring(nTP * 100.0 / nAll, "0.0") + "% kena COLLECT (" + str.tostring(nAll) + " trade)" : "-", color.white)
