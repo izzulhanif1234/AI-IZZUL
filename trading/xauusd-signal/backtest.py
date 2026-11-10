@@ -6,7 +6,7 @@ BUY : trend H4 naik (harga H4 atas EMA200), harga atas EMA50 & EMA200,
 SELL: trend H4 turun, harga bawah EMA50 & EMA200, dalam ZON, RSI(2) > 70, ADX < 30, sesi
 ENTRY   = BUY / SELL terus pada harga tutup candle signal
           (--lim > 0 untuk uji order LIMIT, sah --valid candle)
-COLLECT = harga signal +/- 0.5 ATR   (wajib close untung)
+COLLECT = harga signal +/- 0.5 ATR, minimum 50 pip   (wajib close untung)
 SL      = rapat (default): 1 ATR di bawah/atas EMA50; normal: harga signal -/+ 3 ATR
 SL disemak dulu pada candle fill; COLLECT hanya dikira selepas candle fill (konservatif).
 Satu trade pada satu masa.
@@ -98,7 +98,7 @@ def run(df, a):
             continue
         c = C[i]
         e = c - s * a.lim * A[i]
-        tp = c + s * a.tp * A[i]
+        tp = c + s * max(a.tp * A[i], a.tp_min_pip * a.pip)
         sl = E[i] - s * a.sl_buf * A[i] if a.sl_mode == "rapat" else c - s * a.sl * A[i]
         # tunggu order LIMIT kena
         j, fill = i + 1, (i if a.lim == 0 else None)   # lim 0 = masuk terus
@@ -171,6 +171,7 @@ if __name__ == "__main__":
     ap.add_argument("--sl", type=float, default=3.0, help="SL normal: jarak dari harga signal (x ATR)")
     ap.add_argument("--tp", type=float, default=0.5, help="COLLECT dari harga signal (x ATR)")
     ap.add_argument("--pip", type=float, default=0.10, help="1 pip = berapa $ (0.10 atau 1)")
+    ap.add_argument("--tp-min-pip", type=float, default=50, help="COLLECT minimum (pip)")
     ap.add_argument("--cost", type=float, default=0.30, help="spread + komisen ($ per oz)")
     ap.add_argument("--no-buy", action="store_true")
     ap.add_argument("--no-sell", action="store_true")

@@ -13,7 +13,7 @@
 //    + ADX < 30, sesi London + New York
 //
 //  ENTRY   = BUY / SELL terus pada harga tutup candle signal
-//  COLLECT = wajib close untung (entry +/- 0.5 ATR)
+//  COLLECT = wajib close untung (entry +/- 0.5 ATR, minimum 50 pip)
 //  SL      = wajib close rugi:
 //            Rapat  (default) = 1 ATR di bawah EMA50 untuk BUY / di atas EMA50 untuk SELL
 //            Normal           = entry -/+ 3 ATR
@@ -32,6 +32,7 @@ slMode   = input.string(SL_T, "Jenis SL", options = [SL_T, SL_N])
 slBuf    = input.float(1.0, "SL Rapat: jarak dari EMA50 (x ATR)", step = 0.1)
 slAtr    = input.float(3.0, "SL Normal: jarak dari entry (x ATR)", step = 0.1)
 tpAtr    = input.float(0.5, "COLLECT (x ATR)", step = 0.1)
+tpMinPip = input.float(50, "COLLECT minimum (pip)", step = 5)
 pipVal   = input.float(0.10, "1 pip = berapa $ (ikut broker anda)", options = [0.10, 1.0])
 useSess  = input.bool(true, "Sesi London + New York sahaja")
 sess     = input.session("1400-0200", "Sesi (waktu Malaysia)")
@@ -120,7 +121,7 @@ if buySig or sellSig
     tDir := buySig ? 1 : -1
     tBar := bar_index
     tEnt := close
-    tTP  := close + tDir * tpAtr * atr
+    tTP  := close + tDir * math.max(tpAtr * atr, tpMinPip * pipVal)
     tSL  := slMode == SL_T ? e50 - tDir * slBuf * atr : close - tDir * slAtr * atr
     side = buySig ? "BUY" : "SELL"
 
