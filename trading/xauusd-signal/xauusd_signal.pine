@@ -14,7 +14,9 @@
 //
 //  ENTRY   = BUY / SELL terus pada harga tutup candle signal
 //  COLLECT = wajib close untung (entry +/- 0.5 ATR)
-//  SL      = wajib close rugi   (entry -/+ 3 ATR)
+//  SL      = wajib close rugi:
+//            Rapat  (default) = 1 ATR di bawah EMA50 untuk BUY / di atas EMA50 untuk SELL
+//            Normal           = entry -/+ 3 ATR
 //
 //  Signal keluar bila candle TUTUP dan tidak berubah selepas itu (tiada repaint).
 // ============================================================================
@@ -24,7 +26,11 @@ htf      = input.timeframe("240", "Timeframe trend")
 nearAtr  = input.float(0.75, "Lebar ZON ENTRY dari EMA50 (x ATR)", step = 0.05)
 rsiLvl   = input.int(30, "RSI(2): BUY bawah nilai ni, SELL atas 100 - nilai", minval = 1, maxval = 49)
 adxMax   = input.float(30, "ADX maksimum")
-slAtr    = input.float(3.0, "SL (x ATR)", step = 0.1)
+SL_T     = "Rapat (bawah / atas EMA50)"
+SL_N     = "Normal (3 ATR dari entry)"
+slMode   = input.string(SL_T, "Jenis SL", options = [SL_T, SL_N])
+slBuf    = input.float(1.0, "SL Rapat: jarak dari EMA50 (x ATR)", step = 0.1)
+slAtr    = input.float(3.0, "SL Normal: jarak dari entry (x ATR)", step = 0.1)
 tpAtr    = input.float(0.5, "COLLECT (x ATR)", step = 0.1)
 pipVal   = input.float(0.10, "1 pip = berapa $ (ikut broker anda)", options = [0.10, 1.0])
 useSess  = input.bool(true, "Sesi London + New York sahaja")
@@ -115,7 +121,7 @@ if buySig or sellSig
     tBar := bar_index
     tEnt := close
     tTP  := close + tDir * tpAtr * atr
-    tSL  := close - tDir * slAtr * atr
+    tSL  := slMode == SL_T ? e50 - tDir * slBuf * atr : close - tDir * slAtr * atr
     side = buySig ? "BUY" : "SELL"
 
     // kotak untung (hijau) dan kotak risiko (merah)
@@ -188,7 +194,9 @@ if showTbl and barstate.islast
     if tDir == 0 and not inSess
         sts := sts + " | sesi tutup"
 
-    row(0, "XAU Signal A+", tfOk ? (timeframe.period == "15" ? "M15" : "H1") : "Guna chart M15 / H1", tfOk ? color.white : color.yellow)
+    tight = slMode == SL_T
+    hdr   = not tfOk ? "Guna chart M15 / H1" : timeframe.period == "15" and tight ? "M15: SL Rapat tak terbukti - guna H1" : (timeframe.period == "15" ? "M15" : "H1") + " | SL " + (tight ? "Rapat" : "Normal")
+    row(0, "XAU Signal A+", hdr, tfOk and not (timeframe.period == "15" and tight) ? color.white : color.yellow)
     row(1, "Trend H4", hUp ? "NAIK" : "TURUN", hUp ? color.lime : color.red)
     row(2, "Struktur EMA50 / EMA200", sUp ? "ATAS (sokong BUY)" : sDn ? "BAWAH (sokong SELL)" : "CAMPUR", sUp ? color.lime : sDn ? color.red : color.gray)
     row(3, "Jarak ke EMA50", str.tostring(distE, "0.00") + " ATR" + (inZone ? "  DALAM ZON" : "  luar zon"), inZone ? color.yellow : color.white)
