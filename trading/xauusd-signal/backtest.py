@@ -4,10 +4,11 @@ Backtest signal XAUUSD (logik sama dengan xauusd_signal.pine).
 BUY : trend H4 naik (harga H4 atas EMA200), harga atas EMA50 & EMA200,
       RSI(2) < 30, ADX < 30, sesi London + New York
 SELL: trend H4 turun, harga bawah EMA50 & EMA200, RSI(2) > 70, ADX < 30, sesi
-ENTRY   = harga tutup candle signal
-COLLECT = entry +/- 0.5 ATR   (wajib close untung)
-SL      = entry -/+ 3 ATR     (wajib close rugi)
-Kalau COLLECT dan SL kena dalam candle yang sama, dikira SL (konservatif).
+ENTRY   = order LIMIT pada harga signal -/+ 0.25 ATR, sah 6 candle
+          (batal kalau tak kena, atau harga terus ke COLLECT dulu)
+COLLECT = harga signal +/- 0.5 ATR   (wajib close untung)
+SL      = harga signal -/+ 3 ATR     (wajib close rugi)
+SL disemak dulu pada candle fill; COLLECT hanya dikira selepas candle fill (konservatif).
 Satu trade pada satu masa.
 
 Guna:
@@ -94,38 +95,57 @@ def run(df, a):
         if s == 0 or np.isnan(A[i]):
             i += 1
             continue
-        e = C[i]
-        tp, sl = e + s * a.tp * A[i], e - s * a.sl * A[i]
-        j, res = i + 1, None
-        while j < n:
-            if (s == 1 and L[j] <= sl) or (s == -1 and H[j] >= sl):
-                res = ("SL", sl)
+        c = C[i]
+        e = c - s * a.lim * A[i]
+        tp, sl = c + s * a.tp * A[i], c - s * a.sl * A[i]
+        # tunggu order LIMIT kena
+        j, fill = i + 1, None
+        while j < n and j - i <= a.valid:
+            if (s == 1 and L[j] <= e) or (s == -1 and H[j] >= e):
+                fill = j
                 break
             if (s == 1 and H[j] >= tp) or (s == -1 and L[j] <= tp):
+                break                               # harga terus ke COLLECT -> batal
+            j += 1
+        if fill is None:
+            out.append(dict(time=d.index[i], side="BUY" if s == 1 else "SELL", entry=e, collect=tp, sl=sl,
+                            result="BATAL", pnl=0.0, candles=j - i))
+            i = j + 1
+            continue
+        m, res = fill, None
+        while m < n:
+            if (s == 1 and L[m] <= sl) or (s == -1 and H[m] >= sl):
+                res = ("SL", sl)
+                break
+            if m > fill and ((s == 1 and H[m] >= tp) or (s == -1 and L[m] <= tp)):
                 res = ("COLLECT", tp)
                 break
-            j += 1
+            m += 1
         if res is None:
             break                                   # trade masih terbuka di hujung data
         out.append(dict(time=d.index[i], side="BUY" if s == 1 else "SELL", entry=e, collect=tp, sl=sl,
-                        result=res[0], pnl=(res[1] - e) * s - a.cost, candles=j - i))
-        i = j + 1
+                        result=res[0], pnl=(res[1] - e) * s - a.cost, candles=m - fill))
+        i = m + 1
     return pd.DataFrame(out)
 
 
-def report(t):
+def report(t, pip):
     if t.empty:
         print("Tiada signal.")
         return
+    nb = int((t.result == "BATAL").sum())
+    t = t[t.result != "BATAL"]
     w = t.pnl > 0
     eq = t.pnl.cumsum()
     dd = (eq.cummax().clip(lower=0) - eq).max()
     lose = (~w).astype(int)
     streak = lose.groupby((lose != lose.shift()).cumsum()).cumsum().max()
-    print(f"Jumlah trade    : {len(t)}  (BUY {sum(t.side == 'BUY')}, SELL {sum(t.side == 'SELL')})")
+    print(f"Jumlah trade    : {len(t)}  (BUY {sum(t.side == 'BUY')}, SELL {sum(t.side == 'SELL')}),  order batal {nb}")
     print(f"Kena COLLECT    : {w.mean() * 100:.1f}%   (BUY {w[t.side == 'BUY'].mean() * 100:.0f}%, SELL {w[t.side == 'SELL'].mean() * 100:.0f}%)")
     print(f"Purata COLLECT  : +${t.pnl[w].mean():.2f} per 0.01 lot")
     print(f"Purata SL       : ${t.pnl[~w].mean():.2f} per 0.01 lot  (paling teruk ${t.pnl.min():.2f})")
+    dist = (t.entry - t.sl).abs()
+    print(f"Jarak SL        : purata ${dist.mean():.2f} ({dist.mean() / pip:.0f} pip), terkecil ${dist.min():.2f}, terbesar ${dist.max():.2f}")
     print(f"Profit factor   : {t.pnl[w].sum() / -t.pnl[~w].sum():.2f}")
     print(f"Untung bersih   : ${t.pnl.sum():.0f} per 0.01 lot,  drawdown terbesar ${dd:.0f}")
     print(f"SL berturut     : paling banyak {streak}")
@@ -141,8 +161,11 @@ if __name__ == "__main__":
     ap.add_argument("--symbol", default="GC=F")
     ap.add_argument("--csv")
     ap.add_argument("--htf", default="4h")
-    ap.add_argument("--sl", type=float, default=3.0, help="SL x ATR")
-    ap.add_argument("--tp", type=float, default=0.5, help="COLLECT x ATR")
+    ap.add_argument("--lim", type=float, default=0.25, help="jarak LIMIT dari harga signal (x ATR), 0 = masuk terus")
+    ap.add_argument("--valid", type=int, default=6, help="order LIMIT sah N candle")
+    ap.add_argument("--sl", type=float, default=3.0, help="SL dari harga signal (x ATR)")
+    ap.add_argument("--tp", type=float, default=0.5, help="COLLECT dari harga signal (x ATR)")
+    ap.add_argument("--pip", type=float, default=0.10, help="1 pip = berapa $ (0.10 atau 1)")
     ap.add_argument("--cost", type=float, default=0.30, help="spread + komisen ($ per oz)")
     ap.add_argument("--no-buy", action="store_true")
     ap.add_argument("--no-sell", action="store_true")
@@ -151,4 +174,4 @@ if __name__ == "__main__":
 
     df = load(a)
     print(f"Data {a.tf}: {len(df)} candle, {df.index[0]:%Y-%m-%d} -> {df.index[-1]:%Y-%m-%d}\n")
-    report(run(df, a))
+    report(run(df, a), a.pip)

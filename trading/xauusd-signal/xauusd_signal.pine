@@ -1,25 +1,29 @@
 //@version=6
 // ============================================================================
-//  XAUUSD Signal - ENTRY solid + tempat wajib close
+//  XAUUSD Signal - LIMIT entry + tempat wajib close
 //  Guna pada chart M15 atau H1.
 //
 //  BUY : trend H4 naik, harga atas EMA50 & EMA200, harga baru jatuh mendadak
 //  SELL: trend H4 turun, harga bawah EMA50 & EMA200, harga baru naik mendadak
 //
-//  ENTRY   = harga tutup candle signal
-//  COLLECT = wajib close untung (entry +/- 0.5 ATR)
-//  SL      = wajib close rugi   (entry -/+ 3 ATR)
+//  Bila signal keluar, pasang order LIMIT (tak masuk terus):
+//    BUY LIMIT  = harga signal - 0.25 ATR   (SELL LIMIT = + 0.25 ATR)
+//    COLLECT    = harga signal + 0.5 ATR    (wajib close untung)
+//    SL         = harga signal - 3 ATR      (wajib close rugi)
+//  Order batal kalau tak kena dalam 6 candle, atau harga terus ke COLLECT.
 //
 //  Signal keluar bila candle TUTUP dan tidak berubah selepas itu (tiada repaint).
-//  Signal baru hanya keluar selepas trade sebelumnya kena COLLECT atau SL.
 // ============================================================================
 indicator("XAUUSD Signal", shorttitle = "XAU Signal", overlay = true, max_labels_count = 100, max_lines_count = 100)
 
 htf      = input.timeframe("240", "Timeframe trend")
 rsiLvl   = input.int(30, "RSI(2): BUY bawah nilai ni, SELL atas 100 - nilai", minval = 1, maxval = 49)
 adxMax   = input.float(30, "ADX maksimum")
-slAtr    = input.float(3.0, "SL (x ATR)", step = 0.1)
-tpAtr    = input.float(0.5, "COLLECT (x ATR)", step = 0.1)
+limAtr   = input.float(0.25, "Jarak LIMIT dari harga signal (x ATR), 0 = masuk terus", step = 0.05)
+limBars  = input.int(6, "Order LIMIT sah untuk N candle", minval = 1)
+tpAtr    = input.float(0.5, "COLLECT dari harga signal (x ATR)", step = 0.1)
+slAtr    = input.float(3.0, "SL dari harga signal (x ATR)", step = 0.1)
+pipVal   = input.float(0.10, "1 pip = berapa $ (ikut broker anda)", options = [0.10, 1.0])
 useSess  = input.bool(true, "Sesi London + New York sahaja")
 sess     = input.session("1400-0200", "Sesi (waktu Malaysia)")
 allowBuy = input.bool(true, "Signal BUY")
@@ -46,39 +50,65 @@ inSess = not useSess or not na(time(timeframe.period, sess, "Asia/Kuala_Lumpur")
 okBuy  = allowBuy and hClose > hEma and close > e50 and close > e200 and rsi2 < rsiLvl and adx < adxMax and inSess
 okSell = allowSel and hClose < hEma and close < e50 and close < e200 and rsi2 > 100 - rsiLvl and adx < adxMax and inSess
 
-// ----- Trade semasa (satu pada satu masa) -----
-var int   tDir = 0
-var int   tBar = na
-var float tEnt = na
-var float tTP  = na
-var float tSL  = na
-var int   nTP  = 0
-var int   nSL  = 0
+// ----- Trade semasa -----
+// tState: 0 = tiada, 1 = order LIMIT menunggu, 2 = position aktif
+var int   tState = 0
+var int   tDir   = 0
+var int   tBar   = na
+var int   tFill  = na
+var float tEnt   = na
+var float tTP    = na
+var float tSL    = na
+var int   nTP    = 0
+var int   nSL    = 0
+var int   nMiss  = 0
 
-hitTP = false
-hitSL = false
-if tDir != 0 and bar_index > tBar
+f(x) => str.tostring(x, format.mintick)
+pips(d) => str.tostring(math.abs(d), "0.00") + "$ / " + str.tostring(math.abs(d) / pipVal, "0") + " pip"
+
+filled = false
+missed = false
+hitTP  = false
+hitSL  = false
+if tState == 1 and bar_index > tBar
+    if tDir == 1 ? low <= tEnt : high >= tEnt
+        filled := true
+        tState := 2
+        tFill  := bar_index
+    else if tDir == 1 ? high >= tTP : low <= tTP
+        missed := true
+    else if bar_index - tBar >= limBars
+        missed := true
+    if missed
+        nMiss  += 1
+        tState := 0
+if tState == 2
+    // SL disemak dulu (konservatif). COLLECT hanya dikira selepas candle fill.
     hitSL := tDir == 1 ? low <= tSL : high >= tSL
-    hitTP := not hitSL and (tDir == 1 ? high >= tTP : low <= tTP)
+    hitTP := not hitSL and bar_index > tFill and (tDir == 1 ? high >= tTP : low <= tTP)
     if hitSL or hitTP
-        nTP  += hitTP ? 1 : 0
-        nSL  += hitSL ? 1 : 0
-        tDir := 0
-closedNow = hitSL or hitTP
+        nTP    += hitTP ? 1 : 0
+        nSL    += hitSL ? 1 : 0
+        tState := 0
+doneNow = missed or hitSL or hitTP
 
+sideTxt = tDir == 1 ? "BUY" : "SELL"
+if filled
+    alert("XAUUSD " + sideTxt + " LIMIT kena di " + f(tEnt) + " - position aktif. COLLECT " + f(tTP) + " | SL " + f(tSL), alert.freq_once_per_bar)
+if missed
+    alert("XAUUSD BATALKAN order " + sideTxt + " LIMIT " + f(tEnt) + " - tak kena", alert.freq_once_per_bar_close)
 if hitTP
-    alert("XAUUSD sampai COLLECT " + str.tostring(tTP, format.mintick) + " - CLOSE SEKARANG (untung)", alert.freq_once_per_bar)
+    alert("XAUUSD sampai COLLECT " + f(tTP) + " - CLOSE SEKARANG (untung)", alert.freq_once_per_bar)
 if hitSL
-    alert("XAUUSD kena SL " + str.tostring(tSL, format.mintick) + " - CLOSE SEKARANG", alert.freq_once_per_bar)
+    alert("XAUUSD kena SL " + f(tSL) + " - CLOSE SEKARANG", alert.freq_once_per_bar)
 
 // ----- Signal baru -----
-buySig  = barstate.isconfirmed and tDir == 0 and not closedNow and okBuy
-sellSig = barstate.isconfirmed and tDir == 0 and not closedNow and okSell and not buySig
+buySig  = barstate.isconfirmed and tState == 0 and not doneNow and okBuy
+sellSig = barstate.isconfirmed and tState == 0 and not doneNow and okSell and not buySig
 
 var array<line>  lns  = array.new<line>()
 var array<label> lbls = array.new<label>()
 
-f(x) => str.tostring(x, format.mintick)
 lvl(y, nm, col) =>
     array.push(lns, line.new(bar_index, y, bar_index + 20, y, color = col, width = 2))
     array.push(lbls, label.new(bar_index + 20, y, nm + "  " + f(y), style = label.style_label_left, color = col, textcolor = color.white, size = size.small))
@@ -92,29 +122,31 @@ if buySig or sellSig
     array.clear(lns)
     array.clear(lbls)
 
-    tDir := buySig ? 1 : -1
-    tBar := bar_index
-    tEnt := close
-    tTP  := close + tDir * tpAtr * atr
-    tSL  := close - tDir * slAtr * atr
-    side = buySig ? "BUY" : "SELL"
+    tDir   := buySig ? 1 : -1
+    tState := 1
+    tBar   := bar_index
+    tEnt   := close - tDir * limAtr * atr
+    tTP    := close + tDir * tpAtr * atr
+    tSL    := close - tDir * slAtr * atr
+    side   = buySig ? "BUY" : "SELL"
+    ordTxt = limAtr > 0 ? side + " LIMIT" : side
 
-    lvl(tEnt, "ENTRY " + side, color.blue)
+    lvl(tEnt, "ENTRY " + ordTxt, color.blue)
     lvl(tTP, "COLLECT", color.green)
     lvl(tSL, "SL", color.red)
 
-    txt    = side + "\nENTRY    " + f(tEnt) + "\nCOLLECT  " + f(tTP) + "\nSL       " + f(tSL)
+    txt    = ordTxt + "\nENTRY    " + f(tEnt) + "\nCOLLECT  " + f(tTP) + "  (+" + pips(tTP - tEnt) + ")\nSL       " + f(tSL) + "  (-" + pips(tEnt - tSL) + ")\nBatal lepas " + str.tostring(limBars) + " candle"
     lblY   = buySig ? low - 0.3 * atr : high + 0.3 * atr
     lblSty = buySig ? label.style_label_up : label.style_label_down
     lblCol = buySig ? color.green : color.red
     array.push(lbls, label.new(bar_index, lblY, txt, style = lblSty, color = lblCol, textcolor = color.white, size = size.small))
-    alert(side + " XAUUSD | ENTRY " + f(tEnt) + " | COLLECT " + f(tTP) + " | SL " + f(tSL), alert.freq_once_per_bar_close)
+    alert("XAUUSD pasang " + ordTxt + " " + f(tEnt) + " | COLLECT " + f(tTP) + " | SL " + f(tSL) + " | batal lepas " + str.tostring(limBars) + " candle", alert.freq_once_per_bar_close)
 
 // ----- BERSEDIA: setup sedang terbentuk, candle belum tutup (belum signal) -----
-prepBuy  = showPrep and not barstate.isconfirmed and tDir == 0 and okBuy
-prepSell = showPrep and not barstate.isconfirmed and tDir == 0 and okSell and not prepBuy
+prepBuy  = showPrep and not barstate.isconfirmed and tState == 0 and okBuy
+prepSell = showPrep and not barstate.isconfirmed and tState == 0 and okSell and not prepBuy
 if prepBuy or prepSell
-    alert("XAUUSD BERSEDIA " + (prepBuy ? "BUY" : "SELL") + " di " + f(close) + " - signal sah bila candle tutup", alert.freq_once_per_bar)
+    alert("XAUUSD BERSEDIA " + (prepBuy ? "BUY" : "SELL") + " - signal sah bila candle tutup", alert.freq_once_per_bar)
 
 // ----- Tanda di chart -----
 plotshape(buySig, "BUY", style = shape.triangleup, location = location.belowbar, color = color.green, size = size.small)
@@ -122,8 +154,10 @@ plotshape(sellSig, "SELL", style = shape.triangledown, location = location.above
 plotshape(prepBuy, "BERSEDIA BUY", style = shape.diamond, location = location.belowbar, color = color.yellow, text = "BERSEDIA", textcolor = color.yellow, size = size.tiny)
 plotshape(prepSell, "BERSEDIA SELL", style = shape.diamond, location = location.abovebar, color = color.yellow, text = "BERSEDIA", textcolor = color.yellow, size = size.tiny)
 
-alertcondition(buySig, "XAU BUY", "XAUUSD BUY - semak chart untuk ENTRY / COLLECT / SL")
-alertcondition(sellSig, "XAU SELL", "XAUUSD SELL - semak chart untuk ENTRY / COLLECT / SL")
+alertcondition(buySig, "XAU BUY LIMIT", "XAUUSD pasang BUY LIMIT - semak chart untuk ENTRY / COLLECT / SL")
+alertcondition(sellSig, "XAU SELL LIMIT", "XAUUSD pasang SELL LIMIT - semak chart untuk ENTRY / COLLECT / SL")
+alertcondition(filled, "XAU order kena", "XAUUSD order LIMIT kena - position aktif")
+alertcondition(missed, "XAU batal order", "XAUUSD BATALKAN order LIMIT - tak kena")
 alertcondition(hitTP, "XAU sampai COLLECT", "XAUUSD sampai COLLECT - CLOSE SEKARANG (untung)")
 alertcondition(hitSL, "XAU kena SL", "XAUUSD kena SL - CLOSE SEKARANG")
 alertcondition(prepBuy or prepSell, "XAU bersedia", "XAUUSD setup sedang terbentuk - signal sah bila candle tutup")
@@ -139,26 +173,24 @@ if showTbl and barstate.islast
     hUp  = hClose > hEma
     sUp  = close > e50 and close > e200
     sDn  = close < e50 and close < e200
-    upOk = hUp and sUp and allowBuy
-    dnOk = not hUp and sDn and allowSel
     sts  = "Tiada setup - trend bercampur"
     stC  = color.gray
-    if tDir == 1
-        sts := "BUY aktif - tunggu COLLECT / SL"
-        stC := color.lime
-    else if tDir == -1
-        sts := "SELL aktif - tunggu COLLECT / SL"
-        stC := color.red
+    if tState == 2
+        sts := sideTxt + " aktif - tunggu COLLECT / SL"
+        stC := tDir == 1 ? color.lime : color.red
+    else if tState == 1
+        sts := sideTxt + " LIMIT menunggu (candle " + str.tostring(bar_index - tBar) + "/" + str.tostring(limBars) + ")"
+        stC := color.aqua
     else if prepBuy or prepSell
         sts := "BERSEDIA " + (prepBuy ? "BUY" : "SELL") + " - tunggu candle tutup"
         stC := color.yellow
-    else if upOk
+    else if hUp and sUp and allowBuy
         sts := "Tunggu dip untuk BUY"
         stC := color.white
-    else if dnOk
+    else if not hUp and sDn and allowSel
         sts := "Tunggu lonjakan untuk SELL"
         stC := color.white
-    if tDir == 0 and not inSess
+    if tState == 0 and not inSess
         sts := sts + " (sesi tutup)"
 
     row(0, "XAU Signal", tfOk ? (timeframe.period == "15" ? "M15" : "H1") : "Guna chart M15 / H1", tfOk ? color.white : color.yellow)
@@ -168,15 +200,18 @@ if showTbl and barstate.islast
     row(4, "ADX", str.tostring(adx, "0.0") + (adx < adxMax ? "  OK" : "  terlalu laju"), adx < adxMax ? color.lime : color.gray)
     row(5, "Sesi London + NY", inSess ? "AKTIF" : "TUTUP", inSess ? color.lime : color.gray)
     row(6, "Status", sts, stC)
-    if tDir != 0
-        row(7, ">> ENTRY", f(tEnt), color.aqua)
-        row(8, ">> COLLECT", f(tTP), color.lime)
-        row(9, ">> SL", f(tSL), color.red)
-        pnl  = (close - tEnt) * tDir
-        toSL = pnl < 0 ? -pnl / math.abs(tEnt - tSL) * 100 : 0.0
-        pTxt = (pnl >= 0 ? "+" : "") + str.tostring(pnl, "0.00") + (pnl >= 0 ? " (menuju COLLECT)" : " (" + str.tostring(toSL, "0") + "% jalan ke SL - normal bawah 30%)")
-        row(10, ">> Sekarang", pTxt, pnl >= 0 ? color.lime : toSL < 30 ? color.orange : color.red)
+    if tState != 0
+        row(7, ">> ENTRY" + (tState == 1 ? " (LIMIT)" : ""), f(tEnt), color.aqua)
+        row(8, ">> COLLECT", f(tTP) + "  (+" + pips(tTP - tEnt) + ")", color.lime)
+        row(9, ">> SL", f(tSL) + "  (-" + pips(tEnt - tSL) + ")", color.red)
+        if tState == 2
+            pnl  = (close - tEnt) * tDir
+            toSL = pnl < 0 ? -pnl / math.abs(tEnt - tSL) * 100 : 0.0
+            pTxt = (pnl >= 0 ? "+" : "") + str.tostring(pnl, "0.00") + (pnl >= 0 ? " (menuju COLLECT)" : " (" + str.tostring(toSL, "0") + "% jalan ke SL)")
+            row(10, ">> Sekarang", pTxt, pnl >= 0 ? color.lime : toSL < 30 ? color.orange : color.red)
+        else
+            table.clear(tbl, 0, 10, 1, 10)
     else
         table.clear(tbl, 0, 7, 1, 10)
     nAll = nTP + nSL
-    row(11, "Rekod chart ni", nAll > 0 ? str.tostring(nTP * 100.0 / nAll, "0.0") + "% kena COLLECT (" + str.tostring(nAll) + " trade)" : "-", color.white)
+    row(11, "Rekod chart ni", nAll > 0 ? str.tostring(nTP * 100.0 / nAll, "0.0") + "% kena COLLECT (" + str.tostring(nAll) + " trade, " + str.tostring(nMiss) + " batal)" : "-", color.white)

@@ -1,15 +1,24 @@
 # Sistem Signal BUY / SELL XAUUSD
 
-Indikator TradingView untuk **chart M15 atau H1**. Setiap signal hanya tunjuk tiga perkara:
+Indikator TradingView untuk **chart M15 atau H1**. Bila signal keluar, anda pasang **order LIMIT**:
 
 ```
-BUY
-ENTRY    4119.20     <- masuk di sini
-COLLECT  4129.15     <- wajib close (untung)
-SL       4059.50     <- wajib close (rugi)
+BUY LIMIT
+ENTRY    4114.22                       <- pasang BUY LIMIT di sini
+COLLECT  4129.16  (+14.94$ / 149 pip)  <- wajib close (untung), letak sebagai TP
+SL       4059.42  (-54.80$ / 548 pip)  <- wajib close (rugi)
+Batal lepas 6 candle
 ```
 
-Anda close position sendiri secara manual. Sebaiknya letak COLLECT sebagai TP dan SL terus dalam MT4/MT5 sebaik masuk.
+## Kenapa order LIMIT, bukan masuk terus?
+Selepas signal, harga biasanya "cucuk" lagi sedikit sebelum lantun. Purata trade yang menang turun $7.80 dulu.
+
+Dengan LIMIT 0.25 ATR di bawah harga signal (untuk BUY), anda masuk pada harga lebih baik:
+- COLLECT jadi lebih besar (+$10.93 berbanding +$7.20 di H1)
+- SL jadi lebih dekat
+- Harga kurang "melawan" anda selepas entry
+
+Kosnya: lebih kurang 1 daripada 4 order tak kena, sebab harga terus naik tanpa turun dulu. Order tu batal, jadi anda tak untung dan tak rugi.
 
 ## Bila signal keluar
 
@@ -20,70 +29,66 @@ Anda close position sendiri secara manual. Sebaiknya letak COLLECT sebagai TP da
 | Entry | harga baru **jatuh mendadak** (RSI 2 < 30) | harga baru **naik mendadak** (RSI 2 > 70) |
 | Penapis | ADX < 30, sesi London + New York (14:00–02:00 waktu Malaysia) | sama |
 
-- **Tiada SELL masa trend naik, tiada BUY masa trend turun.** Kita hanya masuk searah trend besar, pada harga "diskaun".
-- **Signal keluar sebelum harga bergerak.** Signal dikira bila candle **tutup**, dan tak berubah selepas tu (tiada repaint). Dalam 3 candle sebelum signal, harga bergerak purata −$9 (H1) / −$5 (M15) melawan arah signal. Signal keluar di hujung pergerakan tu, sebelum lantunan.
-- **BERSEDIA** (tanda kuning) muncul semasa candle masih bergerak bila setup sedang terbentuk. Ini **belum** signal dan boleh hilang. Masuk hanya bila segi tiga BUY/SELL keluar.
-- **Satu trade pada satu masa.** Signal baru hanya keluar selepas trade sebelumnya kena COLLECT atau SL.
-- **Chart sentiasa bersih.** Hanya trade terkini dilukis penuh. Signal lama tinggal segi tiga kecil.
+- Signal dikira bila candle **tutup** dan tak berubah selepas tu (tiada repaint).
+- **BERSEDIA** (kuning) = setup sedang terbentuk, belum signal.
+- Satu trade pada satu masa. Hanya trade terkini dilukis, supaya chart sentiasa bersih.
 
-## Panel monitor (kanan atas)
+## Cara guna
+1. Signal keluar → pasang **BUY LIMIT / SELL LIMIT** di ENTRY, dengan **TP = COLLECT** dan **SL** ikut label.
+2. Kalau order tak kena dalam **6 candle**, padamkan order (ada alert *XAU batal order*).
+3. Lepas order kena, biar TP/SL yang tutup. Ada alert *sampai COLLECT* dan *kena SL*.
 
-| Baris | Maksud |
-|---|---|
-| Trend H4 | NAIK = cari BUY sahaja, TURUN = cari SELL sahaja |
-| Struktur EMA50 / EMA200 | ATAS sokong BUY, BAWAH sokong SELL, CAMPUR = tiada signal |
-| RSI(2) | DIP (bawah 30) atau LONJAK (atas 70) = harga baru bergerak mendadak |
-| ADX | OK bila bawah 30 |
-| Sesi London + NY | Signal hanya keluar bila AKTIF |
-| Status | *Tunggu dip untuk BUY*, *Tunggu lonjakan untuk SELL*, *BERSEDIA*, *BUY / SELL aktif*, atau *Tiada setup* |
-| ENTRY / COLLECT / SL | Paras trade yang sedang berjalan |
-| Sekarang | Untung/rugi terapung ($ per oz) dan berapa % harga dah jalan ke SL |
-| Rekod chart ni | % trade yang kena COLLECT atas data broker anda |
+Panel di kanan atas tunjuk trend H4, struktur, RSI, ADX, sesi, status (contohnya *BUY LIMIT menunggu 2/6*), paras trade, untung/rugi terapung dan rekod chart.
 
 ## Keputusan backtest (kos spread $0.30 setiap trade)
 
-| | **H1** | **M15** |
+| | **H1** (Jun 2024 – Nov 2026) | **M15** (Sep – Nov 2026, 60 hari) |
 |---|---|---|
-| Tempoh data | Jun 2024 – Nov 2026 (2.4 tahun) | Sep – Nov 2026 (60 hari) |
-| Jumlah trade | 297 (BUY 203, SELL 94) | 60 (BUY 5, SELL 55) |
-| **Kena COLLECT** | **87.5%** | **88.3%** |
-| Purata COLLECT (0.01 lot) | +$7.16 | +$3.88 |
-| Purata SL (0.01 lot) | −$37.53 | −$23.00 |
-| Profit factor | 1.34 | 1.28 |
+| Trade (order kena) | 213 | 43 |
+| Order batal | 75 | 15 |
+| **Kena COLLECT** | **80.8%** | **81.4%** |
+| Purata COLLECT (0.01 lot) | +$10.93 | +$5.97 |
+| Purata SL (0.01 lot) | −$32.95 | −$21.30 |
+| Jarak SL purata | $39.55 | $22.63 |
+| Profit factor | **1.39** | **1.23** |
 | SL berturut paling banyak | 2 | 3 |
-| Signal seminggu | ~2.4 | ~6 |
-| Tempoh trade biasa | 2 candle (90% siap dalam 8) | 2 candle (90% siap dalam 10) |
 
-Tetapan yang sama digunakan untuk M15 dan H1 (tiada tuning khas untuk setiap timeframe). Di H1, tetapan ni untung dalam kedua-dua separuh data (separuh pertama dan kedua).
+## Tentang saiz SL
+SL ikut volatiliti (3 ATR dari harga signal), bukan pip tetap. **SL tetap 30 pip dah diuji, dan hasilnya rugi:**
 
-## Yang anda kena tahu sebelum guna
+| SL 30 pip | H1 | M15 |
+|---|---|---|
+| $3 (1 pip = $0.10) | win 20–31%, rugi teruk | win 23–43%, rugi teruk |
+| $30 (1 pip = $1) | win ~79%, PF 1.22 tapi tak stabil | rugi |
 
-0. **Harga selalu bergerak melawan anda dulu lepas entry.** Sistem ni masuk masa harga tengah jatuh (BUY) atau naik (SELL). Di H1, **37% trade yang akhirnya menang turun lebih $5 dulu**, dan 25% turun lebih $10, sebelum kena COLLECT. Purata $7.80. Jangan panik dan jangan close awal. Biar COLLECT atau SL yang tentukan.
-   - Tunggu "candle pengesahan" sebelum masuk dah diuji. Hasilnya lebih teruk (PF H1 0.69–0.82, rugi), sebab harga dah lantun separuh jalan.
+Emas H1 biasa bergerak ~$16 dalam satu candle, jadi SL $3 kena oleh pergerakan biasa. **Kawal rugi dengan saiz lot:** pastikan satu SL tak lebih 1–2% akaun.
 
-1. **Satu SL ≈ 5 COLLECT.** Win rate tinggi sebab COLLECT kecil dan SL lebar. Sistem untung hanya kalau anda **tak pernah alihkan atau buang SL**.
-2. **Saiz lot ikut akaun.** Satu SL boleh sampai −$150 per 0.01 lot bila pasaran liar (purata −$38 di H1, −$23 di M15). Pastikan satu SL tak lebih 1–2% akaun.
-   - **Formula:** lot = (akaun × 1%) ÷ (jarak SL dalam $ × 100)
-3. **Data M15 cuma 60 hari** dan hampir semuanya SELL, sebab emas jatuh dalam tempoh tu. Keputusan M15 kurang kukuh berbanding H1. Uji di demo dulu.
-4. **Spread broker penting**, lebih-lebih lagi di M15 (COLLECT ~$4). Kalau spread anda selalu atas $0.40, guna H1.
-5. **Trade jarang tersangkut lama.** Ada satu trade H1 ambil 188 candle (~8 hari) sebelum selesai. Bila SL dan COLLECT dah diletak dalam MT4/MT5, anda tak perlu tengok chart.
-6. Prestasi lepas tak menjamin masa depan. Ini alat bantuan analisis, bukan nasihat kewangan.
+**Formula:** lot = (akaun × 1%) ÷ (jarak SL dalam $ × 100)
+
+Settings → *1 pip = berapa $* ikut broker anda ($0.10 atau $1), supaya label tunjuk pip dengan betul.
+
+## Yang anda kena tahu
+1. **Satu SL ≈ 3 COLLECT** (H1). Jangan sesekali alihkan atau buang SL.
+2. **Data M15 cuma 60 hari** (hampir semua SELL). H1 lebih kukuh.
+3. **Spread broker penting**, lebih-lebih lagi di M15.
+4. Prestasi lepas tak menjamin masa depan. Uji di demo dulu. Ini alat bantuan analisis, bukan nasihat kewangan.
 
 ## Cara pasang
-
 1. TradingView → chart **XAUUSD**, timeframe **M15** atau **H1**.
 2. **Pine Editor** → padam semua → paste seluruh isi `xauusd_signal.pine` → **Save** → **Add to chart**.
 3. **Alert** (Create Alert → Condition: XAU Signal):
-   - `XAU BUY` / `XAU SELL`: signal baru (*Once per bar close*)
-   - `XAU sampai COLLECT` / `XAU kena SL`: masa untuk close (*Once per bar*)
-   - `XAU bersedia`: setup sedang terbentuk (*Once per bar*)
-   - Atau pilih **Any alert() function call** untuk semua alert, dengan harga penuh.
+   - `XAU BUY LIMIT` / `XAU SELL LIMIT`: pasang order (*Once per bar close*)
+   - `XAU order kena`: position aktif
+   - `XAU batal order`: padam order
+   - `XAU sampai COLLECT` / `XAU kena SL`: close
+   - `XAU bersedia`: setup sedang terbentuk
+   - Atau pilih **Any alert() function call** untuk semua di atas, dengan harga penuh.
 
 ## Backtest sendiri
-
 ```bash
 pip install yfinance pandas numpy
 python backtest.py              # H1, ~2 tahun
 python backtest.py --tf 15m     # M15, 60 hari
+python backtest.py --lim 0      # masuk terus (untuk banding)
 python backtest.py --csv data_broker.csv --tf 15m   # data sendiri: time,open,high,low,close
 ```
