@@ -2,8 +2,8 @@
 Backtest signal XAUUSD (logik sama dengan xauusd_signal.pine).
 
 BUY : trend H4 naik (harga H4 atas EMA200), harga atas EMA50 & EMA200,
-      RSI(2) < 30, ADX < 30, sesi London + New York
-SELL: trend H4 turun, harga bawah EMA50 & EMA200, RSI(2) > 70, ADX < 30, sesi
+      dalam ZON (maks 0.75 ATR dari EMA50), RSI(2) < 30, ADX < 30, sesi London + New York
+SELL: trend H4 turun, harga bawah EMA50 & EMA200, dalam ZON, RSI(2) > 70, ADX < 30, sesi
 ENTRY   = BUY / SELL terus pada harga tutup candle signal
           (--lim > 0 untuk uji order LIMIT, sah --valid candle)
 COLLECT = harga signal +/- 0.5 ATR   (wajib close untung)
@@ -85,8 +85,9 @@ def run(df, a):
     hour = d.index.tz_convert("Asia/Kuala_Lumpur").hour
     ok = np.asarray((hour >= 14) | (hour < 2)) & (d.adx < 30).values
 
-    buy = ((h.c > h.e) & (d.close > e50) & (d.close > e200) & (d.rsi2 < 30)).values & ok & (not a.no_buy)
-    sell = ((h.c < h.e) & (d.close < e50) & (d.close < e200) & (d.rsi2 > 70)).values & ok & (not a.no_sell)
+    zone = ((d.close - e50).abs() / d.atr <= a.zone).values
+    buy = ((h.c > h.e) & (d.close > e50) & (d.close > e200) & (d.rsi2 < 30)).values & ok & zone & (not a.no_buy)
+    sell = ((h.c < h.e) & (d.close < e50) & (d.close < e200) & (d.rsi2 > 70)).values & ok & zone & (not a.no_sell)
 
     H, L, C, A = d.high.values, d.low.values, d.close.values, d.atr.values
     out, i, n = [], 0, len(d)
@@ -161,6 +162,7 @@ if __name__ == "__main__":
     ap.add_argument("--symbol", default="GC=F")
     ap.add_argument("--csv")
     ap.add_argument("--htf", default="4h")
+    ap.add_argument("--zone", type=float, default=0.75, help="lebar ZON ENTRY dari EMA50 (x ATR); 99 = tiada penapis zon")
     ap.add_argument("--lim", type=float, default=0.0, help="0 = masuk terus (default); >0 = uji order LIMIT (x ATR)")
     ap.add_argument("--valid", type=int, default=6, help="order LIMIT sah N candle")
     ap.add_argument("--sl", type=float, default=3.0, help="SL dari harga signal (x ATR)")
