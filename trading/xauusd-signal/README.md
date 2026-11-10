@@ -11,19 +11,28 @@ Indikator ada **dua mode** (tukar dalam Settings → *Mode*):
 |---|---|---|
 | Chart | **H1 sahaja** | M15 |
 | Ambil untung | 1 COLLECT, kecil (0.5 ATR, ~$7–10) | COLLECT 1 / 2 / 3 (1R / 2R / 3R) |
-| Kena COLLECT | ~65% | ~28–48% |
-| Tidak rugi (COLLECT + breakeven) | **~89%** | – |
-| Profit factor | 1.25 | ~1.2–1.5 (bila sasar COLLECT 3) |
-| Sifat | Selalu menang sikit, sekali-sekala rugi besar | Selalu rugi sikit, sekali-sekala menang besar |
+| Kena COLLECT | ~66% | ~28–48% |
+| Tidak rugi (COLLECT + breakeven) | **~93%** | – |
+| Kena SL penuh | **~5%** | ~52–72% |
+| Profit factor | **2.17** | ~1.2–1.5 (bila sasar COLLECT 3) |
+| Kekerapan | ~1.7 signal seminggu (BUY sahaja) | ~4 seminggu |
 
 ---
 
-## Mode 1: Win Rate Tinggi (H1)
+## Mode 1: Win Rate Tinggi (H1), signal solid sahaja
 
-### Bila signal keluar
-1. **Trend besar (H4)**: harga H4 di atas EMA200 → cari **BUY sahaja**. Di bawah → cari **SELL sahaja**.
-2. **Entry**: harga jatuh mendadak melawan trend, iaitu RSI(2) bawah 30 untuk BUY atau atas 70 untuk SELL. Kita beli "diskaun" dalam trend naik.
-3. **Penapis**: ADX bawah 30 (pasaran tak terlalu meluncur sehala), dan sesi London + New York sahaja (14:00–02:00 waktu Malaysia).
+### Bila signal BUY keluar (semua syarat mesti betul)
+1. **Trend H4 naik**: harga H4 di atas EMA200 H4.
+2. **Struktur H1 masih kukuh**: harga H1 di atas EMA50 **dan** EMA200 H1. Ini maksudnya harga cuma "turun sekejap", bukan trend yang sedang patah.
+3. **Dip**: RSI(2) bawah 30, iaitu harga baru jatuh mendadak. Kita beli "diskaun" sebelum harga lantun.
+4. **Penapis**: ADX bawah 30, dan sesi London + New York sahaja (14:00–02:00 waktu Malaysia).
+
+**SELL ditutup secara default.** Dalam backtest, SELL tak untung (PF 0.94), dan SELL masa chart naik kuat itulah yang selalu kena SL besar. Bila trend H4 turun, sistem **berehat** (panel tunjuk "TURUN (rehat)"). Contohnya, dari 25 Ogos hingga 9 Nov 2026 tiada langsung signal semasa emas jatuh dari $4,700 ke $4,000.
+
+### Adakah signal keluar sebelum harga bergerak?
+Ya. Signal dikira bila candle H1 **tutup**, dan tak berubah selepas tu (tiada repaint). Dalam 3 jam sebelum signal, harga jatuh purata **−$8**. Signal keluar di bawah dip tu, sebelum lantunan.
+
+Supaya anda lebih awal bersedia: tanda kuning **BERSEDIA** muncul pada candle yang masih bergerak bila setup sedang terbentuk. Ini **belum** signal. Tanda tu boleh hilang kalau candle tutup tanpa memenuhi syarat. Masuk hanya bila segi tiga hijau BUY keluar.
 
 ### Apa yang anda nampak di chart
 ```
@@ -34,11 +43,14 @@ SL       4069.45     <- stop loss
 SL ke entry bila harga 4125.17
 Tutup sendiri lepas 12 candle
 ```
-Setiap paras juga dilukis sebagai garisan dengan nama dan harga di hujungnya. Panel di kanan atas tunjuk ENTRY / COLLECT / SL untuk trade yang sedang aktif.
+- **Trade terkini sahaja** dilukis penuh (label, garisan ENTRY / COLLECT / SL dengan harga). Lukisan trade lama dipadam bila signal baru keluar.
+- **Signal lama** hanya ditanda dengan segi tiga kecil.
+- **Keputusan trade lama** ditanda dengan titik kecil di harga keluar: hijau = COLLECT, kelabu = BE, X merah = SL, segi empat oren = time stop.
+- Panel di kanan atas tunjuk ENTRY / COLLECT / SL untuk trade yang sedang aktif.
 
 ### Cara urus trade (penting)
 1. Masuk pada harga **ENTRY**. Letak **TP = COLLECT** dan **SL** dalam MT4/MT5.
-2. Bila harga sampai paras **"SL ke entry"**, alihkan SL ke harga ENTRY. Inilah yang kurangkan rugi: kalau harga patah balik, anda keluar tanpa rugi (cuma spread).
+2. Bila harga sampai paras **"SL ke entry"**, alihkan SL ke harga ENTRY. Kalau harga patah balik, anda keluar tanpa rugi (cuma spread).
 3. Kalau selepas **12 candle H1** belum kena COLLECT atau SL, **tutup trade sendiri**.
 4. Langkah 2 dan 3 ada alert: *XAU pindah SL ke entry* dan *XAU time stop*.
 
@@ -46,26 +58,40 @@ Setiap paras juga dilukis sebagai garisan dengan nama dan harga di hujungnya. Pa
 
 | Keputusan | Bil. | % | Purata per trade (1 oz = 0.01 lot) |
 |---|---|---|---|
-| COLLECT (untung) | 485 | 65.4% | +$6.74 |
-| BE (SL di entry, keluar kosong) | 175 | 23.6% | −$0.30 (spread) |
-| SL (rugi penuh) | 60 | 8.1% | −$38.14 |
-| Time stop | 22 | 3.0% | −$11.88 |
+| COLLECT (untung) | 142 | 66.0% | +$6.49 |
+| BE (SL di entry, keluar kosong) | 57 | 26.5% | −$0.30 (spread) |
+| SL (rugi penuh) | 10 | 4.7% | −$33.26 |
+| Time stop | 6 | 2.8% | −$12.67 |
 
-- **Tidak rugi: 88.9%** · Profit factor **1.25** · Loss berturut paling banyak: **2**
-- Untung bersih +$666 per oz, drawdown terbesar $220 per oz
-- 9 daripada 11 suku tahun untung. Dua suku rugi: 2025Q4 (−$120) dan 2026Q3 (−$101).
+- **Tidak rugi: 92.6%** · Profit factor **2.17** · Loss berturut paling banyak: **2**
+- Untung bersih +$497 per oz, drawdown terbesar $125 per oz
+- **10 daripada 10 suku tahun untung**
+
+### Kenapa SL lebar (2.5 ATR)?
+SL lebih rapat sudah diuji, dan hasilnya lebih teruk:
+
+| SL | Kena SL | Profit factor | Untung bersih ($/oz) |
+|---|---|---|---|
+| 1.0 ATR | 23% | 1.09 | 65 |
+| 1.5 ATR | 13% | 1.39 | 245 |
+| 2.0 ATR | 9% | 1.61 | 340 |
+| **2.5 ATR** | **5%** | **2.17** | **497** |
+
+Emas H1 biasa "goyang" $15–25 sebelum lantun. SL rapat akan kena dulu sebelum harga sempat naik. **Kawal rugi dengan saiz lot, bukan dengan SL rapat** (lihat bahagian Saiz lot di bawah).
 
 ### Bagaimana tetapan ni dipilih
 - Diuji **lebih 2,000 kombinasi**. Data dibahagi dua: 60% pertama untuk pilih tetapan, 40% terakhir untuk uji tetapan tu atas data yang ia tak pernah "nampak".
-- Tetapan ni lulus kedua-dua bahagian (PF 1.29 → 1.23).
-- Kebanyakan sistem "win rate 80%" lain gagal di bahagian ujian. Sebabnya, kerugian yang besar memadam semua kemenangan kecil.
+- Tetapan asas lulus kedua-dua bahagian (PF 1.29 → 1.23).
+- Penapis struktur EMA50/EMA200 memperbaiki kedua-dua bahagian (PF 2.19 → 2.15).
+- Penapis yang hanya nampak bagus di satu bahagian sahaja dibuang, contohnya waktu overlap London-NY dan RSI lebih dalam.
 
 ### Risiko yang anda kena tahu
-- **Satu SL penuh (−$38) memadam ~6 COLLECT (+$6.74).** Jangan sesekali alihkan SL lebih jauh atau buang SL. Itulah cara akaun hangus dengan sistem win rate tinggi.
-- **Mesti ikut breakeven dan time stop.** Tanpa BE, purata rugi naik dari $10 ke $30. Win rate memang naik ke ~84%, tapi rugi lebih besar setiap kali kalah.
-- **Hanya H1.** Pada M15/M5 COLLECT terlalu kecil berbanding spread, dan hasilnya rugi (PF 0.85–0.96). Panel akan tunjuk "AMARAN: Guna chart H1".
-- Emas naik kuat sepanjang 2024–2026, jadi kebanyakan trade dalam ujian ni ialah BUY (503 BUY vs 239 SELL). Bila pasaran berubah, prestasi boleh berbeza.
-- Spread broker anda penting. Kalau spread biasa melebihi $0.50, untung sistem ni banyak terhakis.
+- **Satu SL penuh (−$33) memadam ~5 COLLECT (+$6.49).** Jangan sesekali alihkan SL lebih jauh atau buang SL.
+- **Mesti ikut breakeven dan time stop**, kalau tidak keputusan anda tak sama dengan backtest.
+- **Hanya H1.** Pada M15/M5 COLLECT terlalu kecil berbanding spread. Panel akan tunjuk "AMARAN: Guna chart H1".
+- **Sistem BUY sahaja bergantung pada trend naik.** Emas naik kuat sepanjang 2024–2026. Kalau emas masuk trend turun yang panjang, sistem akan senyap berminggu-minggu. Itu memang disengajakan.
+- Data cuma 215 trade dalam ~2.4 tahun. Keputusan masa depan mungkin lebih lemah daripada backtest.
+- Spread broker anda penting. Kalau spread biasa melebihi $0.50, untung banyak terhakis.
 
 ---
 
@@ -90,6 +116,7 @@ Keputusan: sistem ni untung hanya bila trade dibiarkan sampai **COLLECT 3**. Di 
 ### Alert
 Create Alert → Condition: **XAU Signal**, kemudian pilih:
 - `XAU BUY` / `XAU SELL`: signal baru
+- `XAU bersedia`: setup sedang terbentuk (pilih *Once per bar*), belum signal
 - `XAU pindah SL ke entry`: masa untuk alihkan SL ke harga entry
 - `XAU time stop`: tutup trade sekarang
 - **Any alert() function call**: semua di atas, dengan harga penuh dalam format JSON (sesuai untuk webhook / bot Telegram):
@@ -102,6 +129,7 @@ Pilih *Once per bar close*.
 pip install yfinance pandas numpy
 python backtest.py                     # Win Rate Tinggi, H1, ~2 tahun
 python backtest.py --wr-be 0           # tanpa breakeven (untuk banding)
+python backtest.py --wr-sell           # termasuk SELL (untuk banding)
 python backtest.py --mode trend        # mode Trend, M15, 60 hari
 python backtest.py --csv data.csv --tf 1h   # data broker sendiri (time,open,high,low,close)
 ```

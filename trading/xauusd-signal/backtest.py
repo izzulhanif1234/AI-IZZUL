@@ -6,11 +6,12 @@ Dua mode:
   --mode trend             : Trend TP3, chart M15, trend H1
 
 Mode Win Rate Tinggi:
-  1. Trend H4   : harga H4 di atas EMA200 -> cari BUY sahaja, di bawah -> SELL sahaja
-  2. Entry      : RSI(2) < 30 (BUY) / > 70 (SELL), ADX < 30, sesi London+NY
-  3. COLLECT    : entry +/- 0.5 ATR
-  4. SL         : entry -/+ 2.5 ATR, dipindah ke entry bila untung 0.3 ATR
-  5. Time stop  : tutup pada harga semasa selepas 12 candle
+  1. Trend H4   : harga H4 di atas EMA200 -> cari BUY (SELL tutup secara default)
+  2. Struktur   : harga H1 di atas EMA50 dan EMA200 (signal solid sahaja)
+  3. Entry      : RSI(2) < 30, ADX < 30, sesi London+NY
+  4. COLLECT    : entry + 0.5 ATR
+  5. SL         : entry - 2.5 ATR, dipindah ke entry bila untung 0.3 ATR
+  6. Time stop  : tutup pada harga semasa selepas 12 candle
 
 Mode Trend: Trend + Pullback + Confirmation
   1. Trend HTF  : harga HTF di atas EMA200 HTF (BUY) / di bawah (SELL)
@@ -197,8 +198,11 @@ def simulate_winrate(df, p):
     hour = d.index.tz_convert("Asia/Kuala_Lumpur").hour
     sess = (hour >= p.sess_start) | (hour < p.sess_end) if p.sess_start > p.sess_end else (hour >= p.sess_start) & (hour < p.sess_end)
     ok = np.asarray(sess) & (d.adx < p.wr_adx).values
-    buy = up & (d.rsi2 < p.wr_rsi).values & ok
-    sell = dn & (d.rsi2 > 100 - p.wr_rsi).values & ok
+    e50, e200 = ema(d.close, 50), ema(d.close, 200)
+    str_up = ((d.close > e50) & (d.close > e200)).values | p.wr_no_struct
+    str_dn = ((d.close < e50) & (d.close < e200)).values | p.wr_no_struct
+    buy = up & (d.rsi2 < p.wr_rsi).values & ok & str_up
+    sell = dn & (d.rsi2 > 100 - p.wr_rsi).values & ok & str_dn & p.wr_sell
 
     H, L, C, A = d.high.values, d.low.values, d.close.values, d.atr.values
     out, i, n = [], 0, len(d)
@@ -278,6 +282,8 @@ if __name__ == "__main__":
     ap.add_argument("--wr-tp", type=float, default=0.5, help="winrate: COLLECT x ATR")
     ap.add_argument("--wr-be", type=float, default=0.3, help="winrate: pindah SL ke entry bila untung x ATR (0 = tutup)")
     ap.add_argument("--wr-max", type=int, default=12, help="winrate: time stop (candle)")
+    ap.add_argument("--wr-sell", action="store_true", help="winrate: benarkan SELL (lemah dalam backtest)")
+    ap.add_argument("--wr-no-struct", action="store_true", help="winrate: buang penapis EMA50/EMA200 H1")
     p = ap.parse_args()
     wr = p.mode == "winrate"
     p.tf = p.tf or ("1h" if wr else "15m")

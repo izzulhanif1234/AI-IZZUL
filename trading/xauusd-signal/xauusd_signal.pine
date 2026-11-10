@@ -3,10 +3,11 @@
 //  XAUUSD Signal - dua mode
 //
 //  1) Win Rate Tinggi (default) - chart H1 sahaja
-//     Beli bila harga jatuh mendadak dalam trend naik H4 (RSI 2 < 30),
-//     jual bila naik mendadak dalam trend turun. TP kecil (0.5 ATR),
+//     BUY bila harga jatuh mendadak (RSI 2 < 30) tetapi trend masih kukuh:
+//     H4 atas EMA200, H1 atas EMA50 dan EMA200. COLLECT 0.5 ATR,
 //     SL 2.5 ATR, SL dipindah ke entry bila untung 0.3 ATR, tutup trade
-//     selepas 12 candle kalau TP/SL belum kena.
+//     selepas 12 candle kalau COLLECT/SL belum kena. SELL tutup secara
+//     default (tiada edge dalam backtest).
 //
 //  2) Trend (TP3) - chart M15 (trend H1)
 //     Pullback ke EMA21 dalam trend, sasar TP 1R / 2R / 3R.
@@ -30,6 +31,8 @@ hwSL  = input.float(2.5, "SL (x ATR)", step = 0.1, group = gH)
 hwTP  = input.float(0.5, "TP (x ATR)", step = 0.1, group = gH)
 hwBE  = input.float(0.3, "Pindah SL ke entry bila untung (x ATR), 0 = tutup", step = 0.1, group = gH)
 hwMax = input.int(12, "Time stop: tutup selepas N candle", minval = 1, group = gH)
+hwStr = input.bool(true, "Signal solid sahaja: harga H1 atas EMA50 & EMA200", group = gH)
+hwSellOn = input.bool(false, "Benarkan SELL (lemah dalam backtest)", group = gH)
 
 // ----- Input: Trend -----
 gT = "Mode Trend"
@@ -54,9 +57,10 @@ sess    = input.session("1400-0200", "Sesi (waktu Malaysia)", group = gC)
 spread  = input.float(0.30, "Anggaran spread + komisen ($) untuk statistik", step = 0.05, group = gC)
 
 gD = "Paparan"
-showEma  = input.bool(true, "Tunjuk EMA", group = gD)
-showLvls = input.bool(true, "Tunjuk garisan Entry / SL / TP", group = gD)
-showExit = input.bool(true, "Tunjuk label keputusan trade (TP / BE / SL / TIME)", group = gD)
+showEma  = input.bool(false, "Tunjuk EMA", group = gD)
+showLvls = input.bool(true, "Tunjuk garisan ENTRY / COLLECT / SL (trade terkini sahaja)", group = gD)
+showExit = input.bool(true, "Tunjuk titik keputusan trade lama", group = gD)
+showPrep = input.bool(true, "Tunjuk BERSEDIA pada candle yang sedang bergerak", group = gD)
 showTbl  = input.bool(true, "Tunjuk panel", group = gD)
 
 if isHw and timeframe.in_seconds(hwHtf) < timeframe.in_seconds()
@@ -70,6 +74,8 @@ emaS = ta.ema(close, slowLen)
 rsi  = ta.rsi(close, 14)
 rsi2 = ta.rsi(close, 2)
 atr  = ta.atr(14)
+e50  = ta.ema(close, 50)
+e200 = ta.ema(close, 200)
 [diP, diM, adx] = ta.dmi(14, 14)
 
 // Nilai HTF dari bar yang SUDAH tutup (tiada repaint)
@@ -82,8 +88,10 @@ inSess = not useSess or not na(time(timeframe.period, sess, "Asia/Kuala_Lumpur")
 
 // ----- Syarat mode Win Rate Tinggi -----
 hwUp   = hwClose > hwEma
-hwBuy  = hwUp and rsi2 < hwLvl and adx < hwAdx and inSess
-hwSell = not hwUp and hwClose < hwEma and rsi2 > 100 - hwLvl and adx < hwAdx and inSess
+hwStrUp = close > e50 and close > e200
+hwStrDn = close < e50 and close < e200
+hwBuy  = hwUp and rsi2 < hwLvl and adx < hwAdx and inSess and (not hwStr or hwStrUp)
+hwSell = hwSellOn and hwClose < hwEma and rsi2 > 100 - hwLvl and adx < hwAdx and inSess and (not hwStr or hwStrDn)
 
 // ----- Syarat mode Trend -----
 adxOk   = not useAdx or adx > adxMin
@@ -131,13 +139,13 @@ closedNow = false
 beNow     = false
 exitTxt   = ""
 exitNet   = 0.0
+exitPx    = 0.0
 exitDir   = 0
 
 if tDir != 0 and bar_index > tBar
     slHit = tDir == 1 ? low <= tSL : high >= tSL
     if isHw
         tpHit = not slHit and (tDir == 1 ? high >= tTP1 : low <= tTP1)
-        exitPx = 0.0
         if slHit
             exitPx  := tSL
             exitTxt := tBeOn ? "BE" : "SL"
@@ -173,24 +181,21 @@ if tDir != 0 and bar_index > tBar
             w2 += h2 ? 1 : 0
             w3 += h3 ? 1 : 0
             exitTxt := h3 ? "TP3" : h2 ? "SL lepas TP2" : h1 ? "SL lepas TP1" : "SL"
-            exitNet := h3 ? (tTP3 - tEnt) * tDir - spread : (tSL - tEnt) * tDir - spread
+            exitPx  := h3 ? tTP3 : tSL
+            exitNet := (exitPx - tEnt) * tDir - spread
     if exitTxt != ""
         exitDir   := tDir
         tDir      := 0
         closedNow := true
 
+// Lukisan trade terkini sahaja (yang lama dipadam bila signal baru keluar)
+var array<line>  curLines  = array.new<line>()
+var array<label> curLabels = array.new<label>()
+
 f(x) => str.tostring(x, format.mintick)
 lvl(x2, y, nm, col, sty) =>
-    line.new(bar_index, y, x2, y, color = col, style = sty, width = 2)
-    label.new(x2, y, nm + "  " + f(y), style = label.style_label_left, color = col, textcolor = color.white, size = size.small)
-
-if closedNow and showExit
-    exCol = exitTxt == "TP" or exitTxt == "TP3" ? color.green : exitTxt == "BE" ? color.gray : exitTxt == "TIME" ? color.orange : color.red
-    exY   = exitDir == 1 ? high : low
-    exSty = exitDir == 1 ? label.style_label_down : label.style_label_up
-    exNm  = exitTxt == "TP" ? "COLLECT" : exitTxt == "TP3" ? "COLLECT 3" : exitTxt
-    exStr = exNm + " " + (exitNet >= 0 ? "+" : "") + str.tostring(exitNet, "0.00")
-    label.new(bar_index, exY, exStr, style = exSty, color = exCol, textcolor = color.white, size = size.tiny)
+    array.push(curLines, line.new(bar_index, y, x2, y, color = col, style = sty, width = 2))
+    array.push(curLabels, label.new(x2, y, nm + "  " + f(y), style = label.style_label_left, color = col, textcolor = color.white, size = size.small))
 
 if closedNow
     alert("XAU " + (exitTxt == "TP" ? "COLLECT" : exitTxt) + ": trade selesai, " + (exitNet >= 0 ? "+" : "") + str.tostring(exitNet, "0.00") + " $/oz" + (exitTxt == "TIME" ? " - TUTUP TRADE SEKARANG pada " + f(close) : ""), alert.freq_once_per_bar_close)
@@ -212,6 +217,12 @@ if buySig or sellSig
     h1 := false
     h2 := false
     h3 := false
+    for ln in curLines
+        line.delete(ln)
+    for lb in curLabels
+        label.delete(lb)
+    array.clear(curLines)
+    array.clear(curLabels)
     side = buySig ? "BUY" : "SELL"
     txt  = ""
     msg  = '{"signal":"' + side + '","symbol":"' + syminfo.ticker + '","tf":"' + timeframe.period + '","mode":"' + (isHw ? "winrate" : "trend") + '"'
@@ -249,18 +260,40 @@ if buySig or sellSig
     lblY   = buySig ? low - 0.3 * atr : high + 0.3 * atr
     lblSty = buySig ? label.style_label_up : label.style_label_down
     lblCol = buySig ? color.green : color.red
-    label.new(bar_index, lblY, txt, style = lblSty, color = lblCol, textcolor = color.white, size = size.small)
+    array.push(curLabels, label.new(bar_index, lblY, txt, style = lblSty, color = lblCol, textcolor = color.white, size = size.small))
     alert(msg, alert.freq_once_per_bar_close)
+
+// BERSEDIA: setup sedang terbentuk pada candle yang belum tutup (belum signal sah)
+prepBuy  = showPrep and not barstate.isconfirmed and tDir == 0 and okBuy
+prepSell = showPrep and not barstate.isconfirmed and tDir == 0 and okSell and not prepBuy
+if prepBuy or prepSell
+    alert("XAU BERSEDIA " + (prepBuy ? "BUY" : "SELL") + ": setup sedang terbentuk di " + f(close) + ", signal sah bila candle tutup", alert.freq_once_per_bar)
 
 alertcondition(buySig, "XAU BUY", "XAUUSD BUY signal - semak chart untuk Entry/SL/TP")
 alertcondition(sellSig, "XAU SELL", "XAUUSD SELL signal - semak chart untuk Entry/SL/TP")
 alertcondition(beNow, "XAU pindah SL ke entry", "XAUUSD: pindah SL ke harga entry (breakeven)")
 alertcondition(closedNow and exitTxt == "TIME", "XAU time stop", "XAUUSD: TUTUP TRADE SEKARANG (time stop)")
+alertcondition(prepBuy or prepSell, "XAU bersedia", "XAUUSD: setup sedang terbentuk, bersedia - signal sah bila candle tutup")
 
 // ----- Plot -----
 plot(showEma and not isHw ? emaF : na, "EMA pantas", color = color.aqua)
 plot(showEma and not isHw ? emaS : na, "EMA perlahan", color = color.orange)
 plot(showEma ? (isHw ? hwEma : htfEma) : na, "EMA trend HTF", color = color.gray, linewidth = 2, style = plot.style_stepline)
+plot(showEma and isHw ? e50 : na, "EMA50", color = color.orange)
+plot(showEma and isHw ? e200 : na, "EMA200", color = color.purple)
+
+// Signal lama: segi tiga kecil sahaja
+plotshape(buySig, "BUY", style = shape.triangleup, location = location.belowbar, color = color.green, size = size.small)
+plotshape(sellSig, "SELL", style = shape.triangledown, location = location.abovebar, color = color.red, size = size.small)
+plotshape(prepBuy, "BERSEDIA BUY", style = shape.diamond, location = location.belowbar, color = color.yellow, text = "BERSEDIA", textcolor = color.yellow, size = size.tiny)
+plotshape(prepSell, "BERSEDIA SELL", style = shape.diamond, location = location.abovebar, color = color.yellow, text = "BERSEDIA", textcolor = color.yellow, size = size.tiny)
+
+// Keputusan trade lama: titik kecil di harga keluar
+exShow = showExit and closedNow
+plotshape(exShow and (exitTxt == "TP" or exitTxt == "TP3") ? exitPx : na, "Kena COLLECT", style = shape.circle, location = location.absolute, color = color.green, size = size.tiny)
+plotshape(exShow and exitTxt == "BE" ? exitPx : na, "Keluar di entry (BE)", style = shape.circle, location = location.absolute, color = color.gray, size = size.tiny)
+plotshape(exShow and str.startswith(exitTxt, "SL") ? exitPx : na, "Kena SL", style = shape.xcross, location = location.absolute, color = color.red, size = size.tiny)
+plotshape(exShow and exitTxt == "TIME" ? exitPx : na, "Time stop", style = shape.square, location = location.absolute, color = color.orange, size = size.tiny)
 
 // ----- Panel -----
 var table tbl = table.new(position.top_right, 2, 15, bgcolor = color.new(color.black, 15), border_width = 1)
@@ -288,9 +321,9 @@ if showTbl and barstate.islast
         if tDir != 0
             sts := sts + " (candle " + str.tostring(bar_index - tBar) + "/" + str.tostring(hwMax) + ")"
         row(0, "XAU Signal", "Win Rate Tinggi", color.white)
-        row(1, "Trend besar", hwUp ? "NAIK (cari BUY)" : "TURUN (cari SELL)", hwUp ? color.lime : color.red)
+        row(1, "Trend H4", hwUp ? "NAIK (cari BUY)" : hwSellOn ? "TURUN (cari SELL)" : "TURUN (rehat)", hwUp ? color.lime : color.red)
         row(2, "RSI(2)", str.tostring(rsi2, "0.0"), rsi2 < hwLvl or rsi2 > 100 - hwLvl ? color.yellow : color.white)
-        row(3, "ADX", str.tostring(adx, "0.0"), adx < hwAdx ? color.lime : color.gray)
+        row(3, "ADX / Struktur H1", str.tostring(adx, "0.0") + " / " + (hwStrUp ? "KUKUH" : hwStrDn ? "LEMAH" : "-"), adx < hwAdx and hwStrUp ? color.lime : color.gray)
         row(4, "Sesi", inSess ? "AKTIF" : "TUTUP", inSess ? color.lime : color.gray)
         row(5, "Status", sts, stCol)
         row(6, "Trade selesai", str.tostring(nAll), color.white)
