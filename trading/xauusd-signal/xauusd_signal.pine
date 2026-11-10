@@ -116,10 +116,10 @@ if buySig or sellSig
 
     side = buySig ? "BUY" : "SELL"
     txt  = side + "\nEntry " + f(tEnt) + "\nSL " + f(tSL) + "\nTP1 " + f(tTP1) + "\nTP2 " + f(tTP2) + "\nTP3 " + f(tTP3)
-    label.new(bar_index, buySig ? low - 0.3 * atr : high + 0.3 * atr, txt,
-              style = buySig ? label.style_label_up : label.style_label_down,
-              color = buySig ? color.new(color.green, 0) : color.new(color.red, 0),
-              textcolor = color.white, size = size.small)
+    lblY   = buySig ? low - 0.3 * atr : high + 0.3 * atr
+    lblSty = buySig ? label.style_label_up : label.style_label_down
+    lblCol = buySig ? color.green : color.red
+    label.new(bar_index, lblY, txt, style = lblSty, color = lblCol, textcolor = color.white, size = size.small)
     if showLvls
         line.new(bar_index, tEnt, bar_index + 15, tEnt, color = color.gray)
         line.new(bar_index, tSL,  bar_index + 15, tSL,  color = color.red)
@@ -127,8 +127,8 @@ if buySig or sellSig
         line.new(bar_index, tTP2, bar_index + 15, tTP2, color = color.new(color.green, 25), style = line.style_dashed)
         line.new(bar_index, tTP3, bar_index + 15, tTP3, color = color.green)
 
-    msg = '{"signal":"' + side + '","symbol":"' + syminfo.ticker + '","tf":"' + timeframe.period +
-          '","entry":' + f(tEnt) + ',"sl":' + f(tSL) + ',"tp1":' + f(tTP1) + ',"tp2":' + f(tTP2) + ',"tp3":' + f(tTP3) + '}'
+    msg = '{"signal":"' + side + '","symbol":"' + syminfo.ticker + '","tf":"' + timeframe.period + '"'
+    msg := msg + ',"entry":' + f(tEnt) + ',"sl":' + f(tSL) + ',"tp1":' + f(tTP1) + ',"tp2":' + f(tTP2) + ',"tp3":' + f(tTP3) + '}'
     alert(msg, alert.freq_once_per_bar_close)
 
 alertcondition(buySig,  "XAU BUY",  "XAUUSD BUY signal - semak chart untuk Entry/SL/TP")
