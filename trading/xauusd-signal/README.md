@@ -37,6 +37,7 @@ Anda close position sendiri secara manual. Sebaiknya letak COLLECT sebagai TP da
 | Sesi London + NY | Signal hanya keluar bila AKTIF |
 | Status | *Tunggu dip untuk BUY*, *Tunggu lonjakan untuk SELL*, *BERSEDIA*, *BUY / SELL aktif*, atau *Tiada setup* |
 | ENTRY / COLLECT / SL | Paras trade yang sedang berjalan |
+| Sekarang | Untung/rugi terapung ($ per oz) dan berapa % harga dah jalan ke SL |
 | Rekod chart ni | % trade yang kena COLLECT atas data broker anda |
 
 ## Keputusan backtest (kos spread $0.30 setiap trade)
@@ -56,6 +57,9 @@ Anda close position sendiri secara manual. Sebaiknya letak COLLECT sebagai TP da
 Tetapan yang sama digunakan untuk M15 dan H1 (tiada tuning khas untuk setiap timeframe). Di H1, tetapan ni untung dalam kedua-dua separuh data (separuh pertama dan kedua).
 
 ## Yang anda kena tahu sebelum guna
+
+0. **Harga selalu bergerak melawan anda dulu lepas entry.** Sistem ni masuk masa harga tengah jatuh (BUY) atau naik (SELL). Di H1, **37% trade yang akhirnya menang turun lebih $5 dulu**, dan 25% turun lebih $10, sebelum kena COLLECT. Purata $7.80. Jangan panik dan jangan close awal. Biar COLLECT atau SL yang tentukan.
+   - Tunggu "candle pengesahan" sebelum masuk dah diuji. Hasilnya lebih teruk (PF H1 0.69–0.82, rugi), sebab harga dah lantun separuh jalan.
 
 1. **Satu SL ≈ 5 COLLECT.** Win rate tinggi sebab COLLECT kecil dan SL lebar. Sistem untung hanya kalau anda **tak pernah alihkan atau buang SL**.
 2. **Saiz lot ikut akaun.** Satu SL boleh sampai −$150 per 0.01 lot bila pasaran liar (purata −$38 di H1, −$23 di M15). Pastikan satu SL tak lebih 1–2% akaun.

@@ -129,7 +129,7 @@ alertcondition(hitSL, "XAU kena SL", "XAUUSD kena SL - CLOSE SEKARANG")
 alertcondition(prepBuy or prepSell, "XAU bersedia", "XAUUSD setup sedang terbentuk - signal sah bila candle tutup")
 
 // ----- Panel monitor -----
-var table tbl = table.new(position.top_right, 2, 11, bgcolor = color.new(color.black, 15), border_width = 1)
+var table tbl = table.new(position.top_right, 2, 12, bgcolor = color.new(color.black, 15), border_width = 1)
 row(r, k, v, c) =>
     table.cell(tbl, 0, r, k, text_color = color.silver, text_size = size.small, text_halign = text.align_left)
     table.cell(tbl, 1, r, v, text_color = c, text_size = size.small, text_halign = text.align_right)
@@ -172,7 +172,11 @@ if showTbl and barstate.islast
         row(7, ">> ENTRY", f(tEnt), color.aqua)
         row(8, ">> COLLECT", f(tTP), color.lime)
         row(9, ">> SL", f(tSL), color.red)
+        pnl  = (close - tEnt) * tDir
+        toSL = pnl < 0 ? -pnl / math.abs(tEnt - tSL) * 100 : 0.0
+        pTxt = (pnl >= 0 ? "+" : "") + str.tostring(pnl, "0.00") + (pnl >= 0 ? " (menuju COLLECT)" : " (" + str.tostring(toSL, "0") + "% jalan ke SL - normal bawah 30%)")
+        row(10, ">> Sekarang", pTxt, pnl >= 0 ? color.lime : toSL < 30 ? color.orange : color.red)
     else
-        table.clear(tbl, 0, 7, 1, 9)
+        table.clear(tbl, 0, 7, 1, 10)
     nAll = nTP + nSL
-    row(10, "Rekod chart ni", nAll > 0 ? str.tostring(nTP * 100.0 / nAll, "0.0") + "% kena COLLECT (" + str.tostring(nAll) + " trade)" : "-", color.white)
+    row(11, "Rekod chart ni", nAll > 0 ? str.tostring(nTP * 100.0 / nAll, "0.0") + "% kena COLLECT (" + str.tostring(nAll) + " trade)" : "-", color.white)
