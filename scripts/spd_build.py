@@ -154,8 +154,8 @@ def scene(fn):
 
 
 # --------------------------------------------------------------------------- S01 cold open
-MONTAGE = 14.8
-CUTS = [0, 2.0, 3.6, 5.6, 7.6, 9.6]
+MONTAGE = 8.567
+CUTS = [0, 1.5, 2.7, 4.3, 5.755]
 
 
 @scene
@@ -254,48 +254,75 @@ tl.to(["#s02-mark","#s02-k",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ea
 # --------------------------------------------------------------------------- S03 apa itu SPD
 @scene
 def s03(S):
-    items = [("Tanah", "tanah", 220, 210), ("Bangunan", "bangunan", 1350, 190), ("Penyewaan", "penyewaan", 150, 700),
-             ("Penilaian Aset", "penilaian", 1380, 700), ("Dokumen Hak Milik", "dokumen", 760, 860)]
-    tiles, lines, js_t = "", "", ""
-    for i, (lab, word, x, y) in enumerate(items):
-        tiles += (f'<div class="glass abs s03-ti" id="s03-t{i}" style="left:{x}px;top:{y}px;width:360px;height:130px;display:flex;align-items:center;'
-                  f'justify-content:center;font:700 36px \'Plus Jakarta Sans\';color:#fff;backdrop-filter:blur(6px)">{lab}</div>')
-        lines += f'<line class="s03-l" id="s03-l{i}" x1="{x + 180}" y1="{y + 65}" x2="960" y2="520" stroke="#b6d973" stroke-width="4" stroke-linecap="round"/>'
-        t = S.w("v03", word)
-        js_t += (f'tl.fromTo("#s03-t{i}",{{opacity:0,z:-600,rotationY:{-40 if x < 900 else 40}}},'
-                 f'{{opacity:1,z:0,rotationY:{(960 - x - 180) / 40:.0f},duration:0.7,ease:"expo.out"}},{t - 0.1});'
-                 f'FX.draw(tl,"#s03-l{i}",{t + 0.15},0.5);')
-    t_plat = S.w("v03", "satu")
-    t_buk = S.w("v03", "Bukan")
+    items = [("Tanah", "tanah"), ("Bangunan", "bangunan"), ("Penyewaan", "penyewaan"), ("Penilaian Aset", "penilaian"), ("Dokumen Hak Milik", "dokumen")]
+    tiles = "".join(
+        f'<div class="abs s03-t" id="s03-t{i}" style="left:0;top:0;width:340px;height:120px;margin:-60px 0 0 -170px">'
+        f'<div class="s03-ti" id="s03-ti{i}" style="width:100%;height:100%;border-radius:22px;display:flex;align-items:center;justify-content:center;'
+        f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.06));'
+        f'border:1.5px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 24px 60px rgba(0,0,0,.45),0 0 40px rgba(182,217,115,.18);'
+        f'backdrop-filter:blur(10px)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
+    dots = "".join(f'<i class="abs s03-p" style="left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#d9ffb0;'
+                   f'box-shadow:0 0 14px #b6d973;display:block"></i>' for _ in range(28))
+    word_t = [S.w("v03", w) for _, w in items]
+    t_sat = S.w("v03", "satu")
+    t_buk = S.w("v03", "bukan")
     t_hij = S.w("v03", "hijau")
     html = f"""
 <div class="F gdark">
-  <div id="s03-cam" class="abs" style="inset:0;perspective:1600px">
-    <div id="s03-st" class="abs" style="inset:0;transform-style:preserve-3d">
-      <svg viewBox="0 0 1920 1080" class="abs" style="inset:0">{lines}
-        <circle id="s03-o1" cx="960" cy="520" r="250" stroke="rgba(182,217,115,.35)" stroke-width="3" fill="none"/>
-        <circle id="s03-o2" cx="960" cy="520" r="330" stroke="rgba(182,217,115,.15)" stroke-width="2" fill="none"/></svg>
-      <div id="s03-hub" class="abs" style="left:760px;top:320px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,#2a8a66,#165A44);
-        box-shadow:0 0 120px rgba(182,217,115,.55);display:flex;flex-direction:column;align-items:center;justify-content:center">
-        {SB.spd_mark(120)}<div id="s03-hl" class="mono" style="font-size:20px;color:#d9f0c0;margin-top:10px;text-align:center;line-height:1.5;opacity:0">SATU PLATFORM<br>BERPUSAT</div></div>
-      {tiles}
+  <div id="s03-st" class="abs" style="inset:0">
+    <div class="abs" style="left:960px;top:540px;width:1500px;height:1500px;margin:-750px 0 0 -750px;border-radius:50%;
+      border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25),inset 0 0 40px rgba(182,217,115,.15);transform:perspective(1600px) rotateX(74deg)"></div>
+    <div class="abs" style="left:960px;top:540px;width:1900px;height:1900px;margin:-950px 0 0 -950px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.12);transform:perspective(1600px) rotateX(74deg)"></div>
+    {dots}
+    <div id="s03-core" class="abs" style="left:960px;top:470px;width:360px;height:360px;margin:-180px 0 0 -180px">
+      <div class="abs" style="inset:-160px;border-radius:50%;background:radial-gradient(circle,rgba(182,217,115,.35),transparent 65%)"></div>
+      <div id="s03-halo" class="abs" style="inset:-26px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 55%,rgba(217,255,176,.95) 70%,transparent 85%);
+        -webkit-mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 66%,transparent 67%)"></div>
+      <div id="s03-ball" class="abs" style="inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fe0b0 0%,#26745a 45%,#0b2e22 100%);
+        box-shadow:inset -20px -30px 60px rgba(0,0,0,.45),inset 20px 20px 50px rgba(255,255,255,.18),0 30px 80px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center">
+        {SB.spd_mark(110)}</div>
+      <div class="abs" style="left:60px;top:30px;width:140px;height:70px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,255,255,.45),transparent 70%);transform:rotate(-25deg)"></div>
     </div>
+    {tiles}
   </div>
-  <div class="abs" style="left:0;right:0;top:960px;text-align:center;font:800 54px 'Plus Jakarta Sans'">
-    <span id="s03-b1">Bukan sekadar cekap.</span> <span id="s03-b2" style="color:var(--lime)">Tetapi juga lebih hijau.</span></div>
+  <div id="s03-lab" class="mono abs" style="left:0;right:0;top:700px;text-align:center;font-size:26px;color:#d9f0c0;opacity:0">SATU PLATFORM BERPUSAT</div>
+  <div class="abs" style="left:0;right:0;top:880px;display:flex;justify-content:center;gap:40px;font:800 56px 'Plus Jakarta Sans'">
+    <span id="s03-b1" style="opacity:0">Lebih cekap.</span><span id="s03-b2" style="opacity:0;color:var(--lime)">Lebih hijau.</span></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
-tl.fromTo("#s03-st",{{rotationX:18,scale:0.86}},{{rotationX:0,scale:1,duration:{S.D},ease:"power1.out"}},0);
-tl.fromTo("#s03-hub",{{scale:0,opacity:0}},{{scale:1,opacity:1,duration:0.8,ease:"back.out(1.6)"}},0.2);
-{js_t}
-tl.fromTo("#s03-hl",{{opacity:0,y:12}},{{opacity:1,y:0,duration:0.5}},{t_plat - 0.1});
-tl.to(".s03-ti",{{x:(i)=>[{",".join(str(round((960 - 180 - x) * 0.22)) for _, _, x, _ in items)}][i],y:(i)=>[{",".join(str(round((520 - 65 - y) * 0.22)) for _, _, _, y in items)}][i],duration:0.7,ease:"power3.inOut"}},{t_plat - 0.2});
-tl.fromTo("#s03-hub",{{boxShadow:"0 0 120px rgba(182,217,115,.55)"}},{{boxShadow:"0 0 260px rgba(182,217,115,.95)",duration:0.4,yoyo:true,repeat:1}},{t_plat + 0.3});
+const tiles=[...document.querySelectorAll(".s03-t")], dots=[...document.querySelectorAll(".s03-p")];
+const st={{a:0.35,r:1}};
+const cx=960, cy=560, RX=760, RY=200;
+function place(){{
+  tiles.forEach((t,i)=>{{
+    const th=st.a+i*2*Math.PI/5, d=(Math.sin(th)+1)/2;          // d: 0 back .. 1 front
+    const x=cx+RX*st.r*Math.cos(th), y=cy+RY*st.r*Math.sin(th);
+    t.style.transform=`translate(${{x.toFixed(1)}}px,${{y.toFixed(1)}}px) scale(${{(0.68+0.42*d).toFixed(3)}})`;
+    t.style.zIndex=String(d>0.5?6:1); t.style.filter=`brightness(${{(0.6+0.4*d).toFixed(2)}})`;
+  }});
+  dots.forEach((p,i)=>{{
+    const th=-st.a*1.6+i*2*Math.PI/dots.length, d=(Math.sin(th)+1)/2;
+    p.style.transform=`translate(${{(cx+RX*Math.cos(th)).toFixed(1)}}px,${{(cy+RY*Math.sin(th)).toFixed(1)}}px) scale(${{(0.4+0.9*d).toFixed(2)}})`;
+    p.style.opacity=(0.25+0.75*d).toFixed(2);
+  }});
+}}
+place();
+tl.to(st,{{a:0.35+1.6,duration:{S.D},ease:"none",onUpdate:place}},0);
+tl.fromTo("#s03-core",{{scale:0.2,opacity:0}},{{scale:1,opacity:1,duration:0.9,ease:"back.out(1.5)"}},0.15);
+tl.fromTo("#s03-halo",{{rotation:0}},{{rotation:540,duration:{S.D},ease:"none"}},0);
+{"".join(f'tl.fromTo("#s03-ti{i}",{{opacity:0,scale:0.3}},{{opacity:1,scale:1,duration:0.6,ease:"back.out(1.8)"}},{t - 0.12:.2f});' for i, t in enumerate(word_t))}
+tl.to(st,{{r:0.12,duration:0.9,ease:"power3.in",onUpdate:place}},{t_sat - 0.2});
+tl.to(".s03-ti",{{opacity:0,scale:0.4,duration:0.5,ease:"power2.in"}},{t_sat + 0.25});
+tl.fromTo("#s03-ball",{{boxShadow:"inset -20px -30px 60px rgba(0,0,0,.45),inset 20px 20px 50px rgba(255,255,255,.18),0 0 0px rgba(182,217,115,0)"}},
+  {{boxShadow:"inset -20px -30px 60px rgba(0,0,0,.25),inset 20px 20px 50px rgba(255,255,255,.3),0 0 160px rgba(182,217,115,.9)",duration:0.5,ease:"power2.out"}},{t_sat + 0.6});
+tl.fromTo("#s03-core",{{scale:1}},{{scale:1.18,duration:0.6,ease:"expo.out",immediateRender:false}},{t_sat + 0.6});
+tl.fromTo("#s03-lab",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5}},{t_sat + 0.7});
 tl.fromTo("#s03-b1",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_buk - 0.05});
-tl.fromTo("#s03-b2",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_hij - 0.6});
-tl.to("#s03-hub",{{background:"radial-gradient(circle,#b6d973,#5c9a3a)",duration:0.6}},{t_hij - 0.3});
-tl.to("#s03-cam",{{scale:1.6,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
+tl.fromTo("#s03-b2",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_hij - 0.3});
+tl.to("#s03-ball",{{background:"radial-gradient(circle at 35% 30%,#e6ffc4 0%,#b6d973 45%,#4f8a2c 100%)",duration:0.6}},{t_hij - 0.3});
+tl.to("#s03-st",{{scale:1.5,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
 """
     return html, js
 
@@ -360,7 +387,7 @@ def s05(S):
 <div class="F" style="background:#f3eedf">
   <div id="s05-split" class="abs" style="inset:0;opacity:0">
     <div id="s05-l" class="abs" style="inset:0;clip-path:polygon(0 0,58% 0,42% 100%,0 100%)">
-      <img src="{IMG}/before-files.jpg" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(.8)"></div>
+      <img src="{IMG}/fail-rak.jpg" style="width:100%;height:100%;object-fit:cover;object-position:30% center;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
     <div id="s05-r" class="abs" style="inset:0;clip-path:polygon(58% 0,100% 0,100% 100%,42% 100%);background:#0b2e22">
       {browser("s05-b", 1010, 200, 860, "spd.pknm.gov.my", [("s05-p", f"{UI}/s77.jpg")])}</div>
     <div id="s05-seam" class="abs" style="inset:0;background:linear-gradient(115deg,transparent 46%,rgba(182,217,115,.9) 49.6%,#fff 50%,rgba(182,217,115,.9) 50.4%,transparent 54%)"></div>
@@ -395,7 +422,7 @@ tl.to("#s05-b",{{x:-800,y:-90,scale:{1500/860:.4f},transformOrigin:"0 0",rotatio
 
 
 # --------------------------------------------------------------------------- S06 demo: Laman Utama
-BWX, BWY, BWW = 210, 110, 1500
+BWX, BWY, BWW = 80, 106, 1760
 K = BWW / 1920  # screenshot px -> viewport px
 
 
@@ -428,10 +455,10 @@ def s06(S):
 </div>"""
     js = f"""
 const B="#s06-b";
-tl.fromTo(B,{{rotationX:6,rotationY:-6,scale:1}},{{rotationX:2,rotationY:3,duration:{t_sat - 0.45},ease:"sine.inOut"}},0);
+tl.fromTo(B,{{rotationX:1.5,rotationY:-1.5,scale:1}},{{rotationX:0,rotationY:1,duration:{t_sat - 0.45},ease:"sine.inOut"}},0);
 FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[{t_tab - 0.4},760,420],[{t_rin},700,520],[{t_aa},500,250],[{t_ata},1240,300],[{t_sew},600,320],[{t_sto},1150,560]],[],null);
 // zoom into the map
-tl.to(B,{{scale:1.42,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"}},{t_tab - 0.35});
+tl.to(B,{{scale:1.18,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"}},{t_tab - 0.35});
 FX.ring(tl,"#s06-hmap",{t_tab + 0.2},{t_rin - t_tab - 0.6:.2f});
 tl.fromTo("#s06-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_tab});
 tl.to("#s06-k1",{{opacity:0,duration:0.25}},{t_rin - 0.3});
@@ -471,9 +498,9 @@ def s07(S):
     t_koo = S.w("v07", "koordinat")
     t_pet = S.w("v07", "peta")
     t_dok = S.w("v07", "dokumen")
-    t_type = t_taip + 0.15
-    t_drop = t_type + 0.95
-    t_pick = t_rek - 0.55
+    t_type = t_taip + 0.1
+    t_drop = t_type + 0.75
+    t_pick = max(t_drop + 0.7, t_rek - 0.45)
     sx, sy = 1300, 62   # search box (source px)
     ix, iy = 760, 422   # dropdown item "PLOT 10"
     gx, gy = 1720, 572  # Google pin button on s86
@@ -503,23 +530,22 @@ def s07(S):
     js = f"""
 const B="#s07-b", K={K};
 tl.fromTo("#s07-in",{{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"}},{{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},0);
-tl.fromTo(B,{{rotationY:6,rotationX:4,x:80}},{{rotationY:-3,rotationX:2,x:0,duration:{S.D - 0.45},ease:"sine.inOut"}},0);
+tl.fromTo(B,{{rotationY:1.5,rotationX:1,x:20}},{{rotationY:-1,rotationX:0,x:0,duration:{S.D - 0.45},ease:"sine.inOut"}},0);
 FX.cursor(tl,document.getElementById("s07-c"),[[0,{900 * K},{600 * K}],[{t_taip - 0.4},{sx * K},{sy * K}],[{t_drop + 0.2},{sx * K},{sy * K}],
   [{t_pick},{ix * K},{iy * K}],[{t_rek + 0.2},{1100 * K},{380 * K}],[{t_pet - 0.5},{gx * K},{gy * K}],[{t_dok - 0.6},{700 * K},{600 * K}]],
   [[{t_taip - 0.25},{sx * K},{sy * K}],[{t_pick + 0.1},{ix * K},{iy * K}],[{t_pet - 0.35},{gx * K},{gy * K}]],document.getElementById("s07-c-r"));
 tl.fromTo("#s07-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_taip - 0.3});
 tl.to("#s07-k1",{{opacity:0,duration:0.25}},{t_rek - 0.3});
 // zoom to the search box, type ELKAY
-tl.to(B,{{scale:1.5,transformOrigin:"78% 10%",duration:0.6,ease:"power3.inOut"}},{t_taip - 0.6});
+tl.to(B,{{scale:1.22,transformOrigin:"78% 8%",duration:0.5,ease:"power3.inOut"}},{t_taip - 0.5});
 tl.set("#s07-sbox",{{opacity:1}},{t_taip - 0.2});
-FX.type(tl,document.getElementById("s07-txt"),"ELKAY",{t_type},0.7,document.getElementById("s07-car"));
+FX.type(tl,document.getElementById("s07-txt"),"ELKAY",{t_type},0.55,document.getElementById("s07-car"));
 // dropdown (s84) wipes down
 tl.set("#s07-sbox",{{opacity:0}},{t_drop});
 tl.fromTo("#s07-p84",{{opacity:1,clipPath:"inset(0 0 100% 0)"}},{{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.45,ease:"power2.out"}},{t_drop});
-tl.to(B,{{scale:1.25,transformOrigin:"40% 25%",duration:0.6,ease:"power3.inOut"}},{t_drop + 0.1});
 FX.ring(tl,"#s07-hitem",{t_pick - 0.25},0.5);
 // click -> premis page
-tl.to(B,{{scale:1,duration:0.6,ease:"power3.inOut"}},{t_pick + 0.15});
+tl.to(B,{{scale:1,duration:0.5,ease:"power3.inOut"}},{t_drop + 0.05});
 tl.fromTo("#s07-p86",{{opacity:0,scale:1.04,filter:"blur(8px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.45,ease:"power2.out"}},{t_pick + 0.2});
 tl.fromTo("#s07-k2",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_rek});
 FX.ring(tl,"#s07-hprem",{t_rek},{t_pet - t_rek - 0.4:.2f});
@@ -534,7 +560,7 @@ tl.fromTo("#s07-pin",{{opacity:1,scale:0.3}},{{opacity:0,scale:2.2,duration:0.8,
 tl.to("#s07-gw",{{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,duration:0.45,ease:"power3.in"}},{max(t_pet + 0.7, t_dok - 0.7)});
 // documents (s89)
 tl.fromTo("#s07-p89",{{opacity:0,y:400,filter:"blur(6px)"}},{{opacity:1,y:0,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_dok - 0.5});
-tl.to(B,{{scale:1.32,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"}},{t_dok - 0.2});
+tl.to(B,{{scale:1.12,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"}},{t_dok - 0.2});
 tl.fromTo("#s07-k3",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_dok});
 FX.ring(tl,"#s07-hd1",{t_dok + 0.1},0);
 FX.ring(tl,"#s07-hd2",{t_dok + 0.3},0);
@@ -555,10 +581,10 @@ def s08(S):
     t_lat = S.w("v08", "kakitangan|latihan")
     t_pen = S.w("v08", "pentadbiran")
     t_cap = S.w("v08", "capaian")
-    W = 1300
+    W = 1700
     k = W / 1920
     vh = round(W * 912 / 1920)
-    R = 1500  # carousel radius
+    R = 1900  # carousel radius
     k8 = W / 1920
     modal = (region("s08-hsys", k8, 20, 505, 300, 555, 6) + region("s08-hacc", k8, 1500, 8, 1905, 62, 6) + cursor("s08-c"))
     panels = [
@@ -575,7 +601,7 @@ def s08(S):
                f'{browser(pid, 0, 0, W, url, pages, extra)}</div>')
     labels = [("01", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("02", "PENGURUSAN STOR", "Permohonan serta baki stok"),
               ("03", "MODAL INSAN", "Cuti dan rekod berkaitan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
-    lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:90px;top:880px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
+    lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:70px;top:900px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
                   for i, (n, a, b) in enumerate(labels))
     laser = ('<div id="s08-laser" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;'
              'box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25);opacity:0"></div>')
@@ -649,7 +675,7 @@ def s09(S):
                   f'<div style="height:170px;background:url({img}) left top/{330 * 1.9:.0f}px auto no-repeat;border-bottom:6px solid #165A44"></div>'
                   f'<div style="padding:22px 24px">'
                   f'<div class="mono" style="font-size:22px;color:#26745A;letter-spacing:.1em">0{i + 1}</div>'
-                  f'<div style="font:800 36px/1.1 Plus Jakarta Sans;margin-top:8px">{a}</div>'
+                  f'<div style="font:800 34px/1.1 Plus Jakarta Sans;margin-top:8px;height:76px;display:flex;align-items:flex-end">{a}</div>'
                   f'<div style="font:500 25px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:12px">{b}</div></div>'
                   f'<div id="s09-g{i}" class="abs" style="left:18px;right:18px;bottom:22px;background:#E9F2E7;border-radius:16px;padding:16px 16px 16px 70px;'
                   f'font:700 22px/1.3 Plus Jakarta Sans;color:#165A44">{SB.leaf("position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(20deg);width:44px;height:44px", "#7DB544")}{c}</div></div>')
@@ -983,7 +1009,7 @@ def s17(S):
     html = f"""
 <div class="F gdark">
   <div id="s17-a" class="abs" style="inset:0">
-    <div class="shot" id="s17-f" style="left:130px;top:250px;width:640px;height:520px;transform:perspective(1000px) rotateY(18deg)"><img src="{IMG}/files-cabinet.jpg"></div>
+    <div class="shot" id="s17-f" style="left:130px;top:250px;width:640px;height:520px;transform:perspective(1000px) rotateY(18deg)"><img src="{IMG}/fail-gantung.jpg"></div>
     {parts}
     <div class="shot" id="s17-d" style="left:1170px;top:250px;width:640px;height:520px;transform:perspective(1000px) rotateY(-18deg);box-shadow:0 0 0 3px #B6D973,0 40px 90px rgba(0,0,0,.6)">
       <img src="{IMG}/spd-record.jpg" style="object-fit:contain;background:#fff"></div>
@@ -1195,9 +1221,7 @@ TEMPLATE = """<!doctype html>
           const tl = gsap.timeline({{ paused: true }});
           const FX = window.SPDFX;
 {js}
-          // camera: soft focus-pull entrance + slow breathing push for the whole scene
-          tl.fromTo("#{id}-o", {{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}, {{ opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }}, 0);
-          tl.set("#{id}-o", {{ filter: "none" }}, 0.52);
+          // camera: slow breathing push for the whole scene (no blur-in)
           tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);
           tl.set({{}}, {{}}, {D});
           window.__timelines = window.__timelines || {{}};

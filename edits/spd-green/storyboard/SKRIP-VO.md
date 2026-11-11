@@ -38,6 +38,6 @@ Borang dan fail fizikal kini digantikan dengan rekod digital, dengan bukti pelak
 
 SPD telah menerima pengiktirafan hak cipta sejak tahun dua ribu dua puluh, dan kini diguna pakai sepenuhnya sebagai platform utama pengurusan data M-Corp.
 
-Dan ini hanyalah permulaan. Akan datang, SPD dua titik kosong bersama Green Dashboard, yang mengukur setiap impak hijau secara langsung dan berterusan: kertas, dakwat, masa, tenaga kerja dan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik.
+Dan ini hanyalah permulaan. Akan datang, SPD dua point kosong bersama Green Dashboard, yang mengukur setiap impak hijau secara langsung dan berterusan: kertas, dakwat, masa, tenaga kerja dan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik.
 
 SPD. Mendigitalkan proses, mengoptimumkan sumber dan mempercepat penyampaian perkhidmatan, ke arah pengurusan yang hijau dan lestari.

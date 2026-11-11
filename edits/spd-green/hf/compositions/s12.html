@@ -36,23 +36,21 @@
           const FX = window.SPDFX;
 
 tl.fromTo("#s12-t",{clipPath:"inset(0 100% 0 0)"},{clipPath:"inset(0 0% 0 0)",duration:0.9,ease:"power2.inOut"},0.15);
-FX.draw(tl,".s12-d1",0.4,0.6,0.12);
-FX.draw(tl,".s12-d1b",1.1,0.4,0.1);
-tl.fromTo("#s12-l1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},0.9);
-FX.draw(tl,".s12-d2",3.4,0.7,0.12);
-FX.draw(tl,".s12-d2b",4.407,0.35,0.1);
-tl.fromTo("#s12-l2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},4.407);
-FX.draw(tl,".s12-d3",6.122000000000001,0.6,0.1);
-tl.to("#s12-c",{opacity:0,duration:0.3},8.27);
-FX.draw(tl,".s12-d3b",8.37,0.5,0.08);
-tl.fromTo("#s12-l3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},8.569999999999999);
-tl.to("#s12-i .chalkbg",{opacity:0,duration:0.35},9.950000000000001);
+FX.draw(tl,".s12-d1",0.52,0.6,0.12);
+FX.draw(tl,".s12-d1b",1.22,0.4,0.1);
+tl.fromTo("#s12-l1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},1.02);
+FX.draw(tl,".s12-d2",4.131,0.7,0.12);
+FX.draw(tl,".s12-d2b",5.324,0.35,0.1);
+tl.fromTo("#s12-l2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},5.324);
+FX.draw(tl,".s12-d3",7.0200000000000005,0.6,0.1);
+tl.to("#s12-c",{opacity:0,duration:0.3},9.502);
+FX.draw(tl,".s12-d3b",9.602,0.5,0.08);
+tl.fromTo("#s12-l3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},9.802);
+tl.to("#s12-i .chalkbg",{opacity:0,duration:0.35},11.239);
 
-          // camera: soft focus-pull entrance + slow breathing push for the whole scene
-          tl.fromTo("#s12-o", { opacity: 0, scale: 1.05, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
-          tl.set("#s12-o", { filter: "none" }, 0.52);
-          tl.fromTo("#s12-i", { scale: 1 }, { scale: 1.03, duration: 10.3, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 10.3);
+          // camera: slow breathing push for the whole scene (no blur-in)
+          tl.fromTo("#s12-i", { scale: 1 }, { scale: 1.03, duration: 11.589, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 11.589);
           window.__timelines = window.__timelines || {};
           window.__timelines["s12"] = tl;
         })();
