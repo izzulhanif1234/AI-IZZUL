@@ -38,3 +38,17 @@
   ("Saya tak jumpa… Mana ni? Mana ni? Tolong… cek file"), 3 = enter file room, unlock cabinet, hanging files
   (crew "1, 2, 3, action" 0-3.8 s: skip). Whisper transcripts l1-3.json.
 - S01 is 18 s; scenes re-timed (S19 25 s).
+
+## Build (video)
+- `python3 scripts/spd_build.py` -> `hf/compositions/s01..s20.html`, `badge.html`, `index.html`, `plan.json`.
+  Scene length = lead-in + VO + tail; every beat sits on a spoken word (`S.w(line, word, nth)`); lines without
+  audio yet get an estimated timing (printed as EST).
+- `python3 scripts/spd_audio.py` -> `audio/mix.wav` (score + sfx + foley + VO + dialogue, music ducked under voice,
+  -14 LUFS). Final picture is rendered by HyperFrames, then audio is replaced with this mix (ffmpeg mux).
+- Media not in git: `hf/assets/video/s01_montage.mp4` (ffmpeg concat of l3 6.4-8.4, 25.0-26.6, 29-32 @1.5x,
+  l1 2.4-4.6 @1.1x, 10.6-13 @1.2x, l2 10.6-15.8), `hf/assets/img/s01_freeze.jpg` (l2 @15.78), `hf/assets/vo/dlg_s01.wav`
+  (l2 10.6-15.8, loudnorm -18).
+- VO: Gemini TTS `gemini-2.5-flash-preview-tts`, voice Charon, generated in 9 chunks (`vo/take/chunks.json`; the free
+  tier allows 10 requests/day and long single takes hit a 60 s gateway timeout). Chosen takes scored on pitch
+  (target ~105-110 Hz, MCORP Estimate reference 97 Hz) and re-transcribed: c01_t1, c02_t3, c03_t3, c04_t2, c08_t3.
+  Split per line with `split_vo.py` into `hf/assets/vo/vNN.mp3/.json`.
