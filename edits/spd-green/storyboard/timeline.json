@@ -2,21 +2,21 @@
  {
   "id": "S01",
   "start": 0,
-  "end": 14,
+  "end": 18,
   "title": "Cold open: lakonan awal",
   "ref": "Bahan lakonan",
   "styles": [
    "LAKONAN",
    "DOODLE"
   ],
-  "visual": "Footage lakonan: pegawai menyelongkar rak fail. Speed-ramp 100%→30%, freeze-frame. Doodle kapur putih dilukis atas footage: bulatan conteng pada timbunan fail, jam berdetik, \"Fail mana?!\".",
+  "visual": "Montaj footage (speed-ramp): pegawai masuk bilik fail & buka kabinet berkunci (klip 3) → selak fail gantung → cari fail di rak arkib (klip 1) → di meja (klip 2) dengan dialog asal \"Mana ni? Mana ni?… cek fail\" → freeze-frame. Doodle kapur putih atas footage: bulatan conteng, jam berdetik, \"Fail mana?!\". Bunyi asal kertas jadi foley; suara krew & latar dibuang.",
   "sfx": "Kertas diselak (foley sebenar) · laci kabinet dihempas, pitch −12 → jadi impak bass semasa freeze · decit marker setiap kali doodle dilukis",
-  "vo": "(Dialog lakonan.) Semasa freeze: Fail fizikal. Carian manual. Masa yang terbuang, setiap hari."
+  "vo": "(Dialog asal klip 2.) Semasa freeze: Fail fizikal. Carian manual. Masa yang terbuang, setiap hari."
  },
  {
   "id": "S02",
-  "start": 14,
-  "end": 23,
+  "start": 18,
+  "end": 27,
   "title": "Tajuk: kertas jadi daun",
   "ref": "Slaid 1",
   "styles": [
@@ -24,12 +24,12 @@
   ],
   "visual": "Kamera dolly menembusi kawanan kertas A4 3D (depth of field, motion blur). Kertas berlipat menjadi daun, daun membentuk tanda SPD. Light sweep emas pada tajuk.",
   "sfx": "Lipatan kertas berlapis + piano terbalik (reverse swell) · desir daun granular · sub-drop lembut ketika logo terkunci",
-  "vo": "Anugerah Hijau Negeri Melaka, dua ribu dua puluh enam. Memperkenalkan, Sistem Pengurusan Data Bersepadu. SPD."
+  "vo": "Memperkenalkan, Sistem Pengurusan Data Bersepadu. SPD. Inovasi digital ke arah pengurusan hijau dan lestari."
  },
  {
   "id": "S03",
-  "start": 23,
-  "end": 39,
+  "start": 27,
+  "end": 43,
   "title": "Apa itu SPD",
   "ref": "Slaid 2 (butang merah: intro VO)",
   "styles": [
@@ -42,8 +42,8 @@
  },
  {
   "id": "S04",
-  "start": 39,
-  "end": 53,
+  "start": 43,
+  "end": 57,
   "title": "Penyataan masalah",
   "ref": "Slaid 3",
   "styles": [
@@ -51,12 +51,12 @@
   ],
   "visual": "Kertas kraft bergrid. Tangan melukis 6 ikon (line-boil 12 fps): timbunan kertas, almari sesak, fail berganda, jam pasir, fail hilang, RM menyusut. Nombor 01–06 ditulis tangan, muncul ikut VO.",
   "sfx": "Geselan grafit pensel · decit pemadam · kertas direnyuk ketat · klik stop-motion pada setiap ikon",
-  "vo": "Sebelum SPD, kami berdepan enam cabaran. Penggunaan kertas yang tinggi. Ruang simpanan fizikal yang besar. Pertindihan data. Carian maklumat yang lambat. Risiko kehilangan dokumen. Dan kos operasi yang tinggi."
+  "vo": "Sebelum SPD, pengurusan data berdepan enam cabaran. Penggunaan kertas yang tinggi. Ruang simpanan fizikal yang besar. Pertindihan data. Carian maklumat yang lambat. Risiko kehilangan dokumen. Dan kos operasi yang tinggi."
  },
  {
   "id": "S05",
-  "start": 53,
-  "end": 63,
+  "start": 57,
+  "end": 67,
   "title": "Sebelum → Selepas: masuk sistem",
   "ref": "Slaid 4",
   "styles": [
@@ -69,8 +69,8 @@
  },
  {
   "id": "S06",
-  "start": 63,
-  "end": 79,
+  "start": 67,
+  "end": 83,
   "title": "Demo sistem: Laman Utama",
   "ref": "Slaid 5 · skrin DASHBOARD",
   "styles": [
@@ -83,8 +83,8 @@
  },
  {
   "id": "S07",
-  "start": 79,
-  "end": 95,
+  "start": 83,
+  "end": 99,
   "title": "Demo sistem: Aset Tak Alih",
   "ref": "Slaid 5 · skrin ASET TAK ALIH",
   "styles": [
@@ -97,8 +97,8 @@
  },
  {
   "id": "S08",
-  "start": 95,
-  "end": 112,
+  "start": 99,
+  "end": 115,
   "title": "Demo sistem: modul lain",
   "ref": "Slaid 5 · skrin ASET ALIH, STOR, MODAL INSAN",
   "styles": [
@@ -111,8 +111,8 @@
  },
  {
   "id": "S09",
-  "start": 112,
-  "end": 123,
+  "start": 115,
+  "end": 125,
   "title": "Lima komponen hijau",
   "ref": "Slaid 6",
   "styles": [
@@ -124,8 +124,8 @@
  },
  {
   "id": "S10",
-  "start": 123,
-  "end": 127,
+  "start": 125,
+  "end": 129,
   "title": "Bab: IMPAK SPD",
   "ref": "Slaid 7",
   "styles": [
@@ -137,8 +137,8 @@
  },
  {
   "id": "S11",
-  "start": 127,
-  "end": 137,
+  "start": 129,
+  "end": 138,
   "title": "Kecekapan sumber organisasi",
   "ref": "Slaid 8",
   "styles": [
@@ -150,8 +150,8 @@
  },
  {
   "id": "S12",
-  "start": 137,
-  "end": 147,
+  "start": 138,
+  "end": 148,
   "title": "Kurang pencemaran",
   "ref": "Slaid 9",
   "styles": [
@@ -163,8 +163,8 @@
  },
  {
   "id": "S13",
-  "start": 147,
-  "end": 157,
+  "start": 148,
+  "end": 158,
   "title": "Sewaan: 14 → 3 hari",
   "ref": "Slaid 10",
   "styles": [
@@ -176,8 +176,8 @@
  },
  {
   "id": "S14",
-  "start": 157,
-  "end": 168,
+  "start": 158,
+  "end": 169,
   "title": "Semakan aset: 20 → 2 hari",
   "ref": "Slaid 11",
   "styles": [
@@ -190,8 +190,8 @@
  },
  {
   "id": "S15",
-  "start": 168,
-  "end": 179,
+  "start": 169,
+  "end": 180,
   "title": "Penjimatan kos tenaga kerja",
   "ref": "Slaid 12",
   "styles": [
@@ -203,7 +203,7 @@
  },
  {
   "id": "S16",
-  "start": 179,
+  "start": 180,
   "end": 191,
   "title": "Kertas A4 & dakwat",
   "ref": "Slaid 13 & 14",
@@ -218,7 +218,7 @@
  {
   "id": "S17",
   "start": 191,
-  "end": 200,
+  "end": 199,
   "title": "Digitalisasi & bukti",
   "ref": "Slaid 15, 16 & 17",
   "styles": [
@@ -230,8 +230,8 @@
  },
  {
   "id": "S18",
-  "start": 200,
-  "end": 208,
+  "start": 199,
+  "end": 207,
   "title": "Pengiktirafan",
   "ref": "Slaid 18",
   "styles": [
@@ -243,17 +243,17 @@
  },
  {
   "id": "S19",
-  "start": 208,
+  "start": 207,
   "end": 232,
-  "title": "Demo masa depan: SPD 2.0 + Green Dashboard",
+  "title": "Akan datang: SPD 2.0 + Green Dashboard",
   "ref": "Slaid 19",
   "styles": [
    "DEMO SISTEM",
    "HYPERMOTION"
   ],
-  "visual": "Terowong cahaya hijau → laman utama SPD 2.0. Kursor klik \"Green Dashboard BAHARU\" di sidebar, scroll ke bawah: seksyen SPD 2.0 + GREEN DASHBOARD menyala, gauge naik ke 82, KPI dari slaid kira naik satu-satu, Green Impact Meter.",
-  "sfx": "Muzik drop ke pad lembut · klik + ketukan kaca bertala setiap KPI menyala · denyut sub pada gauge",
-  "vo": "Dan ini baru permulaan. Memperkenalkan, SPD dua titik kosong, bersama Green Dashboard. Setiap impak hijau kini diukur secara masa nyata. Kertas. Dakwat. Masa. Tenaga kerja. Dan kos. Kerana apa yang diukur, boleh diurus."
+  "visual": "Label AKAN DATANG. Terowong cahaya hijau → laman utama SPD 2.0 (peta, kad aset). Laman di-scroll ke bawah sahaja (tiada klik menu): seksyen SPD 2.0 + GREEN DASHBOARD masuk, gauge naik ke 82, KPI dari slaid kira naik satu-satu, Green Impact Meter.",
+  "sfx": "Muzik drop ke pad lembut · roda scroll bertekstur · ketukan kaca bertala setiap KPI menyala · denyut sub pada gauge",
+  "vo": "Dan ini baru permulaan. Akan datang, SPD dua titik kosong, bersama Green Dashboard. Setiap impak hijau kini diukur secara masa nyata. Kertas. Dakwat. Masa. Tenaga kerja. Dan kos. Kerana apa yang diukur, boleh diurus."
  },
  {
   "id": "S20",

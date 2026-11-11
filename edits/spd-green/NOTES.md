@@ -28,3 +28,13 @@
   split with `scripts/split_vo.py` like MCORP Estimate. Key: network secret for generativelanguage.googleapis.com
   (header x-goog-api-key) on the environment; `gemini_tts.py` sends a placeholder when GEMINI_KEY_FILE is unset.
 - 20 scenes; final scene timings follow the recorded VO.
+
+## Revision 3
+- VO: no "Anugerah Hijau" mention, no "kami"; general corporate tone. Title overline = PERBADANAN MELAKA (MCORP).
+- S19 SPD 2.0 is the "akan datang" closer: homepage only scrolls down to the Green Dashboard section (no sidebar click,
+  no Green Dashboard menu item).
+- Footage (Drive VIDEO LAKONAN 1-3.MP4, 4K HEVC 29.97 -> 1080p proxies `media/spd-green/lakonan/l1-3.mp4`):
+  1 = archive shelves search (off-camera chatter 15-24 s: mute), 2 = desk, acted line 10.8-15.6 s
+  ("Saya tak jumpa… Mana ni? Mana ni? Tolong… cek file"), 3 = enter file room, unlock cabinet, hanging files
+  (crew "1, 2, 3, action" 0-3.8 s: skip). Whisper transcripts l1-3.json.
+- S01 is 18 s; scenes re-timed (S19 25 s).
