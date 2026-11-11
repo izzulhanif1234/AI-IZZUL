@@ -72,13 +72,13 @@ SCENES = [
      "(senarai stok, scroll) → Modal Insan (kakitangan & latihan) → Pentadbiran (capaian pengguna). Label kinetik ikut VO.",
      "Satu klik + satu not kekunci setiap modul (4 not = melodi) · kibasan kain sebagai whoosh organik",
      "Aset alih direkod dan disemak menggunakan barcode. Pengurusan stor memantau permohonan serta baki stok. "
-     "Modal insan menyimpan rekod kakitangan dan latihan. Manakala pentadbiran mengawal capaian sistem."),
-    ("S09", 115, 125, "Lima komponen hijau", "Slaid 6",
+     "Modal insan mengurus cuti dan rekod berkaitan. Manakala pentadbiran mengawal capaian sistem."),
+    ("S09", 115, 125, "Lima modul, satu ekosistem", "Slaid 5",
      ["FORMAL"],
-     "Jadual menjadi 5 kad. Pokok menjalar (vine draw-on) menyambung Komponen → Fungsi → Impak Alam Sekitar; "
-     "daun tumbuh pada setiap impak.",
+     "5 kad modul dari slaid 5 (Aset Alih, Aset Tak Alih, Modal Insan, Pengurusan Stor, Pentadbiran), setiap satu dengan "
+     "skrin sebenar modul; cip impak hijau tumbuh ikut VO, pokok menjalar di bawah.",
      "Kayu berkeriut diperlahankan (pertumbuhan) · petikan kalimba lembut setiap kad",
-     "Setiap komponen membawa impak hijau. Kurang dokumen fizikal. Kurang cetakan. Kurang fail. Dan kurang ruang arkib."),
+     "Setiap modul membawa impak hijau. Kurang dokumen fizikal. Kurang cetakan. Kurang fail. Dan kurang ruang arkib."),
     ("S10", 125, 129, "Bab: IMPAK SPD", "Slaid 7",
      ["HYPERMOTION"],
      "Tipografi 3D extruded menghentam skrin, kamera menembusi huruf A masuk ke babak seterusnya. Flash hijau.",

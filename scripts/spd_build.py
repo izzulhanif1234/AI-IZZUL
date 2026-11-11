@@ -578,8 +578,8 @@ def s08(S):
         ph += (f'<div class="abs s08-pn" id="{pid}-w" style="left:{960 - W / 2:.0f}px;top:{500 - (vh + 52) / 2:.0f}px;width:{W}px;height:{vh + 52}px;'
                f'transform:rotateY({i * 90}deg) translateZ({R}px);backface-visibility:hidden">'
                f'{browser(pid, 0, 0, W, url, pages, extra)}</div>')
-    labels = [("01", "ASET ALIH", "Rekod & semakan barcode"), ("02", "PENGURUSAN STOR", "Permohonan & baki stok"),
-              ("03", "MODAL INSAN", "Kakitangan & latihan"), ("04", "PENTADBIRAN", "Capaian sistem")]
+    labels = [("01", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("02", "PENGURUSAN STOR", "Permohonan serta baki stok"),
+              ("03", "MODAL INSAN", "Cuti dan rekod berkaitan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
     lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:90px;top:880px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
                   for i, (n, a, b) in enumerate(labels))
     laser = ('<div id="s08-laser" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;'
@@ -591,7 +591,7 @@ def s08(S):
   </div>
   <div id="s08-lw" class="abs" style="left:{960 - W / 2:.0f}px;top:{500 - (vh + 52) / 2 + 52:.0f}px;width:{W}px;height:{vh}px;overflow:hidden;pointer-events:none">{laser}</div>
   {lab}
-  <div id="s08-eco" class="abs h1" style="left:0;right:0;top:880px;text-align:center;font-size:64px;opacity:0">Satu ekosistem. <span style="color:var(--lime)">Lima modul.</span></div>
+  <div id="s08-eco" class="abs h1" style="left:0;right:0;top:880px;text-align:center;font-size:64px;opacity:0">Lima modul. <span style="color:var(--lime)">Satu ekosistem.</span></div>
   <div id="s08-blur" class="abs" style="inset:0;pointer-events:none"></div>
   <div class="vign"></div>
 </div>"""
@@ -638,35 +638,38 @@ tl.to(["#s08-eco","#s08-cam"],{{opacity:0,duration:0.3}},{S.D - 0.3});
 # --------------------------------------------------------------------------- S09 lima komponen hijau
 @scene
 def s09(S):
-    comps = [("Digital Land Management", "Rekod tanah & hak milik digital", "Kurang dokumen fizikal", ("dokumen", 1)),
-             ("Digital Property Management", "Maklumat bangunan & premis", "Kurang penyimpanan fail", ("fail", 1)),
-             ("Digital Tenancy Management", "Rekod sewaan, pajakan & kontrak", "Kurang cetakan dokumen", ("cetakan", 1)),
-             ("Digital Asset Valuation", "Laporan & rekod penilaian aset", "Kurang penggunaan kertas", ("fail", 1)),
-             ("Centralised Document Repository", "Pusat simpanan dokumen bersepadu", "Kurang ruang arkib", ("arkib", 1))]
+    # slide 5: "Lima modul dalam satu ekosistem SPD" (wording from the slide)
+    mods = [("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg", "Kurang dokumen fizikal", ("dokumen", 1)),
+            ("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg", "Kurang fail hak milik fizikal", ("fail", 1)),
+            ("Modal Insan", "Cuti dan rekod berkaitan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
+            ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg", "Permohonan tanpa kertas", ("fail", 1)),
+            ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg", "Kurang ruang arkib", ("arkib", 1))]
     cards, js_c = "", ""
-    for i, (a, b, c, (word, nth)) in enumerate(comps):
+    for i, (a, b, img, c, (word, nth)) in enumerate(mods):
         x = 90 + i * 352
-        cards += (f'<div class="abs s09-cd" id="s09-c{i}" style="left:{x}px;top:300px;width:330px;height:560px;background:#fff;border-radius:24px;'
-                  f'box-shadow:0 20px 50px rgba(11,46,34,.18);padding:30px 26px;border-top:10px solid #165A44;color:#0b2e22">'
+        cards += (f'<div class="abs s09-cd" id="s09-c{i}" style="left:{x}px;top:270px;width:330px;height:620px;background:#fff;border-radius:24px;overflow:hidden;'
+                  f'box-shadow:0 20px 50px rgba(11,46,34,.18);color:#0b2e22">'
+                  f'<div style="height:170px;background:url({img}) left top/{330 * 1.9:.0f}px auto no-repeat;border-bottom:6px solid #165A44"></div>'
+                  f'<div style="padding:22px 24px">'
                   f'<div class="mono" style="font-size:22px;color:#26745A;letter-spacing:.1em">0{i + 1}</div>'
-                  f'<div style="font:800 31px/1.15 Plus Jakarta Sans;margin-top:10px;height:110px">{a}</div>'
-                  f'<div style="font:500 24px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:16px;height:110px">{b}</div>'
-                  f'<div id="s09-g{i}" class="abs" style="left:20px;right:20px;bottom:24px;background:#E9F2E7;border-radius:16px;padding:18px 18px 18px 74px;'
-                  f'font:700 23px/1.3 Plus Jakarta Sans;color:#165A44">{SB.leaf("position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(20deg);width:48px;height:48px", "#7DB544")}{c}</div></div>')
+                  f'<div style="font:800 36px/1.1 Plus Jakarta Sans;margin-top:8px">{a}</div>'
+                  f'<div style="font:500 25px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:12px">{b}</div></div>'
+                  f'<div id="s09-g{i}" class="abs" style="left:18px;right:18px;bottom:22px;background:#E9F2E7;border-radius:16px;padding:16px 16px 16px 70px;'
+                  f'font:700 22px/1.3 Plus Jakarta Sans;color:#165A44">{SB.leaf("position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(20deg);width:44px;height:44px", "#7DB544")}{c}</div></div>')
         t = S.w("v09", word, nth) + (0.25 if i == 3 else 0)
         js_c += f'tl.fromTo("#s09-g{i}",{{opacity:0,scale:0.6,y:30}},{{opacity:1,scale:1,y:0,duration:0.45,ease:"back.out(2)"}},{t - 0.1});'
     t0 = S.w("v09", "Setiap")
     html = f"""
 <div class="F" style="background:linear-gradient(#F5F2EA,#E9F2E7)">
-  <div class="kicker abs" id="s09-k" style="left:90px;top:96px;color:#26745A">INOVASI HIJAU SPD</div>
-  <div class="abs h1" style="left:90px;top:136px;font-size:78px;color:#0B2E22">{kw("Lima komponen, satu impak hijau", "s09-h")}</div>
-  <svg viewBox="0 0 1920 1080" class="abs" style="inset:0"><path id="s09-v" d="M60 960 C400 900 600 1010 960 950 S1600 900 1880 960" stroke="#7DB544" stroke-width="8" fill="none"/></svg>
+  <div class="kicker abs" id="s09-k" style="left:90px;top:84px;color:#26745A">IDEA · EKOSISTEM SPD</div>
+  <div class="abs h1" style="left:90px;top:124px;font-size:76px;color:#0B2E22">{kw("Lima modul dalam satu ekosistem SPD", "s09-h")}</div>
+  <svg viewBox="0 0 1920 1080" class="abs" style="inset:0"><path id="s09-v" d="M60 990 C400 930 600 1040 960 980 S1600 930 1880 990" stroke="#7DB544" stroke-width="8" fill="none"/></svg>
   {cards}
 </div>"""
     js = f"""
 tl.fromTo("#s09-k",{{opacity:0}},{{opacity:1,duration:0.4}},0.1);
 FX.words(tl,".s09-h > span",0.15,0.06);
-tl.fromTo(".s09-cd",{{opacity:0,y:200,rotationX:-40,transformPerspective:1200}},{{opacity:1,y:0,rotationX:0,duration:0.7,stagger:0.12,ease:"expo.out"}},{max(0.3, t0 - 0.3)});
+tl.fromTo(".s09-cd",{{opacity:0,y:200,rotationX:-40,transformPerspective:1200}},{{opacity:1,y:0,rotationX:0,duration:0.7,stagger:0.12,ease:"expo.out"}},{max(0.3, t0 - 0.6)});
 FX.draw(tl,"#s09-v",{t0},{S.D - t0 - 0.6:.2f});
 {js_c}
 tl.to(".s09-cd",{{y:-60,opacity:0,stagger:0.05,duration:0.35,ease:"power2.in"}},{S.D - 0.5});
@@ -1166,7 +1169,7 @@ PLAN = [  # (scene id, VO lines, kwargs)
     ("s06", ["v06"], dict(pre=0.5, post=2.4)),
     ("s07", ["v07"], dict(pre=0.4, post=1.6)),
     ("s08", ["v08"], dict(pre=0.5, post=2.8)),
-    ("s09", ["v09"], dict(pre=0.5, post=0.7)),
+    ("s09", ["v09"], dict(pre=0.8, post=0.8)),
     ("s10", ["v10"], dict(pre=0.3, post=0.9)),
     ("s11", ["v11"], dict(pre=0.5, post=1.5)),
     ("s12", ["v12"], dict(pre=0.6, post=0.7)),
@@ -1177,7 +1180,7 @@ PLAN = [  # (scene id, VO lines, kwargs)
     ("s17", ["v17"], dict(pre=0.4, post=0.9)),
     ("s18", ["v18"], dict(pre=0.5, post=0.9)),
     ("s19", ["v19"], dict(pre=0.6, post=3.6)),
-    ("s20", ["v20"], dict(pre=1.0, post=3.6)),
+    ("s20", ["v20"], dict(pre=1.0, post=3.2)),
 ]
 
 TEMPLATE = """<!doctype html>
