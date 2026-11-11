@@ -17,127 +17,131 @@ OUT = ROOT / "edits" / "spd-green" / "storyboard"
 # ---------------------------------------------------------------- timeline data
 # (id, start, end, title, slide ref, styles, visual/motion, sfx, vo)
 SCENES = [
-    ("S01", 0, 12, "Cold open: lakonan awal", "Bahan lakonan",
+    ("S01", 0, 14, "Cold open: lakonan awal", "Bahan lakonan",
      ["LAKONAN", "DOODLE"],
      "Footage lakonan: pegawai menyelongkar rak fail. Speed-ramp 100%→30%, freeze-frame. "
      "Doodle kapur putih dilukis atas footage: bulatan conteng pada timbunan fail, jam berdetik, \"Fail mana?!\".",
      "Kertas diselak (foley sebenar) · laci kabinet dihempas, pitch −12 → jadi impak bass semasa freeze · "
      "decit marker setiap kali doodle dilukis",
-     "(Dialog lakonan.) Teks kinetik: \"Setiap hari. Fail yang sama. Carian yang sama.\""),
-    ("S02", 12, 22, "Tajuk: kertas jadi daun", "Slaid 1",
+     "(Dialog lakonan.) Semasa freeze: Fail fizikal. Carian manual. Masa yang terbuang, setiap hari."),
+    ("S02", 14, 23, "Tajuk: kertas jadi daun", "Slaid 1",
      ["HYPERMOTION"],
      "Kamera dolly menembusi kawanan kertas A4 3D (depth of field, motion blur). Kertas berlipat menjadi daun, "
      "daun membentuk tanda SPD. Light sweep emas pada tajuk.",
      "Lipatan kertas berlapis + piano terbalik (reverse swell) · desir daun granular · "
      "sub-drop lembut ketika logo terkunci",
-     "Anugerah Hijau Negeri Melaka 2026. Pembangunan Sistem Pengurusan Data Bersepadu: "
-     "inovasi digital ke arah pengurusan hijau dan lestari."),
-    ("S03", 22, 40, "Apa itu SPD", "Slaid 2 (butang merah: intro VO)",
+     "Anugerah Hijau Negeri Melaka, dua ribu dua puluh enam. Memperkenalkan, Sistem Pengurusan Data Bersepadu. SPD."),
+    ("S03", 23, 39, "Apa itu SPD", "Slaid 2 (butang merah: intro VO)",
      ["FORMAL", "HYPERMOTION"],
      "Lima jubin 3D mengorbit (Tanah, Bangunan, Penyewaan, Penilaian Aset, Dokumen Hak Milik). "
      "Garis data bercahaya menarik semuanya ke satu hab \"SATU PLATFORM BERPUSAT\". Kamera push-in + parallax.",
      "Ketukan pensel pada meja sebagai 'data tick' · selak kabinet logam (magnetic lock) bila jubin bercantum",
-     "Sistem Pengurusan Data Bersepadu, atau SPD, ialah inisiatif transformasi digital MCORP yang menyatukan "
-     "maklumat tanah, bangunan, penyewaan, penilaian aset dan dokumen hak milik dalam satu platform berpusat. "
-     "Ia bukan sekadar meningkatkan kecekapan, malah menyokong agenda kelestarian alam sekitar."),
-    ("S04", 40, 55, "Penyataan masalah", "Slaid 3",
+     "SPD ialah inisiatif transformasi digital M-Corp, yang menyatukan maklumat tanah, bangunan, penyewaan, "
+     "penilaian aset, dan dokumen hak milik, dalam satu platform berpusat. Bukan sekadar cekap. Tetapi juga lebih hijau."),
+    ("S04", 39, 53, "Penyataan masalah", "Slaid 3",
      ["DOODLE"],
      "Kertas kraft bergrid. Tangan melukis 6 ikon (line-boil 12 fps): timbunan kertas, almari sesak, "
-     "fail berganda, jam pasir, fail hilang, RM menyusut. Nombor 01–06 ditulis tangan.",
+     "fail berganda, jam pasir, fail hilang, RM menyusut. Nombor 01–06 ditulis tangan, muncul ikut VO.",
      "Geselan grafit pensel · decit pemadam · kertas direnyuk ketat · klik stop-motion pada setiap ikon",
-     "Sebelum SPD, kami berdepan enam cabaran: penggunaan kertas yang tinggi, ruang simpanan fizikal yang besar, "
-     "pertindihan data, carian maklumat yang lambat, risiko kehilangan dokumen dan kos operasi yang tinggi."),
-    ("S05", 55, 67, "Sebelum → Selepas", "Slaid 4",
+     "Sebelum SPD, kami berdepan enam cabaran. Penggunaan kertas yang tinggi. Ruang simpanan fizikal yang besar. "
+     "Pertindihan data. Carian maklumat yang lambat. Risiko kehilangan dokumen. Dan kos operasi yang tinggi."),
+    ("S05", 53, 63, "Sebelum → Selepas: masuk sistem", "Slaid 4",
      ["HYPERMOTION", "FORMAL"],
-     "Kertas doodle direnyuk menjadi bola → kamera terbang masuk ke dalam bola → match-cut ke skrin SPD. "
-     "Split diagonal: fail fizikal (kelabu) vs carian SPD (berwarna). Pil: BERPUSAT · ATAS TALIAN · LEBIH CEKAP.",
-     "Renyuk kertas → tarikan udara terbalik (vacuum inhale) → ketukan kaca jernih semasa skrin muncul",
-     "SPD mengubah fail fizikal kepada data berpusat: atas talian, dan lebih cekap."),
-    ("S06", 67, 89, "Lima modul, satu ekosistem", "Slaid 5",
-     ["HYPERMOTION"],
-     "Skrin sebenar SPD sebagai panel kaca 3D terapung. Kamera terbang dari modul ke modul: Aset Alih → Aset Tak Alih "
-     "→ Modal Insan → Pengurusan Stor → Pentadbiran. Spotlight kursor, label kinetik. Nama & foto kakitangan dikaburkan.",
-     "Satu ketukan kekunci mekanikal setiap modul, di-pitch menjadi not muzik (5 not = satu melodi) · "
-     "kibasan kain sebagai 'whoosh' organik",
-     "Lima modul dalam satu ekosistem. Aset Alih: rekod dan pemeriksaan barcode. Aset Tak Alih: carian, cukai, "
-     "hak milik dan laporan. Modal Insan: cuti dan rekod berkaitan. Pengurusan Stor: permohonan serta baki stok. "
-     "Dan Pentadbiran: pengurusan capaian sistem."),
-    ("S07", 89, 102, "Lima komponen hijau", "Slaid 6",
+     "Kertas doodle direnyuk → kamera terbang masuk ke dalam bola kertas → match-cut ke pelayar: spd.pknm.gov.my "
+     "ditaip, Enter, sistem terbuka. Split fail fizikal vs SPD. Pil: BERPUSAT · ATAS TALIAN · LEBIH CEKAP.",
+     "Renyuk kertas → tarikan udara terbalik · taipan URL (kekunci sebenar, ditala) · ketukan kaca bila halaman terbuka",
+     "Hari ini, fail fizikal digantikan dengan data berpusat. Atas talian. Dan lebih cekap."),
+    ("S06", 63, 79, "Demo sistem: Laman Utama", "Slaid 5 · skrin DASHBOARD",
+     ["DEMO SISTEM", "HYPERMOTION"],
+     "Kursor bergerak, scroll lancar ke bawah laman utama: peta taburan premis & tanah (zoom ke pin, popup), "
+     "jadual Aset Alih & Aset Tak Alih, graf sewaan, kakitangan. Kamera 3D ikut kursor, punch-in pada angka.",
+     "Klik tetikus sebenar (rapat, tak bergema) · roda scroll bertekstur · 'tick' halus setiap panel masuk",
+     "Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik M-Corp di seluruh Melaka, "
+     "bersama ringkasan aset alih, aset tak alih, sewaan, dan stor, dalam satu paparan."),
+    ("S07", 79, 95, "Demo sistem: Aset Tak Alih", "Slaid 5 · skrin ASET TAK ALIH",
+     ["DEMO SISTEM", "HYPERMOTION"],
+     "Klik menu Pengurusan Aset Tak Alih → taip \"ELKAY\" dalam carian → senarai cadangan jatuh → klik → "
+     "Maklumat Premis terbuka (Kod ATA, lot, status hak milik, koordinat) → klik pin Google → peta → scroll ke dokumen hak milik digital.",
+     "Taipan kekunci (setiap huruf satu not) · 'drop' lembut senarai cadangan · klik + kaca bila panel terbuka",
+     "Untuk aset tak alih, cukup taip nama lokasi. Rekod premis, lot, status hak milik, dan koordinat dipaparkan "
+     "serta-merta, lengkap dengan peta, dan dokumen hak milik digital."),
+    ("S08", 95, 112, "Demo sistem: modul lain", "Slaid 5 · skrin ASET ALIH, STOR, MODAL INSAN",
+     ["DEMO SISTEM", "HYPERMOTION"],
+     "Klik bertubi di sidebar, setiap klik = whip-pan 3D ke modul: Aset Alih (senarai + barcode) → Pengurusan Stor "
+     "(senarai stok, scroll) → Modal Insan (kakitangan & latihan) → Pentadbiran (capaian pengguna). Label kinetik ikut VO.",
+     "Satu klik + satu not kekunci setiap modul (4 not = melodi) · kibasan kain sebagai whoosh organik",
+     "Aset alih direkod dan disemak menggunakan barcode. Pengurusan stor memantau permohonan serta baki stok. "
+     "Modal insan menyimpan rekod kakitangan dan latihan. Manakala pentadbiran mengawal capaian sistem."),
+    ("S09", 112, 123, "Lima komponen hijau", "Slaid 6",
      ["FORMAL"],
      "Jadual menjadi 5 kad. Pokok menjalar (vine draw-on) menyambung Komponen → Fungsi → Impak Alam Sekitar; "
      "daun tumbuh pada setiap impak.",
      "Kayu berkeriut diperlahankan (pertumbuhan) · petikan kalimba lembut setiap kad",
-     "Setiap komponen membawa impak hijau: pengurusan tanah, premis, penyewaan, penilaian aset dan pusat dokumen "
-     "digital, mengurangkan kertas, cetakan, fail dan ruang arkib."),
-    ("S08", 102, 108, "Bab: IMPAK SPD", "Slaid 7",
+     "Setiap komponen membawa impak hijau. Kurang dokumen fizikal. Kurang cetakan. Kurang fail. Dan kurang ruang arkib."),
+    ("S10", 123, 127, "Bab: IMPAK SPD", "Slaid 7",
      ["HYPERMOTION"],
      "Tipografi 3D extruded menghentam skrin, kamera menembusi huruf A masuk ke babak seterusnya. Flash hijau.",
-     "Hentakan cop getah sebenar (rubber stamp) + tape-stop pada muzik · 0.3 s sunyi sebelum babak impak",
-     "Impak SPD."),
-    ("S09", 108, 120, "Kecekapan sumber organisasi", "Slaid 8",
+     "Hentakan cop getah sebenar + tape-stop pada muzik · 0.3 s sunyi",
+     "Inilah, impak SPD."),
+    ("S11", 127, 137, "Kecekapan sumber organisasi", "Slaid 8",
      ["FORMAL"],
      "Tiga tiang naik dari lantai (Masa · Tenaga Kerja · Ruang & Bahan). Ikon 18 → 9 orang.",
      "Ketukan blok kayu bertala, satu setiap tiang",
-     "Carian dan semakan rekod menjadi lebih pantas. Tenaga kerja dianggarkan berkurang daripada lapan belas "
-     "kepada sembilan orang, dan ruang serta bahan dapat dimanfaatkan semula."),
-    ("S10", 120, 130, "Kurang pencemaran", "Slaid 9",
+     "Carian dan semakan rekod menjadi lebih pantas. Keperluan tenaga kerja dianggarkan berkurang, "
+     "daripada lapan belas, kepada sembilan orang."),
+    ("S12", 137, 147, "Kurang pencemaran", "Slaid 9",
      ["DOODLE"],
-     "Gaya kapur atas papan hijau: tong sampah kertas mengecil, laluan kereta penghantar dokumen dipadam, "
+     "Gaya kapur atas papan hijau: tong sampah kertas mengecil, laluan penghantar dokumen dipadam, "
      "bilik fail bertukar menjadi ruang kerja.",
-     "Kapur di papan · pemadam papan hitam · ketukan kapur patah sebagai aksen",
-     "Sisa kertas berkurang, dokumen tidak lagi bergerak berulang kali, dan ruang simpanan digunakan "
-     "untuk tujuan produktif."),
-    ("S11", 130, 142, "Sewaan: 14 → 3 hari", "Slaid 10",
+     "Kapur di papan · pemadam papan hitam · kapur patah sebagai aksen",
+     "Sisa kertas berkurang. Dokumen tidak lagi bergerak dari meja ke meja. Dan ruang simpanan kini digunakan "
+     "untuk tujuan yang lebih produktif."),
+    ("S13", 147, 157, "Sewaan: 14 → 3 hari", "Slaid 10",
      ["HYPERMOTION"],
      "Kalendar 3D: 11 helai tercabut dan terbang menjadi daun. Kaunter 14 → 3. Lencana \"11 HARI DIJIMATKAN\".",
      "Koyakan kalendar sebenar, makin laju · 'snap' kertas pada angka akhir",
-     "Proses permohonan sewaan: daripada empat belas hari, kini tiga hari. Sebelas hari dijimatkan."),
-    ("S12", 142, 154, "Semakan aset: 20 → 2 hari", "Slaid 11",
+     "Proses permohonan sewaan, daripada empat belas hari, kini hanya tiga hari. Sebelas hari dijimatkan."),
+    ("S14", 157, 168, "Semakan aset: 20 → 2 hari", "Slaid 11",
      ["FORMAL", "HYPERMOTION"],
-     "Foto semakan manual → foto imbas barcode, garis laser hijau menyapu skrin, rekod muncul dalam SPD. "
-     "Kaunter 20 → 2.",
+     "Foto semakan manual → foto imbas barcode, garis laser hijau menyapu skrin, rekod muncul dalam SPD. Kaunter 20 → 2.",
      "Bip pengimbas barcode dirakam & di-pitch menjadi kord · dengung laser halus",
-     "Semakan aset alih: dua puluh hari secara manual, kini dua hari dengan imbasan barcode."),
-    ("S13", 154, 167, "Penjimatan kos tenaga kerja", "Slaid 12",
+     "Semakan aset alih, dua puluh hari secara manual. Kini, dua hari dengan imbasan barcode."),
+    ("S15", 168, 179, "Penjimatan kos tenaga kerja", "Slaid 12",
      ["FORMAL"],
-     "18 ikon manusia → 9 menyala hijau. Jadual bulanan RM36,306 → RM18,153, tahunan RM435,672 → RM217,836. "
+     "18 ikon manusia → 9 menyala. Jadual bulanan RM36,306 → RM18,153, tahunan RM435,672 → RM217,836. "
      "Kaunter besar beraksen emas.",
-     "Manik sempoa bergolek (rolling clicks) · pukulan malet felt dalam pada angka akhir",
-     "Anggaran penjimatan kos tenaga kerja: dua ratus tujuh belas ribu, lapan ratus tiga puluh enam ringgit setahun."),
-    ("S14", 167, 181, "Kertas A4 & dakwat", "Slaid 13 & 14",
+     "Manik sempoa bergolek · pukulan malet felt dalam pada angka akhir",
+     "Anggaran penjimatan kos tenaga kerja, dua ratus tujuh belas ribu, lapan ratus tiga puluh enam ringgit, setahun."),
+    ("S16", 179, 191, "Kertas A4 & dakwat", "Slaid 13 & 14",
      ["FORMAL", "DOODLE"],
-     "Graf bar 3D tumbuh: A4 1,242 → 926 (−25.4%), dakwat 174 → 105 (−39.7%). "
-     "Doodle: rim kertas menyusut, titisan dakwat.",
+     "Graf bar 3D tumbuh: A4 1,242 → 926 (−25.4%), dakwat 174 → 105 (−39.7%). Doodle: rim kertas menyusut, titisan dakwat.",
      "Hentakan rim kertas pada meja · titisan air di-pitch rendah sebagai 'dakwat'",
-     "Permohonan kertas A4 berkurang 316 unit, atau 25.4 peratus. Permohonan dakwat pencetak berkurang 69 unit, "
-     "atau 39.7 peratus, bagi tahun 2021 berbanding 2025."),
-    ("S15", 181, 189, "Digitalisasi bahan", "Slaid 15",
+     "Antara tahun dua ribu dua puluh satu dan dua ribu dua puluh lima, permohonan kertas A4 berkurang dua puluh lima "
+     "perpuluhan empat peratus. Dan dakwat pencetak, tiga puluh sembilan perpuluhan tujuh peratus."),
+    ("S17", 191, 200, "Digitalisasi & bukti", "Slaid 15, 16 & 17",
      ["HYPERMOTION"],
-     "Fail & borang fizikal larut menjadi zarah (particles) lalu tersusun semula sebagai rekod digital SPD.",
-     "Pasir granular + kilauan kaca (glass shimmer)",
-     "Fail dan borang fizikal kini digantikan dengan rekod digital."),
-    ("S16", 189, 199, "Bukti pelaksanaan", "Slaid 16 & 17",
-     ["FORMAL"],
-     "Montaj polaroid atas meja, kamera tracking. 'Sebelum' nyahwarna, 'Selepas' berwarna penuh.",
-     "Pengatup kamera polaroid · foto digeser atas meja",
-     "Buktinya jelas, dari permohonan stok hingga pemeriksaan aset."),
-    ("S17", 199, 208, "Pengiktirafan", "Slaid 18",
+     "Fail & borang fizikal larut jadi zarah → tersusun semula sebagai rekod SPD; montaj polaroid sebelum/selepas.",
+     "Pasir granular + kilauan kaca · pengatup polaroid",
+     "Fail dan borang fizikal kini digantikan dengan rekod digital. Buktinya jelas, dari permohonan stok, "
+     "hingga pemeriksaan aset."),
+    ("S18", 200, 208, "Pengiktirafan", "Slaid 18",
      ["FORMAL"],
      "Sijil hak cipta meluncur masuk, cop mohor ditekan. \"Hak Cipta · 2 Mac 2020\" + \"Platform utama MCORP\".",
      "Embosser (pengecap timbul) menggigit kertas",
-     "SPD diiktiraf hak cipta sejak 2020 dan kini menjadi platform utama pengurusan data MCORP."),
-    ("S18", 208, 232, "Masa depan: SPD 2.0 + Green Dashboard", "Slaid 19",
-     ["HYPERMOTION", "FORMAL"],
-     "Terowong cahaya hijau → pelayar dengan laman utama SPD 2.0 (rupa sistem sebenar). Kamera scroll ke bawah: "
-     "seksyen \"SPD 2.0 + GREEN DASHBOARD\": Green Index 82/100, KPI dari slaid, graf, Green Impact Meter.",
-     "Muzik 'drop' ke pad lembut · ketukan kaca bertala setiap KPI menyala · denyut sub pada gauge",
-     "Dan ini baru permulaan. SPD 2.0 akan datang bersama Green Dashboard, yang mengukur setiap impak hijau secara "
-     "masa nyata: kertas, dakwat, masa, tenaga kerja dan kos. Kerana apa yang diukur, boleh diurus."),
-    ("S19", 232, 240, "Penutup", "Slaid 20",
+     "SPD telah diiktiraf hak cipta sejak tahun dua ribu dua puluh, dan kini menjadi platform utama pengurusan data M-Corp."),
+    ("S19", 208, 232, "Demo masa depan: SPD 2.0 + Green Dashboard", "Slaid 19",
+     ["DEMO SISTEM", "HYPERMOTION"],
+     "Terowong cahaya hijau → laman utama SPD 2.0. Kursor klik \"Green Dashboard BAHARU\" di sidebar, scroll ke bawah: "
+     "seksyen SPD 2.0 + GREEN DASHBOARD menyala, gauge naik ke 82, KPI dari slaid kira naik satu-satu, Green Impact Meter.",
+     "Muzik drop ke pad lembut · klik + ketukan kaca bertala setiap KPI menyala · denyut sub pada gauge",
+     "Dan ini baru permulaan. Memperkenalkan, SPD dua titik kosong, bersama Green Dashboard. Setiap impak hijau kini "
+     "diukur secara masa nyata. Kertas. Dakwat. Masa. Tenaga kerja. Dan kos. Kerana apa yang diukur, boleh diurus."),
+    ("S20", 232, 240, "Penutup", "Slaid 20",
      ["HYPERMOTION"],
      "Jubin dashboard terbang dan bercantum membentuk tanda SPD. Tagline + slogan. Kad akhir MCORP.",
      "Satu not piano akhir + cop mohor · muzik resolve",
-     "SPD. Kurang kertas, aset lebih pintar, masa depan lebih hijau."),
+     "SPD. Mendigitalkan proses. Mengoptimumkan sumber. Mempercepat penyampaian. "
+     "Ke arah pengurusan yang hijau dan lestari."),
 ]
 
 STYLE_COL = {
@@ -145,12 +149,13 @@ STYLE_COL = {
     "DOODLE": ("#F3E3B5", "#3a2f12"),
     "HYPERMOTION": ("#111", "#E8C46A"),
     "LAKONAN": ("#8E1B33", "#fff"),
+    "DEMO SISTEM": ("#2B5FD9", "#fff"),
 }
 
 ACTS = [
-    (0, 55, "BABAK 1 · MASALAH & PENGENALAN"),
-    (55, 102, "BABAK 2 · SISTEM SPD"),
-    (102, 208, "BABAK 3 · IMPAK HIJAU"),
+    (0, 53, "BABAK 1 · MASALAH & PENGENALAN"),
+    (53, 123, "BABAK 2 · SISTEM SPD (DEMO)"),
+    (123, 208, "BABAK 3 · IMPAK HIJAU"),
     (208, 240, "BABAK 4 · MASA DEPAN"),
 ]
 
@@ -602,7 +607,7 @@ GPS = [("Paperless Transformation", 30, 80), ("Carbon Footprint Reduction", 20, 
 GREEN_INDEX = round(sum(w * s for _, w, s in GPS) / 100)  # 82 -> "Advanced Green Performance" (80-89)
 
 
-def spd2_homepage(scroll=0, full=False):
+def spd2_homepage(scroll=0, full=False, click=None):
     """1920x1080 browser frame. scroll shifts the page up to reveal the Green Dashboard section."""
     kpis = [("KERTAS A4", "−25.4%", "1,242 → 926 unit", "2021 vs 2025"),
             ("DAKWAT PENCETAK", "−39.7%", "174 → 105 unit", "2021 vs 2025"),
@@ -641,7 +646,7 @@ def spd2_homepage(scroll=0, full=False):
              '<text x="410" y="204" text-anchor="middle" font-family="JetBrains Mono" font-size="15">Dakwat</text></svg>')
     side = "".join(
         f'<div style="display:flex;align-items:center;gap:12px;padding:14px 22px;font:600 17px Plus Jakarta Sans;color:{"#fff" if i!=6 else "#0B2E22"};'
-        f'{"background:rgba(255,255,255,.14);border-left:4px solid #fff;" if i==0 else ""}{"background:#B6D973;border-radius:10px;margin:8px 12px;" if i==6 else ""}">'
+        f'{"background:rgba(255,255,255,.14);border-left:4px solid #fff;" if i==0 and not full else ""}{"background:#B6D973;border-radius:10px;margin:8px 12px;" if i==6 else ""}">'
         f'<i style="width:18px;height:18px;border:2px solid currentColor;border-radius:4px;display:block"></i>{t}</div>'
         for i, t in enumerate(["Utama", "Pengurusan Aset Tak Alih", "Pengurusan Aset Alih", "Pengurusan Stor",
                                "Pengurusan Modal Insan", "Pentadbiran", "Green Dashboard  BAHARU", "Bantuan"]))
@@ -694,7 +699,9 @@ def spd2_homepage(scroll=0, full=False):
               + '<div style="margin-left:30px;flex:1;max-width:900px;height:38px;background:#1d2023;border-radius:19px;padding:8px 20px;font:500 17px Plus Jakarta Sans;color:#c8ccd0">🔒 spd.pknm.gov.my/v2/utama</div></div>')
     h = 2000 if full else 1016
     return (f'<div class="F" style="background:#1d2023">{chrome}<div style="position:absolute;top:64px;left:0;right:0;height:{h}px;overflow:hidden">'
-            f'<div style="transform:translateY(-{scroll}px)">{page}</div></div>{"" if full else BADGE}</div>')
+            f'<div style="transform:translateY(-{scroll}px)">{page}</div>'
+            f'{f"<div style=position:absolute;left:0;top:96px;width:300px;bottom:0;background:#8E1B33;padding-top:20px>{side}</div>" if scroll and not full else ""}'
+            f'</div>{cursor(*click, click=True) if click else ""}{"" if full else BADGE}</div>')
 
 
 def F18():
@@ -713,7 +720,90 @@ def F19():
 {BADGE}</div>"""
 
 
-FRAMES = [F01, F02, F03, F04, F05, F06, F07, F08, F09, F10, F11, F12, F13, F14, F15, F16, F17, F18, F19]
+
+def cursor(x, y, click=False):
+    ring = (f'<div style="position:absolute;left:{x-46}px;top:{y-46}px;width:92px;height:92px;border-radius:50%;'
+            f'border:5px solid #B6D973;box-shadow:0 0 30px #B6D973;opacity:.9"></div>'
+            f'<div style="position:absolute;left:{x-24}px;top:{y-24}px;width:48px;height:48px;border-radius:50%;'
+            f'background:rgba(182,217,115,.45)"></div>') if click else ""
+    return (ring + f'<svg viewBox="0 0 60 80" style="position:absolute;left:{x-4}px;top:{y-4}px;width:46px;z-index:30;'
+            f'filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))"><path d="M5 5 L5 65 L20 50 L32 75 L42 70 L30 46 L52 46Z" '
+            f'fill="#fff" stroke="#111" stroke-width="3"/></svg>')
+
+
+def browser(img, x, y, w, rot="", pos="left top", url="spd.pknm.gov.my", extra=""):
+    h = int(w * 0.52)
+    return (f'<div style="position:absolute;left:{x}px;top:{y}px;width:{w}px;transform:{rot};border-radius:16px;overflow:hidden;'
+            f'box-shadow:0 50px 110px rgba(0,0,0,.6),0 0 0 2px rgba(255,255,255,.12)">'
+            f'<div style="height:44px;background:#2b2f33;display:flex;align-items:center;gap:10px;padding:0 18px">'
+            + "".join(f'<i style="width:12px;height:12px;border-radius:50%;background:{c};display:block"></i>' for c in ["#ff5f57", "#febc2e", "#28c840"])
+            + f'<div style="margin-left:18px;height:28px;flex:1;max-width:520px;background:#1d2023;border-radius:14px;padding:4px 16px;'
+            f'font:500 15px Plus Jakarta Sans;color:#c8ccd0">🔒 {url}</div></div>'
+            f'<div style="height:{h}px;background:url(assets/{img}) {pos}/cover;position:relative">{extra}</div></div>')
+
+
+def callout(x, y, k, t, w=520):
+    return (f'<div style="position:absolute;left:{x}px;top:{y}px;width:{w}px;background:rgba(11,46,34,.92);border-left:8px solid #B6D973;'
+            f'border-radius:14px;padding:18px 24px;box-shadow:0 20px 40px rgba(0,0,0,.45);z-index:20">'
+            f'<div style="font:800 18px JetBrains Mono;letter-spacing:.18em;color:#B6D973">{k}</div>'
+            f'<div style="font:800 40px/1.15 Plus Jakarta Sans;color:#fff;margin-top:6px">{t}</div></div>')
+
+
+DEMO_BG = "background:radial-gradient(ellipse at 50% 35%,#20352d,#08110d 75%)"
+
+
+def FD_utama():
+    sb = ('<div style="position:absolute;right:14px;top:60px;width:10px;height:880px;border-radius:5px;background:rgba(255,255,255,.12)">'
+          '<i style="position:absolute;left:0;right:0;top:220px;height:160px;border-radius:5px;background:#B6D973;display:block"></i></div>')
+    return f"""<div class="F" style="{DEMO_BG}">
+{browser("ui-map.jpg", 150, 90, 1500, "perspective(2200px) rotateY(-9deg) rotateX(4deg)")}
+<div class="shot" style="left:1150px;top:520px;width:640px;height:304px;transform:perspective(1400px) rotateY(-14deg);box-shadow:0 0 0 3px #B6D973,0 40px 90px rgba(0,0,0,.6)"><img src="assets/ui-dash2.jpg"></div>
+{cursor(1290, 640)}{sb}
+<svg viewBox="0 0 60 90" style="position:absolute;left:1370px;top:580px;width:46px"><rect x="8" y="4" width="44" height="78" rx="22" fill="none" stroke="#fff" stroke-width="4"/><rect x="27" y="16" width="6" height="16" rx="3" fill="#B6D973"/></svg>
+{callout(120, 820, "LAMAN UTAMA · SCROLL", "Semua aset dalam satu paparan")}
+{BADGE}</div>"""
+
+
+def FD_ata():
+    pop = ('<div style="position:absolute;right:-6%;top:6%;width:62%;border-radius:12px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 4px #B6D973">'
+           '<img src="assets/ui-premis.jpg" style="width:100%;display:block"></div>')
+    return f"""<div class="F" style="{DEMO_BG}">
+{browser("ui-search.jpg", 110, 120, 1350, "perspective(2200px) rotateY(8deg)", url="spd.pknm.gov.my/asettakalih")}
+<div class="shot" style="left:960px;top:330px;width:880px;height:418px;transform:perspective(1600px) rotateY(-12deg) translateZ(80px);box-shadow:0 0 0 4px #B6D973,0 50px 100px rgba(0,0,0,.7)"><img src="assets/ui-premis.jpg"></div>
+<div style="position:absolute;left:560px;top:205px;padding:10px 20px;background:#fff;border:3px solid #B6D973;border-radius:24px;font:700 34px Plus Jakarta Sans;color:#111;z-index:25">ELKAY<span style="color:#8E1B33">|</span></div>
+{cursor(520, 420, click=True)}
+{callout(110, 820, "ASET TAK ALIH · CARIAN", "Taip lokasi → rekod premis terbuka", 640)}
+{BADGE}</div>"""
+
+
+def FD_modul():
+    tiles = [("ui-asetalih.jpg", "ASET ALIH", "Rekod & barcode", 90, 250, -18),
+             ("ui-stor.jpg", "PENGURUSAN STOR", "Permohonan & baki stok", 520, 180, -6),
+             ("ui-modalinsan.jpg", "MODAL INSAN", "Kakitangan & latihan", 980, 180, 6),
+             ("ui-dash5.jpg", "PENTADBIRAN", "Capaian sistem", 1420, 250, 18)]
+    html = ""
+    for i, (img, k, t, x, y, r) in enumerate(tiles):
+        on = i == 1
+        html += (f'<div style="position:absolute;left:{x}px;top:{y}px;width:420px;transform:perspective(1400px) rotateY({r}deg) {"scale(1.12)" if on else ""};'
+                 f'{"" if on else "filter:brightness(.55) blur(1px);"}z-index:{5 if on else 1}">'
+                 f'<div style="border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.6){",0 0 0 4px #B6D973" if on else ""}">'
+                 f'<img src="assets/{img}" style="width:420px;height:300px;object-fit:cover;object-position:left top;display:block"></div>'
+                 f'<div style="font:800 18px JetBrains Mono;letter-spacing:.16em;color:#B6D973;margin-top:22px">0{i+1} · {k}</div>'
+                 f'<div style="font:800 32px Plus Jakarta Sans;color:#fff;margin-top:4px">{t}</div></div>')
+    side = "".join(f'<div style="padding:13px 18px;font:600 19px Plus Jakarta Sans;color:#fff;{"background:rgba(255,255,255,.2);border-left:5px solid #B6D973" if i==2 else ""}">{t}</div>'
+                   for i, t in enumerate(["Utama", "Pengurusan Aset Alih", "Pengurusan Stor", "Pengurusan Modal Insan", "Pentadbiran"]))
+    return f"""<div class="F" style="{DEMO_BG}">{html}
+<div style="position:absolute;left:90px;top:700px;width:330px;background:#8E1B33;border-radius:14px;padding:10px 0;box-shadow:0 30px 60px rgba(0,0,0,.5)">{side}</div>
+{cursor(300, 800, click=True)}
+<div style="position:absolute;left:480px;top:760px;font:800 26px JetBrains Mono;letter-spacing:.2em;color:#B6D973">KLIK → WHIP-PAN 3D KE MODUL SETERUSNYA</div>
+{BADGE}</div>"""
+
+
+def FD_spd2():
+    return spd2_homepage(scroll=560, click=(170, 520))
+
+
+FRAMES = [F01, F02, F03, F04, F05, FD_utama, FD_ata, FD_modul, F07, F08, F09, F10, F11, F12, F13, F14, F15, F17, FD_spd2, F19]
 
 
 # ---------------------------------------------------------------- pages
@@ -733,8 +823,10 @@ def card(sc, frame_fn):
 <div class="fld vo"><b>VO</b><div>{vo}</div></div></div></div>"""
 
 
-SHORT = {"S01": "Lakonan awal", "S02": "Tajuk", "S05": "Sebelum → Selepas", "S10": "Kurang pencemaran",
-         "S16": "Bukti", "S09": "Kecekapan sumber", "S13": "Kos tenaga kerja", "S12": "Aset: 20 → 2 hari"}
+SHORT = {"S01": "Lakonan awal", "S02": "Tajuk", "S05": "Masuk sistem", "S06": "Demo: Laman Utama",
+         "S07": "Demo: Aset Tak Alih", "S08": "Demo: modul lain", "S09": "Komponen", "S11": "Kecekapan",
+         "S12": "Pencemaran", "S13": "Sewaan 14 → 3", "S14": "Aset 20 → 2", "S15": "Kos tenaga kerja",
+         "S16": "Kertas & dakwat", "S17": "Digitalisasi", "S19": "SPD 2.0 + Green Dashboard"}
 
 
 def ruler():
@@ -759,13 +851,12 @@ def ruler():
     sfx_marks = [3, 9, 12, 21, 26, 38, 42, 48, 52, 56, 60, 70, 74, 78, 82, 86, 92, 97, 102, 104, 110, 116, 122, 128, 133, 138,
                  141, 145, 149, 160, 166, 170, 176, 183, 191, 196, 202, 206, 211, 216, 221, 226, 234, 239]
     marks = "".join(f'<i style="position:absolute;left:{px(t)-4:.0f}px;top:8px;width:8px;height:18px;border-radius:3px;background:#D9AE52;display:block"></i>' for t in sfx_marks)
-    vo_spans = [(14, 21), (24, 39), (41, 54), (57, 66), (69, 88), (90, 101), (103, 104), (109, 119), (121, 129), (131, 141),
-                (143, 153), (155, 166), (168, 180), (182, 188), (190, 198), (200, 207), (211, 231), (233, 239)]
+    vo_spans = [(max(a + 0.6, b - 4.5) if sid == "S01" else a + 0.6, b - 0.6) for sid, a, b, *_ in SCENES]
     vo = "".join(f'<i style="position:absolute;left:{px(a):.0f}px;width:{px(b-a):.0f}px;top:6px;height:22px;border-radius:5px;background:#26745A;display:block"></i>' for a, b in vo_spans)
     ticks = "".join(f'<div class="tick" style="left:{px(t)}px">{tc(t)}</div>' for t in range(0, 241, 15))
     return f"""<div class="ruler">
 <div class="acts">{acts}</div><div class="blocks">{blks}</div>
-<div class="lane" style="top:238px;background:#fff">{vo}<div class="lbl">VOICE-OVER (skrip draf)</div></div>
+<div class="lane" style="top:238px;background:#fff">{vo}<div class="lbl">VOICE-OVER (skrip akhir · Charon)</div></div>
 <div class="lane" style="top:292px;background:#fff;height:36px"><div class="lbl">SFX FOLEY "KERTAS → PIKSEL"</div>{marks}</div>
 <div class="lane" style="top:346px;background:#fff;height:44px"><div class="lbl">MUZIK · TENAGA</div>
 <svg viewBox="0 0 {W} 44" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="{path.replace('70-','44-')}" fill="none"/></svg>
@@ -777,14 +868,14 @@ def ruler():
 def page1():
     legend = "".join(f'<div><i style="background:{STYLE_COL[k][0]}"></i>{d}</div>' for k, d in [
         ("FORMAL", "Formal korporat (hijau zamrud + putih + emas)"), ("DOODLE", "Doodle lukisan tangan / kapur"),
-        ("HYPERMOTION", "Hypermotion: kamera 3D, speed-ramp, match-cut"), ("LAKONAN", "Footage lakonan")])
+        ("HYPERMOTION", "Hypermotion: kamera 3D, speed-ramp, match-cut"), ("LAKONAN", "Footage lakonan"), ("DEMO SISTEM", "Demo sistem: klik, taip, scroll")])
     return f"""<div class="page" id="p1">
-<div class="hdr"><div class="k">STORYBOARD & TIMELINE · DRAF 1</div>
+<div class="hdr"><div class="k">STORYBOARD & TIMELINE · DRAF 2</div>
 <h1>SPD GREEN: Video Penerangan Sistem</h1>
 <p>Pembangunan Sistem Pengurusan Data Bersepadu (SPD) · Anugerah Hijau Negeri Melaka 2026 · Perbadanan Melaka (MCORP)</p>
-<div class="meta"><b>4:00</b> durasi<br><b>1920×1080</b> · 30 fps<br><b>19</b> babak · 4 babak besar</div></div>
+<div class="meta"><b>4:00</b> durasi<br><b>1920×1080</b> · 30 fps<br><b>20</b> babak · 4 babak besar</div></div>
 <div class="sec"><h2>Timeline 4 minit <span>0:00 → 4:00</span></h2>
-<div class="sub">Setiap blok = satu babak. Jalur bawah blok = gaya kedua. Butang merah dalam PowerPoint dipetakan kepada babak S03–S18.</div>
+<div class="sub">Setiap blok = satu babak. Jalur bawah blok = gaya kedua. Butang merah dalam PowerPoint dipetakan kepada babak S03–S19.</div>
 <div class="legend">{legend}</div>
 <div style="display:inline-block;margin:0 0 22px;font:700 15px 'JetBrains Mono';color:#8E1B33;background:#fff;border:2px solid #8E1B33;border-radius:6px;padding:5px 12px">
 MCORP LOGO 3D (KANAN ATAS) · 0:00 – 4:00 · ayun kiri-kanan ±25°, tak pusing penuh</div>{ruler()}</div>
@@ -796,7 +887,7 @@ MCORP LOGO 3D (KANAN ATAS) · 0:00 – 4:00 · ayun kiri-kanan ±25°, tak pusin
 <li>Light sweep emas & glow hijau, grain filem halus, vignette</li>
 <li>Tipografi kinetik dengan mask reveal, bukan fade biasa</li></ul></div>
 <div class="box"><h4><em style="background:#F3E3B5;color:#3a2f12">DOODLE</em> Babak lukisan tangan</h4><ul>
-<li>S01 (atas footage), S04 masalah, S10 pencemaran, S14 graf</li>
+<li>S01 (atas footage), S04 masalah, S12 pencemaran, S16 graf</li>
 <li>Garis "boil" 12 fps supaya nampak hidup, ditapis tekstur kapur / pensel</li>
 <li>Kertas kraft bergrid & papan kapur hijau: kontras dengan bahagian formal</li>
 <li>Peralihan doodle → formal: kertas direnyuk dan "dimakan" kamera</li></ul></div>
@@ -806,8 +897,8 @@ MCORP LOGO 3D (KANAN ATAS) · 0:00 – 4:00 · ayun kiri-kanan ±25°, tak pusin
 <li>Diproses: pitch turun, reverse, granular, ditala ikut kunci muzik</li>
 <li>Bip barcode & ketukan kekunci jadi not melodi (bunyi = muzik)</li>
 <li>Muzik: piano felt + marimba/pluck berdenyut, naik di Babak 3, drop di SPD 2.0</li></ul></div></div>
-<div class="sec" style="padding-top:0"><h2>Frame utama: SPD 2.0 + Green Dashboard <span>S18 · 3:28 – 3:52</span></h2>
-<div class="sub">Laman utama SPD "versi 2.0" (rupa sama seperti sistem sebenar). Kamera scroll ke bawah ke seksyen Green Dashboard. Angka KPI diambil terus dari PowerPoint; Green Index {GREEN_INDEX}/100 dikira guna formula pemberat dalam PDF Cadangan Dashboard.</div></div>
+<div class="sec" style="padding-top:0"><h2>Frame utama: SPD 2.0 + Green Dashboard <span>S19 · 3:28 – 3:52</span></h2>
+<div class="sub">Laman utama SPD "versi 2.0" (rupa sama seperti sistem sebenar). Kursor klik menu Green Dashboard, laman scroll ke bawah ke seksyen Green Dashboard. Angka KPI diambil terus dari PowerPoint; Green Index {GREEN_INDEX}/100 dikira guna formula pemberat dalam PDF Cadangan Dashboard.</div></div>
 <div style="padding:0 80px 20px;display:grid;grid-template-columns:1fr 1fr;gap:28px">
 <div class="card"><div class="thumb"><div class="frame" style="transform:scale(.45104)">{spd2_homepage(0)}</div></div>
 <div class="body" style="padding:14px 20px"><b style="font:800 14px JetBrains Mono;color:#26745A">A · 3:34</b> &nbsp;Laman utama SPD 2.0 muncul (atas: peta premis & tanah, kad Aset)</div></div>
@@ -820,10 +911,10 @@ NOTES = """<div class="card" style="background:#0B2E22;color:#fff;padding:34px 3
 <div style="font:800 15px JetBrains Mono;letter-spacing:.2em;color:#B6D973">NOTA SEBELUM BUAT VIDEO</div>
 <div style="font:800 34px Plus Jakarta Sans;margin:10px 0 18px">Perlu disahkan / dihantar</div>
 <ol style="font:500 19px/1.55 Plus Jakarta Sans;color:#dbe9df;padding-left:24px">
-<li><b style="color:#fff">Footage lakonan</b>: folder VIDEO LAKONAN dalam Drive masih kosong. S01 guna gambar fail sebagai pengganti sementara.</li>
-<li><b style="color:#fff">Skrip VO</b>: draf di setiap babak (~350 patah perkataan, tempo tenang dengan ruang untuk muzik & SFX). Guna terus atau hantar skrip sendiri; masa babak akan diselaraskan ikut VO.</li>
+<li><b style="color:#fff">Footage lakonan</b>: sedang dimuat naik. S01 guna gambar fail sebagai pengganti sementara.</li>
+<li><b style="color:#fff">Skrip VO</b>: siap (lihat setiap babak). Suara Gemini TTS "Charon", nada sama seperti MCORP Estimate; masa babak akhir ikut rakaman VO.</li>
 <li><b style="color:#fff">Green Index 82/100</b> dikira daripada formula pemberat PDF (skor komponen dianggar dari angka slaid). Boleh tukar angka jika ada sasaran rasmi.</li>
-<li><b style="color:#fff">Privasi</b>: nama & foto kakitangan dalam skrin Modal Insan akan dikaburkan.</li>
+
 <li><b style="color:#fff">Logo</b>: logo MCORP korporat (dari slaid 1) dipusing 3D kiri-kanan di kanan atas sepanjang video.</li></ol>
 <div style="margin-top:22px;font:700 17px JetBrains Mono;color:#B6D973">Bila timeline ini OK → arahkan "create video".</div></div>"""
 
@@ -833,8 +924,8 @@ def page_cards(pid, scenes_frames, label):
     if pid == "p3":
         cards += NOTES
     return f"""<div class="page" id="{pid}"><div class="sec" style="padding-top:40px"><h2>Storyboard babak demi babak <span>{label}</span></h2>
-<div class="sub">Imej kecil = frame gaya sebenar 1920×1080. Logo MCORP 3D sentiasa di kanan atas. Skrip VO ialah draf: boleh guna terus atau ganti dengan skrip sendiri.</div></div>
-<div class="grid">{cards}</div><div class="foot"><span>{label}</span><span>SPD GREEN · Storyboard draf 1</span></div></div>"""
+<div class="sub">Imej kecil = frame gaya sebenar 1920×1080. Logo MCORP 3D sentiasa di kanan atas. VO = skrip akhir (suara Charon, gaya MCORP Estimate).</div></div>
+<div class="grid">{cards}</div><div class="foot"><span>{label}</span><span>SPD GREEN · Storyboard draf 2</span></div></div>"""
 
 
 def build():
@@ -844,8 +935,8 @@ def build():
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>{SVG_FILTER}
 {page1()}
-{page_cards("p2", pairs[:10], "Halaman 2 / 3 · S01 – S10 (0:00 – 2:10)")}
-{page_cards("p3", pairs[10:], "Halaman 3 / 3 · S11 – S19 (2:10 – 4:00)")}
+{page_cards("p2", pairs[:10], "Halaman 2 / 3 · S01 – S10 (0:00 – 2:07)")}
+{page_cards("p3", pairs[10:], "Halaman 3 / 3 · S11 – S20 (2:07 – 4:00)")}
 <div class="page" id="p4" style="width:1920px;height:2080px;background:#1d2023"><div style="position:relative;width:1920px;height:2080px">{spd2_homepage(0, full=True)}</div></div>
 </body></html>"""
     (OUT / "storyboard.html").write_text(html, encoding="utf-8")

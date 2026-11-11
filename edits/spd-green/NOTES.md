@@ -18,4 +18,13 @@
   aset alih 20->2 days, staff 18->9, RM217,836/yr. Green Index 82 = PDF weights x estimated component scores.
 - SFX concept "Kertas -> Piksel": office/paper foley, pitched/reversed/granular; no stock whoosh/ding.
 - Persistent MCORP 3D badge top right, rotateY swing (as mcorp-estimate `compositions/badge.html`), source logo = pptx image1.
-- Blur staff names/photos in Modal Insan screens.
+
+## Revision 2 (user feedback)
+- No blurring of staff names/photos.
+- System parts are live-feel demos (cursor moves, clicks, typing, scroll, panels opening): S05 enter system,
+  S06 Laman Utama scroll (DAHSBOARD 77-81), S07 Aset Tak Alih search "ELKAY" -> premis -> map -> hak milik docs (83-89),
+  S08 Aset Alih / Stor / Modal Insan / Pentadbiran via sidebar clicks, S19 SPD 2.0 click "Green Dashboard" + scroll.
+- VO script written by us (`vo-script.json`, `storyboard/SKRIP-VO.md`, 394 words): Gemini TTS voice Charon, one take,
+  split with `scripts/split_vo.py` like MCORP Estimate. Key: network secret for generativelanguage.googleapis.com
+  (header x-goog-api-key) on the environment; `gemini_tts.py` sends a placeholder when GEMINI_KEY_FILE is unset.
+- 20 scenes; final scene timings follow the recorded VO.

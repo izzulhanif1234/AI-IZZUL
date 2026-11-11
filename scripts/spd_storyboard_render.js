@@ -8,7 +8,7 @@ const path = require('path');
   await p.goto('file://' + dir + '/storyboard.html', { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
   console.log(await p.evaluate(() => [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.weight).join(', ')));
-  const names = { p1: '01-timeline', p2: '02-storyboard-S01-S10', p3: '03-storyboard-S11-S19', p4: '04-spd2-laman-utama' };
+  const names = { p1: '01-timeline', p2: '02-storyboard-S01-S10', p3: '03-storyboard-S11-S20', p4: '04-spd2-laman-utama' };
   for (const [id, n] of Object.entries(names)) {
     await p.locator('#' + id).screenshot({ path: path.join(dir, n + '.jpg'), type: 'jpeg', quality: 88 });
   }

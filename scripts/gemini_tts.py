@@ -1,9 +1,10 @@
-"""Gemini TTS -> wav. Key is read from the file named in $GEMINI_KEY_FILE (never stored in the repo).
+"""Gemini TTS -> wav. Key is read from the file named in $GEMINI_KEY_FILE (never stored in the repo); without it,
+a placeholder is sent and the environment's network secret for generativelanguage.googleapis.com supplies the key.
 usage: gemini_tts.py lines.json outdir [model] [voice]
 lines.json: [{"id":..., "text":..., "style": optional override}]"""
 import base64, json, os, sys, time, urllib.request, wave
 
-KEY = open(os.environ["GEMINI_KEY_FILE"]).read().strip()
+KEY = open(os.environ["GEMINI_KEY_FILE"]).read().strip() if os.environ.get("GEMINI_KEY_FILE") else "proxy-injected"
 STYLE = ("You are a Malaysian Malay voice-over artist. Read the user's text aloud exactly as written, "
          "in natural Malaysian Malay, as a confident, warm documentary narrator for a state-level "
          "innovation competition video. Do not add or read any other words.")
