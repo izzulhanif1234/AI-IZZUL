@@ -51,13 +51,14 @@ class Line:
 
     def t(self, word, nth=1):
         """start time of the nth word that starts with `word` (case/punctuation-insensitive)"""
-        key = re.sub(r"[^a-z0-9]", "", word.lower())
-        n = 0
-        for w in self.words:
-            if re.sub(r"[^a-z0-9]", "", w["word"].lower()).startswith(key):
-                n += 1
-                if n == nth:
-                    return w["start"]
+        for alt in word.split("|"):  # "Kini|Hari": first form found wins (script versions differ)
+            key = re.sub(r"[^a-z0-9]", "", alt.lower())
+            n = 0
+            for w in self.words:
+                if re.sub(r"[^a-z0-9]", "", w["word"].lower()).startswith(key):
+                    n += 1
+                    if n == nth:
+                        return w["start"]
         raise KeyError(f"{self.id}: '{word}' #{nth} not in {SCRIPT[self.id]}")
 
     def end(self):
@@ -351,7 +352,7 @@ tl.to("#s04-pg",{{scale:3,opacity:0,duration:0.1,ease:"power2.in"}},{S.D - 0.1})
 # --------------------------------------------------------------------------- S05 before -> after, into the system
 @scene
 def s05(S):
-    t_hari = S.w("v05", "Kini")
+    t_hari = S.w("v05", "Kini|Hari")
     t_ber = S.w("v05", "berpusat")
     t_ata = S.w("v05", "Atas")
     t_cek = S.w("v05", "cekap")
@@ -458,7 +459,7 @@ tl.to(B,{{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"}},{S.
 # --------------------------------------------------------------------------- S07 demo: Aset Tak Alih
 @scene
 def s07(S):
-    t_taip = S.w("v07", "menaip")
+    t_taip = S.w("v07", "menaip|taip")
     t_rek = S.w("v07", "Rekod")
     t_lot = S.w("v07", "lot")
     t_sta = S.w("v07", "status")
@@ -547,7 +548,7 @@ def s08(S):
     t_sto = S.w("v08", "Pengurusan")
     t_baki = S.w("v08", "baki")
     t_mi = S.w("v08", "Modal")
-    t_lat = S.w("v08", "kakitangan")
+    t_lat = S.w("v08", "kakitangan|latihan")
     t_pen = S.w("v08", "pentadbiran")
     t_cap = S.w("v08", "capaian")
     W = 1300
@@ -844,7 +845,7 @@ tl.to(["#s13-cal","#s13-old","#s13-new","#s13-badge"],{{x:-200,opacity:0,duratio
 def s14(S):
     t_sem = S.w("v14", "Semakan")
     t_20 = S.w("v14", "dua", 1)
-    t_kini = S.w("v14", "Kini")
+    t_kini = S.w("v14", "Kini|Hari")
     t_2 = S.w("v14", "dua", 2)
     t_ims = S.w("v14", "imbasan")
     html = f"""
@@ -921,8 +922,8 @@ tl.to(".F.gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
 # --------------------------------------------------------------------------- S16 kertas A4 & dakwat
 @scene
 def s16(S):
-    t_ant = S.w("v16", "Bagi")
-    t_ber = S.w("v16", "menurun")
+    t_ant = S.w("v16", "Bagi|Antara")
+    t_ber = S.w("v16", "menurun|berkurang")
     t_25 = S.w("v16", "dua", 5)
     t_dak = S.w("v16", "dakwat")
     t_39 = S.w("v16", "tiga")
@@ -969,7 +970,7 @@ tl.to(".F.paperbg",{{x:-1920,duration:0.5,ease:"power3.in"}},{S.D - 0.5});
 def s17(S):
     t_fail = S.w("v17", "Fail")
     t_dig = S.w("v17", "digantikan")
-    t_buk = S.w("v17", "bukti")
+    t_buk = S.w("v17", "bukti|Buktinya")
     t_stok = S.w("v17", "stok")
     t_per = S.w("v17", "pemeriksaan")
     import random
@@ -1020,7 +1021,7 @@ tl.to("#s17-b",{{x:-200,opacity:0,duration:0.4,ease:"power3.in"}},{S.D - 0.4});
 # --------------------------------------------------------------------------- S18 pengiktirafan
 @scene
 def s18(S):
-    t_iki = S.w("v18", "pengiktirafan")
+    t_iki = S.w("v18", "pengiktirafan|diiktiraf")
     t_2020 = S.w("v18", "dua")
     t_plat = S.w("v18", "platform")
     html = f"""

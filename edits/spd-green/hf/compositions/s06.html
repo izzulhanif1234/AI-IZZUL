@@ -22,35 +22,35 @@
           const FX = window.SPDFX;
 
 const B="#s06-b";
-tl.fromTo(B,{rotationX:6,rotationY:-6,scale:1},{rotationX:2,rotationY:3,duration:11.419,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.342,760,420],[8.183,700,520],[8.697,500,250],[9.646,1240,300],[10.785,600,320],[11.327,1150,560]],[],null);
+tl.fromTo(B,{rotationX:6,rotationY:-6,scale:1},{rotationX:2,rotationY:3,duration:10.905000000000001,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.118,760,420],[7.518,700,520],[8.064,500,250],[8.791,1240,300],[9.809,600,320],[10.536,1150,560]],[],null);
 // zoom into the map
-tl.to(B,{scale:1.42,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.392);
-FX.ring(tl,"#s06-hmap",3.942,3.84);
-tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.742);
-tl.to("#s06-k1",{opacity:0,duration:0.25},7.883);
-tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},7.583);
+tl.to(B,{scale:1.42,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.1679999999999997);
+FX.ring(tl,"#s06-hmap",3.718,3.40);
+tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.518);
+tl.to("#s06-k1",{opacity:0,duration:0.25},7.218);
+tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},6.918);
 // scroll 77 -> 78
-tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.983);
-tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},8.383);
-tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},8.283);
-FX.ring(tl,"#s06-haa",8.646999999999998,0.95);
-FX.ring(tl,"#s06-hata",9.596,0.84);
+tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.318);
+tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},7.718);
+tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},7.617999999999999);
+FX.ring(tl,"#s06-haa",8.014,0.73);
+FX.ring(tl,"#s06-hata",8.741,0.72);
 // scroll 78 -> 80 (sewaan)
-tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},10.285);
-tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},10.685);
-FX.ring(tl,"#s06-hsew",11.085,0.48);
+tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.309);
+tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.709);
+FX.ring(tl,"#s06-hsew",10.109,0.95);
 // stor card pops out of the page
-tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},11.227);
+tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.436);
 // "dalam satu paparan": pull back, tilt, title
-tl.to("#s06-k2",{opacity:0,duration:0.25},11.369);
-tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},11.469);
-tl.to("#s06-stor",{x:-160,y:-60,scale:0.8,duration:0.9,ease:"power3.inOut"},11.469);
-tl.fromTo("#s06-one",{opacity:0,scale:1.4},{opacity:1,scale:1,duration:0.6,ease:"expo.out"},11.869);
-tl.to(["#s06-one","#s06-stor"],{opacity:0,duration:0.3},15.889000000000001);
-tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},15.739);
+tl.to("#s06-k2",{opacity:0,duration:0.25},10.855);
+tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},10.955);
+tl.to("#s06-stor",{x:-160,y:-60,scale:0.8,duration:0.9,ease:"power3.inOut"},10.955);
+tl.fromTo("#s06-one",{opacity:0,scale:1.4},{opacity:1,scale:1,duration:0.6,ease:"expo.out"},11.355);
+tl.to(["#s06-one","#s06-stor"],{opacity:0,duration:0.3},14.681000000000001);
+tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},14.531);
 
-          tl.set({}, {}, 16.239);
+          tl.set({}, {}, 15.031);
           window.__timelines = window.__timelines || {};
           window.__timelines["s06"] = tl;
         })();

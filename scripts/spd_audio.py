@@ -551,7 +551,7 @@ def cues(sc):
     c("s06", s.w("v06", "satu"), sub_boom(0.5), 0.6)
 
     s = S["s07"]
-    t_taip, t_rek, t_pet, t_dok = s.w("v07", "menaip"), s.w("v07", "Rekod"), s.w("v07", "peta"), s.w("v07", "dokumen")
+    t_taip, t_rek, t_pet, t_dok = s.w("v07", "menaip|taip"), s.w("v07", "Rekod"), s.w("v07", "peta"), s.w("v07", "dokumen")
     c("s07", 0.0, paper_whoosh(0.5, 0.35), 0.7)
     for t in (t_taip - 0.25, t_rek - 0.45, t_pet - 0.35):
         c("s07", t, click(0.5), 0.9, 0.2)
@@ -611,7 +611,7 @@ def cues(sc):
 
     s = S["s14"]
     c("s14", max(0.1, s.w("v14", "Semakan") - 0.2), slide(0.5, 0.35), 0.7, -0.4)
-    c("s14", s.w("v14", "Kini") - 0.3, slide(0.5, 0.35), 0.7, 0.2)
+    c("s14", s.w("v14", "Kini|Hari") - 0.3, slide(0.5, 0.35), 0.7, 0.2)
     c("s14", s.w("v14", "imbasan") - 0.2, beep_chord(0.45), 0.9)
     c("s14", s.w("v14", "imbasan") - 0.2, laser_hum(1.6, 0.2), 0.6)
     c("s14", s.w("v14", "dua", 2) - 0.15, tear(0.15, 0.4), 0.6)
@@ -624,8 +624,8 @@ def cues(sc):
     c("s15", t_rgt + 0.3, dissolve(1.0, 0.3), 0.6, 0.4)
 
     s = S["s16"]
-    c("s16", max(0.1, s.w("v16", "Bagi") - 0.2), stamp(0.35), 0.6, -0.4)
-    c("s16", s.w("v16", "menurun") - 0.2, slide(0.8, 0.3), 0.6, -0.4)
+    c("s16", max(0.1, s.w("v16", "Bagi|Antara") - 0.2), stamp(0.35), 0.6, -0.4)
+    c("s16", s.w("v16", "menurun|berkurang") - 0.2, slide(0.8, 0.3), 0.6, -0.4)
     c("s16", s.w("v16", "dua", 5) - 0.1, scratch(0.4, 0.4), 0.7, -0.3)
     c("s16", s.w("v16", "dakwat") - 0.5, stamp(0.35), 0.6, 0.4)
     c("s16", s.w("v16", "dakwat") + 0.3, ink_drop(0.5), 0.7, 0.4)
@@ -635,12 +635,12 @@ def cues(sc):
     s = S["s17"]
     c("s17", s.w("v17", "digantikan") - 0.3, dissolve(1.5, 0.5), 0.8)
     c("s17", s.w("v17", "digantikan") + 0.6, glass(SCALE[5], 0.4), 0.7)
-    for i, t in enumerate((s.w("v17", "bukti"), s.w("v17", "bukti") + 0.25, s.w("v17", "pemeriksaan") - 0.2, s.w("v17", "pemeriksaan") + 0.05)):
+    for i, t in enumerate((s.w("v17", "bukti|Buktinya"), s.w("v17", "bukti|Buktinya") + 0.25, s.w("v17", "pemeriksaan") - 0.2, s.w("v17", "pemeriksaan") + 0.05)):
         c("s17", t + 0.3, shutter(0.5), 0.7, -0.5 + 0.33 * i)
 
     s = S["s18"]
     c("s18", 0.15, slide(0.6, 0.4), 0.7, -0.5)
-    c("s18", s.w("v18", "pengiktirafan") + 0.35, embosser(0.9), 0.9, -0.2)
+    c("s18", s.w("v18", "pengiktirafan|diiktiraf") + 0.35, embosser(0.9), 0.9, -0.2)
     c("s18", s.w("v18", "dua") - 0.3, tick(SCALE[3], 0.35), 0.5, 0.4)
     c("s18", s.w("v18", "platform") - 0.2, tick(SCALE[5], 0.35), 0.5, 0.4)
 
