@@ -1,0 +1,255 @@
+[
+ {
+  "id": "S01",
+  "start": 0,
+  "end": 12,
+  "title": "Cold open: lakonan awal",
+  "ref": "Bahan lakonan",
+  "styles": [
+   "LAKONAN",
+   "DOODLE"
+  ],
+  "visual": "Footage lakonan: pegawai menyelongkar rak fail. Speed-ramp 100%→30%, freeze-frame. Doodle kapur putih dilukis atas footage: bulatan conteng pada timbunan fail, jam berdetik, \"Fail mana?!\".",
+  "sfx": "Kertas diselak (foley sebenar) · laci kabinet dihempas, pitch −12 → jadi impak bass semasa freeze · decit marker setiap kali doodle dilukis",
+  "vo": "(Dialog lakonan.) Teks kinetik: \"Setiap hari. Fail yang sama. Carian yang sama.\""
+ },
+ {
+  "id": "S02",
+  "start": 12,
+  "end": 22,
+  "title": "Tajuk: kertas jadi daun",
+  "ref": "Slaid 1",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Kamera dolly menembusi kawanan kertas A4 3D (depth of field, motion blur). Kertas berlipat menjadi daun, daun membentuk tanda SPD. Light sweep emas pada tajuk.",
+  "sfx": "Lipatan kertas berlapis + piano terbalik (reverse swell) · desir daun granular · sub-drop lembut ketika logo terkunci",
+  "vo": "Anugerah Hijau Negeri Melaka 2026. Pembangunan Sistem Pengurusan Data Bersepadu: inovasi digital ke arah pengurusan hijau dan lestari."
+ },
+ {
+  "id": "S03",
+  "start": 22,
+  "end": 40,
+  "title": "Apa itu SPD",
+  "ref": "Slaid 2 (butang merah: intro VO)",
+  "styles": [
+   "FORMAL",
+   "HYPERMOTION"
+  ],
+  "visual": "Lima jubin 3D mengorbit (Tanah, Bangunan, Penyewaan, Penilaian Aset, Dokumen Hak Milik). Garis data bercahaya menarik semuanya ke satu hab \"SATU PLATFORM BERPUSAT\". Kamera push-in + parallax.",
+  "sfx": "Ketukan pensel pada meja sebagai 'data tick' · selak kabinet logam (magnetic lock) bila jubin bercantum",
+  "vo": "Sistem Pengurusan Data Bersepadu, atau SPD, ialah inisiatif transformasi digital MCORP yang menyatukan maklumat tanah, bangunan, penyewaan, penilaian aset dan dokumen hak milik dalam satu platform berpusat. Ia bukan sekadar meningkatkan kecekapan, malah menyokong agenda kelestarian alam sekitar."
+ },
+ {
+  "id": "S04",
+  "start": 40,
+  "end": 55,
+  "title": "Penyataan masalah",
+  "ref": "Slaid 3",
+  "styles": [
+   "DOODLE"
+  ],
+  "visual": "Kertas kraft bergrid. Tangan melukis 6 ikon (line-boil 12 fps): timbunan kertas, almari sesak, fail berganda, jam pasir, fail hilang, RM menyusut. Nombor 01–06 ditulis tangan.",
+  "sfx": "Geselan grafit pensel · decit pemadam · kertas direnyuk ketat · klik stop-motion pada setiap ikon",
+  "vo": "Sebelum SPD, kami berdepan enam cabaran: penggunaan kertas yang tinggi, ruang simpanan fizikal yang besar, pertindihan data, carian maklumat yang lambat, risiko kehilangan dokumen dan kos operasi yang tinggi."
+ },
+ {
+  "id": "S05",
+  "start": 55,
+  "end": 67,
+  "title": "Sebelum → Selepas",
+  "ref": "Slaid 4",
+  "styles": [
+   "HYPERMOTION",
+   "FORMAL"
+  ],
+  "visual": "Kertas doodle direnyuk menjadi bola → kamera terbang masuk ke dalam bola → match-cut ke skrin SPD. Split diagonal: fail fizikal (kelabu) vs carian SPD (berwarna). Pil: BERPUSAT · ATAS TALIAN · LEBIH CEKAP.",
+  "sfx": "Renyuk kertas → tarikan udara terbalik (vacuum inhale) → ketukan kaca jernih semasa skrin muncul",
+  "vo": "SPD mengubah fail fizikal kepada data berpusat: atas talian, dan lebih cekap."
+ },
+ {
+  "id": "S06",
+  "start": 67,
+  "end": 89,
+  "title": "Lima modul, satu ekosistem",
+  "ref": "Slaid 5",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Skrin sebenar SPD sebagai panel kaca 3D terapung. Kamera terbang dari modul ke modul: Aset Alih → Aset Tak Alih → Modal Insan → Pengurusan Stor → Pentadbiran. Spotlight kursor, label kinetik. Nama & foto kakitangan dikaburkan.",
+  "sfx": "Satu ketukan kekunci mekanikal setiap modul, di-pitch menjadi not muzik (5 not = satu melodi) · kibasan kain sebagai 'whoosh' organik",
+  "vo": "Lima modul dalam satu ekosistem. Aset Alih: rekod dan pemeriksaan barcode. Aset Tak Alih: carian, cukai, hak milik dan laporan. Modal Insan: cuti dan rekod berkaitan. Pengurusan Stor: permohonan serta baki stok. Dan Pentadbiran: pengurusan capaian sistem."
+ },
+ {
+  "id": "S07",
+  "start": 89,
+  "end": 102,
+  "title": "Lima komponen hijau",
+  "ref": "Slaid 6",
+  "styles": [
+   "FORMAL"
+  ],
+  "visual": "Jadual menjadi 5 kad. Pokok menjalar (vine draw-on) menyambung Komponen → Fungsi → Impak Alam Sekitar; daun tumbuh pada setiap impak.",
+  "sfx": "Kayu berkeriut diperlahankan (pertumbuhan) · petikan kalimba lembut setiap kad",
+  "vo": "Setiap komponen membawa impak hijau: pengurusan tanah, premis, penyewaan, penilaian aset dan pusat dokumen digital, mengurangkan kertas, cetakan, fail dan ruang arkib."
+ },
+ {
+  "id": "S08",
+  "start": 102,
+  "end": 108,
+  "title": "Bab: IMPAK SPD",
+  "ref": "Slaid 7",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Tipografi 3D extruded menghentam skrin, kamera menembusi huruf A masuk ke babak seterusnya. Flash hijau.",
+  "sfx": "Hentakan cop getah sebenar (rubber stamp) + tape-stop pada muzik · 0.3 s sunyi sebelum babak impak",
+  "vo": "Impak SPD."
+ },
+ {
+  "id": "S09",
+  "start": 108,
+  "end": 120,
+  "title": "Kecekapan sumber organisasi",
+  "ref": "Slaid 8",
+  "styles": [
+   "FORMAL"
+  ],
+  "visual": "Tiga tiang naik dari lantai (Masa · Tenaga Kerja · Ruang & Bahan). Ikon 18 → 9 orang.",
+  "sfx": "Ketukan blok kayu bertala, satu setiap tiang",
+  "vo": "Carian dan semakan rekod menjadi lebih pantas. Tenaga kerja dianggarkan berkurang daripada lapan belas kepada sembilan orang, dan ruang serta bahan dapat dimanfaatkan semula."
+ },
+ {
+  "id": "S10",
+  "start": 120,
+  "end": 130,
+  "title": "Kurang pencemaran",
+  "ref": "Slaid 9",
+  "styles": [
+   "DOODLE"
+  ],
+  "visual": "Gaya kapur atas papan hijau: tong sampah kertas mengecil, laluan kereta penghantar dokumen dipadam, bilik fail bertukar menjadi ruang kerja.",
+  "sfx": "Kapur di papan · pemadam papan hitam · ketukan kapur patah sebagai aksen",
+  "vo": "Sisa kertas berkurang, dokumen tidak lagi bergerak berulang kali, dan ruang simpanan digunakan untuk tujuan produktif."
+ },
+ {
+  "id": "S11",
+  "start": 130,
+  "end": 142,
+  "title": "Sewaan: 14 → 3 hari",
+  "ref": "Slaid 10",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Kalendar 3D: 11 helai tercabut dan terbang menjadi daun. Kaunter 14 → 3. Lencana \"11 HARI DIJIMATKAN\".",
+  "sfx": "Koyakan kalendar sebenar, makin laju · 'snap' kertas pada angka akhir",
+  "vo": "Proses permohonan sewaan: daripada empat belas hari, kini tiga hari. Sebelas hari dijimatkan."
+ },
+ {
+  "id": "S12",
+  "start": 142,
+  "end": 154,
+  "title": "Semakan aset: 20 → 2 hari",
+  "ref": "Slaid 11",
+  "styles": [
+   "FORMAL",
+   "HYPERMOTION"
+  ],
+  "visual": "Foto semakan manual → foto imbas barcode, garis laser hijau menyapu skrin, rekod muncul dalam SPD. Kaunter 20 → 2.",
+  "sfx": "Bip pengimbas barcode dirakam & di-pitch menjadi kord · dengung laser halus",
+  "vo": "Semakan aset alih: dua puluh hari secara manual, kini dua hari dengan imbasan barcode."
+ },
+ {
+  "id": "S13",
+  "start": 154,
+  "end": 167,
+  "title": "Penjimatan kos tenaga kerja",
+  "ref": "Slaid 12",
+  "styles": [
+   "FORMAL"
+  ],
+  "visual": "18 ikon manusia → 9 menyala hijau. Jadual bulanan RM36,306 → RM18,153, tahunan RM435,672 → RM217,836. Kaunter besar beraksen emas.",
+  "sfx": "Manik sempoa bergolek (rolling clicks) · pukulan malet felt dalam pada angka akhir",
+  "vo": "Anggaran penjimatan kos tenaga kerja: dua ratus tujuh belas ribu, lapan ratus tiga puluh enam ringgit setahun."
+ },
+ {
+  "id": "S14",
+  "start": 167,
+  "end": 181,
+  "title": "Kertas A4 & dakwat",
+  "ref": "Slaid 13 & 14",
+  "styles": [
+   "FORMAL",
+   "DOODLE"
+  ],
+  "visual": "Graf bar 3D tumbuh: A4 1,242 → 926 (−25.4%), dakwat 174 → 105 (−39.7%). Doodle: rim kertas menyusut, titisan dakwat.",
+  "sfx": "Hentakan rim kertas pada meja · titisan air di-pitch rendah sebagai 'dakwat'",
+  "vo": "Permohonan kertas A4 berkurang 316 unit, atau 25.4 peratus. Permohonan dakwat pencetak berkurang 69 unit, atau 39.7 peratus, bagi tahun 2021 berbanding 2025."
+ },
+ {
+  "id": "S15",
+  "start": 181,
+  "end": 189,
+  "title": "Digitalisasi bahan",
+  "ref": "Slaid 15",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Fail & borang fizikal larut menjadi zarah (particles) lalu tersusun semula sebagai rekod digital SPD.",
+  "sfx": "Pasir granular + kilauan kaca (glass shimmer)",
+  "vo": "Fail dan borang fizikal kini digantikan dengan rekod digital."
+ },
+ {
+  "id": "S16",
+  "start": 189,
+  "end": 199,
+  "title": "Bukti pelaksanaan",
+  "ref": "Slaid 16 & 17",
+  "styles": [
+   "FORMAL"
+  ],
+  "visual": "Montaj polaroid atas meja, kamera tracking. 'Sebelum' nyahwarna, 'Selepas' berwarna penuh.",
+  "sfx": "Pengatup kamera polaroid · foto digeser atas meja",
+  "vo": "Buktinya jelas, dari permohonan stok hingga pemeriksaan aset."
+ },
+ {
+  "id": "S17",
+  "start": 199,
+  "end": 208,
+  "title": "Pengiktirafan",
+  "ref": "Slaid 18",
+  "styles": [
+   "FORMAL"
+  ],
+  "visual": "Sijil hak cipta meluncur masuk, cop mohor ditekan. \"Hak Cipta · 2 Mac 2020\" + \"Platform utama MCORP\".",
+  "sfx": "Embosser (pengecap timbul) menggigit kertas",
+  "vo": "SPD diiktiraf hak cipta sejak 2020 dan kini menjadi platform utama pengurusan data MCORP."
+ },
+ {
+  "id": "S18",
+  "start": 208,
+  "end": 232,
+  "title": "Masa depan: SPD 2.0 + Green Dashboard",
+  "ref": "Slaid 19",
+  "styles": [
+   "HYPERMOTION",
+   "FORMAL"
+  ],
+  "visual": "Terowong cahaya hijau → pelayar dengan laman utama SPD 2.0 (rupa sistem sebenar). Kamera scroll ke bawah: seksyen \"SPD 2.0 + GREEN DASHBOARD\": Green Index 82/100, KPI dari slaid, graf, Green Impact Meter.",
+  "sfx": "Muzik 'drop' ke pad lembut · ketukan kaca bertala setiap KPI menyala · denyut sub pada gauge",
+  "vo": "Dan ini baru permulaan. SPD 2.0 akan datang bersama Green Dashboard, yang mengukur setiap impak hijau secara masa nyata: kertas, dakwat, masa, tenaga kerja dan kos. Kerana apa yang diukur, boleh diurus."
+ },
+ {
+  "id": "S19",
+  "start": 232,
+  "end": 240,
+  "title": "Penutup",
+  "ref": "Slaid 20",
+  "styles": [
+   "HYPERMOTION"
+  ],
+  "visual": "Jubin dashboard terbang dan bercantum membentuk tanda SPD. Tagline + slogan. Kad akhir MCORP.",
+  "sfx": "Satu not piano akhir + cop mohor · muzik resolve",
+  "vo": "SPD. Kurang kertas, aset lebih pintar, masa depan lebih hijau."
+ }
+]
