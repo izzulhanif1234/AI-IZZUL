@@ -1110,7 +1110,7 @@ def s19(S):
   </div>
   <div id="s19-win" class="abs" style="left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%;opacity:0;border-radius:22px;overflow:hidden;box-shadow:0 60px 160px rgba(0,0,0,.7),0 0 0 2px rgba(182,217,115,.4)">{page}</div>
   <div id="s19-tag" class="mono abs" style="left:60px;top:40px;font-size:24px;color:#0B2E22;background:#B6D973;padding:8px 16px;border-radius:6px;opacity:0;z-index:5">AKAN DATANG · PRATONTON</div>
-  <div id="s19-end" class="abs h1" style="left:0;right:0;top:880px;text-align:center;font-size:66px;opacity:0;text-shadow:0 10px 40px rgba(0,0,0,.7)">Apa yang diukur, <span style="color:var(--lime)">boleh diurus.</span></div>
+  <div id="s19-end" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:84px;opacity:0;text-shadow:0 10px 40px rgba(0,0,0,.7)">Apa yang diukur, <span style="color:var(--lime)">dapat diurus.</span></div>
   <div class="vign"></div>
 </div>"""
     kv = [(0, t_ker), (1, t_dak), (2, t_mas), (3, t_mas + 0.25), (4, t_ten), (5, t_kos)]
@@ -1135,7 +1135,8 @@ FX.count(tl,document.getElementById("s19-gt"),0,82,{t_set + 1.0},1.6,(v)=>String
 {js_kv}
 tl.fromTo("#s19-meter",{{opacity:0.2}},{{opacity:1,duration:0.5}},{t_kos + 0.3});
 tl.to("#s19-win",{{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"}},{t_kar - 0.8});
-tl.fromTo("#s19-end",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.6,ease:"expo.out"}},{t_uru - 0.9});
+tl.to("#s19-win",{{filter:"brightness(0.3) blur(3px)",duration:0.6}},{t_uru - 1.0});
+tl.fromTo("#s19-end",{{opacity:0,scale:1.15}},{{opacity:1,scale:1,duration:0.6,ease:"expo.out"}},{t_uru - 0.9});
 tl.to(["#s19-win","#s19-end","#s19-tag"],{{opacity:0,duration:0.45}},{S.D - 0.45});
 """
     return html, js
