@@ -351,7 +351,7 @@ tl.to("#s04-pg",{{scale:3,opacity:0,duration:0.1,ease:"power2.in"}},{S.D - 0.1})
 # --------------------------------------------------------------------------- S05 before -> after, into the system
 @scene
 def s05(S):
-    t_hari = S.w("v05", "Hari")
+    t_hari = S.w("v05", "Kini")
     t_ber = S.w("v05", "berpusat")
     t_ata = S.w("v05", "Atas")
     t_cek = S.w("v05", "cekap")
@@ -458,7 +458,7 @@ tl.to(B,{{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"}},{S.
 # --------------------------------------------------------------------------- S07 demo: Aset Tak Alih
 @scene
 def s07(S):
-    t_taip = S.w("v07", "taip")
+    t_taip = S.w("v07", "menaip")
     t_rek = S.w("v07", "Rekod")
     t_lot = S.w("v07", "lot")
     t_sta = S.w("v07", "status")
@@ -547,7 +547,7 @@ def s08(S):
     t_sto = S.w("v08", "Pengurusan")
     t_baki = S.w("v08", "baki")
     t_mi = S.w("v08", "Modal")
-    t_lat = S.w("v08", "latihan")
+    t_lat = S.w("v08", "kakitangan")
     t_pen = S.w("v08", "pentadbiran")
     t_cap = S.w("v08", "capaian")
     W = 1300
@@ -921,8 +921,8 @@ tl.to(".F.gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
 # --------------------------------------------------------------------------- S16 kertas A4 & dakwat
 @scene
 def s16(S):
-    t_ant = S.w("v16", "Antara")
-    t_ber = S.w("v16", "berkurang")
+    t_ant = S.w("v16", "Bagi")
+    t_ber = S.w("v16", "menurun")
     t_25 = S.w("v16", "dua", 5)
     t_dak = S.w("v16", "dakwat")
     t_39 = S.w("v16", "tiga")
@@ -969,7 +969,7 @@ tl.to(".F.paperbg",{{x:-1920,duration:0.5,ease:"power3.in"}},{S.D - 0.5});
 def s17(S):
     t_fail = S.w("v17", "Fail")
     t_dig = S.w("v17", "digantikan")
-    t_buk = S.w("v17", "Buktinya")
+    t_buk = S.w("v17", "bukti")
     t_stok = S.w("v17", "stok")
     t_per = S.w("v17", "pemeriksaan")
     import random
@@ -1020,7 +1020,7 @@ tl.to("#s17-b",{{x:-200,opacity:0,duration:0.4,ease:"power3.in"}},{S.D - 0.4});
 # --------------------------------------------------------------------------- S18 pengiktirafan
 @scene
 def s18(S):
-    t_iki = S.w("v18", "diiktiraf")
+    t_iki = S.w("v18", "pengiktirafan")
     t_2020 = S.w("v18", "dua")
     t_plat = S.w("v18", "platform")
     html = f"""
