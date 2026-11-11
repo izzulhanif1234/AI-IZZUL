@@ -52,3 +52,17 @@
   tier allows 10 requests/day and long single takes hit a 60 s gateway timeout). Chosen takes scored on pitch
   (target ~105-110 Hz, MCORP Estimate reference 97 Hz) and re-transcribed: c01_t1, c02_t3, c03_t3, c04_t2, c08_t3.
   Split per line with `split_vo.py` into `hf/assets/vo/vNN.mp3/.json`.
+
+## v5
+- Intro haze: `#s01-flash` (white) rested at opacity .35 over the first shot because the last-authored fromTo
+  set its from-value at build time; every s01 fromTo now has `immediateRender:false` (blacks 50 -> 1).
+  s01 also skips the scene fade-in/push (`CAM_OPEN`), and the montage is rebuilt from the 4K originals
+  (`media/spd-green/lakonan/seg/*.mp4`, Lanczos + light unsharp, crf 12, g 15).
+- s03: orbit RY 200 -> 350 so the back of the orbit passes above the sphere (no tile behind it); tiles fade
+  before they converge; the ball's 160 px box-shadow glow (clipped into a square) replaced by `#s03-glow`
+  (closest-side radial, opacity/scale only).
+- Numbers: `odo()` (python) + `FX.odo` (spdfx.js) masked odometer columns with tabular figures; RM217,836
+  locks digit by digit as the VO says it; `FX.bloom`, `FX.uline`; s13 day blocks 14 -> 3; s16 % tags as red
+  chips with wipe; s19 KPIs roll. s19 `t_kos` now takes the 2nd "kos" (1st was "kosong").
+- VO v10 "Inilah impak SPD.": the separate short request (152 Hz, Whisper LID id .98) replaced by the
+  in-context cut from take4/m04 9.55-11.35 s (96 Hz, same take as v09/v13). Previous file kept in vo/take5/v10_prev.*.

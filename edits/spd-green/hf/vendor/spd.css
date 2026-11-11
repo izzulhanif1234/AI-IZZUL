@@ -53,3 +53,15 @@
 .callout .t { font: 800 40px/1.15 "Plus Jakarta Sans"; color: #fff; margin-top: 6px; }
 .pill { font: 800 34px "Plus Jakarta Sans"; color: #0b2e22; background: var(--lime); padding: 16px 36px; border-radius: 60px; box-shadow: 0 14px 30px rgba(0, 0, 0, .4); }
 .vign { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, .55) 100%); z-index: 70; }
+/* odometer numbers */
+.odo { display: inline-flex; align-items: flex-start; font-variant-numeric: tabular-nums; line-height: 1.1; white-space: nowrap; vertical-align: top; }
+.odo-c { display: inline-block; height: 1.1em; overflow: hidden;
+  -webkit-mask-image: linear-gradient(transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(transparent 0, #000 9%, #000 91%, transparent 100%); }
+.odo-s { display: block; }
+.odo-s b, .odo-x { display: block; height: 1.1em; line-height: 1.1em; font-weight: inherit; }
+.odo-x { display: inline-block; }
+.odo-gold b, .odo-gold .odo-x { background: linear-gradient(180deg, #fff3c8 10%, #e6c06a 55%, #a87d27 95%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.uline { position: absolute; left: 0; right: 0; height: 5px; border-radius: 3px; transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(182, 217, 115, 0), #b6d973 30%, #e8ffc0); box-shadow: 0 0 18px rgba(182, 217, 115, .6); }
+.bloom { position: absolute; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(closest-side, rgba(182, 217, 115, .45), rgba(182, 217, 115, .12) 55%, transparent); }

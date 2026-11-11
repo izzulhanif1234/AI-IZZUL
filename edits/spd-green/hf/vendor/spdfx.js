@@ -93,6 +93,32 @@
   };
 
   // kinetic word reveal (mask slide up) for elements with .kw > span
+
+  // premium odometer: every digit is a masked column (0-9 x3) that rolls to its value; static characters
+  // (RM , . % −) rise in. o.lock = per-column landing times (digits lock left->right as the VO speaks them).
+  FX.odo = function (tl, root, t, dur, o) {
+    o = o || {};
+    const el = typeof root === "string" ? document.querySelector(root) : root;
+    const strips = [...el.querySelectorAll(".odo-s")], n = strips.length;
+    strips.forEach((s, i) => {
+      const a = +s.dataset.s, e = +s.dataset.e;
+      const k = o.ltr ? i : n - 1 - i;
+      const t0 = o.lock ? t : t + (o.stagger === undefined ? 0.07 : o.stagger) * k;
+      const d = o.lock ? Math.max(0.3, o.lock[i] - t) : dur;
+      tl.fromTo(s, { yPercent: -a * 100 / 30 }, { yPercent: -e * 100 / 30, duration: d, ease: o.ease || "expo.out" }, t0);
+    });
+    const xs = el.querySelectorAll(".odo-x");
+    if (xs.length) tl.fromTo(xs, { opacity: 0, yPercent: 45 }, { opacity: 1, yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.04 }, t);
+  };
+
+  // clean reveals used around numbers: underline draw + soft bloom
+  FX.uline = function (tl, sel, t) {
+    tl.fromTo(sel, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.inOut" }, t);
+  };
+  FX.bloom = function (tl, sel, t, peak) {
+    tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: peak || 1, scale: 1, duration: 0.9, ease: "expo.out" }, t);
+  };
+
   FX.words = function (tl, sel, t, stagger) {
     const els = document.querySelectorAll(sel);
     els.forEach((e, i) => {

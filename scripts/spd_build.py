@@ -130,6 +130,24 @@ def crop(cid, src, x0, y0, x1, y1, w, style=""):
             f'box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;{style}"></div>')
 
 
+def odo(to, frm=None, cls="", style=""):
+    """Odometer markup: digit columns roll from frm's digit to to's digit (+1 full turn when counting up)."""
+    frm = frm if frm is not None else re.sub(r"\d", "0", to)
+    assert len(frm) == len(to), (frm, to)
+    out = []
+    for a, b in zip(frm, to):
+        if b.isdigit():
+            da, db = int(a) if a.isdigit() else 0, int(b)
+            s0, e0 = 10 + da, (20 + db if db >= da else db)  # up: forward a full cycle; down: roll back
+            if da == db and a == b and frm != to:
+                e0 = s0
+            lines = "".join(f"<b>{k % 10}</b>" for k in range(30))
+            out.append(f'<span class="odo-c"><span class="odo-s" data-s="{s0}" data-e="{e0}">{lines}</span></span>')
+        else:
+            out.append(f'<span class="odo-x">{b}</span>')
+    return f'<span class="odo {cls}" style="{style}">{"".join(out)}</span>'
+
+
 def kw(text, cls=""):
     """kinetic words: each word in a mask"""
     return " ".join(f'<span class="kw {cls}"><span>{w}</span></span>' for w in text.split())
@@ -186,14 +204,15 @@ def s01(S):
   </div>
   <div class="vign"></div>
 </div>"""
-    punches = "".join(f'tl.fromTo("#s01-vw",{{scale:1.09}},{{scale:1,duration:0.45,ease:"expo.out"}},{c});'
-                      f'tl.fromTo("#s01-flash",{{opacity:0.18}},{{opacity:0,duration:0.25,ease:"power2.out"}},{c});' for c in CUTS[1:])
+    # immediateRender:false everywhere: otherwise the LAST-authored from-values (white flash .35) sit on the first shot
+    punches = "".join(f'tl.fromTo("#s01-vw",{{scale:1.09}},{{scale:1,duration:0.45,ease:"expo.out",immediateRender:false}},{c});'
+                      f'tl.fromTo("#s01-flash",{{opacity:0.18}},{{opacity:0,duration:0.25,ease:"power2.out",immediateRender:false}},{c});' for c in CUTS[1:])
     js = f"""
 {punches}
-tl.fromTo("#s01-vw",{{scale:1}},{{scale:1.06,duration:{MONTAGE - CUTS[-1]},ease:"none"}},{CUTS[-1] + 0.45});
+tl.fromTo("#s01-vw",{{scale:1}},{{scale:1.06,duration:{MONTAGE - CUTS[-1]},ease:"none",immediateRender:false}},{CUTS[-1] + 0.45});
 // freeze: flash, hold, slow push + desaturate, chalk doodles draw
 tl.set("#s01-fr",{{opacity:1}},{MONTAGE});
-tl.fromTo("#s01-flash",{{opacity:0.35}},{{opacity:0,duration:0.35}},{MONTAGE});
+tl.fromTo("#s01-flash",{{opacity:0.35}},{{opacity:0,duration:0.35,immediateRender:false}},{MONTAGE});
 tl.fromTo("#s01-fr",{{scale:1.06,filter:"grayscale(0) brightness(1)"}},{{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:{S.D - MONTAGE},ease:"none"}},{MONTAGE});
 tl.to("#s01-dim",{{opacity:1,duration:0.6}},{MONTAGE + 0.15});
 FX.draw(tl,".s01-d",{MONTAGE + 0.1},0.5,0.18);
@@ -269,13 +288,14 @@ def s03(S):
     html = f"""
 <div class="F gdark">
   <div id="s03-st" class="abs" style="inset:0">
-    <div class="abs" style="left:960px;top:540px;width:1500px;height:1500px;margin:-750px 0 0 -750px;border-radius:50%;
-      border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25),inset 0 0 40px rgba(182,217,115,.15);transform:perspective(1600px) rotateX(74deg)"></div>
-    <div class="abs" style="left:960px;top:540px;width:1900px;height:1900px;margin:-950px 0 0 -950px;border-radius:50%;
-      border:1px solid rgba(255,255,255,.12);transform:perspective(1600px) rotateX(74deg)"></div>
+    <div class="abs" style="left:960px;top:560px;width:1520px;height:700px;margin:-350px 0 0 -760px;border-radius:50%;
+      border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25),inset 0 0 40px rgba(182,217,115,.15)"></div>
+    <div class="abs" style="left:960px;top:560px;width:1860px;height:860px;margin:-430px 0 0 -930px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.12)"></div>
     {dots}
     <div id="s03-core" class="abs" style="left:960px;top:470px;width:360px;height:360px;margin:-180px 0 0 -180px;z-index:3">
-      <div class="abs" style="inset:-160px;border-radius:50%;background:radial-gradient(circle,rgba(182,217,115,.35),transparent 65%)"></div>
+      <div class="abs" style="inset:-170px;border-radius:50%;background:radial-gradient(closest-side,rgba(182,217,115,.32),rgba(182,217,115,.08) 60%,transparent)"></div>
+      <div id="s03-glow" class="abs" style="inset:-300px;border-radius:50%;opacity:0;background:radial-gradient(closest-side,rgba(214,255,170,.62),rgba(182,217,115,.22) 45%,rgba(182,217,115,.06) 72%,transparent)"></div>
       <div id="s03-halo" class="abs" style="inset:-26px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 55%,rgba(217,255,176,.95) 70%,transparent 85%);
         -webkit-mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 66%,transparent 67%)"></div>
       <div id="s03-ball" class="abs" style="inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fe0b0 0%,#26745a 45%,#0b2e22 100%);
@@ -293,7 +313,7 @@ def s03(S):
     js = f"""
 const tiles=[...document.querySelectorAll(".s03-t")], dots=[...document.querySelectorAll(".s03-p")];
 const st={{a:0.35,r:1}};
-const cx=960, cy=560, RX=760, RY=200;
+const cx=960, cy=560, RX=760, RY=350;   // back of the orbit passes ABOVE the sphere, never behind it
 function place(){{
   tiles.forEach((t,i)=>{{
     const th=st.a+i*2*Math.PI/5, d=(Math.sin(th)+1)/2;          // d: 0 back .. 1 front
@@ -313,9 +333,8 @@ tl.fromTo("#s03-core",{{scale:0.2,opacity:0}},{{scale:1,opacity:1,duration:0.9,e
 tl.fromTo("#s03-halo",{{rotation:0}},{{rotation:540,duration:{S.D},ease:"none"}},0);
 {"".join(f'tl.fromTo("#s03-ti{i}",{{opacity:0,scale:0.3}},{{opacity:1,scale:1,duration:0.6,ease:"back.out(1.8)"}},{t - 0.12:.2f});' for i, t in enumerate(word_t))}
 tl.to(st,{{r:0.12,duration:0.9,ease:"power3.in",onUpdate:place}},{t_sat - 0.2});
-tl.to(".s03-ti",{{opacity:0,scale:0.4,duration:0.5,ease:"power2.in"}},{t_sat + 0.25});
-tl.fromTo("#s03-ball",{{boxShadow:"inset -20px -30px 60px rgba(0,0,0,.45),inset 20px 20px 50px rgba(255,255,255,.18),0 0 0px rgba(182,217,115,0)"}},
-  {{boxShadow:"inset -20px -30px 60px rgba(0,0,0,.25),inset 20px 20px 50px rgba(255,255,255,.3),0 0 160px rgba(182,217,115,.9)",duration:0.5,ease:"power2.out"}},{t_sat + 0.6});
+tl.to(".s03-ti",{{opacity:0,scale:0.4,duration:0.42,ease:"power2.in"}},{t_sat + 0.05});
+tl.fromTo("#s03-glow",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:0.7,ease:"expo.out"}},{t_sat + 0.55});
 tl.fromTo("#s03-core",{{scale:1}},{{scale:1.18,duration:0.6,ease:"expo.out",immediateRender:false}},{t_sat + 0.6});
 tl.fromTo("#s03-lab",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5}},{t_sat + 0.7});
 tl.fromTo("#s03-b1",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_buk - 0.05});
@@ -817,36 +836,48 @@ def s13(S):
     t_3 = S.w("v13", "tiga")
     t_11 = S.w("v13", "sebelas|Sebelas")
     leaves = "".join(SB.leaf(f"position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{w}px;opacity:0", "#7DB544").replace("<svg ", f'<svg class="s13-lf" ', 1)
-                     for x, y, w in [(1500, 640, 64), (1640, 520, 46), (1720, 760, 38), (1380, 820, 34), (1780, 600, 56), (300, 700, 40), (200, 520, 30)])
+                     for x, y, w in [(1560, 640, 54), (1700, 520, 40), (1760, 780, 34), (260, 700, 36), (180, 520, 28)])
+    days = "".join(f'<i class="s13-d" id="s13-d{i}" style="display:block;width:52px;height:52px;border-radius:12px;'
+                   f'background:{"#B6D973" if i < 3 else "rgba(255,255,255,.16)"};border:1.5px solid rgba(255,255,255,.22);transform-origin:50% 100%"></i>' for i in range(14))
     html = f"""
 <div class="F gdark">
-  <div class="kicker abs" id="s13-k" style="left:0;right:0;top:170px;text-align:center">PRODUKTIVITI · PROSES PERMOHONAN SEWAAN</div>
-  <div class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;align-items:center;gap:90px">
+  <div class="kicker abs" id="s13-k" style="left:0;right:0;top:150px;text-align:center">PRODUKTIVITI · PROSES PERMOHONAN SEWAAN</div>
+  <div class="abs" style="left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:110px">
     <div id="s13-a" style="text-align:center">
       <div class="mono" style="font-size:24px;color:rgba(255,255,255,.55)">SEBELUM</div>
-      <div style="position:relative;display:inline-block;font:800 260px/1 'Plus Jakarta Sans';letter-spacing:-.05em;color:rgba(255,255,255,.32)">14
-        <i id="s13-strike" style="position:absolute;left:-12px;right:-12px;top:52%;height:12px;border-radius:6px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>
-      <div style="font:700 44px 'Plus Jakarta Sans';color:rgba(255,255,255,.5)">HARI</div></div>
-    <svg id="s13-ar" viewBox="0 0 100 40" style="width:150px"><path d="M0 20h86M70 6l16 14-16 14" stroke="#b6d973" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <div id="s13-b" style="text-align:center">
-      <div class="mono" style="font-size:24px;color:var(--lime)">SELEPAS SPD</div>
-      <div style="font:800 340px/1 'Plus Jakarta Sans';letter-spacing:-.05em;color:var(--lime);text-shadow:0 0 80px rgba(182,217,115,.35)">3</div>
-      <div style="font:700 52px 'Plus Jakarta Sans'">HARI</div></div>
+      <div style="position:relative;display:inline-block;font:800 240px 'Plus Jakarta Sans';letter-spacing:-.04em;color:rgba(255,255,255,.34)">{odo("14")}
+        <i id="s13-strike" style="position:absolute;left:-10px;right:-10px;top:50%;height:10px;border-radius:5px;background:#ff5a5a;display:block;transform-origin:0 50%;box-shadow:0 0 20px rgba(255,90,90,.5)"></i></div>
+      <div style="font:700 40px 'Plus Jakarta Sans';letter-spacing:.12em;color:rgba(255,255,255,.5)">HARI</div></div>
+    <svg id="s13-ar" viewBox="0 0 100 40" style="width:140px"><path id="s13-arp" d="M0 20h86M70 6l16 14-16 14" stroke="#b6d973" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div id="s13-b" style="text-align:center;position:relative">
+      <div class="bloom" id="s13-bl" style="left:-180px;right:-180px;top:-120px;bottom:-120px"></div>
+      <div class="mono" style="font-size:24px;color:var(--lime);position:relative">SELEPAS SPD</div>
+      <div style="position:relative;display:inline-block;font:800 320px 'Plus Jakarta Sans';letter-spacing:-.04em;color:var(--lime);text-shadow:0 0 60px rgba(182,217,115,.35)">{odo("3")}</div>
+      <div style="position:relative;font:700 48px 'Plus Jakarta Sans';letter-spacing:.12em">HARI</div></div>
   </div>
-  <div class="abs" style="left:0;right:0;top:880px;display:flex;justify-content:center">
-    <div id="s13-badge" style="font:800 46px 'Plus Jakarta Sans';color:#0B2E22;background:#B6D973;padding:16px 44px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35)">11 HARI DIJIMATKAN</div></div>
+  <div id="s13-days" class="abs" style="left:0;right:0;top:790px;display:flex;justify-content:center;gap:16px">{days}</div>
+  <div class="abs" style="left:0;right:0;top:900px;display:flex;justify-content:center">
+    <div id="s13-badge" style="display:flex;align-items:center;gap:16px;font:800 44px 'Plus Jakarta Sans';color:#0B2E22;background:#B6D973;padding:14px 44px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35);clip-path:inset(0 50% 0 50% round 60px);opacity:0">
+      {odo("11")}<span>HARI DIJIMATKAN</span></div></div>
   {leaves}
   <div class="vign"></div>
 </div>"""
     js = f"""
-tl.fromTo("#s13-k",{{opacity:0,y:-20}},{{opacity:1,y:0,duration:0.5}},{max(0.1, t_pro - 0.2)});
-tl.fromTo("#s13-a",{{opacity:0,x:-120,filter:"blur(10px)"}},{{opacity:1,x:0,filter:"blur(0px)",duration:0.6,ease:"expo.out"}},{t_14 - 0.15});
-tl.fromTo("#s13-strike",{{scaleX:0}},{{scaleX:1,duration:0.35,ease:"power3.out"}},{t_3 - 0.35});
-tl.fromTo("#s13-ar",{{opacity:0,x:-40}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_3 - 0.25});
-tl.fromTo("#s13-b",{{opacity:0,scale:1.6,filter:"blur(16px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},{t_3 - 0.05});
-tl.fromTo(".s13-lf",{{opacity:0,y:120,rotation:0}},{{opacity:0.9,y:-80,rotation:150,duration:2.0,stagger:0.1,ease:"power1.out"}},{t_3});
-tl.fromTo("#s13-badge",{{opacity:0,y:40,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_11 - 0.1});
-tl.to(["#s13-a","#s13-ar","#s13-b","#s13-badge","#s13-k"],{{y:-60,opacity:0,duration:0.35,stagger:0.03,ease:"power3.in"}},{S.D - 0.45});
+tl.fromTo("#s13-k",{{opacity:0,y:-20}},{{opacity:1,y:0,duration:0.6,ease:"expo.out"}},{max(0.1, t_pro - 0.2)});
+tl.fromTo("#s13-a",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{t_14 - 0.25});
+FX.odo(tl,"#s13-a",{t_14 - 0.2},1.1);
+tl.fromTo(".s13-d",{{opacity:0,scaleY:0}},{{opacity:1,scaleY:1,duration:0.5,stagger:0.035,ease:"expo.out"}},{t_14 - 0.1});
+tl.fromTo("#s13-strike",{{scaleX:0}},{{scaleX:1,duration:0.45,ease:"expo.inOut"}},{t_3 - 0.45});
+FX.draw(tl,"#s13-arp",{t_3 - 0.35},0.45,0);
+tl.fromTo("#s13-b",{{opacity:0,y:50}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{t_3 - 0.1});
+FX.odo(tl,"#s13-b",{t_3 - 0.1},1.2);
+FX.bloom(tl,"#s13-bl",{t_3 + 0.2},1);
+tl.to("{", ".join(f"#s13-d{i}" for i in range(3, 14))}",{{opacity:0.18,y:14,duration:0.5,stagger:{{each:0.035,from:"end"}},ease:"power3.inOut"}},{t_3 + 0.1});
+tl.fromTo(["#s13-d0","#s13-d1","#s13-d2"],{{boxShadow:"0 0 0px rgba(182,217,115,0)"}},{{boxShadow:"0 0 26px rgba(182,217,115,.8)",duration:0.5,stagger:0.08}},{t_3 + 0.5});
+tl.fromTo(".s13-lf",{{opacity:0,y:100,rotation:0}},{{opacity:0.75,y:-70,rotation:120,duration:2.4,stagger:0.12,ease:"power1.out"}},{t_3 + 0.2});
+tl.fromTo("#s13-badge",{{clipPath:"inset(0 50% 0 50% round 60px)",opacity:0}},{{clipPath:"inset(0 0% 0 0% round 60px)",opacity:1,duration:0.8,ease:"expo.inOut"}},{t_11 - 0.35});
+FX.odo(tl,"#s13-badge",{t_11 - 0.15},1.0);
+tl.to(["#s13-k","#s13-a","#s13-ar","#s13-b","#s13-days","#s13-badge"],{{y:-50,opacity:0,duration:0.4,stagger:0.03,ease:"power3.in"}},{S.D - 0.5});
 """
     return html, js
 
@@ -866,26 +897,39 @@ def s14(S):
   <div class="shot" id="s14-b" style="left:720px;top:190px;width:620px;height:500px;transform:rotate(2deg)"><img src="{IMG}/barcode.jpg">
     <div id="s14-las" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25)"></div></div>
   <div class="shot" id="s14-r" style="left:1380px;top:250px;width:450px;height:330px;transform:perspective(900px) rotateY(-18deg)"><img src="{IMG}/spd-record.jpg"></div>
-  <div class="abs" style="left:160px;top:740px;display:flex;align-items:flex-end;gap:40px">
-    <div id="s14-old" class="h1" style="font-size:150px;color:rgba(255,255,255,.4);position:relative">20
-      <i id="s14-strike" style="position:absolute;left:-8px;right:-8px;top:50%;height:12px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>
-    <div id="s14-arw" class="h1" style="font-size:80px;color:#fff;margin-bottom:30px">→</div>
-    <div id="s14-new" class="h1" style="font-size:200px;color:#44ff88">2 <span style="font-size:80px">HARI</span></div>
+  <div class="abs" style="left:150px;top:730px;display:flex;align-items:flex-end;gap:46px">
+    <div id="s14-old" class="h1" style="font-size:150px;color:rgba(255,255,255,.38);position:relative">{odo("20")}
+      <i id="s14-strike" style="position:absolute;left:-8px;right:-8px;top:50%;height:10px;border-radius:5px;background:#ff5a5a;display:block;transform-origin:0 50%;box-shadow:0 0 18px rgba(255,90,90,.5)"></i>
+      <div class="mono" style="position:absolute;left:4px;top:-34px;font-size:20px;color:rgba(255,255,255,.5)">MANUAL</div></div>
+    <svg id="s14-arw" viewBox="0 0 100 40" style="width:110px;margin-bottom:62px"><path id="s14-arp" d="M0 20h86M70 6l16 14-16 14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div id="s14-new" class="h1" style="font-size:200px;color:#44ff88;position:relative;display:flex;align-items:flex-end;gap:22px">
+      <div class="bloom" id="s14-bl" style="left:-160px;right:-60px;top:-100px;bottom:-100px;background:radial-gradient(closest-side,rgba(68,255,136,.35),rgba(68,255,136,.08) 55%,transparent)"></div>
+      <span style="position:relative;text-shadow:0 0 50px rgba(68,255,136,.35)">{odo("2")}</span><span style="position:relative;font-size:76px;margin-bottom:34px">HARI</span>
+      <div class="mono" style="position:absolute;left:6px;top:-34px;font-size:20px;color:#44ff88">SPD · BARCODE</div>
+      <i class="uline" id="s14-ul" style="bottom:4px;background:linear-gradient(90deg,rgba(68,255,136,0),#44ff88 30%,#c8ffd9)"></i></div>
   </div>
-  <div id="s14-sv" class="abs" style="left:1080px;top:850px;font:600 38px Plus Jakarta Sans;color:#cfe">Semakan SPD / barcode · <b style="color:#fff">18 hari dijimatkan</b></div>
+  <div id="s14-sv" class="abs" style="left:1080px;top:860px;display:flex;align-items:center;gap:14px;font:600 38px Plus Jakarta Sans;color:#cfe">
+    <span style="width:12px;height:12px;border-radius:50%;background:#44ff88;box-shadow:0 0 14px #44ff88"></span>
+    <b style="color:#fff;font-size:46px">{odo("18")}</b><span>hari dijimatkan</span></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
 tl.fromTo("#s14-m",{{opacity:0,x:-300,rotation:-14}},{{opacity:1,x:0,rotation:-4,duration:0.7,ease:"expo.out"}},{max(0.1, t_sem - 0.2)});
-tl.fromTo("#s14-old",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.45,ease:"expo.out"}},{t_20 - 0.1});
+tl.fromTo("#s14-old",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.6,ease:"expo.out"}},{t_20 - 0.2});
+FX.odo(tl,"#s14-old",{t_20 - 0.15},1.0);
 tl.fromTo("#s14-b",{{opacity:0,y:300,rotation:10}},{{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"}},{t_kini - 0.3});
 tl.fromTo("#s14-las",{{y:0}},{{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"}},{t_ims - 0.2});
-tl.fromTo("#s14-strike",{{scaleX:0}},{{scaleX:1,duration:0.3,ease:"power3.out"}},{t_2 - 0.15});
-tl.fromTo("#s14-arw",{{opacity:0,x:-30}},{{opacity:1,x:0,duration:0.3}},{t_2 - 0.1});
-tl.fromTo("#s14-new",{{opacity:0,scale:1.8}},{{opacity:1,scale:1,duration:0.4,ease:"expo.out"}},{t_2});
+tl.fromTo("#s14-strike",{{scaleX:0}},{{scaleX:1,duration:0.45,ease:"expo.inOut"}},{t_2 - 0.4});
+FX.draw(tl,"#s14-arp",{t_2 - 0.3},0.4,0);
+tl.fromTo("#s14-new",{{opacity:0,y:50}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{t_2 - 0.1});
+FX.odo(tl,"#s14-new",{t_2 - 0.1},1.1);
+FX.bloom(tl,"#s14-bl",{t_2 + 0.2},1);
+FX.uline(tl,"#s14-ul",{t_2 + 0.35});
 tl.fromTo("#s14-r",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.6,ease:"expo.out"}},{t_ims + 0.6});
-tl.fromTo("#s14-sv",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5}},{t_ims + 0.9});
+tl.fromTo("#s14-sv",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6,ease:"expo.out"}},{t_ims + 0.9});
+FX.odo(tl,"#s14-sv",{t_ims + 0.95},1.0);
 tl.to(["#s14-m","#s14-b","#s14-r"],{{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"}},{S.D - 0.55});
+tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{{opacity:0,y:-30,duration:0.4,stagger:0.03,ease:"power3.in"}},{S.D - 0.5});
 """
     return html, js
 
@@ -897,6 +941,9 @@ def s15(S):
     t_dua = S.w("v15", "dua")
     t_rgt = S.w("v15", "ringgit")
     t_set = S.w("v15", "setahun")
+    # each digit of RM217,836 locks as the VO says it: dua ratus | tujuh belas ribu | lapan ratus | tiga puluh | enam
+    t_bel, t_lap, t_tig, t_ena = S.w("v15", "belas"), S.w("v15", "lapan"), S.w("v15", "puluh"), S.w("v15", "enam")
+    lock = [t_dua + 0.35, t_bel + 0.05, t_bel + 0.2, t_lap + 0.3, t_tig + 0.1, t_ena + 0.3]
     people = "".join(f'<div class="s15-p" style="display:inline-block">{SB.person("#D9AE52")}</div>' for j in range(18))
     html = f"""
 <div class="F gdark">
@@ -909,10 +956,12 @@ def s15(S):
     <tr class="s15-r"><td>Kos tahunan</td><td style="opacity:.55">RM435,672</td><td>RM217,836</td></tr></table>
   <div class="abs" style="right:120px;top:330px;text-align:right">
     <div class="mono" style="font-size:30px;color:#D9AE52">ANGGARAN PENJIMATAN TAHUNAN</div>
-    <div id="s15-n" class="h1" style="font-size:200px;line-height:1.05;background:linear-gradient(180deg,#fff3c8,#D9AE52 60%,#9b7424);-webkit-background-clip:text;color:transparent">RM0</div>
+    <div id="s15-n" class="h1" style="position:relative;font-size:158px;margin-top:10px">
+      <div class="bloom" id="s15-bl" style="left:-120px;right:-120px;top:-110px;bottom:-110px;background:radial-gradient(closest-side,rgba(217,174,82,.32),rgba(217,174,82,.08) 55%,transparent)"></div>
+      <span style="position:relative">{odo("RM217,836", cls="odo-gold")}</span>
+      <i class="uline" id="s15-ul" style="bottom:-6px;background:linear-gradient(90deg,rgba(217,174,82,0),#D9AE52 35%,#fff3c8);box-shadow:0 0 18px rgba(217,174,82,.6)"></i></div>
     <div id="s15-s" style="font:600 34px Plus Jakarta Sans;color:#cfe3d6">setahun · kaedah anggaran kos upah</div>
   </div>
-  <div id="s15-sw" class="abs" style="right:120px;top:400px;width:200px;height:240px;background:linear-gradient(90deg,transparent,rgba(255,250,220,.7),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -920,9 +969,10 @@ tl.fromTo(".s15-p",{{opacity:0,y:-30}},{{opacity:1,y:0,duration:0.3,stagger:0.03
 tl.to(".s15-p:nth-child(n+10)",{{opacity:0.15,duration:0.3,stagger:0.03}},{t_ang + 0.8});
 tl.fromTo("#s15-pp",{{opacity:0,x:-40}},{{opacity:1,x:0,duration:0.4}},{t_ang + 0.9});
 tl.fromTo(".s15-r",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,stagger:0.25,ease:"expo.out"}},{t_ang + 1.3});
-FX.count(tl,document.getElementById("s15-n"),0,217836,{t_dua - 0.1},{t_rgt - t_dua + 0.4:.2f},(v)=>"RM"+Math.round(v).toLocaleString("en-US"),"power2.out");
-tl.fromTo("#s15-n",{{scale:1}},{{scale:1.08,duration:0.18,yoyo:true,repeat:1,ease:"power2.out",immediateRender:false}},{t_rgt + 0.3});
-tl.fromTo("#s15-sw",{{x:-700,opacity:0.9}},{{x:300,opacity:0.9,duration:0.9,ease:"power2.inOut"}},{t_rgt + 0.3});
+tl.fromTo("#s15-n",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{t_dua - 0.45});
+FX.odo(tl,"#s15-n",{t_dua - 0.3},0,{{lock:{json.dumps([round(x, 3) for x in lock])},ease:"power3.out"}});
+FX.bloom(tl,"#s15-bl",{t_ena},1);
+FX.uline(tl,"#s15-ul",{t_ena + 0.15});
 tl.fromTo("#s15-s",{{opacity:0}},{{opacity:1,duration:0.4}},{t_set - 0.1});
 tl.to("#s15-i .gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
 """
@@ -946,10 +996,14 @@ def s16(S):
                 f'<div id="{cid}-a" class="abs" style="bottom:0;left:60px;width:200px;height:{ha:.0f}px;background:linear-gradient(90deg,#5f7d8c,#3d5866);border-radius:10px 10px 0 0;box-shadow:16px -8px 0 #2b414c;transform-origin:50% 100%"></div>'
                 f'<div id="{cid}-an" class="abs" style="bottom:{ha + 12:.0f}px;left:60px;width:200px;text-align:center;font:800 46px Plus Jakarta Sans;color:#22302A">{a:,}</div>'
                 f'<div id="{cid}-b" class="abs" style="bottom:0;left:360px;width:200px;height:{ha:.0f}px;background:linear-gradient(90deg,#3fa877,#26745A);border-radius:10px 10px 0 0;box-shadow:16px -8px 0 #1a5a43;transform-origin:50% 100%"></div>'
-                f'<div id="{cid}-bn" class="abs" style="bottom:{ha + 12:.0f}px;left:360px;width:200px;text-align:center;font:800 46px Plus Jakarta Sans;color:#165A44">{a:,}</div>'
+                f'<div id="{cid}-bn" class="abs" style="bottom:{ha + 12:.0f}px;left:330px;width:260px;height:52px;text-align:center;font:800 46px Plus Jakarta Sans;color:#165A44">'
+                f'<span id="{cid}-bo" class="abs" style="left:0;right:0;top:0;font-variant-numeric:tabular-nums">{a:,}</span>'
+                f'<span id="{cid}-bv" class="abs" style="left:0;right:0;top:-4px;opacity:0">{odo(f"{b:,}", f"{a:,}" if len(f"{a:,}") == len(f"{b:,}") else None)}</span></div>'
                 f'<div class="abs mono" style="bottom:-54px;left:60px;width:200px;text-align:center;font-size:28px;color:#22302A;letter-spacing:0">2021</div>'
                 f'<div class="abs mono" style="bottom:-54px;left:360px;width:200px;text-align:center;font-size:28px;color:#22302A;letter-spacing:0">2025</div></div>'
-                f'<div id="{cid}-p" class="doodle abs" style="top:100px;right:-10px;font-size:96px;color:#D62839;transform:rotate(-6deg)">{pct}</div>'
+                f'<div id="{cid}-p" class="abs" style="top:96px;right:0;display:flex;align-items:center;gap:12px;font:800 64px Plus Jakarta Sans;color:#fff;'
+                f'background:linear-gradient(135deg,#e0364a,#a3172b);padding:8px 28px 8px 22px;border-radius:18px;box-shadow:0 18px 40px rgba(163,23,43,.35);clip-path:inset(0 100% 0 0 round 18px)">'
+                f'<svg viewBox="0 0 20 20" style="width:34px"><path d="M10 18 L2 6 H18 Z" fill="#fff"/></svg>{odo(pct.lstrip("−"))}</div>'
                 f'<div id="{cid}-u" class="abs" style="top:705px;left:40px;font:600 30px Plus Jakarta Sans;color:#3b4842">{unit}</div></div>'), hb / ha
     c1, r1 = chart("s16-x", 140, "Permohonan kertas A4", 1242, 926, 1300, "−25.4%", "Berkurang 316 unit")
     c2, r2 = chart("s16-y", 1040, "Permohonan dakwat pencetak", 174, 105, 182, "−39.7%", "Berkurang 69 unit")
@@ -964,8 +1018,11 @@ def s16(S):
                 f'tl.fromTo(["#{cid}-an","#{cid}-bn"],{{opacity:0}},{{opacity:1,duration:0.3}},{t0 + 0.4});'
                 f'tl.to("#{cid}-b",{{scaleY:{r:.4f},duration:0.8,ease:"power3.inOut"}},{tb});'
                 f'tl.to("#{cid}-bn",{{y:{(1 - r) * 440 * (1 if a > 500 else 440 / 440):.0f},duration:0.8,ease:"power3.inOut"}},{tb});'
-                f'FX.count(tl,document.getElementById("{cid}-bn"),{a},{b},{tb},0.8,null,"power3.inOut");'
-                f'tl.fromTo("#{cid}-p",{{opacity:0,scale:2.2,rotation:-30}},{{opacity:1,scale:1,rotation:-6,duration:0.4,ease:"back.out(2)"}},{tp});'
+                f'tl.to("#{cid}-bo",{{opacity:0,y:-26,duration:0.3,ease:"power2.in"}},{tb});'
+                f'tl.fromTo("#{cid}-bv",{{opacity:0}},{{opacity:1,duration:0.25}},{tb + 0.15});'
+                f'FX.odo(tl,"#{cid}-bv",{tb + 0.1},1.0,{{ease:"power3.out"}});'
+                f'tl.fromTo("#{cid}-p",{{clipPath:"inset(0 100% 0 0 round 18px)"}},{{clipPath:"inset(0 0% 0 0 round 18px)",duration:0.7,ease:"expo.inOut"}},{tp - 0.2});'
+                f'FX.odo(tl,"#{cid}-p",{tp},1.1);'
                 f'tl.fromTo("#{cid}-u",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{tp + 0.3});')
     js = f"""
 {anim("s16-x", max(0.1, t_ant - 0.2), t_ber - 0.2, t_25 - 0.1, r1, 1242, 926)}
@@ -1072,7 +1129,7 @@ def s19(S):
     t_dak = S.w("v19", "Dakwat")
     t_mas = S.w("v19", "Masa")
     t_ten = S.w("v19", "Tenaga")
-    t_kos = S.w("v19", "kos")
+    t_kos = S.w("v19", "kos", 2)  # 1st match is "kosong" (dua point kosong)
     t_kar = S.w("v19", "Kerana")
     t_uru = S.w("v19", "diurus")
     page = sb(SB.spd2_homepage(full=True))
@@ -1084,7 +1141,7 @@ def s19(S):
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
     for i, v in enumerate(["−25.4%", "−39.7%", "−79%", "−90%", "−50%", "RM217,836"]):
-        page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", r'\1<span class="s19-kv" id="s19-k%d" style="display:inline-block">%s</span></div>' % (i, v), page, count=1)
+        page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
     page = page.replace('<div style="margin-top:24px;background:linear-gradient(90deg,#0B2E22,#165A44);border-radius:14px;padding:14px 10px;display:flex;align-items:center">',
@@ -1106,7 +1163,8 @@ def s19(S):
   <div class="vign"></div>
 </div>"""
     kv = [(0, t_ker), (1, t_dak), (2, t_mas), (3, t_mas + 0.25), (4, t_ten), (5, t_kos)]
-    js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,scale:0.6}},{{opacity:1,scale:1,duration:0.45,ease:"back.out(2.5)"}},{t - 0.05:.2f});' for i, t in kv)
+    js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,y:10}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t - 0.1:.2f});'
+                    f'FX.odo(tl,"#s19-k{i}",{t - 0.1:.2f},0.9,{{stagger:0.05}});' for i, t in kv)
     js = f"""
 tl.fromTo(".s19-rg",{{scale:0.2,opacity:0}},{{scale:2.2,opacity:1,duration:2.2,stagger:0.12,ease:"power2.in"}},0);
 tl.fromTo("#s19-k",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_aka - 0.1});
@@ -1124,6 +1182,7 @@ tl.fromTo("#s19-side",{{y:0}},{{y:560,duration:1.1,ease:"power3.inOut"}},{t_set 
 tl.to("#s19-win",{{scale:0.9,rotationX:0,duration:1.5,ease:"power2.inOut"}},{t_set + 0.1});
 tl.fromTo("#s19-g",{{strokeDasharray:"0 {circ:.0f}"}},{{strokeDasharray:"{circ * 0.82:.0f} {circ:.0f}",duration:1.6,ease:"power3.out"}},{t_set + 1.0});
 FX.count(tl,document.getElementById("s19-gt"),0,82,{t_set + 1.0},1.6,(v)=>String(Math.round(v)),"power3.out");
+document.getElementById("s19-gt").style.fontVariantNumeric="tabular-nums";
 {js_kv}
 tl.fromTo("#s19-meter",{{opacity:0.2}},{{opacity:1,duration:0.5}},{t_kos + 0.3});
 tl.to("#s19-win",{{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"}},{t_kar - 0.8});
@@ -1213,8 +1272,7 @@ TEMPLATE = """<!doctype html>
           const FX = window.SPDFX;
 {js}
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
-          tl.fromTo("#{id}-o", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: "power1.inOut" }}, 0);
-          tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);
+{cam}
           tl.set({{}}, {{}}, {D});
           window.__timelines = window.__timelines || {{}};
           window.__timelines["{id}"] = tl;
@@ -1224,6 +1282,11 @@ TEMPLATE = """<!doctype html>
   </body>
 </html>
 """
+
+CAM = """          tl.fromTo("#{id}-o", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: "power1.inOut" }}, 0);
+          tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);"""
+# s01 opens the film on full-resolution footage: no fade from black, no upscaling push (both soften the first shot)
+CAM_OPEN = """          tl.set("#{id}-o", {{ opacity: 1 }}, 0);"""
 
 
 def build(only=None, write=True):
@@ -1237,7 +1300,7 @@ def build(only=None, write=True):
         if not write or (only and sid not in only):
             continue
         html, js = SCENES[sid](S)
-        open(f"{HF}/compositions/{sid}.html", "w").write(TEMPLATE.format(id=sid, html=html, js=js, D=S.D))
+        open(f"{HF}/compositions/{sid}.html", "w").write(TEMPLATE.format(id=sid, html=html, js=js, D=S.D, cam=(CAM_OPEN if sid == "s01" else CAM).format(id=sid, D=S.D)))
     return built, round(t + XFADE, 3)
 
 
