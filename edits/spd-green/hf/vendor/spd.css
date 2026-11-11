@@ -6,8 +6,19 @@
 .F { position: absolute; inset: 0; overflow: hidden; font-family: "Plus Jakarta Sans", Inter, sans-serif; color: #fff; }
 .F * { box-sizing: border-box; }
 .abs { position: absolute; }
-.gdark { background: radial-gradient(ellipse at 60% 40%, #1d6a50 0%, #0b2e22 55%, #04140e 100%); }
-.demo-bg { background: radial-gradient(ellipse at 50% 35%, #1f3a30 0%, #0a1712 60%, #050b08 100%); }
+.gdark { background:
+    radial-gradient(60% 55% at 78% 18%, rgba(63, 208, 142, .30), transparent 62%),
+    radial-gradient(55% 60% at 8% 95%, rgba(44, 50, 128, .55), transparent 62%),
+    linear-gradient(125deg, #0d1748 0%, #0f3b3c 48%, #0b2e22 100%); }
+.demo-bg { background:
+    radial-gradient(50% 50% at 50% 30%, rgba(63, 208, 142, .16), transparent 65%),
+    radial-gradient(60% 60% at 0% 100%, rgba(44, 50, 128, .45), transparent 60%),
+    linear-gradient(135deg, #0a1236 0%, #0a2026 55%, #06120d 100%); }
+.gdark::before, .demo-bg::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-radial-gradient(circle at 86% 12%, transparent 0 140px, rgba(255, 255, 255, .055) 141px 143px, transparent 144px 230px); }
+.gdark::after, .demo-bg::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, .10) 1.5px, transparent 1.6px); background-size: 34px 34px;
+  -webkit-mask-image: linear-gradient(100deg, transparent 45%, #000 100%); }
 .paperbg { background-color: #f3eedf;
   background-image: linear-gradient(rgba(60, 90, 80, .09) 2px, transparent 2px), linear-gradient(90deg, rgba(60, 90, 80, .09) 2px, transparent 2px);
   background-size: 64px 64px; }

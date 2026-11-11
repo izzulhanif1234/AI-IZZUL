@@ -4,6 +4,7 @@
   <body>
     <template>
       <div id="root" data-composition-id="s06" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+      <div id="s06-o" style="position:absolute;inset:0"><div id="s06-i" style="position:absolute;inset:0">
 
 <div class="F demo-bg">
   <div id="s06-cam" class="abs" style="inset:0;perspective:2200px">
@@ -12,9 +13,13 @@
   <div id="s06-stor" style="position:absolute;width:520px;height:430px;border-radius:14px;background:url(assets/ui/s79.jpg) -1157px -366px/1721px 818px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:1330px;top:330px;opacity:0"></div>
   <div class="callout" id="s06-k1" style="left:90px;top:860px;opacity:0"><div class="k">LAMAN UTAMA</div><div class="t">Taburan premis & tanah milik MCORP</div></div>
   <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Stor</div></div>
-  <div id="s06-one" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:120px;opacity:0;text-shadow:0 20px 60px rgba(0,0,0,.6)">SATU PAPARAN</div>
+  <div id="s06-cm" style="position:absolute;width:560px;height:156px;border-radius:14px;background:url(assets/ui/s77.jpg) -14px -80px/593px 282px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:80px;top:90px;opacity:0"></div>
+  <div id="s06-ca" style="position:absolute;width:520px;height:125px;border-radius:14px;background:url(assets/ui/s78.jpg) -13px -69px/825px 392px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:90px;top:640px;opacity:0"></div>
+  <div id="s06-cs" style="position:absolute;width:470px;height:199px;border-radius:14px;background:url(assets/ui/s80.jpg) -11px -64px/734px 348px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:1360px;top:640px;opacity:0"></div>
+  <div class="callout" id="s06-k3" style="left:660px;top:900px;opacity:0"><div class="k">SATU PAPARAN</div><div class="t">Semua aset dalam satu sistem</div></div>
   <div class="vign"></div>
 </div>
+      </div></div>
       </div>
       <script>
         (function () {
@@ -22,35 +27,41 @@
           const FX = window.SPDFX;
 
 const B="#s06-b";
-tl.fromTo(B,{rotationX:6,rotationY:-6,scale:1},{rotationX:2,rotationY:3,duration:10.905000000000001,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.118,760,420],[7.518,700,520],[8.064,500,250],[8.791,1240,300],[9.809,600,320],[10.536,1150,560]],[],null);
+tl.fromTo(B,{rotationX:6,rotationY:-6,scale:1},{rotationX:2,rotationY:3,duration:11.117,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.037,760,420],[7.789,700,520],[8.4,500,250],[9.048,1240,300],[10.104,600,320],[10.937,1150,560]],[],null);
 // zoom into the map
-tl.to(B,{scale:1.42,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.1679999999999997);
-FX.ring(tl,"#s06-hmap",3.718,3.40);
-tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.518);
-tl.to("#s06-k1",{opacity:0,duration:0.25},7.218);
-tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},6.918);
+tl.to(B,{scale:1.42,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.0869999999999997);
+FX.ring(tl,"#s06-hmap",3.637,3.75);
+tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.437);
+tl.to("#s06-k1",{opacity:0,duration:0.25},7.489);
+tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},7.189);
 // scroll 77 -> 78
-tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.318);
-tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},7.718);
-tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},7.617999999999999);
-FX.ring(tl,"#s06-haa",8.014,0.73);
-FX.ring(tl,"#s06-hata",8.741,0.72);
+tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.5889999999999995);
+tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},7.989);
+tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},7.888999999999999);
+FX.ring(tl,"#s06-haa",8.35,0.65);
+FX.ring(tl,"#s06-hata",8.998,0.76);
 // scroll 78 -> 80 (sewaan)
-tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.309);
-tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.709);
-FX.ring(tl,"#s06-hsew",10.109,0.95);
+tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.604);
+tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},10.004);
+FX.ring(tl,"#s06-hsew",10.404,0.86);
 // stor card pops out of the page
-tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.436);
+tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.837);
 // "dalam satu paparan": pull back, tilt, title
-tl.to("#s06-k2",{opacity:0,duration:0.25},10.855);
-tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},10.955);
-tl.to("#s06-stor",{x:-160,y:-60,scale:0.8,duration:0.9,ease:"power3.inOut"},10.955);
-tl.fromTo("#s06-one",{opacity:0,scale:1.4},{opacity:1,scale:1,duration:0.6,ease:"expo.out"},11.355);
-tl.to(["#s06-one","#s06-stor"],{opacity:0,duration:0.3},14.681000000000001);
-tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},14.531);
+tl.to("#s06-k2",{opacity:0,duration:0.25},11.067);
+tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},11.167);
+tl.to("#s06-stor",{x:-40,y:-200,scale:0.82,duration:0.9,ease:"power3.inOut"},11.167);
+tl.fromTo(["#s06-cm","#s06-ca","#s06-cs"],{opacity:0,scale:0.4,x:(i)=>[620,600,-560][i],y:(i)=>[260,-260,-260][i],rotationY:(i)=>[30,30,-30][i],transformPerspective:1400},
+  {opacity:1,scale:1,x:0,y:0,rotationY:(i)=>[14,14,-14][i],duration:0.8,stagger:0.08,ease:"expo.out"},11.467);
+tl.fromTo("#s06-k3",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"expo.out"},11.767);
+tl.to(["#s06-cm","#s06-ca","#s06-cs","#s06-stor","#s06-k3"],{opacity:0,scale:0.9,duration:0.3},14.161);
+tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},14.011);
 
-          tl.set({}, {}, 15.031);
+          // camera: soft focus-pull entrance + slow breathing push for the whole scene
+          tl.fromTo("#s06-o", { opacity: 0, scale: 1.05, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
+          tl.set("#s06-o", { filter: "none" }, 0.52);
+          tl.fromTo("#s06-i", { scale: 1 }, { scale: 1.03, duration: 14.511, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 14.511);
           window.__timelines = window.__timelines || {};
           window.__timelines["s06"] = tl;
         })();

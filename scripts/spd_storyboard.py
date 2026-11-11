@@ -659,7 +659,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
         f'{"background:rgba(255,255,255,.14);border-left:4px solid #fff;" if i==0 and not full else ""}">'
         f'<i style="width:18px;height:18px;border:2px solid currentColor;border-radius:4px;display:block"></i>{t}</div>'
         for i, t in enumerate(["Utama", "Pengurusan Aset Tak Alih", "Pengurusan Aset Alih", "Pengurusan Stor",
-                               "Pengurusan Modal Insan", "Pentadbiran", "Bantuan"]))
+                               "Pengurusan Modal Insan", "Sistem", "Bantuan", "Log Keluar"]))
     modules = "".join(f'<span style="font:700 14px Plus Jakarta Sans;color:#165A44;background:#E9F2E7;border:1px solid #cfe1d3;padding:7px 12px;border-radius:30px">{m}</span>'
                       for m in ["Green Performance Overview", "Paperless Transformation", "Carbon Footprint", "Smart Asset",
                                 "Operational Efficiency", "Green Cost Savings", "Green Governance"])

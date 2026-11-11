@@ -4,6 +4,7 @@
   <body>
     <template>
       <div id="root" data-composition-id="s12" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+      <div id="s12-o" style="position:absolute;inset:0"><div id="s12-i" style="position:absolute;inset:0">
 
 <div class="F chalkbg">
   <svg viewBox="0 0 1920 1080" class="abs" style="inset:0" fill="none" stroke="#f1f5ee" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
@@ -27,6 +28,7 @@
   <div class="doodle abs s12-lb" id="s12-l2" style="left:930px;top:800px;font-size:52px;color:#e9f0e4">tiada lagi meja ke meja</div>
   <div class="doodle abs s12-lb" id="s12-l3" style="left:1500px;top:800px;font-size:52px;color:#e9f0e4">ruang lebih produktif</div>
 </div>
+      </div></div>
       </div>
       <script>
         (function () {
@@ -34,19 +36,23 @@
           const FX = window.SPDFX;
 
 tl.fromTo("#s12-t",{clipPath:"inset(0 100% 0 0)"},{clipPath:"inset(0 0% 0 0)",duration:0.9,ease:"power2.inOut"},0.15);
-FX.draw(tl,".s12-d1",0.545,0.6,0.12);
-FX.draw(tl,".s12-d1b",1.245,0.4,0.1);
-tl.fromTo("#s12-l1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},1.045);
-FX.draw(tl,".s12-d2",3.742,0.7,0.12);
-FX.draw(tl,".s12-d2b",5.249,0.35,0.1);
-tl.fromTo("#s12-l2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},5.249);
-FX.draw(tl,".s12-d3",7.317,0.6,0.1);
-tl.to("#s12-c",{opacity:0,duration:0.3},9.795);
-FX.draw(tl,".s12-d3b",9.895,0.5,0.08);
-tl.fromTo("#s12-l3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},10.094999999999999);
-tl.to(".F.chalkbg",{opacity:0,duration:0.35},11.686);
+FX.draw(tl,".s12-d1",0.4,0.6,0.12);
+FX.draw(tl,".s12-d1b",1.1,0.4,0.1);
+tl.fromTo("#s12-l1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},0.9);
+FX.draw(tl,".s12-d2",3.4,0.7,0.12);
+FX.draw(tl,".s12-d2b",4.407,0.35,0.1);
+tl.fromTo("#s12-l2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},4.407);
+FX.draw(tl,".s12-d3",6.122000000000001,0.6,0.1);
+tl.to("#s12-c",{opacity:0,duration:0.3},8.27);
+FX.draw(tl,".s12-d3b",8.37,0.5,0.08);
+tl.fromTo("#s12-l3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},8.569999999999999);
+tl.to("#s12-i .chalkbg",{opacity:0,duration:0.35},9.950000000000001);
 
-          tl.set({}, {}, 12.036);
+          // camera: soft focus-pull entrance + slow breathing push for the whole scene
+          tl.fromTo("#s12-o", { opacity: 0, scale: 1.05, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
+          tl.set("#s12-o", { filter: "none" }, 0.52);
+          tl.fromTo("#s12-i", { scale: 1 }, { scale: 1.03, duration: 10.3, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 10.3);
           window.__timelines = window.__timelines || {};
           window.__timelines["s12"] = tl;
         })();

@@ -26,7 +26,7 @@ def _syl(w):
     return max(1, len(re.findall(r"[aeiou]+", w.lower())))
 
 
-SPEED = 1.1  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
+SPEED = 1.08  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
 
 
 class Line:
@@ -387,7 +387,7 @@ tl.fromTo("#s05-p2",{{opacity:0,y:60,scale:0.8}},{{opacity:1,y:0,scale:1,duratio
 tl.fromTo("#s05-p3",{{opacity:0,y:60,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_cek - 0.3});
 // push into the SPD screen -> next scene
 tl.to("#s05-l",{{x:-1100,duration:0.6,ease:"power3.in"}},{S.D - 0.6});
-tl.to(["#s05-seam","#s05-tb","#s05-ta",".pill"],{{opacity:0,duration:0.3}},{S.D - 0.6});
+tl.to(["#s05-seam","#s05-tb","#s05-ta","#s05-i .pill"],{{opacity:0,duration:0.3}},{S.D - 0.6});
 tl.to("#s05-r",{{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"}},{S.D - 0.6});
 tl.to("#s05-b",{{x:-800,y:-90,scale:{1500/860:.4f},transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"}},{S.D - 0.6});
 """
@@ -420,7 +420,10 @@ def s06(S):
   {crop("s06-stor", f"{UI}/s79.jpg", 1290, 408, 1870, 888, 520, "left:1330px;top:330px;opacity:0")}
   <div class="callout" id="s06-k1" style="left:90px;top:860px;opacity:0"><div class="k">LAMAN UTAMA</div><div class="t">Taburan premis & tanah milik MCORP</div></div>
   <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Stor</div></div>
-  <div id="s06-one" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:120px;opacity:0;text-shadow:0 20px 60px rgba(0,0,0,.6)">SATU PAPARAN</div>
+  {crop("s06-cm", f"{UI}/s77.jpg", 44, 260, 1856, 766, 560, "left:80px;top:90px;opacity:0")}
+  {crop("s06-ca", f"{UI}/s78.jpg", 30, 160, 1240, 450, 520, "left:90px;top:640px;opacity:0")}
+  {crop("s06-cs", f"{UI}/s80.jpg", 30, 168, 1260, 688, 470, "left:1360px;top:640px;opacity:0")}
+  <div class="callout" id="s06-k3" style="left:660px;top:900px;opacity:0"><div class="k">SATU PAPARAN</div><div class="t">Semua aset dalam satu sistem</div></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -448,9 +451,11 @@ tl.fromTo("#s06-stor",{{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1
 // "dalam satu paparan": pull back, tilt, title
 tl.to("#s06-k2",{{opacity:0,duration:0.25}},{t_sat - 0.5});
 tl.to(B,{{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"}},{t_sat - 0.4});
-tl.to("#s06-stor",{{x:-160,y:-60,scale:0.8,duration:0.9,ease:"power3.inOut"}},{t_sat - 0.4});
-tl.fromTo("#s06-one",{{opacity:0,scale:1.4}},{{opacity:1,scale:1,duration:0.6,ease:"expo.out"}},{t_sat});
-tl.to(["#s06-one","#s06-stor"],{{opacity:0,duration:0.3}},{S.D - 0.35});
+tl.to("#s06-stor",{{x:-40,y:-200,scale:0.82,duration:0.9,ease:"power3.inOut"}},{t_sat - 0.4});
+tl.fromTo(["#s06-cm","#s06-ca","#s06-cs"],{{opacity:0,scale:0.4,x:(i)=>[620,600,-560][i],y:(i)=>[260,-260,-260][i],rotationY:(i)=>[30,30,-30][i],transformPerspective:1400}},
+  {{opacity:1,scale:1,x:0,y:0,rotationY:(i)=>[14,14,-14][i],duration:0.8,stagger:0.08,ease:"expo.out"}},{t_sat - 0.1});
+tl.fromTo("#s06-k3",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_sat + 0.2});
+tl.to(["#s06-cm","#s06-ca","#s06-cs","#s06-stor","#s06-k3"],{{opacity:0,scale:0.9,duration:0.3}},{S.D - 0.35});
 tl.to(B,{{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"}},{S.D - 0.5});
 """
     return html, js
@@ -526,8 +531,7 @@ FX.ring(tl,"#s07-hpin",{t_pet - 0.6},0.6);
 // Google map window pops out of the pin button
 tl.fromTo("#s07-gw",{{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,transformPerspective:1600}},{{opacity:1,scale:1,x:0,y:0,rotationY:-10,duration:0.6,ease:"back.out(1.4)"}},{t_pet - 0.2});
 tl.fromTo("#s07-pin",{{opacity:1,scale:0.3}},{{opacity:0,scale:2.2,duration:0.8,repeat:2,ease:"power2.out"}},{t_pet + 0.3});
-tl.to("#s07-gw",{{x:480,y:300,scale:0.5,rotationY:-18,duration:0.6,ease:"power3.inOut"}},{max(t_pet + 0.45, t_dok - 0.3)});
-tl.to("#s07-gw",{{opacity:0,x:900,duration:0.35,ease:"power3.in"}},{S.D - 0.4});
+tl.to("#s07-gw",{{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,duration:0.45,ease:"power3.in"}},{max(t_pet + 0.7, t_dok - 0.7)});
 // documents (s89)
 tl.fromTo("#s07-p89",{{opacity:0,y:400,filter:"blur(6px)"}},{{opacity:1,y:0,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_dok - 0.5});
 tl.to(B,{{scale:1.32,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"}},{t_dok - 0.2});
@@ -555,18 +559,8 @@ def s08(S):
     k = W / 1920
     vh = round(W * 912 / 1920)
     R = 1500  # carousel radius
-    roles = [("Pentadbir Sistem", "Semua modul"), ("Pegawai Aset", "Aset Alih · Aset Tak Alih"),
-             ("Pegawai Stor", "Pengurusan Stor"), ("Sumber Manusia", "Modal Insan")]
-    rows = "".join(
-        f'<div style="display:flex;align-items:center;gap:18px;padding:16px 22px;border-bottom:1px solid #e6e9e7">'
-        f'<div style="width:46px;height:46px;border-radius:50%;background:#e9f2e7;color:#165a44;display:flex;align-items:center;justify-content:center;font:800 20px Plus Jakarta Sans">{n[0]}</div>'
-        f'<div style="flex:1"><div style="font:700 24px Plus Jakarta Sans;color:#1d2a24">{n}</div><div style="font:500 18px Plus Jakarta Sans;color:#7a8781">{m}</div></div>'
-        f'<div style="width:74px;height:40px;border-radius:20px;background:#cfd6d2;position:relative"><i class="s08-tg" id="s08-tg{i}" style="position:absolute;left:4px;top:4px;width:32px;height:32px;border-radius:50%;background:#fff;display:block;box-shadow:0 2px 6px rgba(0,0,0,.3)"></i>'
-        f'<i class="s08-tb" id="s08-tb{i}" style="position:absolute;inset:0;border-radius:20px;background:#26745a;opacity:0;display:block"></i></div></div>'
-        for i, (n, m) in enumerate(roles))
-    modal = (f'<div class="abs" style="inset:0;background:rgba(10,20,16,.45)"></div>'
-             f'<div id="s08-modal" class="abs" style="left:{W / 2 - 360:.0f}px;top:70px;width:720px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)">'
-             f'<div style="background:#8e1b33;color:#fff;padding:20px 24px;font:800 26px Plus Jakarta Sans">Pentadbiran · Capaian Sistem</div>{rows}</div>')
+    k8 = W / 1920
+    modal = (region("s08-hsys", k8, 20, 505, 300, 555, 6) + region("s08-hacc", k8, 1500, 8, 1905, 62, 6) + cursor("s08-c"))
     panels = [
         ("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")],
          f'<div id="s08-scan" class="abs" style="left:{1076 * k:.0f}px;top:{1088 * k - 912 * k:.0f}px;width:{60 * k:.0f}px;height:0"></div>'),
@@ -625,8 +619,10 @@ tl.fromTo("#s08-b2",{{opacity:0,y:200}},{{opacity:1,y:0,duration:0.5,ease:"power
 // modal insan: kakitangan -> latihan
 tl.fromTo("#s08-c2",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.5,ease:"power3.out"}},{t_lat - 0.2});
 // pentadbiran: toggles switch on
-{"".join(f'tl.to("#s08-tg{i}",{{x:34,duration:0.25,ease:"back.out(2)"}},{t_cap - 0.6 + i * 0.18:.2f});tl.to("#s08-tb{i}",{{opacity:1,duration:0.25}},{t_cap - 0.6 + i * 0.18:.2f});' for i in range(4))}
-tl.fromTo("#s08-modal",{{y:40,opacity:0}},{{y:0,opacity:1,duration:0.45,ease:"expo.out"}},{t_pen - 0.1});
+FX.cursor(tl,document.getElementById("s08-c"),[[0,{700 * W / 1920},{500 * W / 1920}],[{t_pen + 0.1},{160 * W / 1920},{530 * W / 1920}],[{t_cap - 0.1},{1700 * W / 1920},{36 * W / 1920}]],
+  [[{t_pen + 0.25},{160 * W / 1920},{530 * W / 1920}]],document.getElementById("s08-c-r"));
+FX.ring(tl,"#s08-hsys",{t_pen + 0.2},{t_cap - t_pen - 0.4:.2f});
+FX.ring(tl,"#s08-hacc",{t_cap - 0.1},1.4);
 // pull back: whole ring visible, then away
 tl.to("#s08-l3",{{opacity:0,duration:0.25}},{S.D - 1.5});
 tl.to("#s08-ring",{{z:-{R}-2600,rotationY:-315,duration:1.3,ease:"power3.inOut"}},{S.D - 1.5});
@@ -790,7 +786,7 @@ FX.draw(tl,".s12-d3",{t_ruang - 0.1},0.6,0.1);
 tl.to("#s12-c",{{opacity:0,duration:0.3}},{t_pro - 0.6});
 FX.draw(tl,".s12-d3b",{t_pro - 0.5},0.5,0.08);
 tl.fromTo("#s12-l3",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_pro - 0.3});
-tl.to(".F.chalkbg",{{opacity:0,duration:0.35}},{S.D - 0.35});
+tl.to("#s12-i .chalkbg",{{opacity:0,duration:0.35}},{S.D - 0.35});
 """
     return html, js
 
@@ -798,44 +794,41 @@ tl.to(".F.chalkbg",{{opacity:0,duration:0.35}},{S.D - 0.35});
 # --------------------------------------------------------------------------- S13 sewaan 14 -> 3
 @scene
 def s13(S):
-    t_pro = S.w("v13", "Proses")
+    t_pro = S.w("v13", "proses|Proses")
     t_14 = S.w("v13", "empat")
     t_3 = S.w("v13", "tiga")
-    t_11 = S.w("v13", "Sebelas")
-    pages = "".join(f'<div class="abs s13-pg" id="s13-pg{i}" style="left:0;top:150px;width:560px;height:470px;background:#fff;border-radius:0 0 30px 30px;'
-                    f'display:flex;align-items:center;justify-content:center;font:800 260px/1 Plus Jakarta Sans;color:#165A44;letter-spacing:-.05em;'
-                    f'transform-origin:50% 0;backface-visibility:hidden;box-shadow:0 10px 20px rgba(0,0,0,.15)">{14 - i}</div>' for i in range(11, -1, -1))
+    t_11 = S.w("v13", "sebelas|Sebelas")
     leaves = "".join(SB.leaf(f"position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{w}px;opacity:0", "#7DB544").replace("<svg ", f'<svg class="s13-lf" ', 1)
-                     for x, y, w in [(1300, 300, 70), (1500, 200, 54), (1700, 380, 44), (1400, 500, 36), (1650, 600, 60), (1200, 650, 40)])
+                     for x, y, w in [(1500, 640, 64), (1640, 520, 46), (1720, 760, 38), (1380, 820, 34), (1780, 600, 56), (300, 700, 40), (200, 520, 30)])
     html = f"""
 <div class="F gdark">
-  <div class="kicker abs" style="left:1010px;top:250px">PRODUKTIVITI · PROSES SEWAAN</div>
-  <div id="s13-cal" class="abs" style="left:250px;top:200px;width:560px;height:620px;perspective:1600px">
-    <div class="abs" style="left:0;top:0;width:560px;height:620px;background:#fff;border-radius:30px;box-shadow:0 50px 100px rgba(0,0,0,.5)"></div>
-    <div class="abs" style="left:0;top:0;width:560px;height:150px;background:#8E1B33;border-radius:30px 30px 0 0;display:flex;align-items:center;justify-content:center;font:800 54px Plus Jakarta Sans;letter-spacing:.1em">SEWAAN</div>
-    {pages}
-    <div class="abs" style="left:0;top:560px;width:560px;text-align:center;font:800 50px Plus Jakarta Sans;color:#165A44">HARI</div>
+  <div class="kicker abs" id="s13-k" style="left:0;right:0;top:170px;text-align:center">PRODUKTIVITI · PROSES PERMOHONAN SEWAAN</div>
+  <div class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;align-items:center;gap:90px">
+    <div id="s13-a" style="text-align:center">
+      <div class="mono" style="font-size:24px;color:rgba(255,255,255,.55)">SEBELUM</div>
+      <div style="position:relative;display:inline-block;font:800 260px/1 'Plus Jakarta Sans';letter-spacing:-.05em;color:rgba(255,255,255,.32)">14
+        <i id="s13-strike" style="position:absolute;left:-12px;right:-12px;top:52%;height:12px;border-radius:6px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>
+      <div style="font:700 44px 'Plus Jakarta Sans';color:rgba(255,255,255,.5)">HARI</div></div>
+    <svg id="s13-ar" viewBox="0 0 100 40" style="width:150px"><path d="M0 20h86M70 6l16 14-16 14" stroke="#b6d973" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div id="s13-b" style="text-align:center">
+      <div class="mono" style="font-size:24px;color:var(--lime)">SELEPAS SPD</div>
+      <div style="font:800 340px/1 'Plus Jakarta Sans';letter-spacing:-.05em;color:var(--lime);text-shadow:0 0 80px rgba(182,217,115,.35)">3</div>
+      <div style="font:700 52px 'Plus Jakarta Sans'">HARI</div></div>
   </div>
+  <div class="abs" style="left:0;right:0;top:880px;display:flex;justify-content:center">
+    <div id="s13-badge" style="font:800 46px 'Plus Jakarta Sans';color:#0B2E22;background:#B6D973;padding:16px 44px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35)">11 HARI DIJIMATKAN</div></div>
   {leaves}
-  <div class="abs" style="left:1010px;top:320px">
-    <div id="s13-old" class="h1" style="font-size:130px;color:rgba(255,255,255,.4);position:relative;display:inline-block">14 HARI
-      <i id="s13-strike" style="position:absolute;left:-10px;right:-10px;top:52%;height:12px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>
-    <div id="s13-new" class="h1" style="font-size:180px;color:var(--lime);margin-top:10px">3 HARI</div>
-    <div id="s13-badge" style="display:inline-block;margin-top:24px;font:800 50px Plus Jakarta Sans;color:#0B2E22;background:#B6D973;padding:18px 40px;border-radius:16px">11 HARI DIJIMATKAN</div>
-  </div>
   <div class="vign"></div>
 </div>"""
-    flips = "".join(f'tl.to("#s13-pg{i}",{{rotationX:-120,y:-260,x:{(i % 3 - 1) * 120},z:200,rotation:{(i % 2 * 2 - 1) * 18},opacity:0,duration:0.55,ease:"power2.in"}},{t_14 + 0.35 + i * ((t_3 - t_14 - 0.45) / 11):.3f});'
-                    for i in range(0, 11))
     js = f"""
-tl.fromTo("#s13-cal",{{y:500,rotationX:30,opacity:0,transformPerspective:1400}},{{y:0,rotationX:0,opacity:1,duration:0.8,ease:"expo.out"}},{max(0.1, t_pro - 0.3)});
-tl.fromTo("#s13-old",{{opacity:0,x:60}},{{opacity:1,x:0,duration:0.5,ease:"expo.out"}},{t_14 - 0.1});
-{flips}
-tl.fromTo(".s13-lf",{{opacity:0,y:120,rotation:0}},{{opacity:0.9,y:-60,rotation:160,duration:1.6,stagger:0.12,ease:"power1.out"}},{t_14 + 0.6});
-tl.fromTo("#s13-strike",{{scaleX:0}},{{scaleX:1,duration:0.35,ease:"power3.out"}},{t_3 - 0.1});
-tl.fromTo("#s13-new",{{opacity:0,scale:1.8}},{{opacity:1,scale:1,duration:0.4,ease:"expo.out"}},{t_3});
+tl.fromTo("#s13-k",{{opacity:0,y:-20}},{{opacity:1,y:0,duration:0.5}},{max(0.1, t_pro - 0.2)});
+tl.fromTo("#s13-a",{{opacity:0,x:-120,filter:"blur(10px)"}},{{opacity:1,x:0,filter:"blur(0px)",duration:0.6,ease:"expo.out"}},{t_14 - 0.15});
+tl.fromTo("#s13-strike",{{scaleX:0}},{{scaleX:1,duration:0.35,ease:"power3.out"}},{t_3 - 0.35});
+tl.fromTo("#s13-ar",{{opacity:0,x:-40}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_3 - 0.25});
+tl.fromTo("#s13-b",{{opacity:0,scale:1.6,filter:"blur(16px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},{t_3 - 0.05});
+tl.fromTo(".s13-lf",{{opacity:0,y:120,rotation:0}},{{opacity:0.9,y:-80,rotation:150,duration:2.0,stagger:0.1,ease:"power1.out"}},{t_3});
 tl.fromTo("#s13-badge",{{opacity:0,y:40,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_11 - 0.1});
-tl.to(["#s13-cal","#s13-old","#s13-new","#s13-badge"],{{x:-200,opacity:0,duration:0.4,stagger:0.04,ease:"power3.in"}},{S.D - 0.5});
+tl.to(["#s13-a","#s13-ar","#s13-b","#s13-badge","#s13-k"],{{y:-60,opacity:0,duration:0.35,stagger:0.03,ease:"power3.in"}},{S.D - 0.45});
 """
     return html, js
 
@@ -874,7 +867,6 @@ tl.fromTo("#s14-arw",{{opacity:0,x:-30}},{{opacity:1,x:0,duration:0.3}},{t_2 - 0
 tl.fromTo("#s14-new",{{opacity:0,scale:1.8}},{{opacity:1,scale:1,duration:0.4,ease:"expo.out"}},{t_2});
 tl.fromTo("#s14-r",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.6,ease:"expo.out"}},{t_ims + 0.6});
 tl.fromTo("#s14-sv",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5}},{t_ims + 0.9});
-tl.to(".F",{{opacity:1}},0);
 tl.to(["#s14-m","#s14-b","#s14-r"],{{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"}},{S.D - 0.55});
 """
     return html, js
@@ -914,7 +906,7 @@ FX.count(tl,document.getElementById("s15-n"),0,217836,{t_dua - 0.1},{t_rgt - t_d
 tl.fromTo("#s15-n",{{scale:1}},{{scale:1.08,duration:0.18,yoyo:true,repeat:1,ease:"power2.out",immediateRender:false}},{t_rgt + 0.3});
 tl.fromTo("#s15-sw",{{x:-700,opacity:0.9}},{{x:300,opacity:0.9,duration:0.9,ease:"power2.inOut"}},{t_rgt + 0.3});
 tl.fromTo("#s15-s",{{opacity:0}},{{opacity:1,duration:0.4}},{t_set - 0.1});
-tl.to(".F.gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
+tl.to("#s15-i .gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
 """
     return html, js
 
@@ -960,7 +952,7 @@ def s16(S):
     js = f"""
 {anim("s16-x", max(0.1, t_ant - 0.2), t_ber - 0.2, t_25 - 0.1, r1, 1242, 926)}
 {anim("s16-y", t_dak - 0.5, t_dak + 0.3, t_39 - 0.1, r2, 174, 105)}
-tl.to(".F.paperbg",{{x:-1920,duration:0.5,ease:"power3.in"}},{S.D - 0.5});
+tl.to("#s16-i .paperbg",{{x:-1920,duration:0.5,ease:"power3.in"}},{S.D - 0.5});
 """
     return html, js
 
@@ -1045,7 +1037,7 @@ tl.fromTo("#s18-seal",{{opacity:0,scale:3,rotation:-60}},{{opacity:1,scale:1,rot
 tl.fromTo("#s18-c",{{x:0}},{{x:6,duration:0.05,yoyo:true,repeat:3,immediateRender:false}},{t_iki + 0.4});
 tl.fromTo("#s18-a",{{opacity:0,x:80}},{{opacity:1,x:0,duration:0.5,ease:"expo.out"}},{t_2020 - 0.3});
 tl.fromTo("#s18-b",{{opacity:0,x:80}},{{opacity:1,x:0,duration:0.5,ease:"expo.out"}},{t_plat - 0.2});
-tl.to(".F > *",{{opacity:0,duration:0.4}},{S.D - 0.4});
+tl.to("#s18-i .F > *",{{opacity:0,duration:0.4}},{S.D - 0.4});
 """
     return html, js
 
@@ -1067,6 +1059,10 @@ def s19(S):
     t_uru = S.w("v19", "diurus")
     page = sb(SB.spd2_homepage(full=True))
     page = page.replace('<div style="transform:translateY(-0px)">', '<div id="s19-page">', 1)
+    page = re.sub(r'<div style="height:96px;background:#fff;display:flex;align-items:center;padding:0 34px;gap:26px;.*?PEGAWAI SPD ▾</div></div>',
+                  '<div style="height:96px;position:relative;z-index:3;background:url(assets/ui/s77.jpg) 0 0/1920px auto;box-shadow:0 2px 8px rgba(0,0,0,.06)">'
+                  '<span style="position:absolute;left:750px;top:30px;background:#165A44;color:#fff;padding:2px 12px;border-radius:8px;font:800 24px Plus Jakarta Sans">2.0</span></div>',
+                  page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
     for i, v in enumerate(["−25.4%", "−39.7%", "−79%", "−90%", "−50%", "RM217,836"]):
@@ -1162,26 +1158,26 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 
 # ============================================================================= FILM PLAN
 PLAN = [  # (scene id, VO lines, kwargs)
-    ("s01", ["v01"], dict(pre=MONTAGE + 0.25, post=0.6)),
-    ("s02", ["v02"], dict(pre=0.5, post=0.8)),
-    ("s03", ["v03"], dict(pre=0.4, post=1.5)),
-    ("s04", ["v04"], dict(pre=0.3, post=1.0)),
-    ("s05", ["v05"], dict(pre=1.1, post=0.8)),
-    ("s06", ["v06"], dict(pre=0.5, post=2.4)),
-    ("s07", ["v07"], dict(pre=0.4, post=1.6)),
-    ("s08", ["v08"], dict(pre=0.5, post=2.8)),
-    ("s09", ["v09"], dict(pre=0.8, post=0.8)),
+    ("s01", ["v01"], dict(pre=MONTAGE + 0.25, post=0.5)),
+    ("s02", ["v02"], dict(pre=0.4, post=0.6)),
+    ("s03", ["v03"], dict(pre=0.4, post=0.7)),
+    ("s04", ["v04"], dict(pre=0.3, post=0.9)),
+    ("s05", ["v05"], dict(pre=1.1, post=0.6)),
+    ("s06", ["v06"], dict(pre=0.4, post=1.2)),
+    ("s07", ["v07"], dict(pre=0.4, post=0.8)),
+    ("s08", ["v08"], dict(pre=0.4, post=1.9)),
+    ("s09", ["v09"], dict(pre=0.6, post=0.6)),
     ("s10", ["v10"], dict(pre=0.3, post=0.9)),
-    ("s11", ["v11"], dict(pre=0.5, post=1.5)),
-    ("s12", ["v12"], dict(pre=0.6, post=0.7)),
-    ("s13", ["v13"], dict(pre=0.5, post=1.6)),
-    ("s14", ["v14"], dict(pre=0.4, post=1.0)),
-    ("s15", ["v15"], dict(pre=0.5, post=2.0)),
-    ("s16", ["v16"], dict(pre=0.4, post=1.6)),
-    ("s17", ["v17"], dict(pre=0.4, post=0.9)),
-    ("s18", ["v18"], dict(pre=0.5, post=0.9)),
-    ("s19", ["v19"], dict(pre=0.6, post=3.6)),
-    ("s20", ["v20"], dict(pre=1.0, post=3.2)),
+    ("s11", ["v11"], dict(pre=0.4, post=0.8)),
+    ("s12", ["v12"], dict(pre=0.5, post=0.6)),
+    ("s13", ["v13"], dict(pre=0.4, post=1.0)),
+    ("s14", ["v14"], dict(pre=0.4, post=0.8)),
+    ("s15", ["v15"], dict(pre=0.4, post=1.2)),
+    ("s16", ["v16"], dict(pre=0.4, post=0.9)),
+    ("s17", ["v17"], dict(pre=0.4, post=0.8)),
+    ("s18", ["v18"], dict(pre=0.4, post=0.8)),
+    ("s19", ["v19"], dict(pre=0.6, post=2.2)),
+    ("s20", ["v20"], dict(pre=1.0, post=2.8)),
 ]
 
 TEMPLATE = """<!doctype html>
@@ -1190,13 +1186,19 @@ TEMPLATE = """<!doctype html>
   <body>
     <template>
       <div id="root" data-composition-id="{id}" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+      <div id="{id}-o" style="position:absolute;inset:0"><div id="{id}-i" style="position:absolute;inset:0">
 {html}
+      </div></div>
       </div>
       <script>
         (function () {{
           const tl = gsap.timeline({{ paused: true }});
           const FX = window.SPDFX;
 {js}
+          // camera: soft focus-pull entrance + slow breathing push for the whole scene
+          tl.fromTo("#{id}-o", {{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}, {{ opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }}, 0);
+          tl.set("#{id}-o", {{ filter: "none" }}, 0.52);
+          tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);
           tl.set({{}}, {{}}, {D});
           window.__timelines = window.__timelines || {{}};
           window.__timelines["{id}"] = tl;
@@ -1260,6 +1262,45 @@ BADGE = """<!doctype html>
 </html>
 """
 
+FXC = """<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="fx" data-width="1920" data-height="1080" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+        <div id="fx-sweep" style="position:absolute;top:-200px;left:0;width:520px;height:1480px;opacity:0;mix-blend-mode:screen;
+          background:linear-gradient(90deg,transparent,rgba(200,255,225,.38),rgba(255,255,255,.55),rgba(200,255,225,.38),transparent);transform:skewX(-18deg);filter:blur(6px)"></div>
+        <div id="fx-bloom" style="position:absolute;inset:0;opacity:0;background:radial-gradient(60% 60% at 50% 50%,rgba(220,255,235,.35),transparent 70%);mix-blend-mode:screen"></div>
+        <div id="fx-grain" style="position:absolute;inset:-60px;background:url(assets/img/grain.png);opacity:.07;mix-blend-mode:overlay"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 62%,rgba(0,0,0,.28) 100%)"></div>
+      </div>
+      <script>
+        (function () {{
+          const tl = gsap.timeline({{ paused: true }});
+          const cuts = {cuts};
+          cuts.forEach((t) => {{
+            tl.fromTo("#fx-sweep", {{ x: -700, opacity: 0.0 }}, {{ x: 2300, opacity: 1, duration: 0.6, ease: "power2.inOut", immediateRender: false }}, t - 0.3);
+            tl.to("#fx-sweep", {{ opacity: 0, duration: 0.15 }}, t + 0.3);
+            tl.fromTo("#fx-bloom", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }}, t - 0.12);
+          }});
+          const g = document.getElementById("fx-grain");
+          let k = 0;
+          for (let t = 0; t < {D}; t += 1 / 12) {{
+            const x = ((k * 73) % 60), y = ((k * 131) % 60);
+            tl.set(g, {{ x: -x, y: -y }}, t);
+            k++;
+          }}
+          tl.set({{}}, {{}}, {D});
+          window.__timelines = window.__timelines || {{}};
+          window.__timelines["fx"] = tl;
+        }})();
+      </script>
+    </template>
+  </body>
+</html>
+"""
+
+
 INDEX = """<!doctype html>
 <html lang="ms">
   <head>
@@ -1278,6 +1319,7 @@ INDEX = """<!doctype html>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{D}" data-width="1920" data-height="1080">
 {mounts}
+      <div id="m-fx" data-composition-id="fx" data-composition-src="compositions/fx.html" data-start="0" data-duration="{D}" data-track-index="7" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
       <div id="m-badge" data-composition-id="badge" data-composition-src="compositions/badge.html" data-start="0" data-duration="{D}" data-track-index="8" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
 {audio}
     </div>
@@ -1301,6 +1343,8 @@ def write_index(scenes, total, audio_extra=""):
                 audio.append(f'      <audio id="vo-{ln.id}" src="assets/vo/{ln.id}.mp3" data-start="{round(S.start + at, 3)}" data-duration="{ln.dur:.3f}" '
                              f'data-track-index="{20 + k % 2}" data-volume="1" data-fade-out="0.12"></audio>')
     open(f"{HF}/compositions/badge.html", "w").write(BADGE.format(D=total))
+    cuts = [S.start for S in scenes[1:] if S.id not in ("s02", "s05", "s11")]  # scenes with their own flash/ball/slam skip the sweep
+    open(f"{HF}/compositions/fx.html", "w").write(FXC.format(D=total, cuts=json.dumps(cuts)))
     open(f"{HF}/index.html", "w").write(INDEX.format(fonts=fonts, D=total, mounts="\n".join(mounts), audio="\n".join(audio) + audio_extra))
 
 
@@ -1313,7 +1357,7 @@ def dialogue(scenes):
 if __name__ == "__main__":
     only = sys.argv[1:] or None
     scenes, total = build(only)
-    write_index(scenes, total, dialogue(scenes))
+    write_index(scenes, total)
     for S in scenes:
         est = [ln.id for ln, _ in S.lines if not ln.real]
         print(f"{S.id} {S.start:7.2f} +{S.D:6.2f}  {'EST ' + ','.join(est) if est else ''}")

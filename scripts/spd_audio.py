@@ -465,20 +465,20 @@ def score(sc, total):
     s01 = next(S for S in sc if S.id == "s01")
     # A: cold open -- drone + clock tick, hits on the cuts, mallet at the freeze
     trk["pad"].add(0, pad([note_hz("D2"), note_hz("A2")], B.MONTAGE + 1.0, 0.5, attack=2.0, release=1.0))
-    section(trk, 0, B.MONTAGE, ["Bm"], ["tick"], 0.9)
+    section(trk, 0, B.MONTAGE, ["Bm", "G"], ["pianosparse"], 0.6)
     trk["mus"].add(B.MONTAGE, mallet(note_hz("B1"), 0.7))
     section(trk, B.MONTAGE + 0.1, en["s01"], ["Bm", "G"], ["pad", "pianosparse"], 0.7)
     # B: title + what is SPD
     trk["mus"].add(st["s02"] - 2.0, riser(2.0, 0.5))
     section(trk, st["s02"], en["s02"], ["D", "A"], ["pad", "piano"], 0.8)
     section(trk, st["s03"], en["s03"], ["Bm", "G", "D", "A"], ["pad", "pianosparse", "arp8"], 0.75)
-    section(trk, st["s04"], en["s04"], ["Em", "Bm", "G", "A"], ["pad", "pianosparse", "tick"], 0.65)
+    section(trk, st["s04"], en["s04"], ["Em", "Bm", "G", "A"], ["pad", "pianosparse"], 0.65)
     section(trk, st["s05"], en["s05"], ["D", "A"], ["pad", "piano", "arp8"], 0.8)
     # C: system demo
     section(trk, st["s06"], en["s09"], ["D", "A", "Bm", "G"], ["pad", "arp8", "kick2", "shaker", "bass"], 0.85)
     trk["mus"].add(st["s10"] - 1.8, riser(1.8, 0.55))
     # D: impact
-    section(trk, st["s11"], en["s18"], ["G", "D", "A", "Bm"], ["pad", "arp16", "kick4", "clap", "bass", "shaker", "piano"], 0.85)
+    section(trk, st["s11"], en["s18"], ["G", "D", "A", "Bm"], ["pad", "arp8", "kick2", "bass", "shaker", "piano"], 0.8)
     # E: SPD 2.0
     section(trk, st["s19"], en["s19"], ["Dsus", "D", "G", "A"], ["pad", "bells"], 0.8)
     section(trk, st["s19"] + 7.5, en["s19"], ["G", "A"], ["kick2", "bass"], 0.6)
@@ -494,6 +494,7 @@ def score(sc, total):
 
 # ----------------------------------------------------------------------------- cue sheet (sound design)
 def cues(sc):
+    """sparse, smooth accents only: soft paper whooshes on transitions, a few tonal hits on the key reveals"""
     S = {s.id: s for s in sc}
     out = []
 
@@ -502,165 +503,76 @@ def cues(sc):
 
     s = S["s01"]
     for k, t in enumerate(B.CUTS[1:]):
-        c("s01", t - 0.25, paper_whoosh(0.5, 0.35), 1, (-0.4, 0.4)[k % 2])
-    c("s01", 2.35, tick(note_hz("A6"), 0.4, 0.12), 0.6, 0.3)  # key in lock
-    c("s01", 2.7, tick(note_hz("E6"), 0.4, 0.12), 0.5, 0.3)
-    c("s01", B.MONTAGE - 0.05, drawer_slam(0.9), 0.8)
-    for i, t in enumerate((0.1, 0.28, 0.46)):
-        c("s01", B.MONTAGE + t, scratch(0.5, 0.35, chalk=True), 0.8, 0.3)
-    c("s01", B.MONTAGE + 0.3, scratch(0.35, 0.4), 0.6, 0.2)
-    for w in ("Fail", "Carian", "Masa"):
-        c("s01", s.w("v01", w) - 0.05, tick(SCALE[{"Fail": 0, "Carian": 2, "Masa": 4}[w]], 0.35), 0.5)
-
+        c("s01", t - 0.25, paper_whoosh(0.5, 0.3), 0.45, (-0.4, 0.4)[k % 2])
+    c("s01", B.MONTAGE - 0.05, sub_boom(0.6), 0.6)
+    c("s02", 0.0, paper_whoosh(0.9, 0.35), 0.5)
     s = S["s02"]
-    for i in range(6):
-        c("s02", 0.1 + i * 0.22, paper_riffle(0.35, 0.35), 0.6, -0.6 + i * 0.24)
-    c("s02", s.w("v02", "SPD") - 0.15, stamp(0.7), 0.6)
-    c("s02", s.w("v02", "SPD") + 0.1, dissolve(1.4, 0.4), 0.6)
-
+    c("s02", s.w("v02", "SPD") - 0.15, stamp(0.6), 0.55)
+    c("s02", s.w("v02", "SPD") + 0.1, dissolve(1.4, 0.35), 0.45)
     s = S["s03"]
     for i, w in enumerate(("tanah", "bangunan", "penyewaan", "penilaian", "dokumen")):
-        c("s03", s.w("v03", w) - 0.1, glass(SCALE[i + 1] / 2, 0.4), 0.7, -0.5 + i * 0.25)
-        c("s03", s.w("v03", w) + 0.15, scratch(0.4, 0.12), 0.5)
-    c("s03", s.w("v03", "satu") - 0.2, drawer_slam(0.4), 0.45)
-    c("s03", s.w("v03", "hijau") - 0.3, dissolve(1.0, 0.3), 0.5)
-
+        c("s03", s.w("v03", w) - 0.1, glass(SCALE[i + 1] / 2, 0.3), 0.45, -0.5 + i * 0.25)
+    c("s03", s.w("v03", "satu") - 0.2, sub_boom(0.35), 0.45)
     s = S["s04"]
-    c("s04", s.w("v04", "Sebelum") - 0.2, scratch(0.8, 0.35), 0.8, -0.3)
-    c("s04", s.w("v04", "enam") - 0.05, tick(SCALE[3], 0.4), 0.6)
-    for i, w in enumerate(("Penggunaan", "Ruang", "Pertindihan", "Carian", "Risiko", "kos")):
-        c("s04", s.w("v04", w) - 0.1, scratch(0.6, 0.35), 0.75, -0.5 + (i % 3) * 0.5)
-        c("s04", s.w("v04", w) - 0.15, tick(SCALE[i], 0.3, 0.1), 0.45)
-    c("s04", s.D - 0.85, crumple(0.8, 0.8), 0.9)
-    c("s05", 0.0, paper_whoosh(0.9, 0.6), 0.9)
+    c("s04", s.D - 0.85, crumple(0.8, 0.6), 0.6)
+    c("s05", 0.0, paper_whoosh(0.9, 0.5), 0.7)
     s = S["s05"]
-    c("s05", 0.9, glass(note_hz("D6"), 0.5), 0.8)
-    for i, w in enumerate(("berpusat", "Atas", "cekap")):
-        c("s05", s.w("v05", w) - 0.1 - (0.2 if w == "cekap" else 0), tick(SCALE[3 + i], 0.4), 0.6, -0.3 + 0.3 * i)
-    c("s05", s.D - 0.6, paper_whoosh(0.6, 0.4), 0.7)
-
+    c("s05", 0.9, glass(note_hz("D6"), 0.4), 0.55)
+    c("s05", s.D - 0.6, paper_whoosh(0.6, 0.35), 0.5)
     s = S["s06"]
-    c("s06", s.w("v06", "taburan") - 0.4, paper_whoosh(0.6, 0.25, True), 0.6)
-    c("s06", s.w("v06", "taburan") + 0.2, glass(SCALE[2], 0.3), 0.6)
-    for w, nth in (("ringkasan", 1), ("sewaan", 1)):
-        c("s06", s.w("v06", w, nth) - 0.25, wheel(0.6, 0.25), 0.8, 0.2)
-    c("s06", s.w("v06", "aset", 1), tick(SCALE[3], 0.3), 0.5)
-    c("s06", s.w("v06", "aset", 2), tick(SCALE[4], 0.3), 0.5)
-    c("s06", s.w("v06", "stor") - 0.1, paper_riffle(0.3, 0.4), 0.6, 0.4)
-    c("s06", s.w("v06", "satu") - 0.4, paper_whoosh(0.8, 0.45, False), 0.8)
-    c("s06", s.w("v06", "satu"), sub_boom(0.5), 0.6)
-
+    c("s06", s.w("v06", "taburan") - 0.4, paper_whoosh(0.6, 0.25, True), 0.4)
+    c("s06", s.w("v06", "satu") - 0.4, paper_whoosh(0.8, 0.4, False), 0.55)
+    c("s06", s.w("v06", "satu"), sub_boom(0.4), 0.45)
     s = S["s07"]
     t_taip, t_rek, t_pet, t_dok = s.w("v07", "menaip|taip"), s.w("v07", "Rekod"), s.w("v07", "peta"), s.w("v07", "dokumen")
-    c("s07", 0.0, paper_whoosh(0.5, 0.35), 0.7)
+    c("s07", 0.0, paper_whoosh(0.5, 0.3), 0.5)
     for t in (t_taip - 0.25, t_rek - 0.45, t_pet - 0.35):
-        c("s07", t, click(0.5), 0.9, 0.2)
-    for i in range(5):
-        c("s07", t_taip + 0.15 + i * 0.14, tick(SCALE[i + 2], 0.3, 0.1), 0.5, 0.25)
-    c("s07", t_taip + 1.1, slide(0.3, 0.3), 0.6)
-    c("s07", t_rek - 0.35, glass(SCALE[5] / 2, 0.35), 0.7)
-    for i, w in enumerate(("lot", "status", "koordinat")):
-        c("s07", s.w("v07", w), tick(SCALE[3 + i], 0.25, 0.1), 0.4)
-    c("s07", t_pet - 0.2, paper_whoosh(0.5, 0.35), 0.7, 0.5)
-    c("s07", t_pet + 0.3, beep_chord(0.2), 0.5)
-    c("s07", t_dok - 0.5, wheel(0.55, 0.25), 0.8)
-    c("s07", s.D - 0.4, paper_whoosh(0.4, 0.4, False), 0.7, -0.5)
-
+        c("s07", t, click(0.35), 0.5, 0.2)
+    c("s07", t_rek - 0.35, glass(SCALE[5] / 2, 0.3), 0.45)
+    c("s07", t_pet - 0.2, paper_whoosh(0.5, 0.3), 0.45, 0.5)
     s = S["s08"]
     for i, w in enumerate(("Pengurusan", "Modal", "pentadbiran")):
-        t = s.w("v08", w) - 0.35
-        c("s08", t, paper_whoosh(0.6, 0.45), 0.9, (-0.6, 0.6)[i % 2])
-        c("s08", t + 0.3, tick(SCALE[[2, 4, 5][i]], 0.45, 0.14), 0.6)
-    c("s08", s.w("v08", "barcode") - 0.3, beep_chord(0.4), 0.8)
-    c("s08", s.w("v08", "barcode") - 0.3, laser_hum(1.8, 0.2), 0.6)
-    c("s08", s.w("v08", "baki") - 0.4, wheel(0.6, 0.25), 0.7)
-    for i in range(4):
-        c("s08", s.w("v08", "capaian") - 0.6 + i * 0.18, click(0.35), 0.6, 0.3)
-    c("s08", s.D - 1.5, paper_whoosh(1.2, 0.5, False), 0.8)
-    c("s08", s.D - 1.2, sub_boom(0.45), 0.6)
-
+        c("s08", s.w("v08", w) - 0.35, paper_whoosh(0.6, 0.4), 0.6, (-0.6, 0.6)[i % 2])
+    c("s08", s.w("v08", "barcode") - 0.3, beep_chord(0.35), 0.55)
+    c("s08", s.w("v08", "pentadbiran") + 0.25, click(0.35), 0.5)
+    c("s08", s.D - 1.5, paper_whoosh(1.2, 0.45, False), 0.6)
+    c("s08", s.D - 1.2, sub_boom(0.4), 0.45)
     s = S["s09"]
-    for i in range(5):
-        c("s09", max(0.3, s.w("v09", "Setiap") - 0.3) + i * 0.12, slide(0.35, 0.25), 0.6, -0.6 + i * 0.3)
     for i, (w, n) in enumerate((("dokumen", 1), ("cetakan", 1), ("fail", 1), ("arkib", 1))):
-        c("s09", s.w("v09", w, n) - 0.1, marimba(SCALE[2 + i], 0.5), 0.6, -0.3 + 0.2 * i)
-
+        c("s09", s.w("v09", w, n) - 0.1, marimba(SCALE[2 + i], 0.4), 0.45, -0.3 + 0.2 * i)
     s = S["s10"]
-    c("s10", s.w("v10", "impak") - 0.15, stamp(1.0), 1.0)
-    c("s10", s.w("v10", "impak") - 0.15, sub_boom(0.9), 0.9)
-    c("s10", s.D - 0.45, paper_whoosh(0.5, 0.5), 0.8)
-
-    s = S["s11"]
-    for i, t in enumerate((s.w("v11", "Carian") - 0.2, s.w("v11", "Keperluan") - 0.2, s.w("v11", "sembilan") + 0.2)):
-        c("s11", t, tick(note_hz(["D4", "F#4", "A4"][i]), 0.7, 0.25), 0.7, -0.4 + 0.4 * i)
-    c("s11", s.w("v11", "sembilan") - 0.6, abacus(0.8, 0.4), 0.6, 0.2)
-    c("s11", s.D - 0.65, paper_whoosh(0.6, 0.35, False), 0.6)
-
-    s = S["s12"]
-    for w in ("Sisa", "Dokumen", "ruang", "produktif"):
-        c("s12", s.w("v12", w) - 0.1, scratch(0.7, 0.4, chalk=True), 0.8, 0.0)
-    c("s12", s.w("v12", "meja", 2), scratch(0.35, 0.5, chalk=True), 0.6)
-    c("s12", s.w("v12", "produktif") - 0.6, bp(noise(0.4), 200, 1500) * 0.15 * np.sin(np.linspace(0, np.pi, int(0.4 * SR))), 0.7)  # eraser
-
+    c("s10", s.w("v10", "impak") - 0.15, stamp(0.9), 0.85)
+    c("s10", s.w("v10", "impak") - 0.15, sub_boom(0.8), 0.75)
+    c("s10", s.D - 0.45, paper_whoosh(0.5, 0.45), 0.6)
     s = S["s13"]
-    t14, t3 = s.w("v13", "empat"), s.w("v13", "tiga")
-    for i in range(11):
-        c("s13", t14 + 0.35 + i * ((t3 - t14 - 0.45) / 11), tear(0.3, 0.35 + 0.02 * i), 0.7, (-0.3, 0.3)[i % 2])
-    c("s13", t3, stamp(0.6), 0.6)
-    c("s13", s.w("v13", "Sebelas") - 0.1, glass(SCALE[5], 0.4), 0.7)
-
+    c("s13", s.w("v13", "tiga") - 0.05, sub_boom(0.4), 0.45)
+    c("s13", s.w("v13", "sebelas|Sebelas") - 0.1, glass(SCALE[5], 0.35), 0.5)
     s = S["s14"]
-    c("s14", max(0.1, s.w("v14", "Semakan") - 0.2), slide(0.5, 0.35), 0.7, -0.4)
-    c("s14", s.w("v14", "Kini|Hari") - 0.3, slide(0.5, 0.35), 0.7, 0.2)
-    c("s14", s.w("v14", "imbasan") - 0.2, beep_chord(0.45), 0.9)
-    c("s14", s.w("v14", "imbasan") - 0.2, laser_hum(1.6, 0.2), 0.6)
-    c("s14", s.w("v14", "dua", 2) - 0.15, tear(0.15, 0.4), 0.6)
-    c("s14", s.w("v14", "dua", 2), sub_boom(0.4), 0.6)
-
+    c("s14", s.w("v14", "imbasan") - 0.2, beep_chord(0.4), 0.6)
+    c("s14", s.w("v14", "imbasan") - 0.2, laser_hum(1.6, 0.15), 0.4)
     s = S["s15"]
-    t_dua, t_rgt = s.w("v15", "dua"), s.w("v15", "ringgit")
-    c("s15", t_dua - 0.1, abacus(t_rgt - t_dua + 0.4, 0.4), 0.7, 0.2)
-    c("s15", t_rgt + 0.3, mallet(note_hz("D2"), 0.6), 0.8)
-    c("s15", t_rgt + 0.3, dissolve(1.0, 0.3), 0.6, 0.4)
-
+    c("s15", s.w("v15", "ringgit") + 0.3, mallet(note_hz("D2"), 0.55), 0.6)
+    c("s15", s.w("v15", "ringgit") + 0.3, dissolve(1.0, 0.25), 0.4, 0.4)
     s = S["s16"]
-    c("s16", max(0.1, s.w("v16", "Bagi|Antara") - 0.2), stamp(0.35), 0.6, -0.4)
-    c("s16", s.w("v16", "menurun|berkurang") - 0.2, slide(0.8, 0.3), 0.6, -0.4)
-    c("s16", s.w("v16", "dua", 5) - 0.1, scratch(0.4, 0.4), 0.7, -0.3)
-    c("s16", s.w("v16", "dakwat") - 0.5, stamp(0.35), 0.6, 0.4)
-    c("s16", s.w("v16", "dakwat") + 0.3, ink_drop(0.5), 0.7, 0.4)
-    c("s16", s.w("v16", "tiga") - 0.1, scratch(0.4, 0.4), 0.7, 0.3)
-    c("s16", s.D - 0.5, paper_whoosh(0.5, 0.45), 0.8)
-
+    c("s16", s.w("v16", "dakwat") + 0.3, ink_drop(0.4), 0.45, 0.4)
+    c("s16", s.D - 0.5, paper_whoosh(0.5, 0.4), 0.55)
     s = S["s17"]
-    c("s17", s.w("v17", "digantikan") - 0.3, dissolve(1.5, 0.5), 0.8)
-    c("s17", s.w("v17", "digantikan") + 0.6, glass(SCALE[5], 0.4), 0.7)
-    for i, t in enumerate((s.w("v17", "bukti|Buktinya"), s.w("v17", "bukti|Buktinya") + 0.25, s.w("v17", "pemeriksaan") - 0.2, s.w("v17", "pemeriksaan") + 0.05)):
-        c("s17", t + 0.3, shutter(0.5), 0.7, -0.5 + 0.33 * i)
-
+    c("s17", s.w("v17", "digantikan") - 0.3, dissolve(1.5, 0.45), 0.6)
+    c("s17", s.w("v17", "digantikan") + 0.6, glass(SCALE[5], 0.35), 0.5)
+    for i, t in enumerate((s.w("v17", "bukti|Buktinya"), s.w("v17", "pemeriksaan") - 0.2)):
+        c("s17", t + 0.3, shutter(0.4), 0.45, -0.4 + 0.8 * i)
     s = S["s18"]
-    c("s18", 0.15, slide(0.6, 0.4), 0.7, -0.5)
-    c("s18", s.w("v18", "pengiktirafan|diiktiraf") + 0.35, embosser(0.9), 0.9, -0.2)
-    c("s18", s.w("v18", "dua") - 0.3, tick(SCALE[3], 0.35), 0.5, 0.4)
-    c("s18", s.w("v18", "platform") - 0.2, tick(SCALE[5], 0.35), 0.5, 0.4)
-
+    c("s18", s.w("v18", "pengiktirafan|diiktiraf") + 0.35, embosser(0.7), 0.65, -0.2)
     s = S["s19"]
-    c("s19", 0.0, riser(2.2, 0.3), 0.7)
-    c("s19", s.w("v19", "SPD") - 0.1, sub_boom(0.8), 0.8)
-    c("s19", s.w("v19", "SPD") - 0.1, dissolve(1.6, 0.4), 0.6)
-    c("s19", s.w("v19", "Setiap") - 0.7, paper_whoosh(0.9, 0.4), 0.7)
-    c("s19", s.w("v19", "Setiap") + 0.1, wheel(1.0, 0.25), 0.7)
-    for i in range(8):
-        c("s19", s.w("v19", "Setiap") + 1.0 + i * 0.2, glass(SCALE[i], 0.22), 0.6, -0.5 + 0.14 * i)
-    for i, (w, dt) in enumerate((("Kertas", 0), ("Dakwat", 0), ("Masa", 0), ("Masa", 0.25), ("Tenaga", 0), ("kos", 0))):
-        c("s19", s.w("v19", w) + dt - 0.05, tick(SCALE[3 + i % 6], 0.4, 0.14), 0.6, -0.5 + 0.2 * i)
-    c("s19", s.w("v19", "diurus") - 0.9, glass(note_hz("D6"), 0.4), 0.6)
-
+    c("s19", 0.0, riser(2.2, 0.3), 0.5)
+    c("s19", s.w("v19", "SPD") - 0.1, sub_boom(0.7), 0.6)
+    c("s19", s.w("v19", "SPD") - 0.1, dissolve(1.6, 0.35), 0.45)
+    c("s19", s.w("v19", "Setiap") - 0.7, paper_whoosh(0.9, 0.35), 0.5)
+    for i, w in enumerate(("Kertas", "Dakwat", "Masa", "Tenaga", "kos")):
+        c("s19", s.w("v19", w) - 0.05, glass(SCALE[3 + i], 0.25), 0.4, -0.4 + 0.2 * i)
     s = S["s20"]
-    c("s20", max(0.5, s.w("v20", "SPD") - 0.7), paper_whoosh(0.8, 0.45, False), 0.8)
-    c("s20", s.w("v20", "SPD") - 0.05, stamp(0.7), 0.7)
-    for i, w in enumerate(("Mendigitalkan", "Mengoptimumkan", "Mempercepat")):
-        c("s20", s.w("v20", w) - 0.05, tick(SCALE[3 + i], 0.3), 0.45, -0.3 + 0.3 * i)
+    c("s20", max(0.5, s.w("v20", "SPD") - 0.7), paper_whoosh(0.8, 0.4, False), 0.55)
+    c("s20", s.w("v20", "SPD") - 0.05, stamp(0.6), 0.55)
     return out
 
 
@@ -677,16 +589,8 @@ def main():
                 v = subprocess.run(["ffmpeg", "-v", "error", "-i", f"{B.HF}/assets/vo/{ln.id}.mp3", "-af", f"atempo={B.SPEED}",
                                     "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
                 vo.add(S.start + at, np.frombuffer(v, np.float32).reshape(-1, 2).astype(np.float64), 1.0)
-    dlg = load(f"{B.HF}/assets/vo/dlg_s01.wav", 1.0)
-    vo.add(s01.start + B.CUTS[-1], dlg, 1.0)
     voice = vo.y
-    # foley bed from the footage under the montage (paper / shelves), no speech parts
-    fol = load(f"{ROOT}/media/spd-green/lakonan/l1.wav")[int(1.0 * SR):int(14.0 * SR)]
-    fol = np.stack([hp(fol[:, ch], 250) for ch in range(2)], 1)
-    fol[:int(0.3 * SR)] *= np.linspace(0, 1, int(0.3 * SR))[:, None]
-    fol[-int(0.6 * SR):] *= np.linspace(1, 0, int(0.6 * SR))[:, None]
     foley = Track(dur)
-    foley.add(0.0, fol[:int(B.CUTS[-1] * SR)], 0.55)
     # sfx
     sfx = Track(dur)
     for t, snd, g, pan in cues(sc):

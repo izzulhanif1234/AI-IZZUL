@@ -4,6 +4,7 @@
   <body>
     <template>
       <div id="root" data-composition-id="s14" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+      <div id="s14-o" style="position:absolute;inset:0"><div id="s14-i" style="position:absolute;inset:0">
 
 <div class="F" style="background:#081310">
   <div class="kicker abs" style="left:120px;top:90px">PRODUKTIVITI · SEMAKAN ASET ALIH</div>
@@ -20,25 +21,29 @@
   <div id="s14-sv" class="abs" style="left:1080px;top:850px;font:600 38px Plus Jakarta Sans;color:#cfe">Semakan SPD / barcode · <b style="color:#fff">18 hari dijimatkan</b></div>
   <div class="vign"></div>
 </div>
+      </div></div>
       </div>
       <script>
         (function () {
           const tl = gsap.timeline({ paused: true });
           const FX = window.SPDFX;
 
-tl.fromTo("#s14-m",{opacity:0,x:-300,rotation:-14},{opacity:1,x:0,rotation:-4,duration:0.7,ease:"expo.out"},0.245);
-tl.fromTo("#s14-old",{opacity:0,y:40},{opacity:1,y:0,duration:0.45,ease:"expo.out"},3.485);
-tl.fromTo("#s14-b",{opacity:0,y:300,rotation:10},{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"},5.291);
-tl.fromTo("#s14-las",{y:0},{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"},8.342);
-tl.fromTo("#s14-strike",{scaleX:0},{scaleX:1,duration:0.3,ease:"power3.out"},7.335);
-tl.fromTo("#s14-arw",{opacity:0,x:-30},{opacity:1,x:0,duration:0.3},7.385000000000001);
-tl.fromTo("#s14-new",{opacity:0,scale:1.8},{opacity:1,scale:1,duration:0.4,ease:"expo.out"},7.485);
-tl.fromTo("#s14-r",{opacity:0,x:300},{opacity:1,x:0,duration:0.6,ease:"expo.out"},9.142);
-tl.fromTo("#s14-sv",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},9.442);
-tl.to(".F",{opacity:1},0);
-tl.to(["#s14-m","#s14-b","#s14-r"],{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"},10.447);
+tl.fromTo("#s14-m",{opacity:0,x:-300,rotation:-14},{opacity:1,x:0,rotation:-4,duration:0.7,ease:"expo.out"},0.2);
+tl.fromTo("#s14-old",{opacity:0,y:40},{opacity:1,y:0,duration:0.45,ease:"expo.out"},2.504);
+tl.fromTo("#s14-b",{opacity:0,y:300,rotation:10},{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"},3.896);
+tl.fromTo("#s14-las",{y:0},{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"},6.515);
+tl.fromTo("#s14-strike",{scaleX:0},{scaleX:1,duration:0.3,ease:"power3.out"},5.5649999999999995);
+tl.fromTo("#s14-arw",{opacity:0,x:-30},{opacity:1,x:0,duration:0.3},5.615);
+tl.fromTo("#s14-new",{opacity:0,scale:1.8},{opacity:1,scale:1,duration:0.4,ease:"expo.out"},5.715);
+tl.fromTo("#s14-r",{opacity:0,x:300},{opacity:1,x:0,duration:0.6,ease:"expo.out"},7.3149999999999995);
+tl.fromTo("#s14-sv",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},7.615);
+tl.to(["#s14-m","#s14-b","#s14-r"],{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"},8.005999999999998);
 
-          tl.set({}, {}, 10.997);
+          // camera: soft focus-pull entrance + slow breathing push for the whole scene
+          tl.fromTo("#s14-o", { opacity: 0, scale: 1.05, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
+          tl.set("#s14-o", { filter: "none" }, 0.52);
+          tl.fromTo("#s14-i", { scale: 1 }, { scale: 1.03, duration: 8.556, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 8.556);
           window.__timelines = window.__timelines || {};
           window.__timelines["s14"] = tl;
         })();
