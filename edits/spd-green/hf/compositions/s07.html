@@ -25,25 +25,27 @@
 
 const B="#s07-b", K=0.9166666666666666;
 tl.fromTo("#s07-in",{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"},{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"},0);
-tl.fromTo(B,{rotationY:1.5,rotationX:1,x:20},{rotationY:-1,rotationX:0,x:0,duration:14.843,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s07-c"),[[0,825.0,550.0],[2.591,1191.6666666666665,56.83333333333333],[4.041,1191.6666666666665,56.83333333333333],
-  [4.541,696.6666666666666,386.8333333333333],[4.6450000000000005,1008.3333333333333,348.3333333333333],[10.655,1576.6666666666665,524.3333333333333],[11.755,641.6666666666666,550.0]],
-  [[2.741,1191.6666666666665,56.83333333333333],[4.641,696.6666666666666,386.8333333333333],[10.805,1576.6666666666665,524.3333333333333]],document.getElementById("s07-c-r"));
-tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},2.6910000000000003);
-tl.to("#s07-k1",{opacity:0,duration:0.25},4.1450000000000005);
+tl.fromTo(B,{rotationY:1.5,rotationX:1,x:20},{rotationY:-1,rotationX:0,x:0,duration:14.908000000000001,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s07-c"),[[0,825.0,550.0],[1.7140000000000002,1191.6666666666665,56.83333333333333],[3.3640000000000003,1191.6666666666665,56.83333333333333],
+  [4.114000000000001,696.6666666666666,386.8333333333333],[5.114000000000001,696.6666666666666,386.8333333333333],[6.014000000000001,1008.3333333333333,348.3333333333333],[10.655,1576.6666666666665,524.3333333333333],[11.755,641.6666666666666,550.0]],
+  [[1.864,1191.6666666666665,56.83333333333333],[4.414000000000001,696.6666666666666,386.8333333333333],[10.805,1576.6666666666665,524.3333333333333]],document.getElementById("s07-c-r"));
+tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},1.564);
+tl.to("#s07-k1",{opacity:0,duration:0.3},4.564000000000001);
 // zoom to the search box, type ELKAY
-tl.to(B,{scale:1.22,transformOrigin:"78% 8%",duration:0.5,ease:"power3.inOut"},2.491);
-tl.set("#s07-sbox",{opacity:1},2.791);
-FX.type(tl,document.getElementById("s07-txt"),"ELKAY",3.091,0.55,document.getElementById("s07-car"));
+tl.to(B,{scale:1.22,transformOrigin:"78% 8%",duration:0.7,ease:"power2.inOut"},1.314);
+tl.set("#s07-sbox",{opacity:1},1.9140000000000001);
+FX.type(tl,document.getElementById("s07-txt"),"ELKAY",2.164,0.6,document.getElementById("s07-car"));
 // dropdown (s84) wipes down
-tl.set("#s07-sbox",{opacity:0},3.841);
-tl.fromTo("#s07-p84",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.45,ease:"power2.out"},3.841);
-FX.ring(tl,"#s07-hitem",4.291,0.5);
-// click -> premis page
-tl.to(B,{scale:1,duration:0.5,ease:"power3.inOut"},3.891);
-tl.fromTo("#s07-p86",{opacity:0,scale:1.04,filter:"blur(8px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.45,ease:"power2.out"},4.7410000000000005);
-tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},4.445);
-FX.ring(tl,"#s07-hprem",4.445,6.31);
+tl.set("#s07-sbox",{opacity:0},3.0140000000000002);
+tl.fromTo("#s07-p84",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"},3.0140000000000002);
+// ease the camera out a little while the list opens, so the list and the cursor stay in view
+tl.to(B,{scale:1.12,duration:0.9,ease:"power2.inOut"},3.1140000000000003);
+FX.ring(tl,"#s07-hitem",4.014000000000001,0.50);
+// click -> premis page, then a slow zoom-out
+tl.fromTo("#s07-p86",{opacity:0,scale:1.03,filter:"blur(6px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},4.564000000000001);
+tl.to(B,{scale:1,duration:1.0,ease:"power2.inOut"},4.664000000000001);
+tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},4.914000000000001);
+FX.ring(tl,"#s07-hprem",5.214,5.54);
 FX.ring(tl,"#s07-hlot",6.355,4.40);
 FX.ring(tl,"#s07-hsta",6.7,4.05);
 FX.ring(tl,"#s07-hkoo",8.191,2.56);
@@ -59,13 +61,13 @@ tl.to(B,{scale:1.12,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"},
 tl.fromTo("#s07-k3",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},12.355);
 FX.ring(tl,"#s07-hd1",12.455,0);
 FX.ring(tl,"#s07-hd2",12.655000000000001,0);
-tl.to(["#s07-k3","#s07-hd1","#s07-hd2"],{opacity:0,duration:0.3},14.892999999999999);
-tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},14.892999999999999);
+tl.to(["#s07-k3","#s07-hd1","#s07-hd2"],{opacity:0,duration:0.3},14.958);
+tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},14.958);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s07-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s07-i", { scale: 1 }, { scale: 1.03, duration: 15.293, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 15.293);
+          tl.fromTo("#s07-i", { scale: 1 }, { scale: 1.03, duration: 15.358, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 15.358);
           window.__timelines = window.__timelines || {};
           window.__timelines["s07"] = tl;
         })();

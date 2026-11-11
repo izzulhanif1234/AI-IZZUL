@@ -66,3 +66,11 @@
   chips with wipe; s19 KPIs roll. s19 `t_kos` now takes the 2nd "kos" (1st was "kosong").
 - VO v10 "Inilah impak SPD.": the separate short request (152 Hz, Whisper LID id .98) replaced by the
   in-context cut from take4/m04 9.55-11.35 s (96 Hz, same take as v09/v13). Previous file kept in vo/take5/v10_prev.*.
+
+## v6
+- s03 tiles are solid (emerald gradient, no transparency/backdrop blur); depth only by size + shade.
+- s07 search paced out: type on "pengguna", list opens, cursor glides to ELKAY and rests ~0.3 s, clicks on
+  "Rekod", page loads, 1 s zoom-out, cursor waits 0.7 s before moving to the premis panel.
+- VO tails that the line split had clipped re-cut from the source takes up to 150 ms of silence
+  (v16 "peratus" +0.35 s, v18 "M-Corp" +0.18 s, v08 +0.08 s, v07 +0.05 s; v05 runs into v06 in its take, so it
+  only gets a 60 ms fade). Previous clips in vo/pre_v6/.

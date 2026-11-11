@@ -276,9 +276,8 @@ def s03(S):
     tiles = "".join(
         f'<div class="abs s03-t" id="s03-t{i}" style="left:0;top:0;width:340px;height:120px;margin:-60px 0 0 -170px">'
         f'<div class="s03-ti" id="s03-ti{i}" style="width:100%;height:100%;border-radius:22px;display:flex;align-items:center;justify-content:center;'
-        f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.06));'
-        f'border:1.5px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 24px 60px rgba(0,0,0,.45),0 0 40px rgba(182,217,115,.18);'
-        f'backdrop-filter:blur(10px)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
+        f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(160deg,#2f8a66 0%,#1b6148 55%,#124634 100%);'
+        f'border:1.5px solid #6fbf8f;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.5),0 0 34px rgba(182,217,115,.22)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
     dots = "".join(f'<i class="abs s03-p" style="left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#d9ffb0;'
                    f'box-shadow:0 0 14px #b6d973;display:block"></i>' for _ in range(28))
     word_t = [S.w("v03", w) for _, w in items]
@@ -319,7 +318,7 @@ function place(){{
     const th=st.a+i*2*Math.PI/5, d=(Math.sin(th)+1)/2;          // d: 0 back .. 1 front
     const x=cx+RX*st.r*Math.cos(th), y=cy+RY*st.r*Math.sin(th);
     t.style.transform=`translate(${{x.toFixed(1)}}px,${{y.toFixed(1)}}px) scale(${{(0.68+0.42*d).toFixed(3)}})`;
-    t.style.zIndex=String(d>0.5?6:1); t.style.filter=`brightness(${{(0.55+0.45*d).toFixed(2)}})`; t.style.opacity=(0.55+0.45*d).toFixed(2);
+    t.style.zIndex=String(d>0.5?6:1); t.style.filter=`brightness(${{(0.72+0.28*d).toFixed(2)}})`;   // solid tiles: depth by shade + size, never transparency
   }});
   dots.forEach((p,i)=>{{
     const th=-st.a*1.6+i*2*Math.PI/dots.length, d=(Math.sin(th)+1)/2;
@@ -516,9 +515,13 @@ def s07(S):
     t_koo = S.w("v07", "koordinat")
     t_pet = S.w("v07", "peta")
     t_dok = S.w("v07", "dokumen")
-    t_type = t_taip + 0.1
-    t_drop = t_type + 0.75
-    t_pick = max(t_drop + 0.7, t_rek - 0.45)
+    # unhurried search: type on "pengguna", list opens ~"menaip", cursor glides to ELKAY and rests, clicks on "Rekod",
+    # page loads, slow zoom-out, cursor waits before moving on
+    t_pen = S.w("v07", "pengguna")
+    t_type = t_pen + 0.3
+    t_drop = t_type + 0.85
+    t_hov = t_drop + 1.1
+    t_pick = max(t_hov + 0.3, t_rek - 0.05)
     sx, sy = 1300, 62   # search box (source px)
     ix, iy = 760, 422   # dropdown item "PLOT 10"
     gx, gy = 1720, 572  # Google pin button on s86
@@ -549,24 +552,26 @@ def s07(S):
 const B="#s07-b", K={K};
 tl.fromTo("#s07-in",{{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"}},{{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},0);
 tl.fromTo(B,{{rotationY:1.5,rotationX:1,x:20}},{{rotationY:-1,rotationX:0,x:0,duration:{S.D - 0.45},ease:"sine.inOut"}},0);
-FX.cursor(tl,document.getElementById("s07-c"),[[0,{900 * K},{600 * K}],[{t_taip - 0.4},{sx * K},{sy * K}],[{t_drop + 0.2},{sx * K},{sy * K}],
-  [{t_pick},{ix * K},{iy * K}],[{t_rek + 0.2},{1100 * K},{380 * K}],[{t_pet - 0.5},{gx * K},{gy * K}],[{t_dok - 0.6},{700 * K},{600 * K}]],
-  [[{t_taip - 0.25},{sx * K},{sy * K}],[{t_pick + 0.1},{ix * K},{iy * K}],[{t_pet - 0.35},{gx * K},{gy * K}]],document.getElementById("s07-c-r"));
-tl.fromTo("#s07-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_taip - 0.3});
-tl.to("#s07-k1",{{opacity:0,duration:0.25}},{t_rek - 0.3});
+FX.cursor(tl,document.getElementById("s07-c"),[[0,{900 * K},{600 * K}],[{t_pen - 0.15},{sx * K},{sy * K}],[{t_drop + 0.35},{sx * K},{sy * K}],
+  [{t_hov},{ix * K},{iy * K}],[{t_pick + 0.7},{ix * K},{iy * K}],[{t_pick + 1.6},{1100 * K},{380 * K}],[{t_pet - 0.5},{gx * K},{gy * K}],[{t_dok - 0.6},{700 * K},{600 * K}]],
+  [[{t_pen},{sx * K},{sy * K}],[{t_pick},{ix * K},{iy * K}],[{t_pet - 0.35},{gx * K},{gy * K}]],document.getElementById("s07-c-r"));
+tl.fromTo("#s07-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_pen - 0.3});
+tl.to("#s07-k1",{{opacity:0,duration:0.3}},{t_pick + 0.15});
 // zoom to the search box, type ELKAY
-tl.to(B,{{scale:1.22,transformOrigin:"78% 8%",duration:0.5,ease:"power3.inOut"}},{t_taip - 0.5});
-tl.set("#s07-sbox",{{opacity:1}},{t_taip - 0.2});
-FX.type(tl,document.getElementById("s07-txt"),"ELKAY",{t_type},0.55,document.getElementById("s07-car"));
+tl.to(B,{{scale:1.22,transformOrigin:"78% 8%",duration:0.7,ease:"power2.inOut"}},{t_pen - 0.55});
+tl.set("#s07-sbox",{{opacity:1}},{t_pen + 0.05});
+FX.type(tl,document.getElementById("s07-txt"),"ELKAY",{t_type},0.6,document.getElementById("s07-car"));
 // dropdown (s84) wipes down
 tl.set("#s07-sbox",{{opacity:0}},{t_drop});
-tl.fromTo("#s07-p84",{{opacity:1,clipPath:"inset(0 0 100% 0)"}},{{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.45,ease:"power2.out"}},{t_drop});
-FX.ring(tl,"#s07-hitem",{t_pick - 0.25},0.5);
-// click -> premis page
-tl.to(B,{{scale:1,duration:0.5,ease:"power3.inOut"}},{t_drop + 0.05});
-tl.fromTo("#s07-p86",{{opacity:0,scale:1.04,filter:"blur(8px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.45,ease:"power2.out"}},{t_pick + 0.2});
-tl.fromTo("#s07-k2",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_rek});
-FX.ring(tl,"#s07-hprem",{t_rek},{t_pet - t_rek - 0.4:.2f});
+tl.fromTo("#s07-p84",{{opacity:1,clipPath:"inset(0 0 100% 0)"}},{{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"}},{t_drop});
+// ease the camera out a little while the list opens, so the list and the cursor stay in view
+tl.to(B,{{scale:1.12,duration:0.9,ease:"power2.inOut"}},{t_drop + 0.1});
+FX.ring(tl,"#s07-hitem",{t_hov - 0.1},{t_pick - t_hov + 0.2:.2f});
+// click -> premis page, then a slow zoom-out
+tl.fromTo("#s07-p86",{{opacity:0,scale:1.03,filter:"blur(6px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"}},{t_pick + 0.15});
+tl.to(B,{{scale:1,duration:1.0,ease:"power2.inOut"}},{t_pick + 0.25});
+tl.fromTo("#s07-k2",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_pick + 0.5});
+FX.ring(tl,"#s07-hprem",{t_pick + 0.8},{t_pet - t_pick - 1.2:.2f});
 FX.ring(tl,"#s07-hlot",{t_lot},{t_pet - t_lot - 0.4:.2f});
 FX.ring(tl,"#s07-hsta",{t_sta},{t_pet - t_sta - 0.4:.2f});
 FX.ring(tl,"#s07-hkoo",{t_koo},{t_pet - t_koo - 0.4:.2f});
