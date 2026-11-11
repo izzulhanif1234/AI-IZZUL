@@ -34,17 +34,17 @@ tl.to("#s05-wh",{opacity:0,duration:0.4},0.95);
 tl.fromTo("#s05-l",{x:-200},{x:0,duration:1.0,ease:"expo.out"},0.95);
 tl.fromTo("#s05-r",{x:200},{x:0,duration:1.0,ease:"expo.out"},0.95);
 tl.fromTo("#s05-b",{rotationY:-25,transformPerspective:1400,scale:0.9},{rotationY:-8,scale:1,duration:1.4,ease:"expo.out"},1.0);
-tl.fromTo(["#s05-tb","#s05-ta"],{opacity:0,y:-20},{opacity:1,y:0,duration:0.4,stagger:0.15},1.14);
-tl.fromTo("#s05-p1",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},4.260000000000001);
-tl.fromTo("#s05-p2",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},4.94);
-tl.fromTo("#s05-p3",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},6.640000000000001);
+tl.fromTo(["#s05-tb","#s05-ta"],{opacity:0,y:-20},{opacity:1,y:0,duration:0.4,stagger:0.15},1.136);
+tl.fromTo("#s05-p1",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},3.964);
+tl.fromTo("#s05-p2",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},4.582000000000001);
+tl.fromTo("#s05-p3",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},6.109);
 // push into the SPD screen -> next scene
-tl.to("#s05-l",{x:-1100,duration:0.6,ease:"power3.in"},7.9);
-tl.to(["#s05-seam","#s05-tb","#s05-ta",".pill"],{opacity:0,duration:0.3},7.9);
-tl.to("#s05-r",{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"},7.9);
-tl.to("#s05-b",{x:-800,y:-90,scale:1.7442,transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"},7.9);
+tl.to("#s05-l",{x:-1100,duration:0.6,ease:"power3.in"},7.300000000000001);
+tl.to(["#s05-seam","#s05-tb","#s05-ta",".pill"],{opacity:0,duration:0.3},7.300000000000001);
+tl.to("#s05-r",{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"},7.300000000000001);
+tl.to("#s05-b",{x:-800,y:-90,scale:1.7442,transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"},7.300000000000001);
 
-          tl.set({}, {}, 8.5);
+          tl.set({}, {}, 7.9);
           window.__timelines = window.__timelines || {};
           window.__timelines["s05"] = tl;
         })();

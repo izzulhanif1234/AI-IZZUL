@@ -26,6 +26,9 @@ def _syl(w):
     return max(1, len(re.findall(r"[aeiou]+", w.lower())))
 
 
+SPEED = 1.1  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
+
+
 class Line:
     def __init__(self, lid):
         self.id = lid
@@ -35,13 +38,16 @@ class Line:
             self.dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp3],
                                             capture_output=True, text=True).stdout)
             self.real = True
+            self.words = [{**w, "start": round(w["start"] / SPEED, 3), "end": round(w["end"] / SPEED, 3)} for w in self.words]
+            self.dur = round(self.dur / SPEED, 3)
         else:  # estimate: ~4.3 syllables/s, pauses at punctuation
             t, ws = 0.05, []
             for w in SCRIPT[lid].split():
-                d = _syl(w) / 4.3
+                d = _syl(w) / 5.6
                 ws.append({"start": round(t, 3), "end": round(t + d, 3), "word": w})
-                t += d + (0.35 if w[-1] in ".,?" else 0.04)
-            self.words, self.dur, self.real = ws, round(t + 0.2, 3), False
+                t += d + (0.3 if w[-1] in ".,?" else 0.03)
+            ws = [{**w, "start": round(w["start"] / SPEED, 3), "end": round(w["end"] / SPEED, 3)} for w in ws]
+            self.words, self.dur, self.real = ws, round((t + 0.2) / SPEED, 3), False
 
     def t(self, word, nth=1):
         """start time of the nth word that starts with `word` (case/punctuation-insensitive)"""
@@ -1154,24 +1160,24 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 PLAN = [  # (scene id, VO lines, kwargs)
     ("s01", ["v01"], dict(pre=MONTAGE + 0.25, post=0.6)),
     ("s02", ["v02"], dict(pre=0.5, post=0.8)),
-    ("s03", ["v03"], dict(pre=0.4, post=0.7)),
+    ("s03", ["v03"], dict(pre=0.4, post=1.5)),
     ("s04", ["v04"], dict(pre=0.3, post=1.0)),
     ("s05", ["v05"], dict(pre=1.1, post=0.8)),
-    ("s06", ["v06"], dict(pre=0.5, post=1.1)),
-    ("s07", ["v07"], dict(pre=0.4, post=0.8)),
-    ("s08", ["v08"], dict(pre=0.5, post=1.7)),
+    ("s06", ["v06"], dict(pre=0.5, post=2.4)),
+    ("s07", ["v07"], dict(pre=0.4, post=1.6)),
+    ("s08", ["v08"], dict(pre=0.5, post=2.8)),
     ("s09", ["v09"], dict(pre=0.5, post=0.7)),
     ("s10", ["v10"], dict(pre=0.3, post=0.9)),
-    ("s11", ["v11"], dict(pre=0.5, post=0.8)),
+    ("s11", ["v11"], dict(pre=0.5, post=1.5)),
     ("s12", ["v12"], dict(pre=0.6, post=0.7)),
-    ("s13", ["v13"], dict(pre=0.5, post=0.9)),
+    ("s13", ["v13"], dict(pre=0.5, post=1.6)),
     ("s14", ["v14"], dict(pre=0.4, post=1.0)),
-    ("s15", ["v15"], dict(pre=0.5, post=1.2)),
-    ("s16", ["v16"], dict(pre=0.4, post=1.0)),
+    ("s15", ["v15"], dict(pre=0.5, post=2.0)),
+    ("s16", ["v16"], dict(pre=0.4, post=1.6)),
     ("s17", ["v17"], dict(pre=0.4, post=0.9)),
     ("s18", ["v18"], dict(pre=0.5, post=0.9)),
-    ("s19", ["v19"], dict(pre=0.6, post=1.4)),
-    ("s20", ["v20"], dict(pre=1.0, post=3.0)),
+    ("s19", ["v19"], dict(pre=0.6, post=3.6)),
+    ("s20", ["v20"], dict(pre=1.0, post=3.6)),
 ]
 
 TEMPLATE = """<!doctype html>
@@ -1287,7 +1293,7 @@ def write_index(scenes, total, audio_extra=""):
         mounts.append(f'      <div id="m-{S.id}" data-composition-id="{S.id}" data-composition-src="compositions/{S.id}.html" data-start="{S.start}" '
                       f'data-duration="{S.D}" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>')
         for k, (ln, at) in enumerate(S.lines):
-            if ln.real:
+            if ln.real and os.environ.get("SPD_VO"):
                 audio.append(f'      <audio id="vo-{ln.id}" src="assets/vo/{ln.id}.mp3" data-start="{round(S.start + at, 3)}" data-duration="{ln.dur:.3f}" '
                              f'data-track-index="{20 + k % 2}" data-volume="1" data-fade-out="0.12"></audio>')
     open(f"{HF}/compositions/badge.html", "w").write(BADGE.format(D=total))

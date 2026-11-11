@@ -23,46 +23,46 @@
 
 const B="#s07-b", K=0.78125;
 tl.fromTo("#s07-in",{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"},{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"},0);
-tl.fromTo(B,{rotationY:6,rotationX:4,x:80},{rotationY:-3,rotationX:2,x:0,duration:13.062000000000001,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s07-c"),[[0,703.125,468.75],[2.24,1015.625,48.4375],[3.9400000000000004,1015.625,48.4375],
-  [3.3499999999999996,593.75,329.6875],[4.1,859.375,296.875],[9.62,1343.75,446.875],[10.24,546.875,468.75]],
-  [[2.39,1015.625,48.4375],[3.4499999999999997,593.75,329.6875],[9.77,1343.75,446.875]],document.getElementById("s07-c-r"));
-tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},2.3400000000000003);
-tl.to("#s07-k1",{opacity:0,duration:0.25},3.6);
+tl.fromTo(B,{rotationY:6,rotationX:4,x:80},{rotationY:-3,rotationX:2,x:0,duration:12.743,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s07-c"),[[0,703.125,468.75],[2.036,1015.625,48.4375],[3.7359999999999998,1015.625,48.4375],
+  [3.032,593.75,329.6875],[3.782,859.375,296.875],[8.736,1343.75,446.875],[9.291,546.875,468.75]],
+  [[2.186,1015.625,48.4375],[3.132,593.75,329.6875],[8.886000000000001,1343.75,446.875]],document.getElementById("s07-c-r"));
+tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},2.136);
+tl.to("#s07-k1",{opacity:0,duration:0.25},3.282);
 // zoom to the search box, type ELKAY
-tl.to(B,{scale:1.5,transformOrigin:"78% 10%",duration:0.6,ease:"power3.inOut"},2.04);
-tl.set("#s07-sbox",{opacity:1},2.44);
-FX.type(tl,document.getElementById("s07-txt"),"ELKAY",2.79,0.7,document.getElementById("s07-car"));
+tl.to(B,{scale:1.5,transformOrigin:"78% 10%",duration:0.6,ease:"power3.inOut"},1.8359999999999999);
+tl.set("#s07-sbox",{opacity:1},2.2359999999999998);
+FX.type(tl,document.getElementById("s07-txt"),"ELKAY",2.586,0.7,document.getElementById("s07-car"));
 // dropdown (s84) wipes down
-tl.set("#s07-sbox",{opacity:0},3.74);
-tl.fromTo("#s07-p84",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.45,ease:"power2.out"},3.74);
-tl.to(B,{scale:1.25,transformOrigin:"40% 25%",duration:0.6,ease:"power3.inOut"},3.8400000000000003);
-FX.ring(tl,"#s07-hitem",3.0999999999999996,0.5);
+tl.set("#s07-sbox",{opacity:0},3.5359999999999996);
+tl.fromTo("#s07-p84",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.45,ease:"power2.out"},3.5359999999999996);
+tl.to(B,{scale:1.25,transformOrigin:"40% 25%",duration:0.6,ease:"power3.inOut"},3.6359999999999997);
+FX.ring(tl,"#s07-hitem",2.782,0.5);
 // click -> premis page
-tl.to(B,{scale:1,duration:0.6,ease:"power3.inOut"},3.4999999999999996);
-tl.fromTo("#s07-p86",{opacity:0,scale:1.04,filter:"blur(8px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.45,ease:"power2.out"},3.55);
-tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.9);
-FX.ring(tl,"#s07-hprem",3.9,5.82);
-FX.ring(tl,"#s07-hlot",5.22,4.50);
-FX.ring(tl,"#s07-hsta",5.76,3.96);
-FX.ring(tl,"#s07-hkoo",7.1,2.62);
-tl.to("#s07-k2",{opacity:0,duration:0.25},9.719999999999999);
-FX.ring(tl,"#s07-hpin",9.52,0.6);
+tl.to(B,{scale:1,duration:0.6,ease:"power3.inOut"},3.182);
+tl.fromTo("#s07-p86",{opacity:0,scale:1.04,filter:"blur(8px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.45,ease:"power2.out"},3.232);
+tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.582);
+FX.ring(tl,"#s07-hprem",3.582,5.25);
+FX.ring(tl,"#s07-hlot",4.782,4.05);
+FX.ring(tl,"#s07-hsta",5.273,3.56);
+FX.ring(tl,"#s07-hkoo",6.491,2.35);
+tl.to("#s07-k2",{opacity:0,duration:0.25},8.836);
+FX.ring(tl,"#s07-hpin",8.636000000000001,0.6);
 // Google map window pops out of the pin button
-tl.fromTo("#s07-gw",{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,transformPerspective:1600},{opacity:1,scale:1,x:0,y:0,rotationY:-10,duration:0.6,ease:"back.out(1.4)"},9.92);
-tl.fromTo("#s07-pin",{opacity:1,scale:0.3},{opacity:0,scale:2.2,duration:0.8,repeat:2,ease:"power2.out"},10.42);
-tl.to("#s07-gw",{x:480,y:300,scale:0.5,rotationY:-18,duration:0.6,ease:"power3.inOut"},10.569999999999999);
-tl.to("#s07-gw",{opacity:0,x:900,duration:0.35,ease:"power3.in"},13.112);
+tl.fromTo("#s07-gw",{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,transformPerspective:1600},{opacity:1,scale:1,x:0,y:0,rotationY:-10,duration:0.6,ease:"back.out(1.4)"},9.036000000000001);
+tl.fromTo("#s07-pin",{opacity:1,scale:0.3},{opacity:0,scale:2.2,duration:0.8,repeat:2,ease:"power2.out"},9.536000000000001);
+tl.to("#s07-gw",{x:480,y:300,scale:0.5,rotationY:-18,duration:0.6,ease:"power3.inOut"},9.686);
+tl.to("#s07-gw",{opacity:0,x:900,duration:0.35,ease:"power3.in"},12.793);
 // documents (s89)
-tl.fromTo("#s07-p89",{opacity:0,y:400,filter:"blur(6px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.55,ease:"power3.out"},10.34);
-tl.to(B,{scale:1.32,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"},10.64);
-tl.fromTo("#s07-k3",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},10.84);
-FX.ring(tl,"#s07-hd1",10.94,0);
-FX.ring(tl,"#s07-hd2",11.14,0);
-tl.to(["#s07-k3","#s07-hd1","#s07-hd2"],{opacity:0,duration:0.3},13.112);
-tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},13.112);
+tl.fromTo("#s07-p89",{opacity:0,y:400,filter:"blur(6px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.391);
+tl.to(B,{scale:1.32,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"},9.691);
+tl.fromTo("#s07-k3",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},9.891);
+FX.ring(tl,"#s07-hd1",9.991,0);
+FX.ring(tl,"#s07-hd2",10.191,0);
+tl.to(["#s07-k3","#s07-hd1","#s07-hd2"],{opacity:0,duration:0.3},12.793);
+tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},12.793);
 
-          tl.set({}, {}, 13.512);
+          tl.set({}, {}, 13.193);
           window.__timelines = window.__timelines || {};
           window.__timelines["s07"] = tl;
         })();

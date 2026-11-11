@@ -673,8 +673,10 @@ def main():
     vo = Track(dur)
     for S in sc:
         for ln, at in S.lines:
-            if ln.real:
-                vo.add(S.start + at, load(f"{B.HF}/assets/vo/{ln.id}.mp3"), 1.0)
+            if ln.real and os.environ.get("SPD_VO"):  # VO is added later (atempo SPEED to match the plan)
+                v = subprocess.run(["ffmpeg", "-v", "error", "-i", f"{B.HF}/assets/vo/{ln.id}.mp3", "-af", f"atempo={B.SPEED}",
+                                    "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
+                vo.add(S.start + at, np.frombuffer(v, np.float32).reshape(-1, 2).astype(np.float64), 1.0)
     dlg = load(f"{B.HF}/assets/vo/dlg_s01.wav", 1.0)
     vo.add(s01.start + B.CUTS[-1], dlg, 1.0)
     voice = vo.y
