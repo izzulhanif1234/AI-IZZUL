@@ -276,8 +276,9 @@ def s03(S):
     tiles = "".join(
         f'<div class="abs s03-t" id="s03-t{i}" style="left:0;top:0;width:340px;height:120px;margin:-60px 0 0 -170px">'
         f'<div class="s03-ti" id="s03-ti{i}" style="width:100%;height:100%;border-radius:22px;display:flex;align-items:center;justify-content:center;'
-        f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(160deg,#2f8a66 0%,#1b6148 55%,#124634 100%);'
-        f'border:1.5px solid #6fbf8f;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.5),0 0 34px rgba(182,217,115,.22)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
+        f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(160deg,rgba(47,138,102,.84) 0%,rgba(27,97,72,.80) 55%,rgba(18,70,52,.82) 100%);'
+        f'border:1.5px solid rgba(140,214,170,.75);text-shadow:0 2px 8px rgba(0,0,0,.55);'
+        f'box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45),0 0 34px rgba(182,217,115,.2)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
     dots = "".join(f'<i class="abs s03-p" style="left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#d9ffb0;'
                    f'box-shadow:0 0 14px #b6d973;display:block"></i>' for _ in range(28))
     word_t = [S.w("v03", w) for _, w in items]
