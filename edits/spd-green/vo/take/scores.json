@@ -1,0 +1,93 @@
+{
+ "c01_t1.wav": {
+  "match": 0.904,
+  "pitch": 114,
+  "range": 102,
+  "dur": 31.2,
+  "sps": 3.88
+ },
+ "c01_t2.wav": {
+  "match": 0.854,
+  "pitch": 120,
+  "range": 122,
+  "dur": 31.1,
+  "sps": 3.9
+ },
+ "c01_t3.wav": {
+  "match": 0.885,
+  "pitch": 133,
+  "range": 97,
+  "dur": 30.4,
+  "sps": 3.98
+ },
+ "c02_t1.wav": {
+  "match": 0.8,
+  "pitch": 114,
+  "range": 122,
+  "dur": 22.4,
+  "sps": 4.28
+ },
+ "c02_t3.wav": {
+  "match": 0.894,
+  "pitch": 108,
+  "range": 99,
+  "dur": 23.4,
+  "sps": 4.11
+ },
+ "c03_t1.wav": {
+  "match": 0.821,
+  "pitch": 118,
+  "range": 140,
+  "dur": 23.3,
+  "sps": 4.9
+ },
+ "c03_t2.wav": {
+  "match": 0.811,
+  "pitch": 107,
+  "range": 119,
+  "dur": 24.4,
+  "sps": 4.68
+ },
+ "c03_t3.wav": {
+  "match": 0.829,
+  "pitch": 111,
+  "range": 114,
+  "dur": 25.8,
+  "sps": 4.42
+ },
+ "c04_t1.wav": {
+  "match": 0.773,
+  "pitch": 181,
+  "range": 126,
+  "dur": 27.3,
+  "sps": 3.89
+ },
+ "c04_t2.wav": {
+  "match": 0.773,
+  "pitch": 106,
+  "range": 109,
+  "dur": 24.7,
+  "sps": 4.29
+ },
+ "c04_t3.wav": {
+  "match": 0.742,
+  "pitch": 109,
+  "range": 128,
+  "dur": 22.5,
+  "sps": 4.7
+ },
+ "c08_t1.wav": {
+  "match": 0.796,
+  "pitch": 103,
+  "range": 97,
+  "dur": 24.6,
+  "sps": 4.11
+ },
+ "c08_t3.wav": {
+  "match": 0.874,
+  "pitch": 100,
+  "range": 83,
+  "dur": 26.9,
+  "sps": 3.75
+ }
+}

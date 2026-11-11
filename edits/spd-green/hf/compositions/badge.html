@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="badge" data-width="1920" data-height="1080" style="position:absolute;inset:0;pointer-events:none">
+        <div id="bd-stage" style="position:absolute;right:36px;top:26px;width:132px;height:88px;perspective:700px">
+          <div id="bd-card" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d">
+            <img src="assets/img/logo-pptx.png" alt="MCORP Perbadanan Melaka" style="width:132px;height:88px;display:block;
+              filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 6px 10px rgba(0,0,0,.45))" />
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const D = 269.734;
+          const card = document.getElementById("bd-card");
+          const stage = document.getElementById("bd-stage");
+          const SWING = 28, PERIOD = 4.2; // swings left-right, never a full spin
+          function render(t) {
+            const ph = (2 * Math.PI * t) / PERIOD;
+            card.style.transform = `rotateY(${(SWING * Math.sin(ph)).toFixed(2)}deg) rotateX(${(6 * Math.sin(ph * 0.5 + 1.2)).toFixed(2)}deg)`;
+            stage.style.opacity = Math.min(1, t / 0.6).toFixed(3);
+          }
+          const clock = { t: 0 };
+          const tl = gsap.timeline({ paused: true });
+          tl.to(clock, { t: D, duration: D, ease: "none", onUpdate: () => render(clock.t) }, 0);
+          render(0);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["badge"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

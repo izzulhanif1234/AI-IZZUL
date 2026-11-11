@@ -1,0 +1,362 @@
+{
+ "language": "ms",
+ "language_probability": 0.9988196492195129,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 12.94,
+   "text": "Sebaik lok masuk, papan permuka utama memaparkan taburan premis dan tanah milik M-Corp di seluruh Melaka bersama ringkasan aset alih, aset tak alih, sewaan dan stor dalam satu paparan.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.74,
+     "word": "Sebaik",
+     "p": 1.0
+    },
+    {
+     "start": 0.74,
+     "end": 0.86,
+     "word": "lok",
+     "p": 0.44
+    },
+    {
+     "start": 0.86,
+     "end": 1.14,
+     "word": "masuk,",
+     "p": 0.96
+    },
+    {
+     "start": 1.42,
+     "end": 1.92,
+     "word": "papan",
+     "p": 0.91
+    },
+    {
+     "start": 1.92,
+     "end": 2.3,
+     "word": "permuka",
+     "p": 1.0
+    },
+    {
+     "start": 2.3,
+     "end": 2.78,
+     "word": "utama",
+     "p": 1.0
+    },
+    {
+     "start": 2.78,
+     "end": 3.32,
+     "word": "memaparkan",
+     "p": 1.0
+    },
+    {
+     "start": 3.32,
+     "end": 3.94,
+     "word": "taburan",
+     "p": 1.0
+    },
+    {
+     "start": 3.94,
+     "end": 4.44,
+     "word": "premis",
+     "p": 0.98
+    },
+    {
+     "start": 4.44,
+     "end": 4.58,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 4.58,
+     "end": 5.06,
+     "word": "tanah",
+     "p": 1.0
+    },
+    {
+     "start": 5.06,
+     "end": 5.42,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 5.42,
+     "end": 5.62,
+     "word": "M",
+     "p": 0.52
+    },
+    {
+     "start": 5.62,
+     "end": 5.84,
+     "word": "-Corp",
+     "p": 0.91
+    },
+    {
+     "start": 5.84,
+     "end": 6.0,
+     "word": "di",
+     "p": 1.0
+    },
+    {
+     "start": 6.0,
+     "end": 6.54,
+     "word": "seluruh",
+     "p": 1.0
+    },
+    {
+     "start": 6.54,
+     "end": 6.9,
+     "word": "Melaka",
+     "p": 1.0
+    },
+    {
+     "start": 6.9,
+     "end": 7.72,
+     "word": "bersama",
+     "p": 0.98
+    },
+    {
+     "start": 7.72,
+     "end": 8.32,
+     "word": "ringkasan",
+     "p": 1.0
+    },
+    {
+     "start": 8.32,
+     "end": 8.7,
+     "word": "aset",
+     "p": 0.99
+    },
+    {
+     "start": 8.7,
+     "end": 9.06,
+     "word": "alih,",
+     "p": 0.9
+    },
+    {
+     "start": 9.12,
+     "end": 9.68,
+     "word": "aset",
+     "p": 1.0
+    },
+    {
+     "start": 9.68,
+     "end": 9.78,
+     "word": "tak",
+     "p": 0.99
+    },
+    {
+     "start": 9.78,
+     "end": 10.18,
+     "word": "alih,",
+     "p": 0.99
+    },
+    {
+     "start": 10.24,
+     "end": 10.96,
+     "word": "sewaan",
+     "p": 0.99
+    },
+    {
+     "start": 10.96,
+     "end": 11.04,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 11.04,
+     "end": 11.44,
+     "word": "stor",
+     "p": 0.95
+    },
+    {
+     "start": 11.44,
+     "end": 11.94,
+     "word": "dalam",
+     "p": 1.0
+    },
+    {
+     "start": 11.94,
+     "end": 12.48,
+     "word": "satu",
+     "p": 1.0
+    },
+    {
+     "start": 12.48,
+     "end": 12.94,
+     "word": "paparan.",
+     "p": 0.97
+    }
+   ]
+  },
+  {
+   "start": 13.38,
+   "end": 25.26,
+   "text": "Untuk aset tak alih, cukup taip nama lokasi. Rekod premis, lot, status hak milik dan koordinat dipaparkan serta-merta, lengkap dengan peta dan dokumen hak milik digital.",
+   "words": [
+    {
+     "start": 13.38,
+     "end": 14.14,
+     "word": "Untuk",
+     "p": 1.0
+    },
+    {
+     "start": 14.14,
+     "end": 14.46,
+     "word": "aset",
+     "p": 1.0
+    },
+    {
+     "start": 14.46,
+     "end": 14.58,
+     "word": "tak",
+     "p": 1.0
+    },
+    {
+     "start": 14.58,
+     "end": 14.96,
+     "word": "alih,",
+     "p": 1.0
+    },
+    {
+     "start": 14.98,
+     "end": 15.58,
+     "word": "cukup",
+     "p": 1.0
+    },
+    {
+     "start": 15.58,
+     "end": 15.86,
+     "word": "taip",
+     "p": 0.78
+    },
+    {
+     "start": 15.86,
+     "end": 16.08,
+     "word": "nama",
+     "p": 1.0
+    },
+    {
+     "start": 16.08,
+     "end": 16.58,
+     "word": "lokasi.",
+     "p": 1.0
+    },
+    {
+     "start": 16.84,
+     "end": 17.6,
+     "word": "Rekod",
+     "p": 1.0
+    },
+    {
+     "start": 17.6,
+     "end": 18.14,
+     "word": "premis,",
+     "p": 1.0
+    },
+    {
+     "start": 18.16,
+     "end": 18.5,
+     "word": "lot,",
+     "p": 1.0
+    },
+    {
+     "start": 18.7,
+     "end": 19.12,
+     "word": "status",
+     "p": 1.0
+    },
+    {
+     "start": 19.12,
+     "end": 19.36,
+     "word": "hak",
+     "p": 1.0
+    },
+    {
+     "start": 19.36,
+     "end": 19.78,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 19.78,
+     "end": 20.04,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 20.04,
+     "end": 20.68,
+     "word": "koordinat",
+     "p": 1.0
+    },
+    {
+     "start": 20.68,
+     "end": 21.28,
+     "word": "dipaparkan",
+     "p": 1.0
+    },
+    {
+     "start": 21.28,
+     "end": 21.8,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 21.8,
+     "end": 22.0,
+     "word": "-merta,",
+     "p": 0.82
+    },
+    {
+     "start": 22.22,
+     "end": 22.92,
+     "word": "lengkap",
+     "p": 1.0
+    },
+    {
+     "start": 22.92,
+     "end": 23.06,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 23.06,
+     "end": 23.58,
+     "word": "peta",
+     "p": 1.0
+    },
+    {
+     "start": 23.58,
+     "end": 23.78,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 23.78,
+     "end": 24.42,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 24.42,
+     "end": 24.64,
+     "word": "hak",
+     "p": 1.0
+    },
+    {
+     "start": 24.64,
+     "end": 25.02,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 25.02,
+     "end": 25.26,
+     "word": "digital.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,338 @@
+{
+ "language": "ms",
+ "language_probability": 0.9980127811431885,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 3.18,
+   "text": "Aset alih direkod dan disemak menggunakan barcode.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.48,
+     "word": "Aset",
+     "p": 0.97
+    },
+    {
+     "start": 0.48,
+     "end": 0.8,
+     "word": "alih",
+     "p": 0.96
+    },
+    {
+     "start": 0.8,
+     "end": 1.42,
+     "word": "direkod",
+     "p": 1.0
+    },
+    {
+     "start": 1.42,
+     "end": 1.6,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 1.6,
+     "end": 2.1,
+     "word": "disemak",
+     "p": 1.0
+    },
+    {
+     "start": 2.1,
+     "end": 2.76,
+     "word": "menggunakan",
+     "p": 1.0
+    },
+    {
+     "start": 2.76,
+     "end": 3.18,
+     "word": "barcode.",
+     "p": 0.93
+    }
+   ]
+  },
+  {
+   "start": 3.5,
+   "end": 7.04,
+   "text": "Pengurusan stor memantau permohonan serta baki stok.",
+   "words": [
+    {
+     "start": 3.5,
+     "end": 4.34,
+     "word": "Pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 4.34,
+     "end": 4.64,
+     "word": "stor",
+     "p": 0.92
+    },
+    {
+     "start": 4.64,
+     "end": 5.3,
+     "word": "memantau",
+     "p": 1.0
+    },
+    {
+     "start": 5.3,
+     "end": 5.92,
+     "word": "permohonan",
+     "p": 1.0
+    },
+    {
+     "start": 5.92,
+     "end": 6.38,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 6.38,
+     "end": 6.74,
+     "word": "baki",
+     "p": 0.96
+    },
+    {
+     "start": 6.74,
+     "end": 7.04,
+     "word": "stok.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 7.78,
+   "end": 10.4,
+   "text": "Modal insan menyimpan rekod kaki tangan dan latihan,",
+   "words": [
+    {
+     "start": 7.6,
+     "end": 8.02,
+     "word": "Modal",
+     "p": 0.99
+    },
+    {
+     "start": 8.02,
+     "end": 8.2,
+     "word": "insan",
+     "p": 0.95
+    },
+    {
+     "start": 8.2,
+     "end": 8.8,
+     "word": "menyimpan",
+     "p": 1.0
+    },
+    {
+     "start": 8.8,
+     "end": 9.18,
+     "word": "rekod",
+     "p": 1.0
+    },
+    {
+     "start": 9.18,
+     "end": 9.38,
+     "word": "kaki",
+     "p": 0.92
+    },
+    {
+     "start": 9.38,
+     "end": 9.8,
+     "word": "tangan",
+     "p": 1.0
+    },
+    {
+     "start": 9.8,
+     "end": 9.98,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 9.98,
+     "end": 10.4,
+     "word": "latihan,",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 11.26,
+   "end": 13.38,
+   "text": "manakala pentadbiran mengawal capaian sistem.",
+   "words": [
+    {
+     "start": 11.16,
+     "end": 11.58,
+     "word": "manakala",
+     "p": 1.0
+    },
+    {
+     "start": 11.58,
+     "end": 12.18,
+     "word": "pentadbiran",
+     "p": 1.0
+    },
+    {
+     "start": 12.18,
+     "end": 12.68,
+     "word": "mengawal",
+     "p": 1.0
+    },
+    {
+     "start": 12.68,
+     "end": 13.1,
+     "word": "capaian",
+     "p": 1.0
+    },
+    {
+     "start": 13.1,
+     "end": 13.38,
+     "word": "sistem.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 14.46,
+   "end": 16.48,
+   "text": "Setiap komponen membawa impak hijau,",
+   "words": [
+    {
+     "start": 14.36,
+     "end": 14.78,
+     "word": "Setiap",
+     "p": 1.0
+    },
+    {
+     "start": 14.78,
+     "end": 15.16,
+     "word": "komponen",
+     "p": 1.0
+    },
+    {
+     "start": 15.16,
+     "end": 15.72,
+     "word": "membawa",
+     "p": 1.0
+    },
+    {
+     "start": 15.72,
+     "end": 16.06,
+     "word": "impak",
+     "p": 0.99
+    },
+    {
+     "start": 16.06,
+     "end": 16.48,
+     "word": "hijau,",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 16.54,
+   "end": 19.22,
+   "text": "kurang dokumen fizikal, kurang cetakan,",
+   "words": [
+    {
+     "start": 16.54,
+     "end": 17.22,
+     "word": "kurang",
+     "p": 1.0
+    },
+    {
+     "start": 17.22,
+     "end": 17.58,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 17.58,
+     "end": 18.06,
+     "word": "fizikal,",
+     "p": 1.0
+    },
+    {
+     "start": 18.24,
+     "end": 18.86,
+     "word": "kurang",
+     "p": 1.0
+    },
+    {
+     "start": 18.86,
+     "end": 19.22,
+     "word": "cetakan,",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 19.46,
+   "end": 22.0,
+   "text": "kurang fail dan kurang ruang arkif.",
+   "words": [
+    {
+     "start": 19.46,
+     "end": 20.06,
+     "word": "kurang",
+     "p": 1.0
+    },
+    {
+     "start": 20.06,
+     "end": 20.28,
+     "word": "fail",
+     "p": 0.94
+    },
+    {
+     "start": 20.28,
+     "end": 20.76,
+     "word": "dan",
+     "p": 0.98
+    },
+    {
+     "start": 20.76,
+     "end": 21.24,
+     "word": "kurang",
+     "p": 1.0
+    },
+    {
+     "start": 21.24,
+     "end": 21.52,
+     "word": "ruang",
+     "p": 1.0
+    },
+    {
+     "start": 21.52,
+     "end": 22.0,
+     "word": "arkif.",
+     "p": 0.99
+    }
+   ]
+  },
+  {
+   "start": 22.74,
+   "end": 24.06,
+   "text": "Inilah impak SPD.",
+   "words": [
+    {
+     "start": 22.46,
+     "end": 22.88,
+     "word": "Inilah",
+     "p": 1.0
+    },
+    {
+     "start": 22.88,
+     "end": 23.68,
+     "word": "impak",
+     "p": 0.89
+    },
+    {
+     "start": 23.68,
+     "end": 24.06,
+     "word": "SPD.",
+     "p": 0.99
+    }
+   ]
+  }
+ ]
+}

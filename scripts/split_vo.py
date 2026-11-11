@@ -6,7 +6,9 @@ import numpy as np
 
 take, wj, orderf, sdir, out = sys.argv[1:6]
 order = json.load(open(orderf))
-script = {l["id"]: l["text"] for f in ("script.json", "team.json", "close.json") for l in json.load(open(f"{sdir}/{f}"))}
+import os as _os
+_files = [sdir] if _os.path.isfile(sdir) else [f"{sdir}/{f}" for f in ("script.json", "team.json", "close.json")]
+script = {l["id"]: l["text"] for f in _files for l in json.load(open(f))}
 NUM = {"seratus": "100", "sepuluh": "10"}
 
 

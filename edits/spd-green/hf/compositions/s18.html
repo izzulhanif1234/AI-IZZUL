@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="s18" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+
+<div class="F" style="background:linear-gradient(120deg,#F5F2EA,#E9F2E7)">
+  <div class="shot" id="s18-c" style="left:200px;top:120px;width:560px;height:762px;border-radius:6px"><img src="assets/img/copyright.png" style="object-fit:contain;background:#fff"></div>
+  <div id="s18-seal" class="abs" style="left:600px;top:700px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#d43a3a,#8E1B33 70%);
+    box-shadow:0 20px 40px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;text-align:center;font:800 30px/1.2 'JetBrains Mono';color:#ffd9d9">HAK<br>CIPTA</div>
+  <div class="abs" style="left:960px;top:250px;width:820px;color:#0B2E22">
+    <div class="kicker" style="color:#26745A">KELANGSUNGAN · PENGIKTIRAFAN</div>
+    <div class="h1" style="font-size:84px;margin-top:16px"><span class="kw s18-h"><span>Diiktiraf.</span></span> <span class="kw s18-h"><span>Diguna</span></span> <span class="kw s18-h"><span>pakai</span></span> <span class="kw s18-h"><span>sepenuhnya.</span></span></div>
+    <div id="s18-a" style="margin-top:40px;background:#fff;border-left:10px solid #165A44;border-radius:16px;padding:26px 30px;font:600 32px/1.35 'Plus Jakarta Sans';color:#2b3a33">
+      Sijil Pemberitahuan Hak Cipta<br><b style="color:#165A44">2 Mac 2020</b></div>
+    <div id="s18-b" style="margin-top:20px;background:#fff;border-left:10px solid #B6D973;border-radius:16px;padding:26px 30px;font:600 32px/1.35 'Plus Jakarta Sans';color:#2b3a33">
+      Platform utama pengurusan data MCORP</div>
+  </div>
+</div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const FX = window.SPDFX;
+
+tl.fromTo("#s18-c",{opacity:0,x:-500,rotation:-25},{opacity:1,x:0,rotation:-5,duration:0.8,ease:"expo.out"},0.15);
+FX.words(tl,".s18-h > span",1.4000000000000001,0.07);
+tl.fromTo("#s18-seal",{opacity:0,scale:3,rotation:-60},{opacity:1,scale:1,rotation:-12,duration:0.3,ease:"power4.in"},1.7000000000000002);
+tl.fromTo("#s18-c",{x:0},{x:6,duration:0.05,yoyo:true,repeat:3,immediateRender:false},2.0);
+tl.fromTo("#s18-a",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},3.4000000000000004);
+tl.fromTo("#s18-b",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},5.96);
+tl.to(".F > *",{opacity:0,duration:0.4},9.735999999999999);
+
+          tl.set({}, {}, 10.136);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["s18"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

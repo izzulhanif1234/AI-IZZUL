@@ -1,0 +1,278 @@
+{
+ "language": "ms",
+ "language_probability": 0.9566648006439209,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 16.16,
+   "text": "Sebelum SPD, pengurusan data berdepan enam cabaran, penggunaan kertas yang tinggi, ruang simpanan fizikal yang besar, pertindihan data, carian maklumat yang lambat, risiko kehilangan dokumen dan kos operasi yang tinggi.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.7,
+     "word": "Sebelum",
+     "p": 1.0
+    },
+    {
+     "start": 0.7,
+     "end": 0.98,
+     "word": "SPD,",
+     "p": 0.99
+    },
+    {
+     "start": 1.38,
+     "end": 2.12,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 2.12,
+     "end": 2.38,
+     "word": "data",
+     "p": 1.0
+    },
+    {
+     "start": 2.38,
+     "end": 3.04,
+     "word": "berdepan",
+     "p": 1.0
+    },
+    {
+     "start": 3.04,
+     "end": 3.26,
+     "word": "enam",
+     "p": 0.82
+    },
+    {
+     "start": 3.26,
+     "end": 3.84,
+     "word": "cabaran,",
+     "p": 1.0
+    },
+    {
+     "start": 3.96,
+     "end": 4.94,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 4.94,
+     "end": 5.28,
+     "word": "kertas",
+     "p": 1.0
+    },
+    {
+     "start": 5.28,
+     "end": 5.52,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 5.52,
+     "end": 6.0,
+     "word": "tinggi,",
+     "p": 1.0
+    },
+    {
+     "start": 6.08,
+     "end": 6.88,
+     "word": "ruang",
+     "p": 1.0
+    },
+    {
+     "start": 6.88,
+     "end": 7.34,
+     "word": "simpanan",
+     "p": 1.0
+    },
+    {
+     "start": 7.34,
+     "end": 7.74,
+     "word": "fizikal",
+     "p": 0.98
+    },
+    {
+     "start": 7.74,
+     "end": 7.98,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 7.98,
+     "end": 8.24,
+     "word": "besar,",
+     "p": 1.0
+    },
+    {
+     "start": 8.6,
+     "end": 9.44,
+     "word": "pertindihan",
+     "p": 0.99
+    },
+    {
+     "start": 9.44,
+     "end": 9.76,
+     "word": "data,",
+     "p": 1.0
+    },
+    {
+     "start": 10.14,
+     "end": 10.86,
+     "word": "carian",
+     "p": 1.0
+    },
+    {
+     "start": 10.86,
+     "end": 11.4,
+     "word": "maklumat",
+     "p": 1.0
+    },
+    {
+     "start": 11.4,
+     "end": 11.54,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 11.54,
+     "end": 12.02,
+     "word": "lambat,",
+     "p": 1.0
+    },
+    {
+     "start": 12.08,
+     "end": 12.98,
+     "word": "risiko",
+     "p": 0.97
+    },
+    {
+     "start": 12.98,
+     "end": 13.5,
+     "word": "kehilangan",
+     "p": 1.0
+    },
+    {
+     "start": 13.5,
+     "end": 14.02,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 14.02,
+     "end": 14.62,
+     "word": "dan",
+     "p": 0.53
+    },
+    {
+     "start": 14.62,
+     "end": 14.96,
+     "word": "kos",
+     "p": 1.0
+    },
+    {
+     "start": 14.96,
+     "end": 15.58,
+     "word": "operasi",
+     "p": 1.0
+    },
+    {
+     "start": 15.58,
+     "end": 15.76,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 15.76,
+     "end": 16.16,
+     "word": "tinggi.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 17.16,
+   "end": 23.08,
+   "text": "Hari ini, fail fizikal digantikan dengan data berpusat, atas talian dan lebih cekap.",
+   "words": [
+    {
+     "start": 16.84,
+     "end": 17.24,
+     "word": "Hari",
+     "p": 1.0
+    },
+    {
+     "start": 17.24,
+     "end": 17.54,
+     "word": "ini,",
+     "p": 1.0
+    },
+    {
+     "start": 17.7,
+     "end": 18.4,
+     "word": "fail",
+     "p": 0.81
+    },
+    {
+     "start": 18.4,
+     "end": 18.88,
+     "word": "fizikal",
+     "p": 1.0
+    },
+    {
+     "start": 18.88,
+     "end": 19.5,
+     "word": "digantikan",
+     "p": 1.0
+    },
+    {
+     "start": 19.5,
+     "end": 19.74,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 19.74,
+     "end": 20.06,
+     "word": "data",
+     "p": 1.0
+    },
+    {
+     "start": 20.06,
+     "end": 20.74,
+     "word": "berpusat,",
+     "p": 1.0
+    },
+    {
+     "start": 20.74,
+     "end": 21.48,
+     "word": "atas",
+     "p": 1.0
+    },
+    {
+     "start": 21.48,
+     "end": 21.84,
+     "word": "talian",
+     "p": 1.0
+    },
+    {
+     "start": 21.84,
+     "end": 22.12,
+     "word": "dan",
+     "p": 0.96
+    },
+    {
+     "start": 22.12,
+     "end": 22.64,
+     "word": "lebih",
+     "p": 1.0
+    },
+    {
+     "start": 22.64,
+     "end": 23.08,
+     "word": "cekap.",
+     "p": 0.99
+    }
+   ]
+  }
+ ]
+}

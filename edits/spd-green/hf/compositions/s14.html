@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="s14" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+
+<div class="F" style="background:#081310">
+  <div class="kicker abs" style="left:120px;top:90px">PRODUKTIVITI · SEMAKAN ASET ALIH</div>
+  <div class="shot" id="s14-m" style="left:120px;top:170px;width:560px;height:452px;transform:rotate(-4deg)"><img src="assets/img/manual-check.jpg" style="filter:grayscale(1) brightness(.85)"></div>
+  <div class="shot" id="s14-b" style="left:720px;top:190px;width:620px;height:500px;transform:rotate(2deg)"><img src="assets/img/barcode.jpg">
+    <div id="s14-las" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25)"></div></div>
+  <div class="shot" id="s14-r" style="left:1380px;top:250px;width:450px;height:330px;transform:perspective(900px) rotateY(-18deg)"><img src="assets/img/spd-record.jpg"></div>
+  <div class="abs" style="left:160px;top:740px;display:flex;align-items:flex-end;gap:40px">
+    <div id="s14-old" class="h1" style="font-size:150px;color:rgba(255,255,255,.4);position:relative">20
+      <i id="s14-strike" style="position:absolute;left:-8px;right:-8px;top:50%;height:12px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>
+    <div id="s14-arw" class="h1" style="font-size:80px;color:#fff;margin-bottom:30px">→</div>
+    <div id="s14-new" class="h1" style="font-size:200px;color:#44ff88">2 <span style="font-size:80px">HARI</span></div>
+  </div>
+  <div id="s14-sv" class="abs" style="left:1080px;top:850px;font:600 38px Plus Jakarta Sans;color:#cfe">Semakan SPD / barcode · <b style="color:#fff">18 hari dijimatkan</b></div>
+  <div class="vign"></div>
+</div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const FX = window.SPDFX;
+
+tl.fromTo("#s14-m",{opacity:0,x:-300,rotation:-14},{opacity:1,x:0,rotation:-4,duration:0.7,ease:"expo.out"},0.25);
+tl.fromTo("#s14-old",{opacity:0,y:40},{opacity:1,y:0,duration:0.45,ease:"expo.out"},2.408);
+tl.fromTo("#s14-b",{opacity:0,y:300,rotation:10},{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"},5.043);
+tl.fromTo("#s14-las",{y:0},{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"},7.241);
+tl.fromTo("#s14-strike",{scaleX:0},{scaleX:1,duration:0.3,ease:"power3.out"},6.0089999999999995);
+tl.fromTo("#s14-arw",{opacity:0,x:-30},{opacity:1,x:0,duration:0.3},6.059);
+tl.fromTo("#s14-new",{opacity:0,scale:1.8},{opacity:1,scale:1,duration:0.4,ease:"expo.out"},6.159);
+tl.fromTo("#s14-r",{opacity:0,x:300},{opacity:1,x:0,duration:0.6,ease:"expo.out"},8.041);
+tl.fromTo("#s14-sv",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},8.341);
+tl.to(".F",{opacity:1},0);
+tl.to(["#s14-m","#s14-b","#s14-r"],{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"},9.876999999999999);
+
+          tl.set({}, {}, 10.427);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["s14"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

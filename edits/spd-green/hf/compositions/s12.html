@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="s12" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+
+<div class="F chalkbg">
+  <svg viewBox="0 0 1920 1080" class="abs" style="inset:0" fill="none" stroke="#f1f5ee" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <defs><filter id="s12-cf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="5" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.3" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in" result="c"/><feDisplacementMap in="c" in2="n" scale="4"/></filter></defs>
+    <g filter="url(#s12-cf)">
+      <g id="s12-a"><path class="s12-d1" d="M200 420 h240 l-28 320 h-184z M180 420 h280 M285 388 h70"/><path class="s12-d1" d="M260 470 l18 230 M320 470 v230 M380 470 l-18 230"/>
+        <path class="s12-d1" d="M120 300 c30 -40 70 -40 90 0 M140 260 c20 -30 50 -30 70 0" stroke-width="6"/></g>
+      <g id="s12-ar"><path class="s12-d1b" d="M490 580 h80 M545 552 l28 28 l-28 28" stroke="#b6d973"/><path class="s12-d1b" d="M610 600 h110 l-12 140 h-86z M600 600 h130"/></g>
+      <g id="s12-b"><path class="s12-d2" d="M820 640 h160 M840 640 v100 M960 640 v100 M1320 640 h160 M1340 640 v100 M1460 640 v100"/>
+        <path class="s12-d2" d="M900 610 c100 -230 330 -230 480 0" stroke-dasharray="4 26"/><path class="s12-d2" d="M1130 430 h60 v74 h-60z M1142 450 h36 M1142 468 h36"/></g>
+      <path id="s12-x" class="s12-d2b" d="M1060 380 l200 180 M1260 380 l-200 180" stroke="#ff8a8a" stroke-width="13"/>
+      <g id="s12-c"><path class="s12-d3" d="M1560 400 h260 v300 h-260z M1590 440 h70 v100 h-70z M1690 440 h70 v100 h-70z"/></g>
+      <g id="s12-c2"><path class="s12-d3b" d="M1560 400 h260 v300 h-260z" stroke="#b6d973"/><path class="s12-d3b" d="M1600 610 h180 M1630 610 v70 M1750 610 v70" stroke="#b6d973"/>
+        <circle class="s12-d3b" cx="1640" cy="560" r="22" stroke="#b6d973"/><circle class="s12-d3b" cx="1740" cy="560" r="22" stroke="#b6d973"/></g>
+    </g>
+  </svg>
+  <div class="doodle abs" id="s12-t" style="left:150px;top:80px;font-size:92px;color:#fff">Kurang pencemaran, lebih produktif</div>
+  <div class="doodle abs s12-lb" id="s12-l1" style="left:170px;top:800px;font-size:52px;color:#e9f0e4">sisa kertas ↓</div>
+  <div class="doodle abs s12-lb" id="s12-l2" style="left:930px;top:800px;font-size:52px;color:#e9f0e4">tiada lagi meja ke meja</div>
+  <div class="doodle abs s12-lb" id="s12-l3" style="left:1500px;top:800px;font-size:52px;color:#e9f0e4">ruang lebih produktif</div>
+</div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const FX = window.SPDFX;
+
+tl.fromTo("#s12-t",{clipPath:"inset(0 100% 0 0)"},{clipPath:"inset(0 0% 0 0)",duration:0.9,ease:"power2.inOut"},0.15);
+FX.draw(tl,".s12-d1",0.55,0.6,0.12);
+FX.draw(tl,".s12-d1b",1.25,0.4,0.1);
+tl.fromTo("#s12-l1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},1.05);
+FX.draw(tl,".s12-d2",2.608,0.7,0.12);
+FX.draw(tl,".s12-d2b",6.476,0.35,0.1);
+tl.fromTo("#s12-l2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},6.476);
+FX.draw(tl,".s12-d3",7.464,0.6,0.1);
+tl.to("#s12-c",{opacity:0,duration:0.3},11.237);
+FX.draw(tl,".s12-d3b",11.337,0.5,0.08);
+tl.fromTo("#s12-l3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},11.536999999999999);
+tl.to(".F.chalkbg",{opacity:0,duration:0.35},13.435);
+
+          tl.set({}, {}, 13.785);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["s12"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -19,18 +19,19 @@ def tts(text, model, voice, style=STYLE):
         },
     }
     req = urllib.request.Request(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-        data=json.dumps(body).encode(), headers={"Content-Type": "application/json", "x-goog-api-key": KEY})
+        # key as a query parameter: a proxy-injected x-goog-api-key header would override a header key
+        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={KEY}",
+        data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     for attempt in range(4):
         try:
-            with urllib.request.urlopen(req, timeout=180) as r:
+            with urllib.request.urlopen(req, timeout=600) as r:
                 d = json.load(r)
             part = d["candidates"][0]["content"]["parts"][0]["inlineData"]
             return base64.b64decode(part["data"]), part.get("mimeType", "")
         except urllib.error.HTTPError as e:
             msg = e.read().decode()[:300]
             print("HTTP", e.code, msg, file=sys.stderr)
-            if e.code in (429, 500, 503):
+            if e.code in (429, 500, 502, 503, 504):
                 time.sleep(8 * (attempt + 1)); continue
             raise
     raise RuntimeError("tts failed")

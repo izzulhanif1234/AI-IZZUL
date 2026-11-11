@@ -1,0 +1,321 @@
+{
+ "language": "ms",
+ "language_probability": 0.9995394945144653,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 8.46,
+   "text": "SPD telah diiktiraf hak cipta sejak tahun 2020 dan kini menjadi platform utama pengurusan data MCOP.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.52,
+     "word": "SPD",
+     "p": 0.99
+    },
+    {
+     "start": 0.52,
+     "end": 1.1,
+     "word": "telah",
+     "p": 1.0
+    },
+    {
+     "start": 1.1,
+     "end": 1.84,
+     "word": "diiktiraf",
+     "p": 1.0
+    },
+    {
+     "start": 1.84,
+     "end": 1.98,
+     "word": "hak",
+     "p": 0.96
+    },
+    {
+     "start": 1.98,
+     "end": 2.4,
+     "word": "cipta",
+     "p": 1.0
+    },
+    {
+     "start": 2.4,
+     "end": 2.92,
+     "word": "sejak",
+     "p": 1.0
+    },
+    {
+     "start": 2.92,
+     "end": 3.2,
+     "word": "tahun",
+     "p": 1.0
+    },
+    {
+     "start": 3.2,
+     "end": 4.04,
+     "word": "2020",
+     "p": 1.0
+    },
+    {
+     "start": 4.04,
+     "end": 4.92,
+     "word": "dan",
+     "p": 0.99
+    },
+    {
+     "start": 4.92,
+     "end": 5.4,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 5.4,
+     "end": 5.66,
+     "word": "menjadi",
+     "p": 1.0
+    },
+    {
+     "start": 5.66,
+     "end": 6.12,
+     "word": "platform",
+     "p": 0.99
+    },
+    {
+     "start": 6.12,
+     "end": 6.92,
+     "word": "utama",
+     "p": 1.0
+    },
+    {
+     "start": 6.92,
+     "end": 7.5,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 7.5,
+     "end": 7.76,
+     "word": "data",
+     "p": 1.0
+    },
+    {
+     "start": 7.76,
+     "end": 8.46,
+     "word": "MCOP.",
+     "p": 0.67
+    }
+   ]
+  },
+  {
+   "start": 8.6,
+   "end": 14.88,
+   "text": "Dan ini baru permulaan. Akan datang SPD 2.0 bersama Green Dashboard.",
+   "words": [
+    {
+     "start": 8.6,
+     "end": 9.12,
+     "word": "Dan",
+     "p": 1.0
+    },
+    {
+     "start": 9.12,
+     "end": 9.42,
+     "word": "ini",
+     "p": 1.0
+    },
+    {
+     "start": 9.42,
+     "end": 9.74,
+     "word": "baru",
+     "p": 1.0
+    },
+    {
+     "start": 9.74,
+     "end": 10.48,
+     "word": "permulaan.",
+     "p": 1.0
+    },
+    {
+     "start": 10.48,
+     "end": 11.06,
+     "word": "Akan",
+     "p": 1.0
+    },
+    {
+     "start": 11.06,
+     "end": 11.52,
+     "word": "datang",
+     "p": 1.0
+    },
+    {
+     "start": 11.52,
+     "end": 12.06,
+     "word": "SPD",
+     "p": 0.96
+    },
+    {
+     "start": 12.06,
+     "end": 12.64,
+     "word": "2",
+     "p": 0.93
+    },
+    {
+     "start": 12.64,
+     "end": 13.04,
+     "word": ".0",
+     "p": 0.74
+    },
+    {
+     "start": 13.04,
+     "end": 14.12,
+     "word": "bersama",
+     "p": 1.0
+    },
+    {
+     "start": 14.12,
+     "end": 14.34,
+     "word": "Green",
+     "p": 0.99
+    },
+    {
+     "start": 14.34,
+     "end": 14.88,
+     "word": "Dashboard.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 15.62,
+   "end": 26.56,
+   "text": "Setiap impak hijau kini diukur secara masa nyata, kertas, dakwat, masa, tenaga kerja dan kos kerana apa yang diukur boleh diurus.",
+   "words": [
+    {
+     "start": 15.5,
+     "end": 15.96,
+     "word": "Setiap",
+     "p": 1.0
+    },
+    {
+     "start": 15.96,
+     "end": 16.3,
+     "word": "impak",
+     "p": 0.99
+    },
+    {
+     "start": 16.3,
+     "end": 16.72,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 16.72,
+     "end": 17.04,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 17.04,
+     "end": 17.6,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 17.6,
+     "end": 18.0,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 18.0,
+     "end": 18.24,
+     "word": "masa",
+     "p": 0.95
+    },
+    {
+     "start": 18.24,
+     "end": 18.6,
+     "word": "nyata,",
+     "p": 1.0
+    },
+    {
+     "start": 18.74,
+     "end": 19.64,
+     "word": "kertas,",
+     "p": 1.0
+    },
+    {
+     "start": 19.78,
+     "end": 20.54,
+     "word": "dakwat,",
+     "p": 0.99
+    },
+    {
+     "start": 20.68,
+     "end": 21.38,
+     "word": "masa,",
+     "p": 1.0
+    },
+    {
+     "start": 21.56,
+     "end": 22.28,
+     "word": "tenaga",
+     "p": 1.0
+    },
+    {
+     "start": 22.28,
+     "end": 22.78,
+     "word": "kerja",
+     "p": 1.0
+    },
+    {
+     "start": 22.78,
+     "end": 23.2,
+     "word": "dan",
+     "p": 0.84
+    },
+    {
+     "start": 23.2,
+     "end": 23.6,
+     "word": "kos",
+     "p": 1.0
+    },
+    {
+     "start": 23.6,
+     "end": 24.36,
+     "word": "kerana",
+     "p": 0.99
+    },
+    {
+     "start": 24.36,
+     "end": 24.62,
+     "word": "apa",
+     "p": 1.0
+    },
+    {
+     "start": 24.62,
+     "end": 24.92,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 24.92,
+     "end": 25.5,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 25.5,
+     "end": 25.92,
+     "word": "boleh",
+     "p": 1.0
+    },
+    {
+     "start": 25.92,
+     "end": 26.56,
+     "word": "diurus.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

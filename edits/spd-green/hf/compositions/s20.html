@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ms">
+  <head><meta charset="UTF-8" /></head>
+  <body>
+    <template>
+      <div id="root" data-composition-id="s20" data-width="1920" data-height="1080" style="position:absolute;inset:0;overflow:hidden">
+
+<div class="F" style="background:#0B2E22">
+  <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(182,217,115,.22),transparent 60%)"></div>
+  <div class="abs s20-ti" style="left:80px;top:120px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">−25.4%</div><div class="abs s20-ti" style="left:1620px;top:140px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">−39.7%</div><div class="abs s20-ti" style="left:60px;top:820px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">−79%</div><div class="abs s20-ti" style="left:1640px;top:840px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">−90%</div><div class="abs s20-ti" style="left:820px;top:-40px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">−50%</div><div class="abs s20-ti" style="left:800px;top:980px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">RM217k</div>
+  <div id="s20-mark" class="abs" style="left:0;right:0;top:200px;display:flex;justify-content:center"><div style="display:flex;align-items:center;gap:13.799999999999999px"><span style="font:800 230px/1 'Plus Jakarta Sans';letter-spacing:-.04em;color:#B6D973">SPD</span><svg viewBox="0 0 100 100" style="width:142.6px;height:142.6px;transform:rotate(28deg) translateY(-41.4px)"><path d="M50 95 C10 70 8 30 50 5 C92 30 90 70 50 95Z" fill="#B6D973"/><path d="M50 92 L50 18" stroke="#0B2E22" stroke-width="4" fill="none"/><path d="M50 60 L32 44 M50 45 L68 30 M50 75 L66 62" stroke="#0B2E22" stroke-width="3" fill="none"/></svg></div></div>
+  <div class="abs" style="left:0;right:0;top:520px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'"><span class="kw s20-h1"><span>INOVASI</span></span> <span class="kw s20-h1"><span>DIGITAL</span></span> <span class="kw s20-h1"><span>KE</span></span> <span class="kw s20-h1"><span>ARAH</span></span><br><span class="kw s20-h2"><span>PENGURUSAN</span></span> <span class="kw s20-h2"><span>HIJAU</span></span> <span class="kw s20-h2"><span>DAN</span></span> <span class="kw s20-h2"><span>LESTARI</span></span></div>
+  <div class="abs" style="left:0;right:0;top:704px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
+    <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
+  <div id="s20-slo" class="abs" style="left:0;right:0;top:786px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
+  <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
+  <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
+</div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const FX = window.SPDFX;
+
+tl.fromTo(".s20-ti",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.4,stagger:0.05},0);
+tl.to(".s20-ti",{x:(i)=>[770,-770,790,-790,30,50][i],y:(i)=>[150,130,-550,-570,310,-710][i],scale:0.2,opacity:0,duration:0.8,stagger:0.04,ease:"power3.in"},0.5);
+tl.fromTo("#s20-mark",{opacity:0,scale:0.4,filter:"blur(14px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"expo.out"},1.0);
+tl.fromTo("#s20-mark svg",{rotation:-180,scale:0},{rotation:28,scale:1,duration:0.8,ease:"back.out(2)"},1.2);
+FX.words(tl,".s20-h1 > span",1.35,0.06);
+FX.words(tl,".s20-h2 > span",1.55,0.06);
+tl.fromTo("#s20-a",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},1.583);
+tl.fromTo("#s20-b",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},3.6);
+tl.fromTo("#s20-c",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},5.618);
+tl.fromTo("#s20-slo",{opacity:0,y:20},{opacity:1,y:0,duration:0.6},7.886);
+tl.fromTo("#s20-org",{opacity:0},{opacity:1,duration:0.6},8.486);
+tl.to("#s20-blk",{opacity:1,duration:1.0,ease:"power1.in"},13.732);
+
+          tl.set({}, {}, 14.732);
+          window.__timelines = window.__timelines || {};
+          window.__timelines["s20"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

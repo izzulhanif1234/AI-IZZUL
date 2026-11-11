@@ -9,3 +9,6 @@ edits/**/*.log
 edits/**/final/*-master.mp4
 edits/**/final/.*-transaction-*/
 edits/**/final/work-*/
+edits/spd-green/audio/
+edits/spd-green/renders/
+edits/spd-green/vo/take/*.wav
