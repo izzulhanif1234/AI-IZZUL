@@ -26,7 +26,7 @@ def _syl(w):
     return max(1, len(re.findall(r"[aeiou]+", w.lower())))
 
 
-SPEED = 1.08  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
+SPEED = 1.1  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
 
 
 class Line:
@@ -174,11 +174,11 @@ def s01(S):
     <defs><filter id="s01-cf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="5" result="n"/>
       <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.3" result="m"/>
       <feComposite in="SourceGraphic" in2="m" operator="in" result="c"/><feDisplacementMap in="c" in2="n" scale="4"/></filter></defs>
-    <path class="s01-d" d="M1150 380 C1330 300 1660 330 1700 520 C1740 720 1420 840 1180 770 C980 710 960 470 1170 370"/>
-    <path class="s01-d" d="M1560 250 l130 -100 M1690 150 l-56 6 M1690 150 l-12 52"/>
+    <path class="s01-d" d="M470 150 C760 140 880 290 850 420 C820 560 560 640 300 600 C110 570 70 420 120 300 C170 190 330 145 520 160"/>
+    <path class="s01-d" d="M1000 175 C930 190 900 210 860 250 M860 250 l12 -50 M860 250 l50 -8"/>
     <circle class="s01-d" cx="1580" cy="900" r="80"/><path class="s01-d" d="M1580 900 v-54 M1580 900 l40 24"/>
   </svg>
-  <div id="s01-q" class="doodle abs" style="left:1240px;top:150px;font-size:110px;color:#fff;transform:rotate(-8deg);opacity:0">Fail mana?!</div>
+  <div id="s01-q" class="doodle abs" style="left:1010px;top:80px;font-size:110px;color:#fff;transform:rotate(-6deg);opacity:0">Fail mana?!</div>
   <div class="abs" style="left:120px;top:620px;width:1000px">
     <div class="h1" style="font-size:96px">{kw("Fail fizikal.", "s01-a")}</div>
     <div class="h1" style="font-size:96px;color:var(--lime)">{kw("Carian manual.", "s01-b")}</div>
@@ -187,13 +187,13 @@ def s01(S):
   <div class="vign"></div>
 </div>"""
     punches = "".join(f'tl.fromTo("#s01-vw",{{scale:1.09}},{{scale:1,duration:0.45,ease:"expo.out"}},{c});'
-                      f'tl.fromTo("#s01-flash",{{opacity:0.55}},{{opacity:0,duration:0.18,ease:"power2.out"}},{c});' for c in CUTS[1:])
+                      f'tl.fromTo("#s01-flash",{{opacity:0.18}},{{opacity:0,duration:0.25,ease:"power2.out"}},{c});' for c in CUTS[1:])
     js = f"""
 {punches}
 tl.fromTo("#s01-vw",{{scale:1}},{{scale:1.06,duration:{MONTAGE - CUTS[-1]},ease:"none"}},{CUTS[-1] + 0.45});
 // freeze: flash, hold, slow push + desaturate, chalk doodles draw
 tl.set("#s01-fr",{{opacity:1}},{MONTAGE});
-tl.fromTo("#s01-flash",{{opacity:0.9}},{{opacity:0,duration:0.35}},{MONTAGE});
+tl.fromTo("#s01-flash",{{opacity:0.35}},{{opacity:0,duration:0.35}},{MONTAGE});
 tl.fromTo("#s01-fr",{{scale:1.06,filter:"grayscale(0) brightness(1)"}},{{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:{S.D - MONTAGE},ease:"none"}},{MONTAGE});
 tl.to("#s01-dim",{{opacity:1,duration:0.6}},{MONTAGE + 0.15});
 FX.draw(tl,".s01-d",{MONTAGE + 0.1},0.5,0.18);
@@ -201,7 +201,6 @@ tl.fromTo("#s01-q",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:0.35,eas
 FX.words(tl,".s01-a > span",{S.w("v01", "Fail") - 0.05});
 FX.words(tl,".s01-b > span",{S.w("v01", "Carian") - 0.05});
 FX.words(tl,".s01-c > span",{S.w("v01", "Masa") - 0.05},0.07);
-tl.to("#s01-flash",{{opacity:1,background:"#0b2e22",duration:0.3,ease:"power2.in"}},{S.D - 0.3});
 """
     return html, js
 
@@ -275,7 +274,7 @@ def s03(S):
     <div class="abs" style="left:960px;top:540px;width:1900px;height:1900px;margin:-950px 0 0 -950px;border-radius:50%;
       border:1px solid rgba(255,255,255,.12);transform:perspective(1600px) rotateX(74deg)"></div>
     {dots}
-    <div id="s03-core" class="abs" style="left:960px;top:470px;width:360px;height:360px;margin:-180px 0 0 -180px">
+    <div id="s03-core" class="abs" style="left:960px;top:470px;width:360px;height:360px;margin:-180px 0 0 -180px;z-index:3">
       <div class="abs" style="inset:-160px;border-radius:50%;background:radial-gradient(circle,rgba(182,217,115,.35),transparent 65%)"></div>
       <div id="s03-halo" class="abs" style="inset:-26px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 55%,rgba(217,255,176,.95) 70%,transparent 85%);
         -webkit-mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 66%,transparent 67%)"></div>
@@ -300,7 +299,7 @@ function place(){{
     const th=st.a+i*2*Math.PI/5, d=(Math.sin(th)+1)/2;          // d: 0 back .. 1 front
     const x=cx+RX*st.r*Math.cos(th), y=cy+RY*st.r*Math.sin(th);
     t.style.transform=`translate(${{x.toFixed(1)}}px,${{y.toFixed(1)}}px) scale(${{(0.68+0.42*d).toFixed(3)}})`;
-    t.style.zIndex=String(d>0.5?6:1); t.style.filter=`brightness(${{(0.6+0.4*d).toFixed(2)}})`;
+    t.style.zIndex=String(d>0.5?6:1); t.style.filter=`brightness(${{(0.55+0.45*d).toFixed(2)}})`; t.style.opacity=(0.55+0.45*d).toFixed(2);
   }});
   dots.forEach((p,i)=>{{
     const th=-st.a*1.6+i*2*Math.PI/dots.length, d=(Math.sin(th)+1)/2;
@@ -387,7 +386,7 @@ def s05(S):
 <div class="F" style="background:#f3eedf">
   <div id="s05-split" class="abs" style="inset:0;opacity:0">
     <div id="s05-l" class="abs" style="inset:0;clip-path:polygon(0 0,58% 0,42% 100%,0 100%)">
-      <img src="{IMG}/fail-rak.jpg" style="width:100%;height:100%;object-fit:cover;object-position:30% center;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
+      <img src="{IMG}/fail-rak.jpg" style="position:absolute;left:-720px;top:0;width:1920px;height:1080px;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
     <div id="s05-r" class="abs" style="inset:0;clip-path:polygon(58% 0,100% 0,100% 100%,42% 100%);background:#0b2e22">
       {browser("s05-b", 1010, 200, 860, "spd.pknm.gov.my", [("s05-p", f"{UI}/s77.jpg")])}</div>
     <div id="s05-seam" class="abs" style="inset:0;background:linear-gradient(115deg,transparent 46%,rgba(182,217,115,.9) 49.6%,#fff 50%,rgba(182,217,115,.9) 50.4%,transparent 54%)"></div>
@@ -573,7 +572,7 @@ tl.to(B,{{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:
 # --------------------------------------------------------------------------- S08 demo: other modules (3D carousel)
 @scene
 def s08(S):
-    t_aa = S.w("v08", "Aset")
+    t_aa = S.w("v08", "aset")
     t_bar = S.w("v08", "barcode")
     t_sto = S.w("v08", "Pengurusan")
     t_baki = S.w("v08", "baki")
@@ -581,50 +580,39 @@ def s08(S):
     t_lat = S.w("v08", "kakitangan|latihan")
     t_pen = S.w("v08", "pentadbiran")
     t_cap = S.w("v08", "capaian")
-    W = 1700
-    k = W / 1920
-    vh = round(W * 912 / 1920)
-    R = 1900  # carousel radius
+    W = BWW
     k8 = W / 1920
-    modal = (region("s08-hsys", k8, 20, 505, 300, 555, 6) + region("s08-hacc", k8, 1500, 8, 1905, 62, 6) + cursor("s08-c"))
-    panels = [
-        ("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")],
-         f'<div id="s08-scan" class="abs" style="left:{1076 * k:.0f}px;top:{1088 * k - 912 * k:.0f}px;width:{60 * k:.0f}px;height:0"></div>'),
-        ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/s93.jpg"), ("s08-b2", f"{UI}/s94.jpg")], ""),
-        ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s98.jpg"), ("s08-c2", f"{UI}/s95.jpg")], ""),
-        ("s08-d", "spd.pknm.gov.my/pentadbiran", [("s08-d1", f"{UI}/s83.jpg")], modal),
-    ]
-    ph = ""
-    for i, (pid, url, pages, extra) in enumerate(panels):
-        ph += (f'<div class="abs s08-pn" id="{pid}-w" style="left:{960 - W / 2:.0f}px;top:{500 - (vh + 52) / 2:.0f}px;width:{W}px;height:{vh + 52}px;'
-               f'transform:rotateY({i * 90}deg) translateZ({R}px);backface-visibility:hidden">'
-               f'{browser(pid, 0, 0, W, url, pages, extra)}</div>')
+    vh = round(W * 912 / 1920)
+    pent = region("s08-hsys", k8, 20, 505, 300, 555, 6) + region("s08-hacc", k8, 1500, 8, 1905, 62, 6) + cursor("s08-cur")
+    laser = ('<div id="s08-laser" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;'
+             'box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25);opacity:0"></div>')
+    panels = [("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")], laser),
+              ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/s93.jpg"), ("s08-b2", f"{UI}/s94.jpg")], ""),
+              ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s98.jpg"), ("s08-c2", f"{UI}/s95.jpg")], ""),
+              ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/s83.jpg")], pent)]
+    ph = "".join(f'<div class="abs s08-pn" id="{pid}-w" style="left:0;top:0;width:1920px;height:1080px;opacity:{1 if i == 0 else 0}">'
+                 f'{browser(pid, BWX, BWY, W, url, pages, extra)}</div>' for i, (pid, url, pages, extra) in enumerate(panels))
     labels = [("01", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("02", "PENGURUSAN STOR", "Permohonan serta baki stok"),
               ("03", "MODAL INSAN", "Cuti dan rekod berkaitan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
     lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:70px;top:900px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
                   for i, (n, a, b) in enumerate(labels))
-    laser = ('<div id="s08-laser" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;'
-             'box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25);opacity:0"></div>')
     html = f"""
 <div class="F demo-bg">
-  <div id="s08-cam" class="abs" style="inset:0;perspective:2400px">
-    <div id="s08-ring" class="abs" style="inset:0;transform-style:preserve-3d;transform:translateZ(-{R}px)">{ph}</div>
-  </div>
-  <div id="s08-lw" class="abs" style="left:{960 - W / 2:.0f}px;top:{500 - (vh + 52) / 2 + 52:.0f}px;width:{W}px;height:{vh}px;overflow:hidden;pointer-events:none">{laser}</div>
+  {ph}
   {lab}
-  <div id="s08-eco" class="abs h1" style="left:0;right:0;top:880px;text-align:center;font-size:64px;opacity:0">Lima modul. <span style="color:var(--lime)">Satu ekosistem.</span></div>
-  <div id="s08-blur" class="abs" style="inset:0;pointer-events:none"></div>
+  <div id="s08-eco" class="abs h1" style="left:0;right:0;top:960px;text-align:center;font-size:58px;opacity:0">Lima modul. <span style="color:var(--lime)">Satu ekosistem.</span></div>
   <div class="vign"></div>
 </div>"""
-    turns = [(t_sto - 0.35, -90), (t_mi - 0.35, -180), (t_pen - 0.35, -270)]
-    js_turn = "".join(
-        f'tl.to("#s08-ring",{{rotationY:{a},duration:0.6,ease:"power3.inOut"}},{t});'
-        f'tl.fromTo(".s08-pn",{{filter:"blur(0px)"}},{{filter:"blur(10px)",duration:0.3,yoyo:true,repeat:1,ease:"power2.in",immediateRender:false}},{t});'
-        for t, a in turns)
+    turns = [(t_sto - 0.35, "#s08-a-w", "#s08-b-w"), (t_mi - 0.35, "#s08-b-w", "#s08-c-w"), (t_pen - 0.35, "#s08-c-w", "#s08-d-w")]
+    js_turn = "".join(f'FX.whipOut(tl,"{o}",{t:.2f},-1);FX.whipIn(tl,"{n}",{t + 0.18:.2f},1);' for t, o, n in turns)
+    cx, cy = BWX + W / 2, BWY + (vh + 52) / 2
+    grid = [(500, 300), (1420, 300), (500, 690), (1420, 690)]
+    tg = S.D - 1.9
+    js_grid = "".join(f'tl.to("{pid}-w",{{opacity:1,x:{gx - cx:.0f},y:{gy - cy:.0f},scale:0.44,skewX:0,filter:"blur(0px)",duration:0.9,ease:"expo.inOut"}},{tg + i * 0.06:.2f});'
+                      for i, ((pid, *_), (gx, gy)) in enumerate(zip([("#s08-a",), ("#s08-b",), ("#s08-c",), ("#s08-d",)], grid)))
     js = f"""
-tl.fromTo("#s08-ring",{{rotationY:40,z:-{R}-1200}},{{rotationY:0,z:-{R},duration:0.9,ease:"expo.out"}},0);
+tl.fromTo("#s08-a-w",{{opacity:0,x:500,filter:"blur(12px)"}},{{opacity:1,x:0,filter:"blur(0px)",duration:0.6,ease:"expo.out"}},0.05);
 {js_turn}
-// labels
 tl.fromTo("#s08-l0",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_aa});
 tl.to("#s08-l0",{{opacity:0,duration:0.2}},{t_sto - 0.35});
 tl.fromTo("#s08-l1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_sto + 0.2});
@@ -632,28 +620,22 @@ tl.to("#s08-l1",{{opacity:0,duration:0.2}},{t_mi - 0.35});
 tl.fromTo("#s08-l2",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_mi + 0.2});
 tl.to("#s08-l2",{{opacity:0,duration:0.2}},{t_pen - 0.35});
 tl.fromTo("#s08-l3",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.4,ease:"expo.out"}},{t_pen + 0.2});
-// aset alih: scroll + barcode laser
 FX.scroll(tl,"#s08-a1",0,-300,{t_aa + 0.6},0.7);
 tl.to("#s08-a1",{{opacity:0,duration:0.2}},{t_aa + 1.1});
 tl.fromTo("#s08-a2",{{opacity:0,y:200}},{{opacity:1,y:0,duration:0.5,ease:"power3.out"}},{t_aa + 1.0});
 tl.fromTo("#s08-laser",{{opacity:1,y:0}},{{opacity:1,y:{vh},duration:0.9,ease:"power1.inOut",yoyo:true,repeat:1}},{t_bar - 0.3});
-tl.to("#s08-laser",{{opacity:0,duration:0.2}},{t_bar + 1.6});
-// stor: scroll
+tl.to("#s08-laser",{{opacity:0,duration:0.2}},{min(t_bar + 1.6, t_sto - 0.4)});
 FX.scroll(tl,"#s08-b1",0,-280,{t_baki - 0.4},0.6);
 tl.to("#s08-b1",{{opacity:0,duration:0.2}},{t_baki});
 tl.fromTo("#s08-b2",{{opacity:0,y:200}},{{opacity:1,y:0,duration:0.5,ease:"power3.out"}},{t_baki - 0.1});
-// modal insan: kakitangan -> latihan
 tl.fromTo("#s08-c2",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.5,ease:"power3.out"}},{t_lat - 0.2});
-// pentadbiran: toggles switch on
-FX.cursor(tl,document.getElementById("s08-c"),[[0,{700 * W / 1920},{500 * W / 1920}],[{t_pen + 0.1},{160 * W / 1920},{530 * W / 1920}],[{t_cap - 0.1},{1700 * W / 1920},{36 * W / 1920}]],
-  [[{t_pen + 0.25},{160 * W / 1920},{530 * W / 1920}]],document.getElementById("s08-c-r"));
-FX.ring(tl,"#s08-hsys",{t_pen + 0.2},{t_cap - t_pen - 0.4:.2f});
-FX.ring(tl,"#s08-hacc",{t_cap - 0.1},1.4);
-// pull back: whole ring visible, then away
-tl.to("#s08-l3",{{opacity:0,duration:0.25}},{S.D - 1.5});
-tl.to("#s08-ring",{{z:-{R}-2600,rotationY:-315,duration:1.3,ease:"power3.inOut"}},{S.D - 1.5});
-tl.fromTo("#s08-eco",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{S.D - 1.2});
-tl.to(["#s08-eco","#s08-cam"],{{opacity:0,duration:0.3}},{S.D - 0.3});
+FX.cursor(tl,document.getElementById("s08-cur"),[[0,{700 * k8},{500 * k8}],[{t_pen + 0.2},{160 * k8},{530 * k8}],[{t_cap - 0.1},{1700 * k8},{36 * k8}]],
+  [[{t_pen + 0.35},{160 * k8},{530 * k8}]],document.getElementById("s08-cur-r"));
+FX.ring(tl,"#s08-hsys",{t_pen + 0.3},{max(0.4, t_cap - t_pen - 0.5):.2f});
+FX.ring(tl,"#s08-hacc",{t_cap - 0.1},1.2);
+tl.to("#s08-l3",{{opacity:0,duration:0.25}},{tg - 0.1});
+{js_grid}
+tl.fromTo("#s08-eco",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{tg + 0.5});
 """
     return html, js
 
@@ -677,7 +659,7 @@ def s09(S):
                   f'<div class="mono" style="font-size:22px;color:#26745A;letter-spacing:.1em">0{i + 1}</div>'
                   f'<div style="font:800 34px/1.1 Plus Jakarta Sans;margin-top:8px;height:76px;display:flex;align-items:flex-end">{a}</div>'
                   f'<div style="font:500 25px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:12px">{b}</div></div>'
-                  f'<div id="s09-g{i}" class="abs" style="left:18px;right:18px;bottom:22px;background:#E9F2E7;border-radius:16px;padding:16px 16px 16px 70px;'
+                  f'<div id="s09-g{i}" class="abs" style="left:18px;right:18px;bottom:22px;height:92px;display:flex;align-items:center;background:#E9F2E7;border-radius:16px;padding:0 14px 0 70px;'
                   f'font:700 22px/1.3 Plus Jakarta Sans;color:#165A44">{SB.leaf("position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(20deg);width:44px;height:44px", "#7DB544")}{c}</div></div>')
         t = S.w("v09", word, nth) + (0.25 if i == 3 else 0)
         js_c += f'tl.fromTo("#s09-g{i}",{{opacity:0,scale:0.6,y:30}},{{opacity:1,scale:1,y:0,duration:0.45,ease:"back.out(2)"}},{t - 0.1});'
@@ -704,23 +686,33 @@ tl.to(".s09-cd",{{y:-60,opacity:0,stagger:0.05,duration:0.35,ease:"power2.in"}},
 @scene
 def s10(S):
     t_imp = S.w("v10", "impak")
-    layers = "".join(f'<div class="abs s10-ly" style="left:0;right:0;top:{360 + i * 3}px;text-align:center;font:800 300px/1 \'Plus Jakarta Sans\';'
-                     f'letter-spacing:-.04em;color:{"#0f3f2f" if i < 14 else "#fff"};transform:translateX({i * 2}px)">IMPAK SPD</div>' for i in range(15))
-    streaks = "".join(f'<div class="abs s10-st" style="left:{x}px;top:0;width:{w}px;height:1080px;background:linear-gradient(transparent,rgba(182,217,115,.4),transparent);transform:skewX(-20deg)"></div>'
-                      for x, w in [(200, 6), (520, 2), (1300, 10), (1650, 3), (900, 4)])
+    layers = "".join(f'<div class="abs s10-ly" style="left:0;right:0;top:{380 + i * 3}px;text-align:center;font:800 290px/1 \'Plus Jakarta Sans\';'
+                     f'letter-spacing:-.04em;color:{"#06261c" if i < 14 else "#fff"};transform:translateX({i * 2}px)">IMPAK SPD</div>' for i in range(15))
+    import random
+    r = random.Random(12)
+    parts = "".join(f'<i class="abs s10-p" style="left:{r.randint(0, 1900)}px;top:{r.randint(200, 1080)}px;width:{w}px;height:{w}px;border-radius:50%;'
+                    f'background:rgba(217,255,176,{r.uniform(.25, .7):.2f});box-shadow:0 0 12px rgba(182,217,115,.8);display:block" data-dy="{r.randint(250, 600)}"></i>'
+                    for w in [r.randint(4, 12) for _ in range(40)])
+    rings = "".join(f'<div class="abs s10-rg" style="left:960px;top:540px;width:{d}px;height:{d}px;margin:-{d // 2}px 0 0 -{d // 2}px;border-radius:50%;'
+                    f'border:2px solid rgba(182,217,115,{.32 - i * .05:.2f})"></div>' for i, d in enumerate([520, 820, 1160, 1560, 2000]))
     html = f"""
-<div class="F" style="background:#050806">{streaks}
+<div class="F gdark">
+  <div id="s10-glow" class="abs" style="left:960px;top:540px;width:1400px;height:1400px;margin:-700px 0 0 -700px;border-radius:50%;
+    background:radial-gradient(circle,rgba(63,208,142,.45),rgba(63,208,142,.08) 45%,transparent 65%)"></div>
+  {rings}{parts}
+  <div id="s10-sw" class="abs" style="left:-700px;top:-100px;width:420px;height:1300px;background:linear-gradient(90deg,transparent,rgba(220,255,235,.35),transparent);transform:skewX(-20deg)"></div>
   <div id="s10-t" class="abs" style="inset:0;transform:perspective(1200px) rotateX(10deg)">{layers}</div>
   <div class="mono abs" id="s10-b" style="left:0;right:0;top:740px;text-align:center;font-size:30px;letter-spacing:.5em;color:var(--lime)">BAB 03 · HASIL</div>
-  <div id="s10-fl" class="abs" style="inset:0;background:#b6d973;opacity:0"></div>
+  <div class="vign"></div>
 </div>"""
     js = f"""
-tl.fromTo(".s10-st",{{x:-400,opacity:0}},{{x:400,opacity:1,duration:{S.D},ease:"none",stagger:0.05}},0);
-tl.fromTo("#s10-t",{{scale:3,opacity:0,filter:"blur(20px)"}},{{scale:1,opacity:1,filter:"blur(0px)",duration:0.35,ease:"expo.out"}},{max(0.05, t_imp - 0.15)});
-tl.fromTo("#s10-t",{{y:-14}},{{y:0,duration:0.3,ease:"elastic.out(1,0.3)",immediateRender:false}},{t_imp + 0.2});
-tl.fromTo("#s10-b",{{opacity:0,scale:1.3}},{{opacity:1,scale:1,duration:0.6}},{t_imp + 0.3});
-tl.to("#s10-t",{{scale:9,opacity:0,transformOrigin:"52% 45%",duration:0.45,ease:"power3.in"}},{S.D - 0.45});
-tl.to("#s10-fl",{{opacity:1,duration:0.15}},{S.D - 0.2});
+tl.fromTo("#s10-glow",{{scale:0.7,opacity:0.6}},{{scale:1.25,opacity:1,duration:{S.D},ease:"sine.inOut"}},0);
+tl.fromTo(".s10-rg",{{scale:0.6,opacity:0}},{{scale:1.35,opacity:1,duration:{S.D},ease:"power1.out",stagger:0.12}},0);
+tl.fromTo(".s10-p",{{y:0,opacity:0}},{{y:(i,e)=>-(+e.dataset.dy),opacity:1,duration:{S.D},ease:"none"}},0);
+tl.fromTo("#s10-sw",{{x:0}},{{x:3000,duration:1.4,ease:"power2.inOut"}},{max(0.1, t_imp - 0.3)});
+tl.fromTo("#s10-t",{{scale:2.4,opacity:0,filter:"blur(16px)"}},{{scale:1,opacity:1,filter:"blur(0px)",duration:0.45,ease:"expo.out"}},{max(0.05, t_imp - 0.2)});
+tl.fromTo("#s10-t",{{scale:1}},{{scale:1.08,duration:{S.D - t_imp},ease:"none",immediateRender:false}},{t_imp + 0.25});
+tl.fromTo("#s10-b",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6}},{t_imp + 0.35});
 """
     return html, js
 
@@ -1184,27 +1176,25 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 
 
 # ============================================================================= FILM PLAN
-PLAN = [  # (scene id, VO lines, kwargs)
-    ("s01", ["v01"], dict(pre=MONTAGE + 0.25, post=0.5)),
-    ("s02", ["v02"], dict(pre=0.4, post=0.6)),
-    ("s03", ["v03"], dict(pre=0.4, post=0.7)),
-    ("s04", ["v04"], dict(pre=0.3, post=0.9)),
-    ("s05", ["v05"], dict(pre=1.1, post=0.6)),
-    ("s06", ["v06"], dict(pre=0.4, post=1.2)),
-    ("s07", ["v07"], dict(pre=0.4, post=0.8)),
-    ("s08", ["v08"], dict(pre=0.4, post=1.9)),
-    ("s09", ["v09"], dict(pre=0.6, post=0.6)),
-    ("s10", ["v10"], dict(pre=0.3, post=0.9)),
-    ("s11", ["v11"], dict(pre=0.4, post=0.8)),
-    ("s12", ["v12"], dict(pre=0.5, post=0.6)),
-    ("s13", ["v13"], dict(pre=0.4, post=1.0)),
-    ("s14", ["v14"], dict(pre=0.4, post=0.8)),
-    ("s15", ["v15"], dict(pre=0.4, post=1.2)),
-    ("s16", ["v16"], dict(pre=0.4, post=0.9)),
-    ("s17", ["v17"], dict(pre=0.4, post=0.8)),
-    ("s18", ["v18"], dict(pre=0.4, post=0.8)),
-    ("s19", ["v19"], dict(pre=0.6, post=2.2)),
-    ("s20", ["v20"], dict(pre=1.0, post=2.8)),
+XFADE = 0.6
+PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
+    ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
+    ("s02", ["v02"], dict(pre=0.5, post=0.9)),
+    ("s03", ["v03"], dict(pre=0.5, post=1.1)),
+    ("s04", ["v04"], dict(pre=0.5, post=1.1)),
+    ("s05", ["v05"], dict(pre=1.2, post=0.9)),
+    ("s06", ["v06"], dict(pre=0.5, post=1.4)),
+    ("s07", ["v07"], dict(pre=0.5, post=1.2)),
+    ("s08", ["v08"], dict(pre=0.5, post=2.4)),
+    ("s09", ["v09"], dict(pre=0.7, post=1.0)),
+    ("s10", ["v10"], dict(pre=0.5, post=1.4)),
+    ("s13", ["v13"], dict(pre=0.5, post=1.2)),
+    ("s14", ["v14"], dict(pre=0.5, post=1.0)),
+    ("s15", ["v15"], dict(pre=0.5, post=1.4)),
+    ("s16", ["v16"], dict(pre=0.5, post=1.1)),
+    ("s18", ["v18"], dict(pre=0.5, post=1.0)),
+    ("s19", ["v19"], dict(pre=0.7, post=2.4)),
+    ("s20", ["v20"], dict(pre=1.0, post=2.4)),
 ]
 
 TEMPLATE = """<!doctype html>
@@ -1222,7 +1212,8 @@ TEMPLATE = """<!doctype html>
           const tl = gsap.timeline({{ paused: true }});
           const FX = window.SPDFX;
 {js}
-          // camera: slow breathing push for the whole scene (no blur-in)
+          // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
+          tl.fromTo("#{id}-o", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: "power1.inOut" }}, 0);
           tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);
           tl.set({{}}, {{}}, {D});
           window.__timelines = window.__timelines || {{}};
@@ -1241,13 +1232,13 @@ def build(only=None, write=True):
     for sid, lines, kw_ in PLAN:
         S = Scene(sid, lines, **kw_)
         S.start = round(t, 3)
-        t += S.D
+        t += S.D - XFADE  # next scene starts XFADE before this one ends and fades in on top
         built.append(S)
         if not write or (only and sid not in only):
             continue
         html, js = SCENES[sid](S)
         open(f"{HF}/compositions/{sid}.html", "w").write(TEMPLATE.format(id=sid, html=html, js=js, D=S.D))
-    return built, round(t, 3)
+    return built, round(t + XFADE, 3)
 
 
 BADGE = """<!doctype html>
@@ -1294,7 +1285,7 @@ FXC = """<!doctype html>
     <template>
       <div id="root" data-composition-id="fx" data-width="1920" data-height="1080" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
         <div id="fx-sweep" style="position:absolute;top:-200px;left:0;width:520px;height:1480px;opacity:0;mix-blend-mode:screen;
-          background:linear-gradient(90deg,transparent,rgba(200,255,225,.38),rgba(255,255,255,.55),rgba(200,255,225,.38),transparent);transform:skewX(-18deg);filter:blur(6px)"></div>
+          background:linear-gradient(90deg,transparent,rgba(200,255,225,.18),rgba(255,255,255,.28),rgba(200,255,225,.18),transparent);transform:skewX(-18deg);filter:blur(6px)"></div>
         <div id="fx-bloom" style="position:absolute;inset:0;opacity:0;background:radial-gradient(60% 60% at 50% 50%,rgba(220,255,235,.35),transparent 70%);mix-blend-mode:screen"></div>
         <div id="fx-grain" style="position:absolute;inset:-60px;background:url(assets/img/grain.png);opacity:.07;mix-blend-mode:overlay"></div>
         <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 62%,rgba(0,0,0,.28) 100%)"></div>
@@ -1306,7 +1297,6 @@ FXC = """<!doctype html>
           cuts.forEach((t) => {{
             tl.fromTo("#fx-sweep", {{ x: -700, opacity: 0.0 }}, {{ x: 2300, opacity: 1, duration: 0.6, ease: "power2.inOut", immediateRender: false }}, t - 0.3);
             tl.to("#fx-sweep", {{ opacity: 0, duration: 0.15 }}, t + 0.3);
-            tl.fromTo("#fx-bloom", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }}, t - 0.12);
           }});
           const g = document.getElementById("fx-grain");
           let k = 0;
@@ -1360,15 +1350,15 @@ INDEX = """<!doctype html>
 def write_index(scenes, total, audio_extra=""):
     fonts = open(f"{HF}/assets/fonts/fonts.css").read()
     mounts, audio = [], []
-    for S in scenes:
+    for n, S in enumerate(scenes):
         mounts.append(f'      <div id="m-{S.id}" data-composition-id="{S.id}" data-composition-src="compositions/{S.id}.html" data-start="{S.start}" '
-                      f'data-duration="{S.D}" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>')
+                      f'data-duration="{S.D}" data-track-index="{1 + n % 2}" data-track-kind="graphics" data-width="1920" data-height="1080"></div>')
         for k, (ln, at) in enumerate(S.lines):
             if ln.real and os.environ.get("SPD_VO"):
                 audio.append(f'      <audio id="vo-{ln.id}" src="assets/vo/{ln.id}.mp3" data-start="{round(S.start + at, 3)}" data-duration="{ln.dur:.3f}" '
                              f'data-track-index="{20 + k % 2}" data-volume="1" data-fade-out="0.12"></audio>')
     open(f"{HF}/compositions/badge.html", "w").write(BADGE.format(D=total))
-    cuts = [S.start for S in scenes[1:] if S.id not in ("s02", "s05", "s11")]  # scenes with their own flash/ball/slam skip the sweep
+    cuts = [S.start + 0.3 for S in scenes[1:] if S.id not in ("s05", "s13")]  # scenes with their own flash/ball/slam skip the sweep
     open(f"{HF}/compositions/fx.html", "w").write(FXC.format(D=total, cuts=json.dumps(cuts)))
     open(f"{HF}/index.html", "w").write(INDEX.format(fonts=fonts, D=total, mounts="\n".join(mounts), audio="\n".join(audio) + audio_extra))
 

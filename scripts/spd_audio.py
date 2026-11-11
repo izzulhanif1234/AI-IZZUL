@@ -495,10 +495,20 @@ def score(sc, total):
 # ----------------------------------------------------------------------------- cue sheet (sound design)
 def cues(sc):
     """sparse, smooth accents only: soft paper whooshes on transitions, a few tonal hits on the key reveals"""
+    class _Gone:  # scenes cut from the plan: their cues are dropped
+        D = 0.0
+
+        def w(self, *a, **k):
+            return 0.0
+
     S = {s.id: s for s in sc}
+    for sid in ("s11", "s12", "s17"):
+        S.setdefault(sid, _Gone())
     out = []
 
     def c(sid, t, snd, g=1.0, pan=0.0):
+        if isinstance(S[sid], _Gone):
+            return
         out.append((S[sid].start + t, snd, g, pan))
 
     s = S["s01"]
@@ -597,8 +607,9 @@ def main():
         sfx.add(t, norm(snd, 0.9) * 0.5, g, pan)
     # music
     mus = Track(dur)
-    m = score(sc, dur)
-    mus.y[:len(m)] += m[:len(mus.y)]
+    if os.environ.get("SPD_MUSIC"):  # user will supply the music track later
+        m = score(sc, dur)
+        mus.y[:len(m)] += m[:len(mus.y)]
     mus.y = reverb(mus.y, IR_HALL, 0.35)[:len(mus.y)]
     sfx.y = reverb(sfx.y, IR_ROOM, 0.22)[:len(sfx.y)]
     # sidechain: duck music under the voice (smoothed envelope)
@@ -625,7 +636,7 @@ def main():
     music = np.stack([hp(music[:, ch], 32) for ch in range(2)], 1)
     music = music + 0.4 * np.stack([hp(music[:, ch], 5000) for ch in range(2)], 1)  # air
     # levels
-    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * 0.055
+    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * 0.055 if np.any(music) else music
     sfxb = sfx.y / (np.max(np.abs(sfx.y)) + 1e-9) * 0.42
     voice = voice / (np.max(np.abs(voice)) + 1e-9) * 0.88
     mix = voice + music + sfxb + foley.y * 0.7

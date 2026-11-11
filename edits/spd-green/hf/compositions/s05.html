@@ -9,7 +9,7 @@
 <div class="F" style="background:#f3eedf">
   <div id="s05-split" class="abs" style="inset:0;opacity:0">
     <div id="s05-l" class="abs" style="inset:0;clip-path:polygon(0 0,58% 0,42% 100%,0 100%)">
-      <img src="assets/img/fail-rak.jpg" style="width:100%;height:100%;object-fit:cover;object-position:30% center;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
+      <img src="assets/img/fail-rak.jpg" style="position:absolute;left:-720px;top:0;width:1920px;height:1080px;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
     <div id="s05-r" class="abs" style="inset:0;clip-path:polygon(58% 0,100% 0,100% 100%,42% 100%);background:#0b2e22">
       <div class="bw" id="s05-b" style="left:1010px;top:200px;width:860px;height:460px;"><div class="bw-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><div class="bw-url">🔒 <span id="s05-b-url">spd.pknm.gov.my</span></div></div><div class="bw-view" id="s05-b-v"><img class="pg" id="s05-p" src="assets/ui/s77.jpg" style="opacity:1"></div></div></div>
     <div id="s05-seam" class="abs" style="inset:0;background:linear-gradient(115deg,transparent 46%,rgba(182,217,115,.9) 49.6%,#fff 50%,rgba(182,217,115,.9) 50.4%,transparent 54%)"></div>
@@ -36,19 +36,20 @@ tl.to("#s05-wh",{opacity:0,duration:0.4},0.95);
 tl.fromTo("#s05-l",{x:-200},{x:0,duration:1.0,ease:"expo.out"},0.95);
 tl.fromTo("#s05-r",{x:200},{x:0,duration:1.0,ease:"expo.out"},0.95);
 tl.fromTo("#s05-b",{rotationY:-25,transformPerspective:1400,scale:0.9},{rotationY:-8,scale:1,duration:1.4,ease:"expo.out"},1.0);
-tl.fromTo(["#s05-tb","#s05-ta"],{opacity:0,y:-20},{opacity:1,y:0,duration:0.4,stagger:0.15},1.1);
-tl.fromTo("#s05-p1",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},3.9439999999999995);
-tl.fromTo("#s05-p2",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},5.7410000000000005);
-tl.fromTo("#s05-p3",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},6.615);
+tl.fromTo(["#s05-tb","#s05-ta"],{opacity:0,y:-20},{opacity:1,y:0,duration:0.4,stagger:0.15},1.2);
+tl.fromTo("#s05-p1",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},3.991);
+tl.fromTo("#s05-p2",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},5.755000000000001);
+tl.fromTo("#s05-p3",{opacity:0,y:60,scale:0.8},{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"},6.609);
 // push into the SPD screen -> next scene
-tl.to("#s05-l",{x:-1100,duration:0.6,ease:"power3.in"},7.411);
-tl.to(["#s05-seam","#s05-tb","#s05-ta","#s05-i .pill"],{opacity:0,duration:0.3},7.411);
-tl.to("#s05-r",{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"},7.411);
-tl.to("#s05-b",{x:-800,y:-90,scale:1.7442,transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"},7.411);
+tl.to("#s05-l",{x:-1100,duration:0.6,ease:"power3.in"},7.696);
+tl.to(["#s05-seam","#s05-tb","#s05-ta","#s05-i .pill"],{opacity:0,duration:0.3},7.696);
+tl.to("#s05-r",{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"},7.696);
+tl.to("#s05-b",{x:-800,y:-90,scale:1.7442,transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"},7.696);
 
-          // camera: slow breathing push for the whole scene (no blur-in)
-          tl.fromTo("#s05-i", { scale: 1 }, { scale: 1.03, duration: 8.011, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 8.011);
+          // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
+          tl.fromTo("#s05-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
+          tl.fromTo("#s05-i", { scale: 1 }, { scale: 1.03, duration: 8.296, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 8.296);
           window.__timelines = window.__timelines || {};
           window.__timelines["s05"] = tl;
         })();

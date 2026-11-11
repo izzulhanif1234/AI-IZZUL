@@ -18,11 +18,11 @@
     <defs><filter id="s01-cf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="5" result="n"/>
       <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.3" result="m"/>
       <feComposite in="SourceGraphic" in2="m" operator="in" result="c"/><feDisplacementMap in="c" in2="n" scale="4"/></filter></defs>
-    <path class="s01-d" d="M1150 380 C1330 300 1660 330 1700 520 C1740 720 1420 840 1180 770 C980 710 960 470 1170 370"/>
-    <path class="s01-d" d="M1560 250 l130 -100 M1690 150 l-56 6 M1690 150 l-12 52"/>
+    <path class="s01-d" d="M470 150 C760 140 880 290 850 420 C820 560 560 640 300 600 C110 570 70 420 120 300 C170 190 330 145 520 160"/>
+    <path class="s01-d" d="M1000 175 C930 190 900 210 860 250 M860 250 l12 -50 M860 250 l50 -8"/>
     <circle class="s01-d" cx="1580" cy="900" r="80"/><path class="s01-d" d="M1580 900 v-54 M1580 900 l40 24"/>
   </svg>
-  <div id="s01-q" class="doodle abs" style="left:1240px;top:150px;font-size:110px;color:#fff;transform:rotate(-8deg);opacity:0">Fail mana?!</div>
+  <div id="s01-q" class="doodle abs" style="left:1010px;top:80px;font-size:110px;color:#fff;transform:rotate(-6deg);opacity:0">Fail mana?!</div>
   <div class="abs" style="left:120px;top:620px;width:1000px">
     <div class="h1" style="font-size:96px"><span class="kw s01-a"><span>Fail</span></span> <span class="kw s01-a"><span>fizikal.</span></span></div>
     <div class="h1" style="font-size:96px;color:var(--lime)"><span class="kw s01-b"><span>Carian</span></span> <span class="kw s01-b"><span>manual.</span></span></div>
@@ -37,23 +37,23 @@
           const tl = gsap.timeline({ paused: true });
           const FX = window.SPDFX;
 
-tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},1.5);tl.fromTo("#s01-flash",{opacity:0.55},{opacity:0,duration:0.18,ease:"power2.out"},1.5);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},2.7);tl.fromTo("#s01-flash",{opacity:0.55},{opacity:0,duration:0.18,ease:"power2.out"},2.7);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},4.3);tl.fromTo("#s01-flash",{opacity:0.55},{opacity:0,duration:0.18,ease:"power2.out"},4.3);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},5.755);tl.fromTo("#s01-flash",{opacity:0.55},{opacity:0,duration:0.18,ease:"power2.out"},5.755);
+tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},1.5);tl.fromTo("#s01-flash",{opacity:0.18},{opacity:0,duration:0.25,ease:"power2.out"},1.5);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},2.7);tl.fromTo("#s01-flash",{opacity:0.18},{opacity:0,duration:0.25,ease:"power2.out"},2.7);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},4.3);tl.fromTo("#s01-flash",{opacity:0.18},{opacity:0,duration:0.25,ease:"power2.out"},4.3);tl.fromTo("#s01-vw",{scale:1.09},{scale:1,duration:0.45,ease:"expo.out"},5.755);tl.fromTo("#s01-flash",{opacity:0.18},{opacity:0,duration:0.25,ease:"power2.out"},5.755);
 tl.fromTo("#s01-vw",{scale:1},{scale:1.06,duration:2.8120000000000003,ease:"none"},6.205);
 // freeze: flash, hold, slow push + desaturate, chalk doodles draw
 tl.set("#s01-fr",{opacity:1},8.567);
-tl.fromTo("#s01-flash",{opacity:0.9},{opacity:0,duration:0.35},8.567);
-tl.fromTo("#s01-fr",{scale:1.06,filter:"grayscale(0) brightness(1)"},{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:8.149999999999999,ease:"none"},8.567);
+tl.fromTo("#s01-flash",{opacity:0.35},{opacity:0,duration:0.35},8.567);
+tl.fromTo("#s01-fr",{scale:1.06,filter:"grayscale(0) brightness(1)"},{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:8.364999999999998,ease:"none"},8.567);
 tl.to("#s01-dim",{opacity:1,duration:0.6},8.717);
 FX.draw(tl,".s01-d",8.667,0.5,0.18);
 tl.fromTo("#s01-q",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.35,ease:"back.out(2)"},8.867);
-FX.words(tl,".s01-a > span",9.508);
-FX.words(tl,".s01-b > span",10.674);
-FX.words(tl,".s01-c > span",12.841,0.07);
-tl.to("#s01-flash",{opacity:1,background:"#0b2e22",duration:0.3,ease:"power2.in"},16.416999999999998);
+FX.words(tl,".s01-a > span",9.443999999999999);
+FX.words(tl,".s01-b > span",10.59);
+FX.words(tl,".s01-c > span",12.716999999999999,0.07);
 
-          // camera: slow breathing push for the whole scene (no blur-in)
-          tl.fromTo("#s01-i", { scale: 1 }, { scale: 1.03, duration: 16.717, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 16.717);
+          // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
+          tl.fromTo("#s01-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
+          tl.fromTo("#s01-i", { scale: 1 }, { scale: 1.03, duration: 16.932, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 16.932);
           window.__timelines = window.__timelines || {};
           window.__timelines["s01"] = tl;
         })();
