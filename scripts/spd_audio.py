@@ -561,8 +561,8 @@ def cues(sc):
     c("s14", s.w("v14", "imbasan") - 0.2, beep_chord(0.4), 0.6)
     c("s14", s.w("v14", "imbasan") - 0.2, laser_hum(1.6, 0.15), 0.4)
     s = S["s15"]
-    c("s15", s.w("v15", "ringgit") + 0.3, mallet(note_hz("D2"), 0.55), 0.6)
-    c("s15", s.w("v15", "ringgit") + 0.3, dissolve(1.0, 0.25), 0.4, 0.4)
+    c("s15", 7.75, mallet(note_hz("D2"), 0.55), 0.6)       # KPI total lands (fixed-timing scene, no VO yet)
+    c("s15", 7.75, dissolve(1.0, 0.25), 0.4, 0.4)
     s = S["s16"]
     c("s16", s.w("v16", "dakwat") + 0.3, ink_drop(0.4), 0.45, 0.4)
     c("s16", s.D - 0.5, paper_whoosh(0.5, 0.4), 0.55)

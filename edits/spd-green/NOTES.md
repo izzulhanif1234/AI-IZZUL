@@ -104,3 +104,7 @@
 - s15 removed (KPI scene from user to replace it). s19 KPIs: kertas, dakwat, rekod digital 90%, masa carian -80%,
   ruang simpanan -30%, kos RM217,836 (anggaran kos operasi). "Bersepadu" removed from the title.
 - Pending from user: module subs, new ATA search screenshots (replace ELKAY), KPI, AI videos for s04, new VO.
+- s15 is now the KPI scene from the user's KPI table (media/spd-green/new12/kpi.jpg): six before->after cards,
+  then RM178,141 = RM3,634 kertas + RM7,107 dakwat + RM167,400 sewaan ruang pejabat; placed after s16, fixed 13.5 s.
+- s19 SPD 2.0 Green Dashboard rebuilt from the user's proposal (new12/d1-d5): 5 modules (Paperless, Carbon Saving,
+  Resource Efficiency, Green Performance Monitoring, Green Analytics), KPI cards from the KPI table, division table.

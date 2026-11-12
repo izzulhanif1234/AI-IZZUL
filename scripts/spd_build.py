@@ -1235,44 +1235,66 @@ tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{{opacity:0,y:-30,duration:0.
 # --------------------------------------------------------------------------- S15 penjimatan kos
 @scene
 def s15(S):
-    t_ang = S.w("v15", "Anggaran")
-    t_dua = S.w("v15", "dua")
-    t_rgt = S.w("v15", "ringgit")
-    t_set = S.w("v15", "setahun")
-    # each digit of RM217,836 locks as the VO says it: dua ratus | tujuh belas ribu | lapan ratus | tiga puluh | enam
-    t_bel, t_lap, t_tig, t_ena = S.w("v15", "belas"), S.w("v15", "lapan"), S.w("v15", "puluh"), S.w("v15", "enam")
-    lock = [t_dua + 0.35, t_bel + 0.05, t_bel + 0.2, t_lap + 0.3, t_tig + 0.1, t_ena + 0.3]
-    people = "".join(f'<div class="s15-p" style="display:inline-block">{SB.person("#D9AE52")}</div>' for j in range(18))
+    """KPI dan pengukuran (user's KPI table): six before -> after cards, then the RM178,141 total and its breakdown.
+    No VO yet: fixed timing."""
+    K6 = [("Pembelian kertas A4", "1,242", "926", "unit", "Jimat 316 unit · RM3,634"),
+          ("Masa pencarian dokumen", "30", "3", "minit", "Jimat 27 minit"),
+          ("Pencetakan dokumen (dakwat)", "174", "105", "unit", "Jimat 69 unit · RM7,107"),
+          ("Proses sewaan &amp; penjualan", "14", "3", "hari", "Jimat 11 hari"),
+          ("Ruang simpanan fail", "1,550", "0", "kp", "1,550 kp kini disewakan"),
+          ("Sewaan ruang pejabat Aras 10 (MITCH)", "RM0", "RM4,650", "", "Hasil RM167,400")]
+    cards, js_c = "", ""
+    for i, (t, b, a, u, sv) in enumerate(K6):
+        x, y = 90 + (i % 3) * 590, 292 + (i // 3) * 300
+        gold = i == 5
+        cards += (f'<div class="abs s15-cd" id="s15-c{i}" style="left:{x}px;top:{y}px;width:560px;height:272px;border-radius:24px;padding:24px 28px;'
+                  f'background:linear-gradient(160deg,rgba(14,58,43,.92),rgba(6,30,22,.94));border:1.5px solid rgba(182,217,115,{.75 if gold else .35});'
+                  f'box-shadow:0 30px 70px rgba(0,0,0,.45)">'
+                  f'<div style="display:flex;align-items:baseline;gap:14px"><span class="mono" style="font-size:20px;color:var(--lime)">0{i + 1}</span>'
+                  f'<span style="font:800 27px/1.15 \'Plus Jakarta Sans\';color:#fff">{t}</span></div>'
+                  f'<div style="display:flex;align-items:flex-end;gap:22px;margin-top:20px;height:110px">'
+                  f'<div style="position:relative;font:800 52px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
+                  f'<i class="s15-st" id="s15-st{i}" style="position:absolute;left:-6px;right:-6px;top:52%;height:6px;border-radius:3px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>'
+                  f'<svg viewBox="0 0 60 30" style="width:46px;margin-bottom:28px"><path d="M2 15h48M40 5l12 10-12 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'
+                  f'<div id="s15-a{i}" style="font:800 {84 if len(a) < 6 else 70}px \'Plus Jakarta Sans\';color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
+                  f'<div style="font:700 26px \'Plus Jakarta Sans\';color:#cfe3d6;margin-bottom:16px">{u}</div></div>'
+                  f'<div class="s15-sv" id="s15-s{i}" style="display:inline-block;margin-top:10px;font:700 21px \'Plus Jakarta Sans\';color:#0B2E22;'
+                  f'background:{"#e6c06a" if gold else "#B6D973"};padding:7px 16px;border-radius:30px;clip-path:inset(0 100% 0 0 round 30px)">{sv}</div></div>')
+        t0 = 0.6 + i * 0.45
+        js_c += (f'tl.fromTo("#s15-c{i}",{{opacity:0,y:70,rotationX:-25,transformPerspective:1200}},{{opacity:1,y:0,rotationX:0,duration:0.7,ease:"expo.out"}},{t0:.2f});'
+                 f'tl.fromTo("#s15-st{i}",{{scaleX:0}},{{scaleX:1,duration:0.4,ease:"expo.inOut"}},{t0 + 0.4:.2f});'
+                 f'FX.odo(tl,"#s15-a{i}",{t0 + 0.45:.2f},1.0);'
+                 f'tl.fromTo("#s15-s{i}",{{clipPath:"inset(0 100% 0 0 round 30px)"}},{{clipPath:"inset(0 0% 0 0 round 30px)",duration:0.6,ease:"expo.inOut"}},{t0 + 0.85:.2f});')
+    T = 7.4
     html = f"""
 <div class="F gdark">
-  <div class="kicker abs" style="left:130px;top:120px">PENJIMATAN KOS TENAGA KERJA</div>
-  <div class="abs" style="left:130px;top:190px;width:640px;line-height:0">{people}</div>
-  <div class="abs" id="s15-pp" style="left:130px;top:420px;font:700 36px Plus Jakarta Sans">18 orang → <span style="color:#D9AE52">9 orang</span></div>
-  <table class="abs" id="s15-tb" style="left:130px;top:510px;width:720px;border-collapse:separate;border-spacing:0 14px;font:700 34px Plus Jakarta Sans;color:#fff">
-    <tr style="color:#B6D973;font-size:24px;letter-spacing:.14em"><td>UKURAN</td><td>SEBELUM</td><td>SELEPAS</td></tr>
-    <tr class="s15-r"><td>Kos bulanan</td><td style="opacity:.55">RM36,306</td><td>RM18,153</td></tr>
-    <tr class="s15-r"><td>Kos tahunan</td><td style="opacity:.55">RM435,672</td><td>RM217,836</td></tr></table>
-  <div class="abs" style="right:120px;top:330px;text-align:right">
-    <div class="mono" style="font-size:30px;color:#D9AE52">ANGGARAN PENJIMATAN TAHUNAN</div>
-    <div id="s15-n" class="h1" style="position:relative;font-size:158px;margin-top:10px">
-      <div class="bloom" id="s15-bl" style="left:-120px;right:-120px;top:-110px;bottom:-110px;background:radial-gradient(closest-side,rgba(217,174,82,.32),rgba(217,174,82,.08) 55%,transparent)"></div>
-      <span style="position:relative">{odo("RM217,836", cls="odo-gold")}</span>
-      <i class="uline" id="s15-ul" style="bottom:-6px;background:linear-gradient(90deg,rgba(217,174,82,0),#D9AE52 35%,#fff3c8);box-shadow:0 0 18px rgba(217,174,82,.6)"></i></div>
-    <div id="s15-s" style="font:600 34px Plus Jakarta Sans;color:#cfe3d6">setahun · kaedah anggaran kos upah</div>
-  </div>
+  <div id="s15-hd" class="abs" style="left:90px;top:84px">
+    <div class="kicker">KPI DAN PENGUKURAN</div>
+    <div class="h1" style="font-size:66px;margin-top:8px">{kw("Impak yang diukur, bukan diandaikan.", "s15-h")}</div></div>
+  <div id="s15-grid" class="abs" style="inset:0">{cards}</div>
+  <div id="s15-tot" class="abs" style="left:0;right:0;top:300px;text-align:center;opacity:0">
+    <div class="bloom" id="s15-bl" style="left:460px;right:460px;top:-60px;height:420px;background:radial-gradient(closest-side,rgba(217,174,82,.35),rgba(217,174,82,.08) 55%,transparent)"></div>
+    <div class="mono" style="position:relative;font-size:28px;letter-spacing:.24em;color:#e6c06a">JUMLAH PENJIMATAN &amp; PENAMBAHAN HASIL</div>
+    <div style="position:relative;display:inline-block;font:800 190px 'Plus Jakarta Sans';margin-top:10px">{odo("RM178,141", cls="odo-gold")}
+      <i class="uline" id="s15-ul" style="bottom:-4px;background:linear-gradient(90deg,rgba(217,174,82,0),#D9AE52 35%,#fff3c8)"></i></div>
+    <div style="position:relative;display:flex;justify-content:center;gap:18px;margin-top:40px">
+      {"".join(f'<div class="s15-bk" style="font:700 30px Plus Jakarta Sans;color:#fff;background:rgba(8,36,26,.8);border:1.5px solid rgba(217,174,82,.6);padding:12px 26px;border-radius:40px"><b style="color:#e6c06a">{v}</b> {l}</div>'
+                for v, l in [("RM3,634", "kertas"), ("RM7,107", "dakwat"), ("RM167,400", "sewaan ruang pejabat")])}</div></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
-tl.fromTo(".s15-p",{{opacity:0,y:-30}},{{opacity:1,y:0,duration:0.3,stagger:0.03}},{max(0.1, t_ang - 0.2)});
-tl.to(".s15-p:nth-child(n+10)",{{opacity:0.15,duration:0.3,stagger:0.03}},{t_ang + 0.8});
-tl.fromTo("#s15-pp",{{opacity:0,x:-40}},{{opacity:1,x:0,duration:0.4}},{t_ang + 0.9});
-tl.fromTo(".s15-r",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,stagger:0.25,ease:"expo.out"}},{t_ang + 1.3});
-tl.fromTo("#s15-n",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{t_dua - 0.45});
-FX.odo(tl,"#s15-n",{t_dua - 0.3},0,{{lock:{json.dumps([round(x, 3) for x in lock])},ease:"power3.out"}});
-FX.bloom(tl,"#s15-bl",{t_ena},1);
-FX.uline(tl,"#s15-ul",{t_ena + 0.15});
-tl.fromTo("#s15-s",{{opacity:0}},{{opacity:1,duration:0.4}},{t_set - 0.1});
-tl.to("#s15-i .gdark > *",{{opacity:0,duration:0.35}},{S.D - 0.4});
+tl.fromTo("#s15-hd .kicker",{{opacity:0,y:-16}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},0.1);
+FX.words(tl,".s15-h > span",0.2,0.05);
+{js_c}
+// the total takes over: cards recede, gold total rolls in, breakdown chips follow
+tl.to(".s15-cd",{{opacity:0.12,scale:0.94,duration:0.6,stagger:0.03,ease:"power2.inOut"}},{T:.2f});
+tl.to("#s15-hd",{{opacity:0,y:-30,duration:0.4}},{T:.2f});
+tl.fromTo("#s15-tot",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{T + 0.3:.2f});
+FX.odo(tl,"#s15-tot",{T + 0.35:.2f},1.8,{{ltr:true,stagger:0.08,ease:"power3.out"}});
+FX.bloom(tl,"#s15-bl",{T + 1.2:.2f},1);
+FX.uline(tl,"#s15-ul",{T + 1.9:.2f});
+tl.fromTo(".s15-bk",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,stagger:0.18,ease:"expo.out"}},{T + 2.2:.2f});
+tl.to(["#s15-tot","#s15-grid"],{{opacity:0,duration:0.4}},{S.D - 0.45});
 """
     return html, js
 
@@ -1438,7 +1460,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["−25.4%", "−39.7%", "90%", "−80%", "−30%", "RM217,836"]):
+    for i, v in enumerate(["−25.4%", "8,000", "−39.7%", "−90%", "1,550", "RM178,141"]):
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
@@ -1503,10 +1525,10 @@ def s20(S):
 <div class="F" style="background:#0B2E22">
   <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 32%,rgba(182,217,115,.24),transparent 58%)"></div>
-  <div id="s20-ring" class="abs" style="left:960px;top:250px;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;
+  <div id="s20-ring" class="abs" style="left:960px;top:300px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
     border:2px solid rgba(182,217,115,.25);box-shadow:0 0 60px rgba(182,217,115,.15) inset"></div>
-  <div id="s20-gl" class="abs" style="left:560px;top:20px;width:800px;height:400px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
-  <div id="s20-lw" class="abs" style="left:0;right:0;top:60px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 330)}</div>
+  <div id="s20-gl" class="abs" style="left:660px;top:70px;width:600px;height:300px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
+  <div id="s20-lw" class="abs" style="left:0;right:0;top:112px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 210)}</div>
   <div id="s20-sw" class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 150)}</div>
   <div class="abs" style="left:0;right:0;top:530px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
   <div class="abs" style="left:0;right:0;top:712px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
@@ -1556,8 +1578,8 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s10", ["v10"], dict(pre=0.5, post=1.4)),
     ("s13", ["v13"], dict(pre=0.5, post=1.2)),
     ("s14", ["v14"], dict(pre=0.5, post=1.6)),
-    # s15 (kos tenaga kerja figures) removed: to be replaced by the KPI scene the user will send
     ("s16", ["v16"], dict(pre=0.5, post=1.1)),
+    ("s15", [], dict(fixed=13.5)),  # KPI dan pengukuran (user KPI table), no VO yet
     ("s18", ["v18"], dict(pre=0.5, post=1.0)),
     ("s19", ["v19"], dict(pre=0.7, post=2.4)),
     ("s20", ["v20"], dict(pre=1.0, post=2.4)),
