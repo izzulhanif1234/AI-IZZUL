@@ -645,6 +645,23 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
         f'<b style="text-align:right">{v}%</b><span style="font:700 14px Plus Jakarta Sans;color:{c};background:{bg};padding:4px 10px;border-radius:20px;text-align:center">{r}</span></div>'
         for n, v, r, c, bg in [("Pentadbiran", 90, "Cemerlang", "#165A44", "#E9F2E7"), ("Kewangan", 85, "Baik", "#26745A", "#EEF5EC"),
                                ("Pengurusan Hartanah", 95, "Cemerlang", "#165A44", "#E9F2E7"), ("Pengurusan Projek", 75, "Memuaskan", "#9b7424", "#F7EFDC")])
+    # real figures from the KPI table: where the RM178,141 comes from
+    parts = [("Sewaan ruang pejabat Aras 10", 167400, "#D9AE52"), ("Dakwat pencetak", 7107, "#26745A"), ("Kertas A4", 3634, "#B6D973")]
+    tot = sum(v for _, v, _ in parts)
+    C, acc, arcs = 2 * 3.14159 * 78, 0.0, ""
+    for _, v, col in parts:
+        ln = C * v / tot
+        arcs += (f'<circle cx="100" cy="100" r="78" fill="none" stroke="{col}" stroke-width="34" stroke-dasharray="{max(ln - 2, 3):.1f} {C:.1f}" '
+                 f'stroke-dashoffset="{-acc:.1f}" transform="rotate(-90 100 100)"/>')
+        acc += ln
+    donut = (f'<svg viewBox="0 0 200 200" style="width:210px;height:210px;flex:none">{arcs}'
+             f'<text x="100" y="96" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="21" fill="#0B2E22">RM178,141</text>'
+             f'<text x="100" y="120" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="12" fill="#6b7a73">JUMLAH</text></svg>')
+    legend = "".join(f'<div style="display:grid;grid-template-columns:18px 1fr auto 52px;gap:12px;align-items:center;font:600 17px Plus Jakarta Sans;color:#2b3a33;margin:14px 0">'
+                     f'<i style="width:18px;height:18px;border-radius:5px;background:{col};display:block"></i><span>{n}</span>'
+                     f'<b style="font-weight:800;color:#0B2E22">RM{v:,}</b><span style="text-align:right;color:#6b7a73">{v * 100 / tot:.0f}%</span></div>'
+                     for n, v, col in parts)
+    split = f'<div style="display:flex;align-items:center;gap:30px;margin-top:6px">{donut}<div style="flex:1">{legend}</div></div>'
     gi = GREEN_INDEX
     circ = 2 * 3.14159 * 110
     gauge = (f'<svg viewBox="0 0 260 260" style="width:250px;height:250px"><circle cx="130" cy="130" r="110" stroke="#E3EBE5" stroke-width="22" fill="none"/>'
@@ -707,7 +724,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
 <div style="font:800 17px Plus Jakarta Sans;color:#0B2E22;background:#E9F2E7;border-radius:30px;padding:8px 12px">Advanced Green Performance</div></div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">{kh}</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px">
-<div style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 10px rgba(0,0,0,.06)"><div style="font:800 14px JetBrains Mono;letter-spacing:.14em;color:#6b7a73">GREEN PERFORMANCE MONITORING · MENGIKUT BAHAGIAN</div>{div_rows}</div>
+<div style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 10px rgba(0,0,0,.06)"><div style="font:800 14px JetBrains Mono;letter-spacing:.14em;color:#6b7a73">PECAHAN PENJIMATAN &amp; HASIL · RM178,141</div>{split}</div>
 <div style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 10px rgba(0,0,0,.06)"><div style="font:800 14px JetBrains Mono;letter-spacing:.14em;color:#6b7a73">TREND PERMOHONAN BAHAN CETAKAN · 2021 vs 2025</div>{trend}</div></div>
 <div style="margin-top:24px;background:linear-gradient(90deg,#0B2E22,#165A44);border-radius:14px;padding:14px 10px;display:flex;align-items:center">
 <div style="padding:0 20px;font:800 16px JetBrains Mono;color:#B6D973;letter-spacing:.12em;line-height:1.3">GREEN<br>IMPACT<br>METER</div>{meter}</div>
