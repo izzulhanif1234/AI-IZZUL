@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Concept: "Salam Jumaat" hypermotion poster-video, 9:16, silent (no music, no SFX by request).
+         Deep emerald night-to-dawn stage, Islamic 8-point star geometry, one gold accent.
+         Motion language: slams, zoom-throughs, whip-pans, 3D card flips, camera punches + shake. */
+      @font-face { font-family: "Amiri"; src: url(assets/fonts/amiri-arabic-400-normal.woff2) format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Amiri"; src: url(assets/fonts/amiri-arabic-700-normal.woff2) format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Cormorant"; src: url(assets/fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Cormorant"; src: url(assets/fonts/cormorant-garamond-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Cormorant"; src: url(assets/fonts/cormorant-garamond-latin-600-italic.woff2) format("woff2"); font-weight: 600; font-style: italic; }
+      @font-face { font-family: "Cormorant"; src: url(assets/fonts/cormorant-garamond-latin-700-italic.woff2) format("woff2"); font-weight: 700; font-style: italic; }
+      @font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-500-normal.woff2) format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-800-normal.woff2) format("woff2"); font-weight: 800; }
+
+      :root {
+        --bg: #021a16;
+        --emerald: #06372d;
+        --gold: #e6be66;
+        --gold-deep: #b8862f;
+        --cream: #fff4dc;
+        --muted: #b9cfc4;
+        --gold-grad: linear-gradient(100deg, #b8862f 0%, #f6dc94 22%, #fff6d8 32%, #e6be66 45%, #b8862f 62%, #f3d68a 80%, #c9973d 100%);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root {
+        position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        background: var(--bg); color: var(--cream); font-family: "Montserrat", sans-serif;
+      }
+      .clip { position: absolute; inset: 0; }
+      .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .gold-text {
+        background: var(--gold-grad); background-size: 300% 100%; background-position: 0% 50%;
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .w, .ch { display: inline-block; will-change: transform, opacity; }
+
+      /* ---------- persistent background ---------- */
+      #bg-grad {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(ellipse 120% 70% at 50% 58%, #0b4a3c 0%, #06372d 35%, #03241d 65%, #01140f 100%);
+      }
+      #sun {
+        position: absolute; left: 540px; top: 1500px; width: 1500px; height: 1500px; margin: -750px 0 0 -750px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 226, 150, 0.85) 0%, rgba(240, 180, 80, 0.45) 12%, rgba(214, 150, 60, 0.18) 30%, rgba(214, 150, 60, 0) 60%);
+      }
+      #pattern { position: absolute; left: -540px; top: -540px; width: 2160px; height: 3000px; opacity: 0.11; }
+      #rosette-wrap { position: absolute; left: 540px; top: 960px; width: 0; height: 0; }
+      #rosette { position: absolute; left: -760px; top: -760px; width: 1520px; height: 1520px; opacity: 0.13; }
+      .ring { position: absolute; left: -500px; top: -500px; width: 1000px; height: 1000px; border-radius: 50%; border: 5px solid rgba(240, 205, 125, 0.85); box-shadow: 0 0 40px rgba(240, 205, 125, 0.45), inset 0 0 40px rgba(240, 205, 125, 0.25); opacity: 0; }
+      .ring.r2 { border-width: 2px; }
+      .dust { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #ffe3a0; box-shadow: 0 0 14px 4px rgba(255, 210, 120, 0.55); }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 85% 70% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0, 8, 6, 0.75) 100%); }
+
+      /* mosque silhouette */
+      .mosque { position: absolute; left: 0; bottom: 0; width: 1080px; height: 760px; }
+
+      #cam { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* ---------- S1 title ---------- */
+      #intro-black { position: absolute; inset: 0; background: #000; }
+      #flash-star { position: absolute; left: 540px; top: 960px; width: 520px; height: 520px; margin: -260px 0 0 -260px; }
+      .t1 { font-weight: 800; font-size: 104px; letter-spacing: 0.01em; line-height: 1.02; color: var(--cream); text-shadow: 0 8px 40px rgba(0,0,0,0.45); }
+      .t-adalah { font-family: "Cormorant", serif; font-style: italic; font-weight: 700; font-size: 84px; color: var(--gold); margin: 18px 0 6px; display: flex; align-items: center; gap: 28px; letter-spacing: 0.3em; }
+      .t-adalah .bar { width: 120px; height: 3px; background: var(--gold); display: inline-block; }
+      .t-big { font-weight: 800; font-size: 190px; line-height: 0.95; letter-spacing: -0.01em; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5)); }
+      .t-big.l2 { font-size: 214px; }
+      #s1-text { transform: translateY(-120px); }
+
+      /* ---------- S2 hadith ---------- */
+      #s2-inner { transform-origin: 50% 45%; }
+      .pill-label {
+        display: inline-flex; align-items: center; gap: 22px; padding: 18px 40px; border-radius: 999px;
+        border: 2px solid rgba(230, 190, 102, 0.75); background: rgba(3, 30, 24, 0.6);
+        font-weight: 700; font-size: 34px; letter-spacing: 0.22em; color: var(--gold);
+      }
+      .pill-label .dot { width: 14px; height: 14px; transform: rotate(45deg); background: var(--gold); display: inline-block; }
+      .arabic {
+        direction: rtl; font-family: "Amiri", serif; font-weight: 700; font-size: 88px; line-height: 1.7;
+        color: var(--cream); margin-top: 60px; padding: 0 40px; white-space: nowrap; text-shadow: 0 0 40px rgba(255, 210, 120, 0.25);
+      }
+      .arabic .w { margin: 0 8px; }
+      .arabic .hl { color: #ffd889; text-shadow: 0 0 30px rgba(255, 200, 100, 0.65); }
+      .divider { display: flex; align-items: center; gap: 22px; margin: 34px 0 36px; }
+      .divider .line { width: 220px; height: 2px; background: linear-gradient(90deg, rgba(230,190,102,0), var(--gold)); }
+      .divider .line.r { background: linear-gradient(90deg, var(--gold), rgba(230,190,102,0)); }
+      .divider svg { width: 46px; height: 46px; }
+      .translation { text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6); font-family: "Cormorant", serif; font-style: italic; font-weight: 600; font-size: 74px; line-height: 1.22; color: var(--cream); padding: 0 90px; }
+      .translation .gold { color: var(--gold); font-weight: 700; white-space: nowrap; }
+      .source { text-shadow: 0 3px 16px rgba(0, 0, 0, 0.7); margin-top: 52px; font-weight: 600; font-size: 36px; letter-spacing: 0.08em; color: var(--muted); }
+      .source b { color: var(--gold); font-weight: 700; }
+
+      /* ---------- S3 Mesej Jumaat title ---------- */
+      .mj-1 { font-weight: 800; font-size: 210px; line-height: 0.95; color: #073a2f; -webkit-text-stroke: 4px var(--gold); letter-spacing: 0.04em; }
+      .mj-2 { font-weight: 800; font-size: 210px; line-height: 0.95; letter-spacing: 0.02em; }
+      .mj-tag { margin-top: 40px; font-family: "Cormorant", serif; font-style: italic; font-weight: 600; font-size: 60px; color: var(--muted); }
+
+      /* ---------- S4 three beats ---------- */
+      #s4 { perspective: 1800px; }
+      .lead { position: absolute; top: 470px; left: 0; right: 0; text-align: center; font-family: "Cormorant", serif; font-style: italic; font-weight: 600; font-size: 70px; line-height: 1.15; color: var(--cream); padding: 0 100px; }
+      .lead .gold { color: var(--gold); font-weight: 700; }
+      .beat { position: absolute; left: 90px; right: 90px; top: 760px; height: 560px; transform-style: preserve-3d; }
+      .card {
+        position: absolute; inset: 0; border-radius: 44px; overflow: hidden;
+        background: linear-gradient(160deg, rgba(14, 82, 66, 0.92), rgba(3, 36, 29, 0.95));
+        border: 3px solid rgba(230, 190, 102, 0.7);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), inset 0 0 80px rgba(230, 190, 102, 0.08);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      }
+      .card .num { position: absolute; right: 36px; top: 6px; font-weight: 800; font-size: 230px; line-height: 1; color: #0b4436; -webkit-text-stroke: 3px rgba(230, 190, 102, 0.35); }
+      .card .kicker { font-weight: 700; font-size: 32px; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 26px; }
+      .card .big { font-weight: 800; font-size: 96px; line-height: 1.04; color: var(--cream); }
+      .card .big .g { display: block; }
+      .card .big.sm { font-size: 72px; }
+      .card .big.md { font-size: 84px; }
+      .card svg.orn { position: absolute; left: 50%; bottom: -70px; width: 260px; height: 260px; margin-left: -130px; opacity: 0.22; }
+      .dots { position: absolute; top: 1390px; left: 0; right: 0; display: flex; justify-content: center; gap: 22px; }
+      .dots i { width: 18px; height: 18px; transform: rotate(45deg); border: 2px solid var(--gold); display: inline-block; }
+      .dots i.on { background: var(--gold); }
+
+      /* ---------- S5 doa ---------- */
+      .doa-1 { font-family: "Cormorant", serif; font-style: italic; font-weight: 600; font-size: 78px; line-height: 1.18; padding: 0 100px; color: var(--cream); }
+      .doa-key { font-weight: 800; font-size: 124px; letter-spacing: 0; white-space: nowrap; margin: 30px 0 34px; filter: drop-shadow(0 0 40px rgba(255, 200, 100, 0.35)); }
+      .doa-2 { font-weight: 700; font-size: 76px; line-height: 1.18; color: var(--cream); }
+      .doa-2 .gold { color: var(--gold); }
+
+      /* ---------- iris transition ---------- */
+      #iris { position: absolute; left: 540px; top: 960px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%; background: radial-gradient(circle, #fff3c8 0%, #e6be66 45%, #b8862f 100%); }
+
+      /* ---------- S6 closing ---------- */
+      .jm-ar { direction: rtl; font-family: "Amiri", serif; font-weight: 700; font-size: 120px; line-height: 1.4; color: #ffd889; text-shadow: 0 0 46px rgba(255, 200, 100, 0.55); }
+      .salam { font-weight: 800; font-size: 150px; line-height: 0.95; letter-spacing: 0.12em; color: var(--cream); margin-top: 10px; }
+      .jumaat { font-weight: 800; font-size: 214px; line-height: 0.98; letter-spacing: 0.01em; filter: drop-shadow(0 12px 34px rgba(0,0,0,0.5)); }
+      .from { margin-top: 60px; font-family: "Cormorant", serif; font-style: italic; font-weight: 600; font-size: 64px; color: var(--muted); }
+      .logo-card { margin-top: 30px; padding: 34px 54px; border-radius: 36px; background: #fffaf0; box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 4px rgba(230, 190, 102, 0.8); }
+      .logo-card img { display: block; width: 360px; height: auto; }
+      #s6-text { transform: translateY(-150px); }
+
+      #streaks { position: absolute; inset: 0; pointer-events: none; }
+      .streak { position: absolute; left: 0; height: 4px; width: 900px; border-radius: 4px; background: linear-gradient(90deg, rgba(255, 220, 140, 0), rgba(255, 220, 140, 0.9), rgba(255, 220, 140, 0)); }
+      #flash { position: absolute; inset: 0; background: #fff6dc; opacity: 0; mix-blend-mode: screen; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="31" data-width="1080" data-height="1920">
+      <!-- Persistent stage -->
+      <div id="bg" class="clip" data-start="0" data-duration="31" data-track-index="0">
+        <div id="bg-grad"></div>
+        <div id="sun"></div>
+        <svg id="pattern" viewBox="0 0 2160 3000" aria-hidden="true">
+          <defs>
+            <pattern id="star8" width="180" height="180" patternUnits="userSpaceOnUse">
+              <g fill="none" stroke="#e6be66" stroke-width="2.2">
+                <rect x="45" y="45" width="90" height="90" />
+                <rect x="45" y="45" width="90" height="90" transform="rotate(45 90 90)" />
+                <circle cx="90" cy="90" r="20" />
+                <path d="M0 0 L45 45 M180 0 L135 45 M0 180 L45 135 M180 180 L135 135" />
+              </g>
+            </pattern>
+          </defs>
+          <rect width="2160" height="3000" fill="url(#star8)" />
+        </svg>
+        <div id="rosette-wrap">
+          <div class="ring" id="ring1"></div><div class="ring r2" id="ring2"></div>
+          <svg id="rosette" viewBox="-760 -760 1520 1520" aria-hidden="true">
+            <g fill="none" stroke="#e6be66" stroke-width="3">
+              <circle r="740" /><circle r="700" stroke-width="1.5" /><circle r="420" /><circle r="190" />
+              <g id="ros-sq"></g>
+            </g>
+          </svg>
+        </div>
+        <div id="dust-layer"></div>
+        <div id="vignette"></div>
+      </div>
+
+      <div id="cam" class="clip" data-start="0" data-duration="31" data-track-index="1">
+        <!-- S1: title (0 - 4.0) -->
+        <div id="s1" class="clip" data-start="0" data-duration="4.1" data-track-index="2">
+          <svg class="mosque" id="mosque1" viewBox="0 0 1080 760" aria-hidden="true"></svg>
+          <div id="s1-text" class="center">
+            <div class="t1"><span class="w" id="t-se">SEINDAH-</span><span class="w" id="t-in">INDAH</span></div>
+            <div class="t1"><span class="w" id="t-hari1">HARI</span></div>
+            <div class="t-adalah"><span class="bar" id="bar-l"></span><span id="t-adalah" class="split-ch">ADALAH</span><span class="bar" id="bar-r"></span></div>
+            <div class="t-big gold-text split-ch" id="t-hari2">HARI</div>
+            <div class="t-big l2 gold-text split-ch" id="t-jumaat">JUMAAT</div>
+          </div>
+          <div id="intro-black"></div>
+          <svg id="flash-star" viewBox="-130 -130 260 260" aria-hidden="true">
+            <g fill="none" stroke="#f3d68a" stroke-width="6">
+              <rect x="-80" y="-80" width="160" height="160" />
+              <rect x="-80" y="-80" width="160" height="160" transform="rotate(45)" />
+              <circle r="38" fill="#f3d68a" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- S2: hadith (3.8 - 11.0) -->
+        <div id="s2" class="clip" data-start="3.8" data-duration="7.2" data-track-index="3">
+          <div id="s2-inner" class="center">
+            <div class="pill-label" id="hd-label"><span class="dot"></span>HADIS RASULULLAH SAW<span class="dot"></span></div>
+            <div class="arabic" id="hd-ar">
+              <span class="w">خَيْرُ</span> <span class="w">يَوْمٍ</span> <span class="w">طَلَعَتْ</span> <span class="w">عَلَيْهِ</span> <span class="w">الشَّمْسُ</span><br /><span class="w hl">يَوْمُ</span> <span class="w hl">الْجُمُعَةِ</span>
+            </div>
+            <div class="divider" id="hd-div">
+              <span class="line"></span>
+              <svg viewBox="-24 -24 48 48"><g fill="#e6be66"><rect x="-12" y="-12" width="24" height="24" /><rect x="-12" y="-12" width="24" height="24" transform="rotate(45)" /></g></svg>
+              <span class="line r"></span>
+            </div>
+            <div class="translation split-w" id="hd-tr">“Sebaik-baik hari yang terbit padanya matahari ialah <span class="gold">hari Jumaat.</span>”</div>
+            <div class="source" id="hd-src">— Riwayat <b>Muslim</b>, 854</div>
+          </div>
+        </div>
+
+        <!-- S3: Mesej Jumaat (10.7 - 13.1) -->
+        <div id="s3" class="clip" data-start="10.7" data-duration="2.4" data-track-index="4">
+          <div id="s3-inner" class="center">
+            <div class="mj-1 split-ch" id="mj-1">MESEJ</div>
+            <div class="mj-2 gold-text split-ch" id="mj-2">JUMAAT</div>
+            <div class="mj-tag" id="mj-tag">untuk kita semua</div>
+          </div>
+        </div>
+
+        <!-- S4: three beats (12.9 - 20.7) -->
+        <div id="s4" class="clip" data-start="12.9" data-duration="7.8" data-track-index="5">
+          <div class="lead split-w" id="lead">Jadikan <span class="gold">hari Jumaat</span> sebagai ruang untuk</div>
+          <div class="beat" id="b1">
+            <div class="card">
+              <div class="num" data-layout-ignore aria-hidden="true">01</div>
+              <div class="kicker split-ch">LANGKAH PERTAMA</div>
+              <div class="big"><span class="g">MEMPERBAIKI</span><span class="g gold-text">DIRI</span></div>
+              <svg class="orn" viewBox="-130 -130 260 260"><g fill="none" stroke="#e6be66" stroke-width="5"><rect x="-80" y="-80" width="160" height="160" /><rect x="-80" y="-80" width="160" height="160" transform="rotate(45)" /></g></svg>
+            </div>
+          </div>
+          <div class="beat" id="b2">
+            <div class="card">
+              <div class="num" data-layout-ignore aria-hidden="true">02</div>
+              <div class="kicker split-ch">LANGKAH KEDUA</div>
+              <div class="big md"><span class="g">MEMPERBAHARUI</span><span class="g gold-text">NIAT</span></div>
+              <svg class="orn" viewBox="-130 -130 260 260"><g fill="none" stroke="#e6be66" stroke-width="5"><rect x="-80" y="-80" width="160" height="160" /><rect x="-80" y="-80" width="160" height="160" transform="rotate(45)" /></g></svg>
+            </div>
+          </div>
+          <div class="beat" id="b3">
+            <div class="card">
+              <div class="num" data-layout-ignore aria-hidden="true">03</div>
+              <div class="kicker split-ch">LANGKAH KETIGA</div>
+              <div class="big sm"><span class="g">MEMPERBANYAKKAN</span><span class="g gold-text">AMAL KEBAIKAN</span></div>
+              <svg class="orn" viewBox="-130 -130 260 260"><g fill="none" stroke="#e6be66" stroke-width="5"><rect x="-80" y="-80" width="160" height="160" /><rect x="-80" y="-80" width="160" height="160" transform="rotate(45)" /></g></svg>
+            </div>
+          </div>
+          <div class="dots"><i id="d1"></i><i id="d2"></i><i id="d3"></i></div>
+        </div>
+
+        <!-- S5: doa (20.5 - 26.3) -->
+        <div id="s5" class="clip" data-start="20.5" data-duration="5.8" data-track-index="6">
+          <div id="s5-inner" class="center">
+            <div class="doa-1 split-w" id="doa-1">Semoga setiap usaha yang dilakukan menjadi asbab</div>
+            <div class="doa-key gold-text split-ch" id="doa-key">KEBERKATAN</div>
+            <div class="doa-2 split-w" id="doa-2">dalam <span class="gold">kehidupan</span><br />dan <span class="gold">pekerjaan.</span></div>
+          </div>
+        </div>
+
+        <!-- S6: closing (26.0 - 31.0) -->
+        <div id="s6" class="clip" data-start="26.0" data-duration="5.0" data-track-index="7">
+          <svg class="mosque" id="mosque2" viewBox="0 0 1080 760" aria-hidden="true"></svg>
+          <div id="s6-text" class="center">
+            <div class="jm-ar" id="jm-ar">جُمُعَة مُبَارَكَة</div>
+            <div class="salam split-ch" id="salam">SALAM</div>
+            <div class="jumaat gold-text split-ch" id="jumaat">JUMAAT</div>
+            <div class="from" id="from">daripada warga</div>
+            <div class="logo-card" id="logo-card"><img src="assets/img/mcorp-corporate.png" alt="MCORP Perbadanan Melaka" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fx" class="clip" data-start="0" data-duration="31" data-track-index="8">
+        <div id="streaks"></div>
+        <div id="iris"></div>
+        <div id="flash"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // ---------- deterministic DOM builders ----------
+        let seed = 7;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        const NS = "http://www.w3.org/2000/svg";
+
+        // rosette: 16-point star from rotated squares, plus inner star
+        const ros = document.getElementById("ros-sq");
+        for (let i = 0; i < 4; i++) {
+          for (const s of [520, 300]) {
+            const r = document.createElementNS(NS, "rect");
+            r.setAttribute("x", -s / 2); r.setAttribute("y", -s / 2); r.setAttribute("width", s); r.setAttribute("height", s);
+            r.setAttribute("transform", `rotate(${i * 22.5})`);
+            ros.appendChild(r);
+          }
+        }
+        // dust
+        const dustLayer = document.getElementById("dust-layer");
+        const dust = [];
+        for (let i = 0; i < 34; i++) {
+          const d = document.createElement("div");
+          d.className = "dust";
+          const s = 3 + rnd() * 7;
+          d.style.width = d.style.height = s.toFixed(1) + "px";
+          d.style.left = (rnd() * 1080).toFixed(0) + "px";
+          d.style.top = (200 + rnd() * 1800).toFixed(0) + "px";
+          dustLayer.appendChild(d);
+          dust.push({ el: d, rise: 260 + rnd() * 420, drift: (rnd() - 0.5) * 120, ph: rnd() * 3, base: 0.25 + rnd() * 0.6 });
+        }
+        // mosque silhouette (two copies)
+        const mosqueSVG = `
+          <defs>
+            <linearGradient id="mq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#03211b"/><stop offset="1" stop-color="#010d0a"/></linearGradient>
+          </defs>
+          <g fill="url(#mq)">
+            <path d="M540 150 L540 68" stroke="#e6be66" stroke-width="5"/>
+            <path d="M380 400 C380 270 470 250 540 150 C610 250 700 270 700 400 Z"/>
+            <rect x="400" y="390" width="280" height="120"/>
+            <path d="M210 470 C210 400 250 385 290 345 C330 385 370 400 370 470 Z"/>
+            <path d="M710 470 C710 400 750 385 790 345 C830 385 870 400 870 470 Z"/>
+            <rect x="150" y="470" width="780" height="290"/>
+            <rect x="80" y="220" width="54" height="540"/><rect x="70" y="330" width="74" height="18"/><rect x="70" y="440" width="74" height="18"/>
+            <path d="M80 222 L107 140 L134 222 Z"/>
+            <rect x="946" y="220" width="54" height="540"/><rect x="936" y="330" width="74" height="18"/><rect x="936" y="440" width="74" height="18"/>
+            <path d="M946 222 L973 140 L1000 222 Z"/>
+            <rect x="0" y="690" width="1080" height="70"/>
+          </g>
+          <g fill="none" stroke="#e6be66" stroke-width="4">
+            <path d="M540 34 A 20 20 0 0 0 540 74 A 26 26 0 0 1 540 34 Z" fill="#e6be66" stroke="none"/>
+            <path d="M107 140 L107 112 M973 140 L973 112"/>
+          </g>
+          <g fill="#f3c86a" opacity="0.85">
+            <path d="M440 510 L440 450 C440 430 470 430 470 450 L470 510 Z"/>
+            <path d="M525 510 L525 440 C525 415 555 415 555 440 L555 510 Z"/>
+            <path d="M610 510 L610 450 C610 430 640 430 640 450 L640 510 Z"/>
+            <path d="M500 690 L500 600 C500 560 580 560 580 600 L580 690 Z" opacity="0.9"/>
+            <path d="M250 620 L250 570 C250 550 280 550 280 570 L280 620 Z"/><path d="M330 620 L330 570 C330 550 360 550 360 570 L360 620 Z"/>
+            <path d="M720 620 L720 570 C720 550 750 550 750 570 L750 620 Z"/><path d="M800 620 L800 570 C800 550 830 550 830 570 L830 620 Z"/>
+          </g>`;
+        document.getElementById("mosque1").innerHTML = mosqueSVG;
+        document.getElementById("mosque2").innerHTML = mosqueSVG.replace(/id="mq"/, 'id="mq2"').replace(/url\(#mq\)/, "url(#mq2)");
+
+        // streaks
+        const streaks = document.getElementById("streaks");
+        for (let i = 0; i < 9; i++) {
+          const s = document.createElement("div");
+          s.className = "streak";
+          s.style.top = (260 + i * 170 + rnd() * 60).toFixed(0) + "px";
+          s.style.width = (500 + rnd() * 700).toFixed(0) + "px";
+          streaks.appendChild(s);
+        }
+
+        // text splitters (characters / words), keeping inline wrappers like <span class="gold">
+        function splitNode(node, mode) {
+          [...node.childNodes].forEach((c) => {
+            if (c.nodeType === 3) {
+              const frag = document.createDocumentFragment();
+              const parts = mode === "ch" ? [...c.textContent] : c.textContent.split(/(\s+)/);
+              parts.forEach((p) => {
+                if (!p) return;
+                if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+                const s = document.createElement("span");
+                s.className = mode === "ch" ? "ch" : "w";
+                s.textContent = p;
+                frag.appendChild(s);
+              });
+              c.replaceWith(frag);
+            } else if (c.nodeType === 1 && c.tagName !== "BR") {
+              splitNode(c, mode);
+            }
+          });
+        }
+        document.querySelectorAll(".split-ch").forEach((n) => splitNode(n, "ch"));
+        document.querySelectorAll(".split-w").forEach((n) => splitNode(n, "w"));
+        // gradient text must live on the glyph spans once split
+        document.querySelectorAll(".gold-text .ch, .gold-text .w").forEach((s) => s.classList.add("gold-text"));
+
+        const tl = gsap.timeline({ paused: true });
+        const T = 31;
+
+        // ---------- helpers ----------
+        const SHAKE = [[14, -9], [-12, 8], [9, 11], [-7, -6], [5, 4], [-3, 2], [0, 0]];
+        function shake(at, amp = 1) {
+          SHAKE.forEach(([x, y], i) => tl.to("#cam", { x: x * amp, y: y * amp, duration: 0.035, ease: "none" }, at + i * 0.035));
+        }
+        function punch(at, from = 1.07) {
+          tl.fromTo("#cam", { scale: from }, { scale: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, at);
+        }
+        function flash(at, peak = 0.55) {
+          tl.fromTo("#flash", { opacity: peak }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, at);
+        }
+        // burst: gold shockwave rings + rosette pulse (no radial rays)
+        function burst(at) {
+          tl.fromTo("#ring1", { scale: 0.15, opacity: 1 }, { scale: 2.2, opacity: 0, duration: 1.0, ease: "expo.out", immediateRender: false }, at);
+          tl.fromTo("#ring2", { scale: 0.1, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 1.2, ease: "expo.out", immediateRender: false }, at + 0.1);
+          tl.fromTo("#rosette", { opacity: 0.32, scale: 1.12 }, { opacity: 0.13, scale: 1, duration: 1.1, ease: "power2.out", immediateRender: false }, at);
+        }
+        function whip(at, dir = -1) {
+          tl.fromTo("#streaks .streak", { x: dir < 0 ? 1300 : -1400, opacity: 1 },
+            { x: dir < 0 ? -1500 : 1300, opacity: 1, duration: 0.42, ease: "power2.inOut", stagger: 0.015, immediateRender: false }, at);
+          tl.set("#streaks .streak", { opacity: 0 }, at + 0.6);
+        }
+        const spread = (px) => (i, el, arr) => (i - (arr.length - 1) / 2) * px;
+        const shimmer = (sel, at, dur = 1.1) =>
+          tl.fromTo(sel, { backgroundPosition: "0% 50%" }, { backgroundPosition: "100% 50%", duration: dur, ease: "sine.inOut", immediateRender: false }, at);
+
+        // ---------- initial states (immediate, outside the timeline) ----------
+        gsap.set("#streaks .streak", { opacity: 0 });
+        gsap.set("#iris", { scale: 0 });
+        gsap.set(["#b2", "#b3"], { autoAlpha: 0 });
+
+        // ---------- ambient, whole film ----------
+        tl.fromTo("#pattern", { rotation: 0, y: 0 }, { rotation: 12, y: -240, duration: T, ease: "none" }, 0);
+        tl.fromTo("#rosette", { rotation: 0 }, { rotation: 90, duration: T, ease: "none" }, 0);
+        const clock = { t: 0 };
+        tl.to(clock, {
+          t: T, duration: T, ease: "none",
+          onUpdate: () => {
+            const t = clock.t;
+            dust.forEach((d) => {
+              const k = t / T;
+              d.el.style.transform = `translate(${(d.drift * Math.sin(t * 0.4 + d.ph)).toFixed(1)}px, ${(-d.rise * k).toFixed(1)}px)`;
+              d.el.style.opacity = (d.base * (0.55 + 0.45 * Math.sin(t * 1.7 + d.ph * 2))).toFixed(3);
+            });
+          },
+        }, 0);
+        // sun: dawn rise in S1-S2, sinks behind for the middle, rises again for the closing
+        tl.fromTo("#sun", { y: 600, scale: 0.6, opacity: 0.4 }, { y: 120, scale: 1, opacity: 0.8, duration: 10.5, ease: "sine.out" }, 0.3);
+        tl.to("#sun", { y: 360, opacity: 0.55, duration: 2, ease: "sine.inOut" }, 11);
+        tl.to("#sun", { y: -200, opacity: 1, scale: 1.15, duration: 4.5, ease: "sine.out" }, 26);
+
+        // ================= S1 TITLE (0 - 4.0) =================
+        gsap.set(["#t-se", "#t-in", "#t-hari1", "#t-adalah", "#bar-l", "#bar-r"], { autoAlpha: 0 });
+        gsap.set(["#t-hari2 .ch", "#t-jumaat .ch"], { autoAlpha: 0 });
+        // gold star slam -> zoom-through reveals the stage
+        tl.fromTo("#flash-star", { scale: 0, rotation: -200 }, { scale: 1, rotation: 0, duration: 0.45, ease: "expo.out" }, 0.0);
+        tl.to("#flash-star", { scale: 16, rotation: 60, opacity: 0, duration: 0.42, ease: "power3.in" }, 0.5);
+        tl.to("#intro-black", { opacity: 0, duration: 0.3, ease: "power1.out" }, 0.72);
+        flash(0.86, 0.6);
+        tl.fromTo("#mosque1", { y: 520 }, { y: 0, duration: 1.1, ease: "expo.out" }, 0.75);
+        // SEINDAH- / INDAH whip in from opposite sides
+        tl.fromTo("#t-se", { x: -1100, skewX: 35, autoAlpha: 0, filter: "blur(18px)" },
+          { x: 0, skewX: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.42, ease: "expo.out" }, 0.9);
+        tl.fromTo("#t-in", { x: 1100, skewX: -35, autoAlpha: 0, filter: "blur(18px)" },
+          { x: 0, skewX: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.42, ease: "expo.out" }, 1.08);
+        tl.fromTo("#t-hari1", { y: -500, autoAlpha: 0, scaleY: 1.6 },
+          { y: 0, autoAlpha: 1, scaleY: 1, duration: 0.45, ease: "back.out(2.2)" }, 1.3);
+        tl.set("#t-adalah", { autoAlpha: 1 }, 1.6);
+        tl.fromTo("#t-adalah .ch", { x: spread(90), autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 1.6);
+        tl.fromTo(["#bar-l", "#bar-r"], { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, 1.7);
+        // HARI JUMAAT letters spin up in 3D, then camera punch + shake
+        tl.fromTo("#t-hari2 .ch", { y: 140, rotationX: -100, scale: 0.4, autoAlpha: 0 },
+          { y: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.8)", stagger: 0.05 }, 2.0);
+        tl.fromTo("#t-jumaat .ch", { scale: 3.2, autoAlpha: 0, filter: "blur(16px)" },
+          { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.34, ease: "expo.out", stagger: 0.055 }, 2.25);
+        punch(2.62, 1.08); shake(2.62, 1.1); flash(2.62, 0.35); burst(2.62);
+        shimmer("#t-hari2 .ch, #t-jumaat .ch", 2.9, 1.0);
+        tl.fromTo("#s1-text", { scale: 1 }, { scale: 1.05, duration: 0.85, ease: "sine.inOut" }, 2.8);
+        // zoom-through exit
+        tl.to("#s1-text", { scale: 4.2, autoAlpha: 0, filter: "blur(22px)", duration: 0.32, ease: "power3.in" }, 3.68);
+        tl.to("#mosque1", { y: 600, duration: 0.35, ease: "power3.in" }, 3.65);
+
+        // ================= S2 HADITH (3.8 - 11.0) =================
+        tl.fromTo("#s2-inner", { scale: 0.35, autoAlpha: 0, filter: "blur(24px)" },
+          { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 3.92);
+        tl.fromTo("#hd-label", { clipPath: "inset(0 50% 0 50% round 999px)" }, { clipPath: "inset(0 0% 0 0% round 999px)", duration: 0.45, ease: "expo.out" }, 4.05);
+        tl.fromTo("#hd-ar .w", { scale: 2.2, autoAlpha: 0, filter: "blur(14px)" },
+          { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.17 }, 4.45);
+        punch(5.55, 1.05);
+        tl.fromTo("#hd-ar .hl", { textShadow: "0 0 0px rgba(255,200,100,0)" }, { textShadow: "0 0 60px rgba(255,200,100,1)", duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, 5.7);
+        tl.fromTo("#hd-div .line", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, 5.95);
+        tl.fromTo("#hd-div svg", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }, 5.95);
+        tl.fromTo("#hd-tr .w", { y: 60, autoAlpha: 0, rotationX: -70 },
+          { y: 0, autoAlpha: 1, rotationX: 0, duration: 0.4, ease: "back.out(1.6)", stagger: 0.06 }, 6.25);
+        tl.fromTo("#hd-tr .gold .w", { scale: 1 }, { scale: 1.12, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 7.1);
+        tl.fromTo("#hd-src", { y: 50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out" }, 7.45);
+        tl.fromTo("#s2-inner", { scale: 1 }, { scale: 1.05, duration: 3.0, ease: "sine.inOut", immediateRender: false }, 7.6);
+        // whip-pan exit left
+        whip(10.55, -1);
+        tl.to("#s2-inner", { x: -1300, skewX: 18, filter: "blur(18px)", duration: 0.38, ease: "power3.in" }, 10.6);
+
+        // ================= S3 MESEJ JUMAAT (10.7 - 13.1) =================
+        tl.fromTo("#s3-inner", { x: 1300, skewX: -18, filter: "blur(18px)" }, { x: 0, skewX: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 10.9);
+        tl.fromTo("#mj-1 .ch", { y: -200, rotation: -25, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.045 }, 10.95);
+        tl.fromTo("#mj-2 .ch", { y: 220, rotationX: 90, autoAlpha: 0 }, { y: 0, rotationX: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.045 }, 11.2);
+        punch(11.6, 1.06); shake(11.6, 0.8); burst(11.6);
+        shimmer("#mj-2 .ch", 11.75, 0.9);
+        tl.fromTo("#mj-tag", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "expo.out" }, 11.85);
+        tl.fromTo("#rosette-wrap", { scale: 1 }, { scale: 1.25, duration: 0.6, ease: "expo.out", yoyo: true, repeat: 1 }, 11.6);
+        // zoom-through exit
+        tl.to("#s3-inner", { scale: 5, autoAlpha: 0, filter: "blur(22px)", duration: 0.32, ease: "power3.in" }, 12.75);
+
+        // ================= S4 THREE BEATS (12.9 - 20.7) =================
+        tl.fromTo("#lead .w", { y: -60, autoAlpha: 0, filter: "blur(10px)" }, { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out", stagger: 0.05 }, 12.95);
+        tl.fromTo(".dots", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 13.3);
+        const beats = [["#b1", "#d1", 13.45], ["#b2", "#d2", 15.85], ["#b3", "#d3", 18.25]];
+        beats.forEach(([b, d, at], i) => {
+          tl.set(b, { autoAlpha: 1 }, at);
+          tl.fromTo(b, { rotationY: 95, x: 520, z: -400 }, { rotationY: 0, x: 0, z: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, at);
+          tl.fromTo(`${b} .num`, { scale: 2.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, at + 0.15);
+          tl.fromTo(`${b} .kicker .ch`, { x: spread(40), autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out", immediateRender: false }, at + 0.2);
+          tl.fromTo(`${b} .big .g`, { y: 110, autoAlpha: 0, skewY: 8 }, { y: 0, autoAlpha: 1, skewY: 0, duration: 0.45, ease: "back.out(1.8)", stagger: 0.14, immediateRender: false }, at + 0.28);
+          tl.fromTo(`${b} .orn`, { rotation: 0 }, { rotation: 90, duration: 2.4, ease: "none", immediateRender: false }, at);
+          tl.fromTo(d, { scale: 1 }, { scale: 1.5, duration: 0.2, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, at + 0.2);
+          tl.set(d, { className: "on" }, at + 0.2);
+          punch(at + 0.55, 1.04);
+          shimmer(`${b} .gold-text`, at + 0.7, 1.0);
+          if (i < 2) {
+            tl.to(b, { rotationY: -95, x: -520, z: -400, duration: 0.42, ease: "power3.in" }, at + 2.0);
+            tl.set(b, { autoAlpha: 0 }, at + 2.42);
+          }
+        });
+        // last beat + lead fly out; iris-free whip to doa
+        tl.to("#b3", { y: -1500, rotationX: 40, duration: 0.45, ease: "power3.in" }, 20.3);
+        tl.to(["#lead", ".dots"], { y: -400, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, 20.3);
+
+        // ================= S5 DOA (20.5 - 26.3) =================
+        gsap.set(["#doa-key .ch"], { autoAlpha: 0 });
+        tl.fromTo("#s5-inner", { y: 900 }, { y: 0, duration: 0.55, ease: "expo.out" }, 20.6);
+        tl.fromTo("#doa-1 .w", { y: 70, autoAlpha: 0, filter: "blur(10px)" }, { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out", stagger: 0.08 }, 20.7);
+        tl.fromTo("#doa-key .ch", { scale: 4, autoAlpha: 0, filter: "blur(18px)", y: -40 },
+          { scale: 1, autoAlpha: 1, filter: "blur(0px)", y: 0, duration: 0.32, ease: "expo.out", stagger: 0.045 }, 21.75);
+        punch(22.2, 1.1); shake(22.2, 1.2); flash(22.2, 0.4); burst(22.2);
+        shimmer("#doa-key .ch", 22.5, 1.3);
+        tl.fromTo("#doa-2 .w", { x: (i) => (i % 2 ? 500 : -500), autoAlpha: 0, filter: "blur(12px)" },
+          { x: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out", stagger: 0.12 }, 22.75);
+        tl.fromTo("#s5-inner", { scale: 1 }, { scale: 1.06, duration: 2.6, ease: "sine.inOut", immediateRender: false }, 23.3);
+
+        // iris transition into closing
+        tl.fromTo("#iris", { scale: 0 }, { scale: 1.05, duration: 0.38, ease: "power3.in", immediateRender: false }, 25.75);
+        tl.set("#s5-inner", { autoAlpha: 0 }, 26.13);
+        tl.to("#iris", { scale: 0, duration: 0.5, ease: "expo.out" }, 26.15);
+
+        // ================= S6 CLOSING (26.0 - 31.0) =================
+        gsap.set(["#salam .ch", "#jumaat .ch", "#jm-ar", "#from", "#logo-card"], { autoAlpha: 0 });
+        tl.fromTo("#mosque2", { y: 700 }, { y: 150, duration: 1.1, ease: "expo.out" }, 26.2);
+        tl.fromTo("#jm-ar", { scale: 0.4, autoAlpha: 0, filter: "blur(20px)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 26.3);
+        tl.fromTo("#salam .ch", { y: -260, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(2.2)", stagger: 0.05 }, 26.65);
+        tl.fromTo("#jumaat .ch", { scale: 3.4, autoAlpha: 0, filter: "blur(18px)" },
+          { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.out", stagger: 0.05 }, 26.95);
+        punch(27.35, 1.1); shake(27.35, 1.2); flash(27.35, 0.45); burst(27.35);
+        shimmer("#jumaat .ch", 27.6, 1.2);
+        tl.fromTo("#from", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "expo.out" }, 27.75);
+        tl.fromTo("#logo-card", { scale: 0, rotation: -12, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.6, ease: "back.out(2)" }, 27.95);
+        tl.fromTo("#s6-text", { scale: 1 }, { scale: 1.04, duration: 2.6, ease: "sine.inOut", immediateRender: false }, 28.4);
+        shimmer("#jumaat .ch", 29.3, 1.2);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
