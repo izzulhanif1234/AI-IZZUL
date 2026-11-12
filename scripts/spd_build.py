@@ -219,6 +219,48 @@ def s00(S):
     dust = "".join(f'<i class="s00-du" style="position:absolute;left:{r.randint(300, 1620)}px;top:{r.randint(80, 900)}px;width:{w}px;height:{w}px;border-radius:50%;'
                    f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block" data-dy="{r.randint(-90, -30)}"></i>'
                    for w in [r.choice([2, 2, 3, 3, 4, 5]) for _ in range(26)])
+    T0, DQ = 2.95, 2.1                            # first question, time per question
+    rr = random.Random(23)
+    # 01 MASA: a big faint clock dial with hands racing + a lime progress arc
+    ticks = "".join(f'<line x1="410" y1="{24 if k % 5 == 0 else 40}" x2="410" y2="70" stroke="#fff" stroke-width="{6 if k % 5 == 0 else 2.5}" '
+                    f'transform="rotate({k * 6} 410 410)"/>' for k in range(60))
+    fx0 = (f'<div id="s00-fx0" class="abs" style="left:550px;top:110px;width:820px;height:820px;opacity:0">'
+           f'<svg viewBox="0 0 820 820" style="width:100%;height:100%"><g opacity=".22">{ticks}<circle cx="410" cy="410" r="396" fill="none" stroke="#fff" stroke-width="3"/></g>'
+           f'<circle id="s00-arc" cx="410" cy="410" r="380" fill="none" stroke="#B6D973" stroke-width="10" stroke-linecap="round" opacity=".55" transform="rotate(-90 410 410)" '
+           f'stroke-dasharray="2388" stroke-dashoffset="2388"/>'
+           f'<g opacity=".35"><path id="s00-mh" d="M410 410 V90" stroke="#fff" stroke-width="10" stroke-linecap="round" style="transform-origin:410px 410px"/>'
+           f'<path id="s00-hh" d="M410 410 V200" stroke="#fff" stroke-width="16" stroke-linecap="round" style="transform-origin:410px 410px"/>'
+           f'<circle cx="410" cy="410" r="16" fill="#fff"/></g></svg></div>')
+    # 02 KERTAS: sheets of paper flying through the frame
+    sheets = []
+    for k in range(18):
+        x0, y0 = rr.randint(-260, 700), rr.randint(1100, 1400)
+        sheets.append((k, x0, y0, x0 + rr.randint(1300, 1900), y0 - rr.randint(1300, 1700), rr.randint(-40, 40), rr.choice([-1, 1]) * rr.randint(160, 420),
+                       rr.randint(-70, 70), rr.uniform(0.6, 1.15), rr.uniform(0, 0.55), rr.uniform(1.3, 1.9)))
+    fx1 = '<div id="s00-fx1" class="abs" style="inset:0;perspective:1400px;opacity:0">' + "".join(
+        f'<div class="s00-pp" id="s00-pp{k}" style="position:absolute;left:0;top:0;width:{110 * sc:.0f}px;height:{150 * sc:.0f}px;border-radius:3px;'
+        f'background:#f7f5ee repeating-linear-gradient(#f7f5ee 0 14px,#d9e2dc 14px 16px);box-shadow:0 18px 30px rgba(0,0,0,.35);opacity:.75"></div>'
+        for k, x0, y0, x1, y1, r0, r1, rx, sc, dl, du in sheets) + '</div>'
+    # 03 RUANG: archive boxes stacking up from the floor
+    boxes = "".join(f'<div class="s00-bxx" style="position:absolute;left:{-30 + c * 178}px;top:{1080 - (r + 1) * 126}px;width:170px;height:120px;border-radius:6px;'
+                    f'background:linear-gradient(#c79a68,#a87a4c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.18),0 10px 20px rgba(0,0,0,.3)">'
+                    f'<i style="position:absolute;left:62px;top:0;width:46px;height:100%;background:rgba(255,255,255,.18);display:block"></i>'
+                    f'<i style="position:absolute;left:20px;top:44px;width:40px;height:26px;background:#f2efe6;border-radius:3px;display:block"></i></div>'
+                    for r in range(2) for c in range(11))
+    fx2 = f'<div id="s00-fx2" class="abs" style="inset:0;opacity:0">{boxes}</div>'
+    # 04 RISIKO: red alert pulses + the document breaking up
+    DX, DY, DW, DH = 885, 690, 150, 176          # document box (screen px)
+    rings = "".join(f'<div class="s00-rg" style="position:absolute;left:{DX + DW // 2}px;top:{DY + DH // 2}px;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;'
+                    f'border:4px solid rgba(255,90,90,.8)"></div>' for _ in range(3))
+    frags = "".join(f'<i class="s00-fg" data-x="{rr.randint(-560, 560)}" data-y="{rr.randint(-420, 260)}" data-r="{rr.randint(-260, 260)}" style="position:absolute;'
+                    f'left:{DX + (k % 5) * 30}px;top:{DY + (k // 5) * 29}px;width:28px;height:27px;background:#e8ece9;border-radius:2px;display:block;opacity:0"></i>'
+                    for k in range(30))
+    doc = (f'<svg viewBox="0 0 150 176" style="position:absolute;left:{DX}px;top:{DY}px;width:{DW}px;height:{DH}px;overflow:visible">'
+           '<g id="s00-doc"><path d="M4 4h98l44 44v124H4z" fill="#e8ece9"/><path d="M102 4v44h44" fill="#c9d3cd"/>'
+           '<path d="M24 70h100M24 94h100M24 118h80M24 142h60" stroke="#9aa8a0" stroke-width="7" stroke-linecap="round"/></g>'
+           '<g id="s00-warn"><circle cx="132" cy="150" r="34" fill="#ff5a5a"/><path d="M132 130v24M132 166v2" stroke="#fff" stroke-width="9" stroke-linecap="round"/></g></svg>')
+    fx3 = (f'<div id="s00-fx3" class="abs" style="inset:0;opacity:0"><div id="s00-red" class="abs" style="inset:0;box-shadow:inset 0 0 260px rgba(255,50,50,.45);opacity:0"></div>'
+           f'{rings}{doc}{frags}</div>')
     Q = [("ISU 01 · MASA", ("Berapa lama masa diambil", "untuk mencari", "satu fail?")),
          ("ISU 02 · KERTAS", ("Berapa banyak kertas", "digunakan", "setiap tahun?")),
          ("ISU 03 · RUANG", ("Berapa banyak ruang", "dihabiskan untuk", "menyimpan fail?")),
@@ -231,21 +273,17 @@ def s00(S):
              '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">unit kertas A4<br>dipohon pada 2021</div>')
     shelf = "".join(f'<rect class="s00-bx" x="{8 + c * 34}" y="{8 + r * 44}" width="28" height="38" rx="3" fill="#B6D973" opacity=".85"/>'
                     for r in range(3) for c in range(7))
-    space = (f'<svg viewBox="0 0 250 150" style="width:250px"><g fill="none" stroke="#cfe3d6" stroke-width="3"><rect x="2" y="2" width="246" height="146" rx="6"/>'
-             f'<path d="M2 50h246M2 96h246"/></g>{shelf}</svg>'
-             '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">rak &amp; bilik arkib<br>penuh dengan fail fizikal</div>')
-    lost = ('<svg viewBox="0 0 120 140" style="width:96px"><path id="s00-doc" d="M10 6h66l34 34v94H10z" fill="none" stroke="#cfe3d6" stroke-width="5" stroke-dasharray="14 10"/>'
-            '<circle id="s00-warn" cx="92" cy="104" r="26" fill="#ff5a5a"/><path d="M92 90v16M92 114v2" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>'
-            '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">tiada salinan,<br>tiada jejak</div>')
+    space = ('<div style="font:700 26px \'Plus Jakarta Sans\';color:#fff;background:rgba(8,36,26,.75);border:1.5px solid rgba(182,217,115,.6);'
+             'padding:10px 24px;border-radius:40px">Rak &amp; bilik arkib penuh dengan fail fizikal</div>')
+    lost = ""
     vis = [stopwatch, paper, space, lost]
     qs = "".join(
         f'<div id="s00-q{i}" class="abs" style="left:0;right:0;top:300px;text-align:center;opacity:0">'
         f'<div class="mono" style="display:inline-block;font-size:22px;letter-spacing:.3em;color:#B6D973;border:1.5px solid rgba(182,217,115,.6);padding:8px 18px;border-radius:40px">{k}</div>'
-        f'<div class="h1" style="font-size:96px;margin-top:28px;letter-spacing:-.03em">{kw(l1, f"s00-a{i}")}</div>'
-        f'<div class="h1" style="font-size:96px;letter-spacing:-.03em">{kw(l2, f"s00-b{i}")} <span style="color:var(--lime)">{kw(l3, f"s00-c{i}")}</span></div>'
+        f'<div class="h1" style="font-size:96px;margin-top:28px;letter-spacing:-.03em;text-shadow:0 8px 30px rgba(0,0,0,.55)">{kw(l1, f"s00-a{i}")}</div>'
+        f'<div class="h1" style="font-size:96px;letter-spacing:-.03em;text-shadow:0 8px 30px rgba(0,0,0,.55)">{kw(l2, f"s00-b{i}")} <span style="color:var(--lime)">{kw(l3, f"s00-c{i}")}</span></div>'
         f'<div id="s00-v{i}" style="margin-top:44px;display:flex;justify-content:center;align-items:center;gap:24px">{vis[i]}</div></div>'
         for i, (k, (l1, l2, l3)) in enumerate(Q))
-    T0, DQ = 2.95, 1.85                           # first question, time per question
     js_q = ""
     for i in range(4):
         t = T0 + i * DQ
@@ -259,9 +297,29 @@ def s00(S):
              f'tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:540,duration:1.3,ease:"power1.inOut"}},{T0 + 0.55:.2f});'
              f'FX.odo(tl,"#s00-v1",{T0 + DQ + 0.6:.2f},1.1,{{stagger:0.06}});'
              f'tl.fromTo(".s00-bx",{{scale:0,transformOrigin:"50% 100%"}},{{scale:1,duration:0.3,stagger:0.03,ease:"back.out(2)"}},{T0 + 2 * DQ + 0.6:.2f});'
-             f'tl.fromTo("#s00-doc",{{opacity:1}},{{opacity:0.15,duration:0.5,yoyo:true,repeat:2,ease:"sine.inOut"}},{T0 + 3 * DQ + 0.6:.2f});'
-             f'tl.fromTo("#s00-warn",{{scale:0,transformOrigin:"92px 104px"}},{{scale:1,duration:0.4,ease:"back.out(2.5)"}},{T0 + 3 * DQ + 0.7:.2f});'
+             f'tl.fromTo("#s00-warn",{{scale:0,transformOrigin:"132px 150px"}},{{scale:1,duration:0.4,ease:"back.out(2.5)"}},{T0 + 3 * DQ + 0.55:.2f});'
              f'tl.to("#s00-q3",{{opacity:0,scale:1.06,duration:0.3,ease:"power2.in"}},{T0 + 4 * DQ - 0.2:.2f});')
+    for i in range(4):  # each effect layer lives with its question
+        t = T0 + i * DQ
+        js_q += (f'tl.fromTo("#s00-fx{i}",{{opacity:0}},{{opacity:1,duration:0.35}},{t:.2f});'
+                 f'tl.to("#s00-fx{i}",{{opacity:0,duration:0.35}},{t + DQ - 0.3:.2f});')
+    t = T0
+    js_q += (f'tl.fromTo("#s00-mh",{{rotation:0}},{{rotation:1080,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
+             f'tl.fromTo("#s00-hh",{{rotation:0}},{{rotation:90,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
+             f'tl.fromTo("#s00-arc",{{strokeDashoffset:2388}},{{strokeDashoffset:300,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
+             f'tl.fromTo("#s00-fx0",{{scale:0.9,rotation:-8}},{{scale:1.05,rotation:0,duration:{DQ},ease:"power2.out"}},{t:.2f});')
+    t = T0 + DQ
+    for k, x0, y0, x1, y1, r0, r1, rx, sc, dl, du in sheets:
+        js_q += (f'tl.fromTo("#s00-pp{k}",{{x:{x0},y:{y0},rotation:{r0},rotationX:{rx},rotationY:{-rx}}},'
+                 f'{{x:{x1},y:{y1},rotation:{r1},rotationX:{-rx},rotationY:{rx},duration:{du:.2f},ease:"power1.out"}},{t + dl:.2f});')
+    t = T0 + 2 * DQ
+    js_q += f'tl.fromTo(".s00-bxx",{{y:420,opacity:0}},{{y:0,opacity:0.5,duration:0.55,stagger:{{each:0.025,from:"end"}},ease:"back.out(1.4)"}},{t + 0.1:.2f});'
+    t = T0 + 3 * DQ
+    js_q += (f'tl.fromTo(".s00-rg",{{scale:0.2,opacity:0.9}},{{scale:5,opacity:0,duration:1.2,stagger:0.35,ease:"power2.out"}},{t + 0.5:.2f});'
+             f'tl.fromTo("#s00-red",{{opacity:0}},{{opacity:1,duration:0.35,yoyo:true,repeat:3,ease:"sine.inOut"}},{t + 0.4:.2f});'
+             f'tl.set(".s00-fg",{{opacity:0.9}},{t + 1.05:.2f});'
+             f'tl.set(["#s00-doc","#s00-warn"],{{opacity:0}},{t + 1.05:.2f});'
+             f'document.querySelectorAll(".s00-fg").forEach(e=>tl.fromTo(e,{{x:0,y:0,rotation:0}},{{x:+e.dataset.x,y:+e.dataset.y,rotation:+e.dataset.r,opacity:0,duration:0.9,ease:"power2.out",immediateRender:false}},{t + 1.05:.2f}));')
     html = f"""
 <div class="F gdark">
   <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
@@ -276,6 +334,7 @@ def s00(S):
     -webkit-mask-image:linear-gradient(rgba(0,0,0,.38),transparent 70%)"><div style="transform:scaleY(-1);transform-origin:50% 0">{logo3d("s00-rlogo", 520, 6)}</div></div>
   <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:498px;height:6px;opacity:0;border-radius:3px;
     background:linear-gradient(90deg,transparent,rgba(190,255,220,.0) 20%,rgba(235,255,245,.95) 50%,rgba(190,255,220,0) 80%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.35)"></div>
+  {fx0}{fx1}{fx2}{fx3}
   {qs}
   <div id="s00-fl" class="abs" style="inset:0;background:#fff;opacity:0"></div>
   <div class="vign"></div>
@@ -383,7 +442,8 @@ def s02(S):
     <div id="s02-sw" class="abs" style="inset:0;transform-style:preserve-3d">{sheets}</div>
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
-  <div id="s02-k" class="kicker abs" style="left:0;right:0;top:250px;text-align:center;font-size:26px;letter-spacing:.34em;opacity:0">PERBADANAN MELAKA (MCORP)</div>
+  <div id="s02-gl" class="abs" style="left:610px;top:40px;width:700px;height:330px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
+  <div id="s02-k" class="abs" style="left:0;right:0;top:92px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 300)}</div>
   <div id="s02-mark" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center">{SB.spd_mark(260)}</div>
   <div class="abs h1" style="left:0;right:0;top:648px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
   <div class="abs" style="left:0;right:0;top:728px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
@@ -391,17 +451,21 @@ def s02(S):
   <div class="vign"></div>
 </div>"""
     js = f"""
+{LOGO_JS}
 // camera dolly through the paper swarm
 tl.fromTo("#s02-sw",{{z:-900,rotationY:-14}},{{z:700,rotationY:10,duration:{S.D},ease:"power1.inOut"}},0);
 tl.fromTo(".s02-sh",{{opacity:0.95}},{{opacity:0,duration:0.8,stagger:0.03}},{t_spd - 1.0});
-tl.fromTo("#s02-k",{{opacity:0,scale:1.25}},{{opacity:1,scale:1,duration:0.9,ease:"expo.out"}},{max(0.2, t_mem - 0.3)});
+tl.fromTo("#s02-k",{{opacity:0}},{{opacity:1,duration:0.5}},{max(0.2, t_mem - 0.3)});
+tl.fromTo("#s02-gl",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},{max(0.3, t_mem - 0.1)});
+tl.fromTo("#s02-logo",{{z:-900,rotationY:-150,rotationX:16}},{{z:0,rotationY:-16,rotationX:4,duration:1.2,ease:"expo.out"}},{max(0.2, t_mem - 0.3)});
+live3d(tl,"#s02-logo",{max(0.2, t_mem - 0.3) + 1.2},{S.D},16,"#s02-logo-sh");
 tl.fromTo("#s02-mark",{{opacity:0,scale:1.6,filter:"blur(20px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.7,ease:"expo.out"}},{t_spd - 0.15});
 tl.fromTo("#s02-mark svg",{{rotation:-140,scale:0}},{{rotation:28,scale:1,duration:0.8,ease:"back.out(2)"}},{t_spd + 0.1});
 FX.words(tl,".s02-t > span",{t_mem + 0.2},0.07);
 FX.words(tl,".s02-s > span",{t_ino - 0.05},0.05);
 tl.fromTo("#s02-sweep",{{x:0,opacity:0.9}},{{x:2600,opacity:0.9,duration:1.1,ease:"power2.inOut"}},{t_spd + 0.4});
 tl.to("#s02-cam",{{scale:1.3,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
-tl.to(["#s02-mark","#s02-k",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
+tl.to(["#s02-mark","#s02-k","#s02-gl",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
 """
     return html, js
 
@@ -919,7 +983,7 @@ def s10(S):
   {rings}{parts}
   <div id="s10-sw" class="abs" style="left:-700px;top:-100px;width:420px;height:1300px;background:linear-gradient(90deg,transparent,rgba(220,255,235,.35),transparent);transform:skewX(-20deg)"></div>
   <div id="s10-t" class="abs" style="inset:0;transform:perspective(1200px) rotateX(10deg)">{layers}</div>
-  <div class="mono abs" id="s10-b" style="left:0;right:0;top:740px;text-align:center;font-size:30px;letter-spacing:.5em;color:var(--lime)">BAB 03 · HASIL</div>
+
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -929,7 +993,6 @@ tl.fromTo(".s10-p",{{y:0,opacity:0}},{{y:(i,e)=>-(+e.dataset.dy),opacity:1,durat
 tl.fromTo("#s10-sw",{{x:0}},{{x:3000,duration:1.4,ease:"power2.inOut"}},{max(0.1, t_imp - 0.3)});
 tl.fromTo("#s10-t",{{scale:2.4,opacity:0,filter:"blur(16px)"}},{{scale:1,opacity:1,filter:"blur(0px)",duration:0.45,ease:"expo.out"}},{max(0.05, t_imp - 0.2)});
 tl.fromTo("#s10-t",{{scale:1}},{{scale:1.08,duration:{S.D - t_imp},ease:"none",immediateRender:false}},{t_imp + 0.25});
-tl.fromTo("#s10-b",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6}},{t_imp + 0.35});
 """
     return html, js
 
@@ -1480,7 +1543,7 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 # ============================================================================= FILM PLAN
 XFADE = 0.6
 PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
-    ("s00", [], dict(fixed=10.6)),
+    ("s00", [], dict(fixed=11.9)),
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
