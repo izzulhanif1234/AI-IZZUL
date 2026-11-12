@@ -632,11 +632,11 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
         f'<div style="font:600 17px Plus Jakarta Sans;color:#2b3a33;margin-top:6px">{c}</div>'
         f'<div style="font:500 14px Plus Jakarta Sans;color:#8a958f">{d}</div></div>' for a, b, c, d in kpis)
     # the five Green Dashboard modules (user's proposal): what each measures + status, no invented scores
-    mods5 = [("01", "Paperless Index", "Dokumen digital, cetakan dielakkan, % pengurangan kertas", "Data SPD", "#165A44", "#E9F2E7"),
-             ("02", "Carbon Saving Index", "Anggaran kg CO₂e dielakkan (helai × faktor pelepasan)", "Faktor akan ditetapkan", "#9b7424", "#F7EFDC"),
-             ("03", "Resource Efficiency Index", "Kertas · dakwat · elektrik · ruang · masa", "Data SPD", "#165A44", "#E9F2E7"),
-             ("04", "Green Performance Monitoring", "Prestasi hijau mengikut bahagian / jabatan", "Fasa seterusnya", "#2a3a8a", "#E8ECF7"),
-             ("05", "Green Analytics &amp; Strategic Decision", "Laporan automatik bulanan, suku tahunan &amp; tahunan", "Fasa seterusnya", "#2a3a8a", "#E8ECF7")]
+    mods5 = [("01", "Paperless Index", "Dokumen digital, cetakan dielakkan, % pengurangan kertas", "Akan datang", "#165A44", "#E9F2E7"),
+             ("02", "Carbon Saving Index", "Anggaran kg CO₂e dielakkan (helai × faktor pelepasan)", "Akan datang", "#165A44", "#E9F2E7"),
+             ("03", "Resource Efficiency Index", "Kertas · dakwat · elektrik · ruang · masa", "Akan datang", "#165A44", "#E9F2E7"),
+             ("04", "Green Performance Monitoring", "Prestasi hijau mengikut bahagian / jabatan", "Akan datang", "#165A44", "#E9F2E7"),
+             ("05", "Green Analytics &amp; Strategic Decision", "Laporan automatik bulanan, suku tahunan &amp; tahunan", "Akan datang", "#165A44", "#E9F2E7")]
     mods_panel = "".join(
         f'<div style="background:#fff;border-radius:14px;padding:18px 18px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid #B6D973">'
         f'<div style="font:800 14px JetBrains Mono;color:#26745A;letter-spacing:.12em">MODUL {n}</div>'
