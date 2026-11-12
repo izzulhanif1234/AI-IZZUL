@@ -217,8 +217,51 @@ def s00(S):
     import random
     r = random.Random(11)
     dust = "".join(f'<i class="s00-du" style="position:absolute;left:{r.randint(300, 1620)}px;top:{r.randint(80, 900)}px;width:{w}px;height:{w}px;border-radius:50%;'
-                   f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block;filter:blur({0 if w < 4 else 1}px)" data-dy="{r.randint(-90, -30)}"></i>'
-                   for w in [r.choice([2, 2, 3, 3, 4, 6]) for _ in range(46)])
+                   f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block" data-dy="{r.randint(-90, -30)}"></i>'
+                   for w in [r.choice([2, 2, 3, 3, 4, 5]) for _ in range(26)])
+    Q = [("ISU 01 · MASA", ("Berapa lama masa diambil", "untuk mencari", "satu fail?")),
+         ("ISU 02 · KERTAS", ("Berapa banyak kertas", "digunakan", "setiap tahun?")),
+         ("ISU 03 · RUANG", ("Berapa banyak ruang", "dihabiskan untuk", "menyimpan fail?")),
+         ("ISU 04 · RISIKO", ("Bagaimana jika", "dokumen penting", "hilang?"))]
+    stopwatch = ('<svg viewBox="0 0 60 60" style="width:58px"><circle cx="30" cy="34" r="22" fill="none" stroke="#B6D973" stroke-width="4"/>'
+                 '<path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>'
+                 '<path id="s00-hand" d="M30 34 V18" stroke="#fff" stroke-width="4" stroke-linecap="round" style="transform-origin:30px 34px"/></svg>'
+                 f'<div style="font:800 70px \'JetBrains Mono\';color:#fff">{odo("00:47:12")}</div>')
+    paper = (f'<div style="font:800 84px \'Plus Jakarta Sans\';color:#fff">{odo("1,242")}</div>'
+             '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">unit kertas A4<br>dipohon pada 2021</div>')
+    shelf = "".join(f'<rect class="s00-bx" x="{8 + c * 34}" y="{8 + r * 44}" width="28" height="38" rx="3" fill="#B6D973" opacity=".85"/>'
+                    for r in range(3) for c in range(7))
+    space = (f'<svg viewBox="0 0 250 150" style="width:250px"><g fill="none" stroke="#cfe3d6" stroke-width="3"><rect x="2" y="2" width="246" height="146" rx="6"/>'
+             f'<path d="M2 50h246M2 96h246"/></g>{shelf}</svg>'
+             '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">rak &amp; bilik arkib<br>penuh dengan fail fizikal</div>')
+    lost = ('<svg viewBox="0 0 120 140" style="width:96px"><path id="s00-doc" d="M10 6h66l34 34v94H10z" fill="none" stroke="#cfe3d6" stroke-width="5" stroke-dasharray="14 10"/>'
+            '<circle id="s00-warn" cx="92" cy="104" r="26" fill="#ff5a5a"/><path d="M92 90v16M92 114v2" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>'
+            '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">tiada salinan,<br>tiada jejak</div>')
+    vis = [stopwatch, paper, space, lost]
+    qs = "".join(
+        f'<div id="s00-q{i}" class="abs" style="left:0;right:0;top:300px;text-align:center;opacity:0">'
+        f'<div class="mono" style="display:inline-block;font-size:22px;letter-spacing:.3em;color:#B6D973;border:1.5px solid rgba(182,217,115,.6);padding:8px 18px;border-radius:40px">{k}</div>'
+        f'<div class="h1" style="font-size:96px;margin-top:28px;letter-spacing:-.03em">{kw(l1, f"s00-a{i}")}</div>'
+        f'<div class="h1" style="font-size:96px;letter-spacing:-.03em">{kw(l2, f"s00-b{i}")} <span style="color:var(--lime)">{kw(l3, f"s00-c{i}")}</span></div>'
+        f'<div id="s00-v{i}" style="margin-top:44px;display:flex;justify-content:center;align-items:center;gap:24px">{vis[i]}</div></div>'
+        for i, (k, (l1, l2, l3)) in enumerate(Q))
+    T0, DQ = 2.95, 1.85                           # first question, time per question
+    js_q = ""
+    for i in range(4):
+        t = T0 + i * DQ
+        js_q += (f'tl.set("#s00-q{i}",{{opacity:1}},{t:.2f});'
+                 f'FX.words(tl,".s00-a{i} > span",{t + 0.05:.2f},0.06);FX.words(tl,".s00-b{i} > span",{t + 0.3:.2f},0.06);'
+                 f'FX.words(tl,".s00-c{i} > span",{t + 0.5:.2f},0.08);'
+                 f'tl.fromTo("#s00-v{i}",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t + 0.55:.2f});')
+        if i < 3:  # hyper cut: the question lifts away blurred as the next one rises
+            js_q += f'tl.to("#s00-q{i}",{{opacity:0,y:-90,filter:"blur(10px)",duration:0.32,ease:"power3.in"}},{t + DQ - 0.3:.2f});'
+    js_q += (f'FX.odo(tl,"#s00-v0",{T0 + 0.6:.2f},1.2,{{stagger:0.05,ease:"power2.out"}});'
+             f'tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:540,duration:1.3,ease:"power1.inOut"}},{T0 + 0.55:.2f});'
+             f'FX.odo(tl,"#s00-v1",{T0 + DQ + 0.6:.2f},1.1,{{stagger:0.06}});'
+             f'tl.fromTo(".s00-bx",{{scale:0,transformOrigin:"50% 100%"}},{{scale:1,duration:0.3,stagger:0.03,ease:"back.out(2)"}},{T0 + 2 * DQ + 0.6:.2f});'
+             f'tl.fromTo("#s00-doc",{{opacity:1}},{{opacity:0.15,duration:0.5,yoyo:true,repeat:2,ease:"sine.inOut"}},{T0 + 3 * DQ + 0.6:.2f});'
+             f'tl.fromTo("#s00-warn",{{scale:0,transformOrigin:"92px 104px"}},{{scale:1,duration:0.4,ease:"back.out(2.5)"}},{T0 + 3 * DQ + 0.7:.2f});'
+             f'tl.to("#s00-q3",{{opacity:0,scale:1.06,duration:0.3,ease:"power2.in"}},{T0 + 4 * DQ - 0.2:.2f});')
     html = f"""
 <div class="F gdark">
   <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
@@ -233,16 +276,7 @@ def s00(S):
     -webkit-mask-image:linear-gradient(rgba(0,0,0,.38),transparent 70%)"><div style="transform:scaleY(-1);transform-origin:50% 0">{logo3d("s00-rlogo", 520, 6)}</div></div>
   <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:498px;height:6px;opacity:0;border-radius:3px;
     background:linear-gradient(90deg,transparent,rgba(190,255,220,.0) 20%,rgba(235,255,245,.95) 50%,rgba(190,255,220,0) 80%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.35)"></div>
-  <div id="s00-q" class="abs" style="left:0;right:0;top:320px;text-align:center">
-    <div class="mono" id="s00-k" style="display:inline-block;font-size:22px;letter-spacing:.3em;color:#B6D973;border:1.5px solid rgba(182,217,115,.6);padding:8px 18px;border-radius:40px;opacity:0">ISU HARIAN</div>
-    <div class="h1" style="font-size:100px;margin-top:30px;letter-spacing:-.03em">{kw("Berapa lama masa diambil", "s00-l1")}</div>
-    <div class="h1" style="font-size:100px;letter-spacing:-.03em">{kw("untuk mencari", "s00-l2")} <span style="color:var(--lime)">{kw("satu fail?", "s00-l3")}</span></div>
-  </div>
-  <div id="s00-sw" class="abs" style="left:0;right:0;top:700px;display:flex;justify-content:center;align-items:center;gap:22px;opacity:0">
-    <svg viewBox="0 0 60 60" style="width:60px"><circle cx="30" cy="34" r="22" fill="none" stroke="#B6D973" stroke-width="4"/><path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>
-      <path id="s00-hand" d="M30 34 V18" stroke="#fff" stroke-width="4" stroke-linecap="round" style="transform-origin:30px 34px"/></svg>
-    <div style="font:800 72px 'JetBrains Mono';color:#fff">{odo("00:47:12")}</div>
-  </div>
+  {qs}
   <div id="s00-fl" class="abs" style="inset:0;background:#fff;opacity:0"></div>
   <div class="vign"></div>
 </div>"""
@@ -268,15 +302,8 @@ live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
 tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.85);
 tl.to("#s00-logo",{{z:420,duration:0.5,ease:"power2.in"}},2.85);
 tl.to("#s00-cone",{{opacity:0.45,duration:0.6}},2.85);
-tl.fromTo("#s00-k",{{opacity:0,y:-14}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},3.2);
-FX.words(tl,".s00-l1 > span",3.3,0.07);
-FX.words(tl,".s00-l2 > span",3.8,0.07);
-FX.words(tl,".s00-l3 > span",4.1,0.09);
-tl.fromTo("#s00-sw",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},4.45);
-FX.odo(tl,"#s00-sw",4.5,1.5,{{stagger:0.05,ease:"power2.out"}});
-tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:720,duration:1.8,ease:"power1.inOut"}},4.45);
-tl.to(["#s00-q","#s00-sw"],{{opacity:0,scale:1.06,duration:0.3,ease:"power2.in"}},{S.D - 0.95});
-tl.to("#s00-cone",{{opacity:0,duration:0.4}},{S.D - 0.9});  // clean handover: no white flash over the first shot
+{js_q}
+tl.to("#s00-cone",{{opacity:0,duration:0.4}},{S.D - 0.6});  // clean handover: no white flash over the first shot
 """
     return html, js
 
@@ -1453,7 +1480,7 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 # ============================================================================= FILM PLAN
 XFADE = 0.6
 PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
-    ("s00", [], dict(fixed=7.0)),
+    ("s00", [], dict(fixed=10.6)),
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
