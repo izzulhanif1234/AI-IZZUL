@@ -220,13 +220,13 @@ def s00(S):
                    f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block;filter:blur({0 if w < 4 else 1}px)" data-dy="{r.randint(-90, -30)}"></i>'
                    for w in [r.choice([2, 2, 3, 3, 4, 6]) for _ in range(46)])
     html = f"""
-<div class="F" style="background:radial-gradient(ellipse 80% 75% at 50% 40%,#4aa883 0%,#22735a 42%,#124a39 78%,#0d3a2c 100%)">
+<div class="F gdark">
   <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
     background:conic-gradient(from 180deg at 50% 0%,transparent 0 160deg,rgba(235,255,240,.18) 170deg,rgba(240,255,244,.30) 180deg,rgba(235,255,240,.18) 190deg,transparent 200deg);
     -webkit-mask-image:linear-gradient(#000 30%,transparent 92%)"></div>
   <div id="s00-dust" class="abs" style="inset:0">{dust}</div>
   <div id="s00-gl" class="abs" style="left:510px;top:200px;width:900px;height:560px;opacity:0;
-    background:radial-gradient(closest-side,rgba(255,255,255,.62),rgba(225,255,235,.22) 55%,transparent)"></div>
+    background:radial-gradient(closest-side,rgba(255,255,255,.50),rgba(182,217,115,.14) 55%,transparent)"></div>
   <div id="s00-floor" class="abs" style="left:0;right:0;top:720px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(182,217,115,.55),transparent)"></div>
   <div id="s00-lw" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center;perspective:1500px;opacity:0">{logo3d("s00-logo", 520, 18)}</div>
   <div id="s00-rw" class="abs" style="left:0;right:0;top:726px;height:260px;display:flex;justify-content:center;perspective:1500px;opacity:0;
