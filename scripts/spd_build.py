@@ -212,7 +212,7 @@ def scene(fn):
 # --------------------------------------------------------------------------- S00 pembuka (before the acting)
 @scene
 def s00(S):
-    """Opener: spotlight + dust, the 3D MCORP logo lands with a lens streak and a floor reflection, 'MEMPERSEMBAHKAN';
+    """Opener: spotlight + dust, the 3D MCORP logo lands with a lens streak and a floor reflection, 
     then the issue as a question with a running stopwatch -> cut to the acting."""
     import random
     r = random.Random(11)
@@ -220,23 +220,19 @@ def s00(S):
                    f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block;filter:blur({0 if w < 4 else 1}px)" data-dy="{r.randint(-90, -30)}"></i>'
                    for w in [r.choice([2, 2, 3, 3, 4, 6]) for _ in range(46)])
     html = f"""
-<div class="F" style="background:radial-gradient(ellipse 70% 60% at 50% 38%,#0f3a2b 0%,#06180f 55%,#020806 100%)">
+<div class="F" style="background:radial-gradient(ellipse 80% 75% at 50% 40%,#4aa883 0%,#22735a 42%,#124a39 78%,#0d3a2c 100%)">
   <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
-    background:conic-gradient(from 180deg at 50% 0%,transparent 0 160deg,rgba(214,255,226,.14) 172deg,rgba(214,255,226,.22) 180deg,rgba(214,255,226,.14) 188deg,transparent 200deg);
+    background:conic-gradient(from 180deg at 50% 0%,transparent 0 160deg,rgba(235,255,240,.18) 170deg,rgba(240,255,244,.30) 180deg,rgba(235,255,240,.18) 190deg,transparent 200deg);
     -webkit-mask-image:linear-gradient(#000 30%,transparent 92%)"></div>
   <div id="s00-dust" class="abs" style="inset:0">{dust}</div>
-  <div id="s00-gl" class="abs" style="left:510px;top:120px;width:900px;height:560px;opacity:0;
-    background:radial-gradient(closest-side,rgba(240,255,244,.42),rgba(182,217,115,.10) 58%,transparent)"></div>
-  <div id="s00-floor" class="abs" style="left:0;right:0;top:640px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(182,217,115,.55),transparent)"></div>
-  <div id="s00-lw" class="abs" style="left:0;right:0;top:250px;display:flex;justify-content:center;perspective:1500px;opacity:0">{logo3d("s00-logo", 520, 18)}</div>
-  <div id="s00-rw" class="abs" style="left:0;right:0;top:646px;height:260px;display:flex;justify-content:center;perspective:1500px;opacity:0;
+  <div id="s00-gl" class="abs" style="left:510px;top:200px;width:900px;height:560px;opacity:0;
+    background:radial-gradient(closest-side,rgba(255,255,255,.62),rgba(225,255,235,.22) 55%,transparent)"></div>
+  <div id="s00-floor" class="abs" style="left:0;right:0;top:720px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(182,217,115,.55),transparent)"></div>
+  <div id="s00-lw" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center;perspective:1500px;opacity:0">{logo3d("s00-logo", 520, 18)}</div>
+  <div id="s00-rw" class="abs" style="left:0;right:0;top:726px;height:260px;display:flex;justify-content:center;perspective:1500px;opacity:0;
     -webkit-mask-image:linear-gradient(rgba(0,0,0,.38),transparent 70%)"><div style="transform:scaleY(-1);transform-origin:50% 0">{logo3d("s00-rlogo", 520, 6)}</div></div>
-  <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:418px;height:6px;opacity:0;border-radius:3px;
+  <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:498px;height:6px;opacity:0;border-radius:3px;
     background:linear-gradient(90deg,transparent,rgba(190,255,220,.0) 20%,rgba(235,255,245,.95) 50%,rgba(190,255,220,0) 80%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.35)"></div>
-  <div id="s00-pre" class="abs" style="left:0;right:0;top:700px;display:flex;justify-content:center;align-items:center;gap:26px;opacity:0">
-    <i id="s00-ll" style="display:block;width:140px;height:2px;background:linear-gradient(90deg,transparent,#B6D973);transform-origin:100% 50%"></i>
-    <span class="mono" style="font-size:24px;letter-spacing:.6em;color:#dfeee4;padding-left:.6em">MEMPERSEMBAHKAN</span>
-    <i id="s00-lr" style="display:block;width:140px;height:2px;background:linear-gradient(90deg,#B6D973,transparent);transform-origin:0 50%"></i></div>
   <div id="s00-q" class="abs" style="left:0;right:0;top:320px;text-align:center">
     <div class="mono" id="s00-k" style="display:inline-block;font-size:22px;letter-spacing:.3em;color:#B6D973;border:1.5px solid rgba(182,217,115,.6);padding:8px 18px;border-radius:40px;opacity:0">ISU HARIAN</div>
     <div class="h1" style="font-size:100px;margin-top:30px;letter-spacing:-.03em">{kw("Berapa lama masa diambil", "s00-l1")}</div>
@@ -268,10 +264,8 @@ tl.fromTo("#s00-streak",{{opacity:0,scaleX:0.1}},{{opacity:1,scaleX:1,duration:0
 tl.to("#s00-streak",{{opacity:0,scaleX:1.4,duration:0.6,ease:"power2.in"}},1.4);
 live3d(tl,"#s00-logo",1.65,3.0,14,"#s00-logo-sh");
 live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
-tl.fromTo("#s00-pre",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},1.35);
-tl.fromTo(["#s00-ll","#s00-lr"],{{scaleX:0}},{{scaleX:1,duration:0.8,ease:"expo.out"}},1.45);
 // hand over to the question
-tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor","#s00-pre"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.85);
+tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.85);
 tl.to("#s00-logo",{{z:420,duration:0.5,ease:"power2.in"}},2.85);
 tl.to("#s00-cone",{{opacity:0.45,duration:0.6}},2.85);
 tl.fromTo("#s00-k",{{opacity:0,y:-14}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},3.2);
