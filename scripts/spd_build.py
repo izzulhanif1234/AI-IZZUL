@@ -397,14 +397,14 @@ tl.to("#s04-pg",{{scale:3,opacity:0,duration:0.1,ease:"power2.in"}},{S.D - 0.1})
 # --------------------------------------------------------------------------- S05 before -> after, into the system
 @scene
 def s05(S):
-    t_hari = S.w("v05", "Kini|Hari")
     t_ber = S.w("v05", "berpusat")
     t_ata = S.w("v05", "Atas")
     t_cek = S.w("v05", "cekap")
     t_rek = S.w("v05", "rekod")
-    # SPD login (assets/ui/login.jpg, 1920x912): zoom onto the form, type masked IC + password, click Log Masuk -> dashboard
-    k = 860 / 1920
-    zo, zz = (430, 210), 2.4                      # zoom origin (viewport px) and scale
+    # big SPD login (assets/ui/login.jpg, 1920x912) in the same browser frame as the demos: zoom onto the form,
+    # masked IC + password, click Log Masuk -> dashboard; s06 ("Sebaik log masuk ...") continues from it
+    k = BWW / 1920
+    zo, zz = (880, 440), 1.8                      # zoom origin (viewport px) and scale
     def zp(x, y):                                 # source px -> on-screen viewport px after the zoom
         vx, vy = x * k, y * k
         return round(zo[0] + (vx - zo[0]) * zz, 1), round(zo[1] + (vy - zo[1]) * zz, 1)
@@ -418,41 +418,36 @@ def s05(S):
         return (f'<div class="abs" style="left:{(x0 + 1) * k:.2f}px;top:{(y0 + 1) * k:.2f}px;width:{(x1 - x0 - 2) * k:.2f}px;height:{(y1 - y0 - 2) * k:.2f}px;'
                 f'background:#fff;display:flex;align-items:center;padding-left:{9 * k:.2f}px;font:600 {15 * k:.2f}px Arial;letter-spacing:{1.5 * k:.2f}px;color:#333">'
                 f'<span id="{fid}"></span></div>')
-    login_ov = (f'<div id="s05-ov" class="abs" style="left:0;top:0;width:860px;height:{912 * k:.1f}px">'
+    login_ov = (f'<div id="s05-ov" class="abs" style="left:0;top:0;width:{BWW}px;height:{912 * k:.1f}px">'
                 + field("s05-ic", 851, 428, 1068, 454) + field("s05-pw", 851, 467, 1038, 493)
                 + f'<div id="s05-btn" class="abs" style="left:{915 * k:.2f}px;top:{506 * k:.2f}px;width:{90 * k:.2f}px;height:{27 * k:.2f}px;border-radius:2px;background:#000;opacity:0"></div>'
                 + '</div>' + cursor("s05-c"))
     html = f"""
-<div class="F" style="background:#f3eedf">
-  <div id="s05-split" class="abs" style="inset:0;opacity:0">
-    <div id="s05-l" class="abs" style="inset:0;clip-path:polygon(0 0,58% 0,42% 100%,0 100%)">
-      <img src="{IMG}/fail-rak.jpg" style="position:absolute;left:-720px;top:0;width:1920px;height:1080px;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(.85)"></div>
-    <div id="s05-r" class="abs" style="inset:0;clip-path:polygon(58% 0,100% 0,100% 100%,42% 100%);background:#0b2e22">
-      {browser("s05-b", 1010, 200, 860, "spd.pknm.gov.my", [("s05-p", f"{UI}/login.jpg"), ("s05-pd", f"{UI}/s77.jpg")], login_ov)}</div>
-    <div id="s05-seam" class="abs" style="inset:0;background:linear-gradient(115deg,transparent 46%,rgba(182,217,115,.9) 49.6%,#fff 50%,rgba(182,217,115,.9) 50.4%,transparent 54%)"></div>
-    <div class="mono abs" id="s05-tb" style="left:80px;top:90px;font-size:28px;color:#fff;background:rgba(0,0,0,.6);padding:10px 18px;border-radius:8px">SEBELUM · FAIL FIZIKAL</div>
-    <div class="mono abs" id="s05-ta" style="right:230px;top:90px;font-size:28px;color:#0b2e22;background:var(--lime);padding:10px 18px;border-radius:8px">SELEPAS · SPD</div>
-    <div class="abs" style="left:0;right:0;bottom:70px;display:flex;justify-content:center;gap:28px">
-      <div class="pill" id="s05-p1">BERPUSAT</div><div class="pill" id="s05-p2">ATAS TALIAN</div><div class="pill" id="s05-p3">LEBIH CEKAP</div></div>
+<div class="F demo-bg">
+  <div id="s05-cam" class="abs" style="inset:0;opacity:0">
+    {browser("s05-b", BWX, BWY, BWW, "spd.pknm.gov.my/log-masuk", [("s05-p", f"{UI}/login.jpg"), ("s05-pd", f"{UI}/s77.jpg")], login_ov)}
   </div>
+  <div class="callout" id="s05-k" style="left:90px;top:860px;opacity:0"><div class="k">SPD · LOG MASUK</div><div class="t">Satu akaun, semua rekod</div></div>
+  <div class="abs" style="right:90px;bottom:70px;display:flex;gap:20px;z-index:41">
+    <div class="pill" id="s05-p1">BERPUSAT</div><div class="pill" id="s05-p2">ATAS TALIAN</div><div class="pill" id="s05-p3">LEBIH CEKAP</div></div>
   <div id="s05-ball" class="abs" style="left:845px;top:425px;width:230px;height:230px;border-radius:50%;
     background:radial-gradient(circle at 35% 30%,#fff,#e2dccb 55%,#a9a28f);box-shadow:0 30px 60px rgba(0,0,0,.45)"></div>
   <div id="s05-wh" class="abs" style="inset:0;background:#fff;opacity:0"></div>
+  <div class="vign"></div>
 </div>"""
     js = f"""
+// paper ball from the problem board flies at the lens -> white -> the SPD login page
 tl.fromTo("#s05-ball",{{scale:0.3,rotation:0}},{{scale:9,rotation:160,duration:0.9,ease:"power3.in"}},0);
 tl.to("#s05-wh",{{opacity:1,duration:0.2}},0.75);
-tl.set("#s05-split",{{opacity:1}},0.95); tl.set("#s05-ball",{{opacity:0}},0.95);
-tl.to("#s05-wh",{{opacity:0,duration:0.4}},0.95);
-tl.fromTo("#s05-l",{{x:-200}},{{x:0,duration:1.0,ease:"expo.out"}},0.95);
-tl.fromTo("#s05-r",{{x:200}},{{x:0,duration:1.0,ease:"expo.out"}},0.95);
-tl.fromTo("#s05-b",{{rotationY:-25,transformPerspective:1400,scale:0.9}},{{rotationY:-8,scale:1,duration:1.4,ease:"expo.out"}},1.0);
-tl.fromTo(["#s05-tb","#s05-ta"],{{opacity:0,y:-20}},{{opacity:1,y:0,duration:0.4,stagger:0.15}},{t_hari});
+tl.set("#s05-ball",{{opacity:0}},0.95);
+tl.to("#s05-wh",{{opacity:0,duration:0.45}},0.95);
+tl.fromTo("#s05-cam",{{opacity:0,scale:1.06,y:30}},{{opacity:1,scale:1,y:0,duration:1.1,ease:"expo.out"}},0.95);
+tl.fromTo("#s05-k",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_rek - 0.2});
 // log in: zoom onto the form, type, click, dashboard
 tl.set(["#s05-p","#s05-ov"],{{transformOrigin:"{zo[0]}px {zo[1]}px"}},0);
 tl.to(["#s05-p","#s05-ov"],{{scale:{zz},duration:0.9,ease:"power2.inOut"}},{t_zoom});
-FX.cursor(tl,document.getElementById("s05-c"),[[0,960,520],[{t_zoom + 0.2},960,520],[{t_ic},{ic[0]},{ic[1]}],[{t_ic + 0.7},{ic[0]},{ic[1]}],
-  [{t_pw},{pw[0]},{pw[1]}],[{t_pw + 0.5},{pw[0]},{pw[1]}],[{t_bt},{bt[0]},{bt[1]}],[{t_in + 0.9},{bt[0]},{bt[1]}],[{t_in + 1.8},560,300]],
+FX.cursor(tl,document.getElementById("s05-c"),[[0,1900,900],[{t_zoom + 0.2},1900,900],[{t_ic},{ic[0]},{ic[1]}],[{t_ic + 0.7},{ic[0]},{ic[1]}],
+  [{t_pw},{pw[0]},{pw[1]}],[{t_pw + 0.5},{pw[0]},{pw[1]}],[{t_bt},{bt[0]},{bt[1]}],[{t_in + 0.9},{bt[0]},{bt[1]}],[{t_in + 1.8},1150,520]],
   [[{t_ic + 0.05},{ic[0]},{ic[1]}],[{t_pw + 0.05},{pw[0]},{pw[1]}],[{t_bt + 0.1},{bt[0]},{bt[1]}]],document.getElementById("s05-c-r"));
 FX.type(tl,document.getElementById("s05-ic"),"••••••••••••",{t_ic + 0.15},0.6);
 FX.type(tl,document.getElementById("s05-pw"),"••••••••••",{t_pw + 0.15},0.5);
@@ -460,15 +455,15 @@ tl.fromTo("#s05-btn",{{opacity:0}},{{opacity:0.25,duration:0.08,yoyo:true,repeat
 tl.fromTo("#s05-pd",{{opacity:0}},{{opacity:1,duration:0.45,ease:"power2.out"}},{t_in});
 tl.to("#s05-ov",{{opacity:0,duration:0.2}},{t_in});
 tl.to(["#s05-p","#s05-ov"],{{scale:1,duration:0.8,ease:"power2.inOut"}},{t_in});
-tl.to("#s05-c",{{opacity:0,duration:0.3}},{S.D - 0.7});
-tl.fromTo("#s05-p1",{{opacity:0,y:60,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_ber - 0.1});
-tl.fromTo("#s05-p2",{{opacity:0,y:60,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_ata - 0.1});
-tl.fromTo("#s05-p3",{{opacity:0,y:60,scale:0.8}},{{opacity:1,y:0,scale:1,duration:0.45,ease:"back.out(2)"}},{t_cek - 0.3});
-// push into the SPD screen -> next scene
-tl.to("#s05-l",{{x:-1100,duration:0.6,ease:"power3.in"}},{S.D - 0.6});
-tl.to(["#s05-seam","#s05-tb","#s05-ta","#s05-i .pill"],{{opacity:0,duration:0.3}},{S.D - 0.6});
-tl.to("#s05-r",{{clipPath:"polygon(0% 0,100% 0,100% 100%,0% 100%)",duration:0.6,ease:"power3.in"}},{S.D - 0.6});
-tl.to("#s05-b",{{x:-800,y:-90,scale:{1500/860:.4f},transformOrigin:"0 0",rotationY:0,duration:0.6,ease:"power3.inOut"}},{S.D - 0.6});
+tl.fromTo("#s05-p1",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_ber - 0.1});
+tl.fromTo("#s05-p2",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_ata - 0.1});
+tl.fromTo("#s05-p3",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_cek - 0.3});
+// hand over to s06 (same browser frame and dashboard): just clear the overlays
+tl.to(["#s05-k","#s05-p1","#s05-p2","#s05-p3","#s05-c"],{{opacity:0,duration:0.35}},{S.D - 0.9});
+// match s06's frame exactly under the crossfade (cancel this scene's 1.03 breathing push) -> no double image
+tl.to("#s05-cam",{{scale:{1 / 1.03:.4f},rotationX:1.5,rotationY:-1.5,transformPerspective:2200,duration:1.6,ease:"sine.inOut"}},{S.D - 1.7});
+const url=document.getElementById("s05-b-url"), uo={{v:0}};
+tl.to(uo,{{v:1,duration:0.01,onUpdate:()=>{{url.textContent=uo.v>0.5?"spd.pknm.gov.my":"spd.pknm.gov.my/log-masuk";}}}},{t_in});
 """
     return html, js
 

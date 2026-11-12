@@ -76,7 +76,7 @@
   only gets a 60 ms fade). Previous clips in vo/pre_v6/.
 
 ## v7
-- s05 SELEPAS side: real SPD login page (`hf/assets/ui/login.jpg`, from the user's screenshot, browser chrome cropped);
+- s05 is now only the SPD login (no acting photo, full demo-size browser); real SPD login page (`hf/assets/ui/login.jpg`, from the user's screenshot, browser chrome cropped);
   zoom onto the form, masked IC + password typed, click Log Masuk -> dashboard (s77), then the push into s06
   ("Sebaik log masuk ..."). Page id `s05-pd` (s05-p2 collided with the ATAS TALIAN pill).
 - Music (user asked for an existing track, not a generated one): "Inspired" by Kevin MacLeod (incompetech.com),
