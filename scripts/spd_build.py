@@ -212,45 +212,77 @@ def scene(fn):
 # --------------------------------------------------------------------------- S00 pembuka (before the acting)
 @scene
 def s00(S):
-    """Opener: MCORP 3D logo 'mempersembahkan' -> the issue as a question, a stopwatch running -> cut to the acting."""
+    """Opener: spotlight + dust, the 3D MCORP logo lands with a lens streak and a floor reflection, 'MEMPERSEMBAHKAN';
+    then the issue as a question with a running stopwatch -> cut to the acting."""
+    import random
+    r = random.Random(11)
+    dust = "".join(f'<i class="s00-du" style="position:absolute;left:{r.randint(300, 1620)}px;top:{r.randint(80, 900)}px;width:{w}px;height:{w}px;border-radius:50%;'
+                   f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block;filter:blur({0 if w < 4 else 1}px)" data-dy="{r.randint(-90, -30)}"></i>'
+                   for w in [r.choice([2, 2, 3, 3, 4, 6]) for _ in range(46)])
     html = f"""
-<div class="F gdark">
-  <div id="s00-gl" class="abs" style="left:560px;top:250px;width:800px;height:440px;background:radial-gradient(closest-side,rgba(235,255,240,.30),rgba(182,217,115,.08) 60%,transparent);opacity:0"></div>
-  <div id="s00-lw" class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s00-logo", 360)}</div>
-  <div id="s00-pre" class="mono abs" style="left:0;right:0;top:580px;text-align:center;font-size:26px;letter-spacing:.5em;color:#cfe3d6;opacity:0">MEMPERSEMBAHKAN</div>
-  <div id="s00-q" class="abs" style="left:0;right:0;top:330px;text-align:center">
-    <div class="mono" id="s00-k" style="display:inline-block;font-size:24px;color:#0B2E22;background:#B6D973;padding:8px 18px;border-radius:6px;opacity:0">ISU HARIAN</div>
-    <div class="h1" style="font-size:96px;margin-top:26px">{kw("Berapa lama masa diambil", "s00-l1")}</div>
-    <div class="h1" style="font-size:96px">{kw("untuk mencari", "s00-l2")} <span style="color:var(--lime)">{kw("satu fail?", "s00-l3")}</span></div>
+<div class="F" style="background:radial-gradient(ellipse 70% 60% at 50% 38%,#0f3a2b 0%,#06180f 55%,#020806 100%)">
+  <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
+    background:conic-gradient(from 180deg at 50% 0%,transparent 0 160deg,rgba(214,255,226,.14) 172deg,rgba(214,255,226,.22) 180deg,rgba(214,255,226,.14) 188deg,transparent 200deg);
+    -webkit-mask-image:linear-gradient(#000 30%,transparent 92%)"></div>
+  <div id="s00-dust" class="abs" style="inset:0">{dust}</div>
+  <div id="s00-gl" class="abs" style="left:510px;top:120px;width:900px;height:560px;opacity:0;
+    background:radial-gradient(closest-side,rgba(240,255,244,.42),rgba(182,217,115,.10) 58%,transparent)"></div>
+  <div id="s00-floor" class="abs" style="left:0;right:0;top:640px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(182,217,115,.55),transparent)"></div>
+  <div id="s00-lw" class="abs" style="left:0;right:0;top:250px;display:flex;justify-content:center;perspective:1500px;opacity:0">{logo3d("s00-logo", 520, 18)}</div>
+  <div id="s00-rw" class="abs" style="left:0;right:0;top:646px;height:260px;display:flex;justify-content:center;perspective:1500px;opacity:0;
+    -webkit-mask-image:linear-gradient(rgba(0,0,0,.38),transparent 70%)"><div style="transform:scaleY(-1);transform-origin:50% 0">{logo3d("s00-rlogo", 520, 6)}</div></div>
+  <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:418px;height:6px;opacity:0;border-radius:3px;
+    background:linear-gradient(90deg,transparent,rgba(190,255,220,.0) 20%,rgba(235,255,245,.95) 50%,rgba(190,255,220,0) 80%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.35)"></div>
+  <div id="s00-pre" class="abs" style="left:0;right:0;top:700px;display:flex;justify-content:center;align-items:center;gap:26px;opacity:0">
+    <i id="s00-ll" style="display:block;width:140px;height:2px;background:linear-gradient(90deg,transparent,#B6D973);transform-origin:100% 50%"></i>
+    <span class="mono" style="font-size:24px;letter-spacing:.6em;color:#dfeee4;padding-left:.6em">MEMPERSEMBAHKAN</span>
+    <i id="s00-lr" style="display:block;width:140px;height:2px;background:linear-gradient(90deg,#B6D973,transparent);transform-origin:0 50%"></i></div>
+  <div id="s00-q" class="abs" style="left:0;right:0;top:320px;text-align:center">
+    <div class="mono" id="s00-k" style="display:inline-block;font-size:22px;letter-spacing:.3em;color:#B6D973;border:1.5px solid rgba(182,217,115,.6);padding:8px 18px;border-radius:40px;opacity:0">ISU HARIAN</div>
+    <div class="h1" style="font-size:100px;margin-top:30px;letter-spacing:-.03em">{kw("Berapa lama masa diambil", "s00-l1")}</div>
+    <div class="h1" style="font-size:100px;letter-spacing:-.03em">{kw("untuk mencari", "s00-l2")} <span style="color:var(--lime)">{kw("satu fail?", "s00-l3")}</span></div>
   </div>
-  <div id="s00-sw" class="abs" style="left:0;right:0;top:690px;display:flex;justify-content:center;align-items:center;gap:22px;opacity:0">
-    <svg viewBox="0 0 60 60" style="width:64px"><circle cx="30" cy="34" r="22" fill="none" stroke="#B6D973" stroke-width="4"/><path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>
+  <div id="s00-sw" class="abs" style="left:0;right:0;top:700px;display:flex;justify-content:center;align-items:center;gap:22px;opacity:0">
+    <svg viewBox="0 0 60 60" style="width:60px"><circle cx="30" cy="34" r="22" fill="none" stroke="#B6D973" stroke-width="4"/><path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>
       <path id="s00-hand" d="M30 34 V18" stroke="#fff" stroke-width="4" stroke-linecap="round" style="transform-origin:30px 34px"/></svg>
-    <div style="font:800 76px 'JetBrains Mono';color:#fff">{odo("00:47:12")}</div>
+    <div style="font:800 72px 'JetBrains Mono';color:#fff">{odo("00:47:12")}</div>
   </div>
   <div id="s00-fl" class="abs" style="inset:0;background:#fff;opacity:0"></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
 {LOGO_JS}
-tl.fromTo("#s00-lw",{{opacity:0}},{{opacity:1,duration:0.5}},0.1);
-tl.fromTo("#s00-gl",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},0.3);
-tl.to("#s00-gl",{{opacity:0,duration:0.4}},2.0);
-tl.fromTo("#s00-logo",{{z:-900,rotationY:-150,rotationX:18}},{{z:0,rotationY:-20,rotationX:5,duration:1.2,ease:"expo.out"}},0.1);
-live3d(tl,"#s00-logo",1.3,2.5,20,"#s00-logo-sh");
-tl.fromTo("#s00-pre",{{opacity:0,y:16}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},0.7);
-tl.to("#s00-lw",{{opacity:0,duration:0.4}},2.0);
-tl.to("#s00-logo",{{z:500,duration:0.5,ease:"power2.in"}},2.0);
-tl.to("#s00-pre",{{opacity:0,duration:0.3}},2.0);
-tl.fromTo("#s00-k",{{opacity:0,y:-14}},{{opacity:1,y:0,duration:0.4,ease:"expo.out"}},2.35);
-FX.words(tl,".s00-l1 > span",2.45,0.07);
-FX.words(tl,".s00-l2 > span",2.95,0.07);
-FX.words(tl,".s00-l3 > span",3.25,0.09);
-tl.fromTo("#s00-sw",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},3.6);
-FX.odo(tl,"#s00-sw",3.65,1.6,{{stagger:0.05,ease:"power2.out"}});
-tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:720,duration:1.9,ease:"power1.inOut"}},3.6);
-tl.to(["#s00-q","#s00-sw"],{{opacity:0,scale:1.08,duration:0.3,ease:"power2.in"}},{S.D - 0.95});
-tl.fromTo("#s00-fl",{{opacity:0}},{{opacity:0.35,duration:0.25,ease:"power2.in"}},{S.D - 0.75});
+// atmosphere
+tl.fromTo("#s00-cone",{{opacity:0}},{{opacity:1,duration:1.4,ease:"power2.out"}},0);
+document.querySelectorAll(".s00-du").forEach((d,i)=>{{
+  tl.fromTo(d,{{opacity:0,y:0}},{{opacity:1,y:+d.dataset.dy,duration:{S.D},ease:"none"}},0);
+}});
+// logo lands from depth; streak + glow at the moment it settles; reflection follows
+tl.fromTo("#s00-lw",{{opacity:0}},{{opacity:1,duration:0.6}},0.15);
+tl.fromTo("#s00-logo",{{z:-1400,rotationY:-200,rotationX:24,y:-30}},{{z:0,rotationY:-16,rotationX:4,y:0,duration:1.5,ease:"expo.out"}},0.15);
+tl.fromTo("#s00-rw",{{opacity:0}},{{opacity:1,duration:0.8}},0.9);
+tl.fromTo("#s00-rlogo",{{z:-1400,rotationY:-200,rotationX:-24}},{{z:0,rotationY:-16,rotationX:-4,duration:1.5,ease:"expo.out"}},0.15);
+tl.fromTo("#s00-gl",{{opacity:0,scale:0.5}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},0.9);
+tl.fromTo("#s00-floor",{{opacity:0,scaleX:0.2}},{{opacity:1,scaleX:1,duration:1.0,ease:"expo.out"}},1.0);
+tl.fromTo("#s00-streak",{{opacity:0,scaleX:0.1}},{{opacity:1,scaleX:1,duration:0.35,ease:"power2.out"}},1.05);
+tl.to("#s00-streak",{{opacity:0,scaleX:1.4,duration:0.6,ease:"power2.in"}},1.4);
+live3d(tl,"#s00-logo",1.65,3.0,14,"#s00-logo-sh");
+live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
+tl.fromTo("#s00-pre",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},1.35);
+tl.fromTo(["#s00-ll","#s00-lr"],{{scaleX:0}},{{scaleX:1,duration:0.8,ease:"expo.out"}},1.45);
+// hand over to the question
+tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor","#s00-pre"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.85);
+tl.to("#s00-logo",{{z:420,duration:0.5,ease:"power2.in"}},2.85);
+tl.to("#s00-cone",{{opacity:0.45,duration:0.6}},2.85);
+tl.fromTo("#s00-k",{{opacity:0,y:-14}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},3.2);
+FX.words(tl,".s00-l1 > span",3.3,0.07);
+FX.words(tl,".s00-l2 > span",3.8,0.07);
+FX.words(tl,".s00-l3 > span",4.1,0.09);
+tl.fromTo("#s00-sw",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},4.45);
+FX.odo(tl,"#s00-sw",4.5,1.5,{{stagger:0.05,ease:"power2.out"}});
+tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:720,duration:1.8,ease:"power1.inOut"}},4.45);
+tl.to(["#s00-q","#s00-sw"],{{opacity:0,scale:1.06,duration:0.3,ease:"power2.in"}},{S.D - 0.95});
+tl.to("#s00-cone",{{opacity:0,duration:0.4}},{S.D - 0.9});  // clean handover: no white flash over the first shot
 """
     return html, js
 
@@ -1427,7 +1459,7 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 # ============================================================================= FILM PLAN
 XFADE = 0.6
 PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
-    ("s00", [], dict(fixed=6.2)),
+    ("s00", [], dict(fixed=7.0)),
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
@@ -1502,9 +1534,9 @@ BADGE = """<!doctype html>
   <body>
     <template>
       <div id="root" data-composition-id="badge" data-width="1920" data-height="1080" style="position:absolute;inset:0;pointer-events:none">
-        <div id="bd-stage" style="position:absolute;right:36px;top:26px;width:132px;height:88px;perspective:700px">
+        <div id="bd-stage" style="position:absolute;right:34px;top:24px;width:96px;height:64px;perspective:600px">
           <div id="bd-card" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d">
-            <img src="assets/img/logo-pptx.png" alt="MCORP Perbadanan Melaka" style="width:132px;height:88px;display:block;
+            <img src="assets/img/logo-pptx.png" alt="MCORP Perbadanan Melaka" style="width:96px;height:64px;display:block;
               filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 6px 10px rgba(0,0,0,.45))" />
           </div>
         </div>
