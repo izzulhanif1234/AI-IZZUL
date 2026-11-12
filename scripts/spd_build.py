@@ -1460,7 +1460,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["−25.4%", "8,000", "−39.7%", "−90%", "1,550", "RM178,141"]):
+    for i, v in enumerate(["RM178,141", "−25.4%", "−39.7%", "−90%", "1,550"]):
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
@@ -1482,7 +1482,7 @@ def s19(S):
   <div id="s19-end" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:84px;opacity:0;text-shadow:0 10px 40px rgba(0,0,0,.7)">Apa yang diukur, <span style="color:var(--lime)">dapat diurus.</span></div>
   <div class="vign"></div>
 </div>"""
-    kv = [(0, t_ker), (1, t_dak), (2, t_mas), (3, t_mas + 0.25), (4, t_ten), (5, t_kos)]
+    kv = [(1, t_ker), (2, t_dak), (3, t_mas), (4, t_ten), (0, t_kos)]
     js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,y:10}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t - 0.1:.2f});'
                     f'FX.odo(tl,"#s19-k{i}",{t - 0.1:.2f},0.9,{{stagger:0.05}});' for i, t in kv)
     js = f"""
@@ -1500,11 +1500,7 @@ tl.fromTo("#s19-tag",{{opacity:0}},{{opacity:1,duration:0.4}},{t_set - 0.3});
 tl.fromTo("#s19-page",{{y:0}},{{y:-560,duration:1.1,ease:"power3.inOut"}},{t_set + 0.1});
 tl.fromTo("#s19-side",{{y:0}},{{y:560,duration:1.1,ease:"power3.inOut"}},{t_set + 0.1});
 tl.to("#s19-win",{{scale:0.9,rotationX:0,duration:1.5,ease:"power2.inOut"}},{t_set + 0.1});
-tl.fromTo("#s19-g",{{strokeDasharray:"0 {circ:.0f}"}},{{strokeDasharray:"{circ * 0.82:.0f} {circ:.0f}",duration:1.6,ease:"power3.out"}},{t_set + 1.0});
-FX.count(tl,document.getElementById("s19-gt"),0,82,{t_set + 1.0},1.6,(v)=>String(Math.round(v)),"power3.out");
-document.getElementById("s19-gt").style.fontVariantNumeric="tabular-nums";
 {js_kv}
-tl.fromTo("#s19-meter",{{opacity:0.2}},{{opacity:1,duration:0.5}},{t_kos + 0.3});
 tl.to("#s19-win",{{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"}},{t_kar - 0.8});
 tl.to("#s19-win",{{filter:"brightness(0.3) blur(3px)",duration:0.6}},{t_uru - 1.0});
 tl.fromTo("#s19-end",{{opacity:0,scale:1.15}},{{opacity:1,scale:1,duration:0.6,ease:"expo.out"}},{t_uru - 0.9});
