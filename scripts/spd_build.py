@@ -642,12 +642,12 @@ def s08(S):
              'box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25);opacity:0"></div>')
     panels = [("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")], laser),
               ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/s93.jpg"), ("s08-b2", f"{UI}/s94.jpg")], ""),
-              ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s98.jpg"), ("s08-c2", f"{UI}/s95.jpg")], ""),
+              ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s96.jpg"), ("s08-c2", f"{UI}/s98.jpg")], ""),
               ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/s83.jpg")], pent)]
     ph = "".join(f'<div class="abs s08-pn" id="{pid}-w" style="left:0;top:0;width:1920px;height:1080px;opacity:{1 if i == 0 else 0}">'
                  f'{browser(pid, BWX, BWY, W, url, pages, extra)}</div>' for i, (pid, url, pages, extra) in enumerate(panels))
     labels = [("01", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("02", "PENGURUSAN STOR", "Permohonan serta baki stok"),
-              ("03", "MODAL INSAN", "Cuti dan rekod berkaitan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
+              ("03", "MODAL INSAN", "Senarai kakitangan · kursus &amp; latihan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
     lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:70px;top:900px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
                   for i, (n, a, b) in enumerate(labels))
     html = f"""
@@ -700,7 +700,7 @@ def s09(S):
     # slide 5: "Lima modul dalam satu ekosistem SPD" (wording from the slide)
     mods = [("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg", "Kurang dokumen fizikal", ("dokumen", 1)),
             ("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg", "Kurang fail hak milik fizikal", ("fail", 1)),
-            ("Modal Insan", "Cuti dan rekod berkaitan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
+            ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
             ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg", "Permohonan tanpa kertas", ("fail", 1)),
             ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg", "Kurang ruang arkib", ("arkib", 1))]
     cards, js_c = "", ""

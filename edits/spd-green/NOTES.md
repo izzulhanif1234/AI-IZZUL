@@ -84,3 +84,8 @@
   File in `audio/music/` (gitignored; download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Inspired.mp3).
   Mix: `SPD_VO=1 SPD_MUSIC_FILE=edits/spd-green/audio/music/Inspired.mp3 python3 scripts/spd_audio.py`
   (0.8 s fade-in, 4 s fade-out, ducked ~11 dB under VO, dips to 30% for the IMPAK SPD slam).
+
+## v8
+- Modal Insan is staff list + courses/training, not leave: s08 panel shows Senarai Latihan (s96) then Senarai
+  Kakitangan (s98) on "kakitangan"; labels updated. VO v08 spliced (13.79-14.44 s removed, "cuti dan") ->
+  "Modal insan menguruskan rekod berkaitan kakitangan" (same take; original in vo/splice/v08_before.*).

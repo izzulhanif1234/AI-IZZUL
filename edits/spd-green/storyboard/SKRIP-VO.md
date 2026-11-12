@@ -16,7 +16,7 @@ Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik M
 
 Bagi aset tak alih, pengguna hanya perlu menaip nama lokasi. Rekod premis, nombor lot, status hak milik dan koordinat dipaparkan serta-merta, lengkap dengan peta lokasi dan dokumen hak milik digital.
 
-Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barcode. Pengurusan stor memantau permohonan serta baki stok secara langsung. Modal insan menguruskan cuti dan rekod berkaitan kakitangan, manakala modul pentadbiran mengawal capaian pengguna sistem.
+Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barcode. Pengurusan stor memantau permohonan serta baki stok secara langsung. Modal insan menguruskan rekod berkaitan kakitangan, manakala modul pentadbiran mengawal capaian pengguna sistem.
 
 Setiap modul menyumbang kepada impak hijau melalui pengurangan dokumen fizikal, bahan cetakan, fail, dan keperluan ruang arkib.
 
