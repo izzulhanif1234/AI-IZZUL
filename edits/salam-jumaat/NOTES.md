@@ -1,6 +1,6 @@
 # Salam Jumaat (MCORP): 9:16 hypermotion poster video
 
-31 s, 1080x1920, 30 fps, **silent** (no music, no SFX, by request). HyperFrames project in `hf/`
+40 s, 1080x1920, 30 fps, **silent** (no music, no SFX, by request). HyperFrames project in `hf/`
 (single `index.html`). Render: `cd hf && npx hyperframes@0.8.155 render -f 30 -q delivery -o ../final/Salam-Jumaat-MCORP-9x16.mp4 .`
 
 | Time | Scene | Content |
@@ -15,3 +15,11 @@
 - Fonts bundled from @fontsource (Amiri, Cormorant Garamond, Montserrat), OFL.
 - Bursts are gold shockwave rings + rosette pulse. Radial sun rays were removed: they read as the
   Japanese rising-sun flag.
+
+## Revision 2: softer motion
+Feedback: effects felt rushed. Removed camera shake, white flashes, whip-pans with streaks, zoom-through
+exits and the iris wipe. Text now rises in gently (power2.out, 0.8-1.1 s, small travel, light blur),
+scenes crossfade with a slow breathing push, cards turn in by 18 deg instead of 95, and the gold rings
+are slower and fainter. Length 31 s -> 40 s for more reading time:
+title 0-6, hadith 5.2-14.5, Mesej Jumaat 13.9-17.8, three beats 17-27.8 (3.2 s each), doa 27.2-34.2,
+closing 33.5-40.
