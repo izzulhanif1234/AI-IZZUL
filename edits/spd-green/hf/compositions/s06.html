@@ -10,9 +10,9 @@
   <div id="s06-cam" class="abs" style="inset:0;perspective:2200px">
     <div class="bw" id="s06-b" style="left:80px;top:106px;width:1760px;height:888px;"><div class="bw-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><div class="bw-url">🔒 <span id="s06-b-url">spd.pknm.gov.my</span></div></div><div class="bw-view" id="s06-b-v"><img class="pg" id="s06-p77" src="assets/ui/s77.jpg" style="opacity:1"><img class="pg" id="s06-p78" src="assets/ui/s78.jpg" style="opacity:0"><img class="pg" id="s06-p80" src="assets/ui/s80.jpg" style="opacity:0"><div class="hl" id="s06-hmap" style="left:30px;top:228px;width:1681px;height:484px"></div><div class="hl" id="s06-haa" style="left:18px;top:137px;width:1129px;height:286px"></div><div class="hl" id="s06-hata" style="left:1163px;top:128px;width:570px;height:671px"></div><div class="hl" id="s06-hsew" style="left:18px;top:144px;width:1148px;height:497px"></div><svg class="cur" id="s06-c" viewBox="0 0 60 80"><path d="M5 5 L5 65 L20 50 L32 75 L42 70 L30 46 L52 46Z" fill="#fff" stroke="#111" stroke-width="3"/></svg><div class="cring" id="s06-c-r"></div></div></div>
   </div>
-  <div id="s06-stor" style="position:absolute;width:520px;height:430px;border-radius:14px;background:url(assets/ui/s79.jpg) -1157px -366px/1721px 818px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:1330px;top:330px;opacity:0"></div>
+  <div id="s06-stor" style="position:absolute;width:540px;height:321px;border-radius:14px;background:url(assets/ui/s81.jpg) -1115px -370px/1683px 799px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:1310px;top:360px;opacity:0"></div>
   <div class="callout" id="s06-k1" style="left:90px;top:860px;opacity:0"><div class="k">LAMAN UTAMA</div><div class="t">Taburan premis & tanah milik MCORP</div></div>
-  <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Stor</div></div>
+  <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Modal insan</div></div>
   <div id="s06-cm" style="position:absolute;width:560px;height:156px;border-radius:14px;background:url(assets/ui/s77.jpg) -14px -80px/593px 282px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:80px;top:90px;opacity:0"></div>
   <div id="s06-ca" style="position:absolute;width:520px;height:125px;border-radius:14px;background:url(assets/ui/s78.jpg) -13px -69px/825px 392px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:90px;top:640px;opacity:0"></div>
   <div id="s06-cs" style="position:absolute;width:470px;height:199px;border-radius:14px;background:url(assets/ui/s80.jpg) -11px -64px/734px 348px no-repeat;box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;left:1360px;top:640px;opacity:0"></div>
@@ -45,7 +45,7 @@ FX.ring(tl,"#s06-hata",8.632,0.65);
 tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.127);
 tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.527000000000001);
 FX.ring(tl,"#s06-hsew",9.927000000000001,0.73);
-// stor card pops out of the page
+// the Stor card was empty in the real system: show the Modal Insan staff breakdown instead
 tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.182);
 // "dalam satu paparan": pull back, tilt, title
 tl.to("#s06-k2",{opacity:0,duration:0.25},10.455);

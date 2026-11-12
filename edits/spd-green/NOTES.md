@@ -94,3 +94,13 @@
 - Module numbering follows the demo order: 01 Aset Tak Alih (s07 callouts), 02 Aset Alih, 03 Pengurusan Stor,
   04 Modal Insan, 05 Pentadbiran (s08 callouts); s09 cards in the same order.
 - s08 finale shows all five modules (3 + 2 grid, scale .32) with numbered names; Aset Tak Alih tile = s86.
+
+## v10 (plan JPEG pelan5/PELAN-v10.jpg; not rendered yet)
+- s00 opener: 3D MCORP logo "MEMPERSEMBAHKAN" -> issue question + stopwatch -> acting (s01 crossfades in, no push).
+- 3D logo: `stack3d/logo3d/spd3d` (extruded copies + masked sheen) + `live3d()` swing; used in s00, s03, s20.
+- s03: sphere replaced by MCORP 3D logo + SPD; tiles = 5 modules (sub-functions pending from user).
+- s06: empty Stor card -> Pecahan Kategori Jawatan (s81). s09: per-card badges -> one "Impak Hijau" 5-tick panel.
+- s14: before = barcode.jpg (manual note), after = manual-check.jpg (phone scan); CSS phone scanning a dummy QR.
+- s15 removed (KPI scene from user to replace it). s19 KPIs: kertas, dakwat, rekod digital 90%, masa carian -80%,
+  ruang simpanan -30%, kos RM217,836 (anggaran kos operasi). "Bersepadu" removed from the title.
+- Pending from user: module subs, new ATA search screenshots (replace ELKAY), KPI, AI videos for s04, new VO.

@@ -621,10 +621,10 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
     """1920x1080 browser frame. scroll shifts the page up to reveal the Green Dashboard section."""
     kpis = [("KERTAS A4", "−25.4%", "1,242 → 926 unit", "2021 vs 2025"),
             ("DAKWAT PENCETAK", "−39.7%", "174 → 105 unit", "2021 vs 2025"),
-            ("PROSES SEWAAN", "−79%", "14 → 3 hari", "11 hari dijimatkan"),
-            ("SEMAKAN ASET ALIH", "−90%", "20 → 2 hari", "imbasan barcode"),
-            ("TENAGA KERJA", "−50%", "18 → 9 orang", "senario kos upah"),
-            ("PENJIMATAN KOS / TAHUN", "RM217,836", "RM435,672 → RM217,836", "tenaga kerja")]
+            ("PENDIGITALAN REKOD", "90%", "rekod aset didigitalkan", "dokumen hak milik & rekod"),
+            ("MASA CARIAN DOKUMEN", "−80%", "carian terus dalam sistem", "tanpa carian fail fizikal"),
+            ("RUANG SIMPANAN FIZIKAL", "−30%", "ruang arkib dibebaskan", "untuk kegunaan produktif"),
+            ("PENJIMATAN KOS / TAHUN", "RM217,836", "RM435,672 → RM217,836", "anggaran kos operasi")]
     kh = "".join(
         f'<div style="background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid {"#D9AE52" if i==5 else "#26745A"}">'
         f'<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">{a}</div>'
@@ -665,7 +665,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
                                 "Operational Efficiency", "Green Cost Savings", "Green Governance"])
     meter = "".join(f'<div style="flex:1;text-align:center;padding:10px 6px;border-right:1px solid rgba(255,255,255,.15)">'
                     f'<div style="font:800 30px Plus Jakarta Sans;color:#fff">{a}</div><div style="font:600 13px JetBrains Mono;color:#cfe3d6;letter-spacing:.06em">{b}</div></div>'
-                    for a, b in [("316", "UNIT A4 DIELAK"), ("69", "UNIT DAKWAT"), ("11 hari", "SEWAAN"), ("18 hari", "SEMAKAN ASET"), ("9", "TENAGA DIOPTIMUM"), ("RM217k", "SETAHUN")])
+                    for a, b in [("316", "UNIT A4 DIELAK"), ("69", "UNIT DAKWAT"), ("90%", "REKOD DIGITAL"), ("−80%", "MASA CARIAN"), ("−30%", "RUANG ARKIB"), ("RM217k", "SETAHUN")])
     page = f"""
 <div style="height:96px;background:#fff;display:flex;align-items:center;padding:0 34px;gap:26px;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;z-index:3">
 <div style="width:30px;height:20px;border-top:4px solid #8E1B33;border-bottom:4px solid #8E1B33;position:relative"><i style="position:absolute;left:0;right:0;top:4px;border-top:4px solid #8E1B33;display:block"></i></div>

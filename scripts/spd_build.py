@@ -130,6 +130,44 @@ def crop(cid, src, x0, y0, x1, y1, w, style=""):
             f'box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 3px #b6d973;{style}"></div>')
 
 
+LOGO = "assets/img/logo-pptx.png"   # MCORP corporate logo, 542x362 RGBA
+
+
+def stack3d(sid, inner, w, h, depth=14, step=1.4, side=0.32, sheen_mask=None):
+    """Extruded 3D object: `depth` darkened copies of `inner` pushed back in Z, the lit face on top, and an optional
+    specular sheen masked to the face. Rotate/animate #sid (preserve-3d); fade the parent, never #sid itself."""
+    layers = "".join(f'<div style="position:absolute;inset:0;transform:translateZ({-i * step:.1f}px);filter:brightness({side + (1 - side) * (1 - i / depth) * 0.35:.2f})">{inner}</div>'
+                     for i in range(depth, 0, -1))
+    sheen = ""
+    if sheen_mask:
+        m = f"url({sheen_mask}) center/100% 100% no-repeat"
+        sheen = (f'<div class="sheen" id="{sid}-sh" style="position:absolute;inset:0;transform:translateZ(0.6px);-webkit-mask:{m};mask:{m};'
+                 f'background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.9) 50%,transparent 60%);background-size:320% 100%;background-position:120% 0"></div>')
+    return (f'<div id="{sid}" style="position:relative;width:{w}px;height:{h}px;transform-style:preserve-3d">{layers}'
+            f'<div style="position:absolute;inset:0">{inner}</div>{sheen}</div>')
+
+
+def logo3d(sid, w, depth=14):
+    h = round(w * 362 / 542)
+    return stack3d(sid, f'<img src="{LOGO}" style="width:100%;height:100%;display:block">', w, h, depth, 1.5, 0.3, LOGO)
+
+
+def spd3d(sid, size, depth=10, c1="#B6D973", c2="#B6D973"):
+    """the SPD word mark (font-size `size`) extruded like the logo"""
+    w, h = round(size * 2.75), round(size * 1.2)
+    inner = f'<div style="width:{w}px;height:{h}px;display:flex;align-items:center;justify-content:center">{SB.spd_mark(size, c1, c2)}</div>'
+    return stack3d(sid, inner, w, h, depth, 1.6, 0.25)
+
+
+LOGO_JS = """// living 3D logo: slow swing (never a full turn) + a specular sweep every few seconds
+function live3d(tl, sel, t0, t1, amp, sheen){{
+  const n = Math.max(1, Math.floor((t1 - t0) / 4.2));
+  tl.fromTo(sel,{{rotationY:-amp,rotationX:6}},{{rotationY:amp,rotationX:-4,duration:2.1,ease:"sine.inOut",yoyo:true,repeat:n*2-1,immediateRender:false}},t0);
+  if (sheen) for (let k=0;k<n;k++) tl.fromTo(sheen,{{backgroundPosition:"120% 0"}},{{backgroundPosition:"-20% 0",duration:1.1,ease:"power2.inOut",immediateRender:false}},t0+0.6+k*4.2);
+}}
+""".replace("{{", "{").replace("}}", "}")
+
+
 def odo(to, frm=None, cls="", style=""):
     """Odometer markup: digit columns roll from frm's digit to to's digit (+1 full turn when counting up)."""
     frm = frm if frm is not None else re.sub(r"\d", "0", to)
@@ -169,6 +207,52 @@ SCENES = {}
 def scene(fn):
     SCENES[fn.__name__] = fn
     return fn
+
+
+# --------------------------------------------------------------------------- S00 pembuka (before the acting)
+@scene
+def s00(S):
+    """Opener: MCORP 3D logo 'mempersembahkan' -> the issue as a question, a stopwatch running -> cut to the acting."""
+    html = f"""
+<div class="F gdark">
+  <div id="s00-gl" class="abs" style="left:560px;top:250px;width:800px;height:440px;background:radial-gradient(closest-side,rgba(235,255,240,.30),rgba(182,217,115,.08) 60%,transparent);opacity:0"></div>
+  <div id="s00-lw" class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s00-logo", 360)}</div>
+  <div id="s00-pre" class="mono abs" style="left:0;right:0;top:580px;text-align:center;font-size:26px;letter-spacing:.5em;color:#cfe3d6;opacity:0">MEMPERSEMBAHKAN</div>
+  <div id="s00-q" class="abs" style="left:0;right:0;top:330px;text-align:center">
+    <div class="mono" id="s00-k" style="display:inline-block;font-size:24px;color:#0B2E22;background:#B6D973;padding:8px 18px;border-radius:6px;opacity:0">ISU HARIAN</div>
+    <div class="h1" style="font-size:96px;margin-top:26px">{kw("Berapa lama masa diambil", "s00-l1")}</div>
+    <div class="h1" style="font-size:96px">{kw("untuk mencari", "s00-l2")} <span style="color:var(--lime)">{kw("satu fail?", "s00-l3")}</span></div>
+  </div>
+  <div id="s00-sw" class="abs" style="left:0;right:0;top:690px;display:flex;justify-content:center;align-items:center;gap:22px;opacity:0">
+    <svg viewBox="0 0 60 60" style="width:64px"><circle cx="30" cy="34" r="22" fill="none" stroke="#B6D973" stroke-width="4"/><path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>
+      <path id="s00-hand" d="M30 34 V18" stroke="#fff" stroke-width="4" stroke-linecap="round" style="transform-origin:30px 34px"/></svg>
+    <div style="font:800 76px 'JetBrains Mono';color:#fff">{odo("00:47:12")}</div>
+  </div>
+  <div id="s00-fl" class="abs" style="inset:0;background:#fff;opacity:0"></div>
+  <div class="vign"></div>
+</div>"""
+    js = f"""
+{LOGO_JS}
+tl.fromTo("#s00-lw",{{opacity:0}},{{opacity:1,duration:0.5}},0.1);
+tl.fromTo("#s00-gl",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},0.3);
+tl.to("#s00-gl",{{opacity:0,duration:0.4}},2.0);
+tl.fromTo("#s00-logo",{{z:-900,rotationY:-150,rotationX:18}},{{z:0,rotationY:-20,rotationX:5,duration:1.2,ease:"expo.out"}},0.1);
+live3d(tl,"#s00-logo",1.3,2.5,20,"#s00-logo-sh");
+tl.fromTo("#s00-pre",{{opacity:0,y:16}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},0.7);
+tl.to("#s00-lw",{{opacity:0,duration:0.4}},2.0);
+tl.to("#s00-logo",{{z:500,duration:0.5,ease:"power2.in"}},2.0);
+tl.to("#s00-pre",{{opacity:0,duration:0.3}},2.0);
+tl.fromTo("#s00-k",{{opacity:0,y:-14}},{{opacity:1,y:0,duration:0.4,ease:"expo.out"}},2.35);
+FX.words(tl,".s00-l1 > span",2.45,0.07);
+FX.words(tl,".s00-l2 > span",2.95,0.07);
+FX.words(tl,".s00-l3 > span",3.25,0.09);
+tl.fromTo("#s00-sw",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},3.6);
+FX.odo(tl,"#s00-sw",3.65,1.6,{{stagger:0.05,ease:"power2.out"}});
+tl.fromTo("#s00-hand",{{rotation:0}},{{rotation:720,duration:1.9,ease:"power1.inOut"}},3.6);
+tl.to(["#s00-q","#s00-sw"],{{opacity:0,scale:1.08,duration:0.3,ease:"power2.in"}},{S.D - 0.95});
+tl.fromTo("#s00-fl",{{opacity:0}},{{opacity:0.35,duration:0.25,ease:"power2.in"}},{S.D - 0.75});
+"""
+    return html, js
 
 
 # --------------------------------------------------------------------------- S01 cold open
@@ -248,7 +332,7 @@ def s02(S):
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
   <div id="s02-k" class="kicker abs" style="left:0;right:0;top:250px;text-align:center;font-size:26px;letter-spacing:.34em;opacity:0">PERBADANAN MELAKA (MCORP)</div>
   <div id="s02-mark" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center">{SB.spd_mark(260)}</div>
-  <div class="abs h1" style="left:0;right:0;top:648px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data Bersepadu", "s02-t")}</div>
+  <div class="abs h1" style="left:0;right:0;top:648px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
   <div class="abs" style="left:0;right:0;top:728px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
   <div id="s02-sweep" class="abs" style="left:-600px;top:300px;width:300px;height:340px;background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
   <div class="vign"></div>
@@ -272,16 +356,20 @@ tl.to(["#s02-mark","#s02-k",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ea
 # --------------------------------------------------------------------------- S03 apa itu SPD
 @scene
 def s03(S):
-    items = [("Tanah", "tanah"), ("Bangunan", "bangunan"), ("Penyewaan", "penyewaan"), ("Penilaian Aset", "penilaian"), ("Dokumen Hak Milik", "dokumen")]
+    # the five SPD modules (each module's sub-functions to be added once the user sends them); the old VO still lists
+    # tanah/bangunan/... so each module lands on one of those words until the new VO is recorded
+    items = [("01", "Aset Tak Alih", "tanah"), ("02", "Aset Alih", "bangunan"), ("03", "Pengurusan Stor", "penyewaan"),
+             ("04", "Modal Insan", "penilaian"), ("05", "Pentadbiran", "dokumen")]
     tiles = "".join(
         f'<div class="abs s03-t" id="s03-t{i}" style="left:0;top:0;width:340px;height:120px;margin:-60px 0 0 -170px">'
         f'<div class="s03-ti" id="s03-ti{i}" style="width:100%;height:100%;border-radius:22px;display:flex;align-items:center;justify-content:center;'
         f'font:700 34px \'Plus Jakarta Sans\';color:#fff;opacity:0;background:linear-gradient(160deg,rgba(47,138,102,.84) 0%,rgba(27,97,72,.80) 55%,rgba(18,70,52,.82) 100%);'
         f'border:1.5px solid rgba(140,214,170,.75);text-shadow:0 2px 8px rgba(0,0,0,.55);'
-        f'box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45),0 0 34px rgba(182,217,115,.2)">{lab}</div></div>' for i, (lab, _) in enumerate(items))
+        f'box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45),0 0 34px rgba(182,217,115,.2);flex-direction:column;gap:2px">'
+        f'<span class="mono" style="font-size:18px;color:#B6D973;letter-spacing:.2em">{num}</span>{lab}</div></div>' for i, (num, lab, _) in enumerate(items))
     dots = "".join(f'<i class="abs s03-p" style="left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#d9ffb0;'
                    f'box-shadow:0 0 14px #b6d973;display:block"></i>' for _ in range(28))
-    word_t = [S.w("v03", w) for _, w in items]
+    word_t = [S.w("v03", w) for _, _, w in items]
     t_sat = S.w("v03", "satu")
     t_buk = S.w("v03", "bukan")
     t_hij = S.w("v03", "hijau")
@@ -296,12 +384,9 @@ def s03(S):
     <div id="s03-core" class="abs" style="left:960px;top:470px;width:360px;height:360px;margin:-180px 0 0 -180px;z-index:3">
       <div class="abs" style="inset:-170px;border-radius:50%;background:radial-gradient(closest-side,rgba(182,217,115,.32),rgba(182,217,115,.08) 60%,transparent)"></div>
       <div id="s03-glow" class="abs" style="inset:-300px;border-radius:50%;opacity:0;background:radial-gradient(closest-side,rgba(214,255,170,.62),rgba(182,217,115,.22) 45%,rgba(182,217,115,.06) 72%,transparent)"></div>
-      <div id="s03-halo" class="abs" style="inset:-26px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 55%,rgba(217,255,176,.95) 70%,transparent 85%);
-        -webkit-mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 66%,transparent 67%)"></div>
-      <div id="s03-ball" class="abs" style="inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fe0b0 0%,#26745a 45%,#0b2e22 100%);
-        box-shadow:inset -20px -30px 60px rgba(0,0,0,.45),inset 20px 20px 50px rgba(255,255,255,.18),0 30px 80px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center">
-        {SB.spd_mark(110)}</div>
-      <div class="abs" style="left:60px;top:30px;width:140px;height:70px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,255,255,.45),transparent 70%);transform:rotate(-25deg)"></div>
+      <div class="abs" style="inset:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
+      <div class="abs" style="left:0;right:0;top:2px;display:flex;justify-content:center;perspective:1200px">{logo3d("s03-logo", 300)}</div>
+      <div class="abs" style="left:0;right:0;top:214px;display:flex;justify-content:center;perspective:1200px">{spd3d("s03-spd", 92, c1="#fff")}</div>
     </div>
     {tiles}
   </div>
@@ -311,6 +396,7 @@ def s03(S):
   <div class="vign"></div>
 </div>"""
     js = f"""
+{LOGO_JS}
 const tiles=[...document.querySelectorAll(".s03-t")], dots=[...document.querySelectorAll(".s03-p")];
 const st={{a:0.35,r:1}};
 const cx=960, cy=560, RX=760, RY=350;   // back of the orbit passes ABOVE the sphere, never behind it
@@ -330,7 +416,9 @@ function place(){{
 place();
 tl.to(st,{{a:0.35+1.6,duration:{S.D},ease:"none",onUpdate:place}},0);
 tl.fromTo("#s03-core",{{scale:0.2,opacity:0}},{{scale:1,opacity:1,duration:0.9,ease:"back.out(1.5)"}},0.15);
-tl.fromTo("#s03-halo",{{rotation:0}},{{rotation:540,duration:{S.D},ease:"none"}},0);
+tl.fromTo("#s03-logo",{{rotationY:-140,z:-600}},{{rotationY:-18,z:0,duration:1.1,ease:"expo.out"}},0.15);
+live3d(tl,"#s03-logo",1.25,{S.D},18,"#s03-logo-sh");
+live3d(tl,"#s03-spd",1.25,{S.D},10,null);
 {"".join(f'tl.fromTo("#s03-ti{i}",{{opacity:0,scale:0.3}},{{opacity:1,scale:1,duration:0.6,ease:"back.out(1.8)"}},{t - 0.12:.2f});' for i, t in enumerate(word_t))}
 tl.to(st,{{r:0.12,duration:0.9,ease:"power3.in",onUpdate:place}},{t_sat - 0.2});
 tl.to(".s03-ti",{{opacity:0,scale:0.4,duration:0.42,ease:"power2.in"}},{t_sat + 0.05});
@@ -339,7 +427,7 @@ tl.fromTo("#s03-core",{{scale:1}},{{scale:1.18,duration:0.6,ease:"expo.out",imme
 tl.fromTo("#s03-lab",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.5}},{t_sat + 0.7});
 tl.fromTo("#s03-b1",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_buk - 0.05});
 tl.fromTo("#s03-b2",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t_hij - 0.3});
-tl.to("#s03-ball",{{background:"radial-gradient(circle at 35% 30%,#e6ffc4 0%,#b6d973 45%,#4f8a2c 100%)",duration:0.6}},{t_hij - 0.3});
+tl.fromTo("#s03-spd span",{{color:"#ffffff"}},{{color:"#B6D973",duration:0.6}},{t_hij - 0.3});
 tl.to("#s03-st",{{scale:1.5,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
 """
     return html, js
@@ -491,9 +579,9 @@ def s06(S):
   <div id="s06-cam" class="abs" style="inset:0;perspective:2200px">
     {browser("s06-b", BWX, BWY, BWW, "spd.pknm.gov.my", pages, extra)}
   </div>
-  {crop("s06-stor", f"{UI}/s79.jpg", 1290, 408, 1870, 888, 520, "left:1330px;top:330px;opacity:0")}
+  {crop("s06-stor", f"{UI}/s81.jpg", 1272, 422, 1888, 788, 540, "left:1310px;top:360px;opacity:0")}
   <div class="callout" id="s06-k1" style="left:90px;top:860px;opacity:0"><div class="k">LAMAN UTAMA</div><div class="t">Taburan premis & tanah milik MCORP</div></div>
-  <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Stor</div></div>
+  <div class="callout" id="s06-k2" style="left:90px;top:860px;opacity:0"><div class="k">RINGKASAN</div><div class="t">Aset alih · Aset tak alih · Sewaan · Modal insan</div></div>
   {crop("s06-cm", f"{UI}/s77.jpg", 44, 260, 1856, 766, 560, "left:80px;top:90px;opacity:0")}
   {crop("s06-ca", f"{UI}/s78.jpg", 30, 160, 1240, 450, 520, "left:90px;top:640px;opacity:0")}
   {crop("s06-cs", f"{UI}/s80.jpg", 30, 168, 1260, 688, 470, "left:1360px;top:640px;opacity:0")}
@@ -520,7 +608,7 @@ FX.ring(tl,"#s06-hata",{t_ata - 0.05},{t_sew - t_ata - 0.3:.2f});
 tl.to("#s06-p78",{{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"}},{t_sew - 0.5});
 tl.fromTo("#s06-p80",{{y:500,opacity:0,filter:"blur(6px)"}},{{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_sew - 0.1});
 FX.ring(tl,"#s06-hsew",{t_sew + 0.3},{t_sat - t_sew - 0.6:.2f});
-// stor card pops out of the page
+// the Stor card was empty in the real system: show the Modal Insan staff breakdown instead
 tl.fromTo("#s06-stor",{{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200}},{{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"}},{t_sto - 0.1});
 // "dalam satu paparan": pull back, tilt, title
 tl.to("#s06-k2",{{opacity:0,duration:0.25}},{t_sat - 0.5});
@@ -710,42 +798,50 @@ tl.fromTo("#s08-eco",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.
 # --------------------------------------------------------------------------- S09 lima komponen hijau
 @scene
 def s09(S):
-    # slide 5: "Lima modul dalam satu ekosistem SPD" (wording from the slide)
-    # same order as the demo: 01 Aset Tak Alih, 02 Aset Alih, 03 Pengurusan Stor, 04 Modal Insan, 05 Pentadbiran
-    mods = [("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg", "Kurang fail hak milik fizikal", ("fail", 1)),
-            ("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg", "Kurang dokumen fizikal", ("dokumen", 1)),
-            ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg", "Permohonan tanpa kertas", ("fail", 1)),
-            ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
-            ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg", "Kurang ruang arkib", ("arkib", 1))]
-    cards, js_c = "", ""
-    for i, (a, b, img, c, (word, nth)) in enumerate(mods):
+    # slide 5: "Lima modul dalam satu ekosistem SPD"; same order as the demo (01 Aset Tak Alih .. 05 Pentadbiran)
+    mods = [("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg"),
+            ("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg"),
+            ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg"),
+            ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg"),
+            ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg")]
+    # one shared list of green impacts (the per-card badges all meant the same thing)
+    ticks = ["Pengurangan penggunaan kertas", "Pendigitalan dokumen aset", "Pengurangan masa pencarian dokumen",
+             "Pengurangan percetakan dokumen", "Pengurangan penggunaan ruang arkib"]
+    cards = ""
+    for i, (a, b, img) in enumerate(mods):
         x = 90 + i * 352
-        cards += (f'<div class="abs s09-cd" id="s09-c{i}" style="left:{x}px;top:270px;width:330px;height:620px;background:#fff;border-radius:24px;overflow:hidden;'
+        cards += (f'<div class="abs s09-cd" id="s09-c{i}" style="left:{x}px;top:250px;width:330px;height:420px;background:#fff;border-radius:24px;overflow:hidden;'
                   f'box-shadow:0 20px 50px rgba(11,46,34,.18);color:#0b2e22">'
-                  f'<div style="height:170px;background:url({img}) left top/{330 * 1.9:.0f}px auto no-repeat;border-bottom:6px solid #165A44"></div>'
-                  f'<div style="padding:22px 24px">'
+                  f'<div style="height:160px;background:url({img}) left top/{330 * 1.9:.0f}px auto no-repeat;border-bottom:6px solid #165A44"></div>'
+                  f'<div style="padding:20px 24px">'
                   f'<div class="mono" style="font-size:22px;color:#26745A;letter-spacing:.1em">0{i + 1}</div>'
-                  f'<div style="font:800 34px/1.1 Plus Jakarta Sans;margin-top:8px;height:76px;display:flex;align-items:flex-end">{a}</div>'
-                  f'<div style="font:500 25px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:12px">{b}</div></div>'
-                  f'<div id="s09-g{i}" class="abs" style="left:18px;right:18px;bottom:22px;height:92px;display:flex;align-items:center;background:#E9F2E7;border-radius:16px;padding:0 14px 0 70px;'
-                  f'font:700 22px/1.3 Plus Jakarta Sans;color:#165A44">{SB.leaf("position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(20deg);width:44px;height:44px", "#7DB544")}{c}</div></div>')
-        t = S.w("v09", word, nth) + (0.25 if i == 3 else 0)
-        js_c += f'tl.fromTo("#s09-g{i}",{{opacity:0,scale:0.6,y:30}},{{opacity:1,scale:1,y:0,duration:0.45,ease:"back.out(2)"}},{t - 0.1});'
+                  f'<div style="font:800 32px/1.1 Plus Jakarta Sans;margin-top:6px;height:72px;display:flex;align-items:flex-end">{a}</div>'
+                  f'<div style="font:500 23px/1.35 Plus Jakarta Sans;color:#4c5a53;margin-top:10px">{b}</div></div></div>')
+    items = "".join(f'<div class="s09-tk" id="s09-t{i}" style="display:flex;align-items:center;gap:16px;width:332px;opacity:.25">'
+                    f'<svg viewBox="0 0 64 64" style="width:58px;flex:none"><circle cx="32" cy="32" r="29" fill="#E9F2E7" stroke="#7DB544" stroke-width="4"/>'
+                    f'<path class="s09-ck" id="s09-ck{i}" d="M19 33 l9 9 l18 -20" stroke="#165A44" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                    f'<div style="font:700 25px/1.25 Plus Jakarta Sans;color:#0B2E22">{t}</div></div>' for i, t in enumerate(ticks))
     t0 = S.w("v09", "Setiap")
+    t_p, t_a = S.w("v09", "pengurangan"), S.w("v09", "arkib")
+    tt = [round(t_p + k * (t_a - t_p) / 4, 2) for k in range(5)]
+    js_t = "".join(f'tl.to("#s09-t{i}",{{opacity:1,duration:0.3}},{t - 0.1:.2f});FX.draw(tl,"#s09-ck{i}",{t - 0.05:.2f},0.35,0);'
+                   f'tl.fromTo("#s09-t{i} svg",{{scale:0.6}},{{scale:1,duration:0.45,ease:"back.out(2.5)"}},{t - 0.1:.2f});' for i, t in enumerate(tt))
     html = f"""
 <div class="F" style="background:linear-gradient(#F5F2EA,#E9F2E7)">
   <div class="kicker abs" id="s09-k" style="left:90px;top:84px;color:#26745A">IDEA · EKOSISTEM SPD</div>
   <div class="abs h1" style="left:90px;top:124px;font-size:76px;color:#0B2E22">{kw("Lima modul dalam satu ekosistem SPD", "s09-h")}</div>
-  <svg viewBox="0 0 1920 1080" class="abs" style="inset:0"><path id="s09-v" d="M60 990 C400 930 600 1040 960 980 S1600 930 1880 990" stroke="#7DB544" stroke-width="8" fill="none"/></svg>
   {cards}
+  <div id="s09-pn" class="abs" style="left:90px;right:90px;top:712px;height:250px;background:#fff;border-radius:24px;box-shadow:0 20px 50px rgba(11,46,34,.14);padding:28px 34px">
+    <div class="mono" style="font-size:22px;color:#26745A;letter-spacing:.16em">IMPAK HIJAU · SEMUA MODUL</div>
+    <div style="display:flex;justify-content:space-between;margin-top:30px">{items}</div></div>
 </div>"""
     js = f"""
 tl.fromTo("#s09-k",{{opacity:0}},{{opacity:1,duration:0.4}},0.1);
 FX.words(tl,".s09-h > span",0.15,0.06);
 tl.fromTo(".s09-cd",{{opacity:0,y:200,rotationX:-40,transformPerspective:1200}},{{opacity:1,y:0,rotationX:0,duration:0.7,stagger:0.12,ease:"expo.out"}},{max(0.3, t0 - 0.6)});
-FX.draw(tl,"#s09-v",{t0},{S.D - t0 - 0.6:.2f});
-{js_c}
-tl.to(".s09-cd",{{y:-60,opacity:0,stagger:0.05,duration:0.35,ease:"power2.in"}},{S.D - 0.5});
+tl.fromTo("#s09-pn",{{opacity:0,y:80}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{max(0.6, t0 - 0.1)});
+{js_t}
+tl.to([".s09-cd","#s09-pn"],{{y:-60,opacity:0,stagger:0.05,duration:0.35,ease:"power2.in"}},{S.D - 0.5});
 """
     return html, js
 
@@ -939,13 +1035,44 @@ def s14(S):
     t_kini = S.w("v14", "Kini|Hari")
     t_2 = S.w("v14", "dua", 2)
     t_ims = S.w("v14", "imbasan")
+    import random
+    rq = random.Random(7)
+    N, cs = 25, 8                                 # QR-like 25x25 grid (dummy), 8 px cells
+    finder = lambda r, c: any(r0 <= r < r0 + 7 and c0 <= c < c0 + 7 for r0, c0 in [(0, 0), (0, N - 7), (N - 7, 0)])
+    def fcell(r, c):
+        for r0, c0 in [(0, 0), (0, N - 7), (N - 7, 0)]:
+            if r0 <= r < r0 + 7 and c0 <= c < c0 + 7:
+                rr, cc = r - r0, c - c0
+                return rr in (0, 6) or cc in (0, 6) or (2 <= rr <= 4 and 2 <= cc <= 4)
+        return False
+    cells = "".join(f'<rect x="{c * cs}" y="{r * cs}" width="{cs}" height="{cs}"/>' for r in range(N) for c in range(N)
+                    if (fcell(r, c) if finder(r, c) else rq.random() < 0.48))
+    qr = f'<svg id="s14-qr" viewBox="-16 -16 {N * cs + 32} {N * cs + 32}" style="width:200px;height:200px;background:#fff;border-radius:10px"><g fill="#0b1a14">{cells}</g></svg>'
+    phone = f"""
+  <div id="s14-ph" class="abs" style="left:1400px;top:110px;width:340px;height:680px;border-radius:52px;background:#111;padding:14px;
+    box-shadow:0 0 0 3px #3a3f44,0 50px 100px rgba(0,0,0,.6),0 0 60px rgba(68,255,136,.15);opacity:0">
+    <div style="position:relative;width:100%;height:100%;border-radius:40px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#2c3a34,#0d1512)">
+      <div class="abs" style="left:50%;top:10px;width:96px;height:26px;margin-left:-48px;border-radius:14px;background:#000;z-index:3"></div>
+      <div class="abs" style="left:0;right:0;top:48px;text-align:center;font:700 18px 'Plus Jakarta Sans';color:#fff">SPD · Imbas Aset</div>
+      <div class="abs" style="left:56px;top:150px;width:200px;height:200px">{qr}
+        <svg class="abs" style="left:-22px;top:-22px;width:244px;height:244px;overflow:visible" viewBox="0 0 244 244"><path id="s14-brk" d="M2 46V2h44M198 2h44v44M242 198v44h-44M46 242H2v-44"
+          fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" style="transform-origin:122px 122px"/></svg>
+        <div id="s14-scl" class="abs" style="left:-10px;right:-10px;top:-24px;height:4px;background:#44ff88;box-shadow:0 0 16px 4px rgba(68,255,136,.7)"></div></div>
+      <div class="abs" style="left:0;right:0;top:390px;text-align:center;font:500 15px 'Plus Jakarta Sans';color:#b8c7bf">Halakan kamera ke kod QR aset</div>
+      <div id="s14-res" class="abs" style="left:14px;right:14px;bottom:16px;background:#fff;border-radius:22px;padding:18px 18px;color:#0b2e22;opacity:0">
+        <div style="display:flex;align-items:center;gap:10px;font:800 20px 'Plus Jakarta Sans';color:#165A44">
+          <span style="width:30px;height:30px;border-radius:50%;background:#44ff88;display:inline-flex;align-items:center;justify-content:center;font-size:18px;color:#0b2e22">✓</span>Aset dikesan</div>
+        <div style="font:600 15px/1.5 'Plus Jakarta Sans';color:#4c5a53;margin-top:8px">No. Siri: KEWPA/MC/0157<br>Kerusi pejabat · Aras 11<br>Status: <b style="color:#165A44">Baik</b></div></div>
+    </div></div>"""
     html = f"""
 <div class="F" style="background:#081310">
   <div class="kicker abs" style="left:120px;top:90px">PRODUKTIVITI · SEMAKAN ASET ALIH</div>
-  <div class="shot" id="s14-m" style="left:120px;top:170px;width:560px;height:452px;transform:rotate(-4deg)"><img src="{IMG}/manual-check.jpg" style="filter:grayscale(1) brightness(.85)"></div>
-  <div class="shot" id="s14-b" style="left:720px;top:190px;width:620px;height:500px;transform:rotate(2deg)"><img src="{IMG}/barcode.jpg">
-    <div id="s14-las" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25)"></div></div>
-  <div class="shot" id="s14-r" style="left:1380px;top:250px;width:450px;height:330px;transform:perspective(900px) rotateY(-18deg)"><img src="{IMG}/spd-record.jpg"></div>
+  <div class="shot" id="s14-m" style="left:110px;top:170px;width:540px;height:436px;transform:rotate(-4deg)"><img src="{IMG}/barcode.jpg" style="filter:grayscale(1) brightness(.85)">
+    <div class="mono abs" style="left:16px;top:16px;font-size:20px;color:#fff;background:rgba(0,0,0,.65);padding:6px 12px;border-radius:6px">SEBELUM · CATAT MANUAL</div></div>
+  <div class="shot" id="s14-b" style="left:690px;top:190px;width:600px;height:405px;transform:rotate(2deg)"><img src="{IMG}/manual-check.jpg">
+    <div id="s14-las" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25)"></div>
+    <div class="mono abs" style="left:16px;top:16px;font-size:20px;color:#0b2e22;background:#44ff88;padding:6px 12px;border-radius:6px">SELEPAS · IMBAS</div></div>
+  {phone}
   <div class="abs" style="left:150px;top:730px;display:flex;align-items:flex-end;gap:46px">
     <div id="s14-old" class="h1" style="font-size:150px;color:rgba(255,255,255,.38);position:relative">{odo("20")}
       <i id="s14-strike" style="position:absolute;left:-8px;right:-8px;top:50%;height:10px;border-radius:5px;background:#ff5a5a;display:block;transform-origin:0 50%;box-shadow:0 0 18px rgba(255,90,90,.5)"></i>
@@ -974,10 +1101,16 @@ tl.fromTo("#s14-new",{{opacity:0,y:50}},{{opacity:1,y:0,duration:0.7,ease:"expo.
 FX.odo(tl,"#s14-new",{t_2 - 0.1},1.1);
 FX.bloom(tl,"#s14-bl",{t_2 + 0.2},1);
 FX.uline(tl,"#s14-ul",{t_2 + 0.35});
-tl.fromTo("#s14-r",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.6,ease:"expo.out"}},{t_ims + 0.6});
+// phone: QR scan -> asset found (dummy record)
+tl.fromTo("#s14-ph",{{opacity:0,x:260,rotation:8}},{{opacity:1,x:0,rotation:-3,duration:0.8,ease:"expo.out"}},{t_kini - 0.2});
+tl.fromTo("#s14-qr",{{scale:0.8,opacity:0.5}},{{scale:1,opacity:1,duration:0.6,ease:"power2.out"}},{t_kini + 0.1});
+tl.fromTo("#s14-scl",{{y:0}},{{y:250,duration:0.7,yoyo:true,repeat:1,ease:"sine.inOut"}},{t_kini + 0.4});
+tl.to("#s14-scl",{{opacity:0,duration:0.15}},{t_kini + 1.8});
+tl.fromTo("#s14-brk",{{stroke:"#ffffff",scale:1}},{{stroke:"#44ff88",scale:0.92,duration:0.25,ease:"power2.out"}},{t_kini + 1.8});
+tl.fromTo("#s14-res",{{opacity:0,y:160}},{{opacity:1,y:0,duration:0.55,ease:"expo.out"}},{t_kini + 2.0});
 tl.fromTo("#s14-sv",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6,ease:"expo.out"}},{t_ims + 0.9});
 FX.odo(tl,"#s14-sv",{t_ims + 0.95},1.0);
-tl.to(["#s14-m","#s14-b","#s14-r"],{{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"}},{S.D - 0.55});
+tl.to(["#s14-m","#s14-b","#s14-ph"],{{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"}},{S.D - 0.55});
 tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{{opacity:0,y:-30,duration:0.4,stagger:0.03,ease:"power3.in"}},{S.D - 0.5});
 """
     return html, js
@@ -1189,7 +1322,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["−25.4%", "−39.7%", "−79%", "−90%", "−50%", "RM217,836"]):
+    for i, v in enumerate(["−25.4%", "−39.7%", "90%", "−80%", "−30%", "RM217,836"]):
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
@@ -1250,27 +1383,35 @@ def s20(S):
     t_m2 = S.w("v20", "Mengoptimumkan")
     t_m3 = S.w("v20", "Mempercepat")
     t_ke = S.w("v20", "Ke")
-    tiles = "".join(f'<div class="abs s20-ti" style="left:{x}px;top:{y}px;width:220px;height:130px;border-radius:16px;background:rgba(255,255,255,.08);'
-                    f'border:2px solid rgba(182,217,115,.5);display:flex;align-items:center;justify-content:center;font:800 40px Plus Jakarta Sans;color:#b6d973">{v}</div>'
-                    for x, y, v in [(80, 120, "−25.4%"), (1620, 140, "−39.7%"), (60, 820, "−79%"), (1640, 840, "−90%"), (820, -40, "−50%"), (800, 980, "RM217k")])
     html = f"""
 <div class="F" style="background:#0B2E22">
   <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
-  <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(182,217,115,.22),transparent 60%)"></div>
-  {tiles}
-  <div id="s20-mark" class="abs" style="left:0;right:0;top:200px;display:flex;justify-content:center">{SB.spd_mark(230, "#B6D973", "#B6D973")}</div>
-  <div class="abs" style="left:0;right:0;top:520px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
-  <div class="abs" style="left:0;right:0;top:704px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
+  <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 32%,rgba(182,217,115,.24),transparent 58%)"></div>
+  <div id="s20-ring" class="abs" style="left:960px;top:250px;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;
+    border:2px solid rgba(182,217,115,.25);box-shadow:0 0 60px rgba(182,217,115,.15) inset"></div>
+  <div id="s20-gl" class="abs" style="left:560px;top:20px;width:800px;height:400px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
+  <div id="s20-lw" class="abs" style="left:0;right:0;top:60px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 330)}</div>
+  <div id="s20-sw" class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 150)}</div>
+  <div class="abs" style="left:0;right:0;top:530px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
+  <div class="abs" style="left:0;right:0;top:712px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
     <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
-  <div id="s20-slo" class="abs" style="left:0;right:0;top:786px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
+  <div id="s20-slo" class="abs" style="left:0;right:0;top:792px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
   <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
   <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
 </div>"""
+    t_logo = max(0.3, t_spd - 1.3)
     js = f"""
-tl.fromTo(".s20-ti",{{opacity:0,scale:0.5}},{{opacity:1,scale:1,duration:0.4,stagger:0.05}},0);
-tl.to(".s20-ti",{{x:(i)=>[770,-770,790,-790,30,50][i],y:(i)=>[150,130,-550,-570,310,-710][i],scale:0.2,opacity:0,duration:0.8,stagger:0.04,ease:"power3.in"}},{max(0.5, t_spd - 0.7)});
-tl.fromTo("#s20-mark",{{opacity:0,scale:0.4,filter:"blur(14px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"expo.out"}},{t_spd - 0.05});
-tl.fromTo("#s20-mark svg",{{rotation:-180,scale:0}},{{rotation:28,scale:1,duration:0.8,ease:"back.out(2)"}},{t_spd + 0.15});
+{LOGO_JS}
+tl.fromTo("#s20-ring",{{scale:0.4,opacity:0}},{{scale:1,opacity:1,duration:1.6,ease:"expo.out"}},{t_logo});
+// MCORP logo flies in from depth, settles, then lives (swing + sheen)
+tl.fromTo("#s20-lw",{{opacity:0}},{{opacity:1,duration:0.5}},{t_logo});
+tl.fromTo("#s20-gl",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:1.4,ease:"expo.out"}},{t_logo + 0.2});
+tl.fromTo("#s20-logo",{{z:-900,rotationY:-160,rotationX:20,y:-40}},{{z:0,rotationY:-24,rotationX:6,y:0,duration:1.3,ease:"expo.out"}},{t_logo});
+live3d(tl,"#s20-logo",{t_logo + 1.3},{S.D},24,"#s20-logo-sh");
+// SPD flips up beneath it
+tl.fromTo("#s20-sw",{{opacity:0}},{{opacity:1,duration:0.3}},{t_spd - 0.1});
+tl.fromTo("#s20-spd",{{rotationX:-95,z:-300,y:60}},{{rotationX:0,z:0,y:0,duration:0.9,ease:"expo.out"}},{t_spd - 0.1});
+live3d(tl,"#s20-spd",{t_spd + 0.8},{S.D},12,null);
 FX.words(tl,".s20-h1 > span",{t_spd + 0.3},0.06);
 FX.words(tl,".s20-h2 > span",{t_spd + 0.5},0.06);
 tl.fromTo("#s20-a",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_m1 - 0.05});
@@ -1286,6 +1427,7 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 # ============================================================================= FILM PLAN
 XFADE = 0.6
 PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
+    ("s00", [], dict(fixed=6.2)),
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
@@ -1297,8 +1439,8 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s09", ["v09"], dict(pre=0.7, post=1.0)),
     ("s10", ["v10"], dict(pre=0.5, post=1.4)),
     ("s13", ["v13"], dict(pre=0.5, post=1.2)),
-    ("s14", ["v14"], dict(pre=0.5, post=1.0)),
-    ("s15", ["v15"], dict(pre=0.5, post=1.4)),
+    ("s14", ["v14"], dict(pre=0.5, post=1.6)),
+    # s15 (kos tenaga kerja figures) removed: to be replaced by the KPI scene the user will send
     ("s16", ["v16"], dict(pre=0.5, post=1.1)),
     ("s18", ["v18"], dict(pre=0.5, post=1.0)),
     ("s19", ["v19"], dict(pre=0.7, post=2.4)),
@@ -1336,6 +1478,7 @@ CAM = """          tl.fromTo("#{id}-o", {{ opacity: 0 }}, {{ opacity: 1, duratio
           tl.fromTo("#{id}-i", {{ scale: 1 }}, {{ scale: 1.03, duration: {D}, ease: "none", transformOrigin: "50% 50%" }}, 0);"""
 # s01 opens the film on full-resolution footage: no fade from black, no upscaling push (both soften the first shot)
 CAM_OPEN = """          tl.set("#{id}-o", {{ opacity: 1 }}, 0);"""
+CAM_FADE = """          tl.fromTo("#{id}-o", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.6, ease: "power1.inOut" }}, 0);"""
 
 
 def build(only=None, write=True):
@@ -1349,7 +1492,7 @@ def build(only=None, write=True):
         if not write or (only and sid not in only):
             continue
         html, js = SCENES[sid](S)
-        open(f"{HF}/compositions/{sid}.html", "w").write(TEMPLATE.format(id=sid, html=html, js=js, D=S.D, cam=(CAM_OPEN if sid == "s01" else CAM).format(id=sid, D=S.D)))
+        open(f"{HF}/compositions/{sid}.html", "w").write(TEMPLATE.format(id=sid, html=html, js=js, D=S.D, cam={"s00": CAM_OPEN, "s01": CAM_FADE}.get(sid, CAM).format(id=sid, D=S.D)))
     return built, round(t + XFADE, 3)
 
 

@@ -51,7 +51,7 @@ FX.words(tl,".s01-b > span",10.59);
 FX.words(tl,".s01-c > span",12.716999999999999,0.07);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
-          tl.set("#s01-o", { opacity: 1 }, 0);
+          tl.fromTo("#s01-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
           tl.set({}, {}, 16.932);
           window.__timelines = window.__timelines || {};
           window.__timelines["s01"] = tl;
