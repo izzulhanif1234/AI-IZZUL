@@ -89,3 +89,8 @@
 - Modal Insan is staff list + courses/training, not leave: s08 panel shows Senarai Latihan (s96) then Senarai
   Kakitangan (s98) on "kakitangan"; labels updated. VO v08 spliced (13.79-14.44 s removed, "cuti dan") ->
   "Modal insan menguruskan rekod berkaitan kakitangan" (same take; original in vo/splice/v08_before.*).
+
+## v9
+- Module numbering follows the demo order: 01 Aset Tak Alih (s07 callouts), 02 Aset Alih, 03 Pengurusan Stor,
+  04 Modal Insan, 05 Pentadbiran (s08 callouts); s09 cards in the same order.
+- s08 finale shows all five modules (3 + 2 grid, scale .32) with numbered names; Aset Tak Alih tile = s86.

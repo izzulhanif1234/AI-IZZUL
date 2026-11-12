@@ -573,9 +573,9 @@ def s07(S):
     <div id="s07-in" class="abs" style="inset:0;transform-style:preserve-3d">{browser("s07-b", BWX, BWY, BWW, "spd.pknm.gov.my/asettakalih", pages, extra)}</div>
   </div>
   <div id="s07-gw" class="abs" style="left:880px;top:300px;width:900px;height:{round(900 * 912 / 1920) + 52}px;opacity:0">{gmap}</div>
-  <div class="callout" id="s07-k1" style="left:90px;top:860px;opacity:0"><div class="k">ASET TAK ALIH · CARIAN</div><div class="t">Taip nama lokasi</div></div>
-  <div class="callout" id="s07-k2" style="left:90px;top:860px;opacity:0"><div class="k">MAKLUMAT PREMIS</div><div class="t">Premis · Lot · Hak milik · Koordinat</div></div>
-  <div class="callout" id="s07-k3" style="left:90px;top:860px;opacity:0"><div class="k">HAK MILIK DIGITAL</div><div class="t">Dokumen terus dalam sistem</div></div>
+  <div class="callout" id="s07-k1" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH</div><div class="t">Carian: taip nama lokasi</div></div>
+  <div class="callout" id="s07-k2" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · MAKLUMAT PREMIS</div><div class="t">Premis · Lot · Hak milik · Koordinat</div></div>
+  <div class="callout" id="s07-k3" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · HAK MILIK DIGITAL</div><div class="t">Dokumen terus dalam sistem</div></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -643,27 +643,40 @@ def s08(S):
     panels = [("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")], laser),
               ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/s93.jpg"), ("s08-b2", f"{UI}/s94.jpg")], ""),
               ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s96.jpg"), ("s08-c2", f"{UI}/s98.jpg")], ""),
-              ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/s83.jpg")], pent)]
+              ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/s83.jpg")], pent),
+              ("s08-e", "spd.pknm.gov.my/asettakalih", [("s08-e1", f"{UI}/s86.jpg")], "")]  # 01, only in the 5-module grid
     ph = "".join(f'<div class="abs s08-pn" id="{pid}-w" style="left:0;top:0;width:1920px;height:1080px;opacity:{1 if i == 0 else 0}">'
                  f'{browser(pid, BWX, BWY, W, url, pages, extra)}</div>' for i, (pid, url, pages, extra) in enumerate(panels))
-    labels = [("01", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("02", "PENGURUSAN STOR", "Permohonan serta baki stok"),
-              ("03", "MODAL INSAN", "Senarai kakitangan · kursus &amp; latihan"), ("04", "PENTADBIRAN", "Pengurusan capaian sistem")]
+    labels = [("02", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("03", "PENGURUSAN STOR", "Permohonan serta baki stok"),
+              ("04", "MODAL INSAN", "Senarai kakitangan · kursus &amp; latihan"), ("05", "PENTADBIRAN", "Pengurusan capaian sistem")]
     lab = "".join(f'<div class="callout s08-lb" id="s08-l{i}" style="left:70px;top:900px;opacity:0"><div class="k">{n} · {a}</div><div class="t">{b}</div></div>'
                   for i, (n, a, b) in enumerate(labels))
     html = f"""
 <div class="F demo-bg">
   {ph}
   {lab}
+  %%TAGS%%
   <div id="s08-eco" class="abs h1" style="left:0;right:0;top:960px;text-align:center;font-size:58px;opacity:0">Lima modul. <span style="color:var(--lime)">Satu ekosistem.</span></div>
   <div class="vign"></div>
 </div>"""
     turns = [(t_sto - 0.35, "#s08-a-w", "#s08-b-w"), (t_mi - 0.35, "#s08-b-w", "#s08-c-w"), (t_pen - 0.35, "#s08-c-w", "#s08-d-w")]
     js_turn = "".join(f'FX.whipOut(tl,"{o}",{t:.2f},-1);FX.whipIn(tl,"{n}",{t + 0.18:.2f},1);' for t, o, n in turns)
     cx, cy = BWX + W / 2, BWY + (vh + 52) / 2
-    grid = [(500, 300), (1420, 300), (500, 690), (1420, 690)]
+    # finale: all five modules, in order 01 Aset Tak Alih .. 05 Pentadbiran (3 + 2)
+    GS = 0.32
+    grid = {"#s08-e": (380, 300), "#s08-a": (960, 300), "#s08-b": (1540, 300), "#s08-c": (670, 650), "#s08-d": (1250, 650)}
     tg = S.D - 1.9
-    js_grid = "".join(f'tl.to("{pid}-w",{{opacity:1,x:{gx - cx:.0f},y:{gy - cy:.0f},scale:0.44,skewX:0,filter:"blur(0px)",duration:0.9,ease:"expo.inOut"}},{tg + i * 0.06:.2f});'
-                      for i, ((pid, *_), (gx, gy)) in enumerate(zip([("#s08-a",), ("#s08-b",), ("#s08-c",), ("#s08-d",)], grid)))
+    js_grid = "".join(f'tl.to("{pid}-w",{{opacity:1,x:{gx - cx:.0f},y:{gy - cy:.0f},scale:{GS},skewX:0,filter:"blur(0px)",duration:0.9,ease:"expo.inOut"}},{tg + i * 0.06:.2f});'
+                      for i, (pid, (gx, gy)) in enumerate(grid.items()) if pid != "#s08-e")
+    ex, ey = grid["#s08-e"]
+    js_grid += (f'tl.fromTo("#s08-e-w",{{opacity:0,x:{ex - cx:.0f},y:{ey - cy:.0f},scale:{GS * 0.6}}},'
+                f'{{opacity:1,scale:{GS},duration:0.8,ease:"expo.out"}},{tg + 0.3:.2f});')
+    names = {"#s08-e": "01 Aset Tak Alih", "#s08-a": "02 Aset Alih", "#s08-b": "03 Pengurusan Stor", "#s08-c": "04 Modal Insan", "#s08-d": "05 Pentadbiran"}
+    th = (vh + 52) * GS / 2
+    tags = "".join(f'<div class="abs s08-tag" style="left:{gx - 280}px;width:560px;top:{gy + th + 14:.0f}px;text-align:center;font:700 28px \'Plus Jakarta Sans\';opacity:0">'
+                   f'<span class="mono" style="font-size:22px;color:var(--lime)">{names[pid][:2]}</span> {names[pid][3:]}</div>' for pid, (gx, gy) in grid.items())
+    js_grid += f'tl.fromTo(".s08-tag",{{opacity:0,y:16}},{{opacity:1,y:0,duration:0.5,stagger:0.06,ease:"expo.out"}},{tg + 0.7:.2f});'
+    html = html.replace("%%TAGS%%", tags)
     js = f"""
 tl.fromTo("#s08-a-w",{{opacity:0,x:500,filter:"blur(12px)"}},{{opacity:1,x:0,filter:"blur(0px)",duration:0.6,ease:"expo.out"}},0.05);
 {js_turn}
@@ -698,10 +711,11 @@ tl.fromTo("#s08-eco",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.
 @scene
 def s09(S):
     # slide 5: "Lima modul dalam satu ekosistem SPD" (wording from the slide)
-    mods = [("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg", "Kurang dokumen fizikal", ("dokumen", 1)),
-            ("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg", "Kurang fail hak milik fizikal", ("fail", 1)),
-            ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
+    # same order as the demo: 01 Aset Tak Alih, 02 Aset Alih, 03 Pengurusan Stor, 04 Modal Insan, 05 Pentadbiran
+    mods = [("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg", "Kurang fail hak milik fizikal", ("fail", 1)),
+            ("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg", "Kurang dokumen fizikal", ("dokumen", 1)),
             ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg", "Permohonan tanpa kertas", ("fail", 1)),
+            ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg", "Kurang cetakan borang", ("cetakan", 1)),
             ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg", "Kurang ruang arkib", ("arkib", 1))]
     cards, js_c = "", ""
     for i, (a, b, img, c, (word, nth)) in enumerate(mods):
