@@ -607,10 +607,20 @@ def main():
         sfx.add(t, norm(snd, 0.9) * 0.5, g, pan)
     # music
     mus = Track(dur)
-    if os.environ.get("SPD_MUSIC"):  # user will supply the music track later
+    song = os.environ.get("SPD_MUSIC_FILE")  # licensed track (e.g. audio/music/Inspired.mp3), used as-is
+    if song:
+        m = subprocess.run(["ffmpeg", "-v", "error", "-i", song, "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
+        m = np.frombuffer(m, np.float32).reshape(-1, 2).astype(np.float64)[:len(mus.y)]
+        n_out = int(4.0 * SR)  # fade out over the last 4 s of the film
+        end = min(len(m), int(total * SR))
+        m = m[:end].copy()
+        m[:int(0.8 * SR)] *= np.linspace(0, 1, int(0.8 * SR))[:, None]
+        m[-n_out:] *= np.linspace(1, 0, n_out)[:, None] ** 1.5
+        mus.y[:len(m)] += m
+    elif os.environ.get("SPD_MUSIC"):
         m = score(sc, dur)
         mus.y[:len(m)] += m[:len(mus.y)]
-    mus.y = reverb(mus.y, IR_HALL, 0.35)[:len(mus.y)]
+        mus.y = reverb(mus.y, IR_HALL, 0.35)[:len(mus.y)]
     sfx.y = reverb(sfx.y, IR_ROOM, 0.22)[:len(sfx.y)]
     # sidechain: duck music under the voice (smoothed envelope)
     env = np.abs(voice).max(1)
@@ -629,14 +639,16 @@ def main():
     # stop the music for the IMPAK SPD slam
     s10 = next(S for S in sc if S.id == "s10")
     a, b = int((s10.start + 0.05) * SR), int((s10.start + s10.D - 0.2) * SR)
-    gate = np.ones(len(duck)); gate[a:b] = 0.0
-    gate[a - int(0.25 * SR):a] = np.linspace(1, 0, int(0.25 * SR))
-    gate[b:b + int(0.3 * SR)] = np.linspace(0, 1, int(0.3 * SR))
+    floor = 0.3 if song else 0.0  # a real song only dips for the slam
+    gate = np.ones(len(duck)); gate[a:b] = floor
+    gate[a - int(0.25 * SR):a] = np.linspace(1, floor, int(0.25 * SR))
+    gate[b:b + int(0.6 * SR)] = np.linspace(floor, 1, int(0.6 * SR))
     music = mus.y * (duck * gate)[:, None]
     music = np.stack([hp(music[:, ch], 32) for ch in range(2)], 1)
-    music = music + 0.4 * np.stack([hp(music[:, ch], 5000) for ch in range(2)], 1)  # air
+    if not song:
+        music = music + 0.4 * np.stack([hp(music[:, ch], 5000) for ch in range(2)], 1)  # air
     # levels
-    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * 0.055 if np.any(music) else music
+    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * (0.05 if song else 0.055) if np.any(music) else music
     sfxb = sfx.y / (np.max(np.abs(sfx.y)) + 1e-9) * 0.42
     voice = voice / (np.max(np.abs(voice)) + 1e-9) * 0.88
     mix = voice + music + sfxb + foley.y * 0.7

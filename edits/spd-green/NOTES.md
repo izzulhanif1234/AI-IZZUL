@@ -74,3 +74,13 @@
 - VO tails that the line split had clipped re-cut from the source takes up to 150 ms of silence
   (v16 "peratus" +0.35 s, v18 "M-Corp" +0.18 s, v08 +0.08 s, v07 +0.05 s; v05 runs into v06 in its take, so it
   only gets a 60 ms fade). Previous clips in vo/pre_v6/.
+
+## v7
+- s05 SELEPAS side: real SPD login page (`hf/assets/ui/login.jpg`, from the user's screenshot, browser chrome cropped);
+  zoom onto the form, masked IC + password typed, click Log Masuk -> dashboard (s77), then the push into s06
+  ("Sebaik log masuk ..."). Page id `s05-pd` (s05-p2 collided with the ATAS TALIAN pill).
+- Music (user asked for an existing track, not a generated one): "Inspired" by Kevin MacLeod (incompetech.com),
+  CC BY 4.0 - credit required: Music: "Inspired" by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0.
+  File in `audio/music/` (gitignored; download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Inspired.mp3).
+  Mix: `SPD_VO=1 SPD_MUSIC_FILE=edits/spd-green/audio/music/Inspired.mp3 python3 scripts/spd_audio.py`
+  (0.8 s fade-in, 4 s fade-out, ducked ~11 dB under VO, dips to 30% for the IMPAK SPD slam).
