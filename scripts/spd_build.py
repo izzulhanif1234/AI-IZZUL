@@ -1414,7 +1414,7 @@ def s15(S):
           ("Pencetakan dokumen (dakwat)", "174", "105", "unit", "Jimat 69 unit · RM7,107"),
           ("Proses sewaan &amp; penjualan", "14", "3", "hari", "Jimat 11 hari"),
           ("Ruang simpanan fail", "2,462.4", "0", "kp", "1,550 + 912.4 kp kini disewakan"),
-          ("Sewaan ruang pejabat Aras 10 &amp; Aras 5", "RM0", "RM265,939.20", "", "MITCH RM167,400 · PMPC RM98,539.20")]
+          ("Sewaan ruang pejabat", "RM0", "RM265,939.20", "", "Aras 10 RM167,400 · Aras 5 RM98,539.20")]
     kw15 = [S.w("v15", w) for w in ("kertas", "masa", "dakwat", "sewaan", "ruang", "pejabat")]
     cards, js_c = "", ""
     for i, (t, b, a, u, sv) in enumerate(K6):
@@ -1425,11 +1425,11 @@ def s15(S):
                   f'box-shadow:0 30px 70px rgba(0,0,0,.45)">'
                   f'<div style="display:flex;align-items:baseline;gap:14px"><span class="mono" style="font-size:20px;color:var(--lime)">0{i + 1}</span>'
                   f'<span style="font:800 27px/1.15 \'Plus Jakarta Sans\';color:#fff">{t}</span></div>'
-                  f'<div style="display:flex;align-items:flex-end;gap:22px;margin-top:20px;height:110px">'
-                  f'<div style="position:relative;font:800 {52 if len(b) < 6 else 44}px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
+                  f'<div style="display:flex;align-items:flex-end;gap:{14 if len(a) >= 9 else 22}px;margin-top:20px;height:110px">'
+                  f'<div style="position:relative;font:800 {52 if len(b) < 6 and len(a) < 9 else 44}px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
                   f'<i class="s15-st" id="s15-st{i}" style="position:absolute;left:-6px;right:-6px;top:52%;height:6px;border-radius:3px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>'
-                  f'<svg viewBox="0 0 60 30" style="width:46px;margin-bottom:28px"><path d="M2 15h48M40 5l12 10-12 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'
-                  f'<div id="s15-a{i}" style="font:800 {84 if len(a) < 6 else (70 if len(a) < 9 else 46)}px \'Plus Jakarta Sans\';color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
+                  f'<svg viewBox="0 0 60 30" style="width:46px;flex:none;margin-bottom:28px"><path d="M2 15h48M40 5l12 10-12 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'
+                  f'<div id="s15-a{i}" style="flex:none;white-space:nowrap;font:800 {84 if len(a) < 6 else (70 if len(a) < 9 else 44)}px \'Plus Jakarta Sans\';{"margin-bottom:22px;" if len(a) >= 9 else ""}color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
                   f'<div style="font:700 26px \'Plus Jakarta Sans\';color:#cfe3d6;margin-bottom:16px">{u}</div></div>'
                   f'<div class="s15-sv" id="s15-s{i}" style="display:inline-block;margin-top:10px;font:700 21px \'Plus Jakarta Sans\';color:#0B2E22;'
                   f'background:{"#e6c06a" if gold else "#B6D973"};padding:7px 16px;border-radius:30px;clip-path:inset(0 100% 0 0 round 30px)">{sv}</div></div>')

@@ -160,5 +160,6 @@
   narrator, calm unhurried steady pace, every syllable clear, numbers slow. n4/n5 needed retakes ("barcode" heard
   as "bakut"; TTS text for n5 spells it "barkod"). Result: F0 92-98 Hz, 5.4-5.9 syl/s, LID ms 1.0 on every chunk.
   Every line loudness-matched to -17 LUFS (they ranged -13.6 to -19.2, which also read as uneven delivery).
-- s15 card 06 cues on "pejabat" (was "disewakan", one second before the total took over).
+- s15 card 06 cues on "pejabat" (was "disewakan", one second before the total took over); its title is one line
+  ("Sewaan ruang pejabat", floors moved to the chip) and the long figure is raised to sit level with the other cards.
 - Total 4:31 (natural pace is slower; KPI scene 41 s).
