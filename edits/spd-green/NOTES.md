@@ -108,3 +108,6 @@
   then RM178,141 = RM3,634 kertas + RM7,107 dakwat + RM167,400 sewaan ruang pejabat; placed after s16, fixed 13.5 s.
 - s19 SPD 2.0 Green Dashboard rebuilt from the user's proposal (new12/d1-d5): 5 modules (Paperless, Carbon Saving,
   Resource Efficiency, Green Performance Monitoring, Green Analytics), KPI cards from the KPI table, division table.
+- s07 now on the user's MITC screens (media/spd-green/new13 -> hf/assets/ui/mitc1-4.jpg): search "MITC" (results list
+  rebuilt in HTML from the real komponen names), premis profile, komponen list (Aras 11 SEWA), dokumen sokongan,
+  pelan in the PDF viewer. s08 Stor = stor1/stor2 (Senarai Stok), Pentadbiran = sistem.jpg (Sistem page).

@@ -743,86 +743,94 @@ tl.to(B,{{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"}},{S.
 # --------------------------------------------------------------------------- S07 demo: Aset Tak Alih
 @scene
 def s07(S):
-    t_taip = S.w("v07", "menaip|taip")
+    """01 Aset Tak Alih on real SPD screens (MITC): search 'MITC' -> premis profile (kod, lot, hak milik, koordinat)
+    -> komponen (ruang pejabat, status sewa) -> dokumen sokongan (geran, CFO, pelan) -> pelan opened in the viewer."""
     t_rek = S.w("v07", "Rekod")
     t_lot = S.w("v07", "lot")
     t_sta = S.w("v07", "status")
     t_koo = S.w("v07", "koordinat")
     t_pet = S.w("v07", "peta")
     t_dok = S.w("v07", "dokumen")
-    # unhurried search: type on "pengguna", list opens ~"menaip", cursor glides to ELKAY and rests, clicks on "Rekod",
-    # page loads, slow zoom-out, cursor waits before moving on
     t_pen = S.w("v07", "pengguna")
+    t_kp = t_koo + 1.0          # komponen list follows the coordinates (old VO: "peta" and "dokumen" are 0.2 s apart)
     t_type = t_pen + 0.3
     t_drop = t_type + 0.85
     t_hov = t_drop + 1.1
     t_pick = max(t_hov + 0.3, t_rek - 0.05)
-    sx, sy = 1300, 62   # search box (source px)
-    ix, iy = 760, 422   # dropdown item "PLOT 10"
-    gx, gy = 1720, 572  # Google pin button on s86
+    sx, sy = 1300, 62            # search box (source px, 1920x912 page)
+    DX, DY, DW, IH = 1060, 92, 800, 34
+    items = ["BANGUNAN MITC (MENARA &amp; KOMPLEKS MITC) (INDUK)", "MITC (KOMPONEN) ARAS 11, MENARA MITC",
+             "MITC (KOMPONEN) SUITE 1-18, ARAS 1, MENARA MITC", "MITC (KOMPONEN) SUITE 1-30, ARAS 1, MENARA MITC",
+             "MITC (KOMPONEN) SUITE 1-31, ARAS 1, MENARA MITC", "MITC (KOMPONEN) SUITE 1-20, ARAS 1, MENARA MITC"]
+    ix, iy = DX + 330, DY + 40 + IH // 2   # first result
+    dd = (f'<div id="s07-dd" class="abs" style="left:{DX * K:.0f}px;top:{DY * K:.0f}px;width:{DW * K:.0f}px;background:#fff;border:1px solid #d9d9d9;'
+          f'box-shadow:0 10px 30px rgba(0,0,0,.18);padding:{8 * K:.0f}px {14 * K:.0f}px;font:500 {15 * K:.1f}px Arial;opacity:0;clip-path:inset(0 0 100% 0)">'
+          f'<div style="font-weight:700;color:#333;height:{30 * K:.0f}px;line-height:{30 * K:.0f}px">Aset</div>'
+          + "".join(f'<div style="height:{IH * K:.0f}px;line-height:{IH * K:.0f}px;color:#8e1b33;white-space:nowrap">· {t}</div>' for t in items)
+          + f'<div style="height:{28 * K:.0f}px;line-height:{28 * K:.0f}px;color:#8e1b33;font-size:{13 * K:.1f}px">view more ...</div></div>')
     extra = (f'<div id="s07-sbox" class="abs" style="left:{1140 * K:.0f}px;top:{40 * K:.0f}px;width:{320 * K:.0f}px;height:{44 * K:.0f}px;background:#fff;'
              f'border:2px solid #b6d973;border-radius:22px;padding:4px 14px;font:600 20px \'Plus Jakarta Sans\';color:#111;display:flex;align-items:center;opacity:0">'
-             f'<span id="s07-txt"></span><i id="s07-car" style="width:2px;height:22px;background:#8e1b33;display:block;margin-left:2px"></i></div>' +
-             region("s07-hitem", K, 500, 404, 1120, 440, 6) +
-             region("s07-hprem", K, 860, 320, 1345, 430) + region("s07-hlot", K, 1380, 330, 1870, 420) +
-             region("s07-hsta", K, 860, 545, 1345, 615) + region("s07-hkoo", K, 1380, 440, 1870, 530) +
-             region("s07-hpin", K, 1690, 545, 1790, 600, 6) +
-             region("s07-hd1", K, 250, 426, 520, 776) + region("s07-hd2", K, 1060, 426, 1330, 776) +
+             f'<span id="s07-txt"></span><i id="s07-car" style="width:2px;height:22px;background:#8e1b33;display:block;margin-left:2px"></i></div>' + dd +
+             region("s07-hitem", K, DX + 6, DY + 40, DX + DW - 10, DY + 40 + IH, 4) +
+             region("s07-hprem", K, 805, 198, 1322, 284) + region("s07-hlot", K, 1349, 200, 1866, 282) +
+             region("s07-hsta", K, 805, 358, 1322, 402) + region("s07-hkoo", K, 1349, 282, 1866, 362) +
+             region("s07-hsew", K, 272, 203, 1852, 281, 6) +
+             region("s07-hd1", K, 282, 277, 586, 713) + region("s07-hd2", K, 1259, 277, 1563, 713) +
              cursor("s07-c"))
-    pages = [("s07-p83", f"{UI}/s83.jpg"), ("s07-p84", f"{UI}/s84.jpg"), ("s07-p86", f"{UI}/s86.jpg"), ("s07-p89", f"{UI}/s89.jpg")]
-    gmap = browser("s07-g", 0, 0, 900, "google.com/maps", [("s07-pg", f"{UI}/s87.jpg")],
-                   '<div id="s07-pin" class="abs" style="left:430px;top:190px;width:80px;height:80px;border-radius:50%;border:5px solid #ea4335;opacity:0"></div>')
+    pages = [("s07-p83", f"{UI}/s83.jpg"), ("s07-pm1", f"{UI}/mitc1.jpg"), ("s07-pm2", f"{UI}/mitc2.jpg"),
+             ("s07-pm3", f"{UI}/mitc3.jpg"), ("s07-pm4", f"{UI}/mitc4.jpg")]
     html = f"""
 <div class="F demo-bg">
   <div id="s07-cam" class="abs" style="inset:0;perspective:2200px">
     <div id="s07-in" class="abs" style="inset:0;transform-style:preserve-3d">{browser("s07-b", BWX, BWY, BWW, "spd.pknm.gov.my/asettakalih", pages, extra)}</div>
   </div>
-  <div id="s07-gw" class="abs" style="left:880px;top:300px;width:900px;height:{round(900 * 912 / 1920) + 52}px;opacity:0">{gmap}</div>
   <div class="callout" id="s07-k1" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH</div><div class="t">Carian: taip nama lokasi</div></div>
   <div class="callout" id="s07-k2" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · MAKLUMAT PREMIS</div><div class="t">Premis · Lot · Hak milik · Koordinat</div></div>
-  <div class="callout" id="s07-k3" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · HAK MILIK DIGITAL</div><div class="t">Dokumen terus dalam sistem</div></div>
+  <div class="callout" id="s07-k4" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · KOMPONEN</div><div class="t">Ruang pejabat &amp; status sewaan</div></div>
+  <div class="callout" id="s07-k3" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · HAK MILIK DIGITAL</div><div class="t">Geran, CFO &amp; pelan terus dalam sistem</div></div>
   <div class="vign"></div>
 </div>"""
+    lx, ly = 1310, 695           # "Lihat" on PELAN M&E (mitc3)
     js = f"""
 const B="#s07-b", K={K};
 tl.fromTo("#s07-in",{{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"}},{{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},0);
 tl.fromTo(B,{{rotationY:1.5,rotationX:1,x:20}},{{rotationY:-1,rotationX:0,x:0,duration:{S.D - 0.45},ease:"sine.inOut"}},0);
 FX.cursor(tl,document.getElementById("s07-c"),[[0,{900 * K},{600 * K}],[{t_pen - 0.15},{sx * K},{sy * K}],[{t_drop + 0.35},{sx * K},{sy * K}],
-  [{t_hov},{ix * K},{iy * K}],[{t_pick + 0.7},{ix * K},{iy * K}],[{t_pick + 1.6},{1100 * K},{380 * K}],[{t_pet - 0.5},{gx * K},{gy * K}],[{t_dok - 0.6},{700 * K},{600 * K}]],
-  [[{t_pen},{sx * K},{sy * K}],[{t_pick},{ix * K},{iy * K}],[{t_pet - 0.35},{gx * K},{gy * K}]],document.getElementById("s07-c-r"));
+  [{t_hov},{ix * K},{iy * K}],[{t_pick + 0.7},{ix * K},{iy * K}],[{t_pick + 1.6},{1100 * K},{330 * K}],[{t_dok + 0.5},{lx * K},{ly * K}],[{t_dok + 1.6},{lx * K},{ly * K}]],
+  [[{t_pen},{sx * K},{sy * K}],[{t_pick},{ix * K},{iy * K}],[{t_dok + 0.9},{lx * K},{ly * K}]],document.getElementById("s07-c-r"));
 tl.fromTo("#s07-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_pen - 0.3});
 tl.to("#s07-k1",{{opacity:0,duration:0.3}},{t_pick + 0.15});
-// zoom to the search box, type ELKAY
+// zoom to the search box, type MITC, results list opens
 tl.to(B,{{scale:1.22,transformOrigin:"78% 8%",duration:0.7,ease:"power2.inOut"}},{t_pen - 0.55});
 tl.set("#s07-sbox",{{opacity:1}},{t_pen + 0.05});
-FX.type(tl,document.getElementById("s07-txt"),"ELKAY",{t_type},0.6,document.getElementById("s07-car"));
-// dropdown (s84) wipes down
-tl.set("#s07-sbox",{{opacity:0}},{t_drop});
-tl.fromTo("#s07-p84",{{opacity:1,clipPath:"inset(0 0 100% 0)"}},{{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"}},{t_drop});
-// ease the camera out a little while the list opens, so the list and the cursor stay in view
+FX.type(tl,document.getElementById("s07-txt"),"MITC",{t_type},0.5,document.getElementById("s07-car"));
+tl.fromTo("#s07-dd",{{opacity:1,clipPath:"inset(0 0 100% 0)"}},{{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"}},{t_drop});
 tl.to(B,{{scale:1.12,duration:0.9,ease:"power2.inOut"}},{t_drop + 0.1});
 FX.ring(tl,"#s07-hitem",{t_hov - 0.1},{t_pick - t_hov + 0.2:.2f});
-// click -> premis page, then a slow zoom-out
-tl.fromTo("#s07-p86",{{opacity:0,scale:1.03,filter:"blur(6px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"}},{t_pick + 0.15});
+// click -> premis profile, slow zoom-out
+tl.to(["#s07-dd","#s07-sbox"],{{opacity:0,duration:0.2}},{t_pick + 0.1});
+tl.fromTo("#s07-pm1",{{opacity:0,scale:1.03,filter:"blur(6px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"}},{t_pick + 0.15});
 tl.to(B,{{scale:1,duration:1.0,ease:"power2.inOut"}},{t_pick + 0.25});
 tl.fromTo("#s07-k2",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_pick + 0.5});
-FX.ring(tl,"#s07-hprem",{t_pick + 0.8},{t_pet - t_pick - 1.2:.2f});
-FX.ring(tl,"#s07-hlot",{t_lot},{t_pet - t_lot - 0.4:.2f});
-FX.ring(tl,"#s07-hsta",{t_sta},{t_pet - t_sta - 0.4:.2f});
-FX.ring(tl,"#s07-hkoo",{t_koo},{t_pet - t_koo - 0.4:.2f});
-tl.to("#s07-k2",{{opacity:0,duration:0.25}},{t_pet - 0.4});
-FX.ring(tl,"#s07-hpin",{t_pet - 0.6},0.6);
-// Google map window pops out of the pin button
-tl.fromTo("#s07-gw",{{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,transformPerspective:1600}},{{opacity:1,scale:1,x:0,y:0,rotationY:-10,duration:0.6,ease:"back.out(1.4)"}},{t_pet - 0.2});
-tl.fromTo("#s07-pin",{{opacity:1,scale:0.3}},{{opacity:0,scale:2.2,duration:0.8,repeat:2,ease:"power2.out"}},{t_pet + 0.3});
-tl.to("#s07-gw",{{opacity:0,scale:0.1,x:500,y:120,rotationY:-30,duration:0.45,ease:"power3.in"}},{max(t_pet + 0.7, t_dok - 0.7)});
-// documents (s89)
-tl.fromTo("#s07-p89",{{opacity:0,y:400,filter:"blur(6px)"}},{{opacity:1,y:0,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_dok - 0.5});
-tl.to(B,{{scale:1.12,transformOrigin:"35% 70%",duration:0.8,ease:"power3.inOut"}},{t_dok - 0.2});
+FX.ring(tl,"#s07-hprem",{t_pick + 0.8},{t_kp - t_pick - 0.9:.2f});
+FX.ring(tl,"#s07-hlot",{t_lot},{t_kp - t_lot - 0.1:.2f});
+FX.ring(tl,"#s07-hsta",{t_sta},{t_kp - t_sta - 0.1:.2f});
+FX.ring(tl,"#s07-hkoo",{t_koo},{t_kp - t_koo - 0.1:.2f});
+tl.to("#s07-k2",{{opacity:0,duration:0.25}},{t_kp - 0.05});
+// scroll to the komponen list (ruang pejabat, SEWA / KOSONG)
+tl.to("#s07-pm1",{{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"}},{t_kp});
+tl.fromTo("#s07-pm2",{{y:500,opacity:0,filter:"blur(6px)"}},{{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_kp + 0.4});
+tl.fromTo("#s07-k4",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_kp + 0.55});
+FX.ring(tl,"#s07-hsew",{t_kp + 0.8},{t_dok - t_kp - 1.5:.2f});
+tl.to("#s07-k4",{{opacity:0,duration:0.25}},{t_dok - 0.6});
+// scroll to the supporting documents, open the plan
+tl.to("#s07-pm2",{{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"}},{t_dok - 0.6});
+tl.fromTo("#s07-pm3",{{y:500,opacity:0,filter:"blur(6px)"}},{{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_dok - 0.2});
 tl.fromTo("#s07-k3",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_dok});
-FX.ring(tl,"#s07-hd1",{t_dok + 0.1},0);
-FX.ring(tl,"#s07-hd2",{t_dok + 0.3},0);
-tl.to(["#s07-k3","#s07-hd1","#s07-hd2"],{{opacity:0,duration:0.3}},{S.D - 0.4});
+FX.ring(tl,"#s07-hd1",{t_dok + 0.1},0.9);
+FX.ring(tl,"#s07-hd2",{t_dok + 0.35},0.75);
+tl.fromTo("#s07-pm4",{{opacity:0,scale:0.92,y:40}},{{opacity:1,scale:1,y:0,duration:0.6,ease:"expo.out"}},{t_dok + 1.15});
+tl.to(["#s07-k3"],{{opacity:0,duration:0.3}},{S.D - 0.4});
 tl.to(B,{{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"}},{S.D - 0.4});
 """
     return html, js
@@ -842,14 +850,14 @@ def s08(S):
     W = BWW
     k8 = W / 1920
     vh = round(W * 912 / 1920)
-    pent = region("s08-hsys", k8, 20, 505, 300, 555, 6) + region("s08-hacc", k8, 1500, 8, 1905, 62, 6) + cursor("s08-cur")
+    pent = region("s08-hsys", k8, 8, 336, 196, 376, 6) + region("s08-hacc", k8, 1340, 394, 1882, 560, 6) + cursor("s08-cur")
     laser = ('<div id="s08-laser" class="abs" style="left:0;right:0;top:0;height:8px;background:#44ff88;'
              'box-shadow:0 0 30px 10px rgba(68,255,136,.6),0 0 80px 30px rgba(68,255,136,.25);opacity:0"></div>')
     panels = [("s08-a", "spd.pknm.gov.my/asetalih", [("s08-a1", f"{UI}/s90.jpg"), ("s08-a2", f"{UI}/s92.jpg")], laser),
-              ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/s93.jpg"), ("s08-b2", f"{UI}/s94.jpg")], ""),
+              ("s08-b", "spd.pknm.gov.my/stor", [("s08-b1", f"{UI}/stor1.jpg"), ("s08-b2", f"{UI}/stor2.jpg")], ""),
               ("s08-c", "spd.pknm.gov.my/modalinsan", [("s08-c1", f"{UI}/s96.jpg"), ("s08-c2", f"{UI}/s98.jpg")], ""),
-              ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/s83.jpg")], pent),
-              ("s08-e", "spd.pknm.gov.my/asettakalih", [("s08-e1", f"{UI}/s86.jpg")], "")]  # 01, only in the 5-module grid
+              ("s08-d", "spd.pknm.gov.my/sistem", [("s08-d1", f"{UI}/sistem.jpg")], pent),
+              ("s08-e", "spd.pknm.gov.my/asettakalih", [("s08-e1", f"{UI}/mitc1.jpg")], "")]  # 01, only in the 5-module grid
     ph = "".join(f'<div class="abs s08-pn" id="{pid}-w" style="left:0;top:0;width:1920px;height:1080px;opacity:{1 if i == 0 else 0}">'
                  f'{browser(pid, BWX, BWY, W, url, pages, extra)}</div>' for i, (pid, url, pages, extra) in enumerate(panels))
     labels = [("02", "ASET ALIH", "Rekod & pemeriksaan barcode"), ("03", "PENGURUSAN STOR", "Permohonan serta baki stok"),
@@ -901,8 +909,8 @@ FX.scroll(tl,"#s08-b1",0,-280,{t_baki - 0.4},0.6);
 tl.to("#s08-b1",{{opacity:0,duration:0.2}},{t_baki});
 tl.fromTo("#s08-b2",{{opacity:0,y:200}},{{opacity:1,y:0,duration:0.5,ease:"power3.out"}},{t_baki - 0.1});
 tl.fromTo("#s08-c2",{{opacity:0,x:300}},{{opacity:1,x:0,duration:0.5,ease:"power3.out"}},{t_lat - 0.2});
-FX.cursor(tl,document.getElementById("s08-cur"),[[0,{700 * k8},{500 * k8}],[{t_pen + 0.2},{160 * k8},{530 * k8}],[{t_cap - 0.1},{1700 * k8},{36 * k8}]],
-  [[{t_pen + 0.35},{160 * k8},{530 * k8}]],document.getElementById("s08-cur-r"));
+FX.cursor(tl,document.getElementById("s08-cur"),[[0,{700 * k8},{500 * k8}],[{t_pen + 0.2},{80 * k8},{356 * k8}],[{t_cap - 0.1},{1420 * k8},{470 * k8}]],
+  [[{t_pen + 0.35},{80 * k8},{356 * k8}]],document.getElementById("s08-cur-r"));
 FX.ring(tl,"#s08-hsys",{t_pen + 0.3},{max(0.4, t_cap - t_pen - 0.5):.2f});
 FX.ring(tl,"#s08-hacc",{t_cap - 0.1},1.2);
 tl.to("#s08-l3",{{opacity:0,duration:0.25}},{tg - 0.1});
@@ -916,11 +924,11 @@ tl.fromTo("#s08-eco",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"expo.
 @scene
 def s09(S):
     # slide 5: "Lima modul dalam satu ekosistem SPD"; same order as the demo (01 Aset Tak Alih .. 05 Pentadbiran)
-    mods = [("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/s86.jpg"),
+    mods = [("Aset Tak Alih", "Carian, cukai, hak milik, laporan", f"{UI}/mitc1.jpg"),
             ("Aset Alih", "Rekod & pemeriksaan barcode", f"{UI}/s90.jpg"),
-            ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/s93.jpg"),
+            ("Pengurusan Stor", "Permohonan serta baki stok", f"{UI}/stor1.jpg"),
             ("Modal Insan", "Senarai kakitangan &amp; latihan", f"{UI}/s98.jpg"),
-            ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/s77.jpg")]
+            ("Pentadbiran", "Pengurusan capaian sistem", f"{UI}/sistem.jpg")]
     # one shared list of green impacts (the per-card badges all meant the same thing)
     ticks = ["Pengurangan penggunaan kertas", "Pendigitalan dokumen aset", "Pengurangan masa pencarian dokumen",
              "Pengurangan percetakan dokumen", "Pengurangan penggunaan ruang arkib"]
@@ -1568,7 +1576,7 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s04", ["v04"], dict(pre=0.5, post=1.1)),
     ("s05", ["v05"], dict(pre=1.2, post=0.9)),
     ("s06", ["v06"], dict(pre=0.5, post=1.4)),
-    ("s07", ["v07"], dict(pre=0.5, post=1.2)),
+    ("s07", ["v07"], dict(pre=0.5, post=2.2)),
     ("s08", ["v08"], dict(pre=0.5, post=2.4)),
     ("s09", ["v09"], dict(pre=0.7, post=1.0)),
     ("s10", ["v10"], dict(pre=0.5, post=1.4)),
