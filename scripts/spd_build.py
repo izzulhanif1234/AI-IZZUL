@@ -1614,8 +1614,6 @@ def s19(S):
     t_set = S.w("v19", "Setiap")
     t_ker = S.w("v19", "Kertas")
     t_dak = S.w("v19", "Dakwat")
-    t_kar = S.w("v19", "karbon")
-    t_pok = S.w("v19", "pokok")
     t_kos = S.w("v19", "kos", 2)  # 1st match is "kosong" (dua point kosong)
     t_krn = S.w("v19", "Kerana")
     t_uru = S.w("v19", "diurus")
@@ -1652,9 +1650,6 @@ def s19(S):
     kv = [(1, t_ker), (2, t_dak), (0, t_kos)]
     js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,y:10}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t - 0.1:.2f});'
                     f'FX.odo(tl,"#s19-k{i}",{t - 0.1:.2f},0.9,{{stagger:0.05}});' for i, t in kv)
-    # the two green indicators (no figures yet): lift + lime glow as they are named
-    js_kv += "".join(f'tl.fromTo("#kpi-{k}",{{y:0,boxShadow:"0 2px 10px rgba(0,0,0,.06)"}},{{y:-10,boxShadow:"0 0 0 4px #B6D973, 0 18px 40px rgba(38,116,90,.35)",duration:0.45,ease:"expo.out",immediateRender:false}},{t - 0.1:.2f});'
-                     f'tl.to("#kpi-{k}",{{y:0,boxShadow:"0 2px 10px rgba(0,0,0,.06)",duration:0.6,ease:"power2.inOut"}},{t + 1.2:.2f});' for k, t in ((2, t_kar), (3, t_pok)))
     js = f"""
 tl.fromTo(".s19-rg",{{scale:0.2,opacity:0}},{{scale:2.2,opacity:1,duration:2.2,stagger:0.12,ease:"power2.in"}},0);
 tl.fromTo("#s19-k",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_aka - 0.1});

@@ -120,9 +120,9 @@
   heard as female / another tone). Regenerated with a style prefix in the prompt ("deep, calm, mature adult male ...
   narrator voice, steady low pitch") -> F0 94-97 Hz, LID ms 1.0, prefix not spoken (`vo/take8`). v05/v06 level-matched
   (+4 / +2.6 dB with limiter). Old lines in `vo/pre_v11_lines`.
-- v19 rewritten (`vo/take9`): Green Dashboard now lists kertas, dakwat, anggaran pelepasan karbon, pokok diselamatkan,
-  penjimatan kos. "Masa carian" (efficiency) and "ruang simpanan" (rental income) dropped from the dashboard as not
-  green; CO2e and pokok cards carry no figures ("Akan datang"). 1.35 s of the 2.1 s pause before "Kerana" removed.
+- v19 rewritten (`vo/take10`): the Green Dashboard now names only kertas, dakwat and penjimatan kos. "Masa carian"
+  (efficiency), "ruang simpanan" (rental income) dropped as not green; a CO2e / pokok try (`vo/take9`) was rejected.
+  The two KPI cards stack beside the RM178,141 card.
 - Music: "Inspired" (Kevin MacLeod, CC BY 4.0) replaces "Cipher" (too playful). Mixer already RMS-normalises music.
 - s01 montage: light-switch and cabinet-unlock shots dropped; now blue hanging files -> archive shelf -> desk (5.87 s,
   segments c/d/e from `media/spd-green/lakonan/seg`, light grade). Added viewfinder HUD (corner brackets, blinking
@@ -132,4 +132,4 @@
 - s07: cursor lands on the centre of "Lihat" under PELAN M&E GALERI PKNM (page px 1259-1309 x 680-711) as the VO says
   "pelan"; button press + ripple, URL switches to the attachment (4269), page dims, and the PDF viewer grows out of the
   thumbnail (transform-origin on the thumbnail) instead of fading in.
-- Scene tails trimmed (s03b, s05, s07, s08, s14, s15, s19). Total 4:02.
+- Scene tails trimmed (s03b, s05, s07, s08, s14, s15, s19). Total 3:58.6.

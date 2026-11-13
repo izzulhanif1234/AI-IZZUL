@@ -1,0 +1,217 @@
+{
+ "language": "ms",
+ "language_probability": 0.9992511868476868,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 18.44,
+   "text": "Dan ini hanyalah permulaan. Akan datang SPD 2.0 bersama Green Dashboard yang memantau setiap impak hijau secara langsung, penggunaan kertas, dakwat dan penjimatan kos kerana apa yang diukur dapat diurus dengan lebih baik.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.68,
+     "word": "Dan",
+     "p": 1.0
+    },
+    {
+     "start": 0.68,
+     "end": 1.02,
+     "word": "ini",
+     "p": 0.99
+    },
+    {
+     "start": 1.02,
+     "end": 1.54,
+     "word": "hanyalah",
+     "p": 1.0
+    },
+    {
+     "start": 1.54,
+     "end": 2.34,
+     "word": "permulaan.",
+     "p": 1.0
+    },
+    {
+     "start": 2.34,
+     "end": 3.16,
+     "word": "Akan",
+     "p": 1.0
+    },
+    {
+     "start": 3.16,
+     "end": 3.6,
+     "word": "datang",
+     "p": 1.0
+    },
+    {
+     "start": 3.6,
+     "end": 4.2,
+     "word": "SPD",
+     "p": 0.97
+    },
+    {
+     "start": 4.2,
+     "end": 4.78,
+     "word": "2",
+     "p": 0.93
+    },
+    {
+     "start": 4.78,
+     "end": 5.34,
+     "word": ".0",
+     "p": 0.97
+    },
+    {
+     "start": 5.34,
+     "end": 6.6,
+     "word": "bersama",
+     "p": 1.0
+    },
+    {
+     "start": 6.6,
+     "end": 6.82,
+     "word": "Green",
+     "p": 0.96
+    },
+    {
+     "start": 6.82,
+     "end": 7.44,
+     "word": "Dashboard",
+     "p": 1.0
+    },
+    {
+     "start": 7.44,
+     "end": 8.06,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 8.06,
+     "end": 8.72,
+     "word": "memantau",
+     "p": 1.0
+    },
+    {
+     "start": 8.72,
+     "end": 9.2,
+     "word": "setiap",
+     "p": 1.0
+    },
+    {
+     "start": 9.2,
+     "end": 9.52,
+     "word": "impak",
+     "p": 1.0
+    },
+    {
+     "start": 9.52,
+     "end": 9.94,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 9.94,
+     "end": 10.36,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 10.36,
+     "end": 10.84,
+     "word": "langsung,",
+     "p": 1.0
+    },
+    {
+     "start": 10.92,
+     "end": 11.82,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 11.82,
+     "end": 12.3,
+     "word": "kertas,",
+     "p": 1.0
+    },
+    {
+     "start": 12.38,
+     "end": 13.06,
+     "word": "dakwat",
+     "p": 0.98
+    },
+    {
+     "start": 13.06,
+     "end": 13.5,
+     "word": "dan",
+     "p": 0.98
+    },
+    {
+     "start": 13.5,
+     "end": 14.18,
+     "word": "penjimatan",
+     "p": 0.98
+    },
+    {
+     "start": 14.18,
+     "end": 14.46,
+     "word": "kos",
+     "p": 1.0
+    },
+    {
+     "start": 14.46,
+     "end": 15.4,
+     "word": "kerana",
+     "p": 0.94
+    },
+    {
+     "start": 15.4,
+     "end": 15.72,
+     "word": "apa",
+     "p": 1.0
+    },
+    {
+     "start": 15.72,
+     "end": 15.92,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 15.92,
+     "end": 16.46,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 16.46,
+     "end": 16.96,
+     "word": "dapat",
+     "p": 1.0
+    },
+    {
+     "start": 16.96,
+     "end": 17.66,
+     "word": "diurus",
+     "p": 1.0
+    },
+    {
+     "start": 17.66,
+     "end": 17.86,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 17.86,
+     "end": 18.18,
+     "word": "lebih",
+     "p": 1.0
+    },
+    {
+     "start": 18.18,
+     "end": 18.44,
+     "word": "baik.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}
