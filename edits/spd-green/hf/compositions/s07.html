@@ -25,49 +25,49 @@
 
 const B="#s07-b", K=0.9166666666666666;
 tl.fromTo("#s07-in",{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"},{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"},0);
-tl.fromTo(B,{rotationY:1.5,rotationX:1,x:20},{rotationY:-1,rotationX:0,x:0,duration:15.908000000000001,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s07-c"),[[0,825.0,550.0],[1.7140000000000002,1191.6666666666665,56.83333333333333],[3.3640000000000003,1191.6666666666665,56.83333333333333],
-  [4.114000000000001,1274.1666666666665,136.58333333333331],[5.114000000000001,1274.1666666666665,136.58333333333331],[6.014000000000001,1008.3333333333333,302.5],[12.855,1200.8333333333333,637.0833333333333],[13.955,1200.8333333333333,637.0833333333333]],
-  [[1.864,1191.6666666666665,56.83333333333333],[4.414000000000001,1274.1666666666665,136.58333333333331],[13.255,1200.8333333333333,637.0833333333333]],document.getElementById("s07-c-r"));
-tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},1.564);
-tl.to("#s07-k1",{opacity:0,duration:0.3},4.564000000000001);
+tl.fromTo(B,{rotationY:1.5,rotationX:1,x:20},{rotationY:-1,rotationX:0,x:0,duration:18.286,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s07-c"),[[0,825.0,550.0],[1.4680000000000002,1191.6666666666665,56.83333333333333],[3.1180000000000003,1191.6666666666665,56.83333333333333],
+  [3.8680000000000003,1274.1666666666665,136.58333333333331],[4.868,1274.1666666666665,136.58333333333331],[5.768000000000001,1008.3333333333333,302.5],[12.373,1200.8333333333333,637.0833333333333],[13.472999999999999,1200.8333333333333,637.0833333333333]],
+  [[1.618,1191.6666666666665,56.83333333333333],[4.168,1274.1666666666665,136.58333333333331],[12.773,1200.8333333333333,637.0833333333333]],document.getElementById("s07-c-r"));
+tl.fromTo("#s07-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},1.318);
+tl.to("#s07-k1",{opacity:0,duration:0.3},4.3180000000000005);
 // zoom to the search box, type MITC, results list opens
-tl.to(B,{scale:1.22,transformOrigin:"78% 8%",duration:0.7,ease:"power2.inOut"},1.314);
-tl.set("#s07-sbox",{opacity:1},1.9140000000000001);
-FX.type(tl,document.getElementById("s07-txt"),"MITC",2.164,0.5,document.getElementById("s07-car"));
-tl.fromTo("#s07-dd",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"},3.0140000000000002);
-tl.to(B,{scale:1.12,duration:0.9,ease:"power2.inOut"},3.1140000000000003);
-FX.ring(tl,"#s07-hitem",4.014000000000001,0.50);
+tl.to(B,{scale:1.22,transformOrigin:"78% 8%",duration:0.7,ease:"power2.inOut"},1.068);
+tl.set("#s07-sbox",{opacity:1},1.6680000000000001);
+FX.type(tl,document.getElementById("s07-txt"),"MITC",1.9180000000000001,0.5,document.getElementById("s07-car"));
+tl.fromTo("#s07-dd",{opacity:1,clipPath:"inset(0 0 100% 0)"},{opacity:1,clipPath:"inset(0 0 0% 0)",duration:0.6,ease:"power2.out"},2.7680000000000002);
+tl.to(B,{scale:1.12,duration:0.9,ease:"power2.inOut"},2.8680000000000003);
+FX.ring(tl,"#s07-hitem",3.7680000000000002,0.50);
 // click -> premis profile, slow zoom-out
-tl.to(["#s07-dd","#s07-sbox"],{opacity:0,duration:0.2},4.514);
-tl.fromTo("#s07-pm1",{opacity:0,scale:1.03,filter:"blur(6px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},4.564000000000001);
-tl.to(B,{scale:1,duration:1.0,ease:"power2.inOut"},4.664000000000001);
-tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},4.914000000000001);
-FX.ring(tl,"#s07-hprem",5.214,3.88);
-FX.ring(tl,"#s07-hlot",6.355,2.74);
-FX.ring(tl,"#s07-hsta",6.7,2.39);
-FX.ring(tl,"#s07-hkoo",8.191,0.90);
-tl.to("#s07-k2",{opacity:0,duration:0.25},9.141);
+tl.to(["#s07-dd","#s07-sbox"],{opacity:0,duration:0.2},4.268);
+tl.fromTo("#s07-pm1",{opacity:0,scale:1.03,filter:"blur(6px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},4.3180000000000005);
+tl.to(B,{scale:1,duration:1.0,ease:"power2.inOut"},4.418);
+tl.fromTo("#s07-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},4.668);
+FX.ring(tl,"#s07-hprem",4.968,3.99);
+FX.ring(tl,"#s07-hlot",5.4,3.55);
+FX.ring(tl,"#s07-hsta",5.764,3.19);
+FX.ring(tl,"#s07-hkoo",6.964,1.99);
+tl.to("#s07-k2",{opacity:0,duration:0.25},9.004999999999999);
 // scroll to the komponen list (ruang pejabat, SEWA / KOSONG)
-tl.to("#s07-pm1",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.191);
-tl.fromTo("#s07-pm2",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.591000000000001);
-tl.fromTo("#s07-k4",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},9.741000000000001);
-FX.ring(tl,"#s07-hsew",9.991000000000001,1.66);
-tl.to("#s07-k4",{opacity:0,duration:0.25},11.755);
+tl.to("#s07-pm1",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.055);
+tl.fromTo("#s07-pm2",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.455);
+tl.fromTo("#s07-k4",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},9.605);
+FX.ring(tl,"#s07-hsew",9.855,1.32);
+tl.to("#s07-k4",{opacity:0,duration:0.25},11.273);
 // scroll to the supporting documents, open the plan
-tl.to("#s07-pm2",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},11.755);
-tl.fromTo("#s07-pm3",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},12.155000000000001);
-tl.fromTo("#s07-k3",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},12.355);
-FX.ring(tl,"#s07-hd1",12.455,0.9);
-FX.ring(tl,"#s07-hd2",12.705,0.75);
-tl.fromTo("#s07-pm4",{opacity:0,scale:0.92,y:40},{opacity:1,scale:1,y:0,duration:0.6,ease:"expo.out"},13.505);
-tl.to(["#s07-k3"],{opacity:0,duration:0.3},15.958);
-tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},15.958);
+tl.to("#s07-pm2",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},11.273);
+tl.fromTo("#s07-pm3",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},11.673);
+tl.fromTo("#s07-k3",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},11.873);
+FX.ring(tl,"#s07-hd1",11.972999999999999,0.9);
+FX.ring(tl,"#s07-hd2",12.222999999999999,0.75);
+tl.fromTo("#s07-pm4",{opacity:0,scale:0.92,y:40},{opacity:1,scale:1,y:0,duration:0.6,ease:"expo.out"},13.023);
+tl.to(["#s07-k3"],{opacity:0,duration:0.3},18.336000000000002);
+tl.to(B,{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"},18.336000000000002);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s07-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s07-i", { scale: 1 }, { scale: 1.03, duration: 16.358, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 16.358);
+          tl.fromTo("#s07-i", { scale: 1 }, { scale: 1.03, duration: 18.736, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 18.736);
           window.__timelines = window.__timelines || {};
           window.__timelines["s07"] = tl;
         })();

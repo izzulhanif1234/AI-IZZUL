@@ -27,40 +27,40 @@
           const FX = window.SPDFX;
 
 const B="#s06-b";
-tl.fromTo(B,{rotationX:1.5,rotationY:-1.5,scale:1},{rotationX:0,rotationY:1,duration:10.505,ease:"sine.inOut"},0);
-FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.1550000000000002,760,420],[7.5,700,520],[8.045,500,250],[8.682,1240,300],[9.627,600,320],[10.282,1150,560]],[],null);
+tl.fromTo(B,{rotationX:1.5,rotationY:-1.5,scale:1},{rotationX:0,rotationY:1,duration:11.523000000000001,ease:"sine.inOut"},0);
+FX.cursor(tl,document.getElementById("s06-c"),[[0,1400,700],[3.136,760,420],[7.755,700,520],[8.355,500,250],[9.027,1240,300],[10.173,600,320],[11.064,1150,560]],[],null);
 // zoom into the map
-tl.to(B,{scale:1.18,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.205);
-FX.ring(tl,"#s06-hmap",3.7550000000000003,3.34);
-tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.555);
-tl.to("#s06-k1",{opacity:0,duration:0.25},7.2);
-tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},6.9);
+tl.to(B,{scale:1.18,transformOrigin:"50% 52%",duration:0.8,ease:"power3.inOut"},3.186);
+FX.ring(tl,"#s06-hmap",3.736,3.62);
+tl.fromTo("#s06-k1",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},3.536);
+tl.to("#s06-k1",{opacity:0,duration:0.25},7.455);
+tl.to(B,{scale:1,duration:0.7,ease:"power3.inOut"},7.155);
 // scroll 77 -> 78
-tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.3);
-tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},7.7);
-tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},7.6);
-FX.ring(tl,"#s06-haa",7.995,0.64);
-FX.ring(tl,"#s06-hata",8.632,0.65);
+tl.to("#s06-p77",{y:-500,opacity:0,filter:"blur(6px)",duration:0.55,ease:"power3.in"},7.555);
+tl.fromTo("#s06-p78",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.6,ease:"power3.out"},7.955);
+tl.fromTo("#s06-k2",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},7.8549999999999995);
+FX.ring(tl,"#s06-haa",8.305,0.67);
+FX.ring(tl,"#s06-hata",8.976999999999999,0.85);
 // scroll 78 -> 80 (sewaan)
-tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.127);
-tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},9.527000000000001);
-FX.ring(tl,"#s06-hsew",9.927000000000001,0.73);
+tl.to("#s06-p78",{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3.in"},9.673);
+tl.fromTo("#s06-p80",{y:500,opacity:0,filter:"blur(6px)"},{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"},10.073);
+FX.ring(tl,"#s06-hsew",10.473,1.20);
 // the Stor card was empty in the real system: show the Modal Insan staff breakdown instead
-tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.182);
+tl.fromTo("#s06-stor",{opacity:0,scale:0.4,rotationY:-40,transformPerspective:1200},{opacity:1,scale:1,rotationY:-12,duration:0.6,ease:"back.out(1.6)"},10.964);
 // "dalam satu paparan": pull back, tilt, title
-tl.to("#s06-k2",{opacity:0,duration:0.25},10.455);
-tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},10.555);
-tl.to("#s06-stor",{x:-40,y:-200,scale:0.82,duration:0.9,ease:"power3.inOut"},10.555);
+tl.to("#s06-k2",{opacity:0,duration:0.25},11.473);
+tl.to(B,{scale:0.72,rotationY:-16,rotationX:8,duration:0.9,ease:"power3.inOut"},11.573);
+tl.to("#s06-stor",{x:-40,y:-200,scale:0.82,duration:0.9,ease:"power3.inOut"},11.573);
 tl.fromTo(["#s06-cm","#s06-ca","#s06-cs"],{opacity:0,scale:0.4,x:(i)=>[620,600,-560][i],y:(i)=>[260,-260,-260][i],rotationY:(i)=>[30,30,-30][i],transformPerspective:1400},
-  {opacity:1,scale:1,x:0,y:0,rotationY:(i)=>[14,14,-14][i],duration:0.8,stagger:0.08,ease:"expo.out"},10.855);
-tl.fromTo("#s06-k3",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"expo.out"},11.155);
-tl.to(["#s06-cm","#s06-ca","#s06-cs","#s06-stor","#s06-k3"],{opacity:0,scale:0.9,duration:0.3},13.572000000000001);
-tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},13.422);
+  {opacity:1,scale:1,x:0,y:0,rotationY:(i)=>[14,14,-14][i],duration:0.8,stagger:0.08,ease:"expo.out"},11.873000000000001);
+tl.fromTo("#s06-k3",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"expo.out"},12.173);
+tl.to(["#s06-cm","#s06-ca","#s06-cs","#s06-stor","#s06-k3"],{opacity:0,scale:0.9,duration:0.3},14.183);
+tl.to(B,{scale:1,rotationY:0,rotationX:0,duration:0.5,ease:"power3.inOut"},14.033);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s06-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s06-i", { scale: 1 }, { scale: 1.03, duration: 13.922, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 13.922);
+          tl.fromTo("#s06-i", { scale: 1 }, { scale: 1.03, duration: 14.533, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 14.533);
           window.__timelines = window.__timelines || {};
           window.__timelines["s06"] = tl;
         })();

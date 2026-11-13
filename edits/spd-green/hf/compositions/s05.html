@@ -31,33 +31,33 @@ tl.to("#s05-wh",{opacity:1,duration:0.2},0.75);
 tl.set("#s05-ball",{opacity:0},0.95);
 tl.to("#s05-wh",{opacity:0,duration:0.45},0.95);
 tl.fromTo("#s05-cam",{opacity:0,scale:1.06,y:30},{opacity:1,scale:1,y:0,duration:1.1,ease:"expo.out"},0.95);
-tl.fromTo("#s05-k",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},1.673);
+tl.fromTo("#s05-k",{opacity:0,x:-60},{opacity:1,x:0,duration:0.45,ease:"expo.out"},1.4180000000000001);
 // log in: zoom onto the form, type, click, dashboard
 tl.set(["#s05-p","#s05-ov"],{transformOrigin:"880px 440px"},0);
-tl.to(["#s05-p","#s05-ov"],{scale:1.8,duration:0.9,ease:"power2.inOut"},1.973);
-FX.cursor(tl,document.getElementById("s05-c"),[[0,1900,900],[2.173,1900,900],[2.973,880.0,375.6],[3.673,880.0,375.6],
-  [3.923,853.6,440.0],[4.423,853.6,440.0],[4.723,880.0,504.4],[5.973,880.0,504.4],[6.872999999999999,1150,520]],
-  [[3.0229999999999997,880.0,375.6],[3.973,853.6,440.0],[4.8229999999999995,880.0,504.4]],document.getElementById("s05-c-r"));
-FX.type(tl,document.getElementById("s05-ic"),"••••••••••••",3.1229999999999998,0.6);
-FX.type(tl,document.getElementById("s05-pw"),"••••••••••",4.073,0.5);
-tl.fromTo("#s05-btn",{opacity:0},{opacity:0.25,duration:0.08,yoyo:true,repeat:1},4.8229999999999995);
-tl.fromTo("#s05-pd",{opacity:0},{opacity:1,duration:0.45,ease:"power2.out"},5.0729999999999995);
-tl.to("#s05-ov",{opacity:0,duration:0.2},5.0729999999999995);
-tl.to(["#s05-p","#s05-ov"],{scale:1,duration:0.8,ease:"power2.inOut"},5.0729999999999995);
-tl.fromTo("#s05-p1",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},3.991);
-tl.fromTo("#s05-p2",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},5.755000000000001);
-tl.fromTo("#s05-p3",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},6.609);
+tl.to(["#s05-p","#s05-ov"],{scale:1.8,duration:0.9,ease:"power2.inOut"},1.7180000000000002);
+FX.cursor(tl,document.getElementById("s05-c"),[[0,1900,900],[1.9180000000000001,1900,900],[2.718,880.0,375.6],[3.418,880.0,375.6],
+  [3.668,853.6,440.0],[4.168,853.6,440.0],[4.468,880.0,504.4],[5.718,880.0,504.4],[6.617999999999999,1150,520]],
+  [[2.768,880.0,375.6],[3.718,853.6,440.0],[4.568,880.0,504.4]],document.getElementById("s05-c-r"));
+FX.type(tl,document.getElementById("s05-ic"),"••••••••••••",2.868,0.6);
+FX.type(tl,document.getElementById("s05-pw"),"••••••••••",3.818,0.5);
+tl.fromTo("#s05-btn",{opacity:0},{opacity:0.25,duration:0.08,yoyo:true,repeat:1},4.568);
+tl.fromTo("#s05-pd",{opacity:0},{opacity:1,duration:0.45,ease:"power2.out"},4.818);
+tl.to("#s05-ov",{opacity:0,duration:0.2},4.818);
+tl.to(["#s05-p","#s05-ov"],{scale:1,duration:0.8,ease:"power2.inOut"},4.818);
+tl.fromTo("#s05-p1",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},4.2090000000000005);
+tl.fromTo("#s05-p2",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},6.082000000000001);
+tl.fromTo("#s05-p3",{opacity:0,y:40},{opacity:1,y:0,duration:0.5,ease:"expo.out"},7.045);
 // hand over to s06 (same browser frame and dashboard): just clear the overlays
-tl.to(["#s05-k","#s05-p1","#s05-p2","#s05-p3","#s05-c"],{opacity:0,duration:0.35},7.395999999999999);
+tl.to(["#s05-k","#s05-p1","#s05-p2","#s05-p3","#s05-c"],{opacity:0,duration:0.35},7.984999999999999);
 // match s06's frame exactly under the crossfade (cancel this scene's 1.03 breathing push) -> no double image
-tl.to("#s05-cam",{scale:0.9709,rotationX:1.5,rotationY:-1.5,transformPerspective:2200,duration:1.6,ease:"sine.inOut"},6.595999999999999);
+tl.to("#s05-cam",{scale:0.9709,rotationX:1.5,rotationY:-1.5,transformPerspective:2200,duration:1.6,ease:"sine.inOut"},7.185);
 const url=document.getElementById("s05-b-url"), uo={v:0};
-tl.to(uo,{v:1,duration:0.01,onUpdate:()=>{url.textContent=uo.v>0.5?"spd.pknm.gov.my":"spd.pknm.gov.my/log-masuk";}},5.0729999999999995);
+tl.to(uo,{v:1,duration:0.01,onUpdate:()=>{url.textContent=uo.v>0.5?"spd.pknm.gov.my":"spd.pknm.gov.my/log-masuk";}},4.818);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s05-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s05-i", { scale: 1 }, { scale: 1.03, duration: 8.296, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 8.296);
+          tl.fromTo("#s05-i", { scale: 1 }, { scale: 1.03, duration: 8.885, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 8.885);
           window.__timelines = window.__timelines || {};
           window.__timelines["s05"] = tl;
         })();

@@ -502,7 +502,7 @@ def cues(sc):
             return 0.0
 
     S = {s.id: s for s in sc}
-    for sid in ("s11", "s12", "s17"):
+    for sid in ("s11", "s12", "s13", "s16", "s17"):
         S.setdefault(sid, _Gone())
     out = []
 
@@ -520,8 +520,14 @@ def cues(sc):
     c("s02", s.w("v02", "SPD") - 0.15, stamp(0.6), 0.55)
     c("s02", s.w("v02", "SPD") + 0.1, dissolve(1.4, 0.35), 0.45)
     s = S["s03"]
-    for i, w in enumerate(("tanah", "bangunan", "penyewaan", "penilaian", "dokumen")):
-        c("s03", s.w("v03", w) - 0.1, glass(SCALE[i + 1] / 2, 0.3), 0.45, -0.5 + i * 0.25)
+    for i, (w, n) in enumerate((("aset", 1), ("aset", 2), ("pengurusan", 1), ("modal", 1), ("pentadbiran", 1))):
+        c("s03", s.w("v03", w, n) - 0.1, glass(SCALE[i + 1] / 2, 0.3), 0.45, -0.5 + i * 0.25)
+    s = S["s03b"]
+    c0 = s.w("v03b", "pendaftaran") - 0.35
+    st = (s.D - 0.8 - c0) / 5
+    for k in range(5):   # each sub-module card opening
+        c("s03b", c0 + k * st + 0.4, glass(SCALE[1 + k] / 2, 0.3), 0.4, -0.4 + 0.2 * k)
+    s = S["s03"]
     c("s03", s.w("v03", "satu") - 0.2, sub_boom(0.35), 0.45)
     s = S["s04"]
     c("s04", s.D - 0.85, crumple(0.8, 0.6), 0.6)
@@ -534,7 +540,7 @@ def cues(sc):
     c("s06", s.w("v06", "satu") - 0.4, paper_whoosh(0.8, 0.4, False), 0.55)
     c("s06", s.w("v06", "satu"), sub_boom(0.4), 0.45)
     s = S["s07"]
-    t_taip, t_rek, t_pet, t_dok = s.w("v07", "menaip|taip"), s.w("v07", "Rekod"), s.w("v07", "peta"), s.w("v07", "dokumen")
+    t_taip, t_rek, t_pet, t_dok = s.w("v07", "menaip|taip"), s.w("v07", "Rekod"), s.w("v07", "komponen"), s.w("v07", "Dokumen")
     c("s07", 0.0, paper_whoosh(0.5, 0.3), 0.5)
     for t in (t_taip - 0.25, t_rek - 0.45, t_pet - 0.35):
         c("s07", t, click(0.35), 0.5, 0.2)
@@ -548,7 +554,7 @@ def cues(sc):
     c("s08", s.D - 1.5, paper_whoosh(1.2, 0.45, False), 0.6)
     c("s08", s.D - 1.2, sub_boom(0.4), 0.45)
     s = S["s09"]
-    for i, (w, n) in enumerate((("dokumen", 1), ("cetakan", 1), ("fail", 1), ("arkib", 1))):
+    for i, (w, n) in enumerate((("kertas", 1), ("pendigitalan", 1), ("percetakan", 1), ("arkib", 1))):
         c("s09", s.w("v09", w, n) - 0.1, marimba(SCALE[2 + i], 0.4), 0.45, -0.3 + 0.2 * i)
     s = S["s10"]
     c("s10", s.w("v10", "impak") - 0.15, stamp(0.9), 0.85)
@@ -561,8 +567,10 @@ def cues(sc):
     c("s14", s.w("v14", "imbasan") - 0.2, beep_chord(0.4), 0.6)
     c("s14", s.w("v14", "imbasan") - 0.2, laser_hum(1.6, 0.15), 0.4)
     s = S["s15"]
-    c("s15", 7.75, mallet(note_hz("D2"), 0.55), 0.6)       # KPI total lands (fixed-timing scene, no VO yet)
-    c("s15", 7.75, dissolve(1.0, 0.25), 0.4, 0.4)
+    for i, w in enumerate(("kertas", "masa", "dakwat", "sewaan", "ruang", "disewakan")):
+        c("s15", s.w("v15", w) - 0.2, glass(SCALE[1 + i % 5], 0.25), 0.35, -0.4 + 0.16 * i)
+    c("s15", s.w("v15", "Keseluruhannya") + 0.1, mallet(note_hz("D2"), 0.55), 0.6)   # RM178,141 lands
+    c("s15", s.w("v15", "Keseluruhannya") + 0.1, dissolve(1.0, 0.25), 0.4, 0.4)
     s = S["s16"]
     c("s16", s.w("v16", "dakwat") + 0.3, ink_drop(0.4), 0.45, 0.4)
     c("s16", s.D - 0.5, paper_whoosh(0.5, 0.4), 0.55)
@@ -578,8 +586,8 @@ def cues(sc):
     c("s19", s.w("v19", "SPD") - 0.1, sub_boom(0.7), 0.6)
     c("s19", s.w("v19", "SPD") - 0.1, dissolve(1.6, 0.35), 0.45)
     c("s19", s.w("v19", "Setiap") - 0.7, paper_whoosh(0.9, 0.35), 0.5)
-    for i, w in enumerate(("Kertas", "Dakwat", "Masa", "Tenaga", "kos")):
-        c("s19", s.w("v19", w) - 0.05, glass(SCALE[3 + i], 0.25), 0.4, -0.4 + 0.2 * i)
+    for i, (w, n) in enumerate((("kertas", 1), ("dakwat", 1), ("masa", 1), ("ruang", 1), ("kos", 2))):
+        c("s19", s.w("v19", w, n) - 0.05, glass(SCALE[3 + i], 0.25), 0.4, -0.4 + 0.2 * i)
     s = S["s20"]
     c("s20", max(0.5, s.w("v20", "SPD") - 0.7), paper_whoosh(0.8, 0.4, False), 0.55)
     c("s20", s.w("v20", "SPD") - 0.05, stamp(0.6), 0.55)
@@ -648,7 +656,7 @@ def main():
     if not song:
         music = music + 0.4 * np.stack([hp(music[:, ch], 5000) for ch in range(2)], 1)  # air
     # levels
-    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * (0.05 if song else 0.055) if np.any(music) else music
+    music = music / (np.sqrt(np.mean(music ** 2)) + 1e-9) * (0.064 if song else 0.055) if np.any(music) else music
     sfxb = sfx.y / (np.max(np.abs(sfx.y)) + 1e-9) * 0.42
     voice = voice / (np.max(np.abs(voice)) + 1e-9) * 0.88
     mix = voice + music + sfxb + foley.y * 0.7

@@ -475,8 +475,8 @@ tl.to(["#s02-mark","#s02-k","#s02-gl",".s02-t",".s02-s"],{{opacity:0,y:-30,durat
 def s03(S):
     # the five SPD modules (each module's sub-functions to be added once the user sends them); the old VO still lists
     # tanah/bangunan/... so each module lands on one of those words until the new VO is recorded
-    items = [("01", "Aset Tak Alih", "tanah"), ("02", "Aset Alih", "bangunan"), ("03", "Pengurusan Stor", "penyewaan"),
-             ("04", "Modal Insan", "penilaian"), ("05", "Pentadbiran", "dokumen")]
+    items = [("01", "Aset Tak Alih", ("aset", 1)), ("02", "Aset Alih", ("aset", 2)), ("03", "Pengurusan Stor", ("pengurusan", 1)),
+             ("04", "Modal Insan", ("modal", 1)), ("05", "Pentadbiran", ("pentadbiran", 1))]   # each lands as the VO names it
     tiles = "".join(
         f'<div class="abs s03-t" id="s03-t{i}" style="left:0;top:0;width:340px;height:120px;margin:-60px 0 0 -170px">'
         f'<div class="s03-ti" id="s03-ti{i}" style="width:100%;height:100%;border-radius:22px;display:flex;align-items:center;justify-content:center;'
@@ -486,7 +486,7 @@ def s03(S):
         f'<span class="mono" style="font-size:18px;color:#B6D973;letter-spacing:.2em">{num}</span>{lab}</div></div>' for i, (num, lab, _) in enumerate(items))
     dots = "".join(f'<i class="abs s03-p" style="left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#d9ffb0;'
                    f'box-shadow:0 0 14px #b6d973;display:block"></i>' for _ in range(28))
-    word_t = [S.w("v03", w) for _, _, w in items]
+    word_t = [S.w("v03", w, n) for _, _, (w, n) in items]
     t_sat = S.w("v03", "satu")
     t_buk = S.w("v03", "bukan")
     t_hij = S.w("v03", "hijau")
@@ -570,7 +570,13 @@ SUBS = [  # grouped from the real SPD sidebar menus (media/spd-green/sub/*.png)
 def s03b(S):
     """Each module opens into a premium card listing its sub-modules (style approved by the user, storyboard
     pelan5/SUB-MODUL-PREMIUM.jpg). Fixed timing, no VO yet."""
-    T0, STEP = 0.9, 2.9
+    # each card opens as the VO names that module's functions; it stays until the next one opens
+    # the VO lists the five quickly; space the cards evenly from the first function to the end so each is readable
+    c0 = S.w("v03b", "pendaftaran") - 0.35
+    st = (S.D - 0.8 - c0) / 5
+    cue = [round(c0 + k * st, 3) for k in range(5)]
+    T0 = cue[0]
+    steps = [st] * 5
     tiles, cards, paths, js = "", "", "", ""
     for i, (n, name, (tx, ty), subs) in enumerate(SUBS):
         tiles += (f'<div class="abs s3b-t" id="s3b-t{i}" style="left:{tx}px;top:{ty}px;width:300px;height:112px;margin:-56px 0 0 -150px;border-radius:22px;'
@@ -605,7 +611,7 @@ def s03b(S):
                   f'<div style="overflow:hidden"><div class="s3b-k" style="font:800 19px \'JetBrains Mono\';color:#B6D973;letter-spacing:.24em">MODUL {n} · SUB-MODUL</div></div>'
                   f'<div style="overflow:hidden;margin:8px 0 14px"><div class="s3b-h" style="font:800 52px/1.05 \'Plus Jakarta Sans\';color:#fff;letter-spacing:-.02em">{name}</div></div>'
                   f'{rows}</div></div>')
-        t = T0 + i * STEP
+        t, STEP = cue[i], steps[i]
         others = ",".join(f'"#s3b-t{j}"' for j in range(5) if j != i)
         js += f"""
 tl.to([{others}],{{opacity:0.3,duration:0.35}},{t:.2f});
@@ -627,7 +633,7 @@ tl.to("#s3b-c{i}",{{opacity:0,y:-24,duration:0.3,ease:"power2.in"}},{t + STEP - 
 tl.to("#s3b-p{i}",{{opacity:0,duration:0.25}},{t + STEP - 0.38:.2f});
 tl.to("#s3b-t{i}",{{scale:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45)",duration:0.35}},{t + STEP - 0.2:.2f});
 """
-    tend = T0 + 5 * STEP
+    tend = cue[4] + steps[4]
     html = f"""
 <div class="F gdark">
   <div id="s3b-bg" class="abs" style="inset:0">
@@ -794,7 +800,7 @@ def s06(S):
     t_aa = S.w("v06", "aset", 1)
     t_ata = S.w("v06", "aset", 2)
     t_sew = S.w("v06", "sewaan")
-    t_sto = S.w("v06", "stor")
+    t_sto = S.w("v06", "modal")   # the empty Stor card was replaced by the Modal Insan breakdown
     t_sat = S.w("v06", "satu")
     extra = (region("s06-hmap", K, 44, 260, 1856, 766) + region("s06-haa", K, 30, 160, 1240, 450) +
              region("s06-hata", K, 1280, 150, 1880, 860) + region("s06-hsew", K, 30, 168, 1260, 688) +
@@ -858,10 +864,10 @@ def s07(S):
     t_lot = S.w("v07", "lot")
     t_sta = S.w("v07", "status")
     t_koo = S.w("v07", "koordinat")
-    t_pet = S.w("v07", "peta")
+    t_pet = S.w("v07", "komponen")
     t_dok = S.w("v07", "dokumen")
     t_pen = S.w("v07", "pengguna")
-    t_kp = t_koo + 1.0          # komponen list follows the coordinates (old VO: "peta" and "dokumen" are 0.2 s apart)
+    t_kp = t_pet - 0.4          # komponen list on "komponen premis dan status sewaannya"
     t_type = t_pen + 0.3
     t_drop = t_type + 0.85
     t_hov = t_drop + 1.1
@@ -1360,6 +1366,7 @@ def s15(S):
           ("Proses sewaan &amp; penjualan", "14", "3", "hari", "Jimat 11 hari"),
           ("Ruang simpanan fail", "1,550", "0", "kp", "1,550 kp kini disewakan"),
           ("Sewaan ruang pejabat Aras 10 (MITCH)", "RM0", "RM4,650", "", "Hasil RM167,400")]
+    kw15 = [S.w("v15", w) for w in ("kertas", "masa", "dakwat", "sewaan", "ruang", "disewakan")]
     cards, js_c = "", ""
     for i, (t, b, a, u, sv) in enumerate(K6):
         x, y = 90 + (i % 3) * 590, 292 + (i // 3) * 300
@@ -1377,12 +1384,12 @@ def s15(S):
                   f'<div style="font:700 26px \'Plus Jakarta Sans\';color:#cfe3d6;margin-bottom:16px">{u}</div></div>'
                   f'<div class="s15-sv" id="s15-s{i}" style="display:inline-block;margin-top:10px;font:700 21px \'Plus Jakarta Sans\';color:#0B2E22;'
                   f'background:{"#e6c06a" if gold else "#B6D973"};padding:7px 16px;border-radius:30px;clip-path:inset(0 100% 0 0 round 30px)">{sv}</div></div>')
-        t0 = 0.6 + i * 0.45
+        t0 = kw15[i] - 0.3
         js_c += (f'tl.fromTo("#s15-c{i}",{{opacity:0,y:70,rotationX:-25,transformPerspective:1200}},{{opacity:1,y:0,rotationX:0,duration:0.7,ease:"expo.out"}},{t0:.2f});'
                  f'tl.fromTo("#s15-st{i}",{{scaleX:0}},{{scaleX:1,duration:0.4,ease:"expo.inOut"}},{t0 + 0.4:.2f});'
                  f'FX.odo(tl,"#s15-a{i}",{t0 + 0.45:.2f},1.0);'
                  f'tl.fromTo("#s15-s{i}",{{clipPath:"inset(0 100% 0 0 round 30px)"}},{{clipPath:"inset(0 0% 0 0 round 30px)",duration:0.6,ease:"expo.inOut"}},{t0 + 0.85:.2f});')
-    T = 7.4
+    T = S.w("v15", "Keseluruhannya") - 0.25
     html = f"""
 <div class="F gdark">
   <div id="s15-hd" class="abs" style="left:90px;top:84px">
@@ -1565,7 +1572,7 @@ def s19(S):
     t_ker = S.w("v19", "Kertas")
     t_dak = S.w("v19", "Dakwat")
     t_mas = S.w("v19", "Masa")
-    t_ten = S.w("v19", "Tenaga")
+    t_ten = S.w("v19", "ruang")
     t_kos = S.w("v19", "kos", 2)  # 1st match is "kosong" (dua point kosong)
     t_kar = S.w("v19", "Kerana")
     t_uru = S.w("v19", "diurus")
@@ -1682,7 +1689,7 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
-    ("s03b", [], dict(fixed=16.4)),  # five modules + sub-modules (premium cards), no VO yet
+    ("s03b", ["v03b"], dict(pre=0.9, post=2.4)),  # five modules + sub-modules (premium cards)
     ("s04", ["v04"], dict(pre=0.5, post=1.1)),
     ("s05", ["v05"], dict(pre=1.2, post=0.9)),
     ("s06", ["v06"], dict(pre=0.5, post=1.4)),
@@ -1693,7 +1700,7 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     # s13 removed: same figures as the KPI scene (s15)
     ("s14", ["v14"], dict(pre=0.5, post=1.6)),
     # s16 removed: same figures as the KPI scene (s15)
-    ("s15", [], dict(fixed=13.5)),  # KPI dan pengukuran (user KPI table), no VO yet
+    ("s15", ["v15"], dict(pre=0.6, post=2.4)),  # KPI dan pengukuran (user KPI table)
     ("s18", ["v18"], dict(pre=0.5, post=1.0)),
     ("s19", ["v19"], dict(pre=0.7, post=2.4)),
     ("s20", ["v20"], dict(pre=1.0, post=2.4)),
