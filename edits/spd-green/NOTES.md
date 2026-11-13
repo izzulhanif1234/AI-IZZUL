@@ -111,3 +111,6 @@
 - s07 now on the user's MITC screens (media/spd-green/new13 -> hf/assets/ui/mitc1-4.jpg): search "MITC" (results list
   rebuilt in HTML from the real komponen names), premis profile, komponen list (Aras 11 SEWA), dokumen sokongan,
   pelan in the PDF viewer. s08 Stor = stor1/stor2 (Senarai Stok), Pentadbiran = sistem.jpg (Sistem page).
+- s03b (new, fixed 16.4 s, no VO): five modules + sub-modules in premium cards; SUBS grouped from the real sidebar
+  menus (media/spd-green/sub/*.png). s04: the user's six AI clips (media/spd-green/ai6 -> hf/assets/video/ai0*.mp4,
+  last-frame stills in img/) in taped photo frames on the doodle page. s13 and s16 removed (same figures as s15 KPI).

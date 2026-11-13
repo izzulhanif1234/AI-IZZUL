@@ -550,7 +550,110 @@ tl.to("#s03-st",{{scale:1.5,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5
     return html, js
 
 
+# --------------------------------------------------------------------------- S03b lima modul + sub-modul (kad premium)
+SUBS = [  # grouped from the real SPD sidebar menus (media/spd-green/sub/*.png)
+    ("01", "Aset Tak Alih", (470, 790), ["Pendaftaran premis &amp; tanah", "Carian milikan belum sempurna", "Carian belum ada hak milik",
+                                         "Carian ada hak milik", "Laporan ATA"]),
+    ("02", "Aset Alih", (300, 420), ["Senarai &amp; pendaftaran aset (KEWPA 03/04)", "Penerimaan &amp; penolakan (KEWPA 01/02)",
+                                     "Pergerakan &amp; pindahan (KEWPA 09)", "Pemeriksaan aset (KEWPA 11–13)",
+                                     "Aduan kerosakan &amp; penyelenggaraan (KEWPA 10)", "Pelupusan, kehilangan &amp; hapus kira"]),
+    ("03", "Pengurusan Stor", (960, 215), ["Senarai stok &amp; profil stok", "Permohonan stok", "Penerimaan &amp; penolakan",
+                                           "Pembungkusan &amp; pelarasan", "Verifikasi &amp; penilaian", "Pelupusan &amp; peruntukan tahunan"]),
+    ("04", "Modal Insan", (1620, 420), ["Senarai latihan", "Senarai aktiviti", "Senarai kakitangan", "Panel perubatan", "Gred",
+                                        "Laporan modal insan"]),
+    ("05", "Pentadbiran", (1450, 790), ["Pengguna &amp; peranan", "Menu sistem", "Notifikasi &amp; emel", "Log aktiviti",
+                                        "Penduaan &amp; pemulihan data", "Data rujukan (negeri, gred)"]),
+]
+
+
+@scene
+def s03b(S):
+    """Each module opens into a premium card listing its sub-modules (style approved by the user, storyboard
+    pelan5/SUB-MODUL-PREMIUM.jpg). Fixed timing, no VO yet."""
+    T0, STEP = 0.9, 2.9
+    tiles, cards, paths, js = "", "", "", ""
+    for i, (n, name, (tx, ty), subs) in enumerate(SUBS):
+        tiles += (f'<div class="abs s3b-t" id="s3b-t{i}" style="left:{tx}px;top:{ty}px;width:300px;height:112px;margin:-56px 0 0 -150px;border-radius:22px;'
+                  f'display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 31px \'Plus Jakarta Sans\';color:#fff;'
+                  f'background:linear-gradient(160deg,rgba(47,138,102,.84),rgba(27,97,72,.80) 55%,rgba(18,70,52,.82));border:1.5px solid rgba(140,214,170,.75);'
+                  f'box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45);text-shadow:0 2px 8px rgba(0,0,0,.5);z-index:5">'
+                  f'<span class="mono" style="font-size:18px;color:#B6D973;letter-spacing:.2em">{n}</span>{name}</div>')
+        right = tx <= 960
+        cx = 1080 if right else 150
+        cw, ctop = 690, (330 if tx == 960 else 250)
+        ex, ey = (cx, ctop + 150) if right else (cx + cw, ctop + 150)
+        sx = tx + 150 if right else tx - 150
+        if tx == 960:
+            sx, sy0 = tx + 150, ty
+        sy = ty
+        mx = (sx + ex) / 2
+        paths += (f'<path id="s3b-p{i}" d="M{sx} {sy} C {mx} {sy} {mx} {ey} {ex} {ey}" stroke="#B6D973" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"/>'
+                  f'<circle id="s3b-d{i}" r="7" fill="#e8ffc0" opacity="0" style="filter:drop-shadow(0 0 10px #B6D973)"/>')
+        rows = "".join(f'<div class="s3b-row" style="position:relative;display:flex;align-items:center;gap:18px;padding:13px 0">'
+                       f'<i class="s3b-ln" style="position:absolute;left:64px;right:0;top:0;height:1px;background:linear-gradient(90deg,rgba(182,217,115,.5),rgba(255,255,255,.06));'
+                       f'transform-origin:0 50%;display:block"></i>'
+                       f'<span class="s3b-ic" style="width:44px;height:44px;flex:none;border-radius:13px;border:1.5px solid rgba(182,217,115,.7);background:rgba(182,217,115,.12);'
+                       f'display:flex;align-items:center;justify-content:center;font:800 17px \'JetBrains Mono\';color:#B6D973">{k + 1:02d}</span>'
+                       f'<span style="overflow:hidden;display:inline-block"><span class="s3b-tx" style="display:inline-block;font:600 27px \'Plus Jakarta Sans\';color:#eaf4ee">{sub}</span></span></div>'
+                       for k, sub in enumerate(subs))
+        cards += (f'<div class="abs s3b-cd" id="s3b-c{i}" style="left:{cx}px;top:{ctop}px;width:{cw}px;border-radius:30px;padding:2px;opacity:0;z-index:6;'
+                  f'background:conic-gradient(from var(--a,0deg),rgba(182,217,115,.15),rgba(230,255,190,.95) 12%,rgba(182,217,115,.15) 25%,rgba(182,217,115,.15) 100%);'
+                  f'box-shadow:0 50px 120px rgba(0,0,0,.55),0 0 80px rgba(182,217,115,.18)">'
+                  f'<div style="position:relative;border-radius:28px;overflow:hidden;padding:32px 38px 26px;background:linear-gradient(160deg,rgba(14,58,43,.95),rgba(6,30,22,.97))">'
+                  f'<div class="s3b-gh" style="position:absolute;right:-6px;top:-40px;font:800 250px/1 \'Plus Jakarta Sans\';color:transparent;'
+                  f'-webkit-text-stroke:2px rgba(182,217,115,.16);letter-spacing:-.05em">{n}</div>'
+                  f'<div style="overflow:hidden"><div class="s3b-k" style="font:800 19px \'JetBrains Mono\';color:#B6D973;letter-spacing:.24em">MODUL {n} · SUB-MODUL</div></div>'
+                  f'<div style="overflow:hidden;margin:8px 0 14px"><div class="s3b-h" style="font:800 52px/1.05 \'Plus Jakarta Sans\';color:#fff;letter-spacing:-.02em">{name}</div></div>'
+                  f'{rows}</div></div>')
+        t = T0 + i * STEP
+        others = ",".join(f'"#s3b-t{j}"' for j in range(5) if j != i)
+        js += f"""
+tl.to([{others}],{{opacity:0.3,duration:0.35}},{t:.2f});
+tl.to("#s3b-t{i}",{{opacity:1,scale:1.14,boxShadow:"0 0 0 4px rgba(182,217,115,1),0 0 60px rgba(182,217,115,.65)",duration:0.5,ease:"expo.out"}},{t:.2f});
+FX.draw(tl,"#s3b-p{i}",{t + 0.15:.2f},0.45,0);
+tl.set("#s3b-p{i}",{{opacity:1}},{t + 0.15:.2f});
+(function(){{const p=document.getElementById("s3b-p{i}"),L=p.getTotalLength(),o={{v:0}},d=document.getElementById("s3b-d{i}");
+  tl.fromTo(o,{{v:0}},{{v:1,duration:0.45,ease:"power2.inOut",onUpdate:()=>{{const q=p.getPointAtLength(o.v*L);d.setAttribute("cx",q.x);d.setAttribute("cy",q.y);}}}},{t + 0.15:.2f});
+  tl.fromTo(d,{{opacity:1}},{{opacity:0,duration:0.25}},{t + 0.6:.2f});}})();
+tl.fromTo("#s3b-c{i}",{{opacity:0,clipPath:"inset(48% 0 48% 0 round 30px)",rotationX:-14,transformPerspective:1400}},{{opacity:1,clipPath:"inset(0% 0 0% 0 round 30px)",rotationX:0,duration:0.7,ease:"expo.out"}},{t + 0.45:.2f});
+tl.fromTo("#s3b-c{i}",{{"--a":"0deg"}},{{"--a":"300deg",duration:2.1,ease:"none"}},{t + 0.5:.2f});
+tl.fromTo("#s3b-c{i} .s3b-gh",{{x:80,opacity:0}},{{x:0,opacity:1,duration:0.9,ease:"expo.out"}},{t + 0.6:.2f});
+tl.fromTo("#s3b-c{i} .s3b-k",{{yPercent:110}},{{yPercent:0,duration:0.6,ease:"expo.out"}},{t + 0.65:.2f});
+tl.fromTo("#s3b-c{i} .s3b-h",{{yPercent:110}},{{yPercent:0,duration:0.7,ease:"expo.out"}},{t + 0.72:.2f});
+tl.fromTo("#s3b-c{i} .s3b-ln",{{scaleX:0}},{{scaleX:1,duration:0.6,stagger:0.11,ease:"expo.out"}},{t + 0.92:.2f});
+tl.fromTo("#s3b-c{i} .s3b-ic",{{scale:0,rotation:-90}},{{scale:1,rotation:0,duration:0.5,stagger:0.11,ease:"back.out(2.2)"}},{t + 0.95:.2f});
+tl.fromTo("#s3b-c{i} .s3b-tx",{{yPercent:110,filter:"blur(8px)"}},{{yPercent:0,filter:"blur(0px)",duration:0.55,stagger:0.11,ease:"expo.out"}},{t + 0.98:.2f});
+tl.to("#s3b-c{i}",{{opacity:0,y:-24,duration:0.3,ease:"power2.in"}},{t + STEP - 0.38:.2f});
+tl.to("#s3b-p{i}",{{opacity:0,duration:0.25}},{t + STEP - 0.38:.2f});
+tl.to("#s3b-t{i}",{{scale:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45)",duration:0.35}},{t + STEP - 0.2:.2f});
+"""
+    tend = T0 + 5 * STEP
+    html = f"""
+<div class="F gdark">
+  <div id="s3b-bg" class="abs" style="inset:0">
+    <div class="abs" style="left:960px;top:560px;width:1520px;height:700px;margin:-350px 0 0 -760px;border-radius:50%;border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25)"></div>
+    <div class="abs" style="left:960px;top:470px;transform:translate(-50%,-50%);text-align:center">
+      <img src="{LOGO}" style="width:300px;display:block;margin:auto;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))">
+      <div style="display:flex;justify-content:center;margin-top:4px">{SB.spd_mark(88, "#fff", "#B6D973")}</div></div>
+  </div>
+  <svg class="abs" viewBox="0 0 1920 1080" style="inset:0;z-index:4;overflow:visible">{paths}</svg>
+  {tiles}{cards}
+  <div class="vign"></div>
+</div>"""
+    js_all = f"""
+tl.fromTo(".s3b-t",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:0.6,stagger:0.06,ease:"back.out(1.6)"}},0.1);
+tl.fromTo("#s3b-bg",{{filter:"blur(0px) brightness(1)",scale:1}},{{filter:"blur(7px) brightness(.55)",scale:1.05,duration:0.7,ease:"power3.inOut"}},{T0 - 0.4:.2f});
+{js}
+tl.to(".s3b-t",{{opacity:1,duration:0.4}},{tend:.2f});
+tl.to("#s3b-bg",{{filter:"blur(0px) brightness(1)",scale:1,duration:0.6,ease:"power2.inOut"}},{tend:.2f});
+"""
+    return html, js_all
+
+
 # --------------------------------------------------------------------------- S04 problems (doodle)
+AI_CLIPS = ["01_kertas", "02_ruang", "03_pertindihan", "04_carian", "05_risiko", "06_kos"]   # user's AI videos (media/spd-green/ai6)
+
+
 @scene
 def s04(S):
     names = [("01", "Penggunaan kertas tinggi", "paper", "Penggunaan"), ("02", "Ruang simpanan fizikal besar", "cabinet", "Ruang"),
@@ -559,17 +662,24 @@ def s04(S):
     cells, js_c = "", ""
     for i, (n, t, k, word) in enumerate(names):
         x, y = 150 + (i % 3) * 560, 200 + (i // 3) * 420
-        icon = SB.doodle_icon(k).replace('style="width:330px;height:300px;filter:url(#rough)"',
-                                         f'class="s04-ic" id="s04-i{i}" style="width:330px;height:300px"')
+        tt = S.w("v04", word, 1)
+        clip = AI_CLIPS[i]
+        vd = round(min(4.0, S.D - (tt - 0.15)), 3)
+        rot = [-2.5, 1.8, -1.5, 2.2, -2.0, 1.5][i]
+        # user's AI video clip in a taped photo frame; the clip's last frame sits underneath so the frame never goes empty
         cells += (f'<div class="abs s04-cell" id="s04-c{i}" style="left:{x}px;top:{y}px;width:520px;height:400px;text-align:center">'
-                  f'<div class="doodle abs" id="s04-n{i}" style="left:10px;top:-10px;font-size:80px;color:#D62839">{n}</div>'
-                  f'<div style="margin-top:10px">{icon}</div>'
-                  f'<div class="doodle" id="s04-l{i}" style="font-size:46px;color:#22302A;margin-top:-6px">{t}</div></div>')
-        tt = S.w("v04", word, 2 if word == "Penggunaan" and False else 1)
-        js_c += (f'FX.draw(tl,"#s04-i{i} path, #s04-i{i} rect, #s04-i{i} circle",{tt - 0.1},0.55,0.05);'
-                 f'tl.fromTo("#s04-i{i} [fill=\'#B6D973\'], #s04-i{i} text",{{opacity:0}},{{opacity:1,duration:0.3}},{tt + 0.3});'
-                 f'tl.fromTo("#s04-n{i}",{{opacity:0,scale:2,rotation:-20}},{{opacity:1,scale:1,rotation:0,duration:0.35,ease:"back.out(2)"}},{tt - 0.15});'
-                 f'tl.fromTo("#s04-l{i}",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{tt + 0.1});')
+                  f'<div class="abs s04-fr" id="s04-f{i}" style="left:20px;top:22px;width:480px;height:270px;background:#fff;padding:8px;'
+                  f'box-shadow:0 14px 30px rgba(34,48,42,.35);transform:rotate({rot}deg);opacity:0">'
+                  f'<div style="position:relative;width:100%;height:100%;overflow:hidden;background:#222">'
+                  f'<img src="{IMG}/ai{clip}_end.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">'
+                  f'<video id="s04-v{i}" class="clip" src="assets/video/ai{clip}.mp4" data-start="{tt - 0.15:.3f}" data-duration="{vd}" data-track-index="{2 + i}" '
+                  f'muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video></div>'
+                  f'<i style="position:absolute;left:50%;top:-14px;width:110px;height:28px;margin-left:-55px;background:rgba(182,217,115,.75);transform:rotate(-3deg);display:block"></i></div>'
+                  f'<div class="doodle abs" id="s04-n{i}" style="left:-6px;top:-24px;font-size:80px;color:#D62839;z-index:2">{n}</div>'
+                  f'<div class="doodle abs" id="s04-l{i}" style="left:0;right:0;top:312px;font-size:46px;color:#22302A">{t}</div></div>')
+        js_c += (f'tl.fromTo("#s04-f{i}",{{opacity:0,y:40,scale:0.9}},{{opacity:1,y:0,scale:1,duration:0.5,ease:"back.out(1.6)"}},{tt - 0.2:.2f});'
+                 f'tl.fromTo("#s04-n{i}",{{opacity:0,scale:2,rotation:-20}},{{opacity:1,scale:1,rotation:0,duration:0.35,ease:"back.out(2)"}},{tt - 0.15:.2f});'
+                 f'tl.fromTo("#s04-l{i}",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{tt + 0.1:.2f});')
     filt = "".join(f'<filter id="s04-r{k}"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="{k * 7 + 3}"/>'
                    f'<feDisplacementMap in="SourceGraphic" scale="7"/></filter>' for k in range(3))
     html = f"""
@@ -590,7 +700,6 @@ tl.fromTo("#s04-h",{{clipPath:"inset(0 100% 0 0)"}},{{clipPath:"inset(0 0% 0 0)"
 FX.draw(tl,"#s04-u",{t0 + 0.4},0.5);
 tl.fromTo("#s04-six",{{opacity:0,scale:1.8}},{{opacity:1,scale:1,duration:0.35,ease:"back.out(2)"}},{S.w("v04", "enam") - 0.05});
 {js_c}
-FX.boil(tl,".s04-ic",["s04-r0","s04-r1","s04-r2"],0,{S.D});
 tl.fromTo("#s04-in",{{scale:1.04}},{{scale:1,duration:{S.D},ease:"none"}},0);
 // crumple: page folds into a ball and flies at the camera
 tl.to("#s04-pg",{{scale:0.16,rotation:-200,borderRadius:"50%",duration:0.75,ease:"power3.in"}},{S.D - 0.85});
@@ -1573,6 +1682,7 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
+    ("s03b", [], dict(fixed=16.4)),  # five modules + sub-modules (premium cards), no VO yet
     ("s04", ["v04"], dict(pre=0.5, post=1.1)),
     ("s05", ["v05"], dict(pre=1.2, post=0.9)),
     ("s06", ["v06"], dict(pre=0.5, post=1.4)),
@@ -1580,9 +1690,9 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s08", ["v08"], dict(pre=0.5, post=2.4)),
     ("s09", ["v09"], dict(pre=0.7, post=1.0)),
     ("s10", ["v10"], dict(pre=0.5, post=1.4)),
-    ("s13", ["v13"], dict(pre=0.5, post=1.2)),
+    # s13 removed: same figures as the KPI scene (s15)
     ("s14", ["v14"], dict(pre=0.5, post=1.6)),
-    ("s16", ["v16"], dict(pre=0.5, post=1.1)),
+    # s16 removed: same figures as the KPI scene (s15)
     ("s15", [], dict(fixed=13.5)),  # KPI dan pengukuran (user KPI table), no VO yet
     ("s18", ["v18"], dict(pre=0.5, post=1.0)),
     ("s19", ["v19"], dict(pre=0.7, post=2.4)),
