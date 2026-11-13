@@ -243,7 +243,8 @@ def s00(S):
                    for w in [r.choice([2, 2, 3, 3, 4, 5]) for _ in range(26)])
     T0, DQ = 2.95, 1.9                            # first question, time per question
     rr = random.Random(23)
-    # 01 MASA: a big faint clock dial with hands racing + a lime progress arc
+    # 01 MASA: a big faint clock dial with hands racing + a lime progress arc (hands turn about svgOrigin 410 410 --
+    # GSAP otherwise pivots SVG paths on their bbox corner, which swung the hands out of the dial)
     ticks = "".join(f'<line x1="410" y1="{24 if k % 5 == 0 else 40}" x2="410" y2="70" stroke="#fff" stroke-width="{6 if k % 5 == 0 else 2.5}" '
                     f'transform="rotate({k * 6} 410 410)"/>' for k in range(60))
     fx0 = (f'<div id="s00-fx0" class="abs" style="left:550px;top:110px;width:820px;height:820px;opacity:0">'
@@ -326,8 +327,8 @@ def s00(S):
         js_q += (f'tl.fromTo("#s00-fx{i}",{{opacity:0}},{{opacity:1,duration:0.35}},{t:.2f});'
                  f'tl.to("#s00-fx{i}",{{opacity:0,duration:0.35}},{t + DQ - 0.3:.2f});')
     t = T0
-    js_q += (f'tl.fromTo("#s00-mh",{{rotation:0}},{{rotation:1080,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
-             f'tl.fromTo("#s00-hh",{{rotation:0}},{{rotation:90,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
+    js_q += (f'tl.fromTo("#s00-mh",{{rotation:0,svgOrigin:"410 410"}},{{rotation:1080,svgOrigin:"410 410",duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
+             f'tl.fromTo("#s00-hh",{{rotation:0,svgOrigin:"410 410"}},{{rotation:90,svgOrigin:"410 410",duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
              f'tl.fromTo("#s00-arc",{{strokeDashoffset:2388}},{{strokeDashoffset:300,duration:{DQ},ease:"power2.inOut"}},{t:.2f});'
              f'tl.fromTo("#s00-fx0",{{scale:0.9,rotation:-8}},{{scale:1.05,rotation:0,duration:{DQ},ease:"power2.out"}},{t:.2f});')
     t = T0 + DQ
