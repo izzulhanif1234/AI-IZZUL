@@ -26,7 +26,7 @@ def _syl(w):
     return max(1, len(re.findall(r"[aeiou]+", w.lower())))
 
 
-SPEED = 1.1  # VO is planned ~10% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
+SPEED = 1.13  # v15: 1.10 -> 1.13; VO is planned ~13% faster than the raw Charon read (atempo at mix time) to land the film on 4:00
 
 
 class Line:
@@ -221,7 +221,7 @@ def s00(S):
     dust = "".join(f'<i class="s00-du" style="position:absolute;left:{r.randint(300, 1620)}px;top:{r.randint(80, 900)}px;width:{w}px;height:{w}px;border-radius:50%;'
                    f'background:rgba(220,255,225,{r.uniform(.25, .7):.2f});display:block" data-dy="{r.randint(-90, -30)}"></i>'
                    for w in [r.choice([2, 2, 3, 3, 4, 5]) for _ in range(26)])
-    T0, DQ = 2.95, 2.1                            # first question, time per question
+    T0, DQ = 2.95, 1.9                            # first question, time per question
     rr = random.Random(23)
     # 01 MASA: a big faint clock dial with hands racing + a lime progress arc
     ticks = "".join(f'<line x1="410" y1="{24 if k % 5 == 0 else 40}" x2="410" y2="70" stroke="#fff" stroke-width="{6 if k % 5 == 0 else 2.5}" '
@@ -322,24 +322,39 @@ def s00(S):
              f'tl.set(".s00-fg",{{opacity:0.9}},{t + 1.05:.2f});'
              f'tl.set(["#s00-doc","#s00-warn"],{{opacity:0}},{t + 1.05:.2f});'
              f'document.querySelectorAll(".s00-fg").forEach(e=>tl.fromTo(e,{{x:0,y:0,rotation:0}},{{x:+e.dataset.x,y:+e.dataset.y,rotation:+e.dataset.r,opacity:0,duration:0.9,ease:"power2.out",immediateRender:false}},{t + 1.05:.2f}));')
+    rings = "".join(f'<circle cx="960" cy="470" r="{rad}" fill="none" stroke="rgba(22,90,68,{op})" stroke-width="{sw}" stroke-dasharray="{da}"/>'
+                    for rad, op, sw, da in [(250, .16, 1.5, "none"), (330, .10, 1, "4 10"), (430, .12, 1.2, "none"), (560, .08, 1, "2 14"),
+                                            (700, .09, 1.2, "none"), (860, .06, 1, "6 18")])
+    rays = "".join(f'<i class="s00-ray" style="position:absolute;left:{x}px;top:-200px;width:2px;height:1500px;display:block;transform:rotate(28deg);'
+                   f'background:linear-gradient(transparent,rgba(38,116,90,{op}) 50%,transparent)"></i>' for x, op in [(260, .18), (420, .10), (1460, .14), (1620, .2)])
     html = f"""
 <div class="F gdark">
+  <!-- v15: white studio for the logo reveal (iris-closes into the dark question beat) -->
+  <div id="s00-wh" class="abs" style="inset:0;z-index:0;background:radial-gradient(ellipse 70% 75% at 50% 44%,#ffffff 0%,#f7fbf8 42%,#e2ede7 100%)">
+    <div class="abs" style="inset:0;background-image:radial-gradient(rgba(22,90,68,.20) 1.3px,transparent 1.8px);background-size:30px 30px;
+      -webkit-mask-image:radial-gradient(ellipse 62% 60% at 50% 45%,transparent 30%,#000 75%)"></div>
+    <svg id="s00-rings" class="abs" viewBox="0 0 1920 1080" style="inset:0">{rings}</svg>
+    <div class="abs" style="inset:0">{rays}</div>
+    <div class="abs" style="left:460px;top:120px;width:1000px;height:700px;background:radial-gradient(closest-side,rgba(182,217,115,.38),rgba(182,217,115,.12) 55%,transparent)"></div>
+    <div class="abs" style="left:610px;top:690px;width:700px;height:70px;border-radius:50%;background:radial-gradient(closest-side,rgba(11,46,34,.22),transparent)"></div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,#165A44,#B6D973,#D9AE52)"></div>
+  </div>
   <div id="s00-cone" class="abs" style="left:460px;top:-160px;width:1000px;height:980px;opacity:0;
     background:conic-gradient(from 180deg at 50% 0%,transparent 0 160deg,rgba(235,255,240,.18) 170deg,rgba(240,255,244,.30) 180deg,rgba(235,255,240,.18) 190deg,transparent 200deg);
     -webkit-mask-image:linear-gradient(#000 30%,transparent 92%)"></div>
   <div id="s00-dust" class="abs" style="inset:0">{dust}</div>
   <div id="s00-gl" class="abs" style="left:510px;top:200px;width:900px;height:560px;opacity:0;
     background:radial-gradient(closest-side,rgba(255,255,255,.50),rgba(182,217,115,.14) 55%,transparent)"></div>
-  <div id="s00-floor" class="abs" style="left:0;right:0;top:720px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(182,217,115,.55),transparent)"></div>
+  <div id="s00-floor" class="abs" style="left:0;right:0;top:720px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(22,90,68,.45),transparent)"></div>
   <div id="s00-lw" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center;perspective:1500px;opacity:0">{logo3d("s00-logo", 520, 18)}</div>
   <div id="s00-rw" class="abs" style="left:0;right:0;top:726px;height:260px;display:flex;justify-content:center;perspective:1500px;opacity:0;
     -webkit-mask-image:linear-gradient(rgba(0,0,0,.38),transparent 70%)"><div style="transform:scaleY(-1);transform-origin:50% 0">{logo3d("s00-rlogo", 520, 6)}</div></div>
   <div id="s00-streak" class="abs" style="left:-200px;right:-200px;top:498px;height:6px;opacity:0;border-radius:3px;
-    background:linear-gradient(90deg,transparent,rgba(190,255,220,.0) 20%,rgba(235,255,245,.95) 50%,rgba(190,255,220,0) 80%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.35)"></div>
+    background:linear-gradient(90deg,transparent,rgba(38,116,90,0) 18%,rgba(38,116,90,.9) 40%,#D9AE52 50%,rgba(38,116,90,.9) 60%,rgba(38,116,90,0) 82%,transparent);box-shadow:0 0 40px 8px rgba(182,217,115,.45)"></div>
   {fx0}{fx1}{fx2}{fx3}
   {qs}
   <div id="s00-fl" class="abs" style="inset:0;background:#fff;opacity:0"></div>
-  <div class="vign"></div>
+  <div class="vign" id="s00-vg"></div>
 </div>"""
     js = f"""
 {LOGO_JS}
@@ -359,10 +374,18 @@ tl.fromTo("#s00-streak",{{opacity:0,scaleX:0.1}},{{opacity:1,scaleX:1,duration:0
 tl.to("#s00-streak",{{opacity:0,scaleX:1.4,duration:0.6,ease:"power2.in"}},1.4);
 live3d(tl,"#s00-logo",1.65,3.0,14,"#s00-logo-sh");
 live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
-// hand over to the question
-tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.85);
-tl.to("#s00-logo",{{z:420,duration:0.5,ease:"power2.in"}},2.85);
-tl.to("#s00-cone",{{opacity:0.45,duration:0.6}},2.85);
+// white studio: rings breathe/rotate, light rays drift
+tl.fromTo("#s00-wh",{{opacity:0}},{{opacity:1,duration:0.5,ease:"power2.out"}},0);
+tl.fromTo("#s00-rings",{{scale:0.86,rotation:-8,transformOrigin:"960px 470px"}},{{scale:1.04,rotation:6,duration:3.4,ease:"power1.out"}},0);
+tl.fromTo(".s00-ray",{{x:-120,opacity:0}},{{x:160,opacity:1,duration:3.2,stagger:0.12,ease:"none"}},0);
+// hand over to the question: the white studio irises closed into the dark
+// circle radius % is of sqrt(w^2+h^2)/sqrt2 (1557 px): 76% just covers the corners from (960, 497)
+tl.fromTo("#s00-wh",{{clipPath:"circle(76% at 50% 46%)"}},{{clipPath:"circle(0% at 50% 46%)",duration:0.6,ease:"power2.inOut",immediateRender:false}},2.3);
+tl.fromTo("#s00-vg",{{opacity:0}},{{opacity:1,duration:0.4,immediateRender:false}},2.6);
+tl.set("#s00-vg",{{opacity:0}},0);
+tl.to(["#s00-lw","#s00-rw","#s00-gl","#s00-floor"],{{opacity:0,duration:0.45,ease:"power2.in"}},2.4);
+tl.to("#s00-logo",{{z:420,duration:0.5,ease:"power2.in"}},2.4);
+tl.to("#s00-cone",{{opacity:0.45,duration:0.6}},2.6);
 {js_q}
 tl.to("#s00-cone",{{opacity:0,duration:0.4}},{S.D - 0.6});  // clean handover: no white flash over the first shot
 """
@@ -1732,25 +1755,25 @@ tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 # ============================================================================= FILM PLAN
 XFADE = 0.6
 PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates (functions kept)
-    ("s00", [], dict(fixed=11.9)),
-    ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
-    ("s02", ["v02"], dict(pre=0.5, post=0.9)),
-    ("s03", ["v03"], dict(pre=0.5, post=1.1)),
-    ("s03b", ["v03b"], dict(pre=0.9, post=1.7)),  # five modules + sub-modules (premium cards)
-    ("s04", ["v04"], dict(pre=0.5, post=1.1)),
-    ("s05", ["v05"], dict(pre=1.0, post=0.7)),
-    ("s06", ["v06"], dict(pre=0.5, post=1.4)),
-    ("s07", ["v07"], dict(pre=0.5, post=1.7)),
-    ("s08", ["v08"], dict(pre=0.5, post=1.7)),
-    ("s09", ["v09"], dict(pre=0.7, post=1.0)),
-    ("s10", ["v10"], dict(pre=0.5, post=1.4)),
+    ("s00", [], dict(fixed=11.1)),
+    ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.6)),
+    ("s02", ["v02"], dict(pre=0.5, post=0.6)),
+    ("s03", ["v03"], dict(pre=0.5, post=0.7)),
+    ("s03b", ["v03b"], dict(pre=0.7, post=1.3)),  # five modules + sub-modules (premium cards)
+    ("s04", ["v04"], dict(pre=0.5, post=0.7)),
+    ("s05", ["v05"], dict(pre=0.8, post=0.7)),
+    ("s06", ["v06"], dict(pre=0.5, post=0.7)),
+    ("s07", ["v07"], dict(pre=0.5, post=1.0)),
+    ("s08", ["v08"], dict(pre=0.5, post=1.0)),
+    ("s09", ["v09"], dict(pre=0.5, post=0.6)),
+    ("s10", ["v10"], dict(pre=0.5, post=0.7)),
     # s13 removed: same figures as the KPI scene (s15)
-    ("s14", ["v14"], dict(pre=0.5, post=1.2)),
+    ("s14", ["v14"], dict(pre=0.5, post=0.8)),
     # s16 removed: same figures as the KPI scene (s15)
-    ("s15", ["v15"], dict(pre=0.6, post=1.8)),  # KPI dan pengukuran (user KPI table)
-    ("s18", ["v18"], dict(pre=0.5, post=1.0)),
-    ("s19", ["v19"], dict(pre=0.7, post=1.5)),
-    ("s20", ["v20"], dict(pre=1.0, post=2.4)),
+    ("s15", ["v15"], dict(pre=0.6, post=1.0)),  # KPI dan pengukuran (user KPI table)
+    ("s18", ["v18"], dict(pre=0.5, post=0.6)),
+    ("s19", ["v19"], dict(pre=0.5, post=0.8)),
+    ("s20", ["v20"], dict(pre=0.8, post=1.6)),
 ]
 
 TEMPLATE = """<!doctype html>

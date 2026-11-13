@@ -22,17 +22,17 @@
           const tl = gsap.timeline({ paused: true });
           const FX = window.SPDFX;
 
-tl.fromTo("#s10-glow",{scale:0.7,opacity:0.6},{scale:1.25,opacity:1,duration:3.798,ease:"sine.inOut"},0);
-tl.fromTo(".s10-rg",{scale:0.6,opacity:0},{scale:1.35,opacity:1,duration:3.798,ease:"power1.out",stagger:0.12},0);
-tl.fromTo(".s10-p",{y:0,opacity:0},{y:(i,e)=>-(+e.dataset.dy),opacity:1,duration:3.798,ease:"none"},0);
-tl.fromTo("#s10-sw",{x:0},{x:3000,duration:1.4,ease:"power2.inOut"},0.464);
-tl.fromTo("#s10-t",{scale:2.4,opacity:0,filter:"blur(16px)"},{scale:1,opacity:1,filter:"blur(0px)",duration:0.45,ease:"expo.out"},0.5640000000000001);
-tl.fromTo("#s10-t",{scale:1},{scale:1.08,duration:3.034,ease:"none",immediateRender:false},1.014);
+tl.fromTo("#s10-glow",{scale:0.7,opacity:0.6},{scale:1.25,opacity:1,duration:3.048,ease:"sine.inOut"},0);
+tl.fromTo(".s10-rg",{scale:0.6,opacity:0},{scale:1.35,opacity:1,duration:3.048,ease:"power1.out",stagger:0.12},0);
+tl.fromTo(".s10-p",{y:0,opacity:0},{y:(i,e)=>-(+e.dataset.dy),opacity:1,duration:3.048,ease:"none"},0);
+tl.fromTo("#s10-sw",{x:0},{x:3000,duration:1.4,ease:"power2.inOut"},0.457);
+tl.fromTo("#s10-t",{scale:2.4,opacity:0,filter:"blur(16px)"},{scale:1,opacity:1,filter:"blur(0px)",duration:0.45,ease:"expo.out"},0.5569999999999999);
+tl.fromTo("#s10-t",{scale:1},{scale:1.08,duration:2.291,ease:"none",immediateRender:false},1.0070000000000001);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s10-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s10-i", { scale: 1 }, { scale: 1.03, duration: 3.798, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 3.798);
+          tl.fromTo("#s10-i", { scale: 1 }, { scale: 1.03, duration: 3.048, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 3.048);
           window.__timelines = window.__timelines || {};
           window.__timelines["s10"] = tl;
         })();

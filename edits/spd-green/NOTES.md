@@ -163,3 +163,17 @@
 - s15 card 06 cues on "pejabat" (was "disewakan", one second before the total took over); its title is one line
   ("Sewaan ruang pejabat", floors moved to the chip) and the long figure is raised to sit level with the other cards.
 - Total 4:31 (natural pace is slower; KPI scene 41 s).
+
+## v15
+- VO evenness: per-line rate incl. pauses ranged 3.7-5.1 syl/s because the TTS left very uneven pauses (15-29% of a
+  line). `scripts/vo_even.py` caps every pause by punctuation ('.?!' 0.40 s, ',;:' 0.24 s, none 0.12 s) -- only
+  silence is cut, with 15 ms crossfades -- then nudges a line's tempo by at most -6%/+8% (atempo). Now 4.2-5.2
+  syl/s (most 4.4-5.0). Source lines in `vo/v14_lines`. Whole-script single-take TTS was tried (one streamed
+  request) but the upstream returns 502 for ~4 min of audio; gemini-3.8-flash-tts skipped words and anglicised
+  "aset/stor"; the 2.5 TTS free daily quota (10) was then spent.
+- Length 4:31 -> 4:00.8: VO tempo 1.10 -> 1.13, scene tails trimmed, intro questions 2.1 -> 1.9 s, pauses capped.
+  The full KPI sentence stays (a shorter one needs a new TTS take).
+- Intro: the MCORP logo now lands in a white studio (soft mint radial, dot grid, slow-rotating emerald rings,
+  diagonal light rays, logo aura, floor shadow, emerald/gold base rule, emerald-gold lens streak); vignette is held
+  back while white; the studio irises closed (clip-path circle 76% -> 0 from 2.3 s) into the dark question beat,
+  with the logo exiting at 2.4 s.

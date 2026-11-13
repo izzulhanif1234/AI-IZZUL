@@ -55,29 +55,29 @@
           const FX = window.SPDFX;
 
 tl.fromTo(".s19-rg",{scale:0.2,opacity:0},{scale:2.2,opacity:1,duration:2.2,stagger:0.12,ease:"power2.in"},0);
-tl.fromTo("#s19-k",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},3.064);
-tl.fromTo("#s19-big",{opacity:0,scale:1.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"expo.out"},4.2090000000000005);
-tl.fromTo("#s19-gd",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"expo.out"},6.255);
-tl.to("#s19-soon",{scale:0.6,opacity:0,duration:0.5,ease:"power3.in"},8.227);
-tl.to("#s19-tun",{opacity:0,duration:0.6},8.327);
+tl.fromTo("#s19-k",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},2.153);
+tl.fromTo("#s19-big",{opacity:0,scale:1.6,filter:"blur(16px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.6,ease:"expo.out"},3.096);
+tl.fromTo("#s19-gd",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"expo.out"},4.875);
+tl.to("#s19-soon",{scale:0.6,opacity:0,duration:0.5,ease:"power3.in"},6.449999999999999);
+tl.to("#s19-tun",{opacity:0,duration:0.6},6.55);
 // SPD 2.0 homepage window
 tl.set(".s19-kv",{opacity:0.12},0);
-tl.fromTo("#s19-win",{opacity:0,scale:0.5,rotationX:30,y:200,transformPerspective:2000},{opacity:1,scale:0.86,rotationX:6,y:0,duration:0.9,ease:"expo.out"},8.427000000000001);
-tl.fromTo("#s19-tag",{opacity:0},{opacity:1,duration:0.4},8.827);
+tl.fromTo("#s19-win",{opacity:0,scale:0.5,rotationX:30,y:200,transformPerspective:2000},{opacity:1,scale:0.86,rotationX:6,y:0,duration:0.9,ease:"expo.out"},6.6499999999999995);
+tl.fromTo("#s19-tag",{opacity:0},{opacity:1,duration:0.4},7.05);
 // scroll down to the Green Dashboard section (sidebar stays put)
-tl.fromTo("#s19-page",{y:0},{y:-560,duration:1.1,ease:"power3.inOut"},9.227);
-tl.fromTo("#s19-side",{y:0},{y:560,duration:1.1,ease:"power3.inOut"},9.227);
-tl.to("#s19-win",{scale:0.9,rotationX:0,duration:1.5,ease:"power2.inOut"},9.227);
-tl.fromTo("#s19-k1",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},12.10);FX.odo(tl,"#s19-k1",12.10,0.9,{stagger:0.05});tl.fromTo("#s19-k2",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},12.64);FX.odo(tl,"#s19-k2",12.64,0.9,{stagger:0.05});tl.fromTo("#s19-k0",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},14.37);FX.odo(tl,"#s19-k0",14.37,0.9,{stagger:0.05});
-tl.to("#s19-win",{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"},13.944999999999999);
-tl.to("#s19-win",{filter:"brightness(0.3) blur(3px)",duration:0.6},16.055);
-tl.fromTo("#s19-end",{opacity:0,scale:1.15},{opacity:1,scale:1,duration:0.6,ease:"expo.out"},16.155);
-tl.to(["#s19-win","#s19-end","#s19-tag"],{opacity:0,duration:0.45},19.925);
+tl.fromTo("#s19-page",{y:0},{y:-560,duration:1.1,ease:"power3.inOut"},7.449999999999999);
+tl.fromTo("#s19-side",{y:0},{y:560,duration:1.1,ease:"power3.inOut"},7.449999999999999);
+tl.to("#s19-win",{scale:0.9,rotationX:0,duration:1.5,ease:"power2.inOut"},7.449999999999999);
+tl.fromTo("#s19-k1",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},9.86);FX.odo(tl,"#s19-k1",9.86,0.9,{stagger:0.05});tl.fromTo("#s19-k2",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},10.36);FX.odo(tl,"#s19-k2",10.36,0.9,{stagger:0.05});tl.fromTo("#s19-k0",{opacity:0.12,y:10},{opacity:1,y:0,duration:0.5,ease:"expo.out"},11.68);FX.odo(tl,"#s19-k0",11.68,0.9,{stagger:0.05});
+tl.to("#s19-win",{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"},11.229);
+tl.to("#s19-win",{filter:"brightness(0.3) blur(3px)",duration:0.6},13.078);
+tl.fromTo("#s19-end",{opacity:0,scale:1.15},{opacity:1,scale:1,duration:0.6,ease:"expo.out"},13.177999999999999);
+tl.to(["#s19-win","#s19-end","#s19-tag"],{opacity:0,duration:0.45},16.015);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s19-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s19-i", { scale: 1 }, { scale: 1.03, duration: 20.375, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 20.375);
+          tl.fromTo("#s19-i", { scale: 1 }, { scale: 1.03, duration: 16.465, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 16.465);
           window.__timelines = window.__timelines || {};
           window.__timelines["s19"] = tl;
         })();

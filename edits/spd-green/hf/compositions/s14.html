@@ -53,32 +53,32 @@
           const FX = window.SPDFX;
 
 tl.fromTo("#s14-m",{opacity:0,x:-300,rotation:-14},{opacity:1,x:0,rotation:-4,duration:0.7,ease:"expo.out"},0.3);
-tl.fromTo("#s14-old",{opacity:0,y:40},{opacity:1,y:0,duration:0.6,ease:"expo.out"},2.973);
-FX.odo(tl,"#s14-old",3.023,1.0);
-tl.fromTo("#s14-b",{opacity:0,y:300,rotation:10},{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"},4.855);
-tl.fromTo("#s14-las",{y:0},{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"},8.445);
-tl.fromTo("#s14-strike",{scaleX:0},{scaleX:1,duration:0.45,ease:"expo.inOut"},6.7909999999999995);
-FX.draw(tl,"#s14-arp",6.891,0.4,0);
-tl.fromTo("#s14-new",{opacity:0,y:50},{opacity:1,y:0,duration:0.7,ease:"expo.out"},7.091);
-FX.odo(tl,"#s14-new",7.091,1.1);
-FX.bloom(tl,"#s14-bl",7.391,1);
-FX.uline(tl,"#s14-ul",7.5409999999999995);
+tl.fromTo("#s14-old",{opacity:0,y:40},{opacity:1,y:0,duration:0.6,ease:"expo.out"},3.058);
+FX.odo(tl,"#s14-old",3.108,1.0);
+tl.fromTo("#s14-b",{opacity:0,y:300,rotation:10},{opacity:1,y:0,rotation:2,duration:0.7,ease:"expo.out"},5.0040000000000004);
+tl.fromTo("#s14-las",{y:0},{y:490,duration:0.8,yoyo:true,repeat:1,ease:"power1.inOut"},8.087000000000002);
+tl.fromTo("#s14-strike",{scaleX:0},{scaleX:1,duration:0.45,ease:"expo.inOut"},6.6579999999999995);
+FX.draw(tl,"#s14-arp",6.758,0.4,0);
+tl.fromTo("#s14-new",{opacity:0,y:50},{opacity:1,y:0,duration:0.7,ease:"expo.out"},6.958);
+FX.odo(tl,"#s14-new",6.958,1.1);
+FX.bloom(tl,"#s14-bl",7.258,1);
+FX.uline(tl,"#s14-ul",7.4079999999999995);
 // phone: QR scan -> asset found (dummy record)
-tl.fromTo("#s14-ph",{opacity:0,x:260,rotation:8},{opacity:1,x:0,rotation:-3,duration:0.8,ease:"expo.out"},4.955);
-tl.fromTo("#s14-qr",{scale:0.8,opacity:0.5},{scale:1,opacity:1,duration:0.6,ease:"power2.out"},5.255);
-tl.fromTo("#s14-scl",{y:0},{y:250,duration:0.7,yoyo:true,repeat:1,ease:"sine.inOut"},5.555000000000001);
-tl.to("#s14-scl",{opacity:0,duration:0.15},6.955);
-tl.fromTo("#s14-brk",{stroke:"#ffffff",scale:1},{stroke:"#44ff88",scale:0.92,duration:0.25,ease:"power2.out"},6.955);
-tl.fromTo("#s14-res",{opacity:0,y:160},{opacity:1,y:0,duration:0.55,ease:"expo.out"},7.155);
-tl.fromTo("#s14-sv",{opacity:0,y:20},{opacity:1,y:0,duration:0.6,ease:"expo.out"},9.545);
-FX.odo(tl,"#s14-sv",9.594999999999999,1.0);
-tl.to(["#s14-m","#s14-b","#s14-ph"],{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"},10.553999999999998);
-tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{opacity:0,y:-30,duration:0.4,stagger:0.03,ease:"power3.in"},10.604);
+tl.fromTo("#s14-ph",{opacity:0,x:260,rotation:8},{opacity:1,x:0,rotation:-3,duration:0.8,ease:"expo.out"},5.104);
+tl.fromTo("#s14-qr",{scale:0.8,opacity:0.5},{scale:1,opacity:1,duration:0.6,ease:"power2.out"},5.404);
+tl.fromTo("#s14-scl",{y:0},{y:250,duration:0.7,yoyo:true,repeat:1,ease:"sine.inOut"},5.704000000000001);
+tl.to("#s14-scl",{opacity:0,duration:0.15},7.104);
+tl.fromTo("#s14-brk",{stroke:"#ffffff",scale:1},{stroke:"#44ff88",scale:0.92,duration:0.25,ease:"power2.out"},7.104);
+tl.fromTo("#s14-res",{opacity:0,y:160},{opacity:1,y:0,duration:0.55,ease:"expo.out"},7.304);
+tl.fromTo("#s14-sv",{opacity:0,y:20},{opacity:1,y:0,duration:0.6,ease:"expo.out"},9.187000000000001);
+FX.odo(tl,"#s14-sv",9.237,1.0);
+tl.to(["#s14-m","#s14-b","#s14-ph"],{y:-700,duration:0.5,stagger:0.05,ease:"power3.in"},9.798);
+tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{opacity:0,y:-30,duration:0.4,stagger:0.03,ease:"power3.in"},9.848);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s14-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s14-i", { scale: 1 }, { scale: 1.03, duration: 11.104, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 11.104);
+          tl.fromTo("#s14-i", { scale: 1 }, { scale: 1.03, duration: 10.348, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 10.348);
           window.__timelines = window.__timelines || {};
           window.__timelines["s14"] = tl;
         })();

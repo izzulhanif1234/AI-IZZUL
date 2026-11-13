@@ -65,17 +65,17 @@ tl.fromTo("#s01-vw",{scale:1},{scale:1.06,duration:2.8,ease:"none",immediateRend
 // freeze: flash, hold, slow push + desaturate, chalk doodles draw
 tl.set("#s01-fr",{opacity:1},5.867);
 tl.fromTo("#s01-flash",{opacity:0.35},{opacity:0,duration:0.35,immediateRender:false},5.867);
-tl.fromTo("#s01-fr",{scale:1.06,filter:"grayscale(0) brightness(1)"},{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:9.544,ease:"none"},5.867);
+tl.fromTo("#s01-fr",{scale:1.06,filter:"grayscale(0) brightness(1)"},{scale:1.16,filter:"grayscale(.7) brightness(.75)",duration:8.085,ease:"none"},5.867);
 tl.to("#s01-dim",{opacity:1,duration:0.6},6.017);
 FX.draw(tl,".s01-d",5.967,0.5,0.18);
 tl.fromTo("#s01-q",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.35,ease:"back.out(2)"},6.167);
-FX.words(tl,".s01-a > span",6.49);
-FX.words(tl,".s01-b > span",7.981000000000001);
-FX.words(tl,".s01-c > span",10.380999999999998,0.07);
+FX.words(tl,".s01-a > span",6.4430000000000005);
+FX.words(tl,".s01-b > span",7.705);
+FX.words(tl,".s01-c > span",9.687999999999999,0.07);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s01-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.set({}, {}, 15.411);
+          tl.set({}, {}, 13.952);
           window.__timelines = window.__timelines || {};
           window.__timelines["s01"] = tl;
         })();
