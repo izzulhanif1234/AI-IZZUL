@@ -16,9 +16,9 @@ Untuk Veo / Google Flow / mana-mana penjana video AI. Setiap klip 4–5 saat, 16
 5. **Risiko kehilangan dokumen**
    > A single paper document slipping off a messy pile of files and falling into a gap behind a filing cabinet, dust in a beam of light
 6. **Kos operasi tinggi** (kos tenaga kerja)
-   > A quiet Malaysian government office in the late evening, two or three staff still at their desks manually sorting, stamping and filing stacks of paper forms, piles of files beside them, a wall clock showing past 6 pm, most desks empty, faces not visible or out of focus, slow dolly
+   > Close, intimate shot of a single office desk in a small Malaysian government office, one staff member seen from behind, buried in tall stacks of paper files, manually stamping and signing forms one by one, a wall clock above showing the time racing in time-lapse, evening light through the window, slow push-in
 
    Alternatif:
-   > One office staff member, seen from behind, at a desk buried in tall stacks of paper files, stamping and signing forms one by one, a wall clock behind showing the time moving fast in time-lapse, evening light through the window, slow push-in
+   > Medium shot of two facing desks in a small office corner, two staff (faces not visible) passing the same thick paper file back and forth, checking and stamping, piles of forms on both desks, a wall clock behind them, late afternoon light, slow dolly
 
 Bila dah jana, hantar fail video (MP4) dan aku ganti doodle dengan klip ni (nombor dan tajuk kekal).
