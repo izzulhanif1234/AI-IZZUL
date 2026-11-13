@@ -7,12 +7,17 @@
  {
   "id": "v02",
   "scene": "S02",
-  "text": "Memperkenalkan Sistem Pengurusan Data Bersepadu, atau SPD. Inovasi digital Perbadanan Melaka ke arah pengurusan yang hijau dan lestari."
+  "text": "Memperkenalkan Sistem Pengurusan Data, atau SPD. Inovasi digital Perbadanan Melaka ke arah pengurusan yang hijau dan lestari."
  },
  {
   "id": "v03",
   "scene": "S03",
-  "text": "SPD merupakan inisiatif transformasi digital M-Corp yang mengintegrasikan maklumat tanah, bangunan, penyewaan, penilaian aset dan dokumen hak milik dalam satu platform berpusat. Ia bukan sahaja meningkatkan kecekapan pengurusan, malah menyokong agenda hijau dan kelestarian organisasi."
+  "text": "SPD menghimpunkan lima modul utama, iaitu aset tak alih, aset alih, pengurusan stor, modal insan dan pentadbiran, dalam satu platform berpusat. Ia bukan sahaja meningkatkan kecekapan, malah menyokong agenda hijau dan kelestarian organisasi."
+ },
+ {
+  "id": "v03b",
+  "scene": "S03b",
+  "text": "Setiap modul dilengkapi fungsi tersendiri: pendaftaran dan carian hak milik tanah, pemeriksaan serta pelupusan aset alih, permohonan dan baki stok, rekod latihan dan kakitangan, sehinggalah kawalan pengguna dan keselamatan data."
  },
  {
   "id": "v04",
@@ -27,42 +32,27 @@
  {
   "id": "v06",
   "scene": "S06",
-  "text": "Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik M-Corp di seluruh negeri Melaka, berserta ringkasan aset alih, aset tak alih, sewaan dan stor dalam satu paparan bersepadu."
+  "text": "Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik M-Corp di seluruh negeri Melaka, berserta ringkasan aset alih, aset tak alih, sewaan dan modal insan dalam satu paparan."
  },
  {
   "id": "v07",
   "scene": "S07",
-  "text": "Bagi aset tak alih, pengguna hanya perlu menaip nama lokasi. Rekod premis, nombor lot, status hak milik dan koordinat dipaparkan serta-merta, lengkap dengan peta lokasi dan dokumen hak milik digital."
+  "text": "Bagi aset tak alih, pengguna hanya perlu menaip nama lokasi. Rekod premis, nombor lot, status hak milik dan koordinat dipaparkan serta-merta, berserta komponen premis dan status sewaannya. Dokumen hak milik seperti geran dan pelan pula boleh dibuka terus dalam sistem."
  },
  {
   "id": "v08",
   "scene": "S08",
-  "text": "Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barcode. Pengurusan stor memantau permohonan serta baki stok secara langsung. Modal insan menguruskan rekod berkaitan kakitangan, manakala modul pentadbiran mengawal capaian pengguna sistem."
+  "text": "Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barcode. Pengurusan stor memantau permohonan serta baki stok secara langsung. Modal insan menguruskan rekod latihan dan senarai kakitangan, manakala modul pentadbiran mengawal capaian pengguna sistem."
  },
  {
   "id": "v09",
   "scene": "S09",
-  "text": "Setiap modul menyumbang kepada impak hijau melalui pengurangan dokumen fizikal, bahan cetakan, fail, dan keperluan ruang arkib."
+  "text": "Setiap modul menyumbang kepada impak hijau melalui pengurangan penggunaan kertas, pendigitalan dokumen aset, pengurangan masa pencarian dokumen, pengurangan percetakan, dan pengurangan penggunaan ruang arkib."
  },
  {
   "id": "v10",
   "scene": "S10",
   "text": "Inilah impak SPD."
- },
- {
-  "id": "v11",
-  "scene": "S11",
-  "text": "Carian dan semakan rekod kini lebih pantas, manakala keperluan tenaga kerja dianggarkan berkurang daripada lapan belas kepada sembilan orang."
- },
- {
-  "id": "v12",
-  "scene": "S12",
-  "text": "Sisa kertas dan bahan cetakan berkurang, pergerakan dokumen dari meja ke meja tidak lagi diperlukan, dan ruang simpanan kini dimanfaatkan untuk tujuan yang lebih produktif."
- },
- {
-  "id": "v13",
-  "scene": "S13",
-  "text": "Tempoh proses permohonan sewaan berjaya dipendekkan daripada empat belas hari kepada tiga hari, menjimatkan sebelas hari bekerja."
  },
  {
   "id": "v14",
@@ -72,17 +62,7 @@
  {
   "id": "v15",
   "scene": "S15",
-  "text": "Secara keseluruhan, anggaran penjimatan kos tenaga kerja mencecah dua ratus tujuh belas ribu, lapan ratus tiga puluh enam ringgit setahun."
- },
- {
-  "id": "v16",
-  "scene": "S16",
-  "text": "Bagi tempoh dua ribu dua puluh satu hingga dua ribu dua puluh lima, permohonan kertas A4 menurun sebanyak dua puluh lima perpuluhan empat peratus, manakala permohonan dakwat pencetak menurun sebanyak tiga puluh sembilan perpuluhan tujuh peratus."
- },
- {
-  "id": "v17",
-  "scene": "S17",
-  "text": "Borang dan fail fizikal kini digantikan dengan rekod digital, dengan bukti pelaksanaan yang jelas, daripada permohonan stok hingga pemeriksaan aset."
+  "text": "Setiap impak diukur dengan jelas. Pembelian kertas berkurang tiga ratus enam belas unit, masa pencarian dokumen turun daripada tiga puluh minit kepada tiga minit, dan penggunaan dakwat berkurang enam puluh sembilan unit. Proses sewaan kini hanya tiga hari, manakala ruang simpanan fail seluas seribu lima ratus lima puluh kaki persegi kini disewakan. Keseluruhannya, penjimatan dan penambahan hasil mencecah seratus tujuh puluh lapan ribu, seratus empat puluh satu ringgit."
  },
  {
   "id": "v18",
@@ -92,7 +72,7 @@
  {
   "id": "v19",
   "scene": "S19",
-  "text": "Dan ini hanyalah permulaan. Akan datang, SPD dua point kosong bersama Green Dashboard, yang mengukur setiap impak hijau secara langsung dan berterusan: kertas, dakwat, masa, tenaga kerja dan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik."
+  "text": "Dan ini hanyalah permulaan. Akan datang, SPD dua point kosong bersama Green Dashboard, yang memantau setiap impak hijau secara langsung: kertas, dakwat, masa carian, ruang simpanan dan penjimatan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik."
  },
  {
   "id": "v20",
