@@ -369,9 +369,8 @@ tl.fromTo("#s00-logo",{{z:-1400,rotationY:-200,rotationX:24,y:-30}},{{z:0,rotati
 tl.fromTo("#s00-rw",{{opacity:0}},{{opacity:1,duration:0.8}},0.9);
 tl.fromTo("#s00-rlogo",{{z:-1400,rotationY:-200,rotationX:-24}},{{z:0,rotationY:-16,rotationX:-4,duration:1.5,ease:"expo.out"}},0.15);
 tl.fromTo("#s00-gl",{{opacity:0,scale:0.5}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},0.9);
-tl.fromTo("#s00-floor",{{opacity:0,scaleX:0.2}},{{opacity:1,scaleX:1,duration:1.0,ease:"expo.out"}},1.0);
-tl.fromTo("#s00-streak",{{opacity:0,scaleX:0.1}},{{opacity:1,scaleX:1,duration:0.35,ease:"power2.out"}},1.05);
-tl.to("#s00-streak",{{opacity:0,scaleX:1.4,duration:0.6,ease:"power2.in"}},1.4);
+// v16: floor rule removed as well (the soft floor shadow on the white studio is enough)
+// v16: the lens streak crossed the logo -> removed (element stays hidden)
 live3d(tl,"#s00-logo",1.65,3.0,14,"#s00-logo-sh");
 live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
 // white studio: rings breathe/rotate, light rays drift
@@ -496,6 +495,8 @@ def s02(S):
     <div id="s02-sw" class="abs" style="inset:0;transform-style:preserve-3d">{sheets}</div>
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
+  <div id="s02-gg" class="abs" style="left:960px;top:330px;width:1180px;height:820px;margin:-410px 0 0 -590px;opacity:0;background:radial-gradient(closest-side,rgba(182,217,115,.34),rgba(182,217,115,.09) 60%,transparent)"></div>
+  <div id="s02-gc" class="abs" style="left:960px;top:330px;width:640px;height:480px;margin:-240px 0 0 -320px;opacity:0;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
   <div id="s02-gl" class="abs" style="left:560px;top:10px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
   <div id="s02-k" class="abs" style="left:0;right:0;top:46px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 436)}</div>
   <div id="s02-mark" class="abs" style="left:0;right:0;top:334px;display:flex;justify-content:center">{SB.spd_mark(230, balanced=True)}</div>
@@ -511,6 +512,8 @@ tl.fromTo("#s02-sw",{{z:-900,rotationY:-14}},{{z:700,rotationY:10,duration:{S.D}
 tl.fromTo(".s02-sh",{{opacity:0.95}},{{opacity:0,duration:0.8,stagger:0.03}},{t_spd - 1.0});
 tl.fromTo("#s02-k",{{opacity:0}},{{opacity:1,duration:0.5}},{max(0.2, t_mem - 0.3)});
 tl.fromTo("#s02-gl",{{opacity:0,scale:0.6}},{{opacity:1,scale:1,duration:1.2,ease:"expo.out"}},{max(0.3, t_mem - 0.1)});
+tl.fromTo(["#s02-gg","#s02-gc"],{{opacity:0,scale:0.5}},{{opacity:1,scale:1,duration:1.4,ease:"expo.out"}},{max(0.3, t_mem - 0.1)});
+tl.to("#s02-gg",{{scale:1.08,duration:2.4,ease:"sine.inOut",yoyo:true,repeat:3}},{max(0.3, t_mem - 0.1) + 1.4});
 tl.fromTo("#s02-logo",{{z:-900,rotationY:-150,rotationX:16}},{{z:0,rotationY:-16,rotationX:4,duration:1.2,ease:"expo.out"}},{max(0.2, t_mem - 0.3)});
 live3d(tl,"#s02-logo",{max(0.2, t_mem - 0.3) + 1.2},{S.D},16,"#s02-logo-sh");
 tl.fromTo("#s02-mark",{{opacity:0,scale:1.6,filter:"blur(20px)"}},{{opacity:1,scale:1,filter:"blur(0px)",duration:0.7,ease:"expo.out"}},{t_spd - 0.15});
@@ -519,7 +522,7 @@ FX.words(tl,".s02-t > span",{t_mem + 0.2},0.07);
 FX.words(tl,".s02-s > span",{t_ino - 0.05},0.05);
 tl.fromTo("#s02-sweep",{{x:0,opacity:0.9}},{{x:2600,opacity:0.9,duration:1.1,ease:"power2.inOut"}},{t_spd + 0.4});
 tl.to("#s02-cam",{{scale:1.3,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
-tl.to(["#s02-mark","#s02-k","#s02-gl",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
+tl.to(["#s02-mark","#s02-k","#s02-gl","#s02-gg","#s02-gc",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
 """
     return html, js
 
@@ -696,6 +699,8 @@ tl.to("#s3b-t{i}",{{scale:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,.35),0 24p
 <div class="F gdark">
   <div id="s3b-bg" class="abs" style="inset:0">
     <div class="abs" style="left:960px;top:560px;width:1520px;height:700px;margin:-350px 0 0 -760px;border-radius:50%;border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25)"></div>
+    <div class="abs" style="left:960px;top:470px;width:1000px;height:760px;margin:-380px 0 0 -500px;background:radial-gradient(closest-side,rgba(182,217,115,.34),rgba(182,217,115,.09) 60%,transparent)"></div>
+    <div class="abs" style="left:960px;top:470px;width:520px;height:420px;margin:-210px 0 0 -260px;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
     <div class="abs" style="left:960px;top:470px;transform:translate(-50%,-50%);text-align:center">
       <img src="{LOGO}" style="width:248px;display:block;margin:auto;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))">
       <div style="display:flex;justify-content:center;margin-top:0px">{SB.spd_mark(130, "#fff", "#B6D973", balanced=True)}</div></div>

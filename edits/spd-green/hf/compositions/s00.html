@@ -59,9 +59,8 @@ tl.fromTo("#s00-logo",{z:-1400,rotationY:-200,rotationX:24,y:-30},{z:0,rotationY
 tl.fromTo("#s00-rw",{opacity:0},{opacity:1,duration:0.8},0.9);
 tl.fromTo("#s00-rlogo",{z:-1400,rotationY:-200,rotationX:-24},{z:0,rotationY:-16,rotationX:-4,duration:1.5,ease:"expo.out"},0.15);
 tl.fromTo("#s00-gl",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:1.2,ease:"expo.out"},0.9);
-tl.fromTo("#s00-floor",{opacity:0,scaleX:0.2},{opacity:1,scaleX:1,duration:1.0,ease:"expo.out"},1.0);
-tl.fromTo("#s00-streak",{opacity:0,scaleX:0.1},{opacity:1,scaleX:1,duration:0.35,ease:"power2.out"},1.05);
-tl.to("#s00-streak",{opacity:0,scaleX:1.4,duration:0.6,ease:"power2.in"},1.4);
+// v16: floor rule removed as well (the soft floor shadow on the white studio is enough)
+// v16: the lens streak crossed the logo -> removed (element stays hidden)
 live3d(tl,"#s00-logo",1.65,3.0,14,"#s00-logo-sh");
 live3d(tl,"#s00-rlogo",1.65,3.0,14,null);
 // white studio: rings breathe/rotate, light rays drift

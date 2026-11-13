@@ -177,3 +177,9 @@
   diagonal light rays, logo aura, floor shadow, emerald/gold base rule, emerald-gold lens streak); vignette is held
   back while white; the studio irises closed (clip-path circle 76% -> 0 from 2.3 s) into the dark question beat,
   with the logo exiting at 2.4 s.
+
+## v16 (final polish)
+- Intro: the emerald-gold lens streak (it crossed the logo at y 498) and the floor rule are no longer animated in;
+  the white studio keeps only the soft floor shadow.
+- s02 title and the s03b backdrop get the same green halo as the s03 orbit core (lime radial .34/.09 + a pale
+  inner core); in s02 it scales in with the logo and breathes gently.
