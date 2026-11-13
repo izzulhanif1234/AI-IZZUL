@@ -1,0 +1,5 @@
+[  0.00 ->   8.92] Pengurusan fail fizikal dan carian secara manual menuntut masa serta tenaga kerja yang tinggi setiap hari.
+[ 10.26 ->  20.86] Memperkenalkan Sistem Pengurusan Data atau SPD, inovasi digital perbadanan Melaka ke arah pengurusan yang hijau dan lestari.
+[ 21.86 ->  35.18] SPD menghimpunkan lima modul utama iaitu aset tak alih, aset alih, pengurusan stor, modal insan dan pentadbiran dalam satu platform berpusat.
+[ 36.20 ->  42.80] Ia bukan sahaja meningkatkan kecekapan, malah menyokong agenda hijau dan kelestarian organisasi.
+language: ms 1.0

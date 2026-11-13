@@ -1,0 +1,430 @@
+{
+ "language": "ms",
+ "language_probability": 0.9995203018188477,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 8.92,
+   "text": "Pengurusan fail fizikal dan carian secara manual menuntut masa serta tenaga kerja yang tinggi setiap hari.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.62,
+     "word": "Pengurusan",
+     "p": 0.99
+    },
+    {
+     "start": 0.62,
+     "end": 0.96,
+     "word": "fail",
+     "p": 0.88
+    },
+    {
+     "start": 0.96,
+     "end": 1.66,
+     "word": "fizikal",
+     "p": 1.0
+    },
+    {
+     "start": 1.66,
+     "end": 2.26,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 2.26,
+     "end": 2.8,
+     "word": "carian",
+     "p": 1.0
+    },
+    {
+     "start": 2.8,
+     "end": 3.4,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 3.4,
+     "end": 3.8,
+     "word": "manual",
+     "p": 1.0
+    },
+    {
+     "start": 3.8,
+     "end": 4.9,
+     "word": "menuntut",
+     "p": 1.0
+    },
+    {
+     "start": 4.9,
+     "end": 5.12,
+     "word": "masa",
+     "p": 1.0
+    },
+    {
+     "start": 5.12,
+     "end": 6.08,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 6.08,
+     "end": 6.44,
+     "word": "tenaga",
+     "p": 1.0
+    },
+    {
+     "start": 6.44,
+     "end": 7.0,
+     "word": "kerja",
+     "p": 1.0
+    },
+    {
+     "start": 7.0,
+     "end": 7.22,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 7.22,
+     "end": 7.74,
+     "word": "tinggi",
+     "p": 1.0
+    },
+    {
+     "start": 7.74,
+     "end": 8.58,
+     "word": "setiap",
+     "p": 1.0
+    },
+    {
+     "start": 8.58,
+     "end": 8.92,
+     "word": "hari.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 10.26,
+   "end": 20.86,
+   "text": "Memperkenalkan Sistem Pengurusan Data atau SPD, inovasi digital perbadanan Melaka ke arah pengurusan yang hijau dan lestari.",
+   "words": [
+    {
+     "start": 10.26,
+     "end": 11.32,
+     "word": "Memperkenalkan",
+     "p": 1.0
+    },
+    {
+     "start": 11.32,
+     "end": 11.98,
+     "word": "Sistem",
+     "p": 0.98
+    },
+    {
+     "start": 11.98,
+     "end": 12.62,
+     "word": "Pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 12.62,
+     "end": 12.92,
+     "word": "Data",
+     "p": 1.0
+    },
+    {
+     "start": 12.92,
+     "end": 13.64,
+     "word": "atau",
+     "p": 1.0
+    },
+    {
+     "start": 13.64,
+     "end": 14.32,
+     "word": "SPD,",
+     "p": 0.99
+    },
+    {
+     "start": 14.66,
+     "end": 15.82,
+     "word": "inovasi",
+     "p": 0.86
+    },
+    {
+     "start": 15.82,
+     "end": 16.26,
+     "word": "digital",
+     "p": 1.0
+    },
+    {
+     "start": 16.26,
+     "end": 17.16,
+     "word": "perbadanan",
+     "p": 0.95
+    },
+    {
+     "start": 17.16,
+     "end": 17.6,
+     "word": "Melaka",
+     "p": 0.99
+    },
+    {
+     "start": 17.6,
+     "end": 18.14,
+     "word": "ke",
+     "p": 1.0
+    },
+    {
+     "start": 18.14,
+     "end": 18.5,
+     "word": "arah",
+     "p": 0.99
+    },
+    {
+     "start": 18.5,
+     "end": 19.02,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 19.02,
+     "end": 19.5,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 19.5,
+     "end": 20.12,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 20.12,
+     "end": 20.34,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 20.34,
+     "end": 20.86,
+     "word": "lestari.",
+     "p": 0.99
+    }
+   ]
+  },
+  {
+   "start": 21.86,
+   "end": 35.18,
+   "text": "SPD menghimpunkan lima modul utama iaitu aset tak alih, aset alih, pengurusan stor, modal insan dan pentadbiran dalam satu platform berpusat.",
+   "words": [
+    {
+     "start": 21.86,
+     "end": 22.4,
+     "word": "SPD",
+     "p": 0.9
+    },
+    {
+     "start": 22.4,
+     "end": 23.94,
+     "word": "menghimpunkan",
+     "p": 1.0
+    },
+    {
+     "start": 23.94,
+     "end": 24.48,
+     "word": "lima",
+     "p": 0.9
+    },
+    {
+     "start": 24.48,
+     "end": 24.82,
+     "word": "modul",
+     "p": 1.0
+    },
+    {
+     "start": 24.82,
+     "end": 25.34,
+     "word": "utama",
+     "p": 1.0
+    },
+    {
+     "start": 25.34,
+     "end": 26.3,
+     "word": "iaitu",
+     "p": 0.93
+    },
+    {
+     "start": 26.3,
+     "end": 26.96,
+     "word": "aset",
+     "p": 0.93
+    },
+    {
+     "start": 26.96,
+     "end": 27.1,
+     "word": "tak",
+     "p": 0.96
+    },
+    {
+     "start": 27.1,
+     "end": 27.48,
+     "word": "alih,",
+     "p": 0.89
+    },
+    {
+     "start": 27.52,
+     "end": 28.32,
+     "word": "aset",
+     "p": 1.0
+    },
+    {
+     "start": 28.32,
+     "end": 28.72,
+     "word": "alih,",
+     "p": 1.0
+    },
+    {
+     "start": 28.74,
+     "end": 29.66,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 29.66,
+     "end": 29.9,
+     "word": "stor,",
+     "p": 0.96
+    },
+    {
+     "start": 30.24,
+     "end": 30.76,
+     "word": "modal",
+     "p": 1.0
+    },
+    {
+     "start": 30.76,
+     "end": 31.14,
+     "word": "insan",
+     "p": 1.0
+    },
+    {
+     "start": 31.14,
+     "end": 31.72,
+     "word": "dan",
+     "p": 0.99
+    },
+    {
+     "start": 31.72,
+     "end": 32.62,
+     "word": "pentadbiran",
+     "p": 1.0
+    },
+    {
+     "start": 32.62,
+     "end": 33.22,
+     "word": "dalam",
+     "p": 1.0
+    },
+    {
+     "start": 33.22,
+     "end": 33.7,
+     "word": "satu",
+     "p": 1.0
+    },
+    {
+     "start": 33.7,
+     "end": 34.18,
+     "word": "platform",
+     "p": 0.99
+    },
+    {
+     "start": 34.18,
+     "end": 35.18,
+     "word": "berpusat.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 36.2,
+   "end": 42.8,
+   "text": "Ia bukan sahaja meningkatkan kecekapan, malah menyokong agenda hijau dan kelestarian organisasi.",
+   "words": [
+    {
+     "start": 35.8,
+     "end": 36.34,
+     "word": "Ia",
+     "p": 1.0
+    },
+    {
+     "start": 36.34,
+     "end": 36.5,
+     "word": "bukan",
+     "p": 1.0
+    },
+    {
+     "start": 36.5,
+     "end": 37.08,
+     "word": "sahaja",
+     "p": 1.0
+    },
+    {
+     "start": 37.08,
+     "end": 37.78,
+     "word": "meningkatkan",
+     "p": 1.0
+    },
+    {
+     "start": 37.78,
+     "end": 38.42,
+     "word": "kecekapan,",
+     "p": 1.0
+    },
+    {
+     "start": 38.58,
+     "end": 39.34,
+     "word": "malah",
+     "p": 1.0
+    },
+    {
+     "start": 39.34,
+     "end": 39.88,
+     "word": "menyokong",
+     "p": 1.0
+    },
+    {
+     "start": 39.88,
+     "end": 40.14,
+     "word": "agenda",
+     "p": 0.97
+    },
+    {
+     "start": 40.14,
+     "end": 40.84,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 40.84,
+     "end": 41.1,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 41.1,
+     "end": 41.84,
+     "word": "kelestarian",
+     "p": 0.99
+    },
+    {
+     "start": 41.84,
+     "end": 42.8,
+     "word": "organisasi.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

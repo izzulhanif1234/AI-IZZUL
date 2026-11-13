@@ -1,0 +1,454 @@
+{
+ "language": "ms",
+ "language_probability": 0.9996304512023926,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 11.58,
+   "text": "SPD telah menerima pengiktirafan hak cipta sejak tahun 2020 dan kini digunapakai sependuhnya sebagai platform utama pengurusan data M-Corp.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.58,
+     "word": "SPD",
+     "p": 0.98
+    },
+    {
+     "start": 0.58,
+     "end": 1.48,
+     "word": "telah",
+     "p": 1.0
+    },
+    {
+     "start": 1.48,
+     "end": 1.98,
+     "word": "menerima",
+     "p": 1.0
+    },
+    {
+     "start": 1.98,
+     "end": 2.94,
+     "word": "pengiktirafan",
+     "p": 0.99
+    },
+    {
+     "start": 2.94,
+     "end": 3.14,
+     "word": "hak",
+     "p": 0.99
+    },
+    {
+     "start": 3.14,
+     "end": 3.54,
+     "word": "cipta",
+     "p": 0.99
+    },
+    {
+     "start": 3.54,
+     "end": 4.08,
+     "word": "sejak",
+     "p": 1.0
+    },
+    {
+     "start": 4.08,
+     "end": 4.36,
+     "word": "tahun",
+     "p": 1.0
+    },
+    {
+     "start": 4.36,
+     "end": 5.14,
+     "word": "2020",
+     "p": 1.0
+    },
+    {
+     "start": 5.14,
+     "end": 6.0,
+     "word": "dan",
+     "p": 0.99
+    },
+    {
+     "start": 6.0,
+     "end": 6.66,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 6.66,
+     "end": 7.46,
+     "word": "digunapakai",
+     "p": 0.98
+    },
+    {
+     "start": 7.46,
+     "end": 8.08,
+     "word": "sependuhnya",
+     "p": 0.85
+    },
+    {
+     "start": 8.08,
+     "end": 8.6,
+     "word": "sebagai",
+     "p": 1.0
+    },
+    {
+     "start": 8.6,
+     "end": 9.06,
+     "word": "platform",
+     "p": 0.98
+    },
+    {
+     "start": 9.06,
+     "end": 9.72,
+     "word": "utama",
+     "p": 1.0
+    },
+    {
+     "start": 9.72,
+     "end": 10.38,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 10.38,
+     "end": 10.64,
+     "word": "data",
+     "p": 1.0
+    },
+    {
+     "start": 10.64,
+     "end": 11.3,
+     "word": "M",
+     "p": 0.35
+    },
+    {
+     "start": 11.3,
+     "end": 11.58,
+     "word": "-Corp.",
+     "p": 0.97
+    }
+   ]
+  },
+  {
+   "start": 11.58,
+   "end": 31.32,
+   "text": "Dan ini hanyalah permulaan. Akan datang SPD 2.0 bersama Green Dashboard yang memantau setiap impak hijau secara langsung, penggunaan kertas, dakwat dan penjimatan kos kerana apa yang diukur dapat diurus dengan lebih baik.",
+   "words": [
+    {
+     "start": 11.58,
+     "end": 12.5,
+     "word": "Dan",
+     "p": 1.0
+    },
+    {
+     "start": 12.5,
+     "end": 12.9,
+     "word": "ini",
+     "p": 0.97
+    },
+    {
+     "start": 12.9,
+     "end": 13.5,
+     "word": "hanyalah",
+     "p": 1.0
+    },
+    {
+     "start": 13.5,
+     "end": 14.38,
+     "word": "permulaan.",
+     "p": 1.0
+    },
+    {
+     "start": 14.42,
+     "end": 15.18,
+     "word": "Akan",
+     "p": 1.0
+    },
+    {
+     "start": 15.18,
+     "end": 15.68,
+     "word": "datang",
+     "p": 1.0
+    },
+    {
+     "start": 15.68,
+     "end": 16.32,
+     "word": "SPD",
+     "p": 0.97
+    },
+    {
+     "start": 16.32,
+     "end": 17.04,
+     "word": "2",
+     "p": 0.97
+    },
+    {
+     "start": 17.04,
+     "end": 17.82,
+     "word": ".0",
+     "p": 1.0
+    },
+    {
+     "start": 17.82,
+     "end": 19.0,
+     "word": "bersama",
+     "p": 1.0
+    },
+    {
+     "start": 19.0,
+     "end": 19.26,
+     "word": "Green",
+     "p": 0.99
+    },
+    {
+     "start": 19.26,
+     "end": 19.92,
+     "word": "Dashboard",
+     "p": 1.0
+    },
+    {
+     "start": 19.92,
+     "end": 20.42,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 20.42,
+     "end": 20.98,
+     "word": "memantau",
+     "p": 1.0
+    },
+    {
+     "start": 20.98,
+     "end": 21.56,
+     "word": "setiap",
+     "p": 1.0
+    },
+    {
+     "start": 21.56,
+     "end": 21.96,
+     "word": "impak",
+     "p": 1.0
+    },
+    {
+     "start": 21.96,
+     "end": 22.44,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 22.44,
+     "end": 22.84,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 22.84,
+     "end": 23.34,
+     "word": "langsung,",
+     "p": 1.0
+    },
+    {
+     "start": 23.5,
+     "end": 24.36,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 24.36,
+     "end": 24.84,
+     "word": "kertas,",
+     "p": 1.0
+    },
+    {
+     "start": 24.96,
+     "end": 25.62,
+     "word": "dakwat",
+     "p": 0.99
+    },
+    {
+     "start": 25.62,
+     "end": 26.12,
+     "word": "dan",
+     "p": 0.98
+    },
+    {
+     "start": 26.12,
+     "end": 26.86,
+     "word": "penjimatan",
+     "p": 0.99
+    },
+    {
+     "start": 26.86,
+     "end": 27.16,
+     "word": "kos",
+     "p": 1.0
+    },
+    {
+     "start": 27.16,
+     "end": 28.06,
+     "word": "kerana",
+     "p": 0.94
+    },
+    {
+     "start": 28.06,
+     "end": 28.38,
+     "word": "apa",
+     "p": 1.0
+    },
+    {
+     "start": 28.38,
+     "end": 28.66,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 28.66,
+     "end": 29.24,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 29.24,
+     "end": 29.7,
+     "word": "dapat",
+     "p": 1.0
+    },
+    {
+     "start": 29.7,
+     "end": 30.4,
+     "word": "diurus",
+     "p": 1.0
+    },
+    {
+     "start": 30.4,
+     "end": 30.6,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 30.6,
+     "end": 31.0,
+     "word": "lebih",
+     "p": 1.0
+    },
+    {
+     "start": 31.0,
+     "end": 31.32,
+     "word": "baik.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 31.78,
+   "end": 41.56,
+   "text": "SPD mendigitalkan proses, mengoptimumkan sumber dan mempercepat penyampaian perkhidmatan ke arah pengurusan yang hijau.",
+   "words": [
+    {
+     "start": 31.78,
+     "end": 32.78,
+     "word": "SPD",
+     "p": 0.98
+    },
+    {
+     "start": 32.78,
+     "end": 34.62,
+     "word": "mendigitalkan",
+     "p": 0.86
+    },
+    {
+     "start": 34.62,
+     "end": 35.1,
+     "word": "proses,",
+     "p": 1.0
+    },
+    {
+     "start": 35.22,
+     "end": 36.36,
+     "word": "mengoptimumkan",
+     "p": 0.99
+    },
+    {
+     "start": 36.36,
+     "end": 36.9,
+     "word": "sumber",
+     "p": 1.0
+    },
+    {
+     "start": 36.9,
+     "end": 37.34,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 37.34,
+     "end": 38.02,
+     "word": "mempercepat",
+     "p": 1.0
+    },
+    {
+     "start": 38.02,
+     "end": 38.82,
+     "word": "penyampaian",
+     "p": 1.0
+    },
+    {
+     "start": 38.82,
+     "end": 39.6,
+     "word": "perkhidmatan",
+     "p": 1.0
+    },
+    {
+     "start": 39.6,
+     "end": 40.04,
+     "word": "ke",
+     "p": 0.99
+    },
+    {
+     "start": 40.04,
+     "end": 40.44,
+     "word": "arah",
+     "p": 1.0
+    },
+    {
+     "start": 40.44,
+     "end": 40.96,
+     "word": "pengurusan",
+     "p": 1.0
+    },
+    {
+     "start": 40.96,
+     "end": 41.24,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 41.24,
+     "end": 41.56,
+     "word": "hijau.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 41.58,
+   "end": 42.7,
+   "text": "Dan lestari.",
+   "words": [
+    {
+     "start": 41.58,
+     "end": 42.0,
+     "word": "Dan",
+     "p": 0.07
+    },
+    {
+     "start": 42.0,
+     "end": 42.7,
+     "word": "lestari.",
+     "p": 0.81
+    }
+   ]
+  }
+ ]
+}

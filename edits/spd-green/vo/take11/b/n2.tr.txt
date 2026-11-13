@@ -1,0 +1,3 @@
+[  0.00 ->  16.68] Setiap modul dilengkapi fungsi tersendiri, pendaftaran dan carian hak milik tanah, pemeriksaan serta pelupusan aset alih, permohonan dan baki stok, rekod latihan dan kaki tangan, sehinggalah kawalan pengguna dan keselamatan data.
+[ 16.68 ->  35.36] Sebelum pelaksanaan SPD, organisasi berdepan enam cabaran utama, penggunaan kertas yang tinggi, keperluan ruang simpanan fizikal yang besar, pertindihan data, carian maklumat yang lambat, risiko kehilangan dokumen serta kos operasi yang tinggi.
+language: ms 1.0

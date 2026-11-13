@@ -1,0 +1,5 @@
+[  0.00 ->  12.92] Setiap impak diukur dengan jelas, pembelian kertas berkurang 316 unit, masa penjarian dokumen turun daripada 30 minit kepada 3 minit, dan penggunaan dakwat berkurang 69 unit.
+[ 13.20 ->  17.80] Proses sewaan dan penjualan kini hanya 3 hari berbanding 14 hari.
+[ 18.06 ->  27.44] Ruang simpanan fail seluas 2,462 kaki persegi telah dikosongkan dan ruang pejabat di arah 10 serta arah 5 kini disewakan.
+[ 27.44 ->  33.40] Keseluruhannya, manfaat bersih mencecah RM276,680.
+language: ms 1.0

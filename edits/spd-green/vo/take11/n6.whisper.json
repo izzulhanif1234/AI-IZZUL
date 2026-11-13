@@ -1,0 +1,418 @@
+{
+ "language": "ms",
+ "language_probability": 0.9998295307159424,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 12.92,
+   "text": "Setiap impak diukur dengan jelas, pembelian kertas berkurang 316 unit, masa penjarian dokumen turun daripada 30 minit kepada 3 minit, dan penggunaan dakwat berkurang 69 unit.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.78,
+     "word": "Setiap",
+     "p": 1.0
+    },
+    {
+     "start": 0.78,
+     "end": 1.16,
+     "word": "impak",
+     "p": 0.98
+    },
+    {
+     "start": 1.16,
+     "end": 1.78,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 1.78,
+     "end": 1.94,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 1.94,
+     "end": 2.42,
+     "word": "jelas,",
+     "p": 1.0
+    },
+    {
+     "start": 2.5,
+     "end": 3.24,
+     "word": "pembelian",
+     "p": 1.0
+    },
+    {
+     "start": 3.24,
+     "end": 3.68,
+     "word": "kertas",
+     "p": 1.0
+    },
+    {
+     "start": 3.68,
+     "end": 4.24,
+     "word": "berkurang",
+     "p": 1.0
+    },
+    {
+     "start": 4.24,
+     "end": 4.94,
+     "word": "316",
+     "p": 1.0
+    },
+    {
+     "start": 4.94,
+     "end": 5.54,
+     "word": "unit,",
+     "p": 1.0
+    },
+    {
+     "start": 5.76,
+     "end": 6.26,
+     "word": "masa",
+     "p": 1.0
+    },
+    {
+     "start": 6.26,
+     "end": 6.8,
+     "word": "penjarian",
+     "p": 0.98
+    },
+    {
+     "start": 6.8,
+     "end": 7.18,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 7.18,
+     "end": 7.64,
+     "word": "turun",
+     "p": 1.0
+    },
+    {
+     "start": 7.64,
+     "end": 8.0,
+     "word": "daripada",
+     "p": 1.0
+    },
+    {
+     "start": 8.0,
+     "end": 8.32,
+     "word": "30",
+     "p": 1.0
+    },
+    {
+     "start": 8.32,
+     "end": 8.86,
+     "word": "minit",
+     "p": 1.0
+    },
+    {
+     "start": 8.86,
+     "end": 9.04,
+     "word": "kepada",
+     "p": 1.0
+    },
+    {
+     "start": 9.04,
+     "end": 9.4,
+     "word": "3",
+     "p": 1.0
+    },
+    {
+     "start": 9.4,
+     "end": 9.88,
+     "word": "minit,",
+     "p": 1.0
+    },
+    {
+     "start": 9.88,
+     "end": 10.3,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 10.3,
+     "end": 10.94,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 10.94,
+     "end": 11.3,
+     "word": "dakwat",
+     "p": 0.98
+    },
+    {
+     "start": 11.3,
+     "end": 11.88,
+     "word": "berkurang",
+     "p": 1.0
+    },
+    {
+     "start": 11.88,
+     "end": 12.34,
+     "word": "69",
+     "p": 1.0
+    },
+    {
+     "start": 12.34,
+     "end": 12.92,
+     "word": "unit.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 13.2,
+   "end": 17.8,
+   "text": "Proses sewaan dan penjualan kini hanya 3 hari berbanding 14 hari.",
+   "words": [
+    {
+     "start": 13.2,
+     "end": 13.96,
+     "word": "Proses",
+     "p": 1.0
+    },
+    {
+     "start": 13.96,
+     "end": 14.44,
+     "word": "sewaan",
+     "p": 0.99
+    },
+    {
+     "start": 14.44,
+     "end": 14.56,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 14.56,
+     "end": 15.12,
+     "word": "penjualan",
+     "p": 1.0
+    },
+    {
+     "start": 15.12,
+     "end": 15.4,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 15.4,
+     "end": 15.54,
+     "word": "hanya",
+     "p": 1.0
+    },
+    {
+     "start": 15.54,
+     "end": 15.9,
+     "word": "3",
+     "p": 0.99
+    },
+    {
+     "start": 15.9,
+     "end": 16.22,
+     "word": "hari",
+     "p": 1.0
+    },
+    {
+     "start": 16.22,
+     "end": 17.04,
+     "word": "berbanding",
+     "p": 0.92
+    },
+    {
+     "start": 17.04,
+     "end": 17.34,
+     "word": "14",
+     "p": 1.0
+    },
+    {
+     "start": 17.34,
+     "end": 17.8,
+     "word": "hari.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 18.06,
+   "end": 27.44,
+   "text": "Ruang simpanan fail seluas 2,462 kaki persegi telah dikosongkan dan ruang pejabat di arah 10 serta arah 5 kini disewakan.",
+   "words": [
+    {
+     "start": 18.06,
+     "end": 18.68,
+     "word": "Ruang",
+     "p": 1.0
+    },
+    {
+     "start": 18.68,
+     "end": 19.14,
+     "word": "simpanan",
+     "p": 1.0
+    },
+    {
+     "start": 19.14,
+     "end": 19.32,
+     "word": "fail",
+     "p": 0.97
+    },
+    {
+     "start": 19.32,
+     "end": 19.88,
+     "word": "seluas",
+     "p": 1.0
+    },
+    {
+     "start": 19.88,
+     "end": 20.0,
+     "word": "2",
+     "p": 0.9
+    },
+    {
+     "start": 20.0,
+     "end": 21.56,
+     "word": ",462",
+     "p": 1.0
+    },
+    {
+     "start": 21.56,
+     "end": 21.94,
+     "word": "kaki",
+     "p": 1.0
+    },
+    {
+     "start": 21.94,
+     "end": 22.34,
+     "word": "persegi",
+     "p": 1.0
+    },
+    {
+     "start": 22.34,
+     "end": 22.72,
+     "word": "telah",
+     "p": 1.0
+    },
+    {
+     "start": 22.72,
+     "end": 23.32,
+     "word": "dikosongkan",
+     "p": 1.0
+    },
+    {
+     "start": 23.32,
+     "end": 23.88,
+     "word": "dan",
+     "p": 0.82
+    },
+    {
+     "start": 23.88,
+     "end": 24.2,
+     "word": "ruang",
+     "p": 1.0
+    },
+    {
+     "start": 24.2,
+     "end": 24.64,
+     "word": "pejabat",
+     "p": 1.0
+    },
+    {
+     "start": 24.64,
+     "end": 24.74,
+     "word": "di",
+     "p": 1.0
+    },
+    {
+     "start": 24.74,
+     "end": 25.02,
+     "word": "arah",
+     "p": 0.88
+    },
+    {
+     "start": 25.02,
+     "end": 25.22,
+     "word": "10",
+     "p": 1.0
+    },
+    {
+     "start": 25.22,
+     "end": 26.06,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 26.06,
+     "end": 26.32,
+     "word": "arah",
+     "p": 1.0
+    },
+    {
+     "start": 26.32,
+     "end": 26.48,
+     "word": "5",
+     "p": 1.0
+    },
+    {
+     "start": 26.48,
+     "end": 27.0,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 27.0,
+     "end": 27.44,
+     "word": "disewakan.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 27.44,
+   "end": 33.4,
+   "text": "Keseluruhannya, manfaat bersih mencecah RM276,680.",
+   "words": [
+    {
+     "start": 27.44,
+     "end": 28.88,
+     "word": "Keseluruhannya,",
+     "p": 0.99
+    },
+    {
+     "start": 28.98,
+     "end": 29.72,
+     "word": "manfaat",
+     "p": 0.98
+    },
+    {
+     "start": 29.72,
+     "end": 30.1,
+     "word": "bersih",
+     "p": 0.99
+    },
+    {
+     "start": 30.1,
+     "end": 30.56,
+     "word": "mencecah",
+     "p": 0.99
+    },
+    {
+     "start": 30.56,
+     "end": 31.62,
+     "word": "RM276",
+     "p": 0.99
+    },
+    {
+     "start": 31.62,
+     "end": 33.4,
+     "word": ",680.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

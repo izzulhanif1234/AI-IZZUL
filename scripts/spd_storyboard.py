@@ -658,8 +658,9 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
         f'<b style="text-align:right">{v}%</b><span style="font:700 14px Plus Jakarta Sans;color:{c};background:{bg};padding:4px 10px;border-radius:20px;text-align:center">{r}</span></div>'
         for n, v, r, c, bg in [("Pentadbiran", 90, "Cemerlang", "#165A44", "#E9F2E7"), ("Kewangan", 85, "Baik", "#26745A", "#EEF5EC"),
                                ("Pengurusan Hartanah", 95, "Cemerlang", "#165A44", "#E9F2E7"), ("Pengurusan Projek", 75, "Memuaskan", "#9b7424", "#F7EFDC")])
-    # real figures from the KPI table: where the RM178,141 comes from
-    parts = [("Sewaan ruang pejabat Aras 10", 167400, "#D9AE52"), ("Dakwat pencetak", 7107, "#26745A"), ("Kertas A4", 3634, "#B6D973")]
+    # real figures from the KPI table (v14 revision): where the RM276,680.20 manfaat bersih comes from
+    parts = [("Sewaan Aras 10 (MITCH)", 167400, "#D9AE52"), ("Sewaan Aras 5 (PMPC)", 98539.20, "#9b7424"),
+             ("Dakwat pencetak", 7107, "#26745A"), ("Kertas A4", 3634, "#B6D973")]
     tot = sum(v for _, v, _ in parts)
     C, acc, arcs = 2 * 3.14159 * 78, 0.0, ""
     for _, v, col in parts:
@@ -668,11 +669,11 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
                  f'stroke-dashoffset="{-acc:.1f}" transform="rotate(-90 100 100)"/>')
         acc += ln
     donut = (f'<svg viewBox="0 0 200 200" style="width:210px;height:210px;flex:none">{arcs}'
-             f'<text x="100" y="106" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="30" fill="#0B2E22">3</text>'
+             f'<text x="100" y="106" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="30" fill="#0B2E22">4</text>'
              f'<text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="12" fill="#6b7a73">SUMBER</text></svg>')
     legend = "".join(f'<div style="display:grid;grid-template-columns:18px 1fr auto 52px;gap:12px;align-items:center;font:600 17px Plus Jakarta Sans;color:#2b3a33;margin:14px 0">'
                      f'<i style="width:18px;height:18px;border-radius:5px;background:{col};display:block"></i><span>{n}</span>'
-                     f'<b style="font-weight:800;color:#0B2E22">RM{v:,}</b><span style="text-align:right;color:#6b7a73">{v * 100 / tot:.0f}%</span></div>'
+                     f'<b style="font-weight:800;color:#0B2E22">RM{f"{v:,.2f}".replace(".00", "")}</b><span style="text-align:right;color:#6b7a73">{v * 100 / tot:.0f}%</span></div>'
                      for n, v, col in parts)
     split = f'<div style="display:flex;align-items:center;gap:30px;margin-top:6px">{donut}<div style="flex:1">{legend}</div></div>'
     gi = GREEN_INDEX
@@ -703,7 +704,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
                       for m in ["Paperless Index", "Carbon Saving Index", "Resource Efficiency Index", "Green Performance Monitoring", "Green Analytics"])
     meter = "".join(f'<div style="flex:1;text-align:center;padding:10px 6px;border-right:1px solid rgba(255,255,255,.15)">'
                     f'<div style="font:800 30px Plus Jakarta Sans;color:#fff">{a}</div><div style="font:600 13px JetBrains Mono;color:#cfe3d6;letter-spacing:.06em">{b}</div></div>'
-                    for a, b in [("316", "UNIT A4 DIJIMAT"), ("69", "UNIT DAKWAT"), ("RM167k", "HASIL SEWAAN"), ("RM178k", "JUMLAH")])
+                    for a, b in [("316", "UNIT A4 DIJIMAT"), ("69", "UNIT DAKWAT"), ("RM266k", "HASIL SEWAAN"), ("RM277k", "MANFAAT BERSIH")])
     page = f"""
 <div style="height:96px;background:#fff;display:flex;align-items:center;padding:0 34px;gap:26px;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;z-index:3">
 <div style="width:30px;height:20px;border-top:4px solid #8E1B33;border-bottom:4px solid #8E1B33;position:relative"><i style="position:absolute;left:0;right:0;top:4px;border-top:4px solid #8E1B33;display:block"></i></div>
@@ -733,8 +734,8 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">{modules}</div>
 <div style="display:grid;grid-template-columns:620px 1fr;gap:24px">
 <div style="background:#fff;border-radius:14px;padding:20px 26px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid #D9AE52">
-<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">JUMLAH PENJIMATAN &amp; PENAMBAHAN HASIL</div>
-<div style="font:800 52px/1.1 Plus Jakarta Sans;color:#9b7424;margin-top:8px">RM178,141</div>{split}</div>
+<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">MANFAAT BERSIH</div>
+<div style="font:800 52px/1.1 Plus Jakarta Sans;color:#9b7424;margin-top:8px">RM276,680.20</div>{split}</div>
 <div style="display:grid;grid-template-columns:1fr;gap:16px">{kh}</div></div>
 <div style="margin-top:24px;font:800 14px JetBrains Mono;letter-spacing:.14em;color:#6b7a73">5 MODUL SPD GREEN DASHBOARD</div>
 <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:12px">{mods_panel}</div>

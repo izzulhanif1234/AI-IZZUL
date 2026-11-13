@@ -1,0 +1,503 @@
+{
+ "language": "ms",
+ "language_probability": 0.9995657801628113,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 16.34,
+   "text": "Bagi aset tak alih, pengguna hanya perlu menaip nama lokasi, rekod premis, nombor lot, status hak milik dan koordinat dipaparkan serta-merta, berserta komponen premis dan status sewaannya.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.52,
+     "word": "Bagi",
+     "p": 0.99
+    },
+    {
+     "start": 0.52,
+     "end": 1.14,
+     "word": "aset",
+     "p": 0.98
+    },
+    {
+     "start": 1.14,
+     "end": 1.28,
+     "word": "tak",
+     "p": 0.99
+    },
+    {
+     "start": 1.28,
+     "end": 1.76,
+     "word": "alih,",
+     "p": 0.94
+    },
+    {
+     "start": 1.82,
+     "end": 2.72,
+     "word": "pengguna",
+     "p": 1.0
+    },
+    {
+     "start": 2.72,
+     "end": 2.96,
+     "word": "hanya",
+     "p": 1.0
+    },
+    {
+     "start": 2.96,
+     "end": 3.4,
+     "word": "perlu",
+     "p": 1.0
+    },
+    {
+     "start": 3.4,
+     "end": 4.08,
+     "word": "menaip",
+     "p": 0.95
+    },
+    {
+     "start": 4.08,
+     "end": 4.5,
+     "word": "nama",
+     "p": 1.0
+    },
+    {
+     "start": 4.5,
+     "end": 5.02,
+     "word": "lokasi,",
+     "p": 1.0
+    },
+    {
+     "start": 5.18,
+     "end": 6.08,
+     "word": "rekod",
+     "p": 1.0
+    },
+    {
+     "start": 6.08,
+     "end": 6.6,
+     "word": "premis,",
+     "p": 0.88
+    },
+    {
+     "start": 7.0,
+     "end": 7.5,
+     "word": "nombor",
+     "p": 1.0
+    },
+    {
+     "start": 7.5,
+     "end": 7.72,
+     "word": "lot,",
+     "p": 0.99
+    },
+    {
+     "start": 7.94,
+     "end": 8.6,
+     "word": "status",
+     "p": 1.0
+    },
+    {
+     "start": 8.6,
+     "end": 8.96,
+     "word": "hak",
+     "p": 1.0
+    },
+    {
+     "start": 8.96,
+     "end": 9.38,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 9.38,
+     "end": 9.92,
+     "word": "dan",
+     "p": 0.95
+    },
+    {
+     "start": 9.92,
+     "end": 10.76,
+     "word": "koordinat",
+     "p": 1.0
+    },
+    {
+     "start": 10.76,
+     "end": 11.52,
+     "word": "dipaparkan",
+     "p": 1.0
+    },
+    {
+     "start": 11.52,
+     "end": 12.16,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 12.16,
+     "end": 12.38,
+     "word": "-merta,",
+     "p": 0.97
+    },
+    {
+     "start": 12.62,
+     "end": 13.6,
+     "word": "berserta",
+     "p": 1.0
+    },
+    {
+     "start": 13.6,
+     "end": 14.24,
+     "word": "komponen",
+     "p": 1.0
+    },
+    {
+     "start": 14.24,
+     "end": 14.82,
+     "word": "premis",
+     "p": 1.0
+    },
+    {
+     "start": 14.82,
+     "end": 15.22,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 15.22,
+     "end": 15.7,
+     "word": "status",
+     "p": 1.0
+    },
+    {
+     "start": 15.7,
+     "end": 16.34,
+     "word": "sewaannya.",
+     "p": 0.99
+    }
+   ]
+  },
+  {
+   "start": 17.36,
+   "end": 22.3,
+   "text": "Dokumen hak milik seperti geran dan plan pula boleh dibuka terus dalam sistem.",
+   "words": [
+    {
+     "start": 17.2,
+     "end": 17.66,
+     "word": "Dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 17.66,
+     "end": 17.9,
+     "word": "hak",
+     "p": 1.0
+    },
+    {
+     "start": 17.9,
+     "end": 18.34,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 18.34,
+     "end": 18.62,
+     "word": "seperti",
+     "p": 1.0
+    },
+    {
+     "start": 18.62,
+     "end": 19.24,
+     "word": "geran",
+     "p": 0.99
+    },
+    {
+     "start": 19.24,
+     "end": 19.46,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 19.46,
+     "end": 19.8,
+     "word": "plan",
+     "p": 0.89
+    },
+    {
+     "start": 19.8,
+     "end": 20.22,
+     "word": "pula",
+     "p": 1.0
+    },
+    {
+     "start": 20.22,
+     "end": 20.78,
+     "word": "boleh",
+     "p": 0.99
+    },
+    {
+     "start": 20.78,
+     "end": 21.28,
+     "word": "dibuka",
+     "p": 1.0
+    },
+    {
+     "start": 21.28,
+     "end": 21.58,
+     "word": "terus",
+     "p": 1.0
+    },
+    {
+     "start": 21.58,
+     "end": 21.9,
+     "word": "dalam",
+     "p": 1.0
+    },
+    {
+     "start": 21.9,
+     "end": 22.3,
+     "word": "sistem.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 22.3,
+   "end": 29.82,
+   "text": "Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barkod.",
+   "words": [
+    {
+     "start": 22.3,
+     "end": 23.94,
+     "word": "Modul",
+     "p": 0.97
+    },
+    {
+     "start": 23.94,
+     "end": 24.46,
+     "word": "aset",
+     "p": 0.67
+    },
+    {
+     "start": 24.46,
+     "end": 24.8,
+     "word": "alih",
+     "p": 0.98
+    },
+    {
+     "start": 24.8,
+     "end": 25.7,
+     "word": "membolehkan",
+     "p": 1.0
+    },
+    {
+     "start": 25.7,
+     "end": 26.2,
+     "word": "rekod",
+     "p": 1.0
+    },
+    {
+     "start": 26.2,
+     "end": 26.38,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 26.38,
+     "end": 27.14,
+     "word": "pemeriksaan",
+     "p": 1.0
+    },
+    {
+     "start": 27.14,
+     "end": 27.98,
+     "word": "dilaksanakan",
+     "p": 1.0
+    },
+    {
+     "start": 27.98,
+     "end": 28.86,
+     "word": "melalui",
+     "p": 1.0
+    },
+    {
+     "start": 28.86,
+     "end": 29.44,
+     "word": "imbasan",
+     "p": 1.0
+    },
+    {
+     "start": 29.44,
+     "end": 29.82,
+     "word": "barkod.",
+     "p": 0.74
+    }
+   ]
+  },
+  {
+   "start": 29.94,
+   "end": 34.9,
+   "text": "Pemerusan stor memantau permohonan serta baki stok secara langsung.",
+   "words": [
+    {
+     "start": 29.94,
+     "end": 30.86,
+     "word": "Pemerusan",
+     "p": 0.91
+    },
+    {
+     "start": 30.86,
+     "end": 31.18,
+     "word": "stor",
+     "p": 0.92
+    },
+    {
+     "start": 31.18,
+     "end": 32.16,
+     "word": "memantau",
+     "p": 1.0
+    },
+    {
+     "start": 32.16,
+     "end": 32.8,
+     "word": "permohonan",
+     "p": 1.0
+    },
+    {
+     "start": 32.8,
+     "end": 33.24,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 33.24,
+     "end": 33.7,
+     "word": "baki",
+     "p": 0.99
+    },
+    {
+     "start": 33.7,
+     "end": 34.04,
+     "word": "stok",
+     "p": 1.0
+    },
+    {
+     "start": 34.04,
+     "end": 34.42,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 34.42,
+     "end": 34.9,
+     "word": "langsung.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 35.28,
+   "end": 43.84,
+   "text": "Modal insan menguruskan rekod latihan dan senarai kaki tangan, manakala modul pentadbiran mengawal capaian pengguna sistem.",
+   "words": [
+    {
+     "start": 35.28,
+     "end": 36.14,
+     "word": "Modal",
+     "p": 1.0
+    },
+    {
+     "start": 36.14,
+     "end": 36.4,
+     "word": "insan",
+     "p": 0.98
+    },
+    {
+     "start": 36.4,
+     "end": 37.5,
+     "word": "menguruskan",
+     "p": 1.0
+    },
+    {
+     "start": 37.5,
+     "end": 37.9,
+     "word": "rekod",
+     "p": 1.0
+    },
+    {
+     "start": 37.9,
+     "end": 38.22,
+     "word": "latihan",
+     "p": 1.0
+    },
+    {
+     "start": 38.22,
+     "end": 38.62,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 38.62,
+     "end": 39.14,
+     "word": "senarai",
+     "p": 1.0
+    },
+    {
+     "start": 39.14,
+     "end": 39.36,
+     "word": "kaki",
+     "p": 0.88
+    },
+    {
+     "start": 39.36,
+     "end": 39.76,
+     "word": "tangan,",
+     "p": 0.99
+    },
+    {
+     "start": 39.76,
+     "end": 40.7,
+     "word": "manakala",
+     "p": 1.0
+    },
+    {
+     "start": 40.7,
+     "end": 41.16,
+     "word": "modul",
+     "p": 1.0
+    },
+    {
+     "start": 41.16,
+     "end": 41.86,
+     "word": "pentadbiran",
+     "p": 1.0
+    },
+    {
+     "start": 41.86,
+     "end": 42.68,
+     "word": "mengawal",
+     "p": 1.0
+    },
+    {
+     "start": 42.68,
+     "end": 43.14,
+     "word": "capaian",
+     "p": 1.0
+    },
+    {
+     "start": 43.14,
+     "end": 43.66,
+     "word": "pengguna",
+     "p": 1.0
+    },
+    {
+     "start": 43.66,
+     "end": 43.84,
+     "word": "sistem.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

@@ -150,3 +150,15 @@
 - s03 orbit centre: the SPD mark sat 43 px right of the logo. The 3D stack box (449 px) was wider than its 360 px
   flex parent, so it shrank while its layers kept the full width and spilled right. `stack3d` roots are now
   `flex:none`; SPD letters and logo measure centred at x = 960 in s02, s03, s03b and s20.
+
+## v14
+- KPI table revised by the user: MANFAAT BERSIH RM276,680.20 = kertas RM3,634 + dakwat RM7,107 + sewaan Aras 10
+  (MITCH) RM167,400 + Aras 5 (PMPC) RM98,539.20; ruang simpanan 1,550 + 912.4 = 2,462.4 kp now rented.
+  s15 cards 05/06 and the total + four chips updated; dashboard (s19) total + 4-part donut updated. v15 rewritten.
+- VO "robotic / unclear": the v12 rubberband time-stretch (up to 1.2x) caused it. All 16 lines regenerated
+  (`vo/take11/b`), no stretching besides the global atempo 1.1 in the mix. Prompt: Malaysian Malay, deep male
+  narrator, calm unhurried steady pace, every syllable clear, numbers slow. n4/n5 needed retakes ("barcode" heard
+  as "bakut"; TTS text for n5 spells it "barkod"). Result: F0 92-98 Hz, 5.4-5.9 syl/s, LID ms 1.0 on every chunk.
+  Every line loudness-matched to -17 LUFS (they ranged -13.6 to -19.2, which also read as uneven delivery).
+- s15 card 06 cues on "pejabat" (was "disewakan", one second before the total took over).
+- Total 4:31 (natural pace is slower; KPI scene 41 s).

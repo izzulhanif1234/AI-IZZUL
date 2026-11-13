@@ -1,0 +1,4 @@
+[  0.00 ->  10.68] SPD telah menerima pengiktirafan hak cipta sejak tahun 2020 dan kini digunapakai sepenuhnya sebagai platform utama pengurusan data M-Corp.
+[ 11.64 ->  28.54] Dan ini hanyalah permulaan. Akan datang SPD 2.0 bersama Green Dashboard yang memantau setiap impak hijau secara langsung, penggunaan kertas, dakwat dan penjimatan kos kerana apa yang diukur dapat diurus dengan lebih baik.
+[ 28.54 ->  38.26] SPD mendigitalkan proses, mengoptimumkan sumber dan mempercepat penyampaian perkhidmatan ke arah pengurusan yang hijau dan lestari.
+language: ms 1.0

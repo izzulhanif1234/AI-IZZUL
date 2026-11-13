@@ -1407,15 +1407,15 @@ tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{{opacity:0,y:-30,duration:0.
 # --------------------------------------------------------------------------- S15 penjimatan kos
 @scene
 def s15(S):
-    """KPI dan pengukuran (user's KPI table): six before -> after cards, then the RM178,141 total and its breakdown.
-    No VO yet: fixed timing."""
+    """KPI dan pengukuran (user's KPI table, v14 revision): six before -> after cards, then MANFAAT BERSIH RM276,680.20
+    and where it comes from (kertas, dakwat, Aras 10 MITCH, Aras 5 PMPC)."""
     K6 = [("Pembelian kertas A4", "1,242", "926", "unit", "Jimat 316 unit · RM3,634"),
           ("Masa pencarian dokumen", "30", "3", "minit", "Jimat 27 minit"),
           ("Pencetakan dokumen (dakwat)", "174", "105", "unit", "Jimat 69 unit · RM7,107"),
           ("Proses sewaan &amp; penjualan", "14", "3", "hari", "Jimat 11 hari"),
-          ("Ruang simpanan fail", "1,550", "0", "kp", "1,550 kp kini disewakan"),
-          ("Sewaan ruang pejabat Aras 10 (MITCH)", "RM0", "RM4,650", "", "Hasil RM167,400")]
-    kw15 = [S.w("v15", w) for w in ("kertas", "masa", "dakwat", "sewaan", "ruang", "disewakan")]
+          ("Ruang simpanan fail", "2,462.4", "0", "kp", "1,550 + 912.4 kp kini disewakan"),
+          ("Sewaan ruang pejabat Aras 10 &amp; Aras 5", "RM0", "RM265,939.20", "", "MITCH RM167,400 · PMPC RM98,539.20")]
+    kw15 = [S.w("v15", w) for w in ("kertas", "masa", "dakwat", "sewaan", "ruang", "pejabat")]
     cards, js_c = "", ""
     for i, (t, b, a, u, sv) in enumerate(K6):
         x, y = 90 + (i % 3) * 590, 292 + (i // 3) * 300
@@ -1426,10 +1426,10 @@ def s15(S):
                   f'<div style="display:flex;align-items:baseline;gap:14px"><span class="mono" style="font-size:20px;color:var(--lime)">0{i + 1}</span>'
                   f'<span style="font:800 27px/1.15 \'Plus Jakarta Sans\';color:#fff">{t}</span></div>'
                   f'<div style="display:flex;align-items:flex-end;gap:22px;margin-top:20px;height:110px">'
-                  f'<div style="position:relative;font:800 52px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
+                  f'<div style="position:relative;font:800 {52 if len(b) < 6 else 44}px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
                   f'<i class="s15-st" id="s15-st{i}" style="position:absolute;left:-6px;right:-6px;top:52%;height:6px;border-radius:3px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>'
                   f'<svg viewBox="0 0 60 30" style="width:46px;margin-bottom:28px"><path d="M2 15h48M40 5l12 10-12 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'
-                  f'<div id="s15-a{i}" style="font:800 {84 if len(a) < 6 else 70}px \'Plus Jakarta Sans\';color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
+                  f'<div id="s15-a{i}" style="font:800 {84 if len(a) < 6 else (70 if len(a) < 9 else 46)}px \'Plus Jakarta Sans\';color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
                   f'<div style="font:700 26px \'Plus Jakarta Sans\';color:#cfe3d6;margin-bottom:16px">{u}</div></div>'
                   f'<div class="s15-sv" id="s15-s{i}" style="display:inline-block;margin-top:10px;font:700 21px \'Plus Jakarta Sans\';color:#0B2E22;'
                   f'background:{"#e6c06a" if gold else "#B6D973"};padding:7px 16px;border-radius:30px;clip-path:inset(0 100% 0 0 round 30px)">{sv}</div></div>')
@@ -1447,12 +1447,12 @@ def s15(S):
   <div id="s15-grid" class="abs" style="inset:0">{cards}</div>
   <div id="s15-tot" class="abs" style="left:0;right:0;top:300px;text-align:center;opacity:0">
     <div class="bloom" id="s15-bl" style="left:460px;right:460px;top:-60px;height:420px;background:radial-gradient(closest-side,rgba(217,174,82,.35),rgba(217,174,82,.08) 55%,transparent)"></div>
-    <div class="mono" style="position:relative;font-size:28px;letter-spacing:.24em;color:#e6c06a">JUMLAH PENJIMATAN &amp; PENAMBAHAN HASIL</div>
-    <div style="position:relative;display:inline-block;font:800 190px 'Plus Jakarta Sans';margin-top:10px">{odo("RM178,141", cls="odo-gold")}
+    <div class="mono" style="position:relative;font-size:28px;letter-spacing:.24em;color:#e6c06a">MANFAAT BERSIH</div>
+    <div style="position:relative;display:inline-block;font:800 170px 'Plus Jakarta Sans';margin-top:10px">{odo("RM276,680.20", cls="odo-gold")}
       <i class="uline" id="s15-ul" style="bottom:-4px;background:linear-gradient(90deg,rgba(217,174,82,0),#D9AE52 35%,#fff3c8)"></i></div>
-    <div style="position:relative;display:flex;justify-content:center;gap:18px;margin-top:40px">
-      {"".join(f'<div class="s15-bk" style="font:700 30px Plus Jakarta Sans;color:#fff;background:rgba(8,36,26,.8);border:1.5px solid rgba(217,174,82,.6);padding:12px 26px;border-radius:40px"><b style="color:#e6c06a">{v}</b> {l}</div>'
-                for v, l in [("RM3,634", "kertas"), ("RM7,107", "dakwat"), ("RM167,400", "sewaan ruang pejabat")])}</div></div>
+    <div style="position:relative;display:flex;justify-content:center;gap:16px;margin-top:40px">
+      {"".join(f'<div class="s15-bk" style="font:700 26px Plus Jakarta Sans;color:#fff;background:rgba(8,36,26,.8);border:1.5px solid rgba(217,174,82,.6);padding:12px 26px;border-radius:40px"><b style="color:#e6c06a">{v}</b> {l}</div>'
+                for v, l in [("RM3,634", "kertas"), ("RM7,107", "dakwat"), ("RM167,400", "Aras 10 (MITCH)"), ("RM98,539.20", "Aras 5 (PMPC)")])}</div></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -1631,7 +1631,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["RM178,141", "−25.4%", "−39.7%"]):
+    for i, v in enumerate(["RM276,680.20", "−25.4%", "−39.7%"]):
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)

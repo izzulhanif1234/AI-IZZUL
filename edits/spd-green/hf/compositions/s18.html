@@ -27,17 +27,17 @@
           const FX = window.SPDFX;
 
 tl.fromTo("#s18-c",{opacity:0,x:-500,rotation:-25},{opacity:1,x:0,rotation:-5,duration:0.8,ease:"expo.out"},0.15);
-FX.words(tl,".s18-h > span",2.045,0.07);
-tl.fromTo("#s18-seal",{opacity:0,scale:3,rotation:-60},{opacity:1,scale:1,rotation:-12,duration:0.3,ease:"power4.in"},2.345);
-tl.fromTo("#s18-c",{x:0},{x:6,duration:0.05,yoyo:true,repeat:3,immediateRender:false},2.645);
-tl.fromTo("#s18-a",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},3.9750000000000005);
-tl.fromTo("#s18-b",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},7.686999999999999);
-tl.to("#s18-i .F > *",{opacity:0,duration:0.4},11.267);
+FX.words(tl,".s18-h > span",1.9000000000000001,0.07);
+tl.fromTo("#s18-seal",{opacity:0,scale:3,rotation:-60},{opacity:1,scale:1,rotation:-12,duration:0.3,ease:"power4.in"},2.2);
+tl.fromTo("#s18-c",{x:0},{x:6,duration:0.05,yoyo:true,repeat:3,immediateRender:false},2.5);
+tl.fromTo("#s18-a",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},3.9640000000000004);
+tl.fromTo("#s18-b",{opacity:0,x:80},{opacity:1,x:0,duration:0.5,ease:"expo.out"},7.918);
+tl.to("#s18-i .F > *",{opacity:0,duration:0.4},11.573);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s18-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s18-i", { scale: 1 }, { scale: 1.03, duration: 11.667, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 11.667);
+          tl.fromTo("#s18-i", { scale: 1 }, { scale: 1.03, duration: 11.973, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 11.973);
           window.__timelines = window.__timelines || {};
           window.__timelines["s18"] = tl;
         })();

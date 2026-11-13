@@ -1,0 +1,6 @@
+[  0.00 ->  16.34] Bagi aset tak alih, pengguna hanya perlu menaip nama lokasi, rekod premis, nombor lot, status hak milik dan koordinat dipaparkan serta-merta, berserta komponen premis dan status sewaannya.
+[ 17.36 ->  22.30] Dokumen hak milik seperti geran dan plan pula boleh dibuka terus dalam sistem.
+[ 22.30 ->  29.82] Modul aset alih membolehkan rekod dan pemeriksaan dilaksanakan melalui imbasan barkod.
+[ 29.94 ->  34.90] Pemerusan stor memantau permohonan serta baki stok secara langsung.
+[ 35.28 ->  43.84] Modal insan menguruskan rekod latihan dan senarai kaki tangan, manakala modul pentadbiran mengawal capaian pengguna sistem.
+language: ms 1.0

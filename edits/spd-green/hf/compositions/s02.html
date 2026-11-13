@@ -34,24 +34,24 @@ function live3d(tl, sel, t0, t1, amp, sheen){
 }
 
 // camera dolly through the paper swarm
-tl.fromTo("#s02-sw",{z:-900,rotationY:-14},{z:700,rotationY:10,duration:10.738,ease:"power1.inOut"},0);
-tl.fromTo(".s02-sh",{opacity:0.95},{opacity:0,duration:0.8,stagger:0.03},2.336);
-tl.fromTo("#s02-k",{opacity:0},{opacity:1,duration:0.5},0.2);
-tl.fromTo("#s02-gl",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:1.2,ease:"expo.out"},0.4);
-tl.fromTo("#s02-logo",{z:-900,rotationY:-150,rotationX:16},{z:0,rotationY:-16,rotationX:4,duration:1.2,ease:"expo.out"},0.2);
-live3d(tl,"#s02-logo",1.4,10.738,16,"#s02-logo-sh");
-tl.fromTo("#s02-mark",{opacity:0,scale:1.6,filter:"blur(20px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.7,ease:"expo.out"},3.186);
-tl.fromTo("#s02-mark svg",{rotation:-140,scale:0},{rotation:28,scale:1,duration:0.8,ease:"back.out(2)"},3.436);
-FX.words(tl,".s02-t > span",0.7,0.07);
-FX.words(tl,".s02-s > span",4.414000000000001,0.05);
-tl.fromTo("#s02-sweep",{x:0,opacity:0.9},{x:2600,opacity:0.9,duration:1.1,ease:"power2.inOut"},3.7359999999999998);
-tl.to("#s02-cam",{scale:1.3,opacity:0,duration:0.5,ease:"power2.in"},10.238);
-tl.to(["#s02-mark","#s02-k","#s02-gl",".s02-t",".s02-s"],{opacity:0,y:-30,duration:0.4,ease:"power2.in"},10.288);
+tl.fromTo("#s02-sw",{z:-900,rotationY:-14},{z:700,rotationY:10,duration:11.545,ease:"power1.inOut"},0);
+tl.fromTo(".s02-sh",{opacity:0.95},{opacity:0,duration:0.8,stagger:0.03},2.618);
+tl.fromTo("#s02-k",{opacity:0},{opacity:1,duration:0.5},0.24500000000000005);
+tl.fromTo("#s02-gl",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:1.2,ease:"expo.out"},0.44500000000000006);
+tl.fromTo("#s02-logo",{z:-900,rotationY:-150,rotationX:16},{z:0,rotationY:-16,rotationX:4,duration:1.2,ease:"expo.out"},0.24500000000000005);
+live3d(tl,"#s02-logo",1.445,11.545,16,"#s02-logo-sh");
+tl.fromTo("#s02-mark",{opacity:0,scale:1.6,filter:"blur(20px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:0.7,ease:"expo.out"},3.468);
+tl.fromTo("#s02-mark svg",{rotation:-140,scale:0},{rotation:28,scale:1,duration:0.8,ease:"back.out(2)"},3.718);
+FX.words(tl,".s02-t > span",0.7450000000000001,0.07);
+FX.words(tl,".s02-s > span",4.495,0.05);
+tl.fromTo("#s02-sweep",{x:0,opacity:0.9},{x:2600,opacity:0.9,duration:1.1,ease:"power2.inOut"},4.018);
+tl.to("#s02-cam",{scale:1.3,opacity:0,duration:0.5,ease:"power2.in"},11.045);
+tl.to(["#s02-mark","#s02-k","#s02-gl",".s02-t",".s02-s"],{opacity:0,y:-30,duration:0.4,ease:"power2.in"},11.095);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s02-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s02-i", { scale: 1 }, { scale: 1.03, duration: 10.738, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 10.738);
+          tl.fromTo("#s02-i", { scale: 1 }, { scale: 1.03, duration: 11.545, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 11.545);
           window.__timelines = window.__timelines || {};
           window.__timelines["s02"] = tl;
         })();

@@ -1,0 +1,398 @@
+{
+ "language": "ms",
+ "language_probability": 0.9990159273147583,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 15.48,
+   "text": "Setiap modul dilengkapi fungsi tersendiri, pendaftaran dan carian hak milik tanah, pemeriksaan serta pelupusan aset alih, permohonan dan baki stok, rekod latihan dan kaki tangan, sehinggalah kawalan pengguna dan keselamatan data.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.76,
+     "word": "Setiap",
+     "p": 0.99
+    },
+    {
+     "start": 0.76,
+     "end": 1.12,
+     "word": "modul",
+     "p": 1.0
+    },
+    {
+     "start": 1.12,
+     "end": 1.88,
+     "word": "dilengkapi",
+     "p": 1.0
+    },
+    {
+     "start": 1.88,
+     "end": 2.32,
+     "word": "fungsi",
+     "p": 1.0
+    },
+    {
+     "start": 2.32,
+     "end": 2.88,
+     "word": "tersendiri,",
+     "p": 1.0
+    },
+    {
+     "start": 3.08,
+     "end": 3.94,
+     "word": "pendaftaran",
+     "p": 1.0
+    },
+    {
+     "start": 3.94,
+     "end": 4.22,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 4.22,
+     "end": 4.68,
+     "word": "carian",
+     "p": 1.0
+    },
+    {
+     "start": 4.68,
+     "end": 4.86,
+     "word": "hak",
+     "p": 1.0
+    },
+    {
+     "start": 4.86,
+     "end": 5.16,
+     "word": "milik",
+     "p": 1.0
+    },
+    {
+     "start": 5.16,
+     "end": 5.56,
+     "word": "tanah,",
+     "p": 1.0
+    },
+    {
+     "start": 5.62,
+     "end": 6.72,
+     "word": "pemeriksaan",
+     "p": 1.0
+    },
+    {
+     "start": 6.72,
+     "end": 7.12,
+     "word": "serta",
+     "p": 1.0
+    },
+    {
+     "start": 7.12,
+     "end": 7.68,
+     "word": "pelupusan",
+     "p": 1.0
+    },
+    {
+     "start": 7.68,
+     "end": 8.04,
+     "word": "aset",
+     "p": 0.99
+    },
+    {
+     "start": 8.04,
+     "end": 8.3,
+     "word": "alih,",
+     "p": 0.96
+    },
+    {
+     "start": 8.5,
+     "end": 9.48,
+     "word": "permohonan",
+     "p": 1.0
+    },
+    {
+     "start": 9.48,
+     "end": 9.64,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 9.64,
+     "end": 9.98,
+     "word": "baki",
+     "p": 0.99
+    },
+    {
+     "start": 9.98,
+     "end": 10.24,
+     "word": "stok,",
+     "p": 1.0
+    },
+    {
+     "start": 10.44,
+     "end": 11.1,
+     "word": "rekod",
+     "p": 0.99
+    },
+    {
+     "start": 11.1,
+     "end": 11.46,
+     "word": "latihan",
+     "p": 1.0
+    },
+    {
+     "start": 11.46,
+     "end": 11.74,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 11.74,
+     "end": 12.04,
+     "word": "kaki",
+     "p": 0.98
+    },
+    {
+     "start": 12.04,
+     "end": 12.44,
+     "word": "tangan,",
+     "p": 0.99
+    },
+    {
+     "start": 12.46,
+     "end": 13.48,
+     "word": "sehinggalah",
+     "p": 1.0
+    },
+    {
+     "start": 13.48,
+     "end": 13.84,
+     "word": "kawalan",
+     "p": 1.0
+    },
+    {
+     "start": 13.84,
+     "end": 14.36,
+     "word": "pengguna",
+     "p": 1.0
+    },
+    {
+     "start": 14.36,
+     "end": 14.68,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 14.68,
+     "end": 15.3,
+     "word": "keselamatan",
+     "p": 1.0
+    },
+    {
+     "start": 15.3,
+     "end": 15.48,
+     "word": "data.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 17.06,
+   "end": 33.54,
+   "text": "Sebelum pelaksanaan SPD, organisasi berdepan enam cabaran utama, penggunaan kertas yang tinggi, keperluan ruang simpanan fizikal yang besar, pertindihan data, carian maklumat yang lambat, risiko kehilangan dokumen serta kos operasi yang tinggi.",
+   "words": [
+    {
+     "start": 17.06,
+     "end": 17.86,
+     "word": "Sebelum",
+     "p": 0.99
+    },
+    {
+     "start": 17.86,
+     "end": 18.46,
+     "word": "pelaksanaan",
+     "p": 1.0
+    },
+    {
+     "start": 18.46,
+     "end": 18.66,
+     "word": "SPD,",
+     "p": 0.99
+    },
+    {
+     "start": 19.0,
+     "end": 20.02,
+     "word": "organisasi",
+     "p": 0.99
+    },
+    {
+     "start": 20.02,
+     "end": 20.64,
+     "word": "berdepan",
+     "p": 1.0
+    },
+    {
+     "start": 20.64,
+     "end": 20.88,
+     "word": "enam",
+     "p": 0.82
+    },
+    {
+     "start": 20.88,
+     "end": 21.38,
+     "word": "cabaran",
+     "p": 1.0
+    },
+    {
+     "start": 21.38,
+     "end": 21.8,
+     "word": "utama,",
+     "p": 1.0
+    },
+    {
+     "start": 21.92,
+     "end": 22.82,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 22.82,
+     "end": 23.18,
+     "word": "kertas",
+     "p": 1.0
+    },
+    {
+     "start": 23.18,
+     "end": 23.34,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 23.34,
+     "end": 23.78,
+     "word": "tinggi,",
+     "p": 1.0
+    },
+    {
+     "start": 23.86,
+     "end": 24.8,
+     "word": "keperluan",
+     "p": 1.0
+    },
+    {
+     "start": 24.8,
+     "end": 25.08,
+     "word": "ruang",
+     "p": 1.0
+    },
+    {
+     "start": 25.08,
+     "end": 25.54,
+     "word": "simpanan",
+     "p": 1.0
+    },
+    {
+     "start": 25.54,
+     "end": 25.94,
+     "word": "fizikal",
+     "p": 1.0
+    },
+    {
+     "start": 25.94,
+     "end": 26.14,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 26.14,
+     "end": 26.36,
+     "word": "besar,",
+     "p": 1.0
+    },
+    {
+     "start": 26.76,
+     "end": 27.42,
+     "word": "pertindihan",
+     "p": 0.99
+    },
+    {
+     "start": 27.42,
+     "end": 27.66,
+     "word": "data,",
+     "p": 1.0
+    },
+    {
+     "start": 27.98,
+     "end": 28.62,
+     "word": "carian",
+     "p": 1.0
+    },
+    {
+     "start": 28.62,
+     "end": 29.12,
+     "word": "maklumat",
+     "p": 1.0
+    },
+    {
+     "start": 29.12,
+     "end": 29.2,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 29.2,
+     "end": 29.64,
+     "word": "lambat,",
+     "p": 1.0
+    },
+    {
+     "start": 29.72,
+     "end": 30.48,
+     "word": "risiko",
+     "p": 1.0
+    },
+    {
+     "start": 30.48,
+     "end": 30.96,
+     "word": "kehilangan",
+     "p": 1.0
+    },
+    {
+     "start": 30.96,
+     "end": 31.48,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 31.48,
+     "end": 32.2,
+     "word": "serta",
+     "p": 0.71
+    },
+    {
+     "start": 32.2,
+     "end": 32.42,
+     "word": "kos",
+     "p": 1.0
+    },
+    {
+     "start": 32.42,
+     "end": 33.0,
+     "word": "operasi",
+     "p": 1.0
+    },
+    {
+     "start": 33.0,
+     "end": 33.14,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 33.14,
+     "end": 33.54,
+     "word": "tinggi.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}
