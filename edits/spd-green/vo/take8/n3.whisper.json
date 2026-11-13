@@ -1,0 +1,302 @@
+{
+ "language": "ms",
+ "language_probability": 0.9991782307624817,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 8.58,
+   "text": "Kini, rekod fizikal digantikan dengan data digital berpusan yang boleh dicapai atas talian dengan lebih cekam.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.56,
+     "word": "Kini,",
+     "p": 1.0
+    },
+    {
+     "start": 0.66,
+     "end": 1.56,
+     "word": "rekod",
+     "p": 0.99
+    },
+    {
+     "start": 1.56,
+     "end": 2.08,
+     "word": "fizikal",
+     "p": 1.0
+    },
+    {
+     "start": 2.08,
+     "end": 2.92,
+     "word": "digantikan",
+     "p": 1.0
+    },
+    {
+     "start": 2.92,
+     "end": 3.26,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 3.26,
+     "end": 3.6,
+     "word": "data",
+     "p": 1.0
+    },
+    {
+     "start": 3.6,
+     "end": 4.06,
+     "word": "digital",
+     "p": 1.0
+    },
+    {
+     "start": 4.06,
+     "end": 4.92,
+     "word": "berpusan",
+     "p": 0.82
+    },
+    {
+     "start": 4.92,
+     "end": 5.16,
+     "word": "yang",
+     "p": 0.69
+    },
+    {
+     "start": 5.16,
+     "end": 5.72,
+     "word": "boleh",
+     "p": 1.0
+    },
+    {
+     "start": 5.72,
+     "end": 6.44,
+     "word": "dicapai",
+     "p": 1.0
+    },
+    {
+     "start": 6.44,
+     "end": 6.9,
+     "word": "atas",
+     "p": 1.0
+    },
+    {
+     "start": 6.9,
+     "end": 7.22,
+     "word": "talian",
+     "p": 1.0
+    },
+    {
+     "start": 7.22,
+     "end": 7.6,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 7.6,
+     "end": 8.08,
+     "word": "lebih",
+     "p": 1.0
+    },
+    {
+     "start": 8.08,
+     "end": 8.58,
+     "word": "cekam.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 9.26,
+   "end": 23.8,
+   "text": "Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik MCOP di seluruh negeri Melaka berserta ringkasan aset alih, aset tak alih, sewaan dan modal insan dalam satu paparan.",
+   "words": [
+    {
+     "start": 9.26,
+     "end": 10.1,
+     "word": "Sebaik",
+     "p": 1.0
+    },
+    {
+     "start": 10.1,
+     "end": 10.24,
+     "word": "log",
+     "p": 0.72
+    },
+    {
+     "start": 10.24,
+     "end": 10.52,
+     "word": "masuk,",
+     "p": 0.92
+    },
+    {
+     "start": 10.9,
+     "end": 11.52,
+     "word": "papan",
+     "p": 0.86
+    },
+    {
+     "start": 11.52,
+     "end": 11.9,
+     "word": "pemuka",
+     "p": 0.98
+    },
+    {
+     "start": 11.9,
+     "end": 12.36,
+     "word": "utama",
+     "p": 1.0
+    },
+    {
+     "start": 12.36,
+     "end": 12.92,
+     "word": "memaparkan",
+     "p": 1.0
+    },
+    {
+     "start": 12.92,
+     "end": 13.56,
+     "word": "taburan",
+     "p": 1.0
+    },
+    {
+     "start": 13.56,
+     "end": 14.08,
+     "word": "premis",
+     "p": 0.98
+    },
+    {
+     "start": 14.08,
+     "end": 14.26,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 14.26,
+     "end": 14.76,
+     "word": "tanah",
+     "p": 1.0
+    },
+    {
+     "start": 14.76,
+     "end": 15.08,
+     "word": "milik",
+     "p": 0.96
+    },
+    {
+     "start": 15.08,
+     "end": 15.5,
+     "word": "MCOP",
+     "p": 0.72
+    },
+    {
+     "start": 15.5,
+     "end": 15.7,
+     "word": "di",
+     "p": 1.0
+    },
+    {
+     "start": 15.7,
+     "end": 16.26,
+     "word": "seluruh",
+     "p": 1.0
+    },
+    {
+     "start": 16.26,
+     "end": 16.62,
+     "word": "negeri",
+     "p": 1.0
+    },
+    {
+     "start": 16.62,
+     "end": 16.98,
+     "word": "Melaka",
+     "p": 1.0
+    },
+    {
+     "start": 16.98,
+     "end": 17.98,
+     "word": "berserta",
+     "p": 0.8
+    },
+    {
+     "start": 17.98,
+     "end": 18.66,
+     "word": "ringkasan",
+     "p": 1.0
+    },
+    {
+     "start": 18.66,
+     "end": 19.04,
+     "word": "aset",
+     "p": 1.0
+    },
+    {
+     "start": 19.04,
+     "end": 19.42,
+     "word": "alih,",
+     "p": 0.97
+    },
+    {
+     "start": 19.46,
+     "end": 20.12,
+     "word": "aset",
+     "p": 1.0
+    },
+    {
+     "start": 20.12,
+     "end": 20.28,
+     "word": "tak",
+     "p": 0.99
+    },
+    {
+     "start": 20.28,
+     "end": 20.68,
+     "word": "alih,",
+     "p": 1.0
+    },
+    {
+     "start": 20.7,
+     "end": 21.52,
+     "word": "sewaan",
+     "p": 0.99
+    },
+    {
+     "start": 21.52,
+     "end": 21.72,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 21.72,
+     "end": 22.08,
+     "word": "modal",
+     "p": 1.0
+    },
+    {
+     "start": 22.08,
+     "end": 22.46,
+     "word": "insan",
+     "p": 1.0
+    },
+    {
+     "start": 22.46,
+     "end": 22.88,
+     "word": "dalam",
+     "p": 1.0
+    },
+    {
+     "start": 22.88,
+     "end": 23.36,
+     "word": "satu",
+     "p": 1.0
+    },
+    {
+     "start": 23.36,
+     "end": 23.8,
+     "word": "paparan.",
+     "p": 0.98
+    }
+   ]
+  }
+ ]
+}

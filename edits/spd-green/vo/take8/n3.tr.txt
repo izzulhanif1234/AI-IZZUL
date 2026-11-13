@@ -1,0 +1,3 @@
+[  0.00 ->   8.58] Kini, rekod fizikal digantikan dengan data digital berpusan yang boleh dicapai atas talian dengan lebih cekam.
+[  9.26 ->  23.80] Sebaik log masuk, papan pemuka utama memaparkan taburan premis dan tanah milik MCOP di seluruh negeri Melaka berserta ringkasan aset alih, aset tak alih, sewaan dan modal insan dalam satu paparan.
+language: ms 1.0

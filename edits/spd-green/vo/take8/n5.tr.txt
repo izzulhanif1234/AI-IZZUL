@@ -1,0 +1,4 @@
+[  0.00 ->  15.08] Setiap modul menyumbang kepada impak hijau melalui pengurangan penggunaan kertas, pendigitalan dokumen aset, pengurangan masa pencarian dokumen, pengurangan percetakan dan pengurangan penggunaan ruang arkif.
+[ 15.80 ->  17.00] Inilah impak SPD.
+[ 17.68 ->  27.84] Semakan aset alih yang sebelum ini mengambil masa 20 hari secara manual kini dapat diselesaikan dalam 2 hari melalui imbasan barcode.
+language: ms 1.0

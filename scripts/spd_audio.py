@@ -586,7 +586,7 @@ def cues(sc):
     c("s19", s.w("v19", "SPD") - 0.1, sub_boom(0.7), 0.6)
     c("s19", s.w("v19", "SPD") - 0.1, dissolve(1.6, 0.35), 0.45)
     c("s19", s.w("v19", "Setiap") - 0.7, paper_whoosh(0.9, 0.35), 0.5)
-    for i, (w, n) in enumerate((("kertas", 1), ("dakwat", 1), ("masa", 1), ("ruang", 1), ("kos", 2))):
+    for i, (w, n) in enumerate((("kertas", 1), ("dakwat", 1), ("karbon", 1), ("pokok", 1), ("kos", 2))):
         c("s19", s.w("v19", w, n) - 0.05, glass(SCALE[3 + i], 0.25), 0.4, -0.4 + 0.2 * i)
     s = S["s20"]
     c("s20", max(0.5, s.w("v20", "SPD") - 0.7), paper_whoosh(0.8, 0.4, False), 0.55)

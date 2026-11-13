@@ -1,0 +1,282 @@
+{
+ "language": "ms",
+ "language_probability": 0.9993057250976562,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 2.34,
+   "text": "Dan ini hanyalah permulaan.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.4,
+     "word": "Dan",
+     "p": 0.96
+    },
+    {
+     "start": 0.4,
+     "end": 0.78,
+     "word": "ini",
+     "p": 0.96
+    },
+    {
+     "start": 0.78,
+     "end": 1.4,
+     "word": "hanyalah",
+     "p": 1.0
+    },
+    {
+     "start": 1.4,
+     "end": 2.34,
+     "word": "permulaan.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 3.42,
+   "end": 7.74,
+   "text": "Akan datang SPD 2.0 bersama Green Dashboard",
+   "words": [
+    {
+     "start": 3.12,
+     "end": 3.58,
+     "word": "Akan",
+     "p": 1.0
+    },
+    {
+     "start": 3.58,
+     "end": 4.06,
+     "word": "datang",
+     "p": 1.0
+    },
+    {
+     "start": 4.06,
+     "end": 4.6,
+     "word": "SPD",
+     "p": 0.97
+    },
+    {
+     "start": 4.6,
+     "end": 5.08,
+     "word": "2",
+     "p": 0.88
+    },
+    {
+     "start": 5.08,
+     "end": 5.68,
+     "word": ".0",
+     "p": 0.99
+    },
+    {
+     "start": 5.68,
+     "end": 6.82,
+     "word": "bersama",
+     "p": 1.0
+    },
+    {
+     "start": 6.82,
+     "end": 7.1,
+     "word": "Green",
+     "p": 0.97
+    },
+    {
+     "start": 7.1,
+     "end": 7.74,
+     "word": "Dashboard",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 7.74,
+   "end": 11.24,
+   "text": "yang memantau setiap impak hijau secara langsung,",
+   "words": [
+    {
+     "start": 7.74,
+     "end": 8.5,
+     "word": "yang",
+     "p": 0.63
+    },
+    {
+     "start": 8.5,
+     "end": 9.12,
+     "word": "memantau",
+     "p": 1.0
+    },
+    {
+     "start": 9.12,
+     "end": 9.56,
+     "word": "setiap",
+     "p": 1.0
+    },
+    {
+     "start": 9.56,
+     "end": 9.92,
+     "word": "impak",
+     "p": 1.0
+    },
+    {
+     "start": 9.92,
+     "end": 10.36,
+     "word": "hijau",
+     "p": 1.0
+    },
+    {
+     "start": 10.36,
+     "end": 10.72,
+     "word": "secara",
+     "p": 1.0
+    },
+    {
+     "start": 10.72,
+     "end": 11.24,
+     "word": "langsung,",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 11.86,
+   "end": 14.82,
+   "text": "kertas, dakwat, anggaran pelepasan karbon,",
+   "words": [
+    {
+     "start": 11.74,
+     "end": 12.2,
+     "word": "kertas,",
+     "p": 1.0
+    },
+    {
+     "start": 12.32,
+     "end": 12.98,
+     "word": "dakwat,",
+     "p": 0.97
+    },
+    {
+     "start": 13.14,
+     "end": 13.84,
+     "word": "anggaran",
+     "p": 1.0
+    },
+    {
+     "start": 13.84,
+     "end": 14.4,
+     "word": "pelepasan",
+     "p": 1.0
+    },
+    {
+     "start": 14.4,
+     "end": 14.82,
+     "word": "karbon,",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 14.9,
+   "end": 17.86,
+   "text": "pokok yang diselamatkan dan penjimatan kos.",
+   "words": [
+    {
+     "start": 14.9,
+     "end": 15.64,
+     "word": "pokok",
+     "p": 1.0
+    },
+    {
+     "start": 15.64,
+     "end": 15.76,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 15.76,
+     "end": 16.48,
+     "word": "diselamatkan",
+     "p": 1.0
+    },
+    {
+     "start": 16.48,
+     "end": 16.92,
+     "word": "dan",
+     "p": 0.96
+    },
+    {
+     "start": 16.92,
+     "end": 17.58,
+     "word": "penjimatan",
+     "p": 0.99
+    },
+    {
+     "start": 17.58,
+     "end": 17.86,
+     "word": "kos.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 18.84,
+   "end": 22.1,
+   "text": "Kerana apa yang diukur dapat diurus dengan lebih baik.",
+   "words": [
+    {
+     "start": 18.64,
+     "end": 19.1,
+     "word": "Kerana",
+     "p": 1.0
+    },
+    {
+     "start": 19.1,
+     "end": 19.32,
+     "word": "apa",
+     "p": 1.0
+    },
+    {
+     "start": 19.32,
+     "end": 19.54,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 19.54,
+     "end": 20.12,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 20.12,
+     "end": 20.6,
+     "word": "dapat",
+     "p": 0.97
+    },
+    {
+     "start": 20.6,
+     "end": 21.34,
+     "word": "diurus",
+     "p": 1.0
+    },
+    {
+     "start": 21.34,
+     "end": 21.5,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 21.5,
+     "end": 21.8,
+     "word": "lebih",
+     "p": 1.0
+    },
+    {
+     "start": 21.8,
+     "end": 22.1,
+     "word": "baik.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

@@ -623,14 +623,17 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
     # FACTS ONLY (user's KPI table, kpi.jpeg); every figure appears once on the dashboard
     kpis = [("PAPERLESS · KERTAS A4", "−25.4%", "1,242 → 926 unit", "316 unit dijimatkan"),
             ("RESOURCE · DAKWAT", "−39.7%", "174 → 105 unit", "69 unit dijimatkan"),
-            ("MASA CARIAN DOKUMEN", "−90%", "30 → 3 minit", "27 minit dijimatkan"),
-            ("RUANG SIMPANAN FAIL", "1,550", "kaki persegi dikosongkan", "kini disewakan (Aras 10)")]
+            # v11: masa carian (efficiency) and ruang (rental income) are not green metrics -> two green indicators that
+            # the dashboard will compute; no invented figures, marked "Akan datang"
+            ("CARBON SAVING · CO₂e", "CO<sub style='font-size:.5em'>2</sub>e", "Anggaran pelepasan karbon dielakkan", "SOON:dikira daripada kertas &amp; cetakan dijimat"),
+            ("POKOK DISELAMATKAN", leaf("width:40px;height:40px;display:inline-block;vertical-align:-4px;margin-right:8px", "#26745A", "#fff") + "Pokok", "Anggaran pokok diselamatkan", "SOON:dikira daripada rim kertas dijimat")]
+    pill = '<span style="display:inline-block;margin-top:6px;font:700 12px Plus Jakarta Sans;color:#165A44;background:#E9F2E7;padding:3px 10px;border-radius:20px">Akan datang</span>'
     kh = "".join(
-        f'<div style="background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid #26745A">'
+        f'<div{" id=" + chr(34) + "kpi-" + str(k) + chr(34) if d.startswith("SOON:") else ""} style="background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid {"#B6D973" if d.startswith("SOON:") else "#26745A"}">'
         f'<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">{a}</div>'
         f'<div style="font:800 48px/1.1 Plus Jakarta Sans;color:#165A44;margin-top:8px">{b}</div>'
         f'<div style="font:600 17px Plus Jakarta Sans;color:#2b3a33;margin-top:6px">{c}</div>'
-        f'<div style="font:500 14px Plus Jakarta Sans;color:#8a958f">{d}</div></div>' for a, b, c, d in kpis)
+        f'<div style="font:500 14px Plus Jakarta Sans;color:#8a958f">{d[5:] + "<br>" + pill if d.startswith("SOON:") else d}</div></div>' for k, (a, b, c, d) in enumerate(kpis))
     # the five Green Dashboard modules (user's proposal): what each measures + status, no invented scores
     mods5 = [("01", "Paperless Index", "Dokumen digital, cetakan dielakkan, % pengurangan kertas", "Akan datang", "#165A44", "#E9F2E7"),
              ("02", "Carbon Saving Index", "Anggaran kg CO₂e dielakkan (helai × faktor pelepasan)", "Akan datang", "#165A44", "#E9F2E7"),
@@ -701,7 +704,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
                       for m in ["Paperless Index", "Carbon Saving Index", "Resource Efficiency Index", "Green Performance Monitoring", "Green Analytics"])
     meter = "".join(f'<div style="flex:1;text-align:center;padding:10px 6px;border-right:1px solid rgba(255,255,255,.15)">'
                     f'<div style="font:800 30px Plus Jakarta Sans;color:#fff">{a}</div><div style="font:600 13px JetBrains Mono;color:#cfe3d6;letter-spacing:.06em">{b}</div></div>'
-                    for a, b in [("316", "UNIT A4 DIJIMAT"), ("69", "UNIT DAKWAT"), ("27 min", "MASA CARIAN"), ("1,550 kp", "RUANG DIBEBAS"), ("RM167k", "HASIL SEWAAN"), ("RM178k", "JUMLAH")])
+                    for a, b in [("316", "UNIT A4 DIJIMAT"), ("69", "UNIT DAKWAT"), ("RM167k", "HASIL SEWAAN"), ("RM178k", "JUMLAH")])
     page = f"""
 <div style="height:96px;background:#fff;display:flex;align-items:center;padding:0 34px;gap:26px;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;z-index:3">
 <div style="width:30px;height:20px;border-top:4px solid #8E1B33;border-bottom:4px solid #8E1B33;position:relative"><i style="position:absolute;left:0;right:0;top:4px;border-top:4px solid #8E1B33;display:block"></i></div>

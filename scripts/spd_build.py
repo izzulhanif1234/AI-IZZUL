@@ -368,8 +368,9 @@ tl.to("#s00-cone",{{opacity:0,duration:0.4}},{S.D - 0.6});  // clean handover: n
 
 
 # --------------------------------------------------------------------------- S01 cold open
-MONTAGE = 8.567
-CUTS = [0, 1.5, 2.7, 4.3, 5.755]
+MONTAGE = 5.867   # v11: light-switch + unlock shots dropped -> blue hanging files, archive shelf, desk
+CUTS = [0, 1.6, 3.067]
+SHOTS = ["KABINET FAIL", "ALMARI ARKIB", "MEJA KERJA"]
 
 
 @scene
@@ -382,6 +383,21 @@ def s01(S):
       muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
   </div>
   <img id="s01-fr" src="{IMG}/s01_freeze.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0">
+  <div id="s01-leak" class="abs" style="left:-900px;top:-100px;width:700px;height:1280px;opacity:0;mix-blend-mode:screen;transform:skewX(-14deg);
+    background:linear-gradient(90deg,transparent,rgba(255,196,120,.55) 40%,rgba(255,240,210,.8) 50%,rgba(182,217,115,.4) 62%,transparent)"></div>
+  <div id="s01-hud" class="abs" style="inset:0">
+    <div class="abs" style="left:56px;top:56px;width:90px;height:90px;border-left:4px solid rgba(255,255,255,.85);border-top:4px solid rgba(255,255,255,.85)"></div>
+    <div class="abs" style="right:56px;top:56px;width:90px;height:90px;border-right:4px solid rgba(255,255,255,.85);border-top:4px solid rgba(255,255,255,.85)"></div>
+    <div class="abs" style="left:56px;bottom:56px;width:90px;height:90px;border-left:4px solid rgba(255,255,255,.85);border-bottom:4px solid rgba(255,255,255,.85)"></div>
+    <div class="abs" style="right:56px;bottom:56px;width:90px;height:90px;border-right:4px solid rgba(255,255,255,.85);border-bottom:4px solid rgba(255,255,255,.85)"></div>
+    <div class="abs" style="left:92px;top:88px;display:flex;align-items:center;gap:14px;padding:10px 20px;border-radius:30px;background:rgba(4,20,14,.55);
+      font:700 26px 'JetBrains Mono',monospace;letter-spacing:3px;color:#fff"><i id="s01-dot" style="width:16px;height:16px;border-radius:50%;background:#ff4d4d;display:block;box-shadow:0 0 14px #ff4d4d"></i>MENCARI FAIL<span id="s01-ell">...</span></div>
+    <div class="abs" style="right:92px;bottom:86px;text-align:right;padding:14px 24px;border-radius:14px;background:rgba(4,20,14,.6)">
+      <div style="font:700 20px 'JetBrains Mono',monospace;letter-spacing:4px;color:#B6D973">MASA CARIAN</div>
+      <div id="s01-sw" style="font:800 74px/1 'JetBrains Mono',monospace;color:#fff;font-variant-numeric:tabular-nums">00:00</div></div>
+    <div class="abs" style="left:92px;bottom:92px;width:760px;height:44px;overflow:hidden;font:700 28px 'Plus Jakarta Sans';letter-spacing:4px;color:#fff">
+      {"".join(f'<div class="s01-tag" style="position:absolute;left:0;top:0;white-space:nowrap;opacity:0;padding:3px 18px;border-radius:22px;background:rgba(4,20,14,.6);line-height:38px"><span style="color:#B6D973">0{i + 1}</span> &nbsp;{t}</div>' for i, t in enumerate(SHOTS))}</div>
+  </div>
   <div id="s01-flash" class="abs" style="inset:0;background:#fff;opacity:0"></div>
   <div id="s01-dim" class="abs" style="inset:0;background:linear-gradient(90deg,rgba(4,20,14,.85),rgba(4,20,14,.25) 60%,rgba(4,20,14,.6));opacity:0"></div>
   <svg id="s01-chalk" viewBox="0 0 1920 1080" class="abs" style="inset:0;filter:url(#s01-cf)" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
@@ -403,8 +419,21 @@ def s01(S):
     # immediateRender:false everywhere: otherwise the LAST-authored from-values (white flash .35) sit on the first shot
     punches = "".join(f'tl.fromTo("#s01-vw",{{scale:1.09}},{{scale:1,duration:0.45,ease:"expo.out",immediateRender:false}},{c});'
                       f'tl.fromTo("#s01-flash",{{opacity:0.18}},{{opacity:0,duration:0.25,ease:"power2.out",immediateRender:false}},{c});' for c in CUTS[1:])
+    whips = "".join(f'tl.fromTo("#s01-vw",{{x:{(-1, 1)[k % 2] * 140},filter:"blur(14px)"}},{{x:0,filter:"blur(0px)",duration:0.32,ease:"expo.out",immediateRender:false}},{c});'
+                    f'tl.fromTo("#s01-leak",{{x:0,opacity:0.95}},{{x:3000,opacity:0.6,duration:0.55,ease:"power2.inOut",immediateRender:false}},{c - 0.18});' for k, c in enumerate(CUTS[1:]))
+    tags = "".join(f'tl.fromTo(tags[{i}],{{y:44,opacity:0}},{{y:0,opacity:1,duration:0.35,ease:"expo.out",immediateRender:false}},{c + 0.1});'
+                   + (f'tl.to(tags[{i}],{{y:-44,opacity:0,duration:0.25,ease:"power2.in"}},{CUTS[i + 1] - 0.05});' if i + 1 < len(CUTS) else "")
+                   for i, c in enumerate(CUTS))
     js = f"""
 {punches}
+{whips}
+const tags=document.querySelectorAll(".s01-tag");
+{tags}
+// viewfinder HUD: blinking REC dot, stopwatch racing (time lost searching), out at the freeze
+tl.fromTo("#s01-hud",{{opacity:0,scale:1.04}},{{opacity:1,scale:1,duration:0.4,ease:"power2.out"}},0);
+tl.fromTo("#s01-dot",{{opacity:1}},{{opacity:0.15,duration:0.35,ease:"steps(1)",repeat:{int(MONTAGE / 0.35)},yoyo:true}},0);
+FX.count(tl,document.getElementById("s01-sw"),0,1800,0.1,{MONTAGE - 0.2},v=>{{v=Math.round(v);return String(Math.floor(v/60)).padStart(2,"0")+":"+String(v%60).padStart(2,"0");}},"power1.in");
+tl.to("#s01-hud",{{opacity:0,duration:0.25}},{MONTAGE - 0.1});
 tl.fromTo("#s01-vw",{{scale:1}},{{scale:1.06,duration:{MONTAGE - CUTS[-1]},ease:"none",immediateRender:false}},{CUTS[-1] + 0.45});
 // freeze: flash, hold, slow push + desaturate, chalk doodles draw
 tl.set("#s01-fr",{{opacity:1}},{MONTAGE});
@@ -442,11 +471,11 @@ def s02(S):
     <div id="s02-sw" class="abs" style="inset:0;transform-style:preserve-3d">{sheets}</div>
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
-  <div id="s02-gl" class="abs" style="left:610px;top:40px;width:700px;height:330px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
-  <div id="s02-k" class="abs" style="left:0;right:0;top:92px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 300)}</div>
-  <div id="s02-mark" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center">{SB.spd_mark(260)}</div>
-  <div class="abs h1" style="left:0;right:0;top:648px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
-  <div class="abs" style="left:0;right:0;top:728px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
+  <div id="s02-gl" class="abs" style="left:560px;top:10px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
+  <div id="s02-k" class="abs" style="left:0;right:0;top:46px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 450)}</div>
+  <div id="s02-mark" class="abs" style="left:0;right:0;top:334px;display:flex;justify-content:center">{SB.spd_mark(230)}</div>
+  <div class="abs h1" style="left:0;right:0;top:612px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
+  <div class="abs" style="left:0;right:0;top:692px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
   <div id="s02-sweep" class="abs" style="left:-600px;top:300px;width:300px;height:340px;background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
   <div class="vign"></div>
 </div>"""
@@ -891,13 +920,18 @@ def s07(S):
              region("s07-hsta", K, 805, 358, 1322, 402) + region("s07-hkoo", K, 1349, 282, 1866, 362) +
              region("s07-hsew", K, 272, 203, 1852, 281, 6) +
              region("s07-hd1", K, 282, 277, 586, 713) + region("s07-hd2", K, 1259, 277, 1563, 713) +
+             f'<div id="s07-btn" class="abs" style="left:{1259 * K:.0f}px;top:{680 * K:.0f}px;width:{51 * K:.0f}px;height:{32 * K:.0f}px;border-radius:{4 * K:.0f}px;'
+             f'background:#1d7a34;color:#fff;font:600 {15 * K:.1f}px Arial;display:flex;align-items:center;justify-content:center;opacity:0;'
+             f'box-shadow:0 0 0 {3 * K:.0f}px rgba(182,217,115,.85),0 0 {18 * K:.0f}px rgba(182,217,115,.9)">Lihat</div>' +
+             f'<div id="s07-rip" class="abs" style="left:{1284 * K - 40:.0f}px;top:{696 * K - 40:.0f}px;width:80px;height:80px;border-radius:50%;'
+             f'border:3px solid #B6D973;opacity:0"></div>' +
              cursor("s07-c"))
     pages = [("s07-p83", f"{UI}/s83.jpg"), ("s07-pm1", f"{UI}/mitc1.jpg"), ("s07-pm2", f"{UI}/mitc2.jpg"),
              ("s07-pm3", f"{UI}/mitc3.jpg"), ("s07-pm4", f"{UI}/mitc4.jpg")]
     html = f"""
 <div class="F demo-bg">
   <div id="s07-cam" class="abs" style="inset:0;perspective:2200px">
-    <div id="s07-in" class="abs" style="inset:0;transform-style:preserve-3d">{browser("s07-b", BWX, BWY, BWW, "spd.pknm.gov.my/asettakalih", pages, extra)}</div>
+    <div id="s07-in" class="abs" style="inset:0;transform-style:preserve-3d">{browser("s07-b", BWX, BWY, BWW, '<span id="s07-u1">spd.pknm.gov.my/asettakalih/pre-reg-rent/1481</span><span id="s07-u2" style="display:none">spd.pknm.gov.my/get/get-pre-asset-attachment-file/4269</span>', pages, extra)}</div>
   </div>
   <div class="callout" id="s07-k1" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH</div><div class="t">Carian: taip nama lokasi</div></div>
   <div class="callout" id="s07-k2" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · MAKLUMAT PREMIS</div><div class="t">Premis · Lot · Hak milik · Koordinat</div></div>
@@ -905,14 +939,15 @@ def s07(S):
   <div class="callout" id="s07-k3" style="left:90px;top:860px;opacity:0"><div class="k">01 · ASET TAK ALIH · HAK MILIK DIGITAL</div><div class="t">Geran, CFO &amp; pelan terus dalam sistem</div></div>
   <div class="vign"></div>
 </div>"""
-    lx, ly = 1310, 695           # "Lihat" on PELAN M&E (mitc3)
+    lx, ly = 1286, 698           # centre of "Lihat" on PELAN M&E (mitc3 page px: 1259-1309 x 680-711)
+    t_clk = max(t_dok + 1.2, S.w("v07", "pelan") - 0.1)   # press "Lihat" as the VO says "pelan"
     js = f"""
 const B="#s07-b", K={K};
 tl.fromTo("#s07-in",{{opacity:0,x:700,rotationY:-30,filter:"blur(14px)"}},{{opacity:1,x:0,rotationY:0,filter:"blur(0px)",duration:0.55,ease:"expo.out"}},0);
 tl.fromTo(B,{{rotationY:1.5,rotationX:1,x:20}},{{rotationY:-1,rotationX:0,x:0,duration:{S.D - 0.45},ease:"sine.inOut"}},0);
 FX.cursor(tl,document.getElementById("s07-c"),[[0,{900 * K},{600 * K}],[{t_pen - 0.15},{sx * K},{sy * K}],[{t_drop + 0.35},{sx * K},{sy * K}],
-  [{t_hov},{ix * K},{iy * K}],[{t_pick + 0.7},{ix * K},{iy * K}],[{t_pick + 1.6},{1100 * K},{330 * K}],[{t_dok + 0.5},{lx * K},{ly * K}],[{t_dok + 1.6},{lx * K},{ly * K}]],
-  [[{t_pen},{sx * K},{sy * K}],[{t_pick},{ix * K},{iy * K}],[{t_dok + 0.9},{lx * K},{ly * K}]],document.getElementById("s07-c-r"));
+  [{t_hov},{ix * K},{iy * K}],[{t_pick + 0.7},{ix * K},{iy * K}],[{t_pick + 1.6},{1100 * K},{330 * K}],[{t_dok + 1.05},{lx * K},{ly * K}],[{t_clk + 0.35},{lx * K},{ly * K}],[{t_clk + 1.3},{(lx + 260) * K},{(ly + 120) * K}]],
+  [[{t_pen},{sx * K},{sy * K}],[{t_pick},{ix * K},{iy * K}],[{t_clk},{lx * K},{ly * K}]],document.getElementById("s07-c-r"));
 tl.fromTo("#s07-k1",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_pen - 0.3});
 tl.to("#s07-k1",{{opacity:0,duration:0.3}},{t_pick + 0.15});
 // zoom to the search box, type MITC, results list opens
@@ -943,8 +978,16 @@ tl.to("#s07-pm2",{{y:-500,opacity:0,filter:"blur(6px)",duration:0.5,ease:"power3
 tl.fromTo("#s07-pm3",{{y:500,opacity:0,filter:"blur(6px)"}},{{y:0,opacity:1,filter:"blur(0px)",duration:0.55,ease:"power3.out"}},{t_dok - 0.2});
 tl.fromTo("#s07-k3",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.45,ease:"expo.out"}},{t_dok});
 FX.ring(tl,"#s07-hd1",{t_dok + 0.1},0.9);
-FX.ring(tl,"#s07-hd2",{t_dok + 0.35},0.75);
-tl.fromTo("#s07-pm4",{{opacity:0,scale:0.92,y:40}},{{opacity:1,scale:1,y:0,duration:0.6,ease:"expo.out"}},{t_dok + 1.15});
+FX.ring(tl,"#s07-hd2",{t_dok + 0.35},{t_clk - t_dok - 0.3:.2f});
+// hover -> press "Lihat" -> the plan grows out of its own thumbnail (no pop-in)
+tl.fromTo("#s07-btn",{{opacity:0}},{{opacity:1,duration:0.2}},{t_clk - 0.3});
+tl.fromTo("#s07-btn",{{scale:1}},{{scale:0.86,duration:0.08,ease:"power2.in",immediateRender:false}},{t_clk});
+tl.to("#s07-btn",{{scale:1,duration:0.18,ease:"back.out(3)"}},{t_clk + 0.08});
+tl.fromTo("#s07-rip",{{opacity:0.95,scale:0.2}},{{opacity:0,scale:1.6,duration:0.5,ease:"power2.out",immediateRender:false}},{t_clk});
+tl.to("#s07-btn",{{opacity:0,duration:0.2}},{t_clk + 0.45});
+tl.set("#s07-u1",{{display:"none"}},{t_clk + 0.2}); tl.set("#s07-u2",{{display:"inline"}},{t_clk + 0.2});
+tl.to("#s07-pm3",{{filter:"brightness(.55) blur(3px)",duration:0.5,ease:"power2.out"}},{t_clk + 0.15});
+tl.fromTo("#s07-pm4",{{opacity:0,scale:0.2,transformOrigin:"73.5% 54.3%",clipPath:"inset(0% 0% 0% 0% round 40px)"}},{{opacity:1,scale:1,clipPath:"inset(0% 0% 0% 0% round 0px)",duration:0.85,ease:"expo.inOut",immediateRender:false}},{t_clk + 0.15});
 tl.to(["#s07-k3"],{{opacity:0,duration:0.3}},{S.D - 0.4});
 tl.to(B,{{scale:0.9,opacity:0,rotationY:-30,x:-500,filter:"blur(10px)",duration:0.4,ease:"power3.in"}},{S.D - 0.4});
 """
@@ -1571,10 +1614,10 @@ def s19(S):
     t_set = S.w("v19", "Setiap")
     t_ker = S.w("v19", "Kertas")
     t_dak = S.w("v19", "Dakwat")
-    t_mas = S.w("v19", "Masa")
-    t_ten = S.w("v19", "ruang")
+    t_kar = S.w("v19", "karbon")
+    t_pok = S.w("v19", "pokok")
     t_kos = S.w("v19", "kos", 2)  # 1st match is "kosong" (dua point kosong)
-    t_kar = S.w("v19", "Kerana")
+    t_krn = S.w("v19", "Kerana")
     t_uru = S.w("v19", "diurus")
     page = sb(SB.spd2_homepage(full=True))
     page = page.replace('<div style="transform:translateY(-0px)">', '<div id="s19-page">', 1)
@@ -1584,7 +1627,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["RM178,141", "−25.4%", "−39.7%", "−90%", "1,550"]):
+    for i, v in enumerate(["RM178,141", "−25.4%", "−39.7%"]):
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
@@ -1606,9 +1649,12 @@ def s19(S):
   <div id="s19-end" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:84px;opacity:0;text-shadow:0 10px 40px rgba(0,0,0,.7)">Apa yang diukur, <span style="color:var(--lime)">dapat diurus.</span></div>
   <div class="vign"></div>
 </div>"""
-    kv = [(1, t_ker), (2, t_dak), (3, t_mas), (4, t_ten), (0, t_kos)]
+    kv = [(1, t_ker), (2, t_dak), (0, t_kos)]
     js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,y:10}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t - 0.1:.2f});'
                     f'FX.odo(tl,"#s19-k{i}",{t - 0.1:.2f},0.9,{{stagger:0.05}});' for i, t in kv)
+    # the two green indicators (no figures yet): lift + lime glow as they are named
+    js_kv += "".join(f'tl.fromTo("#kpi-{k}",{{y:0,boxShadow:"0 2px 10px rgba(0,0,0,.06)"}},{{y:-10,boxShadow:"0 0 0 4px #B6D973, 0 18px 40px rgba(38,116,90,.35)",duration:0.45,ease:"expo.out",immediateRender:false}},{t - 0.1:.2f});'
+                     f'tl.to("#kpi-{k}",{{y:0,boxShadow:"0 2px 10px rgba(0,0,0,.06)",duration:0.6,ease:"power2.inOut"}},{t + 1.2:.2f});' for k, t in ((2, t_kar), (3, t_pok)))
     js = f"""
 tl.fromTo(".s19-rg",{{scale:0.2,opacity:0}},{{scale:2.2,opacity:1,duration:2.2,stagger:0.12,ease:"power2.in"}},0);
 tl.fromTo("#s19-k",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_aka - 0.1});
@@ -1625,7 +1671,7 @@ tl.fromTo("#s19-page",{{y:0}},{{y:-560,duration:1.1,ease:"power3.inOut"}},{t_set
 tl.fromTo("#s19-side",{{y:0}},{{y:560,duration:1.1,ease:"power3.inOut"}},{t_set + 0.1});
 tl.to("#s19-win",{{scale:0.9,rotationX:0,duration:1.5,ease:"power2.inOut"}},{t_set + 0.1});
 {js_kv}
-tl.to("#s19-win",{{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"}},{t_kar - 0.8});
+tl.to("#s19-win",{{scale:1.0,y:-40,duration:2.0,ease:"power1.inOut"}},{t_krn - 0.8});
 tl.to("#s19-win",{{filter:"brightness(0.3) blur(3px)",duration:0.6}},{t_uru - 1.0});
 tl.fromTo("#s19-end",{{opacity:0,scale:1.15}},{{opacity:1,scale:1,duration:0.6,ease:"expo.out"}},{t_uru - 0.9});
 tl.to(["#s19-win","#s19-end","#s19-tag"],{{opacity:0,duration:0.45}},{S.D - 0.45});
@@ -1645,15 +1691,15 @@ def s20(S):
 <div class="F" style="background:#0B2E22">
   <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 32%,rgba(182,217,115,.24),transparent 58%)"></div>
-  <div id="s20-ring" class="abs" style="left:960px;top:300px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
+  <div id="s20-ring" class="abs" style="left:960px;top:250px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
     border:2px solid rgba(182,217,115,.25);box-shadow:0 0 60px rgba(182,217,115,.15) inset"></div>
-  <div id="s20-gl" class="abs" style="left:660px;top:70px;width:600px;height:300px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
-  <div id="s20-lw" class="abs" style="left:0;right:0;top:112px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 210)}</div>
-  <div id="s20-sw" class="abs" style="left:0;right:0;top:300px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 150)}</div>
-  <div class="abs" style="left:0;right:0;top:530px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
-  <div class="abs" style="left:0;right:0;top:712px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
+  <div id="s20-gl" class="abs" style="left:610px;top:20px;width:700px;height:340px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
+  <div id="s20-lw" class="abs" style="left:0;right:0;top:52px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 340)}</div>
+  <div id="s20-sw" class="abs" style="left:0;right:0;top:280px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 150)}</div>
+  <div class="abs" style="left:0;right:0;top:494px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
+  <div class="abs" style="left:0;right:0;top:676px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
     <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
-  <div id="s20-slo" class="abs" style="left:0;right:0;top:792px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
+  <div id="s20-slo" class="abs" style="left:0;right:0;top:756px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
   <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
   <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
 </div>"""
@@ -1689,20 +1735,20 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s01", ["v01"], dict(pre=MONTAGE + 0.2, post=0.9)),
     ("s02", ["v02"], dict(pre=0.5, post=0.9)),
     ("s03", ["v03"], dict(pre=0.5, post=1.1)),
-    ("s03b", ["v03b"], dict(pre=0.9, post=2.4)),  # five modules + sub-modules (premium cards)
+    ("s03b", ["v03b"], dict(pre=0.9, post=1.7)),  # five modules + sub-modules (premium cards)
     ("s04", ["v04"], dict(pre=0.5, post=1.1)),
-    ("s05", ["v05"], dict(pre=1.2, post=0.9)),
+    ("s05", ["v05"], dict(pre=1.0, post=0.7)),
     ("s06", ["v06"], dict(pre=0.5, post=1.4)),
-    ("s07", ["v07"], dict(pre=0.5, post=2.2)),
-    ("s08", ["v08"], dict(pre=0.5, post=2.4)),
+    ("s07", ["v07"], dict(pre=0.5, post=1.7)),
+    ("s08", ["v08"], dict(pre=0.5, post=1.7)),
     ("s09", ["v09"], dict(pre=0.7, post=1.0)),
     ("s10", ["v10"], dict(pre=0.5, post=1.4)),
     # s13 removed: same figures as the KPI scene (s15)
-    ("s14", ["v14"], dict(pre=0.5, post=1.6)),
+    ("s14", ["v14"], dict(pre=0.5, post=1.2)),
     # s16 removed: same figures as the KPI scene (s15)
-    ("s15", ["v15"], dict(pre=0.6, post=2.4)),  # KPI dan pengukuran (user KPI table)
+    ("s15", ["v15"], dict(pre=0.6, post=1.8)),  # KPI dan pengukuran (user KPI table)
     ("s18", ["v18"], dict(pre=0.5, post=1.0)),
-    ("s19", ["v19"], dict(pre=0.7, post=2.4)),
+    ("s19", ["v19"], dict(pre=0.7, post=1.5)),
     ("s20", ["v20"], dict(pre=1.0, post=2.4)),
 ]
 

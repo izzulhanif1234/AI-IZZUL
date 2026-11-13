@@ -114,3 +114,22 @@
 - s03b (new, fixed 16.4 s, no VO): five modules + sub-modules in premium cards; SUBS grouped from the real sidebar
   menus (media/spd-green/sub/*.png). s04: the user's six AI clips (media/spd-green/ai6 -> hf/assets/video/ai0*.mp4,
   last-frame stills in img/) in taped photo frames on the doodle page. s13 and s16 removed (same figures as s15 KPI).
+
+## v11
+- VO: v05/v06 (chunk n3) and v09/v10/v14 (n5) came out in a different voice (median F0 140-210 Hz vs ~100 Hz elsewhere,
+  heard as female / another tone). Regenerated with a style prefix in the prompt ("deep, calm, mature adult male ...
+  narrator voice, steady low pitch") -> F0 94-97 Hz, LID ms 1.0, prefix not spoken (`vo/take8`). v05/v06 level-matched
+  (+4 / +2.6 dB with limiter). Old lines in `vo/pre_v11_lines`.
+- v19 rewritten (`vo/take9`): Green Dashboard now lists kertas, dakwat, anggaran pelepasan karbon, pokok diselamatkan,
+  penjimatan kos. "Masa carian" (efficiency) and "ruang simpanan" (rental income) dropped from the dashboard as not
+  green; CO2e and pokok cards carry no figures ("Akan datang"). 1.35 s of the 2.1 s pause before "Kerana" removed.
+- Music: "Inspired" (Kevin MacLeod, CC BY 4.0) replaces "Cipher" (too playful). Mixer already RMS-normalises music.
+- s01 montage: light-switch and cabinet-unlock shots dropped; now blue hanging files -> archive shelf -> desk (5.87 s,
+  segments c/d/e from `media/spd-green/lakonan/seg`, light grade). Added viewfinder HUD (corner brackets, blinking
+  "MENCARI FAIL", stopwatch racing 00:00 -> 30:00 to match the 30-minute search KPI), shot tags, whip-blur + light-leak
+  at each cut. Old montage kept as `media/spd-green/lakonan/s01_montage_v10.mp4`.
+- s02/s20: MCORP logo enlarged (300 -> 450 / 210 -> 340 px) and tucked closer to the SPD mark.
+- s07: cursor lands on the centre of "Lihat" under PELAN M&E GALERI PKNM (page px 1259-1309 x 680-711) as the VO says
+  "pelan"; button press + ripple, URL switches to the attachment (4269), page dims, and the PDF viewer grows out of the
+  thumbnail (transform-origin on the thumbnail) instead of fading in.
+- Scene tails trimmed (s03b, s05, s07, s08, s14, s15, s19). Total 4:02.

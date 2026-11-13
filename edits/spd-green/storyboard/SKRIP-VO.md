@@ -43,7 +43,7 @@ Setiap impak diukur dengan jelas. Pembelian kertas berkurang tiga ratus enam bel
 SPD telah menerima pengiktirafan hak cipta sejak tahun dua ribu dua puluh, dan kini diguna pakai sepenuhnya sebagai platform utama pengurusan data M-Corp.
 
 **S19 (v19)**
-Dan ini hanyalah permulaan. Akan datang, SPD dua point kosong bersama Green Dashboard, yang memantau setiap impak hijau secara langsung: kertas, dakwat, masa carian, ruang simpanan dan penjimatan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik.
+Dan ini hanyalah permulaan. Akan datang, SPD dua point kosong bersama Green Dashboard, yang memantau setiap impak hijau secara langsung: kertas, dakwat, anggaran pelepasan karbon, pokok yang diselamatkan dan penjimatan kos. Kerana apa yang diukur, dapat diurus dengan lebih baik.
 
 **S20 (v20)**
 SPD. Mendigitalkan proses, mengoptimumkan sumber dan mempercepat penyampaian perkhidmatan, ke arah pengurusan yang hijau dan lestari.

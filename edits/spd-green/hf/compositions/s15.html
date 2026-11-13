@@ -38,12 +38,12 @@ FX.odo(tl,"#s15-tot",20.62,1.8,{ltr:true,stagger:0.08,ease:"power3.out"});
 FX.bloom(tl,"#s15-bl",21.47,1);
 FX.uline(tl,"#s15-ul",22.17);
 tl.fromTo(".s15-bk",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,stagger:0.18,ease:"expo.out"},22.47);
-tl.to(["#s15-tot","#s15-grid"],{opacity:0,duration:0.4},29.255);
+tl.to(["#s15-tot","#s15-grid"],{opacity:0,duration:0.4},28.655);
 
           // camera: crossfade in over the previous scene + slow breathing push (no blur-in)
           tl.fromTo("#s15-o", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.inOut" }, 0);
-          tl.fromTo("#s15-i", { scale: 1 }, { scale: 1.03, duration: 29.705, ease: "none", transformOrigin: "50% 50%" }, 0);
-          tl.set({}, {}, 29.705);
+          tl.fromTo("#s15-i", { scale: 1 }, { scale: 1.03, duration: 29.105, ease: "none", transformOrigin: "50% 50%" }, 0);
+          tl.set({}, {}, 29.105);
           window.__timelines = window.__timelines || {};
           window.__timelines["s15"] = tl;
         })();
