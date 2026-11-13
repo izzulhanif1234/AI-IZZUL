@@ -149,6 +149,26 @@ def stack3d(sid, inner, w, h, depth=14, step=1.4, side=0.32, sheen_mask=None):
             f'<div style="position:absolute;inset:0">{inner}</div>{sheen}</div>')
 
 
+
+def drift_leaves(pre, seed, t0, dur):
+    """v17 (user pick 'C', made faint): a few SPD leaves floating at the left and right edges -- small, low opacity,
+    two softly blurred for depth -- drifting up and turning slowly. Returns (html, js)."""
+    import random
+    r = random.Random(seed)
+    spots = [(140, 260), (300, 610), (120, 880), (380, 160), (1780, 240), (1630, 590), (1800, 880), (1560, 150)]
+    html, js = "", ""
+    for k, (x, y) in enumerate(spots):
+        s = r.choice([46, 54, 62, 72, 84, 96])
+        op = r.uniform(.16, .30)
+        blur = "filter:blur(2px);" if k in (2, 5) else ""
+        rot = r.randint(-60, 60)
+        html += (f'<div class="abs {pre}-lf" id="{pre}-lf{k}" style="left:{x - s // 2}px;top:{y - s // 2}px;width:{s}px;height:{s}px;opacity:0;{blur}">'
+                 f'<div id="{pre}-lfi{k}" style="width:100%;height:100%;transform:rotate({rot}deg)">'
+                 f'{SB.leaf("width:100%;height:100%;display:block", "#B6D973", "#0B2E22")}</div></div>')
+        js += (f'tl.fromTo("#{pre}-lf{k}",{{opacity:0}},{{opacity:{op:.2f},duration:1.2,ease:"power2.out"}},{t0 + k * 0.08:.2f});'
+               f'tl.fromTo("#{pre}-lfi{k}",{{y:20,rotation:{rot}}},{{y:-{r.randint(30, 60)},rotation:{rot + r.choice([-14, -9, 9, 14])},duration:{dur:.2f},ease:"sine.inOut"}},{t0:.2f});')
+    return html, js
+
 def logo3d(sid, w, depth=14):
     h = round(w * 362 / 542)
     return stack3d(sid, f'<img src="{LOGO}" style="width:100%;height:100%;display:block">', w, h, depth, 1.5, 0.3, LOGO)
@@ -489,12 +509,14 @@ def s02(S):
     t_mem = S.w("v02", "Memperkenalkan")
     t_spd = S.w("v02", "SPD")
     t_ino = S.w("v02", "Inovasi")
+    lf_html, lf_js = drift_leaves("s02", 2, max(0.3, t_mem - 0.1), S.D)
     html = f"""
 <div class="F gdark">
   <div id="s02-cam" class="abs" style="inset:0;perspective:1100px;transform-style:preserve-3d">
     <div id="s02-sw" class="abs" style="inset:0;transform-style:preserve-3d">{sheets}</div>
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
+  {lf_html}
   <div id="s02-gg" class="abs" style="left:960px;top:330px;width:1180px;height:820px;margin:-410px 0 0 -590px;opacity:0;background:radial-gradient(closest-side,rgba(182,217,115,.34),rgba(182,217,115,.09) 60%,transparent)"></div>
   <div id="s02-gc" class="abs" style="left:960px;top:330px;width:640px;height:480px;margin:-240px 0 0 -320px;opacity:0;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
   <div id="s02-gl" class="abs" style="left:560px;top:10px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
@@ -506,6 +528,7 @@ def s02(S):
   <div class="vign"></div>
 </div>"""
     js = f"""
+{lf_js}
 {LOGO_JS}
 // camera dolly through the paper swarm
 tl.fromTo("#s02-sw",{{z:-900,rotationY:-14}},{{z:700,rotationY:10,duration:{S.D},ease:"power1.inOut"}},0);
@@ -522,7 +545,7 @@ FX.words(tl,".s02-t > span",{t_mem + 0.2},0.07);
 FX.words(tl,".s02-s > span",{t_ino - 0.05},0.05);
 tl.fromTo("#s02-sweep",{{x:0,opacity:0.9}},{{x:2600,opacity:0.9,duration:1.1,ease:"power2.inOut"}},{t_spd + 0.4});
 tl.to("#s02-cam",{{scale:1.3,opacity:0,duration:0.5,ease:"power2.in"}},{S.D - 0.5});
-tl.to(["#s02-mark","#s02-k","#s02-gl","#s02-gg","#s02-gc",".s02-t",".s02-s"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
+tl.to(["#s02-mark","#s02-k","#s02-gl","#s02-gg","#s02-gc",".s02-t",".s02-s",".s02-lf"],{{opacity:0,y:-30,duration:0.4,ease:"power2.in"}},{S.D - 0.45});
 """
     return html, js
 
@@ -1716,8 +1739,10 @@ def s20(S):
     t_m2 = S.w("v20", "Mengoptimumkan")
     t_m3 = S.w("v20", "Mempercepat")
     t_ke = S.w("v20", "Ke")
+    lf_html, lf_js = drift_leaves("s20", 20, max(0.3, t_spd - 1.0), S.D)
     html = f"""
 <div class="F" style="background:#0B2E22">
+  {lf_html}
   <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 32%,rgba(182,217,115,.24),transparent 58%)"></div>
   <div id="s20-ring" class="abs" style="left:960px;top:250px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
@@ -1728,13 +1753,13 @@ def s20(S):
   <div class="abs" style="left:0;right:0;top:508px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
   <div class="abs" style="left:0;right:0;top:690px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
     <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
-  <div id="s20-slo" class="abs" style="left:0;right:0;top:770px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
   <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
   <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
 </div>"""
     t_logo = max(0.3, t_spd - 1.3)
     js = f"""
 {LOGO_JS}
+{lf_js}
 tl.fromTo("#s20-ring",{{scale:0.4,opacity:0}},{{scale:1,opacity:1,duration:1.6,ease:"expo.out"}},{t_logo});
 // MCORP logo flies in from depth, settles, then lives (swing + sheen)
 tl.fromTo("#s20-lw",{{opacity:0}},{{opacity:1,duration:0.5}},{t_logo});
@@ -1750,7 +1775,6 @@ FX.words(tl,".s20-h2 > span",{t_spd + 0.5},0.06);
 tl.fromTo("#s20-a",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_m1 - 0.05});
 tl.fromTo("#s20-b",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_m2 - 0.05});
 tl.fromTo("#s20-c",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.4}},{t_m3 - 0.05});
-tl.fromTo("#s20-slo",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6}},{t_ke + 0.2});
 tl.fromTo("#s20-org",{{opacity:0}},{{opacity:1,duration:0.6}},{t_ke + 0.8});
 tl.to("#s20-blk",{{opacity:1,duration:1.0,ease:"power1.in"}},{S.D - 1.0});
 """

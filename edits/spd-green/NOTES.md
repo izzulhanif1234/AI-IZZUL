@@ -183,3 +183,10 @@
   the white studio keeps only the soft floor shadow.
 - s02 title and the s03b backdrop get the same green halo as the s03 orbit core (lime radial .34/.09 + a pale
   inner core); in s02 it scales in with the logo and breathes gently.
+
+## v17
+- Leaves (user picked option C of `pelan5/DAUN-KIRI-KANAN.jpg`, asked for it smaller and faint): `drift_leaves()`
+  places 8 SPD leaves at the left/right edges (46-96 px, opacity .16-.30, two softly blurred), fading in with the
+  logo and drifting up / turning slowly. Used in s02 (title) and s20 (closing). Opacity and drift sit on separate
+  elements so each has one tween.
+- s20: the English line "Less Paper. Smarter Assets. Greener Future." removed.
