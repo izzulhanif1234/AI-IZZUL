@@ -517,14 +517,14 @@ def s02(S):
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
   {lf_html}
-  <div id="s02-gg" class="abs" style="left:960px;top:330px;width:1180px;height:820px;margin:-410px 0 0 -590px;opacity:0;background:radial-gradient(closest-side,rgba(182,217,115,.34),rgba(182,217,115,.09) 60%,transparent)"></div>
-  <div id="s02-gc" class="abs" style="left:960px;top:330px;width:640px;height:480px;margin:-240px 0 0 -320px;opacity:0;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
-  <div id="s02-gl" class="abs" style="left:560px;top:10px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
-  <div id="s02-k" class="abs" style="left:0;right:0;top:46px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 436)}</div>
-  <div id="s02-mark" class="abs" style="left:0;right:0;top:334px;display:flex;justify-content:center">{SB.spd_mark(230, balanced=True)}</div>
-  <div class="abs h1" style="left:0;right:0;top:612px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
-  <div class="abs" style="left:0;right:0;top:692px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
-  <div id="s02-sweep" class="abs" style="left:-600px;top:300px;width:300px;height:340px;background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
+  <div id="s02-gg" class="abs" style="left:960px;top:480px;width:1180px;height:820px;margin:-410px 0 0 -590px;opacity:0;background:radial-gradient(closest-side,rgba(182,217,115,.34),rgba(182,217,115,.09) 60%,transparent)"></div>
+  <div id="s02-gc" class="abs" style="left:960px;top:480px;width:640px;height:480px;margin:-240px 0 0 -320px;opacity:0;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
+  <div id="s02-gl" class="abs" style="left:560px;top:160px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
+  <div id="s02-k" class="abs" style="left:0;right:0;top:196px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 436)}</div>
+  <div id="s02-mark" class="abs" style="left:0;right:0;top:484px;display:flex;justify-content:center">{SB.spd_mark(230, balanced=True)}</div>
+  <div class="abs h1" style="left:0;right:0;top:762px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
+  <div class="abs" style="left:0;right:0;top:842px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
+  <div id="s02-sweep" class="abs" style="left:-600px;top:450px;width:300px;height:340px;background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
@@ -1745,15 +1745,15 @@ def s20(S):
   {lf_html}
   <div class="abs" style="left:0;top:0;bottom:0;width:22px;background:#B6D973"></div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 32%,rgba(182,217,115,.24),transparent 58%)"></div>
-  <div id="s20-ring" class="abs" style="left:960px;top:250px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
+  <div id="s20-ring" class="abs" style="left:960px;top:380px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
     border:2px solid rgba(182,217,115,.25);box-shadow:0 0 60px rgba(182,217,115,.15) inset"></div>
-  <div id="s20-gl" class="abs" style="left:610px;top:20px;width:700px;height:340px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
-  <div id="s20-lw" class="abs" style="left:0;right:0;top:52px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 324)}</div>
-  <div id="s20-sw" class="abs" style="left:0;right:0;top:270px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 170)}</div>
-  <div class="abs" style="left:0;right:0;top:508px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
-  <div class="abs" style="left:0;right:0;top:690px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
+  <div id="s20-gl" class="abs" style="left:610px;top:150px;width:700px;height:340px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
+  <div id="s20-lw" class="abs" style="left:0;right:0;top:182px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 324)}</div>
+  <div id="s20-sw" class="abs" style="left:0;right:0;top:400px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 170)}</div>
+  <div class="abs" style="left:0;right:0;top:638px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
+  <div class="abs" style="left:0;right:0;top:820px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
     <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
-  <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
+  <div id="s20-org" class="mono abs" style="left:0;right:0;top:985px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
   <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
 </div>"""
     t_logo = max(0.3, t_spd - 1.3)

@@ -190,3 +190,5 @@
   logo and drifting up / turning slowly. Used in s02 (title) and s20 (closing). Opacity and drift sit on separate
   elements so each has one tween.
 - s20: the English line "Less Paper. Smarter Assets. Greener Future." removed.
+- s02 title and s20 closing blocks were sitting high (block centre ~390 px): shifted down (+150 / +130 px, footer
+  to 985 px) so logo + SPD + text centre on the 540 px midline.
