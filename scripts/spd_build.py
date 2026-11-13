@@ -143,7 +143,9 @@ def stack3d(sid, inner, w, h, depth=14, step=1.4, side=0.32, sheen_mask=None):
         m = f"url({sheen_mask}) center/100% 100% no-repeat"
         sheen = (f'<div class="sheen" id="{sid}-sh" style="position:absolute;inset:0;transform:translateZ(0.6px);-webkit-mask:{m};mask:{m};'
                  f'background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.9) 50%,transparent 60%);background-size:320% 100%;background-position:120% 0"></div>')
-    return (f'<div id="{sid}" style="position:relative;width:{w}px;height:{h}px;transform-style:preserve-3d">{layers}'
+    # flex:none -- inside a narrower flex parent the box would shrink while its layers keep the full width, pushing
+    # the artwork off-centre to the right (s03: SPD sat 43 px right of the logo)
+    return (f'<div id="{sid}" style="position:relative;flex:none;width:{w}px;height:{h}px;transform-style:preserve-3d">{layers}'
             f'<div style="position:absolute;inset:0">{inner}</div>{sheen}</div>')
 
 

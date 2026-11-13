@@ -145,3 +145,8 @@
 - Logo lockups: `spd_mark(..., balanced=True)` pads the left by the leaf width so the SPD letters sit on the centre
   line; logo width = SPD letters width (~1.9 x font size): s02 436/230, s03 + s03b 248/130, s20 324/170.
 - Total 3:57.
+
+## v13
+- s03 orbit centre: the SPD mark sat 43 px right of the logo. The 3D stack box (449 px) was wider than its 360 px
+  flex parent, so it shrank while its layers kept the full width and spilled right. `stack3d` roots are now
+  `flex:none`; SPD letters and logo measure centred at x = 960 in s02, s03, s03b and s20.
