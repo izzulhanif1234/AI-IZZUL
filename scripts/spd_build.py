@@ -154,8 +154,8 @@ def logo3d(sid, w, depth=14):
 
 def spd3d(sid, size, depth=10, c1="#B6D973", c2="#B6D973"):
     """the SPD word mark (font-size `size`) extruded like the logo"""
-    w, h = round(size * 2.75), round(size * 1.2)
-    inner = f'<div style="width:{w}px;height:{h}px;display:flex;align-items:center;justify-content:center">{SB.spd_mark(size, c1, c2)}</div>'
+    w, h = round(size * 3.45), round(size * 1.2)
+    inner = f'<div style="width:{w}px;height:{h}px;display:flex;align-items:center;justify-content:center">{SB.spd_mark(size, c1, c2, balanced=True)}</div>'
     return stack3d(sid, inner, w, h, depth, 1.6, 0.25)
 
 
@@ -472,8 +472,8 @@ def s02(S):
   </div>
   <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 52%,rgba(11,46,34,.92) 0 28%,rgba(11,46,34,0) 62%)"></div>
   <div id="s02-gl" class="abs" style="left:560px;top:10px;width:800px;height:380px;opacity:0;background:radial-gradient(closest-side,rgba(255,255,255,.45),rgba(182,217,115,.1) 60%,transparent)"></div>
-  <div id="s02-k" class="abs" style="left:0;right:0;top:46px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 450)}</div>
-  <div id="s02-mark" class="abs" style="left:0;right:0;top:334px;display:flex;justify-content:center">{SB.spd_mark(230)}</div>
+  <div id="s02-k" class="abs" style="left:0;right:0;top:46px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s02-logo", 436)}</div>
+  <div id="s02-mark" class="abs" style="left:0;right:0;top:334px;display:flex;justify-content:center">{SB.spd_mark(230, balanced=True)}</div>
   <div class="abs h1" style="left:0;right:0;top:612px;text-align:center;font-size:52px;font-weight:700">{kw("Sistem Pengurusan Data", "s02-t")}</div>
   <div class="abs" style="left:0;right:0;top:692px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:var(--gold)">{kw("Inovasi digital ke arah pengurusan hijau dan lestari", "s02-s")}</div>
   <div id="s02-sweep" class="abs" style="left:-600px;top:300px;width:300px;height:340px;background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);mix-blend-mode:overlay;opacity:0"></div>
@@ -531,8 +531,8 @@ def s03(S):
       <div class="abs" style="inset:-170px;border-radius:50%;background:radial-gradient(closest-side,rgba(182,217,115,.32),rgba(182,217,115,.08) 60%,transparent)"></div>
       <div id="s03-glow" class="abs" style="inset:-300px;border-radius:50%;opacity:0;background:radial-gradient(closest-side,rgba(214,255,170,.62),rgba(182,217,115,.22) 45%,rgba(182,217,115,.06) 72%,transparent)"></div>
       <div class="abs" style="inset:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(235,255,240,.30),transparent)"></div>
-      <div class="abs" style="left:0;right:0;top:2px;display:flex;justify-content:center;perspective:1200px">{logo3d("s03-logo", 300)}</div>
-      <div class="abs" style="left:0;right:0;top:214px;display:flex;justify-content:center;perspective:1200px">{spd3d("s03-spd", 92, c1="#fff")}</div>
+      <div class="abs" style="left:0;right:0;top:14px;display:flex;justify-content:center;perspective:1200px">{logo3d("s03-logo", 248)}</div>
+      <div class="abs" style="left:0;right:0;top:178px;display:flex;justify-content:center;perspective:1200px">{spd3d("s03-spd", 130, c1="#fff")}</div>
     </div>
     {tiles}
   </div>
@@ -616,13 +616,15 @@ def s03b(S):
         right = tx <= 960
         cx = 1080 if right else 150
         cw, ctop = 690, (330 if tx == 960 else 250)
-        ex, ey = (cx, ctop + 150) if right else (cx + cw, ctop + 150)
-        sx = tx + 150 if right else tx - 150
-        if tx == 960:
-            sx, sy0 = tx + 150, ty
-        sy = ty
-        mx = (sx + ex) / 2
-        paths += (f'<path id="s3b-p{i}" d="M{sx} {sy} C {mx} {sy} {mx} {ey} {ex} {ey}" stroke="#B6D973" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"/>'
+        # v12: every connector is the same kind of line -- straight, from the active tile's edge (tile is scaled 1.14)
+        # to the card's near edge at its title, with a node at both ends; it never runs past either box
+        ax, ay = (cx if right else cx + cw), ctop + 86
+        dx, dy = ax - tx, ay - ty
+        k = min(150 * 1.14 / abs(dx) if dx else 9e9, 56 * 1.14 / abs(dy) if dy else 9e9)
+        sx, sy = tx + dx * k, ty + dy * k
+        paths += (f'<path id="s3b-p{i}" d="M{sx:.1f} {sy:.1f} L{ax} {ay}" stroke="#B6D973" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"/>'
+                  f'<circle id="s3b-na{i}" cx="{sx:.1f}" cy="{sy:.1f}" r="7" fill="#0B2E22" stroke="#B6D973" stroke-width="3" opacity="0"/>'
+                  f'<circle id="s3b-nb{i}" cx="{ax}" cy="{ay}" r="7" fill="#0B2E22" stroke="#B6D973" stroke-width="3" opacity="0"/>'
                   f'<circle id="s3b-d{i}" r="7" fill="#e8ffc0" opacity="0" style="filter:drop-shadow(0 0 10px #B6D973)"/>')
         rows = "".join(f'<div class="s3b-row" style="position:relative;display:flex;align-items:center;gap:18px;padding:13px 0">'
                        f'<i class="s3b-ln" style="position:absolute;left:64px;right:0;top:0;height:1px;background:linear-gradient(90deg,rgba(182,217,115,.5),rgba(255,255,255,.06));'
@@ -647,9 +649,11 @@ tl.to([{others}],{{opacity:0.3,duration:0.35}},{t:.2f});
 tl.to("#s3b-t{i}",{{opacity:1,scale:1.14,boxShadow:"0 0 0 4px rgba(182,217,115,1),0 0 60px rgba(182,217,115,.65)",duration:0.5,ease:"expo.out"}},{t:.2f});
 FX.draw(tl,"#s3b-p{i}",{t + 0.15:.2f},0.45,0);
 tl.set("#s3b-p{i}",{{opacity:1}},{t + 0.15:.2f});
+tl.fromTo("#s3b-na{i}",{{opacity:0,scale:0,transformOrigin:"50% 50%"}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(3)",immediateRender:false}},{t + 0.12:.2f});
+tl.fromTo("#s3b-nb{i}",{{opacity:0,scale:0,transformOrigin:"50% 50%"}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(3)",immediateRender:false}},{t + 0.58:.2f});
 (function(){{const p=document.getElementById("s3b-p{i}"),L=p.getTotalLength(),o={{v:0}},d=document.getElementById("s3b-d{i}");
-  tl.fromTo(o,{{v:0}},{{v:1,duration:0.45,ease:"power2.inOut",onUpdate:()=>{{const q=p.getPointAtLength(o.v*L);d.setAttribute("cx",q.x);d.setAttribute("cy",q.y);}}}},{t + 0.15:.2f});
-  tl.fromTo(d,{{opacity:1}},{{opacity:0,duration:0.25}},{t + 0.6:.2f});}})();
+  tl.fromTo(o,{{v:0}},{{v:1,duration:0.45,ease:"power2.inOut",onUpdate:()=>{{const q=p.getPointAtLength(o.v*L);d.setAttribute("cx",q.x);d.setAttribute("cy",q.y);}},immediateRender:false}},{t + 0.15:.2f});
+  tl.fromTo(d,{{opacity:1}},{{opacity:0,duration:0.25,immediateRender:false}},{t + 0.6:.2f});}})();
 tl.fromTo("#s3b-c{i}",{{opacity:0,clipPath:"inset(48% 0 48% 0 round 30px)",rotationX:-14,transformPerspective:1400}},{{opacity:1,clipPath:"inset(0% 0 0% 0 round 30px)",rotationX:0,duration:0.7,ease:"expo.out"}},{t + 0.45:.2f});
 tl.fromTo("#s3b-c{i}",{{"--a":"0deg"}},{{"--a":"300deg",duration:2.1,ease:"none"}},{t + 0.5:.2f});
 tl.fromTo("#s3b-c{i} .s3b-gh",{{x:80,opacity:0}},{{x:0,opacity:1,duration:0.9,ease:"expo.out"}},{t + 0.6:.2f});
@@ -659,7 +663,7 @@ tl.fromTo("#s3b-c{i} .s3b-ln",{{scaleX:0}},{{scaleX:1,duration:0.6,stagger:0.11,
 tl.fromTo("#s3b-c{i} .s3b-ic",{{scale:0,rotation:-90}},{{scale:1,rotation:0,duration:0.5,stagger:0.11,ease:"back.out(2.2)"}},{t + 0.95:.2f});
 tl.fromTo("#s3b-c{i} .s3b-tx",{{yPercent:110,filter:"blur(8px)"}},{{yPercent:0,filter:"blur(0px)",duration:0.55,stagger:0.11,ease:"expo.out"}},{t + 0.98:.2f});
 tl.to("#s3b-c{i}",{{opacity:0,y:-24,duration:0.3,ease:"power2.in"}},{t + STEP - 0.38:.2f});
-tl.to("#s3b-p{i}",{{opacity:0,duration:0.25}},{t + STEP - 0.38:.2f});
+tl.to(["#s3b-p{i}","#s3b-na{i}","#s3b-nb{i}"],{{opacity:0,duration:0.25}},{t + STEP - 0.38:.2f});
 tl.to("#s3b-t{i}",{{scale:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,.35),0 24px 60px rgba(0,0,0,.45)",duration:0.35}},{t + STEP - 0.2:.2f});
 """
     tend = cue[4] + steps[4]
@@ -668,8 +672,8 @@ tl.to("#s3b-t{i}",{{scale:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,.35),0 24p
   <div id="s3b-bg" class="abs" style="inset:0">
     <div class="abs" style="left:960px;top:560px;width:1520px;height:700px;margin:-350px 0 0 -760px;border-radius:50%;border:2px solid rgba(182,217,115,.45);box-shadow:0 0 40px rgba(182,217,115,.25)"></div>
     <div class="abs" style="left:960px;top:470px;transform:translate(-50%,-50%);text-align:center">
-      <img src="{LOGO}" style="width:300px;display:block;margin:auto;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))">
-      <div style="display:flex;justify-content:center;margin-top:4px">{SB.spd_mark(88, "#fff", "#B6D973")}</div></div>
+      <img src="{LOGO}" style="width:248px;display:block;margin:auto;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))">
+      <div style="display:flex;justify-content:center;margin-top:0px">{SB.spd_mark(130, "#fff", "#B6D973", balanced=True)}</div></div>
   </div>
   <svg class="abs" viewBox="0 0 1920 1080" style="inset:0;z-index:4;overflow:visible">{paths}</svg>
   {tiles}{cards}
@@ -1689,12 +1693,12 @@ def s20(S):
   <div id="s20-ring" class="abs" style="left:960px;top:250px;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;
     border:2px solid rgba(182,217,115,.25);box-shadow:0 0 60px rgba(182,217,115,.15) inset"></div>
   <div id="s20-gl" class="abs" style="left:610px;top:20px;width:700px;height:340px;background:radial-gradient(closest-side,rgba(235,255,240,.26),rgba(182,217,115,.06) 60%,transparent);opacity:0"></div>
-  <div id="s20-lw" class="abs" style="left:0;right:0;top:52px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 340)}</div>
-  <div id="s20-sw" class="abs" style="left:0;right:0;top:280px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 150)}</div>
-  <div class="abs" style="left:0;right:0;top:494px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
-  <div class="abs" style="left:0;right:0;top:676px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
+  <div id="s20-lw" class="abs" style="left:0;right:0;top:52px;display:flex;justify-content:center;perspective:1300px;opacity:0">{logo3d("s20-logo", 324)}</div>
+  <div id="s20-sw" class="abs" style="left:0;right:0;top:270px;display:flex;justify-content:center;perspective:1300px;opacity:0">{spd3d("s20-spd", 170)}</div>
+  <div class="abs" style="left:0;right:0;top:508px;text-align:center;font:800 56px/1.2 'Plus Jakarta Sans'">{kw("INOVASI DIGITAL KE ARAH", "s20-h1")}<br>{kw("PENGURUSAN HIJAU DAN LESTARI", "s20-h2")}</div>
+  <div class="abs" style="left:0;right:0;top:690px;text-align:center;font:600 32px 'Plus Jakarta Sans';color:#cfe3d6">
     <span id="s20-a">Mendigitalkan proses</span> <span style="color:#B6D973">•</span> <span id="s20-b">Mengoptimumkan sumber</span> <span style="color:#B6D973">•</span> <span id="s20-c">Mempercepat penyampaian</span></div>
-  <div id="s20-slo" class="abs" style="left:0;right:0;top:756px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
+  <div id="s20-slo" class="abs" style="left:0;right:0;top:770px;text-align:center;font:600 italic 36px 'Plus Jakarta Sans';color:#D9AE52">Less Paper. Smarter Assets. Greener Future.</div>
   <div id="s20-org" class="mono abs" style="left:0;right:0;top:930px;text-align:center;font-size:26px;color:#B6D973">PERBADANAN MELAKA (MCORP) | 2026</div>
   <div id="s20-blk" class="abs" style="inset:0;background:#000;opacity:0"></div>
 </div>"""

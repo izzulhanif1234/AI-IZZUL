@@ -133,3 +133,15 @@
   "pelan"; button press + ripple, URL switches to the attachment (4269), page dims, and the PDF viewer grows out of the
   thumbnail (transform-origin on the thumbnail) instead of fading in.
 - Scene tails trimmed (s03b, s05, s07, s08, s14, s15, s19). Total 3:58.6.
+
+## v12
+- s03b connectors: all five are now the same straight line from the active tile's edge (tile scaled 1.14) to the
+  card's near edge at title height (ctop + 86), with a node at each end. Before, they were S-curves, near-straight,
+  or (module 03) started past the card edge and ran back into the box. Travelling dot and its tween no longer
+  render early (immediateRender:false), which left stray dots beside idle tiles.
+- VO pace: syllable rate per line ranged 5.45-7.37 syl/s (0.83-1.13 of median). Every line time-stretched with
+  rubberband (formant-preserving, pitch unchanged) to the median 6.53 syl/s, within 0.88-1.20; word timings scaled.
+  Now 6.30-6.64 syl/s. Pre-stretch lines in `vo/pre_pace_lines`.
+- Logo lockups: `spd_mark(..., balanced=True)` pads the left by the leaf width so the SPD letters sit on the centre
+  line; logo width = SPD letters width (~1.9 x font size): s02 436/230, s03 + s03b 248/130, s20 324/170.
+- Total 3:57.

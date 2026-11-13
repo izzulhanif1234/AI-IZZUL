@@ -270,8 +270,11 @@ def leaf(st, c="#B6D973", v="#0B2E22"):
     return LEAF.format(st=st, c=c, v=v)
 
 
-def spd_mark(size=200, color="#fff", leafc="#B6D973"):
-    return (f'<div style="display:flex;align-items:center;gap:{size*0.06}px">'
+def spd_mark(size=200, color="#fff", leafc="#B6D973", balanced=False):
+    """balanced=True pads the left by the leaf's width so the LETTERS sit on the centre line (logo lockups);
+    "SPD" at font-size s is ~1.9 s wide"""
+    pad = f"padding-left:{size * 0.68:.0f}px;" if balanced else ""
+    return (f'<div style="display:flex;align-items:center;gap:{size*0.06}px;{pad}">'
             f'<span style="font:800 {size}px/1 \'Plus Jakarta Sans\';letter-spacing:-.04em;color:{color}">SPD</span>'
             + leaf(f"width:{size*0.62}px;height:{size*0.62}px;transform:rotate(28deg) translateY(-{size*0.18}px)", leafc)
             + "</div>")

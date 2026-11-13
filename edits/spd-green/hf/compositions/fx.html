@@ -13,19 +13,19 @@
       <script>
         (function () {
           const tl = gsap.timeline({ paused: true });
-          const cuts = [11.600000000000001, 25.451, 35.589, 53.236, 68.89399999999999, 93.27, 107.835, 125.471, 142.34400000000002, 157.27700000000002, 160.30100000000002, 170.87, 199.375, 209.286, 227.59900000000002];
+          const cuts = [11.600000000000001, 24.534000000000002, 34.672, 51.446999999999996, 67.52, 92.093, 105.655, 123.291, 140.99300000000002, 154.442, 157.553, 167.53300000000002, 198.83100000000002, 209.89800000000002, 225.46200000000002];
           cuts.forEach((t) => {
             tl.fromTo("#fx-sweep", { x: -700, opacity: 0.0 }, { x: 2300, opacity: 1, duration: 0.6, ease: "power2.inOut", immediateRender: false }, t - 0.3);
             tl.to("#fx-sweep", { opacity: 0, duration: 0.15 }, t + 0.3);
           });
           const g = document.getElementById("fx-grain");
           let k = 0;
-          for (let t = 0; t < 238.597; t += 1 / 12) {
+          for (let t = 0; t < 236.984; t += 1 / 12) {
             const x = ((k * 73) % 60), y = ((k * 131) % 60);
             tl.set(g, { x: -x, y: -y }, t);
             k++;
           }
-          tl.set({}, {}, 238.597);
+          tl.set({}, {}, 236.984);
           window.__timelines = window.__timelines || {};
           window.__timelines["fx"] = tl;
         })();
