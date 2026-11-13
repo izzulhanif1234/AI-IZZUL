@@ -15,7 +15,10 @@ Untuk Veo / Google Flow / mana-mana penjana video AI. Setiap klip 4–5 saat, 16
    > Analog wall clock above a cluttered desk, the minute hand moving fast in time-lapse while piles of files remain unopened, a sense of waiting
 5. **Risiko kehilangan dokumen**
    > A single paper document slipping off a messy pile of files and falling into a gap behind a filing cabinet, dust in a beam of light
-6. **Kos operasi tinggi**
-   > Close-up of a calculator, printed invoices and receipts piling up on a desk, ink cartridges and paper reams around, slow push-in
+6. **Kos operasi tinggi** (kos tenaga kerja)
+   > Wide shot of a Malaysian government office in the late evening, many staff at their desks manually sorting, stamping and filing stacks of paper forms, tall piles of files on every desk, a wall clock showing past 6 pm, faces not visible or out of focus, slow dolly across the room
+
+   Alternatif:
+   > Top-down view of a long office table where several pairs of hands pass the same paper file from person to person, each one stamping, signing and flipping pages, piles of forms waiting at the end of the table, time-lapse feel
 
 Bila dah jana, hantar fail video (MP4) dan aku ganti doodle dengan klip ni (nombor dan tajuk kekal).
