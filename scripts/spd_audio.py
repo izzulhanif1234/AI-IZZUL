@@ -579,6 +579,10 @@ def cues(sc):
         c("s17", t + 0.3, shutter(0.4), 0.45, -0.4 + 0.8 * i)
     s = S["s18"]
     c("s18", s.w("v18", "pengiktirafan|diiktiraf") + 0.35, embosser(0.7), 0.65, -0.2)
+    if not isinstance(S.get("s15b"), _Gone) and "s15b" in S:
+        s = S["s15b"]
+        for i, w in enumerate(("tenaga", "pokok", "karbon", "air")):
+            c("s15b", s.w("v15b", w) - 0.3, glass(SCALE[2 + i], 0.25), 0.35, -0.3 + 0.2 * i)
     s = S["s19"]
     c("s19", 0.0, riser(2.2, 0.3), 0.5)
     c("s19", s.w("v19", "SPD") - 0.1, sub_boom(0.7), 0.6)

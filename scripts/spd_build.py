@@ -1510,6 +1510,63 @@ tl.to(["#s15-grid","#s15-hd"],{{opacity:0,duration:0.4}},{S.D - 0.45});
     return html, js
 
 
+# --------------------------------------------------------------------------- S15b impak hijau (anggaran)
+@scene
+def s15b(S):
+    """Green-impact estimate of the 670 rim saved (user's infographic, only the four marked figures; approved mockup
+    pelan5/IMPAK-HIJAU-ANGGARAN.jpg). Each card lands as the VO names it."""
+    ICON = {
+        "tenaga": '<svg viewBox="0 0 24 24" width="64"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="#B6D973"/></svg>',
+        "pokok": '<svg viewBox="0 0 24 24" width="66"><path d="M12 2c-3 0-5 2.3-5 5-1.8.6-3 2.2-3 4.1C4 13.8 6.2 16 9 16h2v6h2v-6h2c2.8 0 5-2.2 5-4.9 0-1.9-1.2-3.5-3-4.1 0-2.7-2-5-5-5z" fill="#B6D973"/></svg>',
+        "karbon": ('<svg viewBox="0 0 64 40" width="80"><path d="M16 36h34a10 10 0 0 0 1-20 14 14 0 0 0-27-3A11 11 0 0 0 16 36z" fill="#B6D973"/>'
+                   '<text x="32" y="30" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="13" fill="#0B2E22">CO₂</text></svg>'),
+        "air": '<svg viewBox="0 0 24 24" width="60"><path d="M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13z" fill="#B6D973"/></svg>'}
+    C4 = [("tenaga", "Tenaga", "8,429.6", "kWh", "tenaga pengeluaran kertas<br>dapat dielakkan"),
+          ("pokok", "Pokok Setara", "20.8", "pokok", "bersamaan hampir<br>21 pokok"),
+          ("karbon", "Karbon", "2,207.1", "kg CO<sub style='font-size:.6em'>2</sub>e", "≈ 2.21 tan pelepasan karbon<br>dapat dielakkan"),
+          ("air", "Air", "75,040", "liter", "air pengeluaran kertas<br>dapat dielakkan")]
+    cards, js_c = "", ""
+    for i, (key, t, n, u, d) in enumerate(C4):
+        x = 90 + i * 443
+        cards += (f'<div class="abs s15b-cd" id="s15b-c{i}" style="left:{x}px;top:320px;width:412px;height:520px;border-radius:28px;padding:34px 30px;box-sizing:border-box;'
+                  f'background:linear-gradient(160deg,rgba(14,58,43,.94),rgba(6,30,22,.96));border:1.5px solid rgba(182,217,115,.38);box-shadow:0 30px 70px rgba(0,0,0,.45);'
+                  f'display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0">'
+                  f'<div class="s15b-ic" style="width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;'
+                  f'background:radial-gradient(circle at 35% 30%,rgba(182,217,115,.35),rgba(38,116,90,.25));border:2px solid rgba(182,217,115,.6)">{ICON[key]}</div>'
+                  f'<div style="margin-top:22px;font:800 34px \'Plus Jakarta Sans\';color:#fff">{t}</div>'
+                  f'<div id="s15b-n{i}" style="margin-top:26px;font:800 76px/1 \'Plus Jakarta Sans\';color:#B6D973;letter-spacing:-.02em">{odo(n)}</div>'
+                  f'<div style="margin-top:8px;font:700 30px \'Plus Jakarta Sans\';color:#e6c06a">{u}</div>'
+                  f'<div style="margin-top:22px;font:600 24px/1.35 \'Plus Jakarta Sans\';color:#cfe3d6">{d}</div></div>')
+        t0 = S.w("v15b", key) - 0.35
+        # all four shells rise early (dim) so the stage is never empty; each one lights up as the VO names it
+        js_c += (f'tl.fromTo("#s15b-c{i}",{{opacity:0,y:70,rotationX:-25,transformPerspective:1200}},{{opacity:0.32,y:0,rotationX:0,duration:0.8,ease:"expo.out"}},{0.9 + i * 0.12:.2f});'
+                 f'tl.to("#s15b-c{i}",{{opacity:1,scale:1.04,borderColor:"rgba(182,217,115,.9)",boxShadow:"0 30px 70px rgba(0,0,0,.45),0 0 50px rgba(182,217,115,.35)",duration:0.45,ease:"expo.out"}},{t0:.2f});'
+                 f'tl.to("#s15b-c{i}",{{scale:1,borderColor:"rgba(182,217,115,.45)",boxShadow:"0 30px 70px rgba(0,0,0,.45),0 0 0 rgba(182,217,115,0)",duration:0.8,ease:"power2.out"}},{t0 + 0.6:.2f});'
+                 f'tl.fromTo("#s15b-c{i} .s15b-ic",{{scale:0,rotation:-90}},{{scale:1,rotation:0,duration:0.6,ease:"back.out(2)"}},{t0 + 0.15:.2f});'
+                 f'FX.odo(tl,"#s15b-n{i}",{t0 + 0.3:.2f},1.0,{{stagger:0.05}});')
+    html = f"""
+<div class="F gdark">
+  <div id="s15b-hd" class="abs" style="left:90px;top:84px">
+    <div class="kicker">IMPAK HIJAU · ANGGARAN</div>
+    <div class="h1" style="font-size:66px;margin-top:8px">{kw("670 rim", "s15b-a")} {kw("kertas dijimatkan, bersamaan…", "s15b-b")}</div>
+    <div id="s15b-sub" style="margin-top:14px;font:600 30px 'Plus Jakarta Sans';color:#cfe3d6">335,000 helai A4 · 80 gsm</div></div>
+  <div class="abs" style="inset:0">{cards}</div>
+  <div id="s15b-ft" class="abs" style="left:92px;bottom:64px;font:600 22px 'Plus Jakarta Sans';color:rgba(207,227,214,.7)">Anggaran berdasarkan impak 1 rim kertas A4 (500 helai).</div>
+  <div class="vign"></div>
+</div>"""
+    js = f"""
+tl.fromTo("#s15b-hd .kicker",{{opacity:0,y:-16}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},0.1);
+FX.words(tl,".s15b-a > span",0.2,0.05);
+FX.words(tl,".s15b-b > span",0.35,0.05);
+tl.fromTo("#s15b-sub",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.5}},0.8);
+tl.fromTo("#s15b-ft",{{opacity:0}},{{opacity:1,duration:0.6}},1.0);
+{js_c}
+tl.to(".s15b-cd",{{y:-10,duration:1.2,stagger:0.03,ease:"sine.inOut"}},{S.D - 1.6:.2f});
+tl.to(["#s15b-hd",".s15b-cd","#s15b-ft"],{{opacity:0,duration:0.4}},{S.D - 0.45});
+"""
+    return html, js
+
+
 # --------------------------------------------------------------------------- S16 kertas A4 & dakwat
 @scene
 def s16(S):
@@ -1787,6 +1844,7 @@ PLAN = [  # (scene id, VO lines, kwargs)  -- v4: s11, s12, s17 cut as duplicates
     ("s14", ["v14"], dict(pre=0.5, post=0.8)),
     # s16 removed: same figures as the KPI scene (s15)
     ("s15", ["v15"], dict(pre=0.6, post=1.0)),  # KPI dan pengukuran (user KPI table)
+    ("s15b", ["v15b"], dict(pre=0.5, post=0.8)),  # impak hijau anggaran (tenaga, pokok, karbon, air)
     ("s18", ["v18"], dict(pre=0.5, post=0.6)),
     ("s19", ["v19"], dict(pre=0.5, post=0.8)),
     ("s20", ["v20"], dict(pre=0.8, post=1.6)),

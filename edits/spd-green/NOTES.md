@@ -206,3 +206,11 @@
   hold to the end of the line. The dashboard money card lists the four sources without a total.
 - v15 VO: one new take (`vo/take13/k1`, F0 97 Hz, LID ms 1.0); its closing total sentence was cut out at the
   pause after "disewakan.", pauses capped with vo_even, -17 LUFS. Total length 3:53.
+
+## v20
+- New scene s15b right after the KPI cards: green-impact estimate of the 670 rim saved, only the four figures the
+  user marked on their infographic (Tenaga 8,429.6 kWh, Pokok setara 20.8, Karbon 2,207.1 kg CO2e, Air 75,040 L),
+  approved mockup `pelan5/IMPAK-HIJAU-ANGGARAN.jpg`, footnote "Anggaran berdasarkan impak 1 rim kertas A4".
+  Four dim card shells rise first; each lights up and rolls its figure as the VO names it.
+- v15b VO (`vo/take14/e1`, F0 92 Hz, LID ms 1.0), word order follows the cards; pauses capped, atempo 1.08 (it read
+  the long numbers slowly), -17 LUFS. Scene 16 s (the spelled-out numbers are long); total 4:09.

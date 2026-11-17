@@ -1,0 +1,157 @@
+{
+ "language": "ms",
+ "language_probability": 0.9994502663612366,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 18.74,
+   "text": "Penjimatan 670 rim kertas ini bersamaan 8,400 kWh tenaga, 20 pokok, 2,200 kg karbon dan 75,000 liter air yang dapat dielakkan.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 1.0,
+     "word": "Penjimatan",
+     "p": 0.99
+    },
+    {
+     "start": 1.0,
+     "end": 2.44,
+     "word": "670",
+     "p": 1.0
+    },
+    {
+     "start": 2.44,
+     "end": 3.16,
+     "word": "rim",
+     "p": 0.98
+    },
+    {
+     "start": 3.16,
+     "end": 3.7,
+     "word": "kertas",
+     "p": 1.0
+    },
+    {
+     "start": 3.7,
+     "end": 4.02,
+     "word": "ini",
+     "p": 1.0
+    },
+    {
+     "start": 4.02,
+     "end": 5.26,
+     "word": "bersamaan",
+     "p": 1.0
+    },
+    {
+     "start": 5.26,
+     "end": 5.82,
+     "word": "8",
+     "p": 1.0
+    },
+    {
+     "start": 5.82,
+     "end": 7.22,
+     "word": ",400",
+     "p": 0.97
+    },
+    {
+     "start": 7.22,
+     "end": 8.28,
+     "word": "kWh",
+     "p": 0.87
+    },
+    {
+     "start": 8.28,
+     "end": 9.04,
+     "word": "tenaga,",
+     "p": 0.96
+    },
+    {
+     "start": 9.2,
+     "end": 9.92,
+     "word": "20",
+     "p": 1.0
+    },
+    {
+     "start": 9.92,
+     "end": 10.82,
+     "word": "pokok,",
+     "p": 1.0
+    },
+    {
+     "start": 10.84,
+     "end": 11.36,
+     "word": "2",
+     "p": 1.0
+    },
+    {
+     "start": 11.36,
+     "end": 12.52,
+     "word": ",200",
+     "p": 1.0
+    },
+    {
+     "start": 12.52,
+     "end": 13.1,
+     "word": "kg",
+     "p": 0.92
+    },
+    {
+     "start": 13.1,
+     "end": 14.04,
+     "word": "karbon",
+     "p": 1.0
+    },
+    {
+     "start": 14.04,
+     "end": 14.62,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 14.62,
+     "end": 15.2,
+     "word": "75",
+     "p": 1.0
+    },
+    {
+     "start": 15.2,
+     "end": 16.22,
+     "word": ",000",
+     "p": 1.0
+    },
+    {
+     "start": 16.22,
+     "end": 16.48,
+     "word": "liter",
+     "p": 0.95
+    },
+    {
+     "start": 16.48,
+     "end": 16.9,
+     "word": "air",
+     "p": 1.0
+    },
+    {
+     "start": 16.9,
+     "end": 17.5,
+     "word": "yang",
+     "p": 1.0
+    },
+    {
+     "start": 17.5,
+     "end": 17.92,
+     "word": "dapat",
+     "p": 1.0
+    },
+    {
+     "start": 17.92,
+     "end": 18.74,
+     "word": "dielakkan.",
+     "p": 0.97
+    }
+   ]
+  }
+ ]
+}
