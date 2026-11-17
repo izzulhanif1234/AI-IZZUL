@@ -1,0 +1,374 @@
+{
+ "language": "ms",
+ "language_probability": 0.9994381070137024,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 16.14,
+   "text": "Setiap impak diukur dengan jelas. Pembelian kertas berkurang 670 unit, masa pencarian dokumen turun daripada 30 minit kepada 3 minit, dan penggunaan dakwat berkurang 1,101 unit.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.74,
+     "word": "Setiap",
+     "p": 0.98
+    },
+    {
+     "start": 0.74,
+     "end": 1.16,
+     "word": "impak",
+     "p": 0.98
+    },
+    {
+     "start": 1.16,
+     "end": 1.9,
+     "word": "diukur",
+     "p": 1.0
+    },
+    {
+     "start": 1.9,
+     "end": 2.1,
+     "word": "dengan",
+     "p": 1.0
+    },
+    {
+     "start": 2.1,
+     "end": 2.56,
+     "word": "jelas.",
+     "p": 1.0
+    },
+    {
+     "start": 2.72,
+     "end": 3.7,
+     "word": "Pembelian",
+     "p": 1.0
+    },
+    {
+     "start": 3.7,
+     "end": 4.18,
+     "word": "kertas",
+     "p": 1.0
+    },
+    {
+     "start": 4.18,
+     "end": 4.84,
+     "word": "berkurang",
+     "p": 1.0
+    },
+    {
+     "start": 4.84,
+     "end": 5.8,
+     "word": "670",
+     "p": 1.0
+    },
+    {
+     "start": 5.8,
+     "end": 6.64,
+     "word": "unit,",
+     "p": 1.0
+    },
+    {
+     "start": 6.9,
+     "end": 7.58,
+     "word": "masa",
+     "p": 1.0
+    },
+    {
+     "start": 7.58,
+     "end": 8.26,
+     "word": "pencarian",
+     "p": 1.0
+    },
+    {
+     "start": 8.26,
+     "end": 8.68,
+     "word": "dokumen",
+     "p": 1.0
+    },
+    {
+     "start": 8.68,
+     "end": 9.24,
+     "word": "turun",
+     "p": 1.0
+    },
+    {
+     "start": 9.24,
+     "end": 9.62,
+     "word": "daripada",
+     "p": 1.0
+    },
+    {
+     "start": 9.62,
+     "end": 10.02,
+     "word": "30",
+     "p": 1.0
+    },
+    {
+     "start": 10.02,
+     "end": 10.68,
+     "word": "minit",
+     "p": 0.99
+    },
+    {
+     "start": 10.68,
+     "end": 11.0,
+     "word": "kepada",
+     "p": 1.0
+    },
+    {
+     "start": 11.0,
+     "end": 11.44,
+     "word": "3",
+     "p": 1.0
+    },
+    {
+     "start": 11.44,
+     "end": 11.98,
+     "word": "minit,",
+     "p": 1.0
+    },
+    {
+     "start": 11.98,
+     "end": 12.6,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 12.6,
+     "end": 13.28,
+     "word": "penggunaan",
+     "p": 1.0
+    },
+    {
+     "start": 13.28,
+     "end": 13.66,
+     "word": "dakwat",
+     "p": 0.99
+    },
+    {
+     "start": 13.66,
+     "end": 14.32,
+     "word": "berkurang",
+     "p": 1.0
+    },
+    {
+     "start": 14.32,
+     "end": 14.44,
+     "word": "1",
+     "p": 0.97
+    },
+    {
+     "start": 14.44,
+     "end": 15.38,
+     "word": ",101",
+     "p": 1.0
+    },
+    {
+     "start": 15.38,
+     "end": 16.14,
+     "word": "unit.",
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 16.14,
+   "end": 33.72,
+   "text": "Proses sewaan dan penjualan kini hanya 3 hari berbanding 14 hari. Ruang simpanan fail seluas 2,462 kaki persegi telah dikosongkan dan ruang pejabat di aras 10 serta aras 5 kini disewakan.",
+   "words": [
+    {
+     "start": 16.14,
+     "end": 17.44,
+     "word": "Proses",
+     "p": 0.98
+    },
+    {
+     "start": 17.44,
+     "end": 17.96,
+     "word": "sewaan",
+     "p": 0.99
+    },
+    {
+     "start": 17.96,
+     "end": 18.1,
+     "word": "dan",
+     "p": 1.0
+    },
+    {
+     "start": 18.1,
+     "end": 18.76,
+     "word": "penjualan",
+     "p": 1.0
+    },
+    {
+     "start": 18.76,
+     "end": 19.22,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 19.22,
+     "end": 19.38,
+     "word": "hanya",
+     "p": 1.0
+    },
+    {
+     "start": 19.38,
+     "end": 19.76,
+     "word": "3",
+     "p": 0.85
+    },
+    {
+     "start": 19.76,
+     "end": 20.18,
+     "word": "hari",
+     "p": 1.0
+    },
+    {
+     "start": 20.18,
+     "end": 21.2,
+     "word": "berbanding",
+     "p": 0.97
+    },
+    {
+     "start": 21.2,
+     "end": 21.5,
+     "word": "14",
+     "p": 1.0
+    },
+    {
+     "start": 21.5,
+     "end": 22.08,
+     "word": "hari.",
+     "p": 1.0
+    },
+    {
+     "start": 22.36,
+     "end": 23.18,
+     "word": "Ruang",
+     "p": 1.0
+    },
+    {
+     "start": 23.18,
+     "end": 23.68,
+     "word": "simpanan",
+     "p": 1.0
+    },
+    {
+     "start": 23.68,
+     "end": 23.9,
+     "word": "fail",
+     "p": 0.94
+    },
+    {
+     "start": 23.9,
+     "end": 24.54,
+     "word": "seluas",
+     "p": 1.0
+    },
+    {
+     "start": 24.54,
+     "end": 24.68,
+     "word": "2",
+     "p": 0.81
+    },
+    {
+     "start": 24.68,
+     "end": 26.7,
+     "word": ",462",
+     "p": 1.0
+    },
+    {
+     "start": 26.7,
+     "end": 27.16,
+     "word": "kaki",
+     "p": 0.99
+    },
+    {
+     "start": 27.16,
+     "end": 27.58,
+     "word": "persegi",
+     "p": 1.0
+    },
+    {
+     "start": 27.58,
+     "end": 28.24,
+     "word": "telah",
+     "p": 1.0
+    },
+    {
+     "start": 28.24,
+     "end": 28.86,
+     "word": "dikosongkan",
+     "p": 1.0
+    },
+    {
+     "start": 28.86,
+     "end": 29.62,
+     "word": "dan",
+     "p": 0.96
+    },
+    {
+     "start": 29.62,
+     "end": 29.92,
+     "word": "ruang",
+     "p": 0.74
+    },
+    {
+     "start": 29.92,
+     "end": 30.42,
+     "word": "pejabat",
+     "p": 0.99
+    },
+    {
+     "start": 30.42,
+     "end": 30.56,
+     "word": "di",
+     "p": 1.0
+    },
+    {
+     "start": 30.56,
+     "end": 30.88,
+     "word": "aras",
+     "p": 0.68
+    },
+    {
+     "start": 30.88,
+     "end": 31.08,
+     "word": "10",
+     "p": 1.0
+    },
+    {
+     "start": 31.08,
+     "end": 32.06,
+     "word": "serta",
+     "p": 0.99
+    },
+    {
+     "start": 32.06,
+     "end": 32.44,
+     "word": "aras",
+     "p": 1.0
+    },
+    {
+     "start": 32.44,
+     "end": 32.62,
+     "word": "5",
+     "p": 1.0
+    },
+    {
+     "start": 32.62,
+     "end": 33.18,
+     "word": "kini",
+     "p": 1.0
+    },
+    {
+     "start": 33.18,
+     "end": 33.72,
+     "word": "disewakan.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}

@@ -624,8 +624,8 @@ SCROLLHINT = ('<div style="position:absolute;left:330px;top:84px;font:800 22px J
 def spd2_homepage(scroll=0, full=False, click=None, soon=False):
     """1920x1080 browser frame. scroll shifts the page up to reveal the Green Dashboard section."""
     # FACTS ONLY (user's KPI table, kpi.jpeg); every figure appears once on the dashboard
-    kpis = [("PAPERLESS · KERTAS A4", "−25.4%", "1,242 → 926 unit", "316 unit dijimatkan"),
-            ("RESOURCE · DAKWAT", "−39.7%", "174 → 105 unit", "69 unit dijimatkan"),
+    kpis = [("PAPERLESS · KERTAS", "−11.2%", "6,000 → 5,330 unit", "670 unit dijimatkan"),
+            ("RESOURCE · DAKWAT", "−51.2%", "2,150 → 1,049 unit", "1,101 unit dijimatkan"),
             ]  # v11: only green figures from the KPI table (masa carian, ruang, CO2e, pokok dropped on request)
     kh = "".join(
         f'<div style="background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid #26745A">'
@@ -658,9 +658,9 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
         f'<b style="text-align:right">{v}%</b><span style="font:700 14px Plus Jakarta Sans;color:{c};background:{bg};padding:4px 10px;border-radius:20px;text-align:center">{r}</span></div>'
         for n, v, r, c, bg in [("Pentadbiran", 90, "Cemerlang", "#165A44", "#E9F2E7"), ("Kewangan", 85, "Baik", "#26745A", "#EEF5EC"),
                                ("Pengurusan Hartanah", 95, "Cemerlang", "#165A44", "#E9F2E7"), ("Pengurusan Projek", 75, "Memuaskan", "#9b7424", "#F7EFDC")])
-    # real figures from the KPI table (v14 revision): where the RM276,680.20 manfaat bersih comes from
+    # real figures from the KPI slide (v19): where the RM392,794.42 manfaat bersih comes from
     parts = [("Sewaan Aras 10 (MITCH)", 167400, "#D9AE52"), ("Sewaan Aras 5 (PMPC)", 98539.20, "#9b7424"),
-             ("Dakwat pencetak", 7107, "#26745A"), ("Kertas A4", 3634, "#B6D973")]
+             ("Dakwat pencetak", 119150.22, "#26745A"), ("Kertas", 7705, "#B6D973")]
     tot = sum(v for _, v, _ in parts)
     C, acc, arcs = 2 * 3.14159 * 78, 0.0, ""
     for _, v, col in parts:
@@ -704,7 +704,7 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
                       for m in ["Paperless Index", "Carbon Saving Index", "Resource Efficiency Index", "Green Performance Monitoring", "Green Analytics"])
     meter = "".join(f'<div style="flex:1;text-align:center;padding:10px 6px;border-right:1px solid rgba(255,255,255,.15)">'
                     f'<div style="font:800 30px Plus Jakarta Sans;color:#fff">{a}</div><div style="font:600 13px JetBrains Mono;color:#cfe3d6;letter-spacing:.06em">{b}</div></div>'
-                    for a, b in [("316", "UNIT A4 DIJIMAT"), ("69", "UNIT DAKWAT"), ("RM266k", "HASIL SEWAAN"), ("RM277k", "MANFAAT BERSIH")])
+                    for a, b in [("670", "UNIT KERTAS DIJIMAT"), ("1,101", "UNIT DAKWAT"), ("RM266k", "HASIL SEWAAN"), ("RM393k", "MANFAAT BERSIH")])
     page = f"""
 <div style="height:96px;background:#fff;display:flex;align-items:center;padding:0 34px;gap:26px;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;z-index:3">
 <div style="width:30px;height:20px;border-top:4px solid #8E1B33;border-bottom:4px solid #8E1B33;position:relative"><i style="position:absolute;left:0;right:0;top:4px;border-top:4px solid #8E1B33;display:block"></i></div>
@@ -734,8 +734,8 @@ def spd2_homepage(scroll=0, full=False, click=None, soon=False):
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">{modules}</div>
 <div style="display:grid;grid-template-columns:620px 1fr;gap:24px">
 <div style="background:#fff;border-radius:14px;padding:20px 26px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid #D9AE52">
-<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">MANFAAT BERSIH</div>
-<div style="font:800 52px/1.1 Plus Jakarta Sans;color:#9b7424;margin-top:8px">RM276,680.20</div>{split}</div>
+<div style="font:800 13px JetBrains Mono;letter-spacing:.12em;color:#6b7a73">PENJIMATAN &amp; PENAMBAHAN HASIL · MENGIKUT SUMBER</div>
+<div style="height:14px"></div>{split}</div>
 <div style="display:grid;grid-template-columns:1fr;gap:16px">{kh}</div></div>
 <div style="margin-top:24px;font:800 14px JetBrains Mono;letter-spacing:.14em;color:#6b7a73">5 MODUL SPD GREEN DASHBOARD</div>
 <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:12px">{mods_panel}</div>

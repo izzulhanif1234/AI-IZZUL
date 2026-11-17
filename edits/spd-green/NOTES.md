@@ -196,3 +196,13 @@
 ## v18
 - Intro question 1 clock: GSAP rotates SVG paths about their bbox corner unless told otherwise, so the minute and
   hour hands swung out of the dial. Both rotations now use svgOrigin "410 410" (the dial centre).
+
+## v19
+- KPI figures from the user's slide "Bukti prestasi sebelum dan selepas SPD": kertas 6,000 -> 5,330 (670 unit,
+  RM7,705); dakwat 2,150 -> 1,049 (1,101 unit, RM119,150.22 -- the slide's "69 unit" card contradicts its own
+  table, the table was used); carian, sewaan, ruang and sewaan pejabat unchanged. Intro question 2 now reads
+  6,000 "unit kertas dibeli sebelum SPD". Dashboard: kertas -11.2%, dakwat -51.2%, 4-part donut.
+- No total anywhere (user): the s15 MANFAAT BERSIH screen, its chips/bloom and audio cues are gone; the six cards
+  hold to the end of the line. The dashboard money card lists the four sources without a total.
+- v15 VO: one new take (`vo/take13/k1`, F0 97 Hz, LID ms 1.0); its closing total sentence was cut out at the
+  pause after "disewakan.", pauses capped with vo_even, -17 LUFS. Total length 3:53.

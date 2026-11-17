@@ -292,8 +292,8 @@ def s00(S):
                  '<path d="M24 6h12M30 6v6" stroke="#B6D973" stroke-width="4" stroke-linecap="round"/>'
                  '<path id="s00-hand" d="M30 34 V18" stroke="#fff" stroke-width="4" stroke-linecap="round" style="transform-origin:30px 34px"/></svg>'
                  f'<div style="font:800 70px \'JetBrains Mono\';color:#fff">{odo("00:47:12")}</div>')
-    paper = (f'<div style="font:800 84px \'Plus Jakarta Sans\';color:#fff">{odo("1,242")}</div>'
-             '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">unit kertas A4<br>dipohon pada 2021</div>')
+    paper = (f'<div style="font:800 84px \'Plus Jakarta Sans\';color:#fff">{odo("6,000")}</div>'
+             '<div style="text-align:left;font:600 26px/1.25 \'Plus Jakarta Sans\';color:#cfe3d6">unit kertas dibeli<br>sebelum SPD</div>')
     shelf = "".join(f'<rect class="s00-bx" x="{8 + c * 34}" y="{8 + r * 44}" width="28" height="38" rx="3" fill="#B6D973" opacity=".85"/>'
                     for r in range(3) for c in range(7))
     space = ('<div style="font:700 26px \'Plus Jakarta Sans\';color:#fff;background:rgba(8,36,26,.75);border:1.5px solid rgba(182,217,115,.6);'
@@ -1459,11 +1459,12 @@ tl.to(["#s14-old","#s14-arw","#s14-new","#s14-sv"],{{opacity:0,y:-30,duration:0.
 # --------------------------------------------------------------------------- S15 penjimatan kos
 @scene
 def s15(S):
-    """KPI dan pengukuran (user's KPI table, v14 revision): six before -> after cards, then MANFAAT BERSIH RM276,680.20
+    """KPI dan pengukuran (user's KPI slide "Bukti prestasi sebelum dan selepas SPD", v19): six before -> after cards, no total screen (the
+    slide gives no total and the user asked for the figures only).
     and where it comes from (kertas, dakwat, Aras 10 MITCH, Aras 5 PMPC)."""
-    K6 = [("Pembelian kertas A4", "1,242", "926", "unit", "Jimat 316 unit · RM3,634"),
+    K6 = [("Pembelian kertas", "6,000", "5,330", "unit", "Jimat 670 unit · RM7,705"),
           ("Masa pencarian dokumen", "30", "3", "minit", "Jimat 27 minit"),
-          ("Pencetakan dokumen (dakwat)", "174", "105", "unit", "Jimat 69 unit · RM7,107"),
+          ("Pencetakan dokumen (dakwat)", "2,150", "1,049", "unit", "Jimat 1,101 unit · RM119,150.22"),
           ("Proses sewaan &amp; penjualan", "14", "3", "hari", "Jimat 11 hari"),
           ("Ruang simpanan fail", "2,462.4", "0", "kp", "1,550 + 912.4 kp kini disewakan"),
           ("Sewaan ruang pejabat", "RM0", "RM265,939.20", "", "Aras 10 RM167,400 · Aras 5 RM98,539.20")]
@@ -1490,36 +1491,21 @@ def s15(S):
                  f'tl.fromTo("#s15-st{i}",{{scaleX:0}},{{scaleX:1,duration:0.4,ease:"expo.inOut"}},{t0 + 0.4:.2f});'
                  f'FX.odo(tl,"#s15-a{i}",{t0 + 0.45:.2f},1.0);'
                  f'tl.fromTo("#s15-s{i}",{{clipPath:"inset(0 100% 0 0 round 30px)"}},{{clipPath:"inset(0 0% 0 0 round 30px)",duration:0.6,ease:"expo.inOut"}},{t0 + 0.85:.2f});')
-    T = S.w("v15", "Keseluruhannya") - 0.25
     html = f"""
 <div class="F gdark">
   <div id="s15-hd" class="abs" style="left:90px;top:84px">
     <div class="kicker">KPI DAN PENGUKURAN</div>
     <div class="h1" style="font-size:66px;margin-top:8px">{kw("Impak yang diukur, bukan diandaikan.", "s15-h")}</div></div>
   <div id="s15-grid" class="abs" style="inset:0">{cards}</div>
-  <div id="s15-tot" class="abs" style="left:0;right:0;top:300px;text-align:center;opacity:0">
-    <div class="bloom" id="s15-bl" style="left:460px;right:460px;top:-60px;height:420px;background:radial-gradient(closest-side,rgba(217,174,82,.35),rgba(217,174,82,.08) 55%,transparent)"></div>
-    <div class="mono" style="position:relative;font-size:28px;letter-spacing:.24em;color:#e6c06a">MANFAAT BERSIH</div>
-    <div style="position:relative;display:inline-block;font:800 170px 'Plus Jakarta Sans';margin-top:10px">{odo("RM276,680.20", cls="odo-gold")}
-      <i class="uline" id="s15-ul" style="bottom:-4px;background:linear-gradient(90deg,rgba(217,174,82,0),#D9AE52 35%,#fff3c8)"></i></div>
-    <div style="position:relative;display:flex;justify-content:center;gap:16px;margin-top:40px">
-      {"".join(f'<div class="s15-bk" style="font:700 26px Plus Jakarta Sans;color:#fff;background:rgba(8,36,26,.8);border:1.5px solid rgba(217,174,82,.6);padding:12px 26px;border-radius:40px"><b style="color:#e6c06a">{v}</b> {l}</div>'
-                for v, l in [("RM3,634", "kertas"), ("RM7,107", "dakwat"), ("RM167,400", "Aras 10 (MITCH)"), ("RM98,539.20", "Aras 5 (PMPC)")])}</div></div>
   <div class="vign"></div>
 </div>"""
     js = f"""
 tl.fromTo("#s15-hd .kicker",{{opacity:0,y:-16}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},0.1);
 FX.words(tl,".s15-h > span",0.2,0.05);
 {js_c}
-// the total takes over: cards recede, gold total rolls in, breakdown chips follow
-tl.to(".s15-cd",{{opacity:0.12,scale:0.94,duration:0.6,stagger:0.03,ease:"power2.inOut"}},{T:.2f});
-tl.to("#s15-hd",{{opacity:0,y:-30,duration:0.4}},{T:.2f});
-tl.fromTo("#s15-tot",{{opacity:0,y:40}},{{opacity:1,y:0,duration:0.7,ease:"expo.out"}},{T + 0.3:.2f});
-FX.odo(tl,"#s15-tot",{T + 0.35:.2f},1.8,{{ltr:true,stagger:0.08,ease:"power3.out"}});
-FX.bloom(tl,"#s15-bl",{T + 1.2:.2f},1);
-FX.uline(tl,"#s15-ul",{T + 1.9:.2f});
-tl.fromTo(".s15-bk",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,stagger:0.18,ease:"expo.out"}},{T + 2.2:.2f});
-tl.to(["#s15-tot","#s15-grid"],{{opacity:0,duration:0.4}},{S.D - 0.45});
+// cards hold to the end of the line, then a gentle lift as the scene hands over
+tl.to(".s15-cd",{{y:-10,duration:1.2,stagger:0.03,ease:"sine.inOut"}},{S.D - 1.6:.2f});
+tl.to(["#s15-grid","#s15-hd"],{{opacity:0,duration:0.4}},{S.D - 0.45});
 """
     return html, js
 
@@ -1683,7 +1669,7 @@ def s19(S):
                   page, count=1, flags=re.S)
     page = page.replace('<div style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px">',
                         '<div id="s19-side" style="width:300px;background:#8E1B33;min-height:2000px;padding-top:20px;position:relative;z-index:2">', 1)
-    for i, v in enumerate(["RM276,680.20", "−25.4%", "−39.7%"]):
+    for i, v in [(1, "−11.2%"), (2, "−51.2%")]:  # v19: no total figure on the dashboard (user)
         page = re.sub(r'(margin-top:8px">)' + re.escape(v) + "</div>", lambda m, i=i, v=v: m.group(1) + f'<span class="s19-kv" id="s19-k{i}" style="display:inline-block">{odo(v)}</span></div>', page, count=1)
     page = page.replace('stroke="url(#gg)"', 'id="s19-g" stroke="url(#gg)"', 1)
     page = page.replace('font-size="76" fill="#0B2E22">82</text>', 'font-size="76" fill="#0B2E22" id="s19-gt">0</text>', 1)
@@ -1705,7 +1691,7 @@ def s19(S):
   <div id="s19-end" class="abs h1" style="left:0;right:0;top:470px;text-align:center;font-size:84px;opacity:0;text-shadow:0 10px 40px rgba(0,0,0,.7)">Apa yang diukur, <span style="color:var(--lime)">dapat diurus.</span></div>
   <div class="vign"></div>
 </div>"""
-    kv = [(1, t_ker), (2, t_dak), (0, t_kos)]
+    kv = [(1, t_ker), (2, t_dak)]
     js_kv = "".join(f'tl.fromTo("#s19-k{i}",{{opacity:0.12,y:10}},{{opacity:1,y:0,duration:0.5,ease:"expo.out"}},{t - 0.1:.2f});'
                     f'FX.odo(tl,"#s19-k{i}",{t - 0.1:.2f},0.9,{{stagger:0.05}});' for i, t in kv)
     js = f"""

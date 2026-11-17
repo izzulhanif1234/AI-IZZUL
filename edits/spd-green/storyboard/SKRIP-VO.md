@@ -37,7 +37,7 @@ Inilah impak SPD.
 Semakan aset alih yang sebelum ini mengambil masa dua puluh hari secara manual, kini dapat diselesaikan dalam dua hari melalui imbasan barcode.
 
 **S15 (v15)**
-Setiap impak diukur dengan jelas. Pembelian kertas berkurang tiga ratus enam belas unit, masa pencarian dokumen turun daripada tiga puluh minit kepada tiga minit, dan penggunaan dakwat berkurang enam puluh sembilan unit. Proses sewaan dan penjualan kini hanya tiga hari, berbanding empat belas hari. Ruang simpanan fail seluas dua ribu empat ratus enam puluh dua kaki persegi telah dikosongkan, dan ruang pejabat di Aras sepuluh serta Aras lima kini disewakan. Keseluruhannya, manfaat bersih mencecah dua ratus tujuh puluh enam ribu, enam ratus lapan puluh ringgit.
+Setiap impak diukur dengan jelas. Pembelian kertas berkurang enam ratus tujuh puluh unit, masa pencarian dokumen turun daripada tiga puluh minit kepada tiga minit, dan penggunaan dakwat berkurang seribu seratus satu unit. Proses sewaan dan penjualan kini hanya tiga hari, berbanding empat belas hari. Ruang simpanan fail seluas dua ribu empat ratus enam puluh dua kaki persegi telah dikosongkan, dan ruang pejabat di Aras sepuluh serta Aras lima kini disewakan.
 
 **S18 (v18)**
 SPD telah menerima pengiktirafan hak cipta sejak tahun dua ribu dua puluh, dan kini diguna pakai sepenuhnya sebagai platform utama pengurusan data M-Corp.
