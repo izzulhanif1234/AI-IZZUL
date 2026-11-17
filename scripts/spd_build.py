@@ -1482,7 +1482,7 @@ def s15(S):
                   f'<div style="position:relative;font:800 {52 if len(b) < 6 and len(a) < 9 else 44}px \'Plus Jakarta Sans\';color:rgba(255,255,255,.38);margin-bottom:10px">{b}'
                   f'<i class="s15-st" id="s15-st{i}" style="position:absolute;left:-6px;right:-6px;top:52%;height:6px;border-radius:3px;background:#ff5a5a;display:block;transform-origin:0 50%"></i></div>'
                   f'<svg viewBox="0 0 60 30" style="width:46px;flex:none;margin-bottom:28px"><path d="M2 15h48M40 5l12 10-12 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'
-                  f'<div id="s15-a{i}" style="flex:none;white-space:nowrap;font:800 {84 if len(a) < 6 else (70 if len(a) < 9 else 44)}px \'Plus Jakarta Sans\';{"margin-bottom:22px;" if len(a) >= 9 else ""}color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
+                  f'<div id="s15-a{i}" style="flex:none;white-space:nowrap;font:800 {84 if len(a) < 5 else (70 if len(a) < 9 else 44)}px \'Plus Jakarta Sans\';{"margin-bottom:22px;" if len(a) >= 9 else ""}color:{"#e6c06a" if gold else "#B6D973"};letter-spacing:-.02em">{odo(a)}</div>'
                   f'<div style="font:700 26px \'Plus Jakarta Sans\';color:#cfe3d6;margin-bottom:16px">{u}</div></div>'
                   f'<div class="s15-sv" id="s15-s{i}" style="display:inline-block;margin-top:10px;font:700 21px \'Plus Jakarta Sans\';color:#0B2E22;'
                   f'background:{"#e6c06a" if gold else "#B6D973"};padding:7px 16px;border-radius:30px;clip-path:inset(0 100% 0 0 round 30px)">{sv}</div></div>')
