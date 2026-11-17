@@ -40,7 +40,7 @@ Semakan aset alih yang sebelum ini mengambil masa dua puluh hari secara manual, 
 Setiap impak diukur dengan jelas. Pembelian kertas berkurang enam ratus tujuh puluh unit, masa pencarian dokumen turun daripada tiga puluh minit kepada tiga minit, dan penggunaan dakwat berkurang seribu seratus satu unit. Proses sewaan dan penjualan kini hanya tiga hari, berbanding empat belas hari. Ruang simpanan fail seluas dua ribu empat ratus enam puluh dua kaki persegi telah dikosongkan, dan ruang pejabat di Aras sepuluh serta Aras lima kini disewakan.
 
 **S15b (v15b)**
-Penjimatan enam ratus tujuh puluh rim kertas ini bersamaan lapan ribu empat ratus kilowatt-jam tenaga, dua puluh pokok, dua ribu dua ratus kilogram karbon, dan tujuh puluh lima ribu liter air yang dapat dielakkan.
+Penjimatan ini bersamaan lapan ribu empat ratus kilowatt-jam tenaga, dua puluh pokok, dua ribu dua ratus kilogram karbon dan tujuh puluh lima ribu liter air.
 
 **S18 (v18)**
 SPD telah menerima pengiktirafan hak cipta sejak tahun dua ribu dua puluh, dan kini diguna pakai sepenuhnya sebagai platform utama pengurusan data M-Corp.

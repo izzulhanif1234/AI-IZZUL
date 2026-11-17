@@ -214,3 +214,9 @@
   Four dim card shells rise first; each lights up and rolls its figure as the VO names it.
 - v15b VO (`vo/take14/e1`, F0 92 Hz, LID ms 1.0), word order follows the cards; pauses capped, atempo 1.08 (it read
   the long numbers slowly), -17 LUFS. Scene 16 s (the spelled-out numbers are long); total 4:09.
+
+## v21
+- s15b VO read too slowly (3.9 syl/s incl. pauses vs 4.4-5.0 elsewhere). Line shortened (the "670 rim kertas ini" is
+  on screen; "yang dapat dielakkan" dropped) and regenerated (`vo/take15/g/g1`): prompt asks for a low, steady
+  pitch with a flowing, slightly brisk pace -- a "brisk" prompt alone pushed F0 to 122-124 Hz. g1: F0 100 Hz,
+  4.88 syl/s, LID ms 1.0, no stretching. Scene 16.0 s -> 10.5 s; total 4:03. Previous line in `vo/v20_v15b`.

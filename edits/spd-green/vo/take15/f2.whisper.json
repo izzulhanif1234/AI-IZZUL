@@ -1,0 +1,121 @@
+{
+ "language": "ms",
+ "language_probability": 0.9981244206428528,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 11.24,
+   "text": "Penjimatan ini bersamaan 8,400 kWh tenaga, 20 pokok, 2,200 kg karbon dan 75,000 liter air.",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.72,
+     "word": "Penjimatan",
+     "p": 0.94
+    },
+    {
+     "start": 0.72,
+     "end": 1.06,
+     "word": "ini",
+     "p": 1.0
+    },
+    {
+     "start": 1.06,
+     "end": 1.7,
+     "word": "bersamaan",
+     "p": 1.0
+    },
+    {
+     "start": 1.7,
+     "end": 2.1,
+     "word": "8",
+     "p": 1.0
+    },
+    {
+     "start": 2.1,
+     "end": 3.12,
+     "word": ",400",
+     "p": 0.98
+    },
+    {
+     "start": 3.12,
+     "end": 4.0,
+     "word": "kWh",
+     "p": 0.8
+    },
+    {
+     "start": 4.0,
+     "end": 4.64,
+     "word": "tenaga,",
+     "p": 0.92
+    },
+    {
+     "start": 4.76,
+     "end": 5.44,
+     "word": "20",
+     "p": 1.0
+    },
+    {
+     "start": 5.44,
+     "end": 6.18,
+     "word": "pokok,",
+     "p": 1.0
+    },
+    {
+     "start": 6.2,
+     "end": 6.66,
+     "word": "2",
+     "p": 1.0
+    },
+    {
+     "start": 6.66,
+     "end": 7.46,
+     "word": ",200",
+     "p": 1.0
+    },
+    {
+     "start": 7.46,
+     "end": 8.06,
+     "word": "kg",
+     "p": 0.87
+    },
+    {
+     "start": 8.06,
+     "end": 8.9,
+     "word": "karbon",
+     "p": 1.0
+    },
+    {
+     "start": 8.9,
+     "end": 9.32,
+     "word": "dan",
+     "p": 0.99
+    },
+    {
+     "start": 9.32,
+     "end": 9.78,
+     "word": "75",
+     "p": 1.0
+    },
+    {
+     "start": 9.78,
+     "end": 10.64,
+     "word": ",000",
+     "p": 1.0
+    },
+    {
+     "start": 10.64,
+     "end": 10.9,
+     "word": "liter",
+     "p": 0.92
+    },
+    {
+     "start": 10.9,
+     "end": 11.24,
+     "word": "air.",
+     "p": 1.0
+    }
+   ]
+  }
+ ]
+}
