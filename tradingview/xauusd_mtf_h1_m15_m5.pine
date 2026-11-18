@@ -1,8 +1,8 @@
 //@version=6
 // =====================================================================
 //  XAUUSD MTF SOLID ENTRY  —  H1 (trend) + M15 (confirm) + M5 (entry)
-//  v2: entry lebih ketat (confluence score, rejection candle, ruang ke level H1,
-//      anti-spike, cooldown, had trade/loss sehari).
+//  v3: setting ditala untuk volatiliti emas semasa (ATR M5 ~40 pips) supaya signal
+//      betul-betul keluar; dashboard tunjuk filter mana yang menapis signal.
 //  Pasang pada chart XAUUSD timeframe 5 minit (M5).
 //  SL berdasarkan swing, MAKSIMUM 50 pips (1 pip XAUUSD = 0.10 secara default).
 // =====================================================================
@@ -30,28 +30,30 @@ m15RsiL = input.int(14, "M15 RSI Length", minval = 1, group = grpM15)
 grpM5   = "4. M5 Entry"
 m5Fast  = input.int(9,  "M5 EMA Fast", minval = 1, group = grpM5)
 m5Slow  = input.int(21, "M5 EMA Slow (zon pullback)", minval = 1, group = grpM5)
+pbZone  = input.string("EMA9", "Pullback mesti sentuh", options = ["EMA9", "EMA21"], group = grpM5)
 pbBars  = input.int(4,  "Pullback lookback (bars)", minval = 1, group = grpM5)
 rsiLen  = input.int(14, "M5 RSI Length", minval = 1, group = grpM5)
-rsiMaxB = input.int(68, "BUY: RSI max (elak beli di puncak)", group = grpM5)
-rsiMinS = input.int(32, "SELL: RSI min (elak jual di dasar)", group = grpM5)
+rsiMaxB = input.int(70, "BUY: RSI max (elak beli di puncak)", group = grpM5)
+rsiMinS = input.int(30, "SELL: RSI min (elak jual di dasar)", group = grpM5)
 atrLen  = input.int(14, "ATR Length", minval = 1, group = grpM5)
 spikeX  = input.float(1.8, "Anti-spike: badan candle max (x ATR)", minval = 0.5, step = 0.1, group = grpM5)
 
 grpSc   = "5. Confluence Score"
 adxLen  = input.int(14, "ADX Length", minval = 1, group = grpSc)
-adxMin  = input.float(22, "ADX minimum", group = grpSc)
+adxMin  = input.float(20, "ADX minimum", group = grpSc)
 volLen  = input.int(20, "Purata volume (bars)", minval = 1, group = grpSc)
-minScore = input.int(4, "Skor minimum untuk signal (dari 6)", minval = 0, maxval = 6, group = grpSc)
+minScore = input.int(3, "Skor minimum untuk signal (dari 6)", minval = 0, maxval = 6, group = grpSc)
 
 grpRisk  = "6. Risk / SL / TP"
 pipSize  = input.float(0.10, "Saiz 1 pip (XAUUSD biasanya 0.10)", step = 0.01, group = grpRisk)
 maxSLp   = input.float(50, "SL maksimum (pips)", minval = 1, maxval = 50, group = grpRisk)
 minSLp   = input.float(15, "SL minimum (pips)", minval = 1, group = grpRisk)
-swingLB  = input.int(10, "Swing lookback untuk SL (bars)", minval = 2, group = grpRisk)
-bufPips  = input.float(5, "Buffer bawah/atas swing (pips)", minval = 0, group = grpRisk)
+swingLB  = input.int(5, "Swing lookback untuk SL (bars)", minval = 2, group = grpRisk)
+bufPips  = input.float(3, "Buffer bawah/atas swing (pips)", minval = 0, group = grpRisk)
+slMode   = input.string("Cap pada maksimum", "Jika swing SL > maksimum", options = ["Cap pada maksimum", "Skip trade"], group = grpRisk)
 rr       = input.float(1.0, "TP = SL x (Risk:Reward)", minval = 0.1, step = 0.1, group = grpRisk)
 useBE    = input.bool(true, "Breakeven", group = grpRisk)
-beTrig   = input.float(0.6, "Pindah SL ke BE bila untung capai (x SL)", minval = 0.1, step = 0.1, group = grpRisk)
+beTrig   = input.float(0.5, "Pindah SL ke BE bila untung capai (x SL)", minval = 0.1, step = 0.1, group = grpRisk)
 beLock   = input.float(2, "Kunci untung semasa BE (pips)", minval = 0, group = grpRisk)
 
 grpDisc  = "7. Disiplin"
@@ -108,9 +110,10 @@ bullTrig = bullEngulf or bullPin or bullStrong
 bearTrig = bearEngulf or bearPin or bearStrong
 noSpike  = body <= atr * spikeX
 
-// WAJIB M5: pullback ke EMA21 -> candle rejection -> tutup atas EMA9 & pecah high candle sebelum
-m5Buy  = ta.lowest(low, pbBars)   <= e5S and e5F > e5S and close > e5F and close > high[1] and bullTrig and rsi5 > 50 and rsi5 < rsiMaxB and noSpike
-m5Sell = ta.highest(high, pbBars) >= e5S and e5F < e5S and close < e5F and close < low[1]  and bearTrig and rsi5 < 50 and rsi5 > rsiMinS and noSpike
+// WAJIB M5: pullback ke EMA -> candle rejection -> tutup atas EMA9 & pecah high candle sebelum
+pbRef  = pbZone == "EMA9" ? e5F : e5S
+m5Buy  = ta.lowest(low, pbBars)   <= pbRef and e5F > e5S and close > e5F and close > high[1] and bullTrig and rsi5 > 50 and rsi5 < rsiMaxB and noSpike
+m5Sell = ta.highest(high, pbBars) >= pbRef and e5F < e5S and close < e5F and close < low[1]  and bearTrig and rsi5 < 50 and rsi5 > rsiMinS and noSpike
 
 // ======================= SL / TP =======================
 maxSL = maxSLp * pipSize
@@ -120,9 +123,11 @@ buf   = bufPips * pipSize
 rawSLBuy  = close - (ta.lowest(low, swingLB) - buf)
 rawSLSell = (ta.highest(high, swingLB) + buf) - close
 
-// Swing SL lebih 50 pips = struktur terlalu luas -> skip (bukan entry solid)
-slBuy  = rawSLBuy  > maxSL ? na : math.max(rawSLBuy,  minSL)
-slSell = rawSLSell > maxSL ? na : math.max(rawSLSell, minSL)
+// SL tidak pernah lebih 50 pips: cap pada maksimum, atau skip trade (ikut setting)
+f_sl(raw) =>
+    raw > maxSL ? (slMode == "Skip trade" ? na : maxSL) : math.max(raw, minSL)
+slBuy  = f_sl(rawSLBuy)
+slSell = f_sl(rawSLSell)
 
 // WAJIB: ada ruang ke level H1 (atau harga sudah pecah level tu)
 roomBuy  = not useRoom or close > h1Hi or (h1Hi - close) >= nz(slBuy)  * rr
@@ -165,6 +170,26 @@ baseOk = flat and sessOk and friOk and coolOk and dayOk and barstate.isconfirmed
 
 buySignal  = baseOk and h1Bull and m15Bull and m5Buy  and not na(slBuy)  and roomBuy  and scBuy  >= minScore
 sellSignal = baseOk and h1Bear and m15Bear and m5Sell and not na(slSell) and roomSell and scSell >= minScore
+
+// Diagnostik: berapa candle lulus setiap peringkat (untuk tahu filter mana paling ketat)
+var int dAlign = 0
+var int dM5    = 0
+var int dSL    = 0
+var int dRoom  = 0
+var int dScore = 0
+stB1 = sessOk and friOk and h1Bull and m15Bull
+stS1 = sessOk and friOk and h1Bear and m15Bear
+stB2 = stB1 and m5Buy
+stS2 = stS1 and m5Sell
+stB3 = stB2 and not na(slBuy)
+stS3 = stS2 and not na(slSell)
+stB4 = stB3 and roomBuy
+stS4 = stS3 and roomSell
+dAlign += stB1 or stS1 ? 1 : 0
+dM5    += stB2 or stS2 ? 1 : 0
+dSL    += stB3 or stS3 ? 1 : 0
+dRoom  += stB4 or stS4 ? 1 : 0
+dScore += (stB4 and scBuy >= minScore) or (stS4 and scSell >= minScore) ? 1 : 0
 
 // ======================= ORDER MANAGEMENT =======================
 var float slPrice  = na
@@ -229,7 +254,7 @@ plot(useRoom ? h1Lo : na, "H1 Support",    color = color.new(color.green, 60), s
 bgcolor(h1Bull and m15Bull ? color.new(color.green, 94) : h1Bear and m15Bear ? color.new(color.red, 94) : na, title = "Bias H1+M15")
 
 // ======================= DASHBOARD =======================
-var table dash = table.new(position.top_right, 2, 10, bgcolor = color.new(color.black, 20), border_width = 1, border_color = color.gray)
+var table dash = table.new(position.top_right, 2, 15, bgcolor = color.new(color.black, 20), border_width = 1, border_color = color.gray)
 
 f_bias(bull, bear) => bull ? "BULL" : bear ? "BEAR" : "NEUTRAL"
 f_col(bull, bear) => bull ? color.green : bear ? color.red : color.gray
@@ -262,3 +287,13 @@ if showDash and barstate.islast
     table.cell(dash, 1, 8, str.tostring(pf, "#.00"), text_color = pf >= 1.3 ? color.lime : pf >= 1 ? color.yellow : color.red)
     table.cell(dash, 0, 9, "Net P/L", text_color = color.white)
     table.cell(dash, 1, 9, str.tostring(strategy.netprofit, "#.##"), text_color = strategy.netprofit >= 0 ? color.lime : color.red)
+    table.cell(dash, 0, 10, "Lulus: H1+M15", text_color = color.silver)
+    table.cell(dash, 1, 10, str.tostring(dAlign), text_color = color.silver)
+    table.cell(dash, 0, 11, "+ corak M5", text_color = color.silver)
+    table.cell(dash, 1, 11, str.tostring(dM5), text_color = color.silver)
+    table.cell(dash, 0, 12, "+ SL <= max", text_color = color.silver)
+    table.cell(dash, 1, 12, str.tostring(dSL), text_color = color.silver)
+    table.cell(dash, 0, 13, "+ ruang H1", text_color = color.silver)
+    table.cell(dash, 1, 13, str.tostring(dRoom), text_color = color.silver)
+    table.cell(dash, 0, 14, "+ skor (calon)", text_color = color.silver)
+    table.cell(dash, 1, 14, str.tostring(dScore), text_color = color.silver)
