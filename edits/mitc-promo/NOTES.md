@@ -1,6 +1,6 @@
 # MITC: promo reel (9:16, no voiceover)
 
-29.8 s, 1080x1920, HyperFrames project in `hf/` (single `hf/index.html`). Content follows the MITC
+32.9 s, 1080x1920 (v2), HyperFrames project in `hf/` (single `hf/index.html`). Content follows the MITC
 poster "Pusat Konvensyen & Acara Perniagaan Bertaraf Antarabangsa" plus facts from site.mitc.org.my.
 No voiceover (requested). Music plus kinetic text only.
 
@@ -35,3 +35,17 @@ No voiceover (requested). Music plus kinetic text only.
   so the 01/02 cards no longer read as the same frame twice.
 - Ballroom photo was used in both the hook and pillar 01: hook now uses the banquet photo, pillar 03
   uses the lobby digital-screen photo.
+
+## Revision 2 (music + SFX)
+- Music replaced: "Driving Ambition" by Ahjay Stelino (Mixkit, genre Film Score / corporate,
+  https://assets.mixkit.co/music/32/32.mp3, Mixkit Stock Music Free License). 100 BPM, beat 0.6002 s.
+  `assets/bgm/bed.wav` = 35.5225-60.67 s (build -> drop at 38.485 lands on the logo reveal, video 2.962 s)
+  + 93.08 s-end (ending phrase, last chord 96.07 s lands on the outro, video 28.137 s), 80 ms crossfade
+  on a beat, loudnorm -16 LUFS.
+- Whole composition retimed by K = 0.6002/0.545 (old beat grid -> new), outro shifted -0.056 s onto
+  the final chord; total 32.8 s. All times in the storyboard above scale by K.
+- Sound design re-done with synthesized SFX (`scripts/mitc_sfx.py`, deterministic) in `hf/assets/sfx/`:
+  text hits on each hook line, reverse swell + cinematic boom on the drop / awards / outro, big
+  whoosh into each pillar and the location, swish on every photo cut, ascending blips on the chips
+  and badges, shimmer on logo and badges, thud on the pin landing. The old Pixabay set was removed.
+- Final: `final/MITC-Promo-v2.mp4`, -14.7 LUFS, -2.8 dBTP.
