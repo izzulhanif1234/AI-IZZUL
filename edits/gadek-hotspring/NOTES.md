@@ -1,6 +1,6 @@
 # Gadek Hotspring Wellness & Spa Resort — Video Korporat (16:9)
 
-1:48 (107.6 s), 1920x1080, HyperFrames project in `hf/`. `scripts/gadek_build.py` writes
+1:52 (112.05 s), 1920x1080, HyperFrames project in `hf/`. `scripts/gadek_build.py` writes
 `hf/index.html` and `hf/compositions/fx.html` (from `fx.tpl.html`) plus `cues.json`.
 Every cut, SFX and graphic is a cue tied to the VO: a line's start/end or the start of one of its
 script words, so changing the VO re-times the whole film. Storyboard JPGs in `storyboard/`
@@ -14,7 +14,7 @@ no room prices, capacities or promo notes anywhere (room cards show name + one p
 ## Scenes
 Pembukaan · Tajuk · 01 Sejarah (2 beats, first one graded "vintage") · 02 Kini (16.12.2024, 30
 warga kerja) · 03 Kolam Air Panas · 04 Kolam Kanak-Kanak · 05 Penginapan (4 room cards, then
-private-pool photos) · 06 Kemudahan · 07 Lokasi & Waktu (25 km, pool hours) · Tagline · End card.
+private-pool photos) · 06 Kemudahan · 07 Lokasi & Waktu (Kampung Ganun via Melaka–Tampin road, pool hours; no "dekat"/25 km claim) · Tagline · End card.
 See the storyboard JPGs for frames, VO and on-screen text per scene.
 
 ## Audio
