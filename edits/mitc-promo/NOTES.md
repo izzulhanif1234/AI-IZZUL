@@ -61,3 +61,17 @@ No voiceover (requested). Music plus kinetic text only.
   Signage, Pasukan Berpengalaman) -> awards -> outro (final chord 38.94 s).
 - Music re-cut: 35.5225-71.47 s + 93.08 s-end (offset 36 beats), drop on the logo at 2.962 s.
 - `storyboard-v3.jpg`: one frame per shot. Final `final/MITC-Promo-v3.mp4`, 43.7 s, -14.4 LUFS, -2.2 dBTP.
+
+## Revision 4 (hypermotion corporate cut, 55.7 s, no SFX)
+- Built by `scripts/mitc_build.py` from `style.v4.css` + `timeline.v4.js` (all times derive from the
+  beat grid there). Music only: bed.wav = Driving Ambition 26.481-74.47 s + 93.08 s-end; drop at
+  12.004 s, final chord at 50.983 s.
+- 0-12 s MITC introduction over the build: name, 3.1 ekar, 13,090 m2 (site.mitc.org.my/about),
+  3 Dewan Pameran (Hall A/B/C) · 6 Bilik Mesyuarat · 1 Grand Ballroom (venue page), "Think MICE,
+  Think MITC!" with an accelerating zoom into the facade sign (exterior-hi.jpg, sign at 2082,1012 px).
+- Sections 01 Dewan Pameran (8 shots), 02 Konvensyen & Mesyuarat, 03 Ballroom (3 shots only),
+  04 Perkhidmatan Bersepadu; transitions zoom / whipL / whipU / spin / push3d on untimed wrappers,
+  punch-in + drift on every shot, HUD frame, light leaks; awards now include CMIEA 2025.
+- New hall clips (GoTravel Expo, Karnival Kerjaya TVET, Hang Tuah houses, Grand Ballroom 2nd angle,
+  logo-bg) in `scripts/mitc_clips.sh`; hook-star limited to its sharp 6.6-8.4 s window.
+- `storyboard-v4.jpg`; final `final/MITC-Promo-v4.mp4`, -13.8 LUFS, -2.8 dBTP.
