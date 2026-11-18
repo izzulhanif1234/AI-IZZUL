@@ -1,120 +1,92 @@
-"""Gadek Hotspring corporate video: writes edits/gadek-hotspring/hf/index.html and
-hf/compositions/fx.html (from edits/gadek-hotspring/fx.tpl.html), plus hf/../cues.json.
+"""Gadek Hotspring corporate video (v3, no voice-over, cut to the music): writes
+edits/gadek-hotspring/hf/index.html, hf/compositions/fx.html (from ../fx.tpl.html) and ../cues.json.
 
-Every time in the film is a cue tied to the voice-over: the VO lines are laid end to end with the
-pauses in GAPS, and cuts, SFX and graphics hang off a line's start/end or the start of one of its
-script words (word timings in hf/assets/vo/<id>.words.json, from scripts/gadek_split_vo.py).
+Every time is snapped to the beat grid of the music (beats.json, librosa on "Dreaming Big", 136 BPM).
+Only steady stretches of the drone footage are used: per-second camera speed/jerk was measured
+(phase correlation) and the take-off/adjusting parts and the shot with the operator are left out.
 usage: python3 scripts/gadek_build.py"""
 import html as htmllib, json, os, subprocess
 
 HF = os.path.join(os.path.dirname(__file__), "..", "edits", "gadek-hotspring", "hf")
 GRADES = json.load(open(os.path.join(HF, "..", "grades.json")))  # from `hyperframes media-treatment`
+BEATS = json.load(open(os.path.join(HF, "..", "beats.json")))
+MUSIC = "assets/bgm/dreaming-big.mp3"
 XF = 0.5  # crossfade length between consecutive shots
-START = 1.5  # first VO line
-TAIL = 3.2  # end card holds this long after the last line
-# pause before each line (after the previous line ends)
-GAPS = {"v02": 1.3, "v03": 1.7, "v04": 0.9, "v05": 1.2, "v06": 1.2, "v07": 1.1, "v08": 1.1, "v09": 0.8,
-        "v10": 1.1, "v11": 1.0, "v12": 1.4, "v13": 0.6}
-IDS = ["v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12", "v13"]
+TOTAL = 109.5
+
+
+def B(t):
+    """nearest beat to t"""
+    return round(min(BEATS, key=lambda b: abs(b - t)), 3)
 
 
 def dur(path):
     return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path]).decode())
 
 
-def layout():
-    vb, words, t = {}, {}, START
-    for k in IDS:
-        t += GAPS.get(k, 0)
-        d = dur(f"{HF}/assets/vo/{k}.wav")
-        vb[k] = (round(t, 3), round(t + d, 3), d)
-        words[k] = json.load(open(f"{HF}/assets/vo/{k}.words.json"))
-        t += d
-    return vb, words, round(t + TAIL, 2)
-
-
-VB, WORDS, TOTAL = layout()
-
-
-def L(k, off=0.0):
-    return round(VB[k][0] + off, 3)
-
-
-def E(k, off=0.0):
-    return round(VB[k][1] + off, 3)
-
-
-def Wd(k, word, off=0.0, nth=1):
-    """film time of the nth script word in line k that starts with `word` (case-insensitive)"""
-    hits = [w for w in WORDS[k] if w["word"].lower().strip(".,?!").startswith(word.lower())]
-    return round(VB[k][0] + max(0.0, hits[nth - 1]["start"]) + off, 3)
-
-
-# graphics cues (fx.tpl.html reads them as C.<name>)
-CUES = {
-    "loc_in": Wd("v01", "Alor", -0.4), "loc_out": E("v01", 0.5),
-    "ttl_in": L("v02", -0.5), "ttl_out": L("v03", -1.1),
-    "bug_in": L("v03", -0.4), "bug_out": L("v13", -0.6),
-    "c1_in": L("v03", 0.2), "c1_out": E("v03", 0.1),
-    "c1b_in": L("v04", 0.3), "c1b_out": E("v04", 0.3),
-    "c2_in": L("v05", 0.2), "c2_out": E("v05", 0.3),
-    "st1": Wd("v05", "enam"), "st2": Wd("v05", "tiga", nth=1),
-    "c3_in": L("v06", 0.2), "c3_out": E("v06", 0.3),
-    "c3_p": [Wd("v06", "otot"), Wd("v06", "peredaran"), Wd("v06", "menenangkan")],
-    "c4_in": L("v07", 0.2), "c4_out": E("v07", 0.3),
-    "c4_p": [Wd("v07", "suam"), Wd("v07", "cetek"), Wd("v07", "selamat")],
-    "c5_in": L("v08", 0.15), "c5_out": Wd("v08", "Pilih", -0.5),
-    "rooms_in": Wd("v08", "Pilih", -0.3),
-    "rooms_c": [Wd("v08", "bilik"), Wd("v08", "selesa"), Wd("v08", "chalet"), Wd("v08", "khas")],
-    "rooms_out": L("v09", -0.5),
-    "c5b_in": L("v09", 0.1), "c5b_out": L("v10", -0.6),
-    "c6_in": L("v10", 0.2), "c6_out": E("v10", 0.3),
-    "c6_p": [Wd("v10", "vendor"), Wd("v10", "dewan"), Wd("v10", "kafe"), Wd("v10", "surau"), Wd("v10", "parkir")],
-    "c7_in": L("v11", 0.2), "c7_out": E("v11", 0.3),
-    "pin": Wd("v11", "Kampung", -0.2), "hours": Wd("v11", "Kolam", -0.2),
-    "tag1": Wd("v12", "Rehatkan", -0.1), "tag2": Wd("v12", "tenangkan", -0.1), "tag_out": L("v13", -0.6),
-    "end_in": L("v13", -0.4), "black_out": round(TOTAL - 0.9, 2),
-}
-
-# (cut time, clip, media start, grade) ; each shot runs to the next cut (+XF overlap)
+# (cut time, clip, media start, grade); every shot is inside a measured steady stretch
 SHOTS = [
-    (0.0, "d0392", 36.0, ""),                          # sky, village, hills
-    (Wd("v01", "Tapi", -0.2), "d0388", 0.5, ""),       # "tapi di sini": the gate
-    (L("v02", -0.9), "d0382", 1.0, ""),                # wide aerial (title)
-    (L("v03", -0.9), "d0392", 42.0, "vintage"),        # history: village
-    (Wd("v03", "pegawai", -0.3), "d0386", 2.0, "vintage"),  # Geotapak sign
-    (L("v04", -0.2), "d0385", 2.0, ""),                # colour returns at "selepas merdeka"
-    (Wd("v04", "Ia", -0.2), "d0389", 10.0, ""),        # chalets, greenery
-    (L("v05", -0.4), "d0388", 8.0, ""),                # rising reveal (hari ini)
-    (Wd("v05", "Sejak", -0.2), "d0387", 14.0, ""),     # concourse with visitors
-    (L("v06", -0.4), "d0385", 8.0, ""),                # hot spring pool
-    (Wd("v06", "melancarkan", -0.2), "d0385", 11.5, ""),
-    (L("v07", -0.4), "d0392", 1.0, ""),                # kids pool push-in
-    (Wd("v07", "Kolam", -0.2), "d0383", 10.0, ""),     # kids pool orbit
-    (L("v08", -0.5), "d0389", 4.0, ""),                # chalets with private pools (room grid over it)
-    (L("v09", -0.6), None, "pool2", ""),               # photo
-    (Wd("v09", "bangun", -0.2), None, "pool4", ""),    # photo
-    (L("v10", -0.5), "d0387", 2.0, ""),                # concourse / vendors
-    (Wd("v10", "dewan", -0.2), "d0392", 20.0, ""),     # hall building
-    (Wd("v10", "kafe", -0.2), "d0391", 4.0, ""),       # cafe
-    (Wd("v10", "ruang", -0.2), "d0382", 7.0, ""),      # parking
-    (L("v11", -0.5), "d0388", 13.0, ""),               # wide: complex and main road
-    (L("v12", -0.7), "d0389", 19.0, ""),               # fly-over to the kids pool
-    (L("v13", -0.4), "d0383", 12.5, "endblur"),        # end-card background
+    (0.0, "d0392", 29.5, ""),             # village & hills, slow drift
+    (B(6.7), "d0388", 7.0, ""),           # rising reveal of the complex
+    (B(12.0), "d0382", 2.0, ""),          # wide aerial (title)
+    (B(19.5), "d0386", 11.5, "vintage"),  # Geotapak sign, history
+    (B(26.5), "d0389", 0.5, ""),          # chalets & kids pool from above, colour returns
+    (B(33.5), "d0388", 14.0, ""),         # wide rising (Kini)
+    (B(37.7), "d0387", 3.0, ""),          # concourse tracking shot
+    (B(42.0), "d0385", 2.0, ""),          # hot spring pool
+    (B(46.4), "d0385", 6.3, ""),
+    (B(51.0), "d0392", 1.0, ""),          # kids pool push-in
+    (B(55.4), "d0383", 9.0, ""),          # kids pool orbit
+    (B(60.0), "d0389", 0.0, ""),          # chalets with private pools (room grid over it)
+    (B(70.0), None, "pool2", ""),         # photo
+    (B(72.5), None, "pool4", ""),         # photo
+    (B(75.0), "d0387", 17.5, ""),         # concourse with visitors
+    (B(78.5), "d0391", 5.0, ""),          # cafe
+    (B(82.0), "d0382", 7.5, ""),          # parking
+    (B(86.0), "d0388", 15.5, ""),         # wide: complex and main road (climax)
+    (B(95.4), "d0389", 21.0, ""),         # fly-over to the kids pool
+    (B(101.4), "d0382", 4.0, "endblur"), # end-card background (blurred)
 ]
-
+S = [t for t, *_ in SHOTS]
+CUES = {
+    "loc_in": B(1.8), "loc_out": B(5.8),
+    "ttl_in": S[2] + 0.35, "ttl_out": B(18.9),
+    "bug_in": B(19.9), "bug_out": S[19] - 0.6,
+    "c1_in": B(20.1), "c1_out": B(25.9), "c1b_in": B(27.0), "c1b_out": B(32.9),
+    "c2_in": B(34.0), "c2_out": B(41.3), "st1": B(35.8), "st2": B(38.4),
+    "c3_in": B(42.5), "c3_out": B(50.4), "c3_p": [B(44.4), B(45.7), B(47.0)],
+    "c4_in": B(51.5), "c4_out": B(59.4), "c4_p": [B(53.4), B(54.7), B(56.0)],
+    "c5_in": B(60.5), "c5_out": B(63.4), "rooms_in": B(63.9),
+    "rooms_c": [B(64.4), B(65.3), B(66.2), B(67.1)], "rooms_out": B(69.5),
+    "c5b_in": B(70.5), "c5b_out": B(74.5),
+    "c6_in": B(75.5), "c6_out": B(85.4), "c6_p": [B(77.4), B(78.5), B(79.6), B(80.7), B(81.8)],
+    "c7_in": B(86.4), "c7_out": B(94.8), "pin": B(87.8), "hours": B(89.6),
+    "tag1": B(96.4), "tag2": B(97.8), "tag_out": B(100.8),
+    "end_in": S[19], "black_out": round(TOTAL - 0.9, 2),
+}
 C = CUES
-SFX = [  # (time, file, volume)
-    (0.1, "whoosh-cinematic.mp3", 0.25), (SHOTS[1][0], "whoosh-short.mp3", 0.2),
-    (C["ttl_in"] - 0.4, "whoosh-cinematic.mp3", 0.35), (C["ttl_in"] + 0.05, "impact-bass-2.mp3", 0.45), (C["ttl_in"] + 0.3, "sparkle.mp3", 0.3),
-    (C["c1_in"] - 0.1, "whoosh-short.mp3", 0.25), (C["c1b_in"] - 0.1, "whoosh-short.mp3", 0.25), (C["c2_in"] - 0.1, "whoosh-short.mp3", 0.25),
-    (C["st1"], "pop.mp3", 0.3), (C["st2"], "pop.mp3", 0.3),
-    (C["c3_in"] - 0.1, "whoosh-short.mp3", 0.25), *[(t, "pop.mp3", 0.25) for t in C["c3_p"]],
-    (C["c4_in"] - 0.1, "whoosh-short.mp3", 0.25), *[(t, "pop.mp3", 0.25) for t in C["c4_p"]],
-    (C["c5_in"] - 0.1, "whoosh-short.mp3", 0.25), *[(t, "whoosh-short.mp3", 0.22) for t in C["rooms_c"]],
-    (C["c6_in"] - 0.1, "whoosh-short.mp3", 0.25), *[(t, "pop.mp3", 0.25) for t in C["c6_p"]],
-    (C["c7_in"] - 0.1, "whoosh-short.mp3", 0.25), (C["pin"], "ping.mp3", 0.25), (C["hours"], "whoosh-short.mp3", 0.25),
-    (C["tag1"] - 0.3, "whoosh-cinematic.mp3", 0.25), (C["end_in"], "whoosh.mp3", 0.35), (C["end_in"] + 0.3, "chime.mp3", 0.3),
+SFX = [  # light touches only: the music carries the film
+    (C["ttl_in"] - 0.5, "whoosh-cinematic.mp3", 0.3), (C["ttl_in"], "impact-bass-2.mp3", 0.35), (C["ttl_in"] + 0.25, "sparkle.mp3", 0.25),
+    *[(C[k] - 0.1, "whoosh-short.mp3", 0.15) for k in ("c1_in", "c2_in", "c3_in", "c4_in", "c5_in", "c6_in", "c7_in")],
+    *[(t, "pop.mp3", 0.15) for t in (C["st1"], C["st2"], *C["c3_p"], *C["c4_p"], *C["c6_p"])],
+    *[(t, "whoosh-short.mp3", 0.13) for t in C["rooms_c"]],
+    (C["end_in"] + 0.3, "chime.mp3", 0.25),
+]
+# storyboard rows: (name, first shot, frame time, visual, on-screen text)
+SCENES = [
+    ("Pembukaan", 0, B(4.5), "Drone: kampung & bukit Alor Gajah → kompleks didedahkan dari atas", "Pin lokasi: ALOR GAJAH · MELAKA"),
+    ("Tajuk", 2, C["ttl_in"] + 3.0, "Drone: aerial penuh kompleks", "Logo Gadek Hotspring Wellness & Spa Resort + kilatan; Kampung Ganun · Alor Gajah · Melaka"),
+    ("01 · Sejarah (1)", 3, C["c1_out"] - 1.2, "Papan tanda Geotapak (gred vintaj, rasa lama)", "Rahsia Zaman British / Pegawai & askar British dikatakan berendam di sini untuk mengubati penyakit"),
+    ("01 · Sejarah (2)", 4, C["c1b_out"] - 1.2, "Chalet & kolam kanak-kanak dari atas (warna kembali)", "Bukan Air Biasa / Mata air panas semula jadi, mengalir terus dari dalam bumi"),
+    ("02 · Kini", 5, C["c2_out"] - 0.8, "Drone naik dedah kompleks → ruang legar", "Warisan Dihidupkan Semula; kad 16.12.2024 Mula beroperasi; kad 30 Warga kerja"),
+    ("03 · Kolam Air Panas", 7, C["c3_out"] - 0.8, "Orbit kolam air panas dewasa", "Lepaskan Penat + Lega ketegangan otot · Lancar peredaran darah · Tenangkan fikiran"),
+    ("04 · Kolam Kanak-Kanak", 9, C["c4_out"] - 0.8, "Push-in ke taman permainan air → orbit kolam kanak-kanak", "Dunia Si Kecil + Air suam semula jadi · Kawasan cetek · Selamat & mesra keluarga"),
+    ("05 · Penginapan", 11, C["rooms_out"] - 0.6, "Drone chalet berkolam peribadi → 4 kad bilik ikut beat", "Satu Hari Tak Cukup? Kad: Single Room · Deluxe Room · Chalet Single · Chalet Family (tiada harga)"),
+    ("05 · Penginapan (2)", 12, C["c5b_out"] - 1.0, "Foto kolam peribadi chalet (Ken Burns)", "Berendam Di Bawah Bintang / Kolam air panas peribadi di setiap chalet"),
+    ("06 · Kemudahan", 14, C["c6_out"] - 0.8, "Ruang legar → kafe → parkir", "Semuanya Ada Di Sini + Tapak vendor · Dewan majlis · Kafe · Surau · Parkir luas"),
+    ("07 · Lokasi & Waktu", 17, C["c7_out"] - 0.8, "Drone luas: kompleks & jalan utama (kemuncak muzik)", "Mudah Dikunjungi / Melalui jalan Melaka–Tampin; kad Kampung Ganun; waktu operasi kolam"),
+    ("Tagline", 18, C["tag_out"] - 0.4, "Drone melintasi chalet ke kolam kanak-kanak", "Rehatkan tubuh, tenangkan minda."),
+    ("Penutup", 19, C["end_in"] + 3.5, "Latar kabur + kad akhir, muzik selesai", "Logo, Tempah sekarang · gadekhotspring.my, 010-279 6397, @gadekhotspring, @gadek.hotspring, alamat"),
 ]
 
 
@@ -124,20 +96,9 @@ def media_len(clip, cache={}):
     return cache[clip]
 
 
-def music_automation(vb, total):
-    hi, lo = 0.55, 0.16
-    iv = sorted((s - 0.3, e + 0.3) for s, e, _ in vb.values())
-    merged = [list(iv[0])]
-    for s, e in iv[1:]:
-        if s - merged[-1][1] < 2.0:  # short gaps stay ducked
-            merged[-1][1] = max(merged[-1][1], e)
-        else:
-            merged.append([s, e])
-    pts = [(0, 0), (0.6, hi)]
-    for s, e in merged:
-        pts += [(s, hi), (s + 0.3, lo), (e, lo), (e + 0.6, hi)]
-    pts += [(total - 2.5, hi), (total, 0)]
-    return {"version": 1, "lanes": [{"target": "volume", "points": [{"t": round(t, 3), "v": v} for t, v in pts]}]}
+def music_automation(total):
+    pts = [(0, 0), (0.4, 0.9), (total - 2.2, 0.9), (total, 0)]
+    return {"version": 1, "lanes": [{"target": "volume", "points": [{"t": t, "v": v} for t, v in pts]}]}
 
 
 def main():
@@ -163,11 +124,9 @@ def main():
         tl.append(f'        tl.fromTo("#w{i:02d}", {{ scale: {s0} }}, {{ scale: {s1}, duration: {d}, ease: "none", immediateRender: false }}, {t});')
 
     audio = []
-    for n, (k, (s, e, d)) in enumerate(VB.items()):
-        audio.append(f'      <audio id="a{k}" src="assets/vo/{k}.wav" data-start="{s}" data-duration="{round(d, 3)}" data-track-index="{20 + n % 2}" data-volume="1"></audio>')
     for j, (t, f, v) in enumerate(sorted(SFX)):
         audio.append(f'      <audio id="s{j:02d}" src="assets/sfx/{f}" data-start="{round(t, 3)}" data-duration="{round(dur(f"{HF}/assets/sfx/{f}"), 3)}" data-track-index="{30 + j % 4}" data-volume="{v}"></audio>')
-    auto = json.dumps(music_automation(VB, TOTAL))
+    auto = json.dumps(music_automation(TOTAL))
 
     page = f'''<!doctype html>
 <html lang="ms">
@@ -188,7 +147,7 @@ def main():
       <!-- footage and photos (see edits/gadek-hotspring/NOTES.md) -->
 {chr(10).join(clips)}
       <div id="m-fx" data-composition-id="fx" data-composition-src="compositions/fx.html" data-start="0" data-duration="{TOTAL}" data-track-index="5" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
-      <audio id="bgm" data-timeline-role="music" src="assets/bgm/bed.wav" data-start="0" data-duration="{TOTAL}" data-track-index="10" data-automation='{auto}'></audio>
+      <audio id="bgm" data-timeline-role="music" src="{MUSIC}" data-start="0" data-duration="{TOTAL}" data-track-index="10" data-automation='{auto}'></audio>
 {chr(10).join(audio)}
     </div>
     <script>
@@ -205,10 +164,11 @@ def main():
     open(f"{HF}/index.html", "w").write(page)
     tpl = open(f"{HF}/../fx.tpl.html").read()
     open(f"{HF}/compositions/fx.html", "w").write(tpl.replace("/*CUES*/{}", json.dumps(CUES)))
-    json.dump({"total": TOTAL, "vo": VB, "cues": CUES, "shots": shots_out}, open(f"{HF}/../cues.json", "w"), indent=1)
+    ends = [sc[1] for sc in SCENES[1:]]
+    scenes = [{"name": n, "start": SHOTS[i][0], "end": SHOTS[ends[k]][0] if k < len(ends) else TOTAL, "frame": round(f, 2),
+               "visual": v, "text": tx} for k, (n, i, f, v, tx) in enumerate(SCENES)]
+    json.dump({"total": TOTAL, "cues": CUES, "shots": shots_out, "scenes": scenes}, open(f"{HF}/../cues.json", "w"), indent=1)
     print("total", TOTAL)
-    for k, (s, e, _) in VB.items():
-        print(k, s, e)
 
 
 if __name__ == "__main__":

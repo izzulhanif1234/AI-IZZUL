@@ -5,7 +5,6 @@ import json, os, subprocess, sys, textwrap
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "edits", "gadek-hotspring")
-VO = {l["id"]: l["text"] for l in json.load(open(f"{ROOT}/vo_lines.json"))}
 FONT = f"{ROOT}/hf/assets/fonts/Montserrat.ttf"
 
 
@@ -19,31 +18,24 @@ def font(size, weight="Regular"):
 
 
 CU = json.load(open(f"{ROOT}/cues.json"))
-C, SH, TOTAL = CU["cues"], CU["shots"], CU["total"]
-STARTS = [SH[i]["t"] for i in (0, 2, 3, 5, 7, 9, 11, 13, 14, 16, 20, 21, 22)] + [TOTAL]
+TOTAL = CU["total"]
+# where each scene sits in "Dreaming Big" (sections from librosa)
+MUSIC = [(0, "Intro: piano lembut"), (19.5, "Muzik mula naik"), (28.5, "Bahagian utama, rentak penuh"),
+         (88.0, "Kemuncak muzik"), (95.4, "Muzik mula turun"), (101.4, "Penutup muzik, resolusi")]
 
 
 def mmss(t):
     return f"{int(t // 60)}:{int(t % 60):02d}"
 
 
-# (scene, frame time, footage, VO ids, on-screen text); time ranges come from the shot cuts
-SCENES = [
-    ("Pembukaan", C["loc_in"] + 1.2, "Drone: kampung & bukit Alor Gajah → \"tapi di sini\": gerbang Kompleks Air Panas Gadek", ["v01"], "Pin lokasi: ALOR GAJAH · MELAKA"),
-    ("Tajuk", C["ttl_in"] + 2.5, "Drone: aerial penuh kompleks", ["v02"], "Logo Gadek Hotspring Wellness & Spa Resort + kilatan; Kampung Ganun · Alor Gajah · Melaka"),
-    ("01 · Sejarah (1)", C["c1_out"] - 1.5, "Drone kampung + papan tanda Geotapak (gred vintaj, rasa lama)", ["v03"], "Rahsia Zaman British / Air yang dipercayai mampu mengubati penyakit"),
-    ("01 · Sejarah (2)", C["c1b_out"] - 2.0, "Kolam air panas & chalet (warna kembali)", ["v04"], "Bukan Air Biasa / Mata air panas semula jadi dari dalam bumi"),
-    ("02 · Kini", C["c2_out"] - 0.8, "Drone naik dedah kompleks → ruang legar dengan pengunjung", ["v05"], "Warisan Dihidupkan Semula; kad 16.12.2024 Mula beroperasi; kad 30 Warga kerja (kiraan naik)"),
-    ("03 · Kolam Air Panas", C["c3_out"] - 0.8, "Orbit kolam air panas dewasa", ["v06"], "Lepaskan Penat + Lega ketegangan otot · Lancar peredaran darah · Tenangkan fikiran"),
-    ("04 · Kolam Kanak-Kanak", C["c4_out"] - 0.8, "Push-in ke taman permainan air → orbit kolam kanak-kanak", ["v07"], "Dunia Si Kecil + Air suam semula jadi · Kawasan cetek · Selamat & mesra keluarga"),
-    ("05 · Penginapan", C["rooms_out"] - 0.6, "Drone chalet berkolam peribadi → 4 kad bilik muncul ikut VO", ["v08"], "Satu Hari Tak Cukup? Kad: Single Room · Deluxe Room · Chalet Single · Chalet Family (tiada harga)"),
-    ("05 · Penginapan (2)", C["c5b_out"] - 1.0, "Foto kolam peribadi chalet (Ken Burns)", ["v09"], "Berendam Di Bawah Bintang / Kolam air panas peribadi di setiap chalet"),
-    ("06 · Kemudahan", C["c6_out"] - 0.8, "Ruang vendor → dewan → kafe → parkir", ["v10"], "Semuanya Ada Di Sini + Tapak vendor · Dewan majlis · Kafe · Surau · Parkir luas"),
-    ("07 · Lokasi & Waktu", C["c7_out"] - 0.8, "Drone luas: kompleks & jalan utama", ["v11"], "Mudah Dikunjungi / Melalui jalan Melaka–Tampin; kad lokasi Kampung Ganun, 78000 Alor Gajah; Waktu operasi kolam (Isnin tutup)"),
-    ("Tagline", C["tag_out"] - 0.4, "Drone melintasi chalet ke kolam kanak-kanak", ["v12"], "Rehatkan tubuh, tenangkan minda."),
-    ("Penutup", C["end_in"] + 3.0, "Latar kabur + kad akhir", ["v13"], "Logo, Tempah sekarang · gadekhotspring.my, 010-279 6397, @gadekhotspring, @gadek.hotspring, alamat"),
-]
-SCENES = [(n, f"{mmss(STARTS[i])}–{mmss(STARTS[i + 1])}", round(t, 2), *rest) for i, (n, t, *rest) in enumerate(SCENES)]
+def music_at(t0, t1):
+    parts = [n for k, (t, n) in enumerate(MUSIC) if t < t1 - 0.5 and (k + 1 == len(MUSIC) or MUSIC[k + 1][0] > t0 + 0.5)]
+    return " → ".join(parts)
+
+
+# (name, time range, frame time, visual, music, on-screen text)
+SCENES = [(sc["name"], f"{mmss(sc['start'])}–{mmss(sc['end'])}", sc["frame"], sc["visual"], music_at(sc["start"], sc["end"]), sc["text"])
+          for sc in CU["scenes"]]
 if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "--times":
     print(",".join(f"{s[2]:g}" for s in SCENES))
     sys.exit()
@@ -75,7 +67,7 @@ for pi, page in enumerate(pages):
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, PW, 190], fill=NAVY)
     d.text((M, 50), "STORYBOARD · VIDEO KORPORAT GADEK HOTSPRING WELLNESS & SPA RESORT", font=font(46, "Bold"), fill="white")
-    d.text((M, 120), f"16:9 · 1920×1080 · {mmss(TOTAL)} · VO Bahasa Melayu · Halaman {pi + 1}/{len(pages)}", font=font(30, "Medium"), fill=(170, 200, 240))
+    d.text((M, 120), f"16:9 · 1920×1080 · {mmss(TOTAL)} · Tanpa VO · Muzik: Dreaming Big (Mixkit) · Halaman {pi + 1}/{len(pages)}", font=font(30, "Medium"), fill=(170, 200, 240))
     for j, s in enumerate(page):
         k = pi * per + j
         x = M + (j % COLS) * (CW + GAP)
@@ -88,11 +80,11 @@ for pi, page in enumerate(pages):
         tw = d.textlength(s[1], font=font(28, "SemiBold"))
         d.text((x + CW - tw, ty + 4), s[1], font=font(28, "SemiBold"), fill=ORANGE)
         ty += 52
-        for label, body, col in (("VISUAL", s[3], INK), ("VO", " ".join(VO[v] for v in s[4]), INK), ("TEKS", s[5], GREY)):
+        for label, body, col in (("VISUAL", s[3], INK), ("MUZIK", s[4], INK), ("TEKS", s[5], GREY)):
             lines = textwrap.wrap(body, 80)
             d.text((x, ty), label, font=font(22, "Bold"), fill=ORANGE)
             for ln in lines[:3]:
-                d.text((x + 120, ty), ln, font=font(23, "Regular"), fill=col)
+                d.text((x + 130, ty), ln, font=font(23, "Regular"), fill=col)
                 ty += 31
             ty += 8
     rows = (len(page) + COLS - 1) // COLS

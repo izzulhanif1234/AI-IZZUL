@@ -1,270 +1,291 @@
 {
- "total": 112.05,
- "vo": {
-  "v01": [
-   1.5,
-   10.26,
-   8.759542
-  ],
-  "v02": [
-   11.56,
-   14.876,
-   3.316583
-  ],
-  "v03": [
-   16.576,
-   25.717,
-   9.140542
-  ],
-  "v04": [
-   26.617,
-   36.3,
-   9.683083
-  ],
-  "v05": [
-   37.5,
-   46.291,
-   8.791292
-  ],
-  "v06": [
-   47.491,
-   56.463,
-   8.971479
-  ],
-  "v07": [
-   57.563,
-   64.858,
-   7.295
-  ],
-  "v08": [
-   65.958,
-   74.005,
-   8.047729
-  ],
-  "v09": [
-   74.805,
-   78.413,
-   3.607271
-  ],
-  "v10": [
-   79.513,
-   87.118,
-   7.605875
-  ],
-  "v11": [
-   88.118,
-   100.018,
-   11.89925
-  ],
-  "v12": [
-   101.418,
-   104.74,
-   3.322667
-  ],
-  "v13": [
-   105.34,
-   108.851,
-   3.510958
-  ]
- },
+ "total": 109.5,
  "cues": {
-  "loc_in": 8.254,
-  "loc_out": 10.76,
-  "ttl_in": 11.06,
-  "ttl_out": 15.476,
-  "bug_in": 16.176,
-  "bug_out": 104.74,
-  "c1_in": 16.776,
-  "c1_out": 25.817,
-  "c1b_in": 26.917,
-  "c1b_out": 36.6,
-  "c2_in": 37.7,
-  "c2_out": 46.591,
-  "st1": 41.063,
-  "st2": 43.363,
-  "c3_in": 47.691,
-  "c3_out": 56.763,
+  "loc_in": 3.599,
+  "loc_out": 5.828,
+  "ttl_in": 12.401,
+  "ttl_out": 18.715,
+  "bug_in": 20.039,
+  "bug_out": 100.825,
+  "c1_in": 20.039,
+  "c1_out": 25.821,
+  "c1b_in": 27.167,
+  "c1b_out": 32.949,
+  "c2_in": 33.808,
+  "c2_out": 41.378,
+  "st1": 35.619,
+  "st2": 38.29,
+  "c3_in": 42.284,
+  "c3_out": 50.271,
   "c3_p": [
-   51.529,
-   53.369,
-   54.729
+   44.489,
+   45.836,
+   47.16
   ],
-  "c4_in": 57.763,
-  "c4_out": 65.158,
+  "c4_in": 51.618,
+  "c4_out": 59.397,
   "c4_p": [
-   60.979,
-   61.499,
-   62.059
+   53.383,
+   54.729,
+   56.076
   ],
-  "c5_in": 66.108,
-  "c5_out": 68.135,
-  "rooms_in": 68.335,
+  "c5_in": 60.302,
+  "c5_out": 63.39,
+  "rooms_in": 63.832,
   "rooms_c": [
-   68.895,
-   69.295,
-   70.275,
-   72.215
+   64.296,
+   65.178,
+   66.084,
+   66.943
   ],
-  "rooms_out": 74.305,
-  "c5b_in": 74.905,
-  "c5b_out": 78.913,
-  "c6_in": 79.713,
-  "c6_out": 87.418,
+  "rooms_out": 69.637,
+  "c5b_in": 70.519,
+  "c5b_out": 74.513,
+  "c6_in": 75.395,
+  "c6_out": 85.612,
   "c6_p": [
-   81.585,
-   82.285,
-   83.785,
-   84.925,
-   85.885
+   77.624,
+   78.507,
+   79.389,
+   80.736,
+   81.618
   ],
-  "c7_in": 88.318,
-  "c7_out": 100.318,
-  "pin": 88.921,
-  "hours": 94.321,
-  "tag1": 102.621,
-  "tag2": 103.801,
-  "tag_out": 104.74,
-  "end_in": 104.94,
-  "black_out": 111.15
+  "c7_in": 86.494,
+  "c7_out": 94.97,
+  "pin": 87.841,
+  "hours": 89.629,
+  "tag1": 96.34,
+  "tag2": 97.733,
+  "tag_out": 100.891,
+  "end_in": 101.425,
+  "black_out": 108.6
  },
  "shots": [
   {
    "t": 0.0,
-   "end": 7.634,
+   "end": 7.211,
    "clip": "d0392",
-   "ms": 36.0
+   "ms": 29.5
   },
   {
-   "t": 7.134,
-   "end": 11.16,
+   "t": 6.711,
+   "end": 12.551,
    "clip": "d0388",
+   "ms": 7.0
+  },
+  {
+   "t": 12.051,
+   "end": 20.098,
+   "clip": "d0382",
+   "ms": 2.0
+  },
+  {
+   "t": 19.598,
+   "end": 26.785,
+   "clip": "d0386",
+   "ms": 10.96
+  },
+  {
+   "t": 26.285,
+   "end": 33.89,
+   "clip": "d0389",
    "ms": 0.5
   },
   {
-   "t": 10.66,
-   "end": 16.176,
-   "clip": "d0382",
-   "ms": 1.0
-  },
-  {
-   "t": 15.676,
-   "end": 20.502,
-   "clip": "d0392",
-   "ms": 42.0
-  },
-  {
-   "t": 20.002,
-   "end": 26.917,
-   "clip": "d0386",
-   "ms": 2.0
-  },
-  {
-   "t": 26.417,
-   "end": 32.421,
-   "clip": "d0385",
-   "ms": 2.0
-  },
-  {
-   "t": 31.921,
-   "end": 37.6,
-   "clip": "d0389",
-   "ms": 10.0
-  },
-  {
-   "t": 37.1,
-   "end": 40.983,
+   "t": 33.39,
+   "end": 38.325,
    "clip": "d0388",
-   "ms": 8.0
-  },
-  {
-   "t": 40.483,
-   "end": 47.591,
-   "clip": "d0387",
    "ms": 14.0
   },
   {
-   "t": 47.091,
-   "end": 53.149,
-   "clip": "d0385",
-   "ms": 8.0
+   "t": 37.825,
+   "end": 42.342,
+   "clip": "d0387",
+   "ms": 3.0
   },
   {
-   "t": 52.649,
-   "end": 57.663,
+   "t": 41.842,
+   "end": 46.777,
    "clip": "d0385",
-   "ms": 11.5
+   "ms": 2.0
   },
   {
-   "t": 57.163,
-   "end": 60.379,
+   "t": 46.277,
+   "end": 51.677,
+   "clip": "d0385",
+   "ms": 6.3
+  },
+  {
+   "t": 51.177,
+   "end": 56.112,
    "clip": "d0392",
    "ms": 1.0
   },
   {
-   "t": 59.879,
-   "end": 65.958,
+   "t": 55.612,
+   "end": 60.338,
    "clip": "d0383",
-   "ms": 10.0
+   "ms": 9.0
   },
   {
-   "t": 65.458,
-   "end": 74.705,
+   "t": 59.838,
+   "end": 70.555,
    "clip": "d0389",
-   "ms": 4.0
+   "ms": 0.0
   },
   {
-   "t": 74.205,
-   "end": 76.938,
+   "t": 70.055,
+   "end": 72.784,
    "clip": "pool2",
    "ms": "pool2"
   },
   {
-   "t": 76.438,
-   "end": 79.513,
+   "t": 72.284,
+   "end": 75.454,
    "clip": "pool4",
    "ms": "pool4"
   },
   {
-   "t": 79.013,
-   "end": 82.585,
+   "t": 74.954,
+   "end": 79.007,
    "clip": "d0387",
-   "ms": 2.0
+   "ms": 17.5
   },
   {
-   "t": 82.085,
-   "end": 84.085,
-   "clip": "d0392",
-   "ms": 20.0
-  },
-  {
-   "t": 83.585,
-   "end": 85.965,
+   "t": 78.507,
+   "end": 82.559,
    "clip": "d0391",
-   "ms": 4.0
+   "ms": 5.0
   },
   {
-   "t": 85.465,
-   "end": 88.118,
+   "t": 82.059,
+   "end": 86.553,
    "clip": "d0382",
-   "ms": 7.0
+   "ms": 7.5
   },
   {
-   "t": 87.618,
-   "end": 101.218,
+   "t": 86.053,
+   "end": 95.934,
    "clip": "d0388",
-   "ms": 11.55
+   "ms": 15.27
   },
   {
-   "t": 100.718,
-   "end": 105.44,
+   "t": 95.434,
+   "end": 101.925,
    "clip": "d0389",
-   "ms": 19.0
+   "ms": 21.0
   },
   {
-   "t": 104.94,
-   "end": 112.05,
-   "clip": "d0383",
-   "ms": 12.5
+   "t": 101.425,
+   "end": 109.5,
+   "clip": "d0382",
+   "ms": 4.0
+  }
+ ],
+ "scenes": [
+  {
+   "name": "Pembukaan",
+   "start": 0.0,
+   "end": 12.051,
+   "frame": 4.48,
+   "visual": "Drone: kampung & bukit Alor Gajah \u2192 kompleks didedahkan dari atas",
+   "text": "Pin lokasi: ALOR GAJAH \u00b7 MELAKA"
+  },
+  {
+   "name": "Tajuk",
+   "start": 12.051,
+   "end": 19.598,
+   "frame": 15.4,
+   "visual": "Drone: aerial penuh kompleks",
+   "text": "Logo Gadek Hotspring Wellness & Spa Resort + kilatan; Kampung Ganun \u00b7 Alor Gajah \u00b7 Melaka"
+  },
+  {
+   "name": "01 \u00b7 Sejarah (1)",
+   "start": 19.598,
+   "end": 26.285,
+   "frame": 24.62,
+   "visual": "Papan tanda Geotapak (gred vintaj, rasa lama)",
+   "text": "Rahsia Zaman British / Pegawai & askar British dikatakan berendam di sini untuk mengubati penyakit"
+  },
+  {
+   "name": "01 \u00b7 Sejarah (2)",
+   "start": 26.285,
+   "end": 33.39,
+   "frame": 31.75,
+   "visual": "Chalet & kolam kanak-kanak dari atas (warna kembali)",
+   "text": "Bukan Air Biasa / Mata air panas semula jadi, mengalir terus dari dalam bumi"
+  },
+  {
+   "name": "02 \u00b7 Kini",
+   "start": 33.39,
+   "end": 41.842,
+   "frame": 40.58,
+   "visual": "Drone naik dedah kompleks \u2192 ruang legar",
+   "text": "Warisan Dihidupkan Semula; kad 16.12.2024 Mula beroperasi; kad 30 Warga kerja"
+  },
+  {
+   "name": "03 \u00b7 Kolam Air Panas",
+   "start": 41.842,
+   "end": 51.177,
+   "frame": 49.47,
+   "visual": "Orbit kolam air panas dewasa",
+   "text": "Lepaskan Penat + Lega ketegangan otot \u00b7 Lancar peredaran darah \u00b7 Tenangkan fikiran"
+  },
+  {
+   "name": "04 \u00b7 Kolam Kanak-Kanak",
+   "start": 51.177,
+   "end": 59.838,
+   "frame": 58.6,
+   "visual": "Push-in ke taman permainan air \u2192 orbit kolam kanak-kanak",
+   "text": "Dunia Si Kecil + Air suam semula jadi \u00b7 Kawasan cetek \u00b7 Selamat & mesra keluarga"
+  },
+  {
+   "name": "05 \u00b7 Penginapan",
+   "start": 59.838,
+   "end": 70.055,
+   "frame": 69.04,
+   "visual": "Drone chalet berkolam peribadi \u2192 4 kad bilik ikut beat",
+   "text": "Satu Hari Tak Cukup? Kad: Single Room \u00b7 Deluxe Room \u00b7 Chalet Single \u00b7 Chalet Family (tiada harga)"
+  },
+  {
+   "name": "05 \u00b7 Penginapan (2)",
+   "start": 70.055,
+   "end": 74.954,
+   "frame": 73.51,
+   "visual": "Foto kolam peribadi chalet (Ken Burns)",
+   "text": "Berendam Di Bawah Bintang / Kolam air panas peribadi di setiap chalet"
+  },
+  {
+   "name": "06 \u00b7 Kemudahan",
+   "start": 74.954,
+   "end": 86.053,
+   "frame": 84.81,
+   "visual": "Ruang legar \u2192 kafe \u2192 parkir",
+   "text": "Semuanya Ada Di Sini + Tapak vendor \u00b7 Dewan majlis \u00b7 Kafe \u00b7 Surau \u00b7 Parkir luas"
+  },
+  {
+   "name": "07 \u00b7 Lokasi & Waktu",
+   "start": 86.053,
+   "end": 95.434,
+   "frame": 94.17,
+   "visual": "Drone luas: kompleks & jalan utama (kemuncak muzik)",
+   "text": "Mudah Dikunjungi / Melalui jalan Melaka\u2013Tampin; kad Kampung Ganun; waktu operasi kolam"
+  },
+  {
+   "name": "Tagline",
+   "start": 95.434,
+   "end": 101.425,
+   "frame": 100.49,
+   "visual": "Drone melintasi chalet ke kolam kanak-kanak",
+   "text": "Rehatkan tubuh, tenangkan minda."
+  },
+  {
+   "name": "Penutup",
+   "start": 101.425,
+   "end": 109.5,
+   "frame": 104.92,
+   "visual": "Latar kabur + kad akhir, muzik selesai",
+   "text": "Logo, Tempah sekarang \u00b7 gadekhotspring.my, 010-279 6397, @gadekhotspring, @gadek.hotspring, alamat"
   }
  ]
 }
