@@ -19,9 +19,7 @@ def font(size, weight="Regular"):
 
 CU = json.load(open(f"{ROOT}/cues.json"))
 TOTAL = CU["total"]
-# where each scene sits in "Dreaming Big" (sections from librosa)
-MUSIC = [(0, "Intro: piano lembut"), (19.5, "Muzik mula naik"), (28.5, "Bahagian utama, rentak penuh"),
-         (88.0, "Kemuncak muzik"), (95.4, "Muzik mula turun"), (101.4, "Penutup muzik, resolusi")]
+MUSIC = [tuple(x) for x in CU["music_sections"]]
 
 
 def mmss(t):
@@ -67,7 +65,7 @@ for pi, page in enumerate(pages):
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, PW, 190], fill=NAVY)
     d.text((M, 50), "STORYBOARD · VIDEO KORPORAT GADEK HOTSPRING WELLNESS & SPA RESORT", font=font(46, "Bold"), fill="white")
-    d.text((M, 120), f"16:9 · 1920×1080 · {mmss(TOTAL)} · Tanpa VO · Muzik: Dreaming Big (Mixkit) · Halaman {pi + 1}/{len(pages)}", font=font(30, "Medium"), fill=(170, 200, 240))
+    d.text((M, 120), f"16:9 · 1920×1080 · {mmss(TOTAL)} · Tanpa VO · Muzik: The Journey (Mixkit) · Halaman {pi + 1}/{len(pages)}", font=font(30, "Medium"), fill=(170, 200, 240))
     for j, s in enumerate(page):
         k = pi * per + j
         x = M + (j % COLS) * (CW + GAP)

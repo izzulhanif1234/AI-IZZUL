@@ -1,6 +1,6 @@
 # Gadek Hotspring Wellness & Spa Resort — Video Korporat (16:9)
 
-1:49 (109.5 s), 1920x1080, HyperFrames project in `hf/`. `scripts/gadek_build.py` writes
+1:47 (107.6 s), 1920x1080, HyperFrames project in `hf/`. `scripts/gadek_build.py` writes
 `hf/index.html`, `hf/compositions/fx.html` (from `fx.tpl.html`) and `cues.json`.
 Storyboard JPGs in `storyboard/` (`scripts/gadek_storyboard.py`, frames from
 `hyperframes snapshot --at $(python3 scripts/gadek_storyboard.py --times)`).
@@ -11,11 +11,12 @@ Jenis Bilik, Polisi pages, read 18 Nov 2026). No room prices, capacities, promos
 ## Revision 3 (client): no voice-over, better music, no bad drone moments
 - No VO. On-screen chapter titles + subtitles carry the story. The v2 VO (Gemini Charon, one take,
   `vo_take.wav`, `hf/assets/vo/`) stays in the repo, unused.
-- Music: "Dreaming Big" by Ahjay Stelino (Mixkit Stock Music Free License, commercial use, no
+- Music: "The Journey" by Ahjay Stelino (client pick from 3 Mixkit options; Mixkit Stock Music Free License, commercial use, no
   attribution; `hf/assets/bgm/CREDITS.md`). Lyria could not be used: the Lyria 3 models have a 0
   free-tier quota on this key and Lyria RealTime needs a WebSocket, which the environment proxy does
-  not carry. Beat grid `beats.json` (librosa, 136 BPM); every cut and pop-in is snapped to a beat.
-  Sections: intro 0–19.5, build 19.5–28.5, main 28.5–88, peak 88–95.4, outro from 101.4.
+  not carry. Beat grid `beats.json` (librosa, 89 BPM); every cut and pop-in is snapped to a beat.
+  Sections: intro 0–21.5, beat in 21.5, main 42.8 and 64.4, quiet breakdown 85.6–96.9, closing phrase
+  96.9 (end card lands on it).
 - Footage: per-second camera speed/jerk measured with phase correlation on the proxies
   (`/tmp` analysis, not kept). Left out: d0392 12.5–28.5 (tilt to the sky, adjusting) and
   38.5–48 (fast pan, then top-down on the parking lot with the drone operator in frame),
