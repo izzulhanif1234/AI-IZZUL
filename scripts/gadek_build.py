@@ -1,7 +1,7 @@
 """Gadek Hotspring corporate video (v3, no voice-over, cut to the music): writes
 edits/gadek-hotspring/hf/index.html, hf/compositions/fx.html (from ../fx.tpl.html) and ../cues.json.
 
-Every time is snapped to the beat grid of the music (beats.json, librosa on "The Journey", 89 BPM).
+Every time is snapped to the beat grid of the music (beats.json, librosa on "The Journey" edit, 89 BPM).
 Only steady stretches of the drone footage are used: per-second camera speed/jerk was measured
 (phase correlation) and the take-off/adjusting parts and the shot with the operator are left out.
 usage: python3 scripts/gadek_build.py"""
@@ -10,10 +10,10 @@ import html as htmllib, json, os, subprocess
 HF = os.path.join(os.path.dirname(__file__), "..", "edits", "gadek-hotspring", "hf")
 GRADES = json.load(open(os.path.join(HF, "..", "grades.json")))  # from `hyperframes media-treatment`
 BEATS = json.load(open(os.path.join(HF, "..", "beats.json")))
-MUSIC = "assets/bgm/the-journey.mp3"  # "The Journey", Ahjay Stelino (Mixkit), 89 BPM
-# sections (librosa): name shown on the storyboard
-MUSIC_SECTIONS = [(0, "Intro lembut"), (21.5, "Rentak masuk"), (42.8, "Bahagian utama"), (64.4, "Bahagian utama, variasi"),
-                  (85.6, "Breakdown tenang"), (96.9, "Frasa penutup")]
+MUSIC = "assets/bgm/the-journey-edit.mp3"  # "The Journey", Ahjay Stelino (Mixkit), 89 BPM, intro skipped (CREDITS.md)
+# sections of the edited track (librosa): name shown on the storyboard
+MUSIC_SECTIONS = [(0, "Rentak terus masuk"), (21.3, "Bahagian utama"), (42.7, "Bahagian utama (8 bar diulang)"),
+                  (64.2, "Variasi"), (85.4, "Breakdown tenang"), (96.7, "Frasa penutup")]
 XF = 0.5  # crossfade length between consecutive shots
 TOTAL = 107.6
 
@@ -33,7 +33,7 @@ SHOTS = [
     (B(5.6), "d0388", 7.0, ""),           # rising reveal of the complex
     (B(10.8), "d0382", 2.0, ""),          # wide aerial (title)
     (B(16.2), "d0386", 11.5, "vintage"),  # Geotapak sign, history
-    (B(21.5), "d0385", 0.5, ""),          # the hot spring water itself, colour returns with the beat
+    (B(21.5), "d0385", 0.5, ""),          # the hot spring water itself, colour returns
     (B(26.9), "d0388", 14.0, ""),         # wide rising (Kini)
     (B(30.9), "d0387", 3.0, ""),          # concourse tracking shot
     (B(35.0), "d0385", 6.3, ""),          # hot spring pool orbit
