@@ -24,7 +24,11 @@ No voiceover (requested). Music plus kinetic text only.
   0-18.40 s + 81.62 s-end of the track, 60 ms crossfade at a beat-matched point (onset correlation),
   loudnorm -16 LUFS. The edit lands on the track's bigger section at 18.4 s; last hit 25.6 s = outro.
 - SFX: bundled Pixabay library (`hf/assets/sfx/CREDITS.md`).
-- Final export loudness-normalised to -14 LUFS with ffmpeg after render.
+- `hf/assets/video/` is git-ignored; recreate the award clip with:
+  `ffmpeg -ss 24 -t 9 -i MITC_BOTY_2026-1.mp4 -an -vf scale=1280:720 -c:v libx264 -crf 20 -g 25 -keyint_min 25 -pix_fmt yuv420p -movflags +faststart hf/assets/video/award.mp4`
+  (source: https://site.mitc.org.my/wp-content/uploads/2026/02/MITC_BOTY_2026-1.mp4).
+- Final export (`final/MITC-Promo-v1.mp4`): loudnorm -14 LUFS, then a true-peak limiter; measured
+  -13.6 LUFS, -1.9 dBTP.
 
 ## Revision 1
 - Pillar chips now arrive one per photo cut and light up yellow while that photo is on screen,
