@@ -36,7 +36,7 @@ SHOTS = [
     (B(21.5), "d0385", 0.5, ""),          # the hot spring water itself, colour returns
     (B(26.9), "d0388", 14.0, ""),         # wide rising (Kini)
     (B(30.9), "d0387", 3.0, ""),          # concourse tracking shot
-    (B(35.0), "d0385", 6.3, ""),          # hot spring pool orbit
+    (B(35.0), "d0385", 5.3, ""),          # hot spring pool orbit
     (B(40.4), "d0392", 0.1, ""),          # kids pool push-in (one long move)
     (B(52.2), "d0389", 0.0, ""),          # chalets with private pools (room grid over it)
     (B(60.3), None, "pool2", ""),         # photo
