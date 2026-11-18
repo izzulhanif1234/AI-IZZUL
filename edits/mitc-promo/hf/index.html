@@ -5,941 +5,257 @@
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="vendor/gsap.min.js"></script>
     <style>
-      /* MITC promo v4: hypermotion corporate cut. Palette from the MITC poster: navy, teal, warm yellow. */
-      :root {
-        --navy: #1c2747;
-        --teal: #1f7f8a;
-        --yellow: #f7c731;
-        --white: #ffffff;
-        --ink: #0b1124;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: var(--ink);
-      }
-      #root {
-        position: relative;
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: var(--ink);
-        font-family: Inter, sans-serif;
-        color: var(--white);
-      }
-      .clip {
-        position: absolute;
-        inset: 0;
-      }
-      .wrap {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        will-change: transform, opacity;
-      }
-      .wrap img.clip,
-      .strip img.clip {
-        inset: auto;
-        left: 0;
-        top: 0;
-        height: 1920px;
-      }
-      video.clip {
-        width: 1080px;
-        height: 1920px;
-        object-fit: cover;
-      }
-      .strip {
-        position: absolute;
-        top: 0;
-        width: 360px;
-        height: 1920px;
-        overflow: hidden;
-        border-right: 4px solid var(--ink);
-      }
-      .strip video.clip {
-        width: 360px;
-      }
-      #st1 {
-        left: 0;
-      }
-      #st2 {
-        left: 360px;
-      }
-      #st3 {
-        left: 720px;
-      }
+      :root { --navy: #1c2747; --deep: #0f1730; --yellow: #f2c94c; --white: #ffffff; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--deep); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--deep);
+        font-family: Inter, sans-serif; color: var(--white); }
+      .clip { position: absolute; inset: 0; }
+      .wrap { position: absolute; inset: 0; overflow: hidden; }
+      .wrap img.clip { inset: auto; left: 0; top: 0; height: 1920px; }
+      video.clip { width: 1080px; height: 1920px; object-fit: cover; }
+      /* one grade for every picture: slightly cooler, calmer colour */
+      .wrap .clip { filter: saturate(0.78) contrast(1.06) brightness(0.97); }
+      .grade { background: linear-gradient(180deg, rgba(15, 23, 48, 0.35) 0%, rgba(15, 23, 48, 0.08) 22%,
+          rgba(15, 23, 48, 0.08) 55%, rgba(15, 23, 48, 0.82) 80%, rgba(15, 23, 48, 0.94) 100%); }
+      .tint { background: rgba(28, 39, 71, 0.22); mix-blend-mode: multiply; }
+      .navy { background: radial-gradient(1200px 1200px at 50% 40%, #22305a 0%, var(--deep) 70%); }
 
-      /* ---------- shades ---------- */
-      .shade-intro {
-        background: linear-gradient(180deg, rgba(11, 17, 36, 0.55) 0%, rgba(11, 17, 36, 0.25) 40%, rgba(11, 17, 36, 0.35) 60%, rgba(11, 17, 36, 0.8) 100%);
-      }
-      .shade-logo {
-        background: radial-gradient(700px 700px at 50% 30%, rgba(28, 39, 71, 0.35), rgba(11, 17, 36, 0.92) 75%);
-      }
-      .shade-mont {
-        background: linear-gradient(180deg, rgba(11, 17, 36, 0.55) 0%, rgba(11, 17, 36, 0) 18%, rgba(11, 17, 36, 0) 46%, rgba(11, 17, 36, 0.78) 64%, rgba(11, 17, 36, 0.96) 100%);
-      }
-      .shade-full {
-        background: rgba(11, 17, 36, 0.45);
-      }
-      .shade-close {
-        background: linear-gradient(180deg, rgba(28, 39, 71, 0.55) 0%, rgba(11, 17, 36, 0.35) 40%, rgba(11, 17, 36, 0.85) 100%);
-      }
-      .shade-out {
-        background: linear-gradient(180deg, rgba(28, 39, 71, 0.93) 0%, rgba(28, 39, 71, 0.84) 60%, rgba(11, 17, 36, 0.96) 100%);
-      }
-      #lgv {
-        filter: blur(5px) saturate(1.2);
-      }
+      .k { font-weight: 500; font-size: 22px; letter-spacing: 0.42em; text-transform: uppercase; color: rgba(255,255,255,0.82); }
+      .t { font-weight: 300; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.18; }
+      .line { height: 2px; background: var(--yellow); transform-origin: 0 50%; }
+      .center { position: absolute; left: 0; right: 0; text-align: center; }
 
-      /* ---------- type ---------- */
-      .kicker {
-        font-family: Inter, sans-serif;
-        font-weight: 700;
-        font-size: 30px;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-      }
-      .c {
-        position: absolute;
-        left: 0;
-        right: 0;
-        text-align: center;
-      }
-      .dim {
-        color: rgba(255, 255, 255, 0.75);
-        font-size: 24px;
-      }
-      .y {
-        color: var(--yellow);
-      }
-      #streak {
-        position: absolute;
-        left: 0;
-        top: 958px;
-        width: 1080px;
-        height: 4px;
-        background: linear-gradient(90deg, rgba(247, 199, 49, 0), var(--yellow), rgba(247, 199, 49, 0));
-        box-shadow: 0 0 30px rgba(247, 199, 49, 0.9);
-      }
-      #i-k1 {
-        top: 880px;
-      }
-      #i-k2 {
-        top: 1000px;
-      }
-      #i-title {
-        position: absolute;
-        left: 50px;
-        right: 50px;
-        top: 1180px;
-        text-align: center;
-      }
-      #i-title .ln {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 112px;
-        line-height: 1.02;
-        text-transform: uppercase;
-        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
-      }
-      #it2 {
-        font-size: 92px !important;
-      }
-      #it-bar {
-        width: 240px;
-        height: 8px;
-        margin: 28px auto 0;
-        background: var(--yellow);
-        border-radius: 4px;
-      }
-      .stat {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        text-align: center;
-        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-      }
-      .stat .k {
-        font-weight: 700;
-        font-size: 34px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-      .stat .v {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 210px;
-        line-height: 1;
-        color: var(--yellow);
-      }
-      .stat .v small {
-        font-size: 70px;
-        margin-left: 14px;
-        color: var(--white);
-      }
-      #i-stat1 {
-        top: 430px;
-      }
-      #i-stat2 {
-        top: 1130px;
-      }
-      #i-stat2 .v {
-        font-size: 180px;
-      }
-      .slab {
-        position: absolute;
-        top: 1300px;
-        width: 360px;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 40px;
-        line-height: 1.1;
-        text-transform: uppercase;
-        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.8);
-      }
-      .slab b {
-        display: block;
-        font-size: 200px;
-        line-height: 1;
-        color: var(--yellow);
-      }
-      #lab1 {
-        left: 0;
-      }
-      #lab2 {
-        left: 360px;
-      }
-      #lab3 {
-        left: 720px;
-      }
-      .think {
-        position: absolute;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 128px;
-        line-height: 1;
-        text-transform: uppercase;
-        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-      }
-      .think span {
-        display: inline-block;
-      }
-      #think1,
-      #rc1 {
-        top: 780px;
-      }
-      #think2,
-      #rc2 {
-        top: 940px;
-      }
-      .think.big {
-        font-size: 140px;
-      }
-
-      /* ---------- logo scene ---------- */
-      #rays {
-        position: absolute;
-        left: -360px;
-        top: -260px;
-        width: 1800px;
-        height: 1800px;
-        border-radius: 50%;
-        background: repeating-conic-gradient(from 0deg, rgba(247, 199, 49, 0.16) 0deg 6deg, rgba(247, 199, 49, 0) 6deg 18deg);
-        -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 65%);
-        mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 65%);
-      }
-      #lg {
-        position: absolute;
-        left: 300px;
-        top: 380px;
-        width: 480px;
-        height: 480px;
-      }
-      #lg img {
-        width: 100%;
-        height: 100%;
-        filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.6));
-      }
-      #lg-head {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 940px;
-        text-align: center;
-      }
-      #lg-head .t {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 66px;
-        line-height: 1.1;
-        text-transform: uppercase;
-      }
-      #lg-head .en {
-        margin-top: 24px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-style: italic;
-        font-size: 32px;
-        color: var(--yellow);
-      }
-      #lg-head .pill {
-        display: inline-block;
-        margin-top: 40px;
-        padding: 16px 34px;
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        border-radius: 999px;
-        font-weight: 700;
-        font-size: 28px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-
-      /* ---------- HUD ---------- */
-      .br {
-        position: absolute;
-        width: 70px;
-        height: 70px;
-        border-color: rgba(255, 255, 255, 0.85);
-        border-style: solid;
-        border-width: 0;
-      }
-      .br.tl {
-        left: 44px;
-        top: 44px;
-        border-left-width: 5px;
-        border-top-width: 5px;
-      }
-      .br.tr {
-        right: 44px;
-        top: 44px;
-        border-right-width: 5px;
-        border-top-width: 5px;
-      }
-      .br.bl {
-        left: 44px;
-        bottom: 44px;
-        border-left-width: 5px;
-        border-bottom-width: 5px;
-      }
-      .br.brr {
-        right: 44px;
-        bottom: 44px;
-        border-right-width: 5px;
-        border-bottom-width: 5px;
-      }
-      #hud-l,
-      #hud-r {
-        position: absolute;
-        top: 62px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 22px;
-        letter-spacing: 0.24em;
-      }
-      #hud-l {
-        left: 136px;
-      }
-      #hud-r {
-        right: 136px;
-        color: var(--yellow);
-      }
-      #hud-bar {
-        position: absolute;
-        left: 136px;
-        right: 136px;
-        bottom: 70px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.25);
-      }
-      #hud-fill {
-        width: 100%;
-        height: 100%;
-        background: var(--yellow);
-        transform-origin: 0 50%;
-      }
-
-      /* ---------- section titles ---------- */
-      .sec {
-        position: absolute;
-        left: 70px;
-        right: 70px;
-        top: 1150px;
-      }
-      .sec .num {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 120px;
-        line-height: 0.9;
-        color: var(--yellow);
-      }
-      .sec .en {
-        margin-top: 12px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-style: italic;
-        font-size: 30px;
-        letter-spacing: 0.08em;
-        color: var(--yellow);
-        text-transform: uppercase;
-      }
-      .sec .ttl {
-        margin-top: 10px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 100px;
-        line-height: 1.02;
-        text-transform: uppercase;
-        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-      }
-      .sec .sub {
-        margin-top: 22px;
-        display: inline-block;
-        padding: 10px 22px;
-        background: var(--teal);
-        font-weight: 700;
-        font-size: 32px;
-      }
-      .chips {
-        margin-top: 26px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-      }
-      .chip {
-        font-size: 32px;
-        font-weight: 600;
-        padding: 12px 24px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.14);
-        border: 2px solid rgba(255, 255, 255, 0.55);
-      }
-      .cap {
-        position: absolute;
-        left: 70px;
-        top: 150px;
-        padding: 14px 26px 14px 22px;
-        background: rgba(11, 17, 36, 0.7);
-        border-left: 6px solid var(--yellow);
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 30px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-      .cap i {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        margin-right: 14px;
-        border-radius: 50%;
-        background: #ff4d4d;
-        vertical-align: 3px;
-      }
-
-      /* ---------- awards ---------- */
-      #aw-bg {
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(900px 700px at 50% 30%, rgba(42, 163, 173, 0.35), rgba(42, 163, 173, 0) 70%),
-          linear-gradient(180deg, var(--navy) 0%, var(--ink) 100%);
-      }
-      #v-aw {
-        inset: auto;
-        left: 60px;
-        top: 470px;
-        width: 960px;
-        height: 540px;
-        border-radius: 28px;
-        border: 4px solid rgba(255, 255, 255, 0.85);
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
-        object-fit: cover;
-      }
-      #aw-title {
-        position: absolute;
-        top: 230px;
-        left: 0;
-        right: 0;
-        text-align: center;
-      }
-      #aw-title .k {
-        color: rgba(255, 255, 255, 0.85);
-        margin-bottom: 12px;
-      }
-      #aw-title .t {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 110px;
-        line-height: 1;
-        color: var(--yellow);
-        text-transform: uppercase;
-      }
-      .badge {
-        position: absolute;
-        top: 1080px;
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        background: #fff;
-        overflow: hidden;
-        border: 6px solid var(--yellow);
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-      }
-      .badge img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: scale(1.04);
-      }
-      .badge.photo img {
-        object-position: 50% 45%;
-        transform: scale(1.5);
-      }
-      #bd1 {
-        left: 40px;
-      }
-      #bd2 {
-        left: 300px;
-      }
-      #bd3 {
-        left: 560px;
-      }
-      #bd4 {
-        left: 820px;
-      }
-      .aw-label {
-        position: absolute;
-        top: 1330px;
-        text-align: center;
-        font-size: 26px;
-        font-weight: 700;
-        line-height: 1.3;
-      }
-      .aw-label small {
-        display: block;
-        font-size: 22px;
-        font-weight: 500;
-        color: var(--yellow);
-        margin-top: 4px;
-      }
-      #al1 {
-        left: 40px;
-        width: 480px;
-      }
-      #al2 {
-        left: 540px;
-        width: 260px;
-      }
-      #al3 {
-        left: 800px;
-        width: 260px;
-      }
-
-      /* ---------- close + outro ---------- */
-      #cl-t {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 1180px;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 96px;
-        line-height: 1.05;
-        text-transform: uppercase;
-        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-      }
-      #cl-s {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 1420px;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-style: italic;
-        font-size: 38px;
-        color: var(--yellow);
-      }
-      #out-logo {
-        position: absolute;
-        left: 380px;
-        top: 300px;
-        width: 320px;
-        height: 320px;
-      }
-      #out-logo img {
-        width: 100%;
-        height: 100%;
-        filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.5));
-      }
-      #out-name {
-        position: absolute;
-        left: 40px;
-        right: 40px;
-        top: 670px;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 38px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-      #out-cta {
-        position: absolute;
-        left: 190px;
-        width: 700px;
-        top: 780px;
-        height: 104px;
-        border-radius: 999px;
-        background: var(--yellow);
-        color: var(--navy);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 40px;
-        letter-spacing: 0.04em;
-      }
-      #out-contact {
-        position: absolute;
-        left: 90px;
-        right: 90px;
-        top: 940px;
-        padding: 34px 40px;
-        border-radius: 28px;
-        background: rgba(28, 39, 71, 0.82);
-        border: 2px solid rgba(255, 255, 255, 0.25);
-      }
-      .ct {
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        font-size: 36px;
-        font-weight: 600;
-        line-height: 1.2;
-      }
-      .ct + .ct {
-        margin-top: 22px;
-      }
-      .ct svg {
-        flex: 0 0 auto;
-        width: 46px;
-        height: 46px;
-      }
-      #out-addr {
-        position: absolute;
-        left: 90px;
-        right: 90px;
-        top: 1300px;
-        text-align: center;
-        font-size: 26px;
-        line-height: 1.45;
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      /* ---------- fx ---------- */
-      #leak {
-        position: absolute;
-        inset: -200px;
-        background: radial-gradient(circle at 30% 40%, rgba(255, 196, 96, 0.85), rgba(255, 120, 60, 0) 55%);
-        mix-blend-mode: screen;
-        opacity: 0;
-      }
-      #flash {
-        position: absolute;
-        inset: 0;
-        background: #fff;
-        opacity: 0;
-      }
-      #fade {
-        position: absolute;
-        inset: 0;
-        background: var(--ink);
-        opacity: 0;
-      }
-
+      /* intro A */
+      #ia-logo { position: absolute; left: 430px; top: 600px; width: 220px; height: 220px; }
+      #ia-logo img, #lg-logo img, #o-logo img { width: 100%; height: 100%; }
+      #ia-k { top: 880px; }
+      #ia-line { position: absolute; left: 290px; width: 500px; top: 940px; transform-origin: 50% 50%; }
+      #ia-name { top: 990px; font-size: 50px; }
+      /* intro B / C : bottom-left blocks */
+      .blk { position: absolute; left: 90px; right: 90px; top: 1380px; }
+      .blk .k { margin-bottom: 22px; }
+      .blk .t { font-size: 54px; }
+      .blk .line { width: 120px; margin-top: 28px; }
+      .stat { position: absolute; left: 90px; right: 90px; }
+      .stat .n { font-weight: 200; font-size: 170px; line-height: 1; letter-spacing: -0.01em; }
+      .stat .n small { font-size: 54px; font-weight: 300; margin-left: 14px; letter-spacing: 0.06em; }
+      .stat .l { margin-top: 10px; font-weight: 400; font-size: 26px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+      #st1 { top: 470px; } #st2 { top: 860px; }
+      #facts { position: absolute; left: 90px; right: 90px; top: 1330px; display: flex; justify-content: space-between; }
+      .fact { width: 280px; border-top: 2px solid var(--yellow); padding-top: 22px; }
+      .fact b { display: block; font-weight: 200; font-size: 96px; line-height: 1; }
+      .fact span { display: block; margin-top: 10px; font-size: 22px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.85); line-height: 1.4; }
+      /* logo card */
+      #lg-logo { position: absolute; left: 370px; top: 520px; width: 340px; height: 340px; }
+      #lg-line { position: absolute; left: 440px; width: 200px; top: 960px; transform-origin: 50% 50%; }
+      #lg-t { top: 1010px; font-size: 42px; padding: 0 90px; }
+      #lg-en { top: 1240px; font-weight: 300; font-style: italic; font-size: 26px; letter-spacing: 0.06em; color: var(--yellow); }
+      /* sections */
+      .sec { position: absolute; left: 90px; right: 90px; top: 1390px; }
+      .sec .idx { display: flex; align-items: center; gap: 22px; font-weight: 500; font-size: 24px; letter-spacing: 0.3em; color: var(--yellow); }
+      .sec .idx .line { width: 90px; }
+      .sec .t { margin-top: 22px; font-size: 64px; }
+      .sec .en { margin-top: 8px; font-weight: 300; font-style: italic; font-size: 24px; letter-spacing: 0.08em; color: rgba(255,255,255,0.7); }
+      .caps { position: relative; margin-top: 34px; height: 40px; }
+      .cap { position: absolute; left: 0; top: 0; font-weight: 400; font-size: 26px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.9); white-space: nowrap; }
+      /* awards */
+      #aw-k { top: 300px; }
+      #aw-t { top: 350px; font-size: 64px; letter-spacing: 0.3em; }
+      #aw-line { position: absolute; left: 480px; width: 120px; top: 460px; transform-origin: 50% 50%; }
+      #v-aw { inset: auto; left: 90px; top: 540px; width: 900px; height: 506px; object-fit: cover; border-radius: 6px; filter: saturate(0.8); }
+      .badge { position: absolute; top: 1150px; width: 190px; height: 190px; border-radius: 50%; overflow: hidden; background: #fff; }
+      .badge img { width: 100%; height: 100%; object-fit: cover; }
+      .badge.photo img { object-position: 50% 45%; transform: scale(1.5); }
+      #bd1 { left: 90px; } #bd2 { left: 330px; } #bd3 { left: 570px; } #bd4 { left: 800px; }
+      .awl { position: absolute; top: 1380px; font-size: 21px; letter-spacing: 0.08em; line-height: 1.45; color: rgba(255,255,255,0.88); text-align: center; }
+      .awl small { display: block; color: var(--yellow); font-size: 19px; letter-spacing: 0.04em; }
+      #al1 { left: 70px; width: 470px; } #al2 { left: 550px; width: 230px; } #al3 { left: 790px; width: 220px; }
+      /* close */
+      #cl-t { top: 1380px; font-size: 62px; }
+      #cl-s { top: 1560px; font-weight: 300; font-style: italic; font-size: 30px; letter-spacing: 0.1em; color: var(--yellow); }
+      /* outro */
+      #o-logo { position: absolute; left: 420px; top: 470px; width: 240px; height: 240px; }
+      #o-name { top: 770px; font-size: 30px; letter-spacing: 0.3em; }
+      #o-line { position: absolute; left: 480px; width: 120px; top: 840px; transform-origin: 50% 50%; }
+      #o-cta { position: absolute; left: 290px; width: 500px; top: 900px; height: 76px; border: 1.5px solid var(--yellow);
+        border-radius: 999px; display: flex; align-items: center; justify-content: center;
+        font-weight: 500; font-size: 24px; letter-spacing: 0.32em; color: var(--yellow); }
+      #o-ct { top: 1050px; font-weight: 300; font-size: 32px; letter-spacing: 0.06em; line-height: 1.75; }
+      #o-addr { top: 1280px; font-weight: 300; font-size: 22px; line-height: 1.6; letter-spacing: 0.04em; color: rgba(255,255,255,0.7); padding: 0 120px; }
+      #fade { position: absolute; inset: 0; background: var(--deep); opacity: 0; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="55.6" data-width="1080" data-height="1920">
-      <!-- ================= INTRO (0 - 12.004) over the build-up ================= -->
-      <div id="w-x1" class="wrap"><img id="x1" class="clip" src="assets/img/exterior-hi.jpg" data-start="0" data-duration="4.952" data-track-index="0" style="width: 3413px" alt="" /></div>
-      <div id="w-x2" class="wrap"><img id="x2" class="clip" src="assets/img/aerial.jpg" data-start="4.652" data-duration="4.802" data-track-index="0" style="width: 3413px" alt="" /></div>
-      <div id="w-strips" class="wrap">
-        <div id="st1" class="strip"><video id="sv1" class="clip" src="assets/clips/hall-expo.mp4" data-start="7.052" data-duration="2.701" data-media-start="0" data-track-index="1" muted playsinline></video></div>
-        <div id="st2" class="strip"><img id="sv2" class="clip" src="assets/img/meeting.jpg" data-start="7.052" data-duration="2.701" data-track-index="1" style="width: 3413px; height: 1920px; left: -1400px" alt="" /></div>
-        <div id="st3" class="strip"><video id="sv3" class="clip" src="assets/clips/grand-ballroom.mp4" data-start="7.052" data-duration="2.701" data-media-start="0" data-track-index="1" muted playsinline></video></div>
+      <!-- pictures (each in an untimed wrapper; dissolves animate the wrapper) -->
+      <div id="bg-navy" class="clip navy" data-start="0" data-duration="55.6" data-track-index="9"></div>
+      <div id="w-ext" class="wrap"><img id="m-ext" class="clip" src="assets/img/exterior-hi.jpg" data-start="4.502" data-duration="3.001" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="w-aer" class="wrap"><img id="m-aer" class="clip" src="assets/img/aerial.jpg" data-start="6.902" data-duration="5.402" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="w-s1" class="wrap"><video id="m-s1" class="clip" src="assets/clips/l-tables.mp4" data-start="16.506" data-duration="3.0" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s2" class="wrap"><video id="m-s2" class="clip" src="assets/clips/l-ht-gate.mp4" data-start="18.906" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s3" class="wrap"><video id="m-s3" class="clip" src="assets/clips/l-ht-houses.mp4" data-start="21.307" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s4" class="wrap"><img id="m-s4" class="clip" src="assets/img/ballroom.jpg" data-start="23.708" data-duration="3.001" data-track-index="0" style="width: 2560px" alt="" /></div>
+      <div id="w-s5" class="wrap"><img id="m-s5" class="clip" src="assets/img/meeting.jpg" data-start="26.109" data-duration="3.001" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="w-s6" class="wrap"><img id="m-s6" class="clip" src="assets/img/lounge.jpg" data-start="28.51" data-duration="3.0" data-track-index="0" style="width: 2560px" alt="" /></div>
+      <div id="w-s7" class="wrap"><video id="m-s7" class="clip" src="assets/clips/l-grand.mp4" data-start="30.91" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s8" class="wrap"><video id="m-s8" class="clip" src="assets/clips/l-maharani.mp4" data-start="33.311" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s9" class="wrap"><video id="m-s9" class="clip" src="assets/clips/l-akad.mp4" data-start="35.712" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-s10" class="wrap"><video id="m-s10" class="clip" src="assets/clips/l-prep.mp4" data-start="38.113" data-duration="3.001" data-media-start="0.05" data-track-index="0" muted playsinline></video></div>
+      <div id="w-cl" class="wrap"><img id="m-cl" class="clip" src="assets/img/exterior-hi.jpg" data-start="45.315" data-duration="5.968" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="tint" class="clip tint" data-start="4.502" data-duration="46.781" data-track-index="2"></div>
+      <div id="grade" class="clip grade" data-start="4.502" data-duration="46.781" data-track-index="2"></div>
+      <div id="p-aw" class="clip navy" data-start="40.514" data-duration="5.402" data-track-index="3"></div>
+      <video id="v-aw" class="clip" src="assets/video/award.mp4" data-start="40.814" data-duration="4.802" data-media-start="0.6" data-track-index="4" muted playsinline></video>
+
+      <!-- type -->
+      <div id="t-ia" class="clip" data-start="0" data-duration="4.802" data-track-index="5">
+        <div id="ia-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
+        <div id="ia-k" class="center k">Selamat datang ke</div>
+        <div id="ia-line" class="line"></div>
+        <div id="ia-name" class="center t">Melaka International<br />Trade Centre</div>
       </div>
-      <div id="w-x3" class="wrap"><img id="x3" class="clip" src="assets/img/exterior-hi.jpg" data-start="9.453" data-duration="2.701" data-track-index="0" style="width: 3413px" alt="" /></div>
-      <div id="sh-intro" class="clip shade-intro" data-start="0" data-duration="12.004" data-track-index="2"></div>
-      <!-- ================= LOGO (12.004) ================= -->
-      <div id="w-lg" class="wrap"><video id="lgv" class="clip mv" src="assets/clips/logo-bg.mp4" data-start="12.004" data-duration="4.952" data-media-start="0" data-track-index="0" muted playsinline></video></div>
-      <div id="sh-logo" class="clip shade-logo" data-start="12.004" data-duration="4.952" data-track-index="2"></div>
-      <!-- ================= MONTAGE (hypermotion) ================= -->      <div id="w-a1" class="wrap"><video id="m-a1" class="clip mv" src="assets/clips/hall-expo.mp4" data-start="16.656" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a2" class="wrap"><video id="m-a2" class="clip mv" src="assets/clips/hall-booths.mp4" data-start="17.856" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a3" class="wrap"><video id="m-a3" class="clip mv" src="assets/clips/hall-robot.mp4" data-start="19.056" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a4" class="wrap"><video id="m-a4" class="clip mv" src="assets/clips/ev-ht-gate.mp4" data-start="20.257" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a5" class="wrap"><video id="m-a5" class="clip mv" src="assets/clips/ev-ht-houses.mp4" data-start="21.457" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a6" class="wrap"><video id="m-a6" class="clip mv" src="assets/clips/prep-hall.mp4" data-start="22.658" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a7" class="wrap"><video id="m-a7" class="clip mv" src="assets/clips/ev-tables.mp4" data-start="23.858" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a8" class="wrap"><img id="m-a8" class="clip mi" src="assets/img/ballroom.jpg" data-start="25.058" data-duration="1.501" data-track-index="0" style="width: 2560px;" alt="" /></div>      <div id="w-b1" class="wrap"><video id="m-b1" class="clip mv" src="assets/clips/hall-stage.mp4" data-start="26.259" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-b2" class="wrap"><video id="m-b2" class="clip mv" src="assets/clips/hall-seminar.mp4" data-start="27.459" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-b3" class="wrap"><img id="m-b3" class="clip mi" src="assets/img/meeting.jpg" data-start="28.66" data-duration="1.5" data-track-index="0" style="width: 3413px;" alt="" /></div>      <div id="w-b4" class="wrap"><img id="m-b4" class="clip mi" src="assets/img/lounge.jpg" data-start="29.86" data-duration="1.5" data-track-index="0" style="width: 2560px;" alt="" /></div>      <div id="w-c1" class="wrap"><video id="m-c1" class="clip mv" src="assets/clips/grand-ballroom.mp4" data-start="31.06" data-duration="2.101" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-c2" class="wrap"><video id="m-c2" class="clip mv" src="assets/clips/grand-2.mp4" data-start="32.861" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-c3" class="wrap"><video id="m-c3" class="clip mv" src="assets/clips/maharani-hall.mp4" data-start="34.061" data-duration="2.101" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-d1" class="wrap"><video id="m-d1" class="clip mv" src="assets/clips/hook-star.mp4" data-start="35.862" data-duration="1.5" data-media-start="0.02" data-track-index="0" muted playsinline></video></div>      <div id="w-d2" class="wrap"><img id="m-d2" class="clip mi" src="assets/img/lobby-screen.jpg" data-start="37.062" data-duration="2.101" data-track-index="0" style="width: 1080px; height: 2012px;" alt="" /></div>      <div id="w-d3" class="wrap"><video id="m-d3" class="clip mv" src="assets/clips/hook-stage.mp4" data-start="38.863" data-duration="2.101" data-media-start="0.02" data-track-index="0" muted playsinline></video></div>      <div id="w-r1" class="wrap"><video id="m-r1" class="clip mv" src="assets/clips/hall-expo.mp4" data-start="45.465" data-duration="0.895" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r2" class="wrap"><video id="m-r2" class="clip mv" src="assets/clips/hall-robot.mp4" data-start="46.06" data-duration="0.894" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r3" class="wrap"><video id="m-r3" class="clip mv" src="assets/clips/grand-ballroom.mp4" data-start="46.654" data-duration="0.895" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r4" class="wrap"><video id="m-r4" class="clip mv" src="assets/clips/prep-hall.mp4" data-start="47.249" data-duration="0.894" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="sh-mont" class="clip shade-mont" data-start="16.806" data-duration="24.008" data-track-index="2"></div>      <div id="sh-recap" class="clip shade-full" data-start="45.615" data-duration="2.378" data-track-index="2"></div>      <div id="p-aw" class="clip" data-start="40.664" data-duration="5.102" data-track-index="1"><div id="aw-bg"></div></div>
-      <video id="v-aw" class="clip" src="assets/video/award.mp4" data-start="40.814" data-duration="4.802" data-media-start="0.6" data-track-index="3" muted playsinline></video>
-      <div id="w-cl" class="wrap"><img id="cl" class="clip" src="assets/img/exterior-hi.jpg" data-start="47.843" data-duration="3.29" data-track-index="0" style="width: 3413px" alt="" /></div>
-      <div id="sh-close" class="clip shade-close" data-start="47.993" data-duration="2.99" data-track-index="2"></div>
-      <div id="w-out" class="wrap"><img id="ob" class="clip" src="assets/img/signage.jpg" data-start="50.983" data-duration="4.617" data-track-index="0" style="width: 3413px" alt="" /></div>
-      <div id="sh-out" class="clip shade-out" data-start="50.983" data-duration="4.617" data-track-index="2"></div>
-      <!-- ================= TYPE ================= -->
-      <div id="t-intro" class="clip" data-start="0" data-duration="12.004" data-track-index="4">
-        <div id="streak"></div>
-        <div id="i-k1" class="kicker c">Selamat datang ke</div>
-        <div id="i-k2" class="kicker c dim">Ayer Keroh · Melaka · Malaysia</div>
-        <div id="i-title">
-          <div class="ln" id="it1">Melaka</div>
-          <div class="ln" id="it2">International</div>
-          <div class="ln y" id="it3">Trade Centre</div>
-          <div id="it-bar"></div>
-        </div>
-        <div id="i-stat1" class="stat"><div class="k">Kompleks seluas</div><div class="v"><span id="n1">0.0</span><small>ekar</small></div></div>
-        <div id="i-stat2" class="stat"><div class="v"><span id="n2">0</span><small>m²</small></div><div class="k">ruang mesyuarat &amp; pameran fleksibel</div></div>
-        <div id="lab1" class="slab"><b>3</b>Dewan<br />Pameran</div>
-        <div id="lab2" class="slab"><b>6</b>Bilik<br />Mesyuarat</div>
-        <div id="lab3" class="slab"><b>1</b>Grand<br />Ballroom</div>
-        <div id="think1" class="think">Think <span>MICE,</span></div>
-        <div id="think2" class="think">Think <span class="y">MITC!</span></div>
+      <div id="t-ib" class="clip" data-start="4.802" data-duration="2.401" data-track-index="5">
+        <div class="blk"><div class="k">Ayer Keroh · Melaka</div><div class="t">Pusat Konvensyen &amp; Pameran<br />Bertaraf Antarabangsa</div><div class="line"></div></div>
       </div>
-      <div id="t-logo" class="clip" data-start="12.004" data-duration="4.802" data-track-index="4">
-        <div id="rays"></div>
-        <div id="lg"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
-        <div id="lg-head">
-          <div class="t">Pusat Konvensyen &amp; Acara Perniagaan Bertaraf Antarabangsa</div>
-          <div class="en">Premier International Convention &amp; Business Events Centre</div>
-          <div class="pill">Persidangan · Pameran · Acara Korporat</div>
+      <div id="t-ic" class="clip" data-start="7.202" data-duration="4.802" data-track-index="5">
+        <div id="st1" class="stat"><div class="n"><span id="n1">0.0</span><small>EKAR</small></div><div class="l">Kompleks MITC</div></div>
+        <div id="st2" class="stat"><div class="n"><span id="n2">0</span><small>M²</small></div><div class="l">Ruang mesyuarat &amp; pameran fleksibel</div></div>
+        <div id="facts">
+          <div class="fact"><b>3</b><span>Dewan<br />Pameran</span></div>
+          <div class="fact"><b>6</b><span>Bilik<br />Mesyuarat</span></div>
+          <div class="fact"><b>1</b><span>Grand<br />Ballroom</span></div>
         </div>
       </div>
-      <div id="hud" class="clip" data-start="16.806" data-duration="24.008" data-track-index="5">
-        <div class="br tl"></div><div class="br tr"></div><div class="br bl"></div><div class="br brr"></div>
-        <div id="hud-l">MITC · MELAKA</div>
-        <div id="hud-r">THINK MICE, THINK MITC</div>
-        <div id="hud-bar"><div id="hud-fill"></div></div>
+      <div id="t-lg" class="clip" data-start="12.004" data-duration="4.802" data-track-index="5">
+        <div id="lg-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
+        <div id="lg-line" class="line"></div>
+        <div id="lg-t" class="center t">Pusat Konvensyen &amp; Acara Perniagaan Bertaraf Antarabangsa</div>
+        <div id="lg-en" class="center">Premier International Convention &amp; Business Events Centre</div>
       </div>
-      <div id="t-sa" class="clip" data-start="16.806" data-duration="9.603" data-track-index="4">        <div class="sec"><div class="num">01</div><div class="en">Exhibition Halls</div><div class="ttl">Dewan Pameran</div><div class="sub">Hall A · Hall B · Hall C</div></div>        <div id="cap-a1" class="cap"><i></i>Ekspo & Pameran</div>        <div id="cap-a2" class="cap"><i></i>Ekspo & Pameran</div>        <div id="cap-a3" class="cap"><i></i>Pameran Teknologi</div>        <div id="cap-a4" class="cap"><i></i>Pameran Hang Tuah · Hall A</div>        <div id="cap-a5" class="cap"><i></i>Pameran Hang Tuah · Hall A</div>        <div id="cap-a6" class="cap"><i></i>Gala Dinner · Hall B</div>        <div id="cap-a7" class="cap"><i></i>Gala Dinner · Hall B</div>        <div id="cap-a8" class="cap"><i></i>Majlis Rasmi · Dewan Pameran</div>      </div>      <div id="t-sb" class="clip" data-start="26.409" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">02</div><div class="en">Conventions &amp; Meetings</div><div class="ttl">Konvensyen &amp; Mesyuarat</div><div class="sub">Auditorium · 6 Bilik Mesyuarat · Bilik VIP</div></div>        <div id="cap-b1" class="cap"><i></i>Majlis Perasmian</div>        <div id="cap-b2" class="cap"><i></i>Seminar & Bengkel</div>        <div id="cap-b3" class="cap"><i></i>Bilik Mesyuarat</div>        <div id="cap-b4" class="cap"><i></i>Ruang VIP</div>      </div>      <div id="t-sc" class="clip" data-start="31.21" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">03</div><div class="en">Grand Ballrooms</div><div class="ttl">Ballroom</div><div class="sub">Iskandar Shah · Maharani</div></div>        <div id="cap-c1" class="cap"><i></i>Iskandar Shah Grand Ballroom</div>        <div id="cap-c2" class="cap"><i></i>Iskandar Shah Grand Ballroom</div>        <div id="cap-c3" class="cap"><i></i>Maharani Ballroom</div>      </div>      <div id="t-sd" class="clip" data-start="36.012" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">04</div><div class="en">Integrated Event Services</div><div class="ttl">Perkhidmatan Bersepadu</div><div class="chips"><div class="chip">Dekorasi</div><div class="chip">Signage</div><div class="chip">Teknikal &amp; Wi-Fi</div><div class="chip">Pasukan Berpengalaman</div></div></div>        <div id="cap-d1" class="cap"><i></i>Dekorasi & Susun Atur</div>        <div id="cap-d2" class="cap"><i></i>Signage Digital</div>        <div id="cap-d3" class="cap"><i></i>Teknikal, AV & Pentas</div>      </div>      <div id="t-aw" class="clip" data-start="40.814" data-duration="4.802" data-track-index="4">
-        <div id="aw-title"><div class="k kicker">Bertaraf antarabangsa</div><div class="t">Diiktiraf</div></div>
+      <div id="t-01" class="clip" data-start="16.806" data-duration="9.603" data-track-index="5">        <div class="sec"><div class="idx">01<div class="line"></div></div><div class="t">Dewan Pameran</div><div class="en">Exhibition Halls</div><div class="caps">          <div id="cap-s1" class="cap">Gala Dinner · Hall B</div>          <div id="cap-s2" class="cap">Pameran Hang Tuah · Hall A</div>          <div id="cap-s3" class="cap">Pameran Hang Tuah · Hall A</div>          <div id="cap-s4" class="cap">Majlis Rasmi · Dewan Pameran</div>        </div></div>
+      </div>      <div id="t-02" class="clip" data-start="26.409" data-duration="4.801" data-track-index="5">        <div class="sec"><div class="idx">02<div class="line"></div></div><div class="t">Konvensyen &amp; Mesyuarat</div><div class="en">Conventions &amp; Meetings</div><div class="caps">          <div id="cap-s5" class="cap">Bilik Mesyuarat</div>          <div id="cap-s6" class="cap">Ruang VIP</div>        </div></div>
+      </div>      <div id="t-03" class="clip" data-start="31.21" data-duration="7.203" data-track-index="5">        <div class="sec"><div class="idx">03<div class="line"></div></div><div class="t">Ballroom</div><div class="en">Grand Ballrooms</div><div class="caps">          <div id="cap-s7" class="cap">Iskandar Shah Grand Ballroom</div>          <div id="cap-s8" class="cap">Maharani Ballroom</div>          <div id="cap-s9" class="cap">Maharani Ballroom</div>        </div></div>
+      </div>      <div id="t-04" class="clip" data-start="38.413" data-duration="2.401" data-track-index="5">        <div class="sec"><div class="idx">04<div class="line"></div></div><div class="t">Perkhidmatan Bersepadu</div><div class="en">Integrated Event Services</div><div class="caps">          <div id="cap-s10" class="cap">Perancangan · Dekorasi · Teknikal</div>        </div></div>
+      </div>      <div id="t-aw" class="clip" data-start="40.814" data-duration="4.802" data-track-index="5">
+        <div id="aw-k" class="center k">Pengiktirafan</div>
+        <div id="aw-t" class="center t">Diiktiraf</div>
+        <div id="aw-line" class="line"></div>
         <div id="bd1" class="badge"><img src="assets/img/asean-exhibition.png" alt="" /></div>
         <div id="bd2" class="badge"><img src="assets/img/asean-meeting.png" alt="" /></div>
         <div id="bd3" class="badge"><img src="assets/img/brandlaureate.png" alt="" /></div>
         <div id="bd4" class="badge photo"><img src="assets/img/cmiea.jpg" alt="" /></div>
-        <div id="al1" class="aw-label">ASEAN MICE Venue Standard<small>Exhibition Venue &amp; Meeting Room · 2026–2028</small></div>
-        <div id="al2" class="aw-label">BrandLaureate BestBrands<small>MICE Venue · 2025–2026</small></div>
-        <div id="al3" class="aw-label">CMIEA 2025<small>Excellence Service Sector</small></div>
+        <div id="al1" class="awl">ASEAN MICE Venue Standard<small>Exhibition Venue &amp; Meeting Room · 2026–2028</small></div>
+        <div id="al2" class="awl">BrandLaureate BestBrands<small>MICE Venue · 2025–2026</small></div>
+        <div id="al3" class="awl">CMIEA 2025<small>Excellence Service Sector</small></div>
       </div>
-      <div id="t-recap" class="clip" data-start="45.615" data-duration="2.378" data-track-index="4">
-        <div id="rc1" class="think big">Think <span>MICE.</span></div>
-        <div id="rc2" class="think big">Think <span class="y">MITC.</span></div>
+      <div id="t-cl" class="clip" data-start="45.615" data-duration="5.368" data-track-index="5">
+        <div id="cl-t" class="center t">Lebih daripada<br />sebuah venue</div>
+        <div id="cl-s" class="center">Think MICE, Think MITC.</div>
       </div>
-      <div id="t-close" class="clip" data-start="47.993" data-duration="2.99" data-track-index="4">
-        <div id="cl-t">Lebih daripada<br />sebuah venue.</div>
-        <div id="cl-s">Destinasi untuk acara yang luar biasa</div>
+      <div id="t-out" class="clip" data-start="50.983" data-duration="4.617" data-track-index="5">
+        <div id="o-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
+        <div id="o-name" class="center t">Melaka International Trade Centre</div>
+        <div id="o-line" class="line"></div>
+        <div id="o-cta">HUBUNGI KAMI</div>
+        <div id="o-ct" class="center">06-233 3330 &nbsp;·&nbsp; 019-223 8622<br />generalinfo@mitc.org.my<br />site.mitc.org.my</div>
+        <div id="o-addr" class="center">Aras 2, Pusat Konvensyen, Kompleks MITC, Jalan Konvensyen, Hang Tuah Jaya, 75450 Ayer Keroh, Melaka</div>
       </div>
-      <div id="t-out" class="clip" data-start="50.983" data-duration="4.617" data-track-index="4">
-        <div id="out-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
-        <div id="out-name">Melaka International Trade Centre</div>
-        <div id="out-cta">HUBUNGI KAMI SEKARANG</div>
-        <div id="out-contact">
-          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z" /></svg><span>06-233 3330 &nbsp;|&nbsp; 019-223 8622</span></div>
-          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg><span>generalinfo@mitc.org.my</span></div>
-          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="#f7c731" stroke-width="2" /><path d="M2.5 12h19M12 2.5c3 3.2 3 15.8 0 19M12 2.5c-3 3.2-3 15.8 0 19" fill="none" stroke="#f7c731" stroke-width="1.6" /></svg><span>site.mitc.org.my</span></div>
-        </div>
-        <div id="out-addr">Aras 2, Pusat Konvensyen, Kompleks MITC,<br />Jalan Konvensyen, Hang Tuah Jaya, 75450 Ayer Keroh, Melaka</div>
-      </div>
-      <div id="fx" class="clip" data-start="0" data-duration="55.6" data-track-index="6"><div id="leak"></div><div id="flash"></div><div id="fade"></div></div>
-      <audio id="bgm" src="assets/bgm/bed.wav" data-start="0" data-duration="55.6" data-track-index="10" data-volume="1" data-fade-out="1.5"></audio>
+      <div id="fx" class="clip" data-start="0" data-duration="55.6" data-track-index="6"><div id="fade"></div></div>
+      <audio id="bgm" src="assets/bgm/bed.wav" data-start="0" data-duration="55.6" data-track-index="10" data-volume="1" data-fade-out="1.8"></audio>
     </div>
     <script>
       (function () {
-        const C = {"B": 0.6002, "BAR": 2.4008, "DROP": 12.004, "F": 50.983, "END": 55.6, "OV": 0.15, "S": {"logo": 12.004, "sa": 16.8056, "sb": 26.4088, "sc": 31.2104, "sd": 36.012, "aw": 40.813599999999994, "recap": 45.615199999999994, "close": 47.992999999999995, "out": 50.983}, "shots": [{"id": "a1", "media": "v:hall-expo", "t0": 16.806, "t1": 18.006, "trans": "zoom", "pan": null}, {"id": "a2", "media": "v:hall-booths", "t0": 18.006, "t1": 19.206, "trans": "whipL", "pan": null}, {"id": "a3", "media": "v:hall-robot", "t0": 19.206, "t1": 20.407, "trans": "spin", "pan": null}, {"id": "a4", "media": "v:ev-ht-gate", "t0": 20.407, "t1": 21.607, "trans": "whipU", "pan": null}, {"id": "a5", "media": "v:ev-ht-houses", "t0": 21.607, "t1": 22.808, "trans": "zoom", "pan": null}, {"id": "a6", "media": "v:prep-hall", "t0": 22.808, "t1": 24.008, "trans": "push3d", "pan": null}, {"id": "a7", "media": "v:ev-tables", "t0": 24.008, "t1": 25.208, "trans": "whipL", "pan": null}, {"id": "a8", "media": "i:ballroom.jpg:2560", "t0": 25.208, "t1": 26.409, "trans": "spin", "pan": [-900, -700, 1.0, 1.08]}, {"id": "b1", "media": "v:hall-stage", "t0": 26.409, "t1": 27.609, "trans": "zoom", "pan": null}, {"id": "b2", "media": "v:hall-seminar", "t0": 27.609, "t1": 28.81, "trans": "whipL", "pan": null}, {"id": "b3", "media": "i:meeting.jpg:3413", "t0": 28.81, "t1": 30.01, "trans": "push3d", "pan": [-1050, -1350, 1.0, 1.06]}, {"id": "b4", "media": "i:lounge.jpg:2560", "t0": 30.01, "t1": 31.21, "trans": "whipU", "pan": [-480, -700, 1.0, 1.06]}, {"id": "c1", "media": "v:grand-ballroom", "t0": 31.21, "t1": 33.011, "trans": "zoom", "pan": null}, {"id": "c2", "media": "v:grand-2", "t0": 33.011, "t1": 34.211, "trans": "whipL", "pan": null}, {"id": "c3", "media": "v:maharani-hall", "t0": 34.211, "t1": 36.012, "trans": "spin", "pan": null}, {"id": "d1", "media": "v:hook-star", "t0": 36.012, "t1": 37.212, "trans": "zoom", "pan": null}, {"id": "d2", "media": "i:lobby-screen.jpg:1080", "t0": 37.212, "t1": 39.013, "trans": "whipU", "pan": [0, 0, 1.12, 1.02]}, {"id": "d3", "media": "v:hook-stage", "t0": 39.013, "t1": 40.814, "trans": "push3d", "pan": null}, {"id": "r1", "media": "v:hall-expo", "t0": 45.615, "t1": 46.21, "trans": "zoom", "pan": null}, {"id": "r2", "media": "v:hall-robot", "t0": 46.21, "t1": 46.804, "trans": "whipL", "pan": null}, {"id": "r3", "media": "v:grand-ballroom", "t0": 46.804, "t1": 47.399, "trans": "whipU", "pan": null}, {"id": "r4", "media": "v:prep-hall", "t0": 47.399, "t1": 47.993, "trans": "spin", "pan": null}], "sections": [["sa", 16.8056, 26.4088], ["sb", 26.4088, 31.2104], ["sc", 31.2104, 36.012], ["sd", 36.012, 40.813599999999994]]};
-        const { B, BAR, DROP, F, END, OV, S } = C;
+        const C = {"B": 0.6002, "BAR": 2.4008, "DROP": 12.004, "F": 50.983, "END": 55.6, "XF": 0.3, "AW": 40.813599999999994, "CLOSE": 45.615199999999994, "shots": [{"id": "s1", "t0": 16.806, "t1": 19.206, "pan": null}, {"id": "s2", "t0": 19.206, "t1": 21.607, "pan": null}, {"id": "s3", "t0": 21.607, "t1": 24.008, "pan": null}, {"id": "s4", "t0": 24.008, "t1": 26.409, "pan": [-760, -860]}, {"id": "s5", "t0": 26.409, "t1": 28.81, "pan": [-1150, -1300]}, {"id": "s6", "t0": 28.81, "t1": 31.21, "pan": [-520, -640]}, {"id": "s7", "t0": 31.21, "t1": 33.611, "pan": null}, {"id": "s8", "t0": 33.611, "t1": 36.012, "pan": null}, {"id": "s9", "t0": 36.012, "t1": 38.413, "pan": null}, {"id": "s10", "t0": 38.413, "t1": 40.814, "pan": null}], "secs": [{"key": "01", "t0": 16.806, "t1": 26.409, "ids": ["s1", "s2", "s3", "s4"]}, {"key": "02", "t0": 26.409, "t1": 31.21, "ids": ["s5", "s6"]}, {"key": "03", "t0": 31.21, "t1": 38.413, "ids": ["s7", "s8", "s9"]}, {"key": "04", "t0": 38.413, "t1": 40.814, "ids": ["s10"]}]};
+        const { B, BAR, DROP, F, END, XF, AW, CLOSE } = C;
         const tl = gsap.timeline({ paused: true });
-        const T2 = 2 * OV;
-
-        // ---------------- hypermotion transitions (on untimed wrappers) ----------------
-        function tIn(type, w, t) {
-          const a = t - OV, o = { duration: T2, immediateRender: false };
-          if (type === "zoom") tl.fromTo(w, { scale: 1.4, opacity: 0, filter: "blur(16px)" }, { ...o, scale: 1, opacity: 1, filter: "blur(0px)", ease: "power3.out" }, a);
-          if (type === "whipL") tl.fromTo(w, { x: 1080, filter: "blur(22px)" }, { ...o, x: 0, filter: "blur(0px)", ease: "power3.inOut" }, a);
-          if (type === "whipU") tl.fromTo(w, { y: 1920, filter: "blur(22px)" }, { ...o, y: 0, filter: "blur(0px)", ease: "power3.inOut" }, a);
-          if (type === "spin") tl.fromTo(w, { rotation: -30, scale: 1.7, opacity: 0, filter: "blur(12px)" }, { ...o, rotation: 0, scale: 1, opacity: 1, filter: "blur(0px)", ease: "power3.out" }, a);
-          if (type === "push3d") tl.fromTo(w, { rotationY: 75, x: 520, opacity: 0, transformPerspective: 1400 }, { ...o, rotationY: 0, x: 0, opacity: 1, ease: "power3.out" }, a);
-        }
-        function tOut(type, w, t) {
-          const a = t - OV, o = { duration: T2 };
-          if (type === "zoom") tl.to(w, { ...o, scale: 2.4, opacity: 0, filter: "blur(18px)", ease: "power3.in" }, a);
-          if (type === "whipL") tl.to(w, { ...o, x: -1080, filter: "blur(22px)", ease: "power3.inOut" }, a);
-          if (type === "whipU") tl.to(w, { ...o, y: -1920, filter: "blur(22px)", ease: "power3.inOut" }, a);
-          if (type === "spin") tl.to(w, { ...o, rotation: 30, scale: 1.7, opacity: 0, filter: "blur(12px)", ease: "power3.in" }, a);
-          if (type === "push3d") tl.to(w, { ...o, rotationY: -75, x: -520, opacity: 0, transformPerspective: 1400, ease: "power3.in" }, a);
-        }
-        function cut(type, wOut, wIn, t) {
-          if (wOut) tOut(type, wOut, t);
-          if (wIn) tIn(type, wIn, t);
-        }
-        // media motion inside a shot: punch-in then a slow push (speed-ramp feel)
-        function drift(sel, t0, t1, pan) {
-          const x0 = pan ? pan[0] : 0, x1 = pan ? pan[1] : 0;
-          const s1 = pan ? pan[3] : 1.07;
-          tl.fromTo(sel, { x: x0, scale: 1.14, transformOrigin: "50% 50%" }, { x: x0 + (x1 - x0) * 0.25, scale: 1.0, duration: 0.45, ease: "expo.out", immediateRender: false }, t0 - OV);
-          tl.fromTo(sel, { x: x0 + (x1 - x0) * 0.25, scale: 1.0 }, { x: x1, scale: s1, duration: t1 - t0 + T2 - 0.45, ease: "none", immediateRender: false }, t0 - OV + 0.45);
-        }
-        function leak(t) {
-          tl.fromTo("#leak", { opacity: 0, x: -200 }, { opacity: 0.7, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t - 0.1);
-          tl.to("#leak", { opacity: 0, x: 200, duration: 0.6, ease: "power2.in" }, t + 0.15);
-        }
-        function flash(t, peak) {
-          tl.fromTo("#flash", { opacity: 0 }, { opacity: peak || 0.9, duration: 0.05, ease: "none", immediateRender: false }, t - 0.05);
-          tl.to("#flash", { opacity: 0, duration: 0.45, ease: "power2.out" }, t);
-        }
+        const E = "sine.inOut";
+        // soft cross-dissolve: incoming wrapper fades in over the cut
+        const dissolveIn = (w, t, d) => tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: d || 2 * XF, ease: E, immediateRender: false }, t - (d || 2 * XF) / 2);
+        const fadeUp = (s, t, d) => tl.from(s, { y: 24, opacity: 0, duration: d || 0.9, ease: "power2.out" }, t);
+        const fadeOut = (s, t, d) => tl.to(s, { opacity: 0, duration: d || 0.5, ease: E }, t);
+        const drawLine = (s, t) => tl.from(s, { scaleX: 0, duration: 1.0, ease: "power2.inOut" }, t);
+        // slow camera: gentle push (and a small pan on stills) across the whole shot
+        const drift = (s, t0, t1, pan) => tl.fromTo(s, { x: pan ? pan[0] : 0, scale: 1.0, transformOrigin: "50% 50%" },
+          { x: pan ? pan[1] : 0, scale: 1.06, duration: t1 - t0 + 2 * XF, ease: "none", immediateRender: false }, t0 - XF);
         const fmt = (n) => Math.round(n).toLocaleString("en-US");
 
-        // ================= INTRO =================
-        // I-A 0-2.4: dark, blurred exterior + light streak
-        tl.fromTo("#x1", { x: -1150, scale: 1.4, filter: "blur(24px) brightness(0.45)", transformOrigin: "50% 50%" }, { x: -1200, scale: 1.25, filter: "blur(18px) brightness(0.55)", duration: 2 * B * 2, ease: "none", immediateRender: false }, 0);
-        tl.fromTo("#streak", { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 0.05);
-        tl.to("#streak", { opacity: 0, scaleY: 6, duration: 0.5, ease: "power2.in" }, 1.6);
-        tl.from("#i-k1", { y: 40, opacity: 0, scale: 1.3, duration: 0.6, ease: "expo.out" }, B);
-        tl.from("#i-k2", { y: 30, opacity: 0, duration: 0.5, ease: "power3.out" }, 2 * B);
-        tl.to(["#i-k1", "#i-k2"], { y: -60, opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power2.in" }, BAR - 0.25);
-        // I-B 2.4-4.8: sharp reveal + name, one word per beat
-        tl.to("#x1", { filter: "blur(0px) brightness(1)", scale: 1.12, x: -1250, duration: 0.6, ease: "expo.out" }, BAR);
-        tl.to("#x1", { scale: 1.02, x: -1320, duration: BAR - 0.6 + OV, ease: "none" }, BAR + 0.6);
-        flash(BAR, 0.5);
-        ["#it1", "#it2", "#it3"].forEach((s, i) => {
-          tl.from(s, { yPercent: 90, opacity: 0, skewY: 8, scale: 1.25, duration: 0.5, ease: "expo.out" }, BAR + i * B);
-        });
-        tl.from("#it-bar", { scaleX: 0, duration: 0.5, ease: "expo.out" }, BAR + 3 * B);
-        tl.to("#i-title", { y: -120, opacity: 0, filter: "blur(14px)", duration: 0.25, ease: "power2.in" }, 2 * BAR - 0.25);
-        // I-C 4.8-7.2: aerial + stats
-        cut("whipU", "#w-x1", "#w-x2", 2 * BAR);
-        tl.fromTo("#x2", { x: -1000, scale: 1.12, transformOrigin: "50% 50%" }, { x: -1650, scale: 1.0, duration: 2 * BAR, ease: "none", immediateRender: false }, 2 * BAR - OV);
+        // ---------- intro A (0 - 4.8): navy, logo, name ----------
+        tl.from("#ia-logo", { opacity: 0, scale: 0.94, duration: 1.4, ease: "power2.out" }, 0.3);
+        fadeUp("#ia-k", B * 2);
+        drawLine("#ia-line", B * 2 + 0.2);
+        fadeUp("#ia-name", BAR, 1.2);
+        fadeOut("#t-ia > *", 2 * BAR - 0.6, 0.5);
+        // ---------- intro B (4.8 - 7.2): exterior ----------
+        dissolveIn("#w-ext", 2 * BAR, 0.8);
+        tl.fromTo("#m-ext", { x: -1330, scale: 1.0, transformOrigin: "50% 50%" }, { x: -1290, scale: 1.07, duration: BAR + 2 * XF, ease: "none", immediateRender: false }, 2 * BAR - XF);
+        fadeUp("#t-ib .k", 2 * BAR + 0.3);
+        fadeUp("#t-ib .t", 2 * BAR + 0.55, 1.0);
+        drawLine("#t-ib .line", 2 * BAR + 0.9);
+        fadeOut("#t-ib .blk", 3 * BAR - 0.45, 0.4);
+        // ---------- intro C (7.2 - 12.0): aerial + facts ----------
+        dissolveIn("#w-aer", 3 * BAR, 0.8);
+        tl.fromTo("#m-aer", { x: -1150, scale: 1.04, transformOrigin: "50% 50%" }, { x: -1450, scale: 1.0, duration: 2 * BAR + 2 * XF, ease: "none", immediateRender: false }, 3 * BAR - XF);
         const c1 = { v: 0 }, c2 = { v: 0 };
-        tl.from("#i-stat1", { scale: 0.5, opacity: 0, duration: 0.5, ease: "back.out(1.8)" }, 2 * BAR + 0.1);
-        tl.to(c1, { v: 3.1, duration: 0.7, ease: "power2.out", onUpdate: () => (document.getElementById("n1").textContent = c1.v.toFixed(1)) }, 2 * BAR + 0.15);
-        tl.from("#i-stat2", { scale: 0.5, opacity: 0, duration: 0.5, ease: "back.out(1.8)" }, 2 * BAR + 2 * B);
-        tl.to(c2, { v: 13090, duration: 0.6, ease: "power2.out", onUpdate: () => (document.getElementById("n2").textContent = fmt(c2.v)) }, 2 * BAR + 2 * B + 0.05);
-        tl.to(["#i-stat1", "#i-stat2"], { y: -80, opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power2.in", stagger: 0.05 }, 3 * BAR - 0.3);
-        // I-D 7.2-9.6: three strips, one per beat
-        ["#st1", "#st2", "#st3"].forEach((s, i) => {
-          tl.fromTo(s, { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: "power4.out", immediateRender: false }, 3 * BAR + i * B);
-          tl.fromTo(s + " .clip", { scale: 1.3 }, { scale: 1.0, duration: BAR, ease: "power2.out", immediateRender: false }, 3 * BAR + i * B);
-          tl.from("#lab" + (i + 1), { y: 80, opacity: 0, duration: 0.4, ease: "expo.out" }, 3 * BAR + i * B + 0.15);
+        fadeUp("#st1", 3 * BAR + 0.3);
+        tl.to(c1, { v: 3.1, duration: 1.2, ease: "power2.out", onUpdate: () => (document.getElementById("n1").textContent = c1.v.toFixed(1)) }, 3 * BAR + 0.3);
+        fadeUp("#st2", 3 * BAR + 2 * B);
+        tl.to(c2, { v: 13090, duration: 1.2, ease: "power2.out", onUpdate: () => (document.getElementById("n2").textContent = fmt(c2.v)) }, 3 * BAR + 2 * B);
+        tl.from(".fact", { y: 24, opacity: 0, duration: 0.8, ease: "power2.out", stagger: B }, 4 * BAR);
+        fadeOut("#t-ic > *", DROP - 0.7, 0.5);
+        tl.to("#w-aer", { opacity: 0, duration: 0.7, ease: E }, DROP - 0.7);
+        // ---------- logo card on the drop ----------
+        tl.from("#lg-logo", { opacity: 0, scale: 0.92, duration: 1.2, ease: "power2.out" }, DROP);
+        drawLine("#lg-line", DROP + 2 * B);
+        fadeUp("#lg-t", DROP + 3 * B, 1.0);
+        fadeUp("#lg-en", DROP + 5 * B, 0.9);
+        fadeOut("#t-lg > *", DROP + 2 * BAR - 0.6, 0.5);
+        // ---------- main: one shot per bar, soft dissolves ----------
+        C.shots.forEach((s, i) => {
+          dissolveIn("#w-" + s.id, s.t0, i === 0 ? 0.9 : 2 * XF);
+          drift("#m-" + s.id, s.t0, s.t1, s.pan);
         });
-        tl.set(["#st1", "#st2", "#st3"], { yPercent: 100 }, 0);
-        tl.to(["#lab1", "#lab2", "#lab3"], { opacity: 0, y: -60, duration: 0.2, ease: "power2.in" }, 4 * BAR - 0.2);
-        // I-E 9.6-12.0: accelerating zoom into the MITC sign + THINK MICE, THINK MITC
-        cut("zoom", "#w-strips", "#w-x3", 4 * BAR);
-        tl.fromTo("#x3", { x: -1542, y: -52, scale: 1.0, transformOrigin: "2082px 1012px", filter: "blur(0px)" }, { scale: 7.5, duration: BAR, ease: "expo.in", immediateRender: false }, 4 * BAR);
-        tl.to("#x3", { filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, DROP - 0.35);
-        tl.from("#think1", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.4, ease: "expo.out" }, 4 * BAR + 0.02);
-        tl.from("#think2", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.4, ease: "expo.out" }, 4 * BAR + 2 * B);
-        tl.to(["#think1", "#think2"], { scale: 1.5, opacity: 0, filter: "blur(16px)", duration: 0.3, ease: "power2.in" }, DROP - 0.3);
-        flash(DROP, 1);
-        leak(DROP);
-
-        // ================= LOGO (drop) =================
-        tl.fromTo("#lgv", { scale: 1.25 }, { scale: 1.05, duration: 2 * BAR, ease: "none", immediateRender: false }, DROP);
-        tl.fromTo("#rays", { rotation: 0, opacity: 0 }, { rotation: 50, opacity: 1, duration: 2 * BAR, ease: "none", immediateRender: false }, DROP);
-        tl.from("#lg", { rotationY: -540, scale: 0.2, opacity: 0, transformPerspective: 1600, duration: 1.1, ease: "expo.out" }, DROP + 0.02);
-        tl.to("#lg", { y: -14, duration: 1.2, yoyo: true, repeat: 2, ease: "sine.inOut" }, DROP + 1.2);
-        tl.from("#lg-head .t", { y: 80, opacity: 0, scale: 1.15, duration: 0.5, ease: "expo.out" }, DROP + 2 * B);
-        tl.from("#lg-head .en", { y: 40, opacity: 0, duration: 0.45, ease: "power3.out" }, DROP + 3 * B);
-        tl.from("#lg-head .pill", { scale: 0.4, opacity: 0, duration: 0.45, ease: "back.out(2)" }, DROP + 4 * B);
-        tl.to(["#lg", "#lg-head", "#rays"], { scale: 1.6, opacity: 0, filter: "blur(14px)", duration: T2, ease: "power3.in" }, S.sa - OV);
-
-        // ================= MONTAGE =================
-        const shots = C.shots;
-        tOut(shots[0].trans, "#w-lg", shots[0].t0);
-        shots.forEach((sh, i) => {
-          tIn(sh.trans, "#w-" + sh.id, sh.t0);
-          const next = shots[i + 1];
-          if (next && Math.abs(next.t0 - sh.t1) < 0.01) tOut(next.trans, "#w-" + sh.id, sh.t1);
-          drift("#m-" + sh.id, sh.t0, sh.t1, sh.pan);
-        });
-        // sections: title slam, captions per shot, light leak on entry
-        C.sections.forEach(([id, t0, t1]) => {
-          const s = "#t-" + id + " ";
-          leak(t0);
-          tl.from(s + ".num", { x: -160, opacity: 0, duration: 0.45, ease: "expo.out" }, t0 + 0.02);
-          tl.from(s + ".en", { x: 80, opacity: 0, duration: 0.4, ease: "power3.out" }, t0 + 0.12);
-          tl.from(s + ".ttl", { y: 120, opacity: 0, scale: 1.3, skewX: -8, duration: 0.5, ease: "expo.out" }, t0 + 0.18);
-          tl.from(s + ".sub", { scaleX: 0, transformOrigin: "0% 50%", duration: 0.45, ease: "expo.out" }, t0 + 0.45);
-          tl.to(s + ".sec", { y: -60, opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, t1 - 0.22);
-          shots.filter((sh) => sh.t0 >= t0 - 0.01 && sh.t0 < t1 - 0.01).forEach((sh) => {
-            tl.fromTo("#cap-" + sh.id, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, sh.t0 + 0.12);
-            tl.to("#cap-" + sh.id, { x: 60, opacity: 0, duration: 0.14, ease: "power2.in" }, sh.t1 - 0.16);
-            tl.set("#cap-" + sh.id, { opacity: 0 }, 0);
+        C.secs.forEach((sc) => {
+          const p = "#t-" + sc.key + " ";
+          fadeUp(p + ".idx", sc.t0 + 0.35, 0.8);
+          drawLine(p + ".idx .line", sc.t0 + 0.45);
+          fadeUp(p + ".t", sc.t0 + 0.55, 1.0);
+          fadeUp(p + ".en", sc.t0 + 0.8, 0.9);
+          sc.ids.forEach((id, j) => {
+            const s = C.shots.find((x) => x.id === id);
+            tl.fromTo("#cap-" + id, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, s.t0 + (j === 0 ? 1.0 : 0.25));
+            tl.to("#cap-" + id, { opacity: 0, duration: 0.3, ease: E }, s.t1 - 0.3);
+            tl.set("#cap-" + id, { opacity: 0 }, 0);
           });
+          fadeOut(p + ".sec", sc.t1 - 0.45, 0.4);
         });
-        document.querySelectorAll("#t-sd .chip").forEach((el, i) => {
-          tl.from(el, { y: 40, scale: 0.5, opacity: 0, duration: 0.32, ease: "back.out(2.2)" }, S.sd + 0.9 + i * B);
-          tl.to(el, { backgroundColor: "#f7c731", borderColor: "#f7c731", color: "#1c2747", duration: 0.12, ease: "none" }, S.sd + 0.9 + i * B);
-        });
-        // HUD
-        tl.from(".br", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(2)", stagger: 0.05 }, S.sa);
-        tl.from(["#hud-l", "#hud-r"], { opacity: 0, y: -20, duration: 0.4, ease: "power3.out" }, S.sa + 0.2);
-        tl.fromTo("#hud-fill", { scaleX: 0 }, { scaleX: 1, duration: S.aw - S.sa, ease: "none", immediateRender: false }, S.sa);
-
-        // ================= AWARDS =================
-        const lastMont = shots.filter((sh) => sh.t1 <= S.aw + 0.01).pop();
-        tOut("zoom", "#w-" + lastMont.id, S.aw);
-        flash(S.aw, 0.8);
-        tl.from("#aw-title .k", { y: -30, opacity: 0, duration: 0.3, ease: "power3.out" }, S.aw + 0.03);
-        tl.from("#aw-title .t", { scale: 1.8, opacity: 0, filter: "blur(14px)", duration: 0.45, ease: "expo.out" }, S.aw + 0.08);
-        tl.from("#v-aw", { y: 140, rotationX: 30, opacity: 0, transformPerspective: 1400, duration: 0.6, ease: "expo.out" }, S.aw + 0.2);
-        ["#bd1", "#bd2", "#bd3", "#bd4"].forEach((s, i) => tl.from(s, { scale: 0, rotation: -60, duration: 0.45, ease: "back.out(2)" }, S.aw + (2 + i) * B));
-        tl.from("#al1", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 3 * B + 0.1);
-        tl.from("#al2", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 4 * B + 0.1);
-        tl.from("#al3", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 5 * B + 0.1);
-        tl.to(["#bd1", "#bd2", "#bd3", "#bd4"], { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", stagger: 0.1 }, S.aw + 6 * B);
-        tl.to(["#t-aw > *", "#v-aw", "#aw-bg"], { scale: 1.3, opacity: 0, filter: "blur(12px)", duration: T2, ease: "power3.in" }, S.recap - OV);
-
-        // ================= RECAP (one beat per shot) =================
-        flash(S.recap, 0.6);
-        tl.from("#rc1", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "expo.out" }, S.recap + 0.02);
-        tl.to("#rc1", { opacity: 0, duration: 0.1 }, S.recap + 2 * B - 0.1);
-        tl.from("#rc2", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "expo.out" }, S.recap + 2 * B);
-        tl.to("#rc2", { scale: 1.4, opacity: 0, filter: "blur(14px)", duration: T2, ease: "power3.in" }, S.close - OV);
-        const lastRecap = shots[shots.length - 1];
-        tOut("zoom", "#w-" + lastRecap.id, S.close);
-
-        // ================= CLOSE (soft ending) =================
-        tIn("zoom", "#w-cl", S.close);
-        tl.fromTo("#cl", { x: -1250, scale: 1.25, transformOrigin: "50% 50%", filter: "brightness(0.85) saturate(1.1)" }, { x: -1150, scale: 1.04, duration: F - S.close + T2, ease: "power1.out", immediateRender: false }, S.close - OV);
-        tl.from("#cl-t", { y: 80, opacity: 0, duration: 0.6, ease: "expo.out" }, S.close + 0.25);
-        tl.from("#cl-s", { y: 30, opacity: 0, duration: 0.5, ease: "power3.out" }, S.close + 1.1);
-        tl.to(["#cl-t", "#cl-s"], { opacity: 0, y: -40, duration: 0.2, ease: "power2.in" }, F - 0.2);
-
-        // ================= OUTRO (final chord) =================
-        flash(F, 0.9);
-        tl.fromTo("#ob", { x: -1100, scale: 1.05, transformOrigin: "50% 50%" }, { x: -1300, scale: 1.12, duration: END - F, ease: "none", immediateRender: false }, F);
-        tl.from("#out-logo", { rotationY: 360, scale: 0.3, opacity: 0, transformPerspective: 1400, duration: 0.9, ease: "expo.out" }, F + 0.02);
-        tl.from("#out-name", { y: 40, opacity: 0, duration: 0.45, ease: "power3.out" }, F + 0.4);
-        tl.from("#out-cta", { scale: 0.4, opacity: 0, duration: 0.45, ease: "back.out(2.2)" }, F + 0.8);
-        tl.from("#out-contact", { y: 80, opacity: 0, duration: 0.5, ease: "expo.out" }, F + 1.1);
-        tl.from("#out-contact .ct", { x: -40, opacity: 0, duration: 0.35, ease: "power3.out", stagger: 0.12 }, F + 1.25);
-        tl.from("#out-addr", { opacity: 0, duration: 0.4 }, F + 1.7);
-        tl.to("#out-cta", { scale: 1.05, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, F + 1.9);
-        tl.to("#fade", { opacity: 1, duration: 0.6, ease: "power1.in" }, END - 0.6);
-
+        // ---------- awards ----------
+        tl.fromTo("#p-aw", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: E, immediateRender: false }, AW - 0.4);
+        fadeUp("#aw-k", AW + 0.3);
+        fadeUp("#aw-t", AW + 0.5, 1.0);
+        drawLine("#aw-line", AW + 0.8);
+        tl.from("#v-aw", { opacity: 0, y: 30, duration: 1.0, ease: "power2.out" }, AW + 0.6);
+        ["#bd1", "#bd2", "#bd3", "#bd4"].forEach((s, i) => tl.from(s, { opacity: 0, scale: 0.9, duration: 0.8, ease: "power2.out" }, AW + 1.4 + i * B));
+        ["#al1", "#al2", "#al3"].forEach((s, i) => fadeUp(s, AW + 1.8 + i * B * 1.3, 0.7));
+        fadeOut(["#t-aw > *", "#v-aw"], CLOSE - 0.6, 0.5);
+        // ---------- close ----------
+        dissolveIn("#w-cl", CLOSE, 0.9);
+        tl.fromTo("#m-cl", { x: -1300, scale: 1.1, transformOrigin: "50% 50%" }, { x: -1250, scale: 1.0, duration: F - CLOSE + 2 * XF, ease: "power1.out", immediateRender: false }, CLOSE - XF);
+        fadeUp("#cl-t", CLOSE + 0.6, 1.2);
+        fadeUp("#cl-s", CLOSE + 2.4, 1.0);
+        fadeOut("#t-cl > *", F - 0.6, 0.5);
+        tl.to(["#w-cl", "#tint", "#grade"], { opacity: 0, duration: 0.8, ease: E }, F - 0.5);
+        // ---------- outro ----------
+        tl.from("#o-logo", { opacity: 0, scale: 0.94, duration: 1.2, ease: "power2.out" }, F + 0.1);
+        fadeUp("#o-name", F + 0.6);
+        drawLine("#o-line", F + 0.9);
+        fadeUp("#o-cta", F + 1.2, 0.8);
+        fadeUp("#o-ct", F + 1.6, 0.9);
+        fadeUp("#o-addr", F + 2.0, 0.9);
+        tl.to("#fade", { opacity: 1, duration: 0.8, ease: "power1.in" }, END - 0.8);
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;
       })();
-
     </script>
   </body>
 </html>

@@ -35,3 +35,11 @@ cut hall-stage    7514607342432898322 15.7 2.7   # stage + seating for an openin
 cut ev-ht-houses  7378734633376091410 36.0 2.7   # Pameran Hang Tuah (4K): Melaka 1477 models
 cut grand-2       7510414709900774663 37.0 2.7   # Grand Ballroom, second angle
 cut logo-bg       7515280572890107154 61.0 5.3   # stage + crowd, used blurred behind the logo reveal
+# v5 (clean & elegant cut): 3.0 s shots on their sharpest 2.9 s window
+cut l-tables      7507840908549688594 9.0  3.0   # gala dinner set-up, Hall B
+cut l-ht-gate     7378734633376091410 30.5 3.0   # Pameran Hang Tuah gateway (4K)
+cut l-ht-houses   7378734633376091410 35.1 3.0   # Pameran Hang Tuah models (4K)
+cut l-grand       7510414709900774663 35.6 3.0   # Iskandar Shah Grand Ballroom
+cut l-maharani    7383175657573928199 6.2  3.0   # Maharani Ballroom
+cut l-akad        7383175657573928199 22.1 3.0   # Maharani Ballroom, akad set-up
+cut l-prep        7507840908549688594 32.6 3.0   # hall set-up to the stage
