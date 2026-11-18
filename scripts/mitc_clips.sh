@@ -16,8 +16,8 @@ cut() { # name id start dur [extra filter before scale]
     -c:v libx264 -crf 19 -preset slow -g 15 -keyint_min 15 -pix_fmt yuv420p -movflags +faststart "$OUT/$1.mp4"
   echo "$1 <- $2 @ $3 +$4"
 }
-cut hook-stage    7507840908549688594 27.1 1.9   # gala prep: LED stage (Konica Minolta dinner, Hall B)
-cut hook-star     7507840908549688594 7.1  1.5   # gala prep: star arch + red carpet
+cut hook-stage    7507840908549688594 26.8 2.4   # gala prep: LED stage (Konica Minolta dinner, Hall B)
+cut hook-star     7507840908549688594 6.6  1.8   # gala prep: star arch + red carpet
 cut grand-ballroom 7510414709900774663 35.8 2.7  # Grand Ballroom wedding set-up
 cut maharani-hall 7383175657573928199 2.3  2.7   # Maharani Ballroom, wide
 cut ev-ht-gate    7378734633376091410 31.6 1.5   # Pameran Hang Tuah (4K): gateway
@@ -26,3 +26,12 @@ cut ev-tables     7507840908549688594 9.0  1.5   # gala dinner tables, Hall B
 cut ev-pelamin    7383175657573928199 6.9  1.5   # Maharani Ballroom pelamin
 cut ev-akad       7383175657573928199 22.1 1.5   # Maharani Ballroom akad set-up
 cut prep-hall     7507840908549688594 32.7 2.7   # hall set-up down the red carpet to the stage
+# v4: more hall footage (GoTravel Expo, Karnival Kerjaya TVET, Hang Tuah, Grand Ballroom)
+cut hall-expo     7520491843235171591 6.0  2.7   # expo in the exhibition hall (sakura installation)
+cut hall-booths   7520491843235171591 28.3 2.7   # busy exhibitor booths
+cut hall-robot    7514607342432898322 36.1 2.7   # technology exhibit, robot arm cell
+cut hall-seminar  7514607342432898322 42.3 2.7   # seminar set-up, round tables
+cut hall-stage    7514607342432898322 15.7 2.7   # stage + seating for an opening ceremony
+cut ev-ht-houses  7378734633376091410 36.0 2.7   # Pameran Hang Tuah (4K): Melaka 1477 models
+cut grand-2       7510414709900774663 37.0 2.7   # Grand Ballroom, second angle
+cut logo-bg       7515280572890107154 61.0 5.3   # stage + crowd, used blurred behind the logo reveal

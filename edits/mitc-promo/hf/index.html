@@ -5,19 +5,13 @@
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="vendor/gsap.min.js"></script>
     <style>
-      /* MITC promo reel (9:16, no voiceover). Palette taken from the MITC poster:
-         deep navy ground, teal panels, warm yellow accent, white type.
-         Music: "Driving Ambition" (Mixkit Free License), cut to 43.6 s; every cut sits on its beat grid
-         (beat 0.6002 s, drop / logo at 2.962, downbeats 2.962 + 2.4008k, final chord / outro at 38.94).
-         B-roll: MITC's own TikTok (@mitcmelaka1), cut around captions and presenters (scripts/mitc_clips.sh). */
+      /* MITC promo v4: hypermotion corporate cut. Palette from the MITC poster: navy, teal, warm yellow. */
       :root {
         --navy: #1c2747;
-        --navy-2: #26345c;
         --teal: #1f7f8a;
-        --teal-2: #2aa3ad;
         --yellow: #f7c731;
         --white: #ffffff;
-        --ink: #0d1428;
+        --ink: #0b1124;
       }
       * {
         margin: 0;
@@ -44,246 +38,382 @@
         position: absolute;
         inset: 0;
       }
-
-      /* ---------- photos ---------- */
-      .ph {
+      .wrap {
         position: absolute;
         inset: 0;
         overflow: hidden;
-        background: var(--ink);
+        will-change: transform, opacity;
       }
-      .ph img {
+      .wrap img.clip,
+      .strip img.clip {
+        inset: auto;
+        left: 0;
+        top: 0;
+        height: 1920px;
+      }
+      video.clip {
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      .strip {
         position: absolute;
         top: 0;
-        left: 0;
+        width: 360px;
         height: 1920px;
-        will-change: transform;
+        overflow: hidden;
+        border-right: 4px solid var(--ink);
       }
-      .shade-bottom {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(13, 20, 40, 0) 38%, rgba(13, 20, 40, 0.72) 64%, rgba(13, 20, 40, 0.95) 100%);
+      .strip video.clip {
+        width: 360px;
+      }
+      #st1 {
+        left: 0;
+      }
+      #st2 {
+        left: 360px;
+      }
+      #st3 {
+        left: 720px;
+      }
+
+      /* ---------- shades ---------- */
+      .shade-intro {
+        background: linear-gradient(180deg, rgba(11, 17, 36, 0.55) 0%, rgba(11, 17, 36, 0.25) 40%, rgba(11, 17, 36, 0.35) 60%, rgba(11, 17, 36, 0.8) 100%);
+      }
+      .shade-logo {
+        background: radial-gradient(700px 700px at 50% 30%, rgba(28, 39, 71, 0.35), rgba(11, 17, 36, 0.92) 75%);
+      }
+      .shade-mont {
+        background: linear-gradient(180deg, rgba(11, 17, 36, 0.55) 0%, rgba(11, 17, 36, 0) 18%, rgba(11, 17, 36, 0) 46%, rgba(11, 17, 36, 0.78) 64%, rgba(11, 17, 36, 0.96) 100%);
       }
       .shade-full {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(13, 20, 40, 0.78) 0%, rgba(13, 20, 40, 0.45) 45%, rgba(13, 20, 40, 0.85) 100%);
+        background: rgba(11, 17, 36, 0.45);
       }
-      .shade-top {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(28, 39, 71, 0.97) 0%, rgba(28, 39, 71, 0.9) 40%, rgba(28, 39, 71, 0.2) 66%, rgba(13, 20, 40, 0.5) 100%);
+      .shade-close {
+        background: linear-gradient(180deg, rgba(28, 39, 71, 0.55) 0%, rgba(11, 17, 36, 0.35) 40%, rgba(11, 17, 36, 0.85) 100%);
+      }
+      .shade-out {
+        background: linear-gradient(180deg, rgba(28, 39, 71, 0.93) 0%, rgba(28, 39, 71, 0.84) 60%, rgba(11, 17, 36, 0.96) 100%);
+      }
+      #lgv {
+        filter: blur(5px) saturate(1.2);
       }
 
       /* ---------- type ---------- */
-      .mont {
-        font-family: Montserrat, sans-serif;
-      }
       .kicker {
         font-family: Inter, sans-serif;
         font-weight: 700;
-        font-size: 28px;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-      }
-      .yellow {
-        color: var(--yellow);
-      }
-
-      /* ---------- S1 hook ---------- */
-      #hook-text {
-        position: absolute;
-        left: 70px;
-        right: 70px;
-        top: 620px;
-        text-align: center;
-      }
-      .hl {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 104px;
-        line-height: 1.04;
-        letter-spacing: -0.02em;
-        text-transform: uppercase;
-        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
-      }
-      .hl.sm {
-        font-size: 80px;
-      }
-      .hl-box {
-        display: inline-block;
-        font-size: 90px;
-        background: var(--yellow);
-        color: var(--navy);
-        padding: 6px 26px 10px;
-        margin: 14px 0;
-        text-shadow: none;
-      }
-
-      /* ---------- S2 brand ---------- */
-      #brand-kicker {
-        position: absolute;
-        top: 230px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: 26px;
-        color: rgba(255, 255, 255, 0.92);
-      }
-      #brand-kicker-en {
-        position: absolute;
-        top: 278px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-style: italic;
-        font-size: 24px;
-        letter-spacing: 0.08em;
-        color: var(--yellow);
-      }
-      #brand-logo {
-        position: absolute;
-        left: 340px;
-        top: 360px;
-        width: 400px;
-        height: 400px;
-      }
-      #brand-logo img {
-        width: 100%;
-        height: 100%;
-        filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
-      }
-      #brand-name {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 800px;
-        text-align: center;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 44px;
-        letter-spacing: 0.06em;
-      }
-      #brand-head {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 800px;
-        text-align: center;
-      }
-      #brand-head .t {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 62px;
-        line-height: 1.12;
-        text-transform: uppercase;
-      }
-      #brand-head .en {
-        margin-top: 22px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-style: italic;
         font-size: 30px;
-        line-height: 1.3;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+      .c {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
+      .dim {
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 24px;
+      }
+      .y {
         color: var(--yellow);
       }
-      #brand-head .bar {
-        width: 200px;
-        height: 7px;
-        background: var(--white);
-        margin: 30px auto 0;
+      #streak {
+        position: absolute;
+        left: 0;
+        top: 958px;
+        width: 1080px;
+        height: 4px;
+        background: linear-gradient(90deg, rgba(247, 199, 49, 0), var(--yellow), rgba(247, 199, 49, 0));
+        box-shadow: 0 0 30px rgba(247, 199, 49, 0.9);
+      }
+      #i-k1 {
+        top: 880px;
+      }
+      #i-k2 {
+        top: 1000px;
+      }
+      #i-title {
+        position: absolute;
+        left: 50px;
+        right: 50px;
+        top: 1180px;
+        text-align: center;
+      }
+      #i-title .ln {
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 112px;
+        line-height: 1.02;
+        text-transform: uppercase;
+        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+      }
+      #it2 {
+        font-size: 92px !important;
+      }
+      #it-bar {
+        width: 240px;
+        height: 8px;
+        margin: 28px auto 0;
+        background: var(--yellow);
         border-radius: 4px;
       }
-
-      /* ---------- S3 location ---------- */
-      #pin {
+      .stat {
         position: absolute;
-        left: 468px;
-        top: 560px;
-        width: 144px;
-        height: 190px;
-      }
-      #pin-pulse {
-        position: absolute;
-        left: 480px;
-        top: 700px;
-        width: 120px;
-        height: 60px;
-        border-radius: 50%;
-        border: 5px solid var(--yellow);
-      }
-      #loc-card {
-        position: absolute;
-        left: 70px;
-        right: 70px;
-        top: 1120px;
+        left: 60px;
+        right: 60px;
         text-align: center;
+        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
       }
-      #loc-card .k {
-        color: var(--yellow);
-        margin-bottom: 18px;
-      }
-      #loc-card .t {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 96px;
-        line-height: 1;
+      .stat .k {
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
       }
-      #loc-card .s {
-        margin-top: 26px;
-        font-size: 38px;
-        font-weight: 500;
-        line-height: 1.35;
-        color: rgba(255, 255, 255, 0.92);
+      .stat .v {
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 210px;
+        line-height: 1;
+        color: var(--yellow);
+      }
+      .stat .v small {
+        font-size: 70px;
+        margin-left: 14px;
+        color: var(--white);
+      }
+      #i-stat1 {
+        top: 430px;
+      }
+      #i-stat2 {
+        top: 1130px;
+      }
+      #i-stat2 .v {
+        font-size: 180px;
+      }
+      .slab {
+        position: absolute;
+        top: 1300px;
+        width: 360px;
+        text-align: center;
+        font-family: Montserrat, sans-serif;
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 1.1;
+        text-transform: uppercase;
+        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.8);
+      }
+      .slab b {
+        display: block;
+        font-size: 200px;
+        line-height: 1;
+        color: var(--yellow);
+      }
+      #lab1 {
+        left: 0;
+      }
+      #lab2 {
+        left: 360px;
+      }
+      #lab3 {
+        left: 720px;
+      }
+      .think {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 128px;
+        line-height: 1;
+        text-transform: uppercase;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      }
+      .think span {
+        display: inline-block;
+      }
+      #think1,
+      #rc1 {
+        top: 780px;
+      }
+      #think2,
+      #rc2 {
+        top: 940px;
+      }
+      .think.big {
+        font-size: 140px;
       }
 
-      /* ---------- pillar cards ---------- */
-      .pillar {
+      /* ---------- logo scene ---------- */
+      #rays {
+        position: absolute;
+        left: -360px;
+        top: -260px;
+        width: 1800px;
+        height: 1800px;
+        border-radius: 50%;
+        background: repeating-conic-gradient(from 0deg, rgba(247, 199, 49, 0.16) 0deg 6deg, rgba(247, 199, 49, 0) 6deg 18deg);
+        -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 65%);
+        mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 65%);
+      }
+      #lg {
+        position: absolute;
+        left: 300px;
+        top: 380px;
+        width: 480px;
+        height: 480px;
+      }
+      #lg img {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.6));
+      }
+      #lg-head {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 940px;
+        text-align: center;
+      }
+      #lg-head .t {
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 66px;
+        line-height: 1.1;
+        text-transform: uppercase;
+      }
+      #lg-head .en {
+        margin-top: 24px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 32px;
+        color: var(--yellow);
+      }
+      #lg-head .pill {
+        display: inline-block;
+        margin-top: 40px;
+        padding: 16px 34px;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- HUD ---------- */
+      .br {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        border-color: rgba(255, 255, 255, 0.85);
+        border-style: solid;
+        border-width: 0;
+      }
+      .br.tl {
+        left: 44px;
+        top: 44px;
+        border-left-width: 5px;
+        border-top-width: 5px;
+      }
+      .br.tr {
+        right: 44px;
+        top: 44px;
+        border-right-width: 5px;
+        border-top-width: 5px;
+      }
+      .br.bl {
+        left: 44px;
+        bottom: 44px;
+        border-left-width: 5px;
+        border-bottom-width: 5px;
+      }
+      .br.brr {
+        right: 44px;
+        bottom: 44px;
+        border-right-width: 5px;
+        border-bottom-width: 5px;
+      }
+      #hud-l,
+      #hud-r {
+        position: absolute;
+        top: 62px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 0.24em;
+      }
+      #hud-l {
+        left: 136px;
+      }
+      #hud-r {
+        right: 136px;
+        color: var(--yellow);
+      }
+      #hud-bar {
+        position: absolute;
+        left: 136px;
+        right: 136px;
+        bottom: 70px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.25);
+      }
+      #hud-fill {
+        width: 100%;
+        height: 100%;
+        background: var(--yellow);
+        transform-origin: 0 50%;
+      }
+
+      /* ---------- section titles ---------- */
+      .sec {
         position: absolute;
         left: 70px;
         right: 70px;
-        top: 1090px;
+        top: 1150px;
       }
-      .p-row {
-        display: flex;
-        align-items: center;
-        gap: 26px;
-      }
-      .p-num {
+      .sec .num {
         font-family: Montserrat, sans-serif;
         font-weight: 900;
         font-size: 120px;
         line-height: 0.9;
         color: var(--yellow);
       }
-      .p-en {
+      .sec .en {
+        margin-top: 12px;
         font-family: Montserrat, sans-serif;
         font-weight: 800;
         font-style: italic;
-        font-size: 28px;
-        letter-spacing: 0.06em;
+        font-size: 30px;
+        letter-spacing: 0.08em;
         color: var(--yellow);
         text-transform: uppercase;
       }
-      .p-title {
-        margin-top: 22px;
+      .sec .ttl {
+        margin-top: 10px;
         font-family: Montserrat, sans-serif;
         font-weight: 900;
-        font-size: 92px;
-        line-height: 1;
+        font-size: 100px;
+        line-height: 1.02;
         text-transform: uppercase;
+        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
       }
-      .p-title .box {
+      .sec .sub {
+        margin-top: 22px;
         display: inline-block;
+        padding: 10px 22px;
         background: var(--teal);
-        padding: 4px 22px 10px;
-        margin-top: 10px;
+        font-weight: 700;
+        font-size: 32px;
       }
-      .p-items {
-        margin-top: 30px;
+      .chips {
+        margin-top: 26px;
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
@@ -294,30 +424,49 @@
         padding: 12px 24px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.14);
-        border: 2px solid rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.55);
       }
-      .p-desc {
-        margin-top: 30px;
-        font-size: 36px;
-        font-weight: 500;
-        line-height: 1.38;
-        color: rgba(255, 255, 255, 0.94);
+      .cap {
+        position: absolute;
+        left: 70px;
+        top: 150px;
+        padding: 14px 26px 14px 22px;
+        background: rgba(11, 17, 36, 0.7);
+        border-left: 6px solid var(--yellow);
+        font-family: Montserrat, sans-serif;
+        font-weight: 800;
+        font-size: 30px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
       }
-      .p-line {
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, var(--yellow), rgba(247, 199, 49, 0));
-        margin-top: 8px;
-        transform-origin: 0 50%;
+      .cap i {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 14px;
+        border-radius: 50%;
+        background: #ff4d4d;
+        vertical-align: 3px;
       }
 
-      /* ---------- S7 awards ---------- */
+      /* ---------- awards ---------- */
       #aw-bg {
         position: absolute;
         inset: 0;
         background:
           radial-gradient(900px 700px at 50% 30%, rgba(42, 163, 173, 0.35), rgba(42, 163, 173, 0) 70%),
           linear-gradient(180deg, var(--navy) 0%, var(--ink) 100%);
+      }
+      #v-aw {
+        inset: auto;
+        left: 60px;
+        top: 470px;
+        width: 960px;
+        height: 540px;
+        border-radius: 28px;
+        border: 4px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+        object-fit: cover;
       }
       #aw-title {
         position: absolute;
@@ -338,32 +487,16 @@
         color: var(--yellow);
         text-transform: uppercase;
       }
-      #v-aw {
-        inset: auto;
-        position: absolute;
-        left: 60px;
-        top: 470px;
-        width: 960px;
-        height: 540px;
-        border-radius: 28px;
-        overflow: hidden;
-        border: 4px solid rgba(255, 255, 255, 0.85);
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
-        background: #000;
-      }
-      #v-aw {
-        object-fit: cover;
-      }
       .badge {
         position: absolute;
         top: 1080px;
-        width: 290px;
-        height: 290px;
+        width: 220px;
+        height: 220px;
         border-radius: 50%;
         background: #fff;
         overflow: hidden;
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         border: 6px solid var(--yellow);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
       }
       .badge img {
         width: 100%;
@@ -371,79 +504,105 @@
         object-fit: cover;
         transform: scale(1.04);
       }
-      #bd-1 {
-        left: 60px;
+      .badge.photo img {
+        object-position: 50% 45%;
+        transform: scale(1.5);
       }
-      #bd-2 {
-        left: 395px;
+      #bd1 {
+        left: 40px;
       }
-      #bd-3 {
-        left: 730px;
+      #bd2 {
+        left: 300px;
+      }
+      #bd3 {
+        left: 560px;
+      }
+      #bd4 {
+        left: 820px;
       }
       .aw-label {
         position: absolute;
-        top: 1410px;
+        top: 1330px;
         text-align: center;
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 700;
         line-height: 1.3;
       }
       .aw-label small {
         display: block;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 500;
         color: var(--yellow);
         margin-top: 4px;
       }
-      #al-1 {
-        left: 60px;
-        width: 625px;
+      #al1 {
+        left: 40px;
+        width: 480px;
       }
-      #al-2 {
-        left: 700px;
-        width: 330px;
+      #al2 {
+        left: 540px;
+        width: 260px;
+      }
+      #al3 {
+        left: 800px;
+        width: 260px;
       }
 
-      /* ---------- S8 outro ---------- */
+      /* ---------- close + outro ---------- */
+      #cl-t {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 1180px;
+        text-align: center;
+        font-family: Montserrat, sans-serif;
+        font-weight: 900;
+        font-size: 96px;
+        line-height: 1.05;
+        text-transform: uppercase;
+        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      }
+      #cl-s {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 1420px;
+        text-align: center;
+        font-family: Montserrat, sans-serif;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 38px;
+        color: var(--yellow);
+      }
       #out-logo {
         position: absolute;
-        left: 400px;
-        top: 250px;
-        width: 280px;
-        height: 280px;
+        left: 380px;
+        top: 300px;
+        width: 320px;
+        height: 320px;
       }
       #out-logo img {
         width: 100%;
         height: 100%;
         filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.5));
       }
-      #out-head {
+      #out-name {
         position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 590px;
+        left: 40px;
+        right: 40px;
+        top: 670px;
         text-align: center;
-      }
-      #out-head .t {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 84px;
-        line-height: 1.04;
-        text-transform: uppercase;
-      }
-      #out-head .s {
-        margin-top: 22px;
         font-family: Montserrat, sans-serif;
         font-weight: 800;
-        font-style: italic;
-        font-size: 36px;
-        color: var(--yellow);
+        font-size: 38px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
       }
       #out-cta {
         position: absolute;
         left: 190px;
         width: 700px;
-        top: 900px;
+        top: 780px;
         height: 104px;
         border-radius: 999px;
         background: var(--yellow);
@@ -460,7 +619,7 @@
         position: absolute;
         left: 90px;
         right: 90px;
-        top: 1060px;
+        top: 940px;
         padding: 34px 40px;
         border-radius: 28px;
         background: rgba(28, 39, 71, 0.82);
@@ -486,487 +645,301 @@
         position: absolute;
         left: 90px;
         right: 90px;
-        top: 1420px;
+        top: 1300px;
         text-align: center;
         font-size: 26px;
         line-height: 1.45;
         color: rgba(255, 255, 255, 0.8);
       }
 
+      /* ---------- fx ---------- */
+      #leak {
+        position: absolute;
+        inset: -200px;
+        background: radial-gradient(circle at 30% 40%, rgba(255, 196, 96, 0.85), rgba(255, 120, 60, 0) 55%);
+        mix-blend-mode: screen;
+        opacity: 0;
+      }
       #flash {
         position: absolute;
         inset: 0;
         background: #fff;
         opacity: 0;
       }
-      #fade-out {
+      #fade {
         position: absolute;
         inset: 0;
         background: var(--ink);
         opacity: 0;
       }
-      /* ---------- vid clips ---------- */
-      video.vshot {
-        width: 1080px;
-        height: 1920px;
-        object-fit: cover;
-      }
-      /* ---------- events montage ---------- */
-      #ev-head {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 250px;
-        text-align: center;
-      }
-      #ev-head .a {
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 92px;
-        line-height: 1;
-        text-transform: uppercase;
-        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
-      }
-      #ev-head .b {
-        display: inline-block;
-        margin-top: 14px;
-        padding: 6px 26px 10px;
-        background: var(--yellow);
-        color: var(--navy);
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 64px;
-        text-transform: uppercase;
-      }
-      .ev-word {
-        position: absolute;
-        left: 60px;
-        right: 60px;
-        top: 1230px;
-        text-align: center;
-      }
-      .ev-word .n {
-        font-family: Montserrat, sans-serif;
-        font-weight: 800;
-        font-size: 34px;
-        letter-spacing: 0.2em;
-        color: var(--yellow);
-      }
-      .ev-word .w {
-        margin-top: 10px;
-        font-family: Montserrat, sans-serif;
-        font-weight: 900;
-        font-size: 104px;
-        line-height: 1;
-        text-transform: uppercase;
-        text-shadow: 0 6px 30px rgba(0, 0, 0, 0.55);
-      }
-      .ev-word .w.sm {
-        font-size: 88px;
-      }
-      .shade-ev {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(13, 20, 40, 0.75) 0%, rgba(13, 20, 40, 0.15) 30%, rgba(13, 20, 40, 0.1) 55%, rgba(13, 20, 40, 0.85) 80%, rgba(13, 20, 40, 0.95) 100%);
-      }
+
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="43.6" data-width="1080" data-height="1920">
-      <!-- ============ picture track ============ -->
-      <video id="v-hook" class="clip vshot" src="assets/clips/hook-stage.mp4" data-start="0" data-duration="1.69" data-media-start="0" data-track-index="5" muted playsinline></video>
-      <video id="v-hook2" class="clip vshot" src="assets/clips/hook-star.mp4" data-start="1.69" data-duration="1.272" data-media-start="0.05" data-track-index="5" muted playsinline></video>
-      <div id="p-hook" class="clip" data-start="0" data-duration="2.962" data-track-index="0"><div class="shade-full"></div></div>
-      <div id="p-brand" class="clip ph" data-start="2.962" data-duration="4.802" data-track-index="0">
-        <img id="i-brand" src="assets/img/exterior.jpg" style="width: 3413px; top: 260px" alt="" />
-        <div class="shade-top"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="55.6" data-width="1080" data-height="1920">
+      <!-- ================= INTRO (0 - 12.004) over the build-up ================= -->
+      <div id="w-x1" class="wrap"><img id="x1" class="clip" src="assets/img/exterior-hi.jpg" data-start="0" data-duration="4.952" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="w-x2" class="wrap"><img id="x2" class="clip" src="assets/img/aerial.jpg" data-start="4.652" data-duration="4.802" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="w-strips" class="wrap">
+        <div id="st1" class="strip"><video id="sv1" class="clip" src="assets/clips/hall-expo.mp4" data-start="7.052" data-duration="2.701" data-media-start="0" data-track-index="1" muted playsinline></video></div>
+        <div id="st2" class="strip"><img id="sv2" class="clip" src="assets/img/meeting.jpg" data-start="7.052" data-duration="2.701" data-track-index="1" style="width: 3413px; height: 1920px; left: -1400px" alt="" /></div>
+        <div id="st3" class="strip"><video id="sv3" class="clip" src="assets/clips/grand-ballroom.mp4" data-start="7.052" data-duration="2.701" data-media-start="0" data-track-index="1" muted playsinline></video></div>
       </div>
-      <div id="p-loc" class="clip ph" data-start="7.764" data-duration="2.4" data-track-index="0">
-        <img id="i-loc" src="assets/img/aerial.jpg" style="width: 3413px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <div id="p-ex" class="clip ph" data-start="10.164" data-duration="1.2" data-track-index="0">
-        <img id="i-ex" src="assets/img/exhall.jpg" style="width: 2560px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <div id="p-exev" class="clip ph" data-start="11.364" data-duration="1.201" data-track-index="0">
-        <img id="i-exev" src="assets/img/ballroom.jpg" style="width: 2560px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <video id="v-grand" class="clip vshot" src="assets/clips/grand-ballroom.mp4" data-start="12.565" data-duration="2.401" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-grand" class="clip" data-start="12.565" data-duration="2.401" data-track-index="0"><div class="shade-bottom"></div></div>
-      <video id="v-maha" class="clip vshot" src="assets/clips/maharani-hall.mp4" data-start="14.966" data-duration="2.401" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-maha" class="clip" data-start="14.966" data-duration="2.401" data-track-index="0"><div class="shade-bottom"></div></div>
-      <div id="p-meet" class="clip ph" data-start="17.367" data-duration="2.401" data-track-index="0">
-        <img id="i-meet" src="assets/img/meeting.jpg" style="width: 3413px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <div id="p-lounge" class="clip ph" data-start="19.768" data-duration="2.4" data-track-index="0">
-        <img id="i-lounge" src="assets/img/lounge.jpg" style="width: 2560px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <video id="v-e1" class="clip vshot" src="assets/clips/ev-ht-gate.mp4" data-start="22.168" data-duration="1.2" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-e1" class="clip" data-start="22.168" data-duration="1.2" data-track-index="0"><div class="shade-ev"></div></div>
-      <video id="v-e2" class="clip vshot" src="assets/clips/ev-ht-ship.mp4" data-start="23.368" data-duration="1.201" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-e2" class="clip" data-start="23.368" data-duration="1.201" data-track-index="0"><div class="shade-ev"></div></div>
-      <video id="v-e3" class="clip vshot" src="assets/clips/ev-tables.mp4" data-start="24.569" data-duration="1.2" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-e3" class="clip" data-start="24.569" data-duration="1.2" data-track-index="0"><div class="shade-ev"></div></div>
-      <div id="p-e4" class="clip ph" data-start="25.769" data-duration="1.201" data-track-index="0">
-        <img id="i-dine" src="assets/img/dining.jpg" style="width: 2560px" alt="" />
-        <div class="shade-ev"></div>
-      </div>
-      <video id="v-e5" class="clip vshot" src="assets/clips/ev-pelamin.mp4" data-start="26.97" data-duration="1.2" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-e5" class="clip" data-start="26.97" data-duration="1.2" data-track-index="0"><div class="shade-ev"></div></div>
-      <video id="v-e6" class="clip vshot" src="assets/clips/ev-akad.mp4" data-start="28.17" data-duration="1.201" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-e6" class="clip" data-start="28.17" data-duration="1.201" data-track-index="0"><div class="shade-ev"></div></div>
-      <video id="v-hall" class="clip vshot" src="assets/clips/prep-hall.mp4" data-start="29.371" data-duration="2.4" data-media-start="0.1" data-track-index="5" muted playsinline></video>
-      <div id="p-hall" class="clip" data-start="29.371" data-duration="2.4" data-track-index="0"><div class="shade-bottom"></div></div>
-      <div id="p-sign" class="clip ph" data-start="31.771" data-duration="2.401" data-track-index="0">
-        <img id="i-sign" src="assets/img/lobby-screen.jpg" style="width: 1080px; height: 2012px" alt="" />
-        <div class="shade-bottom"></div>
-      </div>
-      <div id="p-aw" class="clip" data-start="34.172" data-duration="4.768" data-track-index="0">
-        <div id="aw-bg"></div>
-      </div>
-      <!-- award clip sits above the awards backdrop (timed on its own) -->
-      <video id="v-aw" class="clip" data-hf-media-start-basis="local" src="assets/video/award.mp4" data-start="34.172" data-duration="4.768" data-media-start="0.6" data-track-index="2" muted playsinline></video>
-      <div id="p-out" class="clip ph" data-start="38.94" data-duration="4.66" data-track-index="0">
-        <img id="i-out" src="assets/img/signage.jpg" style="width: 3413px" alt="" />
-        <div class="shade-full" style="background: linear-gradient(180deg, rgba(28, 39, 71, 0.93) 0%, rgba(28, 39, 71, 0.82) 60%, rgba(13, 20, 40, 0.95) 100%)"></div>
-      </div>
-
-      <!-- ============ S1 hook ============ -->
-      <div id="s-hook" class="clip" data-start="0" data-duration="2.962" data-track-index="1">
-        <div id="hook-text">
-          <div id="h1" class="hl">Cari venue</div>
-          <div id="h2" class="hl sm">bertaraf</div>
-          <div id="h3" class="hl"><span class="hl-box">antarabangsa</span></div>
-          <div id="h4" class="hl">di Melaka?</div>
+      <div id="w-x3" class="wrap"><img id="x3" class="clip" src="assets/img/exterior-hi.jpg" data-start="9.453" data-duration="2.701" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="sh-intro" class="clip shade-intro" data-start="0" data-duration="12.004" data-track-index="2"></div>
+      <!-- ================= LOGO (12.004) ================= -->
+      <div id="w-lg" class="wrap"><video id="lgv" class="clip mv" src="assets/clips/logo-bg.mp4" data-start="12.004" data-duration="4.952" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+      <div id="sh-logo" class="clip shade-logo" data-start="12.004" data-duration="4.952" data-track-index="2"></div>
+      <!-- ================= MONTAGE (hypermotion) ================= -->      <div id="w-a1" class="wrap"><video id="m-a1" class="clip mv" src="assets/clips/hall-expo.mp4" data-start="16.656" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a2" class="wrap"><video id="m-a2" class="clip mv" src="assets/clips/hall-booths.mp4" data-start="17.856" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a3" class="wrap"><video id="m-a3" class="clip mv" src="assets/clips/hall-robot.mp4" data-start="19.056" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a4" class="wrap"><video id="m-a4" class="clip mv" src="assets/clips/ev-ht-gate.mp4" data-start="20.257" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a5" class="wrap"><video id="m-a5" class="clip mv" src="assets/clips/ev-ht-houses.mp4" data-start="21.457" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a6" class="wrap"><video id="m-a6" class="clip mv" src="assets/clips/prep-hall.mp4" data-start="22.658" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a7" class="wrap"><video id="m-a7" class="clip mv" src="assets/clips/ev-tables.mp4" data-start="23.858" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-a8" class="wrap"><img id="m-a8" class="clip mi" src="assets/img/ballroom.jpg" data-start="25.058" data-duration="1.501" data-track-index="0" style="width: 2560px;" alt="" /></div>      <div id="w-b1" class="wrap"><video id="m-b1" class="clip mv" src="assets/clips/hall-stage.mp4" data-start="26.259" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-b2" class="wrap"><video id="m-b2" class="clip mv" src="assets/clips/hall-seminar.mp4" data-start="27.459" data-duration="1.501" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-b3" class="wrap"><img id="m-b3" class="clip mi" src="assets/img/meeting.jpg" data-start="28.66" data-duration="1.5" data-track-index="0" style="width: 3413px;" alt="" /></div>      <div id="w-b4" class="wrap"><img id="m-b4" class="clip mi" src="assets/img/lounge.jpg" data-start="29.86" data-duration="1.5" data-track-index="0" style="width: 2560px;" alt="" /></div>      <div id="w-c1" class="wrap"><video id="m-c1" class="clip mv" src="assets/clips/grand-ballroom.mp4" data-start="31.06" data-duration="2.101" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-c2" class="wrap"><video id="m-c2" class="clip mv" src="assets/clips/grand-2.mp4" data-start="32.861" data-duration="1.5" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-c3" class="wrap"><video id="m-c3" class="clip mv" src="assets/clips/maharani-hall.mp4" data-start="34.061" data-duration="2.101" data-media-start="0.15" data-track-index="0" muted playsinline></video></div>      <div id="w-d1" class="wrap"><video id="m-d1" class="clip mv" src="assets/clips/hook-star.mp4" data-start="35.862" data-duration="1.5" data-media-start="0.02" data-track-index="0" muted playsinline></video></div>      <div id="w-d2" class="wrap"><img id="m-d2" class="clip mi" src="assets/img/lobby-screen.jpg" data-start="37.062" data-duration="2.101" data-track-index="0" style="width: 1080px; height: 2012px;" alt="" /></div>      <div id="w-d3" class="wrap"><video id="m-d3" class="clip mv" src="assets/clips/hook-stage.mp4" data-start="38.863" data-duration="2.101" data-media-start="0.02" data-track-index="0" muted playsinline></video></div>      <div id="w-r1" class="wrap"><video id="m-r1" class="clip mv" src="assets/clips/hall-expo.mp4" data-start="45.465" data-duration="0.895" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r2" class="wrap"><video id="m-r2" class="clip mv" src="assets/clips/hall-robot.mp4" data-start="46.06" data-duration="0.894" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r3" class="wrap"><video id="m-r3" class="clip mv" src="assets/clips/grand-ballroom.mp4" data-start="46.654" data-duration="0.895" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="w-r4" class="wrap"><video id="m-r4" class="clip mv" src="assets/clips/prep-hall.mp4" data-start="47.249" data-duration="0.894" data-media-start="0.8" data-track-index="0" muted playsinline></video></div>      <div id="sh-mont" class="clip shade-mont" data-start="16.806" data-duration="24.008" data-track-index="2"></div>      <div id="sh-recap" class="clip shade-full" data-start="45.615" data-duration="2.378" data-track-index="2"></div>      <div id="p-aw" class="clip" data-start="40.664" data-duration="5.102" data-track-index="1"><div id="aw-bg"></div></div>
+      <video id="v-aw" class="clip" src="assets/video/award.mp4" data-start="40.814" data-duration="4.802" data-media-start="0.6" data-track-index="3" muted playsinline></video>
+      <div id="w-cl" class="wrap"><img id="cl" class="clip" src="assets/img/exterior-hi.jpg" data-start="47.843" data-duration="3.29" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="sh-close" class="clip shade-close" data-start="47.993" data-duration="2.99" data-track-index="2"></div>
+      <div id="w-out" class="wrap"><img id="ob" class="clip" src="assets/img/signage.jpg" data-start="50.983" data-duration="4.617" data-track-index="0" style="width: 3413px" alt="" /></div>
+      <div id="sh-out" class="clip shade-out" data-start="50.983" data-duration="4.617" data-track-index="2"></div>
+      <!-- ================= TYPE ================= -->
+      <div id="t-intro" class="clip" data-start="0" data-duration="12.004" data-track-index="4">
+        <div id="streak"></div>
+        <div id="i-k1" class="kicker c">Selamat datang ke</div>
+        <div id="i-k2" class="kicker c dim">Ayer Keroh · Melaka · Malaysia</div>
+        <div id="i-title">
+          <div class="ln" id="it1">Melaka</div>
+          <div class="ln" id="it2">International</div>
+          <div class="ln y" id="it3">Trade Centre</div>
+          <div id="it-bar"></div>
         </div>
+        <div id="i-stat1" class="stat"><div class="k">Kompleks seluas</div><div class="v"><span id="n1">0.0</span><small>ekar</small></div></div>
+        <div id="i-stat2" class="stat"><div class="v"><span id="n2">0</span><small>m²</small></div><div class="k">ruang mesyuarat &amp; pameran fleksibel</div></div>
+        <div id="lab1" class="slab"><b>3</b>Dewan<br />Pameran</div>
+        <div id="lab2" class="slab"><b>6</b>Bilik<br />Mesyuarat</div>
+        <div id="lab3" class="slab"><b>1</b>Grand<br />Ballroom</div>
+        <div id="think1" class="think">Think <span>MICE,</span></div>
+        <div id="think2" class="think">Think <span class="y">MITC!</span></div>
       </div>
-
-      <!-- ============ S2 brand ============ -->
-      <div id="s-brand" class="clip" data-start="2.962" data-duration="4.802" data-track-index="1">
-        <div id="brand-kicker" class="kicker">Persidangan · Pameran · Acara Korporat</div>
-        <div id="brand-kicker-en">CONFERENCES · EXHIBITIONS · CORPORATE EVENTS</div>
-        <div id="brand-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
-        <div id="brand-name">MELAKA INTERNATIONAL<br />TRADE CENTRE</div>
-        <div id="brand-head">
+      <div id="t-logo" class="clip" data-start="12.004" data-duration="4.802" data-track-index="4">
+        <div id="rays"></div>
+        <div id="lg"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
+        <div id="lg-head">
           <div class="t">Pusat Konvensyen &amp; Acara Perniagaan Bertaraf Antarabangsa</div>
-          <div class="en">Premier International Convention<br />&amp; Business Events Centre</div>
-          <div class="bar"></div>
+          <div class="en">Premier International Convention &amp; Business Events Centre</div>
+          <div class="pill">Persidangan · Pameran · Acara Korporat</div>
         </div>
       </div>
-
-      <!-- ============ S3 location ============ -->
-      <div id="s-loc" class="clip" data-start="7.764" data-duration="2.4" data-track-index="1">
-        <div id="pin-pulse"></div>
-        <svg id="pin" viewBox="0 0 144 190" aria-hidden="true">
-          <path d="M72 4C35 4 6 33 6 70c0 48 66 114 66 114s66-66 66-114C138 33 109 4 72 4z" fill="#f7c731" stroke="#1c2747" stroke-width="6" />
-          <circle cx="72" cy="70" r="26" fill="#1c2747" />
-        </svg>
-        <div id="loc-card">
-          <div class="k kicker">Lokasi strategik</div>
-          <div class="t">Ayer Keroh,<br />Melaka</div>
-          <div class="s">Di tengah-tengah destinasi<br />pelancongan utama Melaka</div>
-        </div>
+      <div id="hud" class="clip" data-start="16.806" data-duration="24.008" data-track-index="5">
+        <div class="br tl"></div><div class="br tr"></div><div class="br bl"></div><div class="br brr"></div>
+        <div id="hud-l">MITC · MELAKA</div>
+        <div id="hud-r">THINK MICE, THINK MITC</div>
+        <div id="hud-bar"><div id="hud-fill"></div></div>
       </div>
-
-      <!-- ============ pillars ============ -->
-      <div id="s-p1" class="clip" data-start="10.164" data-duration="7.203" data-track-index="1">
-        <div class="pillar">
-          <div class="p-row">
-            <div class="p-num">01</div>
-            <div>
-              <div class="p-en">Versatile Event Spaces</div>
-              <div class="p-line"></div>
-            </div>
-          </div>
-          <div class="p-title">Ruang Acara<br /><span class="box">Fleksibel</span></div>
-          <div class="p-items">
-            <div class="chip">Dewan Pameran</div>
-            <div class="chip">Grand Ballroom</div>
-            <div class="chip">Maharani Ballroom</div>
-          </div>
-        </div>
+      <div id="t-sa" class="clip" data-start="16.806" data-duration="9.603" data-track-index="4">        <div class="sec"><div class="num">01</div><div class="en">Exhibition Halls</div><div class="ttl">Dewan Pameran</div><div class="sub">Hall A · Hall B · Hall C</div></div>        <div id="cap-a1" class="cap"><i></i>Ekspo & Pameran</div>        <div id="cap-a2" class="cap"><i></i>Ekspo & Pameran</div>        <div id="cap-a3" class="cap"><i></i>Pameran Teknologi</div>        <div id="cap-a4" class="cap"><i></i>Pameran Hang Tuah · Hall A</div>        <div id="cap-a5" class="cap"><i></i>Pameran Hang Tuah · Hall A</div>        <div id="cap-a6" class="cap"><i></i>Gala Dinner · Hall B</div>        <div id="cap-a7" class="cap"><i></i>Gala Dinner · Hall B</div>        <div id="cap-a8" class="cap"><i></i>Majlis Rasmi · Dewan Pameran</div>      </div>      <div id="t-sb" class="clip" data-start="26.409" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">02</div><div class="en">Conventions &amp; Meetings</div><div class="ttl">Konvensyen &amp; Mesyuarat</div><div class="sub">Auditorium · 6 Bilik Mesyuarat · Bilik VIP</div></div>        <div id="cap-b1" class="cap"><i></i>Majlis Perasmian</div>        <div id="cap-b2" class="cap"><i></i>Seminar & Bengkel</div>        <div id="cap-b3" class="cap"><i></i>Bilik Mesyuarat</div>        <div id="cap-b4" class="cap"><i></i>Ruang VIP</div>      </div>      <div id="t-sc" class="clip" data-start="31.21" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">03</div><div class="en">Grand Ballrooms</div><div class="ttl">Ballroom</div><div class="sub">Iskandar Shah · Maharani</div></div>        <div id="cap-c1" class="cap"><i></i>Iskandar Shah Grand Ballroom</div>        <div id="cap-c2" class="cap"><i></i>Iskandar Shah Grand Ballroom</div>        <div id="cap-c3" class="cap"><i></i>Maharani Ballroom</div>      </div>      <div id="t-sd" class="clip" data-start="36.012" data-duration="4.802" data-track-index="4">        <div class="sec"><div class="num">04</div><div class="en">Integrated Event Services</div><div class="ttl">Perkhidmatan Bersepadu</div><div class="chips"><div class="chip">Dekorasi</div><div class="chip">Signage</div><div class="chip">Teknikal &amp; Wi-Fi</div><div class="chip">Pasukan Berpengalaman</div></div></div>        <div id="cap-d1" class="cap"><i></i>Dekorasi & Susun Atur</div>        <div id="cap-d2" class="cap"><i></i>Signage Digital</div>        <div id="cap-d3" class="cap"><i></i>Teknikal, AV & Pentas</div>      </div>      <div id="t-aw" class="clip" data-start="40.814" data-duration="4.802" data-track-index="4">
+        <div id="aw-title"><div class="k kicker">Bertaraf antarabangsa</div><div class="t">Diiktiraf</div></div>
+        <div id="bd1" class="badge"><img src="assets/img/asean-exhibition.png" alt="" /></div>
+        <div id="bd2" class="badge"><img src="assets/img/asean-meeting.png" alt="" /></div>
+        <div id="bd3" class="badge"><img src="assets/img/brandlaureate.png" alt="" /></div>
+        <div id="bd4" class="badge photo"><img src="assets/img/cmiea.jpg" alt="" /></div>
+        <div id="al1" class="aw-label">ASEAN MICE Venue Standard<small>Exhibition Venue &amp; Meeting Room · 2026–2028</small></div>
+        <div id="al2" class="aw-label">BrandLaureate BestBrands<small>MICE Venue · 2025–2026</small></div>
+        <div id="al3" class="aw-label">CMIEA 2025<small>Excellence Service Sector</small></div>
       </div>
-      <div id="s-p2" class="clip" data-start="17.367" data-duration="4.801" data-track-index="1">
-        <div class="pillar">
-          <div class="p-row">
-            <div class="p-num">02</div>
-            <div>
-              <div class="p-en">Professional Facilities</div>
-              <div class="p-line"></div>
-            </div>
-          </div>
-          <div class="p-title">Kemudahan<br /><span class="box">Profesional</span></div>
-          <div class="p-items">
-            <div class="chip">Bilik Mesyuarat</div>
-            <div class="chip">Bilik VIP</div>
-          </div>
-        </div>
+      <div id="t-recap" class="clip" data-start="45.615" data-duration="2.378" data-track-index="4">
+        <div id="rc1" class="think big">Think <span>MICE.</span></div>
+        <div id="rc2" class="think big">Think <span class="y">MITC.</span></div>
       </div>
-
-      <!-- ============ events montage ============ -->
-      <div id="s-ev" class="clip" data-start="22.168" data-duration="7.203" data-track-index="1">
-        <div id="ev-head">
-          <div class="a">Satu Venue</div>
-          <div class="b">Pelbagai Acara</div>
-        </div>
-        <div id="ew1" class="ev-word"><div class="n">01 / 03</div><div class="w">Pameran</div></div>
-        <div id="ew2" class="ev-word"><div class="n">02 / 03</div><div class="w sm">Majlis Korporat</div></div>
-        <div id="ew3" class="ev-word"><div class="n">03 / 03</div><div class="w">Perkahwinan</div></div>
+      <div id="t-close" class="clip" data-start="47.993" data-duration="2.99" data-track-index="4">
+        <div id="cl-t">Lebih daripada<br />sebuah venue.</div>
+        <div id="cl-s">Destinasi untuk acara yang luar biasa</div>
       </div>
-
-      <div id="s-p3" class="clip" data-start="29.371" data-duration="4.801" data-track-index="1">
-        <div class="pillar">
-          <div class="p-row">
-            <div class="p-num">03</div>
-            <div>
-              <div class="p-en">Integrated Event Services</div>
-              <div class="p-line"></div>
-            </div>
-          </div>
-          <div class="p-title">Perkhidmatan<br /><span class="box">Bersepadu</span></div>
-          <div class="p-items">
-            <div class="chip">Dekorasi</div>
-            <div class="chip">Teknikal &amp; Wi-Fi</div>
-            <div class="chip">Signage</div>
-            <div class="chip">Pasukan Berpengalaman</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ============ awards ============ -->
-      <div id="s-aw" class="clip" data-start="34.172" data-duration="4.768" data-track-index="1">
-        <div id="aw-title">
-          <div class="k kicker">Bertaraf antarabangsa</div>
-          <div class="t">Diiktiraf</div>
-        </div>
-        <div id="bd-1" class="badge"><img src="assets/img/asean-exhibition.png" alt="ASEAN MICE Venue Standard (Exhibition Venue)" /></div>
-        <div id="bd-2" class="badge"><img src="assets/img/asean-meeting.png" alt="ASEAN MICE Venue Standard (Meeting Room)" /></div>
-        <div id="bd-3" class="badge"><img src="assets/img/brandlaureate.png" alt="BrandLaureate BestBrands Award" /></div>
-        <div id="al-1" class="aw-label">ASEAN MICE Venue Standard<small>Exhibition Venue &amp; Meeting Room · 2026–2028</small></div>
-        <div id="al-2" class="aw-label">BrandLaureate BestBrands<small>MICE Venue · 2025–2026</small></div>
-      </div>
-
-
-      <!-- ============ outro ============ -->
-      <div id="s-out" class="clip" data-start="38.94" data-duration="4.66" data-track-index="1">
+      <div id="t-out" class="clip" data-start="50.983" data-duration="4.617" data-track-index="4">
         <div id="out-logo"><img src="assets/img/logo-globe.png" alt="MITC" /></div>
-        <div id="out-head">
-          <div class="t">Lebih daripada<br />sebuah venue</div>
-          <div class="s">Destinasi untuk acara luar biasa</div>
-        </div>
+        <div id="out-name">Melaka International Trade Centre</div>
         <div id="out-cta">HUBUNGI KAMI SEKARANG</div>
         <div id="out-contact">
-          <div class="ct">
-            <svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z" /></svg>
-            <span>06-233 3330 &nbsp;|&nbsp; 019-223 8622</span>
-          </div>
-          <div class="ct">
-            <svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg>
-            <span>generalinfo@mitc.org.my</span>
-          </div>
-          <div class="ct">
-            <svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-3a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.8 1.9-4zM4.3 14a8.2 8.2 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4H4.3zm.8 2h3a15.7 15.7 0 0 0 1.4 3.6A8 8 0 0 1 5.1 16zm3-8h-3a8 8 0 0 1 4.4-3.6C8.9 5.5 8.4 6.7 8.1 8zM12 20c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h3a8 8 0 0 1-4.4 3.6zm1.7-5.6a16.5 16.5 0 0 0 0-4h3.4a8.2 8.2 0 0 1 0 4h-3.4z" /></svg>
-            <span>site.mitc.org.my</span>
-          </div>
+          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z" /></svg><span>06-233 3330 &nbsp;|&nbsp; 019-223 8622</span></div>
+          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg><span>generalinfo@mitc.org.my</span></div>
+          <div class="ct"><svg viewBox="0 0 24 24" fill="#f7c731" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="#f7c731" stroke-width="2" /><path d="M2.5 12h19M12 2.5c3 3.2 3 15.8 0 19M12 2.5c-3 3.2-3 15.8 0 19" fill="none" stroke="#f7c731" stroke-width="1.6" /></svg><span>site.mitc.org.my</span></div>
         </div>
         <div id="out-addr">Aras 2, Pusat Konvensyen, Kompleks MITC,<br />Jalan Konvensyen, Hang Tuah Jaya, 75450 Ayer Keroh, Melaka</div>
       </div>
-
-      <div id="fx" class="clip" data-start="0" data-duration="43.6" data-track-index="3">
-        <div id="flash"></div>
-        <div id="fade-out"></div>
-      </div>
-
-      <audio id="bgm" src="assets/bgm/bed.wav" data-start="0" data-duration="43.6" data-track-index="10" data-volume="1" data-fade-out="1.2"></audio>
-      <audio id="sfx-hit-1" src="assets/sfx/text-hit.wav" data-start="0.51" data-duration="1.0" data-track-index="11" data-volume="0.55"></audio>
-      <audio id="sfx-hit-2" src="assets/sfx/text-hit.wav" data-start="1.12" data-duration="1.0" data-track-index="12" data-volume="0.5"></audio>
-      <audio id="sfx-hit-3" src="assets/sfx/text-hit.wav" data-start="1.7" data-duration="1.0" data-track-index="13" data-volume="0.6"></audio>
-      <audio id="sfx-hit-4" src="assets/sfx/text-hit.wav" data-start="2.32" data-duration="1.0" data-track-index="14" data-volume="0.6"></audio>
-      <audio id="sfx-sw-hook" src="assets/sfx/swish.wav" data-start="1.45" data-duration="0.36" data-track-index="14" data-volume="0.35"></audio>
-      <audio id="sfx-swell-drop" src="assets/sfx/swell.wav" data-start="1.762" data-duration="1.2" data-track-index="15" data-volume="0.4"></audio>
-      <audio id="sfx-boom-drop" src="assets/sfx/boom.wav" data-start="2.962" data-duration="5.4" data-track-index="16" data-volume="0.8"></audio>
-      <audio id="sfx-shim-logo" src="assets/sfx/shimmer.wav" data-start="3.1" data-duration="3.0" data-track-index="11" data-volume="0.32"></audio>
-      <audio id="sfx-wh-loc" src="assets/sfx/whoosh-big.wav" data-start="7.144" data-duration="0.9" data-track-index="13" data-volume="0.5"></audio>
-      <audio id="sfx-thud-pin" src="assets/sfx/thud.wav" data-start="7.91" data-duration="0.6" data-track-index="14" data-volume="0.6"></audio>
-      <audio id="sfx-blip-pin" src="assets/sfx/blip-1.wav" data-start="8.2" data-duration="1.15" data-track-index="15" data-volume="0.3"></audio>
-      <audio id="sfx-wh-p1" src="assets/sfx/whoosh-big.wav" data-start="9.544" data-duration="0.9" data-track-index="16" data-volume="0.55"></audio>
-      <audio id="sfx-hit-p1" src="assets/sfx/text-hit.wav" data-start="10.37" data-duration="1.0" data-track-index="11" data-volume="0.35"></audio>
-      <audio id="sfx-c11" src="assets/sfx/blip-1.wav" data-start="10.764" data-duration="1.15" data-track-index="12" data-volume="0.3"></audio>
-      <audio id="sfx-sw-1" src="assets/sfx/swish.wav" data-start="11.124" data-duration="0.36" data-track-index="13" data-volume="0.4"></audio>
-      <audio id="sfx-sw-2" src="assets/sfx/swish.wav" data-start="12.325" data-duration="0.36" data-track-index="14" data-volume="0.4"></audio>
-      <audio id="sfx-c12" src="assets/sfx/blip-2.wav" data-start="12.6" data-duration="1.15" data-track-index="15" data-volume="0.3"></audio>
-      <audio id="sfx-sw-3" src="assets/sfx/swish.wav" data-start="14.726" data-duration="0.36" data-track-index="16" data-volume="0.4"></audio>
-      <audio id="sfx-c13" src="assets/sfx/blip-3.wav" data-start="15.0" data-duration="1.15" data-track-index="11" data-volume="0.3"></audio>
-      <audio id="sfx-wh-p2" src="assets/sfx/whoosh-big.wav" data-start="16.747" data-duration="0.9" data-track-index="12" data-volume="0.55"></audio>
-      <audio id="sfx-hit-p2" src="assets/sfx/text-hit.wav" data-start="17.57" data-duration="1.0" data-track-index="13" data-volume="0.35"></audio>
-      <audio id="sfx-c21" src="assets/sfx/blip-1.wav" data-start="17.967" data-duration="1.15" data-track-index="14" data-volume="0.3"></audio>
-      <audio id="sfx-sw-4" src="assets/sfx/swish.wav" data-start="19.528" data-duration="0.36" data-track-index="15" data-volume="0.4"></audio>
-      <audio id="sfx-c22" src="assets/sfx/blip-2.wav" data-start="19.8" data-duration="1.15" data-track-index="16" data-volume="0.3"></audio>
-      <audio id="sfx-wh-ev" src="assets/sfx/whoosh-big.wav" data-start="21.548" data-duration="0.9" data-track-index="11" data-volume="0.55"></audio>
-      <audio id="sfx-ev1" src="assets/sfx/text-hit.wav" data-start="22.188" data-duration="1.0" data-track-index="13" data-volume="0.55"></audio>
-      <audio id="sfx-ev2" src="assets/sfx/text-hit.wav" data-start="24.589" data-duration="1.0" data-track-index="13" data-volume="0.55"></audio>
-      <audio id="sfx-ev3" src="assets/sfx/text-hit.wav" data-start="26.99" data-duration="1.0" data-track-index="13" data-volume="0.55"></audio>
-      <audio id="sfx-evsw1" src="assets/sfx/swish.wav" data-start="23.128" data-duration="0.36" data-track-index="14" data-volume="0.38"></audio>
-      <audio id="sfx-evsw2" src="assets/sfx/swish.wav" data-start="24.329" data-duration="0.36" data-track-index="14" data-volume="0.38"></audio>
-      <audio id="sfx-evsw3" src="assets/sfx/swish.wav" data-start="25.529" data-duration="0.36" data-track-index="14" data-volume="0.38"></audio>
-      <audio id="sfx-evsw4" src="assets/sfx/swish.wav" data-start="26.73" data-duration="0.36" data-track-index="14" data-volume="0.38"></audio>
-      <audio id="sfx-evsw5" src="assets/sfx/swish.wav" data-start="27.93" data-duration="0.36" data-track-index="14" data-volume="0.38"></audio>
-      <audio id="sfx-wh-p3" src="assets/sfx/whoosh-big.wav" data-start="28.751" data-duration="0.9" data-track-index="11" data-volume="0.55"></audio>
-      <audio id="sfx-hit-p3" src="assets/sfx/text-hit.wav" data-start="29.57" data-duration="1.0" data-track-index="12" data-volume="0.35"></audio>
-      <audio id="sfx-c31" src="assets/sfx/blip-1.wav" data-start="29.971" data-duration="1.15" data-track-index="13" data-volume="0.3"></audio>
-      <audio id="sfx-c32" src="assets/sfx/blip-2.wav" data-start="30.571" data-duration="1.15" data-track-index="14" data-volume="0.3"></audio>
-      <audio id="sfx-sw-5" src="assets/sfx/swish.wav" data-start="31.531" data-duration="0.36" data-track-index="15" data-volume="0.4"></audio>
-      <audio id="sfx-c33" src="assets/sfx/blip-3.wav" data-start="31.8" data-duration="1.15" data-track-index="16" data-volume="0.3"></audio>
-      <audio id="sfx-c34" src="assets/sfx/blip-4.wav" data-start="32.4" data-duration="1.15" data-track-index="11" data-volume="0.3"></audio>
-      <audio id="sfx-swell-aw" src="assets/sfx/swell.wav" data-start="32.972" data-duration="1.2" data-track-index="12" data-volume="0.4"></audio>
-      <audio id="sfx-boom-aw" src="assets/sfx/boom.wav" data-start="34.172" data-duration="5.4" data-track-index="13" data-volume="0.6"></audio>
-      <audio id="sfx-bd1" src="assets/sfx/blip-2.wav" data-start="35.372" data-duration="1.15" data-track-index="14" data-volume="0.32"></audio>
-      <audio id="sfx-bd2" src="assets/sfx/blip-3.wav" data-start="35.973" data-duration="1.15" data-track-index="15" data-volume="0.32"></audio>
-      <audio id="sfx-bd3" src="assets/sfx/blip-4.wav" data-start="36.573" data-duration="1.15" data-track-index="16" data-volume="0.32"></audio>
-      <audio id="sfx-shim-bd" src="assets/sfx/shimmer.wav" data-start="35.402" data-duration="3.0" data-track-index="11" data-volume="0.28"></audio>
-      <audio id="sfx-shim-pulse" src="assets/sfx/shimmer.wav" data-start="37.773" data-duration="3.0" data-track-index="12" data-volume="0.22"></audio>
-      <audio id="sfx-swell-out" src="assets/sfx/swell.wav" data-start="37.74" data-duration="1.2" data-track-index="13" data-volume="0.45"></audio>
-      <audio id="sfx-boom-out" src="assets/sfx/boom.wav" data-start="38.94" data-duration="4.66" data-track-index="14" data-volume="0.85"></audio>
-      <audio id="sfx-shim-out" src="assets/sfx/shimmer.wav" data-start="39.05" data-duration="3.0" data-track-index="15" data-volume="0.35"></audio>
-      <audio id="sfx-blip-cta" src="assets/sfx/blip-4.wav" data-start="39.93" data-duration="1.15" data-track-index="16" data-volume="0.3"></audio>
-      <audio id="sfx-blip-ct" src="assets/sfx/blip-1.wav" data-start="40.34" data-duration="1.15" data-track-index="11" data-volume="0.2"></audio>
+      <div id="fx" class="clip" data-start="0" data-duration="55.6" data-track-index="6"><div id="leak"></div><div id="flash"></div><div id="fade"></div></div>
+      <audio id="bgm" src="assets/bgm/bed.wav" data-start="0" data-duration="55.6" data-track-index="10" data-volume="1" data-fade-out="1.5"></audio>
     </div>
-
     <script>
       (function () {
+        const C = {"B": 0.6002, "BAR": 2.4008, "DROP": 12.004, "F": 50.983, "END": 55.6, "OV": 0.15, "S": {"logo": 12.004, "sa": 16.8056, "sb": 26.4088, "sc": 31.2104, "sd": 36.012, "aw": 40.813599999999994, "recap": 45.615199999999994, "close": 47.992999999999995, "out": 50.983}, "shots": [{"id": "a1", "media": "v:hall-expo", "t0": 16.806, "t1": 18.006, "trans": "zoom", "pan": null}, {"id": "a2", "media": "v:hall-booths", "t0": 18.006, "t1": 19.206, "trans": "whipL", "pan": null}, {"id": "a3", "media": "v:hall-robot", "t0": 19.206, "t1": 20.407, "trans": "spin", "pan": null}, {"id": "a4", "media": "v:ev-ht-gate", "t0": 20.407, "t1": 21.607, "trans": "whipU", "pan": null}, {"id": "a5", "media": "v:ev-ht-houses", "t0": 21.607, "t1": 22.808, "trans": "zoom", "pan": null}, {"id": "a6", "media": "v:prep-hall", "t0": 22.808, "t1": 24.008, "trans": "push3d", "pan": null}, {"id": "a7", "media": "v:ev-tables", "t0": 24.008, "t1": 25.208, "trans": "whipL", "pan": null}, {"id": "a8", "media": "i:ballroom.jpg:2560", "t0": 25.208, "t1": 26.409, "trans": "spin", "pan": [-900, -700, 1.0, 1.08]}, {"id": "b1", "media": "v:hall-stage", "t0": 26.409, "t1": 27.609, "trans": "zoom", "pan": null}, {"id": "b2", "media": "v:hall-seminar", "t0": 27.609, "t1": 28.81, "trans": "whipL", "pan": null}, {"id": "b3", "media": "i:meeting.jpg:3413", "t0": 28.81, "t1": 30.01, "trans": "push3d", "pan": [-1050, -1350, 1.0, 1.06]}, {"id": "b4", "media": "i:lounge.jpg:2560", "t0": 30.01, "t1": 31.21, "trans": "whipU", "pan": [-480, -700, 1.0, 1.06]}, {"id": "c1", "media": "v:grand-ballroom", "t0": 31.21, "t1": 33.011, "trans": "zoom", "pan": null}, {"id": "c2", "media": "v:grand-2", "t0": 33.011, "t1": 34.211, "trans": "whipL", "pan": null}, {"id": "c3", "media": "v:maharani-hall", "t0": 34.211, "t1": 36.012, "trans": "spin", "pan": null}, {"id": "d1", "media": "v:hook-star", "t0": 36.012, "t1": 37.212, "trans": "zoom", "pan": null}, {"id": "d2", "media": "i:lobby-screen.jpg:1080", "t0": 37.212, "t1": 39.013, "trans": "whipU", "pan": [0, 0, 1.12, 1.02]}, {"id": "d3", "media": "v:hook-stage", "t0": 39.013, "t1": 40.814, "trans": "push3d", "pan": null}, {"id": "r1", "media": "v:hall-expo", "t0": 45.615, "t1": 46.21, "trans": "zoom", "pan": null}, {"id": "r2", "media": "v:hall-robot", "t0": 46.21, "t1": 46.804, "trans": "whipL", "pan": null}, {"id": "r3", "media": "v:grand-ballroom", "t0": 46.804, "t1": 47.399, "trans": "whipU", "pan": null}, {"id": "r4", "media": "v:prep-hall", "t0": 47.399, "t1": 47.993, "trans": "spin", "pan": null}], "sections": [["sa", 16.8056, 26.4088], ["sb", 26.4088, 31.2104], ["sc", 31.2104, 36.012], ["sd", 36.012, 40.813599999999994]]};
+        const { B, BAR, DROP, F, END, OV, S } = C;
         const tl = gsap.timeline({ paused: true });
-        const B = 0.6002; // beat (Driving Ambition, 100 BPM); downbeats at 2.962 + 2.4008k
-        const LOC = 7.764, P1 = 10.164, P2 = 17.367, EV = 22.168, P3 = 29.371, AW = 34.172, OUT = 38.94, END = 43.6;
+        const T2 = 2 * OV;
 
-        // ---------- photo pans [selector, start, dur, x0, x1, scale0, scale1] ----------
-        const PAN = [
-          ["#i-brand", 2.962, 4.802, -1000, -1450, 1.04, 1.1],
-          ["#i-loc", 7.764, 2.4, -1050, -1350, 1.08, 1.0],
-          ["#i-ex", 10.164, 1.2, -560, -760, 1.06, 1.0],
-          ["#i-exev", 11.364, 1.201, -900, -700, 1.0, 1.06],
-          ["#i-dine", 25.769, 1.201, -560, -760, 1.06, 1.0],
-          ["#i-meet", 17.367, 2.401, -1050, -1350, 1.0, 1.05],
-          ["#i-lounge", 19.768, 2.4, -480, -680, 1.0, 1.06],
-          ["#i-sign", 31.771, 2.401, 0, 0, 1.1, 1.02],
-          ["#i-out", OUT, END - OUT, -1100, -1300, 1.05, 1.12],
-        ];
-        PAN.forEach(([sel, at, dur, x0, x1, s0, s1]) => {
-          tl.fromTo(sel, { x: x0, scale: s0, transformOrigin: "50% 50%" }, { x: x1, scale: s1, duration: dur, ease: "none", immediateRender: false }, at);
-        });
-        // slow push on every video shot + beat punch on each cut
-        document.querySelectorAll("video.vshot").forEach((v) => {
-          const at = parseFloat(v.dataset.start), dur = parseFloat(v.dataset.duration);
-          if (at > 0.1) tl.fromTo(v, { scale: 1.08 }, { scale: 1.0, duration: 0.35, ease: "expo.out", immediateRender: false }, at);
-          tl.fromTo(v, { scale: 1.0 }, { scale: 1.06, duration: Math.max(0.1, dur - 0.35), ease: "none", immediateRender: false }, at + 0.35);
-        });
-        document.querySelectorAll(".ph").forEach((ph) => {
-          const at = parseFloat(ph.dataset.start);
-          if (at > 0.1) tl.fromTo(ph, { scale: 1.07 }, { scale: 1, duration: 0.35, ease: "expo.out", immediateRender: false }, at);
-        });
-
-        // ---------- hook: one line per beat ----------
-        tl.from("#h1", { y: 80, autoAlpha: 0, scale: 1.3, duration: 0.35, ease: "expo.out" }, 0.5);
-        tl.from("#h2", { y: 60, autoAlpha: 0, duration: 0.3, ease: "power3.out" }, 1.1);
-        tl.from("#h3 .hl-box", { scaleX: 0, transformOrigin: "50% 50%", duration: 0.32, ease: "expo.out" }, 1.69);
-        tl.from("#h4", { y: 80, autoAlpha: 0, scale: 1.3, duration: 0.35, ease: "expo.out" }, 2.3);
-        tl.to("#hook-text", { scale: 1.06, duration: 2.4, ease: "none" }, 0.5);
-        tl.to("#hook-text", { y: -120, autoAlpha: 0, filter: "blur(12px)", duration: 0.2, ease: "power2.in" }, 2.74);
-        tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.06, ease: "none", immediateRender: false }, 2.92);
-        tl.to("#flash", { opacity: 0, duration: 0.4, ease: "power2.out" }, 2.98);
-
-        // ---------- brand (drop at 2.962) ----------
-        tl.from("#brand-logo", { scale: 0.2, rotationY: -160, autoAlpha: 0, duration: 0.8, ease: "back.out(1.4)" }, 3.03);
-        tl.to("#brand-logo", { rotationY: 12, duration: 1.1, yoyo: true, repeat: 1, ease: "sine.inOut" }, 3.96);
-        tl.from("#brand-kicker", { y: -30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 3.36);
-        tl.from("#brand-kicker-en", { y: -20, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 3.52);
-        tl.from("#brand-name", { y: 40, autoAlpha: 0, scale: 1.15, duration: 0.6, ease: "power3.out" }, 3.57);
-        tl.to("#brand-name", { y: -30, autoAlpha: 0, duration: 0.22, ease: "power2.in" }, 5.09);
-        tl.from("#brand-head .t", { y: 60, autoAlpha: 0, duration: 0.45, ease: "expo.out" }, 5.36);
-        tl.from("#brand-head .en", { y: 30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, 5.96);
-        tl.from("#brand-head .bar", { scaleX: 0, duration: 0.45, ease: "expo.out" }, 6.56);
-        tl.to("#s-brand > *", { autoAlpha: 0, duration: 0.15, ease: "power1.in" }, LOC - 0.16);
-
-        // ---------- location ----------
-        tl.from("#pin", { y: -500, autoAlpha: 0, duration: 0.42, ease: "bounce.out" }, LOC);
-        tl.fromTo("#pin-pulse", { scale: 0.3, autoAlpha: 1 }, { scale: 2.4, autoAlpha: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, LOC + 0.44);
-        tl.set("#pin-pulse", { autoAlpha: 0 }, LOC);
-        tl.from("#loc-card .k", { y: 30, autoAlpha: 0, duration: 0.3, ease: "power3.out" }, LOC + 0.27);
-        tl.from("#loc-card .t", { y: 70, autoAlpha: 0, duration: 0.4, ease: "expo.out" }, LOC + 0.48);
-        tl.from("#loc-card .s", { y: 30, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, LOC + 0.87);
-        tl.to("#s-loc > *", { autoAlpha: 0, duration: 0.15 }, P1 - 0.16);
-
-        // ---------- pillars ----------
-        function pillar(id, at, len) {
-          const s = "#" + id + " ";
-          tl.from(s + ".p-num", { x: -120, autoAlpha: 0, duration: 0.4, ease: "expo.out" }, at + 0.02);
-          tl.from(s + ".p-en", { x: 60, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, at + 0.12);
-          tl.from(s + ".p-line", { scaleX: 0, duration: 0.5, ease: "expo.out" }, at + 0.15);
-          tl.from(s + ".p-title", { y: 80, autoAlpha: 0, duration: 0.45, ease: "expo.out" }, at + 0.2);
-          tl.from(s + ".p-title .box", { scaleX: 0, transformOrigin: "0% 50%", duration: 0.4, ease: "expo.out" }, at + 0.4);
-          tl.to(s + ".pillar", { y: -40, autoAlpha: 0, duration: 0.18, ease: "power2.in" }, at + len - 0.2);
+        // ---------------- hypermotion transitions (on untimed wrappers) ----------------
+        function tIn(type, w, t) {
+          const a = t - OV, o = { duration: T2, immediateRender: false };
+          if (type === "zoom") tl.fromTo(w, { scale: 1.4, opacity: 0, filter: "blur(16px)" }, { ...o, scale: 1, opacity: 1, filter: "blur(0px)", ease: "power3.out" }, a);
+          if (type === "whipL") tl.fromTo(w, { x: 1080, filter: "blur(22px)" }, { ...o, x: 0, filter: "blur(0px)", ease: "power3.inOut" }, a);
+          if (type === "whipU") tl.fromTo(w, { y: 1920, filter: "blur(22px)" }, { ...o, y: 0, filter: "blur(0px)", ease: "power3.inOut" }, a);
+          if (type === "spin") tl.fromTo(w, { rotation: -30, scale: 1.7, opacity: 0, filter: "blur(12px)" }, { ...o, rotation: 0, scale: 1, opacity: 1, filter: "blur(0px)", ease: "power3.out" }, a);
+          if (type === "push3d") tl.fromTo(w, { rotationY: 75, x: 520, opacity: 0, transformPerspective: 1400 }, { ...o, rotationY: 0, x: 0, opacity: 1, ease: "power3.out" }, a);
         }
-        // chips arrive one per shot and light up while their shot is on screen
-        function chips(id, times, end) {
-          const els = document.querySelectorAll("#" + id + " .chip");
-          times.forEach((t, i) => {
-            const el = els[i];
-            tl.from(el, { y: 40, scale: 0.6, autoAlpha: 0, duration: 0.32, ease: "back.out(2.2)" }, t);
-            tl.to(el, { backgroundColor: "#f7c731", borderColor: "#f7c731", color: "#1c2747", duration: 0.15, ease: "none" }, t);
-            tl.to(el, { backgroundColor: "rgba(255, 255, 255, 0.14)", borderColor: "rgba(255, 255, 255, 0.5)", color: "#ffffff", duration: 0.15, ease: "none" }, i + 1 < times.length ? times[i + 1] : end);
+        function tOut(type, w, t) {
+          const a = t - OV, o = { duration: T2 };
+          if (type === "zoom") tl.to(w, { ...o, scale: 2.4, opacity: 0, filter: "blur(18px)", ease: "power3.in" }, a);
+          if (type === "whipL") tl.to(w, { ...o, x: -1080, filter: "blur(22px)", ease: "power3.inOut" }, a);
+          if (type === "whipU") tl.to(w, { ...o, y: -1920, filter: "blur(22px)", ease: "power3.inOut" }, a);
+          if (type === "spin") tl.to(w, { ...o, rotation: 30, scale: 1.7, opacity: 0, filter: "blur(12px)", ease: "power3.in" }, a);
+          if (type === "push3d") tl.to(w, { ...o, rotationY: -75, x: -520, opacity: 0, transformPerspective: 1400, ease: "power3.in" }, a);
+        }
+        function cut(type, wOut, wIn, t) {
+          if (wOut) tOut(type, wOut, t);
+          if (wIn) tIn(type, wIn, t);
+        }
+        // media motion inside a shot: punch-in then a slow push (speed-ramp feel)
+        function drift(sel, t0, t1, pan) {
+          const x0 = pan ? pan[0] : 0, x1 = pan ? pan[1] : 0;
+          const s1 = pan ? pan[3] : 1.07;
+          tl.fromTo(sel, { x: x0, scale: 1.14, transformOrigin: "50% 50%" }, { x: x0 + (x1 - x0) * 0.25, scale: 1.0, duration: 0.45, ease: "expo.out", immediateRender: false }, t0 - OV);
+          tl.fromTo(sel, { x: x0 + (x1 - x0) * 0.25, scale: 1.0 }, { x: x1, scale: s1, duration: t1 - t0 + T2 - 0.45, ease: "none", immediateRender: false }, t0 - OV + 0.45);
+        }
+        function leak(t) {
+          tl.fromTo("#leak", { opacity: 0, x: -200 }, { opacity: 0.7, x: 0, duration: 0.25, ease: "power2.out", immediateRender: false }, t - 0.1);
+          tl.to("#leak", { opacity: 0, x: 200, duration: 0.6, ease: "power2.in" }, t + 0.15);
+        }
+        function flash(t, peak) {
+          tl.fromTo("#flash", { opacity: 0 }, { opacity: peak || 0.9, duration: 0.05, ease: "none", immediateRender: false }, t - 0.05);
+          tl.to("#flash", { opacity: 0, duration: 0.45, ease: "power2.out" }, t);
+        }
+        const fmt = (n) => Math.round(n).toLocaleString("en-US");
+
+        // ================= INTRO =================
+        // I-A 0-2.4: dark, blurred exterior + light streak
+        tl.fromTo("#x1", { x: -1150, scale: 1.4, filter: "blur(24px) brightness(0.45)", transformOrigin: "50% 50%" }, { x: -1200, scale: 1.25, filter: "blur(18px) brightness(0.55)", duration: 2 * B * 2, ease: "none", immediateRender: false }, 0);
+        tl.fromTo("#streak", { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.7, ease: "expo.out", immediateRender: false }, 0.05);
+        tl.to("#streak", { opacity: 0, scaleY: 6, duration: 0.5, ease: "power2.in" }, 1.6);
+        tl.from("#i-k1", { y: 40, opacity: 0, scale: 1.3, duration: 0.6, ease: "expo.out" }, B);
+        tl.from("#i-k2", { y: 30, opacity: 0, duration: 0.5, ease: "power3.out" }, 2 * B);
+        tl.to(["#i-k1", "#i-k2"], { y: -60, opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power2.in" }, BAR - 0.25);
+        // I-B 2.4-4.8: sharp reveal + name, one word per beat
+        tl.to("#x1", { filter: "blur(0px) brightness(1)", scale: 1.12, x: -1250, duration: 0.6, ease: "expo.out" }, BAR);
+        tl.to("#x1", { scale: 1.02, x: -1320, duration: BAR - 0.6 + OV, ease: "none" }, BAR + 0.6);
+        flash(BAR, 0.5);
+        ["#it1", "#it2", "#it3"].forEach((s, i) => {
+          tl.from(s, { yPercent: 90, opacity: 0, skewY: 8, scale: 1.25, duration: 0.5, ease: "expo.out" }, BAR + i * B);
+        });
+        tl.from("#it-bar", { scaleX: 0, duration: 0.5, ease: "expo.out" }, BAR + 3 * B);
+        tl.to("#i-title", { y: -120, opacity: 0, filter: "blur(14px)", duration: 0.25, ease: "power2.in" }, 2 * BAR - 0.25);
+        // I-C 4.8-7.2: aerial + stats
+        cut("whipU", "#w-x1", "#w-x2", 2 * BAR);
+        tl.fromTo("#x2", { x: -1000, scale: 1.12, transformOrigin: "50% 50%" }, { x: -1650, scale: 1.0, duration: 2 * BAR, ease: "none", immediateRender: false }, 2 * BAR - OV);
+        const c1 = { v: 0 }, c2 = { v: 0 };
+        tl.from("#i-stat1", { scale: 0.5, opacity: 0, duration: 0.5, ease: "back.out(1.8)" }, 2 * BAR + 0.1);
+        tl.to(c1, { v: 3.1, duration: 0.7, ease: "power2.out", onUpdate: () => (document.getElementById("n1").textContent = c1.v.toFixed(1)) }, 2 * BAR + 0.15);
+        tl.from("#i-stat2", { scale: 0.5, opacity: 0, duration: 0.5, ease: "back.out(1.8)" }, 2 * BAR + 2 * B);
+        tl.to(c2, { v: 13090, duration: 0.6, ease: "power2.out", onUpdate: () => (document.getElementById("n2").textContent = fmt(c2.v)) }, 2 * BAR + 2 * B + 0.05);
+        tl.to(["#i-stat1", "#i-stat2"], { y: -80, opacity: 0, filter: "blur(12px)", duration: 0.22, ease: "power2.in", stagger: 0.05 }, 3 * BAR - 0.3);
+        // I-D 7.2-9.6: three strips, one per beat
+        ["#st1", "#st2", "#st3"].forEach((s, i) => {
+          tl.fromTo(s, { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: "power4.out", immediateRender: false }, 3 * BAR + i * B);
+          tl.fromTo(s + " .clip", { scale: 1.3 }, { scale: 1.0, duration: BAR, ease: "power2.out", immediateRender: false }, 3 * BAR + i * B);
+          tl.from("#lab" + (i + 1), { y: 80, opacity: 0, duration: 0.4, ease: "expo.out" }, 3 * BAR + i * B + 0.15);
+        });
+        tl.set(["#st1", "#st2", "#st3"], { yPercent: 100 }, 0);
+        tl.to(["#lab1", "#lab2", "#lab3"], { opacity: 0, y: -60, duration: 0.2, ease: "power2.in" }, 4 * BAR - 0.2);
+        // I-E 9.6-12.0: accelerating zoom into the MITC sign + THINK MICE, THINK MITC
+        cut("zoom", "#w-strips", "#w-x3", 4 * BAR);
+        tl.fromTo("#x3", { x: -1542, y: -52, scale: 1.0, transformOrigin: "2082px 1012px", filter: "blur(0px)" }, { scale: 7.5, duration: BAR, ease: "expo.in", immediateRender: false }, 4 * BAR);
+        tl.to("#x3", { filter: "blur(10px)", duration: 0.35, ease: "power2.in" }, DROP - 0.35);
+        tl.from("#think1", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.4, ease: "expo.out" }, 4 * BAR + 0.02);
+        tl.from("#think2", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.4, ease: "expo.out" }, 4 * BAR + 2 * B);
+        tl.to(["#think1", "#think2"], { scale: 1.5, opacity: 0, filter: "blur(16px)", duration: 0.3, ease: "power2.in" }, DROP - 0.3);
+        flash(DROP, 1);
+        leak(DROP);
+
+        // ================= LOGO (drop) =================
+        tl.fromTo("#lgv", { scale: 1.25 }, { scale: 1.05, duration: 2 * BAR, ease: "none", immediateRender: false }, DROP);
+        tl.fromTo("#rays", { rotation: 0, opacity: 0 }, { rotation: 50, opacity: 1, duration: 2 * BAR, ease: "none", immediateRender: false }, DROP);
+        tl.from("#lg", { rotationY: -540, scale: 0.2, opacity: 0, transformPerspective: 1600, duration: 1.1, ease: "expo.out" }, DROP + 0.02);
+        tl.to("#lg", { y: -14, duration: 1.2, yoyo: true, repeat: 2, ease: "sine.inOut" }, DROP + 1.2);
+        tl.from("#lg-head .t", { y: 80, opacity: 0, scale: 1.15, duration: 0.5, ease: "expo.out" }, DROP + 2 * B);
+        tl.from("#lg-head .en", { y: 40, opacity: 0, duration: 0.45, ease: "power3.out" }, DROP + 3 * B);
+        tl.from("#lg-head .pill", { scale: 0.4, opacity: 0, duration: 0.45, ease: "back.out(2)" }, DROP + 4 * B);
+        tl.to(["#lg", "#lg-head", "#rays"], { scale: 1.6, opacity: 0, filter: "blur(14px)", duration: T2, ease: "power3.in" }, S.sa - OV);
+
+        // ================= MONTAGE =================
+        const shots = C.shots;
+        tOut(shots[0].trans, "#w-lg", shots[0].t0);
+        shots.forEach((sh, i) => {
+          tIn(sh.trans, "#w-" + sh.id, sh.t0);
+          const next = shots[i + 1];
+          if (next && Math.abs(next.t0 - sh.t1) < 0.01) tOut(next.trans, "#w-" + sh.id, sh.t1);
+          drift("#m-" + sh.id, sh.t0, sh.t1, sh.pan);
+        });
+        // sections: title slam, captions per shot, light leak on entry
+        C.sections.forEach(([id, t0, t1]) => {
+          const s = "#t-" + id + " ";
+          leak(t0);
+          tl.from(s + ".num", { x: -160, opacity: 0, duration: 0.45, ease: "expo.out" }, t0 + 0.02);
+          tl.from(s + ".en", { x: 80, opacity: 0, duration: 0.4, ease: "power3.out" }, t0 + 0.12);
+          tl.from(s + ".ttl", { y: 120, opacity: 0, scale: 1.3, skewX: -8, duration: 0.5, ease: "expo.out" }, t0 + 0.18);
+          tl.from(s + ".sub", { scaleX: 0, transformOrigin: "0% 50%", duration: 0.45, ease: "expo.out" }, t0 + 0.45);
+          tl.to(s + ".sec", { y: -60, opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, t1 - 0.22);
+          shots.filter((sh) => sh.t0 >= t0 - 0.01 && sh.t0 < t1 - 0.01).forEach((sh) => {
+            tl.fromTo("#cap-" + sh.id, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, sh.t0 + 0.12);
+            tl.to("#cap-" + sh.id, { x: 60, opacity: 0, duration: 0.14, ease: "power2.in" }, sh.t1 - 0.16);
+            tl.set("#cap-" + sh.id, { opacity: 0 }, 0);
           });
-        }
-        pillar("s-p1", P1, EV - P1 - 4.801);
-        pillar("s-p2", P2, 4.801);
-        pillar("s-p3", P3, 4.801);
-        chips("s-p1", [P1 + 0.6, 12.6, 15.0], P2 - 0.45);
-        chips("s-p2", [P2 + 0.6, 19.8], EV - 0.45);
-        chips("s-p3", [P3 + 0.6, P3 + 1.2, 31.8, 32.4], AW - 0.45);
-
-        // ---------- events montage: three words, two shots (two beats each) per word ----------
-        tl.from("#ev-head .a", { y: -60, autoAlpha: 0, duration: 0.4, ease: "expo.out" }, EV + 0.02);
-        tl.from("#ev-head .b", { scaleX: 0, duration: 0.4, ease: "expo.out" }, EV + 0.2);
-        for (let i = 1; i <= 3; i++) {
-          const at = EV + (i - 1) * 4 * B;
-          const sel = "#ew" + i;
-          tl.set(sel, { autoAlpha: 0 }, 0);
-          tl.fromTo(sel, { autoAlpha: 0, scale: 1.5 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: "expo.out", immediateRender: false }, at + 0.02);
-          if (i < 3) tl.to(sel, { autoAlpha: 0, duration: 0.08, ease: "none" }, at + 4 * B - 0.08);
-        }
-        tl.to("#s-ev > *", { y: -40, autoAlpha: 0, duration: 0.18, ease: "power2.in" }, P3 - 0.2);
-
-        // ---------- awards ----------
-        tl.from("#aw-title .k", { y: -30, autoAlpha: 0, duration: 0.3, ease: "power3.out" }, AW + 0.03);
-        tl.from("#aw-title .t", { scale: 1.8, autoAlpha: 0, filter: "blur(14px)", duration: 0.45, ease: "expo.out" }, AW + 0.08);
-        tl.from("#v-aw", { y: 120, rotationX: 25, opacity: 0, duration: 0.6, ease: "expo.out" }, AW + 0.2);
-        tl.to("#v-aw", { opacity: 0, scale: 0.96, duration: 0.18, ease: "power2.in" }, OUT - 0.19);
-        ["#bd-1", "#bd-2", "#bd-3"].forEach((sel, i) => {
-          tl.from(sel, { scale: 0, rotation: -40, duration: 0.45, ease: "back.out(2)" }, AW + 2 * B + i * B);
         });
-        tl.from("#al-1", { y: 30, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, AW + 3 * B + 0.1);
-        tl.from("#al-2", { y: 30, autoAlpha: 0, duration: 0.35, ease: "power3.out" }, AW + 4 * B + 0.1);
-        tl.to(["#bd-1", "#bd-2", "#bd-3"], { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", stagger: 0.12 }, AW + 6 * B);
-        tl.to("#s-aw > *", { autoAlpha: 0, scale: 0.96, duration: 0.18, ease: "power2.in" }, OUT - 0.19);
-        tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.8, duration: 0.06, ease: "none", immediateRender: false }, OUT - 0.04);
-        tl.to("#flash", { opacity: 0, duration: 0.45, ease: "power2.out" }, OUT + 0.02);
+        document.querySelectorAll("#t-sd .chip").forEach((el, i) => {
+          tl.from(el, { y: 40, scale: 0.5, opacity: 0, duration: 0.32, ease: "back.out(2.2)" }, S.sd + 0.9 + i * B);
+          tl.to(el, { backgroundColor: "#f7c731", borderColor: "#f7c731", color: "#1c2747", duration: 0.12, ease: "none" }, S.sd + 0.9 + i * B);
+        });
+        // HUD
+        tl.from(".br", { scale: 0, opacity: 0, duration: 0.4, ease: "back.out(2)", stagger: 0.05 }, S.sa);
+        tl.from(["#hud-l", "#hud-r"], { opacity: 0, y: -20, duration: 0.4, ease: "power3.out" }, S.sa + 0.2);
+        tl.fromTo("#hud-fill", { scaleX: 0 }, { scaleX: 1, duration: S.aw - S.sa, ease: "none", immediateRender: false }, S.sa);
 
-        // ---------- outro (final chord at 38.94) ----------
-        tl.from("#out-logo", { scale: 0.3, rotationY: 180, autoAlpha: 0, duration: 0.7, ease: "back.out(1.5)" }, OUT + 0.02);
-        tl.from("#out-head .t", { y: 60, autoAlpha: 0, duration: 0.45, ease: "expo.out" }, OUT + 0.27);
-        tl.from("#out-head .s", { y: 30, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, OUT + 0.65);
-        tl.from("#out-cta", { scale: 0.4, autoAlpha: 0, duration: 0.45, ease: "back.out(2.2)" }, OUT + 0.99);
-        tl.from("#out-contact", { y: 80, autoAlpha: 0, duration: 0.5, ease: "expo.out" }, OUT + 1.25);
-        tl.from("#out-contact .ct", { x: -40, autoAlpha: 0, duration: 0.35, ease: "power3.out", stagger: 0.12 }, OUT + 1.4);
-        tl.from("#out-addr", { autoAlpha: 0, duration: 0.4 }, OUT + 1.8);
-        tl.to("#out-cta", { scale: 1.05, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, OUT + 1.95);
-        tl.to("#fade-out", { opacity: 1, duration: 0.5, ease: "power1.in" }, END - 0.5);
+        // ================= AWARDS =================
+        const lastMont = shots.filter((sh) => sh.t1 <= S.aw + 0.01).pop();
+        tOut("zoom", "#w-" + lastMont.id, S.aw);
+        flash(S.aw, 0.8);
+        tl.from("#aw-title .k", { y: -30, opacity: 0, duration: 0.3, ease: "power3.out" }, S.aw + 0.03);
+        tl.from("#aw-title .t", { scale: 1.8, opacity: 0, filter: "blur(14px)", duration: 0.45, ease: "expo.out" }, S.aw + 0.08);
+        tl.from("#v-aw", { y: 140, rotationX: 30, opacity: 0, transformPerspective: 1400, duration: 0.6, ease: "expo.out" }, S.aw + 0.2);
+        ["#bd1", "#bd2", "#bd3", "#bd4"].forEach((s, i) => tl.from(s, { scale: 0, rotation: -60, duration: 0.45, ease: "back.out(2)" }, S.aw + (2 + i) * B));
+        tl.from("#al1", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 3 * B + 0.1);
+        tl.from("#al2", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 4 * B + 0.1);
+        tl.from("#al3", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" }, S.aw + 5 * B + 0.1);
+        tl.to(["#bd1", "#bd2", "#bd3", "#bd4"], { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", stagger: 0.1 }, S.aw + 6 * B);
+        tl.to(["#t-aw > *", "#v-aw", "#aw-bg"], { scale: 1.3, opacity: 0, filter: "blur(12px)", duration: T2, ease: "power3.in" }, S.recap - OV);
+
+        // ================= RECAP (one beat per shot) =================
+        flash(S.recap, 0.6);
+        tl.from("#rc1", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "expo.out" }, S.recap + 0.02);
+        tl.to("#rc1", { opacity: 0, duration: 0.1 }, S.recap + 2 * B - 0.1);
+        tl.from("#rc2", { scale: 1.8, opacity: 0, filter: "blur(10px)", duration: 0.35, ease: "expo.out" }, S.recap + 2 * B);
+        tl.to("#rc2", { scale: 1.4, opacity: 0, filter: "blur(14px)", duration: T2, ease: "power3.in" }, S.close - OV);
+        const lastRecap = shots[shots.length - 1];
+        tOut("zoom", "#w-" + lastRecap.id, S.close);
+
+        // ================= CLOSE (soft ending) =================
+        tIn("zoom", "#w-cl", S.close);
+        tl.fromTo("#cl", { x: -1250, scale: 1.25, transformOrigin: "50% 50%", filter: "brightness(0.85) saturate(1.1)" }, { x: -1150, scale: 1.04, duration: F - S.close + T2, ease: "power1.out", immediateRender: false }, S.close - OV);
+        tl.from("#cl-t", { y: 80, opacity: 0, duration: 0.6, ease: "expo.out" }, S.close + 0.25);
+        tl.from("#cl-s", { y: 30, opacity: 0, duration: 0.5, ease: "power3.out" }, S.close + 1.1);
+        tl.to(["#cl-t", "#cl-s"], { opacity: 0, y: -40, duration: 0.2, ease: "power2.in" }, F - 0.2);
+
+        // ================= OUTRO (final chord) =================
+        flash(F, 0.9);
+        tl.fromTo("#ob", { x: -1100, scale: 1.05, transformOrigin: "50% 50%" }, { x: -1300, scale: 1.12, duration: END - F, ease: "none", immediateRender: false }, F);
+        tl.from("#out-logo", { rotationY: 360, scale: 0.3, opacity: 0, transformPerspective: 1400, duration: 0.9, ease: "expo.out" }, F + 0.02);
+        tl.from("#out-name", { y: 40, opacity: 0, duration: 0.45, ease: "power3.out" }, F + 0.4);
+        tl.from("#out-cta", { scale: 0.4, opacity: 0, duration: 0.45, ease: "back.out(2.2)" }, F + 0.8);
+        tl.from("#out-contact", { y: 80, opacity: 0, duration: 0.5, ease: "expo.out" }, F + 1.1);
+        tl.from("#out-contact .ct", { x: -40, opacity: 0, duration: 0.35, ease: "power3.out", stagger: 0.12 }, F + 1.25);
+        tl.from("#out-addr", { opacity: 0, duration: 0.4 }, F + 1.7);
+        tl.to("#out-cta", { scale: 1.05, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, F + 1.9);
+        tl.to("#fade", { opacity: 1, duration: 0.6, ease: "power1.in" }, END - 0.6);
 
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;
       })();
+
     </script>
   </body>
 </html>
