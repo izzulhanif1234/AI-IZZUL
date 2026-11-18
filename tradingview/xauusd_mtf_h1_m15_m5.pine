@@ -1,87 +1,118 @@
 //@version=6
 // =====================================================================
-//  XAUUSD MTF Signal  —  H1 (trend) + M15 (confirm) + M5 (entry)
+//  XAUUSD MTF SOLID ENTRY  —  H1 (trend) + M15 (confirm) + M5 (entry)
+//  v2: entry lebih ketat (confluence score, rejection candle, ruang ke level H1,
+//      anti-spike, cooldown, had trade/loss sehari).
 //  Pasang pada chart XAUUSD timeframe 5 minit (M5).
 //  SL berdasarkan swing, MAKSIMUM 50 pips (1 pip XAUUSD = 0.10 secara default).
-//  Ini "strategy" supaya anda boleh lihat winrate sebenar dalam Strategy Tester.
 // =====================================================================
-strategy("XAUUSD MTF H1/M15/M5 Signal", shorttitle = "XAU MTF", overlay = true,
+strategy("XAUUSD MTF Solid Entry H1/M15/M5", shorttitle = "XAU SOLID", overlay = true,
      initial_capital = 10000, default_qty_type = strategy.fixed, default_qty_value = 1,
      pyramiding = 0, slippage = 2, commission_type = strategy.commission.cash_per_contract,
-     commission_value = 0.0, process_orders_on_close = false)
+     commission_value = 0.0, process_orders_on_close = false, max_labels_count = 500)
 
-// ---------------- INPUTS ----------------
-grpTF   = "Timeframe"
-htf     = input.timeframe("60", "Trend TF (H1)",   group = grpTF)
+// ======================= INPUTS =======================
+grpTF   = "1. Timeframe"
+htf     = input.timeframe("60", "Trend TF (H1)",    group = grpTF)
 mtf     = input.timeframe("15", "Confirm TF (M15)", group = grpTF)
 
-grpH1   = "H1 Trend"
+grpH1   = "2. H1 Trend"
 h1Fast  = input.int(50,  "H1 EMA Fast", minval = 1, group = grpH1)
 h1Slow  = input.int(200, "H1 EMA Slow", minval = 1, group = grpH1)
+h1LvlLB = input.int(24,  "H1 lookback untuk level swing (bars)", minval = 2, group = grpH1)
+useRoom = input.bool(true, "Wajib ada ruang ke level H1 sebelum TP", group = grpH1)
 
-grpM15  = "M15 Confirm"
+grpM15  = "3. M15 Confirm"
 m15Fast = input.int(21, "M15 EMA Fast", minval = 1, group = grpM15)
 m15Slow = input.int(50, "M15 EMA Slow", minval = 1, group = grpM15)
 m15RsiL = input.int(14, "M15 RSI Length", minval = 1, group = grpM15)
 
-grpM5   = "M5 Entry"
+grpM5   = "4. M5 Entry"
 m5Fast  = input.int(9,  "M5 EMA Fast", minval = 1, group = grpM5)
-m5Slow  = input.int(21, "M5 EMA Slow (pullback zone)", minval = 1, group = grpM5)
+m5Slow  = input.int(21, "M5 EMA Slow (zon pullback)", minval = 1, group = grpM5)
 pbBars  = input.int(4,  "Pullback lookback (bars)", minval = 1, group = grpM5)
 rsiLen  = input.int(14, "M5 RSI Length", minval = 1, group = grpM5)
-rsiMaxB = input.int(70, "BUY: RSI max (elak beli di puncak)", group = grpM5)
-rsiMinS = input.int(30, "SELL: RSI min (elak jual di dasar)", group = grpM5)
-useAdx  = input.bool(true, "Guna ADX filter (elak pasaran sideways)", group = grpM5)
-adxLen  = input.int(14, "ADX Length", minval = 1, group = grpM5)
-adxMin  = input.float(20, "ADX minimum", group = grpM5)
+rsiMaxB = input.int(68, "BUY: RSI max (elak beli di puncak)", group = grpM5)
+rsiMinS = input.int(32, "SELL: RSI min (elak jual di dasar)", group = grpM5)
+atrLen  = input.int(14, "ATR Length", minval = 1, group = grpM5)
+spikeX  = input.float(1.8, "Anti-spike: badan candle max (x ATR)", minval = 0.5, step = 0.1, group = grpM5)
 
-grpRisk  = "Risk / SL / TP"
+grpSc   = "5. Confluence Score"
+adxLen  = input.int(14, "ADX Length", minval = 1, group = grpSc)
+adxMin  = input.float(22, "ADX minimum", group = grpSc)
+volLen  = input.int(20, "Purata volume (bars)", minval = 1, group = grpSc)
+minScore = input.int(4, "Skor minimum untuk signal (dari 6)", minval = 0, maxval = 6, group = grpSc)
+
+grpRisk  = "6. Risk / SL / TP"
 pipSize  = input.float(0.10, "Saiz 1 pip (XAUUSD biasanya 0.10)", step = 0.01, group = grpRisk)
 maxSLp   = input.float(50, "SL maksimum (pips)", minval = 1, maxval = 50, group = grpRisk)
 minSLp   = input.float(15, "SL minimum (pips)", minval = 1, group = grpRisk)
 swingLB  = input.int(10, "Swing lookback untuk SL (bars)", minval = 2, group = grpRisk)
 bufPips  = input.float(5, "Buffer bawah/atas swing (pips)", minval = 0, group = grpRisk)
-slMode   = input.string("Skip trade", "Jika swing SL > maksimum", options = ["Skip trade", "Cap pada maksimum"], group = grpRisk)
 rr       = input.float(1.0, "TP = SL x (Risk:Reward)", minval = 0.1, step = 0.1, group = grpRisk)
 useBE    = input.bool(true, "Breakeven", group = grpRisk)
 beTrig   = input.float(0.6, "Pindah SL ke BE bila untung capai (x SL)", minval = 0.1, step = 0.1, group = grpRisk)
 beLock   = input.float(2, "Kunci untung semasa BE (pips)", minval = 0, group = grpRisk)
 
-grpFlt   = "Filter Masa"
-useSess  = input.bool(true, "Trade dalam sesi sahaja", group = grpFlt)
-sess     = input.session("0700-2000", "Sesi London + New York (UTC)", group = grpFlt)
+grpDisc  = "7. Disiplin"
+useSess  = input.bool(true, "Trade dalam sesi sahaja", group = grpDisc)
+sess     = input.session("0700-2000", "Sesi London + New York (UTC)", group = grpDisc)
+noFriLate = input.bool(true, "Tiada trade Jumaat selepas 18:00 UTC", group = grpDisc)
+cooldown = input.int(6, "Cooldown selepas trade tutup (bars M5)", minval = 0, group = grpDisc)
+maxTrDay = input.int(3, "Max trade sehari", minval = 1, group = grpDisc)
+maxLsDay = input.int(2, "Berhenti selepas X loss sehari", minval = 1, group = grpDisc)
 
-grpVis   = "Paparan"
+grpVis   = "8. Paparan"
 showEma  = input.bool(true, "Tunjuk EMA M5", group = grpVis)
 showDash = input.bool(true, "Tunjuk dashboard", group = grpVis)
 
-// ---------------- HIGHER TIMEFRAME DATA (tanpa repaint) ----------------
-[h1C, h1F, h1S] = request.security(syminfo.tickerid, htf,
-     [close[1], ta.ema(close, h1Fast)[1], ta.ema(close, h1Slow)[1]], lookahead = barmerge.lookahead_on)
+// ======================= HIGHER TF DATA (tanpa repaint) =======================
+[h1C, h1F, h1Fp, h1S, h1Hi, h1Lo] = request.security(syminfo.tickerid, htf,
+     [close[1], ta.ema(close, h1Fast)[1], ta.ema(close, h1Fast)[4], ta.ema(close, h1Slow)[1], ta.highest(high, h1LvlLB)[1], ta.lowest(low, h1LvlLB)[1]],
+     lookahead = barmerge.lookahead_on)
 
-[m15C, m15F, m15S, m15R] = request.security(syminfo.tickerid, mtf,
-     [close[1], ta.ema(close, m15Fast)[1], ta.ema(close, m15Slow)[1], ta.rsi(close, m15RsiL)[1]], lookahead = barmerge.lookahead_on)
+f_m15() =>
+    [_m, _s, hist] = ta.macd(close, 12, 26, 9)
+    [close[1], ta.ema(close, m15Fast)[1], ta.ema(close, m15Slow)[1], ta.rsi(close, m15RsiL)[1], hist[1]]
 
+[m15C, m15F, m15S, m15R, m15H] = request.security(syminfo.tickerid, mtf, f_m15(), lookahead = barmerge.lookahead_on)
+
+// WAJIB: arah H1 dan M15 sama
 h1Bull  = h1C > h1F and h1F > h1S
 h1Bear  = h1C < h1F and h1F < h1S
 m15Bull = m15C > m15F and m15F > m15S and m15R > 50
 m15Bear = m15C < m15F and m15F < m15S and m15R < 50
 
-// ---------------- M5 ENTRY ----------------
+// ======================= M5 =======================
 e5F  = ta.ema(close, m5Fast)
 e5S  = ta.ema(close, m5Slow)
 rsi5 = ta.rsi(close, rsiLen)
+atr  = ta.atr(atrLen)
 [diP, diM, adx] = ta.dmi(adxLen, adxLen)
 
-adxOk  = not useAdx or adx >= adxMin
-sessOk = not useSess or not na(time(timeframe.period, sess, "UTC"))
+rng     = high - low
+body    = math.abs(close - open)
+upWick  = high - math.max(open, close)
+lowWick = math.min(open, close) - low
+closePos = rng > 0 ? (close - low) / rng : 0.5
 
-// BUY: harga pullback sentuh EMA21 M5, kemudian candle bullish tutup atas EMA9 & atas high candle sebelum
-pbBuy  = ta.lowest(low, pbBars) <= e5S and close > e5F and e5F > e5S and close > open and close > high[1] and rsi5 > 50 and rsi5 < rsiMaxB
-// SELL: harga pullback sentuh EMA21 M5, kemudian candle bearish tutup bawah EMA9 & bawah low candle sebelum
-pbSell = ta.highest(high, pbBars) >= e5S and close < e5F and e5F < e5S and close < open and close < low[1] and rsi5 < 50 and rsi5 > rsiMinS
+// Corak candle
+bullEngulf = close > open and close[1] < open[1] and close >= open[1] and open <= close[1]
+bearEngulf = close < open and close[1] > open[1] and close <= open[1] and open >= close[1]
+bullPin    = rng > 0 and lowWick >= 0.5 * rng and closePos >= 0.6
+bearPin    = rng > 0 and upWick  >= 0.5 * rng and closePos <= 0.4
+bullStrong = close > open and body >= 0.5 * rng and closePos >= 0.7
+bearStrong = close < open and body >= 0.5 * rng and closePos <= 0.3
 
-// ---------------- SL / TP ----------------
+bullTrig = bullEngulf or bullPin or bullStrong
+bearTrig = bearEngulf or bearPin or bearStrong
+noSpike  = body <= atr * spikeX
+
+// WAJIB M5: pullback ke EMA21 -> candle rejection -> tutup atas EMA9 & pecah high candle sebelum
+m5Buy  = ta.lowest(low, pbBars)   <= e5S and e5F > e5S and close > e5F and close > high[1] and bullTrig and rsi5 > 50 and rsi5 < rsiMaxB and noSpike
+m5Sell = ta.highest(high, pbBars) >= e5S and e5F < e5S and close < e5F and close < low[1]  and bearTrig and rsi5 < 50 and rsi5 > rsiMinS and noSpike
+
+// ======================= SL / TP =======================
 maxSL = maxSLp * pipSize
 minSL = minSLp * pipSize
 buf   = bufPips * pipSize
@@ -89,41 +120,86 @@ buf   = bufPips * pipSize
 rawSLBuy  = close - (ta.lowest(low, swingLB) - buf)
 rawSLSell = (ta.highest(high, swingLB) + buf) - close
 
-f_sl(raw) =>
-    d = math.max(raw, minSL)
-    d > maxSL ? (slMode == "Skip trade" ? na : maxSL) : d
+// Swing SL lebih 50 pips = struktur terlalu luas -> skip (bukan entry solid)
+slBuy  = rawSLBuy  > maxSL ? na : math.max(rawSLBuy,  minSL)
+slSell = rawSLSell > maxSL ? na : math.max(rawSLSell, minSL)
 
-slBuy  = f_sl(rawSLBuy)
-slSell = f_sl(rawSLSell)
+// WAJIB: ada ruang ke level H1 (atau harga sudah pecah level tu)
+roomBuy  = not useRoom or close > h1Hi or (h1Hi - close) >= nz(slBuy)  * rr
+roomSell = not useRoom or close < h1Lo or (close - h1Lo) >= nz(slSell) * rr
 
-flat = strategy.position_size == 0
+// ======================= CONFLUENCE SCORE (0-6) =======================
+volOk = volume > ta.sma(volume, volLen)
 
-buySignal  = flat and sessOk and adxOk and h1Bull and m15Bull and pbBuy  and not na(slBuy)  and barstate.isconfirmed
-sellSignal = flat and sessOk and adxOk and h1Bear and m15Bear and pbSell and not na(slSell) and barstate.isconfirmed
+scBuy = (h1F > h1Fp ? 1 : 0) +                       // 1. EMA50 H1 sedang naik
+     (m15H > 0 ? 1 : 0) +                            // 2. MACD M15 positif
+     (adx >= adxMin and diP > diM ? 1 : 0) +         // 3. Trend kuat, DI+ dominan
+     (bullEngulf or bullPin ? 1 : 0) +               // 4. Rejection jelas (engulfing / pin bar)
+     (rsi5 > rsi5[1] ? 1 : 0) +                      // 5. Momentum M5 naik
+     (volOk ? 1 : 0)                                 // 6. Volume atas purata
 
-// ---------------- ORDER MANAGEMENT ----------------
+scSell = (h1F < h1Fp ? 1 : 0) +
+     (m15H < 0 ? 1 : 0) +
+     (adx >= adxMin and diM > diP ? 1 : 0) +
+     (bearEngulf or bearPin ? 1 : 0) +
+     (rsi5 < rsi5[1] ? 1 : 0) +
+     (volOk ? 1 : 0)
+
+// ======================= DISIPLIN =======================
+var int tradesToday = 0
+var int lossToday   = 0
+if timeframe.change("D")
+    tradesToday := 0
+    lossToday   := 0
+if ta.change(strategy.losstrades) > 0
+    lossToday += 1
+
+sessOk = not useSess or not na(time(timeframe.period, sess, "UTC"))
+friOk  = not noFriLate or not (dayofweek(time, "UTC") == dayofweek.friday and hour(time, "UTC") >= 18)
+lastExitBar = strategy.closedtrades > 0 ? strategy.closedtrades.exit_bar_index(strategy.closedtrades - 1) : na
+coolOk = na(lastExitBar) or bar_index - lastExitBar >= cooldown
+dayOk  = tradesToday < maxTrDay and lossToday < maxLsDay
+flat   = strategy.position_size == 0
+
+baseOk = flat and sessOk and friOk and coolOk and dayOk and barstate.isconfirmed
+
+buySignal  = baseOk and h1Bull and m15Bull and m5Buy  and not na(slBuy)  and roomBuy  and scBuy  >= minScore
+sellSignal = baseOk and h1Bear and m15Bear and m5Sell and not na(slSell) and roomSell and scSell >= minScore
+
+// ======================= ORDER MANAGEMENT =======================
 var float slPrice  = na
 var float tpPrice  = na
 var float riskDist = na
 var bool  beDone   = false
+
+f_txt(side, px, sl, tp, d, sc) =>
+    side + " XAUUSD @ " + str.tostring(px, format.mintick) +
+     " | SL " + str.tostring(sl, format.mintick) + " (" + str.tostring(d / pipSize, "#.#") + " pips)" +
+     " | TP " + str.tostring(tp, format.mintick) + " | Skor " + str.tostring(sc) + "/6"
 
 if buySignal
     riskDist := slBuy
     slPrice  := close - slBuy
     tpPrice  := close + slBuy * rr
     beDone   := false
+    tradesToday += 1
     strategy.entry("BUY", strategy.long)
     strategy.exit("XB", "BUY", stop = slPrice, limit = tpPrice, comment_loss = "SL", comment_profit = "TP")
-    alert("XAUUSD BUY @ " + str.tostring(close, format.mintick) + " | SL " + str.tostring(slPrice, format.mintick) + " (" + str.tostring(slBuy / pipSize, "#.#") + " pips) | TP " + str.tostring(tpPrice, format.mintick), alert.freq_once_per_bar_close)
+    label.new(bar_index, low, "BUY\nSkor " + str.tostring(scBuy) + "/6\nSL " + str.tostring(slBuy / pipSize, "#") + "p",
+         style = label.style_label_up, yloc = yloc.belowbar, color = color.new(color.green, 0), textcolor = color.white, size = size.small)
+    alert(f_txt("BUY", close, slPrice, tpPrice, slBuy, scBuy), alert.freq_once_per_bar_close)
 
 if sellSignal
     riskDist := slSell
     slPrice  := close + slSell
     tpPrice  := close - slSell * rr
     beDone   := false
+    tradesToday += 1
     strategy.entry("SELL", strategy.short)
     strategy.exit("XS", "SELL", stop = slPrice, limit = tpPrice, comment_loss = "SL", comment_profit = "TP")
-    alert("XAUUSD SELL @ " + str.tostring(close, format.mintick) + " | SL " + str.tostring(slPrice, format.mintick) + " (" + str.tostring(slSell / pipSize, "#.#") + " pips) | TP " + str.tostring(tpPrice, format.mintick), alert.freq_once_per_bar_close)
+    label.new(bar_index, high, "SELL\nSkor " + str.tostring(scSell) + "/6\nSL " + str.tostring(slSell / pipSize, "#") + "p",
+         style = label.style_label_down, yloc = yloc.abovebar, color = color.new(color.red, 0), textcolor = color.white, size = size.small)
+    alert(f_txt("SELL", close, slPrice, tpPrice, slSell, scSell), alert.freq_once_per_bar_close)
 
 // Breakeven
 if strategy.position_size > 0
@@ -142,19 +218,18 @@ if strategy.position_size < 0
 
 inTrade = strategy.position_size != 0 or buySignal or sellSignal
 
-// ---------------- PLOTS ----------------
+// ======================= PLOTS =======================
 plot(showEma ? e5F : na, "M5 EMA Fast", color = color.new(color.aqua, 0))
 plot(showEma ? e5S : na, "M5 EMA Slow", color = color.new(color.orange, 0))
 plot(inTrade ? slPrice : na, "SL", color = color.red,   style = plot.style_linebr, linewidth = 2)
 plot(inTrade ? tpPrice : na, "TP", color = color.green, style = plot.style_linebr, linewidth = 2)
+plot(useRoom ? h1Hi : na, "H1 Resistance", color = color.new(color.red, 60),   style = plot.style_stepline)
+plot(useRoom ? h1Lo : na, "H1 Support",    color = color.new(color.green, 60), style = plot.style_stepline)
 
-plotshape(buySignal,  "BUY",  shape.labelup,   location.belowbar, color.new(color.green, 0), text = "BUY",  textcolor = color.white, size = size.small)
-plotshape(sellSignal, "SELL", shape.labeldown, location.abovebar, color.new(color.red, 0),   text = "SELL", textcolor = color.white, size = size.small)
+bgcolor(h1Bull and m15Bull ? color.new(color.green, 94) : h1Bear and m15Bear ? color.new(color.red, 94) : na, title = "Bias H1+M15")
 
-bgcolor(h1Bull and m15Bull ? color.new(color.green, 93) : h1Bear and m15Bear ? color.new(color.red, 93) : na, title = "Bias H1+M15")
-
-// ---------------- DASHBOARD ----------------
-var table dash = table.new(position.top_right, 2, 8, bgcolor = color.new(color.black, 20), border_width = 1, border_color = color.gray)
+// ======================= DASHBOARD =======================
+var table dash = table.new(position.top_right, 2, 10, bgcolor = color.new(color.black, 20), border_width = 1, border_color = color.gray)
 
 f_bias(bull, bear) => bull ? "BULL" : bear ? "BEAR" : "NEUTRAL"
 f_col(bull, bear) => bull ? color.green : bear ? color.red : color.gray
@@ -162,19 +237,28 @@ f_col(bull, bear) => bull ? color.green : bear ? color.red : color.gray
 if showDash and barstate.islast
     closed = strategy.closedtrades
     wr = closed > 0 ? 100.0 * strategy.wintrades / closed : 0.0
-    table.cell(dash, 0, 0, "XAU MTF", text_color = color.white)
+    gl = strategy.grossloss
+    pf = gl > 0 ? strategy.grossprofit / gl : 0.0
+    m5Bull = e5F > e5S and close > e5F
+    m5Bear = e5F < e5S and close < e5F
+    curScore = h1Bull and m15Bull ? scBuy : h1Bear and m15Bear ? scSell : 0
+    table.cell(dash, 0, 0, "XAU SOLID", text_color = color.white)
     table.cell(dash, 1, 0, timeframe.period == "5" ? "Chart M5 OK" : "Tukar chart ke M5!", text_color = timeframe.period == "5" ? color.lime : color.yellow)
     table.cell(dash, 0, 1, "H1",  text_color = color.white)
     table.cell(dash, 1, 1, f_bias(h1Bull, h1Bear),   text_color = color.white, bgcolor = f_col(h1Bull, h1Bear))
     table.cell(dash, 0, 2, "M15", text_color = color.white)
     table.cell(dash, 1, 2, f_bias(m15Bull, m15Bear), text_color = color.white, bgcolor = f_col(m15Bull, m15Bear))
     table.cell(dash, 0, 3, "M5",  text_color = color.white)
-    table.cell(dash, 1, 3, f_bias(e5F > e5S and close > e5F, e5F < e5S and close < e5F), text_color = color.white, bgcolor = f_col(e5F > e5S and close > e5F, e5F < e5S and close < e5F))
-    table.cell(dash, 0, 4, "ADX", text_color = color.white)
-    table.cell(dash, 1, 4, str.tostring(adx, "#.0"), text_color = adxOk ? color.lime : color.gray)
-    table.cell(dash, 0, 5, "Trades", text_color = color.white)
-    table.cell(dash, 1, 5, str.tostring(closed), text_color = color.white)
-    table.cell(dash, 0, 6, "Winrate", text_color = color.white)
-    table.cell(dash, 1, 6, str.tostring(wr, "#.0") + "%", text_color = wr >= 80 ? color.lime : wr >= 60 ? color.yellow : color.orange)
-    table.cell(dash, 0, 7, "Net P/L", text_color = color.white)
-    table.cell(dash, 1, 7, str.tostring(strategy.netprofit, "#.##"), text_color = strategy.netprofit >= 0 ? color.lime : color.red)
+    table.cell(dash, 1, 3, f_bias(m5Bull, m5Bear),   text_color = color.white, bgcolor = f_col(m5Bull, m5Bear))
+    table.cell(dash, 0, 4, "Skor sekarang", text_color = color.white)
+    table.cell(dash, 1, 4, str.tostring(curScore) + "/6 (min " + str.tostring(minScore) + ")", text_color = curScore >= minScore ? color.lime : color.gray)
+    table.cell(dash, 0, 5, "Hari ini", text_color = color.white)
+    table.cell(dash, 1, 5, str.tostring(tradesToday) + " trade, " + str.tostring(lossToday) + " loss", text_color = dayOk ? color.white : color.orange)
+    table.cell(dash, 0, 6, "Trades", text_color = color.white)
+    table.cell(dash, 1, 6, str.tostring(closed), text_color = color.white)
+    table.cell(dash, 0, 7, "Winrate", text_color = color.white)
+    table.cell(dash, 1, 7, str.tostring(wr, "#.0") + "%", text_color = wr >= 80 ? color.lime : wr >= 60 ? color.yellow : color.orange)
+    table.cell(dash, 0, 8, "Profit Factor", text_color = color.white)
+    table.cell(dash, 1, 8, str.tostring(pf, "#.00"), text_color = pf >= 1.3 ? color.lime : pf >= 1 ? color.yellow : color.red)
+    table.cell(dash, 0, 9, "Net P/L", text_color = color.white)
+    table.cell(dash, 1, 9, str.tostring(strategy.netprofit, "#.##"), text_color = strategy.netprofit >= 0 ? color.lime : color.red)
