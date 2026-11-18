@@ -75,3 +75,14 @@ No voiceover (requested). Music plus kinetic text only.
 - New hall clips (GoTravel Expo, Karnival Kerjaya TVET, Hang Tuah houses, Grand Ballroom 2nd angle,
   logo-bg) in `scripts/mitc_clips.sh`; hook-star limited to its sharp 6.6-8.4 s window.
 - `storyboard-v4.jpg`; final `final/MITC-Promo-v4.mp4`, -13.8 LUFS, -2.8 dBTP.
+
+## Revision 5 (clean & elegant corporate, 55.7 s, no SFX)
+- Client feedback on v4: "tak nampak korporat"; chose "bersih & elegan", problem was over-the-top
+  transitions. `scripts/mitc_build.py` now builds v5 (CSS + timeline inline; v4 builder in git history).
+- Soft cross-dissolves (0.6 s) and slow drift only; thin Inter 200-300 type, letter-spaced, 2 px
+  yellow rules; one grade on all pictures (saturate 0.78, contrast 1.06 + navy tint and bottom
+  gradient); one shot per bar (2.4 s).
+- Shots (sharp 3 s windows, `l-*` clips in `scripts/mitc_clips.sh`): Hall B gala set-up, Hang Tuah
+  gateway + models, Dewan Pameran event photo, meeting room, VIP lounge, Grand Ballroom, Maharani x2,
+  hall set-up. Crowd/expo/seminar shots dropped (soft or busy).
+- `storyboard-v5.jpg`; final `final/MITC-Promo-v5.mp4`, -13.8 LUFS, -2.8 dBTP.
