@@ -39,7 +39,7 @@ SCENES = [
     ("05 · Penginapan", C["rooms_out"] - 0.6, "Drone chalet berkolam peribadi → 4 kad bilik muncul ikut VO", ["v08"], "Satu Hari Tak Cukup? Kad: Single Room · Deluxe Room · Chalet Single · Chalet Family (tiada harga)"),
     ("05 · Penginapan (2)", C["c5b_out"] - 1.0, "Foto kolam peribadi chalet (Ken Burns)", ["v09"], "Berendam Di Bawah Bintang / Kolam air panas peribadi di setiap chalet"),
     ("06 · Kemudahan", C["c6_out"] - 0.8, "Ruang vendor → dewan → kafe → parkir", ["v10"], "Semuanya Ada Di Sini + Tapak vendor · Dewan majlis · Kafe · Surau · Parkir luas"),
-    ("07 · Lokasi & Waktu", C["c7_out"] - 0.8, "Drone luas: kompleks & jalan utama", ["v11"], "25 KM dari pusat bandar Melaka; Waktu operasi kolam (Isnin tutup)"),
+    ("07 · Lokasi & Waktu", C["c7_out"] - 0.8, "Drone luas: kompleks & jalan utama", ["v11"], "Mudah Dikunjungi / Melalui jalan Melaka–Tampin; kad lokasi Kampung Ganun, 78000 Alor Gajah; Waktu operasi kolam (Isnin tutup)"),
     ("Tagline", C["tag_out"] - 0.4, "Drone melintasi chalet ke kolam kanak-kanak", ["v12"], "Rehatkan tubuh, tenangkan minda."),
     ("Penutup", C["end_in"] + 3.0, "Latar kabur + kad akhir", ["v13"], "Logo, Tempah sekarang · gadekhotspring.my, 010-279 6397, @gadekhotspring, @gadek.hotspring, alamat"),
 ]

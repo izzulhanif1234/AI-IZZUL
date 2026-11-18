@@ -71,7 +71,7 @@ CUES = {
     "c6_in": L("v10", 0.2), "c6_out": E("v10", 0.3),
     "c6_p": [Wd("v10", "vendor"), Wd("v10", "dewan"), Wd("v10", "kafe"), Wd("v10", "surau"), Wd("v10", "parkir")],
     "c7_in": L("v11", 0.2), "c7_out": E("v11", 0.3),
-    "pin": Wd("v11", "dua"), "hours": Wd("v11", "Kolam", -0.2),
+    "pin": Wd("v11", "Kampung", -0.2), "hours": Wd("v11", "Kolam", -0.2),
     "tag1": Wd("v12", "Rehatkan", -0.1), "tag2": Wd("v12", "tenangkan", -0.1), "tag_out": L("v13", -0.6),
     "end_in": L("v13", -0.4), "black_out": round(TOTAL - 0.9, 2),
 }

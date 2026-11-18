@@ -66,11 +66,11 @@
         .chips { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; width: 1400px; }
 
         /* location + hours */
-        #pin { right: 120px; top: 170px; width: 520px; padding: 30px 36px; border-radius: 22px; background: rgba(6, 22, 46, 0.75); opacity: 0; display: flex; gap: 26px; align-items: center; backdrop-filter: blur(8px); }
-        #pin .big { font-size: 92px; font-weight: 800; line-height: 0.9; }
-        #pin .big small { font-size: 40px; font-weight: 700; color: #ffcf7a; }
-        #pin .tx { font-size: 24px; font-weight: 600; color: #cfe3fb; line-height: 1.3; }
-        #hours { right: 120px; top: 410px; width: 520px; padding: 30px 36px; border-radius: 22px; background: rgba(6, 22, 46, 0.75); opacity: 0; backdrop-filter: blur(8px); }
+        #pin { right: 120px; top: 150px; width: 560px; padding: 30px 36px; border-radius: 22px; background: rgba(6, 22, 46, 0.75); opacity: 0; display: flex; gap: 26px; align-items: center; backdrop-filter: blur(8px); }
+        #pin .pi { width: 64px; height: 64px; flex: none; }
+        #pin .nm { font-size: 44px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
+        #pin .tx { margin-top: 6px; font-size: 28px; font-weight: 600; color: #cfe3fb; line-height: 1.3; white-space: nowrap; }
+        #hours { right: 120px; top: 360px; width: 560px; padding: 30px 36px; border-radius: 22px; background: rgba(6, 22, 46, 0.75); opacity: 0; backdrop-filter: blur(8px); }
         #hours h4 { font-size: 22px; font-weight: 700; letter-spacing: 6px; color: #ffb23e; }
         #hours .r { display: flex; justify-content: space-between; margin-top: 18px; font-size: 26px; font-weight: 600; opacity: 0; }
         #hours .r span:last-child { color: #9fd8ff; }
@@ -132,10 +132,10 @@
         <div id="c6" class="ch abs"><div class="k"><i></i>06 · Kemudahan</div><h2>Semuanya Ada Di Sini</h2>
           <div class="chips pills"><div class="pill"><b>✓</b>Tapak vendor</div><div class="pill"><b>✓</b>Dewan majlis</div><div class="pill"><b>✓</b>Kafe</div><div class="pill"><b>✓</b>Surau</div><div class="pill"><b>✓</b>Parkir luas</div></div></div>
 
-        <div id="c7" class="ch abs"><div class="k"><i></i>07 · Lokasi &amp; Waktu</div><h2>Dekat Dari Bandar Melaka</h2><p>Kampung Ganun, 78000 Alor Gajah, Melaka</p></div>
+        <div id="c7" class="ch abs"><div class="k"><i></i>07 · Lokasi &amp; Waktu</div><h2>Mudah Dikunjungi</h2><p>Melalui jalan Melaka–Tampin</p></div>
         <div id="pin" class="abs">
-          <div class="big">25<small>KM</small></div>
-          <div class="tx">dari pusat bandar Melaka<br />melalui jalan Melaka–Tampin</div>
+          <svg class="pi" viewBox="0 0 24 24"><path fill="#f6a31b" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          <div><div class="nm">Kampung Ganun</div><div class="tx">78000 Alor Gajah, Melaka</div></div>
         </div>
         <div id="hours" class="abs">
           <h4>WAKTU OPERASI KOLAM</h4>
