@@ -4,22 +4,24 @@ lines.json: [{"id":..., "text":..., "style": optional override}]"""
 import base64, json, os, sys, time, urllib.request, wave
 
 KEY = open(os.environ["GEMINI_KEY_FILE"]).read().strip()
-STYLE = ("You are a Malaysian Malay voice-over artist. Read the user's text aloud exactly as written, "
-         "in natural Malaysian Malay, as a confident, warm documentary narrator for a state-level "
-         "innovation competition video. Do not add or read any other words.")
+STYLE = os.environ.get("TTS_STYLE") or (
+    "You are a Malaysian Malay voice-over artist. Read the user's text aloud exactly as written, "
+    "in natural Malaysian Malay, as a confident, warm documentary narrator for a state-level "
+    "innovation competition video. Do not add or read any other words.")
 
 
 def tts(text, model, voice, style=STYLE):
     body = {
         "contents": [{"parts": [{"text": text}]}],
+        **({"systemInstruction": {"parts": [{"text": style}]}} if os.environ.get("TTS_SYSTEM") else {}),
         "generationConfig": {
             "responseModalities": ["AUDIO"],
             "speechConfig": {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}},
         },
     }
     req = urllib.request.Request(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-        data=json.dumps(body).encode(), headers={"Content-Type": "application/json", "x-goog-api-key": KEY})
+        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={KEY}",
+        data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     for attempt in range(4):
         try:
             with urllib.request.urlopen(req, timeout=180) as r:
