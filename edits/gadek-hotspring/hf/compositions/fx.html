@@ -55,15 +55,12 @@
         /* rooms grid */
         #rooms-scrim { inset: 0; background: linear-gradient(180deg, rgba(3, 12, 28, 0.55), rgba(3, 12, 28, 0.88)); opacity: 0; }
         #rooms { left: 120px; top: 150px; width: 1680px; display: flex; gap: 32px; }
-        #rooms-h { left: 120px; top: 64px; font-size: 26px; font-weight: 700; letter-spacing: 8px; color: #ffb23e; opacity: 0; }
+        #rooms-h { left: 0; width: 1920px; text-align: center; top: 64px; font-size: 26px; font-weight: 700; letter-spacing: 8px; color: #ffb23e; opacity: 0; }
         .rc { width: 396px; border-radius: 22px; overflow: hidden; background: #0b1b33; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5); opacity: 0; }
-        .rc .ph { width: 396px; height: 470px; background-size: cover; background-position: center; }
+        .rc .ph { width: 396px; height: 560px; background-size: cover; background-position: center; }
         .rc .bd { padding: 24px 26px 28px; }
         .rc .nm { font-size: 30px; font-weight: 700; }
-        .rc .sp { margin-top: 8px; font-size: 24px; font-weight: 500; color: #a9c6e8; }
-        .rc .pr { margin-top: 18px; font-size: 22px; font-weight: 600; color: #ffcf7a; letter-spacing: 1px; }
-        .rc .pr span { font-size: 46px; font-weight: 800; color: #fff; letter-spacing: 0; }
-        #rooms-note { left: 120px; bottom: 50px; font-size: 24px; color: #9fb6d3; opacity: 0; }
+        .rc .sp { margin-top: 10px; font-size: 25px; font-weight: 500; color: #a9c6e8; }
 
         /* facilities chips */
         .chips { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; width: 1400px; }
@@ -109,34 +106,33 @@
           <div class="sub">Kampung Ganun · Alor Gajah · Melaka</div>
         </div>
 
-        <div id="c1" class="ch abs"><div class="k"><i></i>01 · Sejarah</div><h2>Warisan Zaman British</h2><p>Air yang dipercayai mampu merawat penyakit</p></div>
-        <div id="c1b" class="ch abs"><div class="k"><i></i>01 · Sejarah</div><h2>Anugerah Dari Dalam Bumi</h2><p>Sumber air panas semula jadi yang asli</p></div>
-        <div id="c2" class="ch abs"><div class="k"><i></i>02 · Kini</div><h2>Nafas Baharu</h2><p>Kompleks Air Panas Gadek</p></div>
+        <div id="c1" class="ch abs"><div class="k"><i></i>01 · Sejarah</div><h2>Rahsia Zaman British</h2><p>Air yang dipercayai mampu mengubati penyakit</p></div>
+        <div id="c1b" class="ch abs"><div class="k"><i></i>01 · Sejarah</div><h2>Bukan Air Biasa</h2><p>Mata air panas semula jadi dari dalam bumi</p></div>
+        <div id="c2" class="ch abs"><div class="k"><i></i>02 · Kini</div><h2>Warisan Dihidupkan Semula</h2><p>Kompleks Air Panas Gadek</p></div>
         <div id="st1" class="stat abs"><div class="n">16.12.2024</div><div class="l">Mula beroperasi</div></div>
-        <div id="st2" class="stat abs"><div class="n"><span id="cnt">0</span></div><div class="l">Warga kerja komited</div></div>
+        <div id="st2" class="stat abs"><div class="n"><span id="cnt">0</span></div><div class="l">Warga kerja sedia menyambut</div></div>
 
-        <div id="c3" class="ch abs"><div class="k"><i></i>03 · Kolam Air Panas</div><h2>Terapi Semula Jadi</h2>
-          <div class="pills"><div class="pill"><b>✓</b>Lega ketegangan otot</div><div class="pill"><b>✓</b>Lancar peredaran darah</div><div class="pill"><b>✓</b>Segarkan tubuh &amp; minda</div></div></div>
-        <div id="c4" class="ch abs"><div class="k"><i></i>04 · Kolam Kanak-Kanak</div><h2>Ceria &amp; Selamat</h2>
-          <div class="pills"><div class="pill"><b>✓</b>Air suam semula jadi</div><div class="pill"><b>✓</b>Mesra keluarga</div><div class="pill"><b>✓</b>Kawasan cetek</div></div></div>
-        <div id="c5" class="ch abs"><div class="k"><i></i>05 · Penginapan</div><h2>Menginap Lebih Lama</h2><p>Bilik &amp; chalet dalam kompleks</p></div>
+        <div id="c3" class="ch abs"><div class="k"><i></i>03 · Kolam Air Panas</div><h2>Lepaskan Penat</h2>
+          <div class="pills"><div class="pill"><b>✓</b>Lega ketegangan otot</div><div class="pill"><b>✓</b>Lancar peredaran darah</div><div class="pill"><b>✓</b>Tenangkan fikiran</div></div></div>
+        <div id="c4" class="ch abs"><div class="k"><i></i>04 · Kolam Kanak-Kanak</div><h2>Dunia Si Kecil</h2>
+          <div class="pills"><div class="pill"><b>✓</b>Air suam semula jadi</div><div class="pill"><b>✓</b>Kawasan cetek</div><div class="pill"><b>✓</b>Selamat &amp; mesra keluarga</div></div></div>
+        <div id="c5" class="ch abs"><div class="k"><i></i>05 · Penginapan</div><h2>Satu Hari Tak Cukup?</h2><p>Bilik &amp; chalet dalam kompleks</p></div>
 
         <div id="rooms-scrim" class="abs"></div>
         <div id="rooms-h" class="abs">PILIHAN PENGINAPAN</div>
         <div id="rooms" class="abs">
-          <div class="rc"><div class="ph" style="background-image:url(assets/img/single.jpg)"></div><div class="bd"><div class="nm">Single Room</div><div class="sp">2 dewasa · 2 katil single</div><div class="pr">DARI <span>RM165</span></div></div></div>
-          <div class="rc"><div class="ph" style="background-image:url(assets/img/deluxe.jpg)"></div><div class="bd"><div class="nm">Deluxe Room</div><div class="sp">2 dewasa · 1 katil queen</div><div class="pr">DARI <span>RM170</span></div></div></div>
-          <div class="rc"><div class="ph" style="background-image:url(assets/img/chalet-bed.jpg)"></div><div class="bd"><div class="nm">Chalet Single</div><div class="sp">5 dewasa · kolam peribadi</div><div class="pr">DARI <span>RM240</span></div></div></div>
-          <div class="rc"><div class="ph" style="background-image:url(assets/img/pool3.jpg)"></div><div class="bd"><div class="nm">Chalet Family</div><div class="sp">8 dewasa · kolam peribadi</div><div class="pr">DARI <span>RM360</span></div></div></div>
+          <div class="rc"><div class="ph" style="background-image:url(assets/img/single.jpg)"></div><div class="bd"><div class="nm">Single Room</div><div class="sp">Ringkas &amp; selesa</div></div></div>
+          <div class="rc"><div class="ph" style="background-image:url(assets/img/deluxe.jpg)"></div><div class="bd"><div class="nm">Deluxe Room</div><div class="sp">Katil queen untuk berdua</div></div></div>
+          <div class="rc"><div class="ph" style="background-image:url(assets/img/chalet-bed.jpg)"></div><div class="bd"><div class="nm">Chalet Single</div><div class="sp">Dengan kolam air panas peribadi</div></div></div>
+          <div class="rc"><div class="ph" style="background-image:url(assets/img/pool3.jpg)"></div><div class="bd"><div class="nm">Chalet Family</div><div class="sp">Ruang keluarga &amp; kolam peribadi</div></div></div>
         </div>
-        <div id="rooms-note" class="abs">Harga bermula, satu malam (hari biasa). Setiap tempahan termasuk tiket kolam air panas percuma.</div>
 
-        <div id="c5b" class="ch abs"><div class="k"><i></i>05 · Penginapan</div><h2>Rehat Yang Sempurna</h2><p>Kolam air panas peribadi di setiap chalet</p></div>
+        <div id="c5b" class="ch abs"><div class="k"><i></i>05 · Penginapan</div><h2>Berendam Di Bawah Bintang</h2><p>Kolam air panas peribadi di setiap chalet</p></div>
 
-        <div id="c6" class="ch abs"><div class="k"><i></i>06 · Kemudahan</div><h2>Lengkap Untuk Semua</h2>
+        <div id="c6" class="ch abs"><div class="k"><i></i>06 · Kemudahan</div><h2>Semuanya Ada Di Sini</h2>
           <div class="chips pills"><div class="pill"><b>✓</b>Tapak vendor</div><div class="pill"><b>✓</b>Dewan majlis</div><div class="pill"><b>✓</b>Kafe</div><div class="pill"><b>✓</b>Surau</div><div class="pill"><b>✓</b>Parkir luas</div></div></div>
 
-        <div id="c7" class="ch abs"><div class="k"><i></i>07 · Lokasi &amp; Waktu</div><h2>Dekat &amp; Mudah Dikunjungi</h2><p>Kampung Ganun, 78000 Alor Gajah, Melaka</p></div>
+        <div id="c7" class="ch abs"><div class="k"><i></i>07 · Lokasi &amp; Waktu</div><h2>Dekat Dari Bandar Melaka</h2><p>Kampung Ganun, 78000 Alor Gajah, Melaka</p></div>
         <div id="pin" class="abs">
           <div class="big">25<small>KM</small></div>
           <div class="tx">dari pusat bandar Melaka<br />melalui jalan Melaka–Tampin</div>
@@ -154,7 +150,7 @@
         <div id="end-bg" class="abs"></div>
         <div id="end" class="abs">
           <img src="assets/img/logo.png" alt="Gadek Hotspring Wellness &amp; Spa Resort" />
-          <div class="cta">Tempah di gadekhotspring.my</div>
+          <div class="cta">Tempah sekarang · gadekhotspring.my</div>
           <div class="row"><span><b>Tel / WhatsApp</b>010-279 6397</span><span><b>IG</b>@gadekhotspring</span><span><b>TikTok</b>@gadek.hotspring</span></div>
           <div class="addr">Kompleks Air Panas Gadek, Kampung Ganun, 78000 Alor Gajah, Melaka</div>
         </div>
@@ -164,40 +160,26 @@
       <script>
         (function () {
           const tl = gsap.timeline({ paused: true });
-          // edit-time -> film-time warp (anchors written by scripts/gadek_build.py from the VO word timings)
-          const A = [[1.5, 1.5], [1.816, 1.76], [2.175, 2.24], [2.68, 2.76], [3.053, 3.26], [3.784, 3.76], [4.529, 4.66], [5.154, 5.8], [5.579, 6.36], [6.098, 6.86], [6.537, 7.36], [6.776, 7.74], [7.029, 8.14], [7.494, 8.56], [7.84, 8.98], [8.199, 9.46], [8.585, 9.973], [13.6, 14.988], [14.153, 15.548], [14.547, 16.188], [14.655, 16.428], [14.995, 17.048], [15.865, 17.788], [16.626, 18.988], [16.965, 19.368], [17.481, 20.228], [20.0, 22.747], [20.675, 23.247], [21.092, 23.707], [21.339, 23.947], [21.704, 24.267], [23.242, 25.167], [23.737, 25.747], [23.893, 25.907], [24.453, 26.387], [24.622, 26.507], [25.026, 26.907], [25.69, 27.507], [26.224, 28.307], [26.862, 28.827], [27.253, 29.187], [27.422, 29.407], [27.8, 29.667], [28.125, 29.987], [28.49, 30.447], [29.023, 31.097], [30.0, 32.074], [30.623, 32.654], [31.508, 33.754], [31.964, 34.214], [32.446, 34.774], [32.98, 35.354], [33.357, 35.814], [33.826, 36.354], [34.165, 36.614], [34.607, 37.254], [34.985, 37.794], [35.297, 37.994], [35.688, 38.474], [36.066, 38.774], [36.782, 39.114], [37.003, 39.854], [37.381, 40.314], [37.758, 40.594], [38.084, 40.974], [38.357, 41.254], [38.748, 41.835], [40.3, 43.387], [40.741, 44.047], [41.066, 44.467], [42.251, 45.827], [42.746, 46.327], [43.032, 46.567], [43.332, 46.967], [43.97, 47.767], [47.485, 51.247], [48.019, 51.927], [48.879, 52.707], [49.256, 53.167], [49.712, 53.687], [50.454, 54.537], [51.8, 55.883], [52.41, 56.623], [52.553, 56.823], [52.892, 57.283], [53.217, 57.543], [53.556, 58.163], [53.959, 58.523], [54.285, 59.303], [54.767, 60.063], [55.366, 60.863], [55.86, 61.603], [56.316, 62.183], [56.498, 62.563], [57.176, 63.463], [57.709, 64.083], [59.066, 64.943], [59.482, 65.563], [59.847, 66.003], [59.977, 66.343], [60.628, 67.063], [61.084, 67.743], [61.279, 67.983], [61.722, 68.679], [63.4, 70.357], [63.867, 70.777], [64.075, 70.897], [64.908, 71.677], [65.781, 72.837], [66.08, 73.057], [66.419, 73.377], [66.77, 73.797], [67.187, 74.217], [67.929, 75.417], [68.385, 75.877], [68.58, 76.157], [69.036, 76.617], [69.895, 77.597], [70.351, 77.957], [70.651, 78.217], [71.145, 78.717], [71.575, 79.217], [71.927, 79.477], [72.473, 80.238], [74.0, 81.765], [74.74, 82.465], [75.287, 83.025], [75.717, 83.325], [75.847, 83.565], [76.433, 84.045], [77.815, 84.445], [78.284, 85.425], [78.596, 85.785], [79.065, 86.185], [79.273, 86.545], [79.99, 87.065], [80.966, 88.265], [81.201, 88.505], [81.76, 89.105], [82.099, 89.405], [82.451, 89.585], [83.375, 90.686], [84.6, 91.911], [85.137, 92.591], [85.874, 93.651], [86.229, 94.151], [86.558, 94.931], [86.755, 95.151], [87.584, 95.891], [88.071, 97.071], [88.545, 97.951], [89.163, 98.929], [90.0, 99.766], [90.623, 100.446], [91.04, 101.026], [91.313, 101.586], [92.891, 102.846], [93.659, 103.606], [94.414, 104.546], [94.831, 105.106], [95.143, 105.406], [95.716, 106.026], [95.925, 106.246], [96.719, 107.206], [97.513, 108.046], [98.346, 108.866], [98.711, 109.386], [99.05, 109.866], [99.922, 110.766], [100.13, 111.106], [100.664, 111.923], [101.9, 113.159], [102.38, 113.679], [104.124, 115.039], [104.346, 115.519], [104.697, 115.979], [105.075, 116.359], [105.869, 117.319], [106.234, 117.599], [106.507, 117.859], [106.963, 118.339], [107.21, 118.619], [107.627, 119.099], [107.887, 119.519], [108.604, 119.899], [109.02, 120.679], [109.606, 121.139], [109.971, 121.619], [110.192, 121.859], [110.596, 122.199], [111.012, 122.72], [112.6, 124.308], [113.108, 124.868], [114.767, 125.948], [115.35, 126.628], [115.947, 127.488], [116.447, 128.048], [116.906, 128.597], [117.8, 129.491], [118.276, 129.951], [118.688, 130.251], [118.901, 130.611], [119.22, 130.991], [119.472, 131.231], [119.871, 131.691], [120.43, 131.951], [120.709, 132.591], [121.108, 133.191], [121.733, 133.77]];
-          function W(t) {
-            if (!A.length) return t;
-            if (t <= A[0][0]) return t + A[0][1] - A[0][0];
-            for (let i = 1; i < A.length; i++) {
-              if (t <= A[i][0]) { const [a0, b0] = A[i - 1], [a1, b1] = A[i]; return b0 + (t - a0) * (b1 - b0) / (a1 - a0); }
-            }
-            const L = A[A.length - 1]; return t + L[1] - L[0];
-          }
+          const C = {"loc_in": 8.254, "loc_out": 10.76, "ttl_in": 11.06, "ttl_out": 15.476, "bug_in": 16.176, "bug_out": 100.289, "c1_in": 16.776, "c1_out": 25.817, "c1b_in": 26.917, "c1b_out": 36.6, "c2_in": 37.7, "c2_out": 46.591, "st1": 41.063, "st2": 43.363, "c3_in": 47.691, "c3_out": 56.763, "c3_p": [51.529, 53.369, 54.729], "c4_in": 57.763, "c4_out": 65.158, "c4_p": [60.979, 61.499, 62.059], "c5_in": 66.108, "c5_out": 68.135, "rooms_in": 68.335, "rooms_c": [68.895, 69.295, 70.275, 72.215], "rooms_out": 74.305, "c5b_in": 74.905, "c5b_out": 78.913, "c6_in": 79.713, "c6_out": 87.418, "c6_p": [81.585, 82.285, 83.785, 84.925, 85.885], "c7_in": 88.318, "c7_out": 95.866, "pin": 88.428, "hours": 90.328, "tag1": 98.169, "tag2": 99.349, "tag_out": 100.289, "end_in": 100.489, "black_out": 106.7}; // film times written by scripts/gadek_build.py (tied to VO words)
           const E = "power3.out";
-          // fade up from black / fade out at the end
-          tl.to("#black", { opacity: 0, duration: 1.2, ease: "power1.out" }, W(0));
-          tl.to("#black", { opacity: 1, duration: 0.9, ease: "power1.in" }, W(124.1));
+          tl.to("#black", { opacity: 0, duration: 1.2, ease: "power1.out" }, 0);
+          tl.to("#black", { opacity: 1, duration: 0.9, ease: "power1.in" }, C.black_out);
 
-          // logo bug: on between the title and the end card
-          tl.to("#bug", { opacity: 0.92, duration: 0.6 }, W(19.6));
-          tl.to("#bug", { opacity: 0, duration: 0.4 }, W(117.3));
+          tl.to("#bug", { opacity: 0.92, duration: 0.6 }, C.bug_in);
+          tl.to("#bug", { opacity: 0, duration: 0.4 }, C.bug_out);
 
-          // opening location tag
-          tl.fromTo("#loc", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1.0, ease: E }, W(2.0));
-          tl.to("#loc", { opacity: 0, duration: 0.6 }, W(9.6));
+          tl.fromTo("#loc", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.9, ease: E }, C.loc_in);
+          tl.to("#loc", { opacity: 0, duration: 0.5 }, C.loc_out);
 
-          // title
-          tl.to("#ttl-scrim", { opacity: 1, duration: 0.8 }, W(12.7));
-          tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.55, duration: 0.12 }, W(13.1));
-          tl.to("#flash", { opacity: 0, duration: 0.7 }, W(13.22));
-          tl.fromTo("#ttl img", { opacity: 0, scale: 0.82, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: "back.out(1.4)" }, W(13.1));
-          tl.fromTo("#ttl img", { scale: 1 }, { scale: 1.04, duration: 4.6, ease: "none", immediateRender: false }, W(14.2));
-          tl.fromTo("#ttl .sub", { opacity: 0, y: 16, scale: 1.06 }, { opacity: 1, y: 0, scale: 1, duration: 1.4, ease: E }, W(14.0));
-          tl.to(["#ttl img", "#ttl .sub", "#ttl-scrim"], { opacity: 0, duration: 0.6 }, W(18.6));
+          tl.to("#ttl-scrim", { opacity: 1, duration: 0.8 }, C.ttl_in - 0.4);
+          tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.55, duration: 0.12 }, C.ttl_in);
+          tl.to("#flash", { opacity: 0, duration: 0.7 }, C.ttl_in + 0.12);
+          tl.fromTo("#ttl img", { opacity: 0, scale: 0.82, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: "back.out(1.4)" }, C.ttl_in);
+          tl.fromTo("#ttl img", { scale: 1 }, { scale: 1.04, duration: C.ttl_out - C.ttl_in - 1.1, ease: "none", immediateRender: false }, C.ttl_in + 1.1);
+          tl.fromTo("#ttl .sub", { opacity: 0, y: 16, scale: 1.06 }, { opacity: 1, y: 0, scale: 1, duration: 1.4, ease: E }, C.ttl_in + 0.9);
+          tl.to(["#ttl img", "#ttl .sub", "#ttl-scrim"], { opacity: 0, duration: 0.6 }, C.ttl_out);
 
           function chapter(id, tin, tout) {
-            tin = W(tin); tout = W(tout);
             tl.fromTo(id + " .k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.7, ease: E }, tin);
             tl.fromTo(id + " .k i", { width: 0 }, { width: 70, duration: 0.8, ease: E }, tin);
             tl.fromTo(id + " h2", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.9, ease: E }, tin + 0.15);
@@ -206,57 +188,52 @@
           }
           function pills(id, times) {
             const els = document.querySelectorAll(id + " .pill");
-            times.map(W).forEach((t, i) => tl.fromTo(els[i], { opacity: 0, y: 18, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, t));
+            times.forEach((t, i) => tl.fromTo(els[i], { opacity: 0, y: 18, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, t));
           }
 
-          chapter("#c1", 20.2, 29.2);
-          chapter("#c1b", 30.4, 39.3);
-          chapter("#c2", 40.5, 50.9);
-          tl.fromTo("#st1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, W(44.0));
-          tl.fromTo("#st2", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, W(48.1));
+          chapter("#c1", C.c1_in, C.c1_out);
+          chapter("#c1b", C.c1b_in, C.c1b_out);
+          chapter("#c2", C.c2_in, C.c2_out);
+          tl.fromTo("#st1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, C.st1);
+          tl.fromTo("#st2", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, C.st2);
           const cnt = { v: 0 };
-          tl.fromTo(cnt, { v: 0 }, { v: 30, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("cnt").textContent = Math.round(cnt.v); } }, W(48.2));
-          tl.to(["#st1", "#st2"], { opacity: 0, x: 30, duration: 0.5, ease: "power2.in" }, W(50.9));
+          tl.fromTo(cnt, { v: 0 }, { v: 30, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("cnt").textContent = Math.round(cnt.v); } }, C.st2 + 0.1);
+          tl.to(["#st1", "#st2"], { opacity: 0, x: 30, duration: 0.5, ease: "power2.in" }, C.c2_out);
 
-          chapter("#c3", 52.0, 62.7);
-          pills("#c3", [55.0, 57.4, 59.6]);
-          chapter("#c4", 63.6, 73.1);
-          pills("#c4", [66.3, 68.8, 71.0]);
-          chapter("#c5", 74.2, 78.0);
+          chapter("#c3", C.c3_in, C.c3_out);
+          pills("#c3", C.c3_p);
+          chapter("#c4", C.c4_in, C.c4_out);
+          pills("#c4", C.c4_p);
+          chapter("#c5", C.c5_in, C.c5_out);
 
-          // rooms grid, cards land as the VO names them
-          tl.to("#rooms-scrim", { opacity: 1, duration: 0.5 }, W(78.2));
-          tl.fromTo("#rooms-h", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, W(78.3));
+          tl.to("#rooms-scrim", { opacity: 1, duration: 0.5 }, C.rooms_in - 0.1);
+          tl.fromTo("#rooms-h", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, C.rooms_in);
           const rc = document.querySelectorAll(".rc");
-          [78.45, 79.2, 80.45, 81.0].map(W).forEach((t, i) => tl.fromTo(rc[i], { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.7, ease: E }, t));
-          tl.fromTo("#rooms-note", { opacity: 0 }, { opacity: 1, duration: 0.6 }, W(81.6));
-          tl.to(["#rooms-scrim", "#rooms-h", "#rooms", "#rooms-note"], { opacity: 0, duration: 0.5 }, W(84.2));
-          chapter("#c5b", 84.9, 89.9);
+          C.rooms_c.forEach((t, i) => tl.fromTo(rc[i], { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.7, ease: E }, t));
+          tl.to(["#rooms-scrim", "#rooms-h", "#rooms"], { opacity: 0, duration: 0.5 }, C.rooms_out);
+          chapter("#c5b", C.c5b_in, C.c5b_out);
 
-          chapter("#c6", 90.3, 101.3);
-          pills("#c6", [93.6, 94.4, 96.7, 97.5, 98.7]);
+          chapter("#c6", C.c6_in, C.c6_out);
+          pills("#c6", C.c6_p);
 
-          chapter("#c7", 102.0, 111.8);
-          tl.fromTo("#pin", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, W(102.6));
-          tl.fromTo("#hours", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, W(106.4));
+          chapter("#c7", C.c7_in, C.c7_out);
+          tl.fromTo("#pin", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, C.pin);
+          tl.fromTo("#hours", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, ease: E }, C.hours);
           const hr = document.querySelectorAll("#hours .r");
-          [106.9, 107.4, 107.9].map(W).forEach((t, i) => tl.fromTo(hr[i], { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: E }, t));
-          tl.to(["#pin", "#hours"], { opacity: 0, x: 30, duration: 0.5, ease: "power2.in" }, W(111.8));
+          [0.5, 1.0, 1.5].forEach((d, i) => tl.fromTo(hr[i], { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: E }, C.hours + d));
+          tl.to(["#pin", "#hours"], { opacity: 0, x: 30, duration: 0.5, ease: "power2.in" }, C.c7_out);
 
-          // tagline
           const tg = document.querySelectorAll("#tag div");
-          tl.fromTo(tg[0], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: E }, W(112.8));
-          tl.fromTo(tg[1], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: E }, W(114.6));
-          tl.to("#tag", { opacity: 0, duration: 0.6 }, W(117.0));
-          tl.fromTo("#tag-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8 }, W(112.6));
-          tl.to("#tag-scrim", { opacity: 0, duration: 0.6 }, W(117.0));
+          tl.fromTo("#tag-scrim", { opacity: 0 }, { opacity: 1, duration: 0.8 }, C.tag1 - 0.4);
+          tl.fromTo(tg[0], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: E }, C.tag1);
+          tl.fromTo(tg[1], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.0, ease: E }, C.tag2);
+          tl.to(["#tag", "#tag-scrim"], { opacity: 0, duration: 0.6 }, C.tag_out);
 
-          // end card
-          tl.to("#end-bg", { opacity: 1, duration: 0.8 }, W(117.5));
-          tl.fromTo("#end img", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 1.0, ease: "back.out(1.3)" }, W(117.8));
-          tl.fromTo("#end .cta", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, ease: E }, W(118.6));
-          tl.fromTo("#end .row", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: E }, W(119.3));
-          tl.fromTo("#end .addr", { opacity: 0 }, { opacity: 1, duration: 0.8 }, W(119.9));
+          tl.to("#end-bg", { opacity: 1, duration: 0.8 }, C.end_in - 0.1);
+          tl.fromTo("#end img", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 1.0, ease: "back.out(1.3)" }, C.end_in + 0.2);
+          tl.fromTo("#end .cta", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, ease: E }, C.end_in + 1.0);
+          tl.fromTo("#end .row", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: E }, C.end_in + 1.7);
+          tl.fromTo("#end .addr", { opacity: 0 }, { opacity: 1, duration: 0.8 }, C.end_in + 2.3);
 
           window.__timelines = window.__timelines || {};
           window.__timelines["fx"] = tl;
