@@ -49,3 +49,15 @@ No voiceover (requested). Music plus kinetic text only.
   whoosh into each pillar and the location, swish on every photo cut, ascending blips on the chips
   and badges, shimmer on logo and badges, thud on the pin landing. The old Pixabay set was removed.
 - Final: `final/MITC-Promo-v2.mp4`, -14.7 LUFS, -2.8 dBTP.
+
+## Revision 3 (TikTok b-roll, 43.6 s)
+- Photo `ballroom.jpg` is actually the exhibition hall (Dewan Pameran) dressed for an event: relabelled.
+- B-roll from MITC's TikTok (@mitcmelaka1), cut by `scripts/mitc_clips.sh` into `hf/assets/clips/`.
+  Rules: no on-screen captions/title cards, no presenters or talking heads, only 720p+ sources, each
+  in-point on the sharpest window of the shot (Laplacian variance per frame). 576p uploads dropped.
+- Structure: hook (gala stage, star arch) -> brand (exterior) -> location (aerial) -> 01 Dewan Pameran /
+  Grand Ballroom / Maharani Ballroom -> 02 meeting + VIP -> "Satu Venue, Pelbagai Acara" (Pameran Hang
+  Tuah 4K, gala dinner Hall B, Maharani pelamin/akad) -> 03 services (Dekorasi, Teknikal & Wi-Fi,
+  Signage, Pasukan Berpengalaman) -> awards -> outro (final chord 38.94 s).
+- Music re-cut: 35.5225-71.47 s + 93.08 s-end (offset 36 beats), drop on the logo at 2.962 s.
+- `storyboard-v3.jpg`: one frame per shot. Final `final/MITC-Promo-v3.mp4`, 43.7 s, -14.4 LUFS, -2.2 dBTP.
