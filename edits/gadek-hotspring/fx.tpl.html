@@ -10,8 +10,9 @@
         .abs { position: absolute; }
         #vig {
           inset: 0;
-          background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.45) 100%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 55%, rgba(3, 10, 22, 0.72) 100%);
+          /* no vignette: only a soft shade under the lower-left titles, faded in while they are on screen */
+          background: linear-gradient(180deg, rgba(3, 10, 22, 0) 62%, rgba(3, 10, 22, 0.5) 100%);
+          opacity: 0;
         }
         #bars-t, #bars-b { left: 0; width: 1920px; height: 0; background: #000; }
         #bars-t { top: 0; }
@@ -180,6 +181,8 @@
           tl.to(["#ttl img", "#ttl .sub", "#ttl-scrim"], { opacity: 0, duration: 0.6 }, C.ttl_out);
 
           function chapter(id, tin, tout) {
+            tl.to("#vig", { opacity: 1, duration: 0.5 }, tin - 0.2);
+            tl.to("#vig", { opacity: 0, duration: 0.6 }, tout + 0.2);
             tl.fromTo(id + " .k", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.7, ease: E }, tin);
             tl.fromTo(id + " .k i", { width: 0 }, { width: 70, duration: 0.8, ease: E }, tin);
             tl.fromTo(id + " h2", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.9, ease: E }, tin + 0.15);
